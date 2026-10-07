@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-10-07",
+  "ui_commit": "0bf3b9f83dfba66381f9b99ae95e4cdee105bd50",
+  "python_tests": 17,
+  "javascript_tests": 4,
+  "integrity_errors": 0,
+  "html_files": 15,
+  "rule": {
+    "font_max_px": 18,
+    "spine_title_max_characters_excluding_spaces": 6,
+    "spine_title_required": true,
+    "automatic_truncation": false
+  },
+  "registered_book_spine_title": "AI 원리 실험",
+  "full_title_preserved_in_list_and_reader": true,
+  "responsive_frames": [
+    {
+      "categoryGap": 5.17034912109375,
+      "clipped": false,
+      "contentWidth": 305,
+      "frameWidth": "320",
+      "overflow": false,
+      "size": "18px",
+      "text": "AI원리실험"
+    },
+    {
+      "categoryGap": 5.17034912109375,
+      "clipped": false,
+      "contentWidth": 375,
+      "frameWidth": "390",
+      "overflow": false,
+      "size": "18px",
+      "text": "AI원리실험"
+    },
+    {
+      "categoryGap": 6.17095947265625,
+      "clipped": false,
+      "contentWidth": 753,
+      "frameWidth": "768",
+      "overflow": false,
+      "size": "18px",
+      "text": "AI원리실험"
+    },
+    {
+      "categoryGap": 6.17095947265625,
+      "clipped": false,
+      "contentWidth": 1009,
+      "frameWidth": "1024",
+      "overflow": false,
+      "size": "18px",
+      "text": "AI원리실험"
+    }
+  ],
+  "screenshot": "evidence/spine-title-rule.jpg",
+  "limitations": [
+    "Chrome responsive iframe inspection; not a physical mobile-device test.",
+    "Six-character Korean/Latin title checked; unsupported glyphs or other writing systems still need visual review."
+  ]
+}
