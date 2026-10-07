@@ -5,7 +5,7 @@
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
   "preferred_remote_name": "my-bookshelf",
   "remote_status": "uploaded_and_verified",
-  "pages_status": "pending_deployment_verification",
+  "pages_status": "knowledge_shelf_deployed_and_browser_verified",
   "first_book": "ai-book-interactive",
   "completed": [
     "원 사이트의 32권·포털 열람",
@@ -23,7 +23,8 @@
     "Python 14개·JavaScript 4개 테스트 통과, 내부 링크·카탈로그 검증",
     "디자인·구현·문제 해결·검증·책 추가 방법과 Codex·Claude 공통 규칙 갱신",
     "운영·기획·구축 문서 13개를 지식자료 카탈로그에서 제외하고 빈 서가 안내 적용",
-    "AI Book 첫 학습 책 등록; 학습 책을 중앙 서가와 검색·미리보기에 통합"
+    "AI Book 첫 학습 책 등록; 학습 책을 중앙 서가와 검색·미리보기에 통합",
+    "공개 서가의 운영 문서 제외·AI 책 펼침·키보드 책 읽기 이동 확인; Python 15개와 JavaScript 4개 테스트 통과"
   ],
   "verification": "data/validation-result.json",
   "next_action": "다음 학습자료는 사용자 요청에 따라 등록. 운영 문서를 지식자료로 재등록하지 않음.",
@@ -33,7 +34,7 @@
     "Reference-site numerical correctness and learning effects were not revalidated.",
     "학습 경로 화면·진도 저장·책 본문 전체 검색은 미구현"
   ],
-  "verified_content_commit": "44e0cdf469ee81e9024267b1e7a40dd88f74bb73",
+  "verified_content_commit": "d899aa983e83b40069543ea0d7d08dfc5cb8f8c6",
   "hub_url": "https://ljd6805.github.io/my-bookshelf/",
   "pages_source": {
     "branch": "main",

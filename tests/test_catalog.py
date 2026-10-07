@@ -9,11 +9,13 @@ class CatalogRenderingTests(unittest.TestCase):
     def test_published_catalog_contains_only_learning_content(self):
         root = Path(__file__).resolve().parents[1]
         catalog = json.loads((root / 'data/catalog.json').read_text())
-        self.assertEqual(catalog['resources'], [])
+        for item in catalog['resources'] + catalog['books']:
+            self.assertFalse(item.get('url', '').startswith(('docs/', 'templates/', 'reports/', 'evidence/')))
         self.assertEqual(catalog['books'][0]['id'], 'ai-book-interactive')
         home = (root / 'index.html').read_text()
-        self.assertEqual(home.count('data-resource='), 1)
-        self.assertIn('전체 1개 자료', home)
+        count = len(catalog['resources']) + len(catalog['books'])
+        self.assertEqual(home.count('data-resource='), count)
+        self.assertIn(f'전체 {count}개 자료', home)
         self.assertIn('https://ljd6805.github.io/ai-book-interactive/', home)
 
     def test_empty_books_have_no_fake_book_link(self):
