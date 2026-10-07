@@ -1,11 +1,11 @@
 {
   "updated_at": "2026-10-07",
-  "goal": "책등 제목의 최대 18px·공백 제외 6글자 편집 규칙 적용",
+  "goal": "펼친 책의 읽기 버튼 마우스 클릭 오류 수정",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
   "preferred_remote_name": "my-bookshelf",
   "remote_status": "uploaded_and_verified",
-  "pages_status": "spine_title_rule_deployed_and_browser_verified",
+  "pages_status": "reader_click_fix_deployed_and_mouse_verified",
   "first_book": "ai-book-interactive",
   "completed": [
     "원 사이트의 32권·포털 열람",
@@ -26,7 +26,8 @@
     "AI Book 첫 학습 책 등록; 학습 책을 중앙 서가와 검색·미리보기에 통합",
     "공개 서가의 운영 문서 제외·AI 책 펼침·키보드 책 읽기 이동 확인; Python 15개와 JavaScript 4개 테스트 통과",
     "책등 제목 규칙을 AGENTS.md와 운영·디자인 문서에 명시; AI 원리 실험으로 이름 편집; 생성기 검증 및 Python 17개·JavaScript 4개 테스트 통과",
-    "책등 제목 최대 18px·공백 제외 6글자 규칙 공개; 4종 화면 폭에서 잘림·분류 겹침 없음과 전체 제목 보존 확인"
+    "책등 제목 최대 18px·공백 제외 6글자 규칙 공개; 4종 화면 폭에서 잘림·분류 겹침 없음과 전체 제목 보존 확인",
+    "읽기 버튼의 :active transform 제거; 공개 페이지에서 마우스 클릭으로 AI Book 본문 이동 확인"
   ],
   "verification": "data/spine-title-validation.json",
   "next_action": "다음 학습자료 등록 시 내용에 맞는 spine_title(공백 제외 최대 6글자)을 작성하고 320px 화면을 확인. 운영 문서를 지식자료로 재등록하지 않음.",
@@ -36,7 +37,7 @@
     "Reference-site numerical correctness and learning effects were not revalidated.",
     "학습 경로 화면·진도 저장·책 본문 전체 검색은 미구현"
   ],
-  "verified_content_commit": "0bf3b9f83dfba66381f9b99ae95e4cdee105bd50",
+  "verified_content_commit": "dd529dc",
   "hub_url": "https://ljd6805.github.io/my-bookshelf/",
   "pages_source": {
     "branch": "main",
