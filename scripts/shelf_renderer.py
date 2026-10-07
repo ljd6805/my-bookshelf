@@ -84,6 +84,7 @@ def preview(item, key):
 
 def spine(item, index, key):
     title = ''.join(item.get('spine_title', item['title']).split())
+    title = title if len(title) <= 7 else title[:6] + '…'
     label = item.get('spine_category', item.get('label', '학습'))
     tone = item.get('color', TONES[index % len(TONES)])
     if tone not in TONES:
@@ -94,7 +95,7 @@ def spine(item, index, key):
     tag = 'a' if state == 'published' else 'button'
     attrs = f'href="{safe_url(item["url"])}"' if tag == 'a' else 'type="button"'
     category = item.get('category', 'book')
-    title_class = 'spine-title long-title' if len(title) > 9 else 'spine-title'
+    title_class = 'spine-title long-title' if len(title) > 5 else 'spine-title'
     return (f'<{tag} {attrs} class="glass-book tone-{tone}" data-resource="{esc(key)}" '
             f'data-category="{esc(category)}" data-search="{esc(search)}" '
             f'data-preview="preview-{esc(key)}" aria-label="{esc(item["title"])} · {esc(label)}" '

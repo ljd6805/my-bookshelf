@@ -22,6 +22,12 @@ class GlassShelfTests(unittest.TestCase):
         self.assertIn('aria-label="학습의 연결 · 분석"', result)
         self.assertIn('학습의연결</span>', result)
 
+    def test_long_spine_has_an_ellipsis_and_keeps_full_title(self):
+        item = {**resource(), 'title': '아주 긴 제목을 가진 새로운 학습 책'}
+        result = spine(item, 0, 'long-book')
+        self.assertIn('아주긴제목을…', result)
+        self.assertIn(item['title'], result)
+
     def test_disallow_unregistered_material_color(self):
         item = {**resource(), 'color': 'red; background: url(evil)'}
         with self.assertRaises(ValueError):
