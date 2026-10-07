@@ -24,9 +24,9 @@ class CatalogRenderingTests(unittest.TestCase):
         self.assertNotIn('책 읽기', result)
 
     def test_only_published_book_gets_a_link(self):
-        books = [{'id': 'one', 'title': '첫 책', 'description': '설명',
+        books = [{'id': 'one', 'title': '첫 책', 'spine_title': '첫 책', 'description': '설명',
                   'status': 'published', 'url': 'https://example.com/book/'},
-                 {'id': 'two', 'title': '다음 책', 'description': '기획', 'status': 'planned'}]
+                 {'id': 'two', 'title': '다음 책', 'spine_title': '다음 책', 'description': '기획', 'status': 'planned'}]
         result = render_books(books)
         self.assertEqual(result.count('책 읽기'), 1)
         self.assertIn('https://example.com/book/', result)
@@ -40,7 +40,7 @@ class CatalogRenderingTests(unittest.TestCase):
             safe_url('book/index.html', external=True)
 
     def test_escape_content_and_reject_duplicate_resources(self):
-        item = {'id': 'one', 'category': 'guide', 'label': '문서', 'title': '<script>',
+        item = {'id': 'one', 'category': 'guide', 'label': '문서', 'title': '<script>', 'spine_title': '<>&',
                 'description': 'A & B', 'url': 'docs/guide.html'}
         result = render_resources([item])
         self.assertNotIn('<script>', result)

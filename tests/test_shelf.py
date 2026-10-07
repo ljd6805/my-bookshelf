@@ -6,7 +6,7 @@ from scripts.shelf_renderer import render_resources, spine
 
 def resource(index=0):
     return {'id': f'doc-{index}', 'category': 'analysis', 'label': '분석',
-            'title': '학습의 연결', 'description': '자료 설명', 'url': 'docs/guide.html'}
+            'title': '학습의 연결', 'spine_title': '학습의 연결', 'description': '자료 설명', 'url': 'docs/guide.html'}
 
 
 class GlassShelfTests(unittest.TestCase):
@@ -22,11 +22,29 @@ class GlassShelfTests(unittest.TestCase):
         self.assertIn('aria-label="학습의 연결 · 분석"', result)
         self.assertIn('학습의연결</span>', result)
 
-    def test_long_spine_has_an_ellipsis_and_keeps_full_title(self):
-        item = {**resource(), 'title': '아주 긴 제목을 가진 새로운 학습 책'}
+    def test_edited_six_character_spine_keeps_the_full_title(self):
+        item = {**resource(), 'title': '아주 긴 제목을 가진 새로운 학습 책',
+                'spine_title': 'AI 원리 실험'}
         result = spine(item, 0, 'long-book')
-        self.assertIn('아주긴제목을…', result)
-        self.assertIn(item['title'], result)
+        self.assertIn('AI원리실험</span>', result)
+        self.assertNotIn('…', result)
+        self.assertIn(f'class="list-title">{item["title"]}', result)
+        self.assertIn(f'class="reader-title">{item["title"]}', result)
+        self.assertIn(f'aria-label="{item["title"]}', result)
+
+    def test_missing_oversize_or_truncated_spine_requires_editing(self):
+        for title in [None, '', '  ', '인공지능원리실험', 'AI 원리 실험서', '인공지능…', 'AI...']:
+            with self.subTest(title=title), self.assertRaisesRegex(ValueError, 'spine_title'):
+                spine({**resource(), 'spine_title': title}, 0, 'invalid')
+        item = resource()
+        del item['spine_title']
+        with self.assertRaisesRegex(ValueError, 'spine_title'):
+            spine(item, 0, 'missing')
+
+    def test_decomposed_korean_counts_as_complete_syllables(self):
+        import unicodedata
+        item = {**resource(), 'spine_title': unicodedata.normalize('NFD', '인공지능실험')}
+        self.assertIn('인공지능실험</span>', spine(item, 0, 'normalized'))
 
     def test_disallow_unregistered_material_color(self):
         item = {**resource(), 'color': 'red; background: url(evil)'}

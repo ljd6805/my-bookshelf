@@ -7,7 +7,7 @@
     {
       "id": "ai-book-interactive",
       "title": "AI Book · 직접 실험하는 AI 교과서",
-      "spine_title": "실험하는 AI",
+      "spine_title": "AI 원리 실험",
       "spine_category": "인공지능",
       "color": "aqua",
       "description": "신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 18개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.",

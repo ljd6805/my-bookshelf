@@ -1,5 +1,6 @@
 """Render accessible glass spines and real document previews from the catalog."""
 import html
+import unicodedata
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit
@@ -8,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 GROUPS = {'analysis': ('분석과 사례', '다른 책에서 발견한 좋은 질문들'),
           'guide': ('집필과 운영', '다음 사람에게도 이어지는 서재의 기준'),
           'template': ('기획서', '한 권의 책은 하나의 질문에서 시작합니다')}
+SPINE_TITLE_MAX_CHARS = 6
 TONES = ('aqua', 'blue', 'violet', 'sage', 'amber', 'rose')
 
 
@@ -82,9 +84,19 @@ def preview(item, key):
             f'{contents}{action}</div></template>')
 
 
+def spine_title(item):
+    raw = item.get('spine_title')
+    if not isinstance(raw, str):
+        raise ValueError(f"{item['id']}: spine_title is required; write a short content-based title")
+    title = ''.join(unicodedata.normalize('NFC', raw).split())
+    if not 1 <= len(title) <= SPINE_TITLE_MAX_CHARS or '…' in title or '...' in title:
+        raise ValueError(f"{item['id']}: spine_title must be 1–{SPINE_TITLE_MAX_CHARS} characters "
+                         "without spaces or ellipses; rewrite the title to match the content")
+    return title
+
+
 def spine(item, index, key):
-    title = ''.join(item.get('spine_title', item['title']).split())
-    title = title if len(title) <= 7 else title[:6] + '…'
+    title = spine_title(item)
     label = item.get('spine_category', item.get('label', '학습'))
     tone = item.get('color', TONES[index % len(TONES)])
     if tone not in TONES:
@@ -95,13 +107,12 @@ def spine(item, index, key):
     tag = 'a' if state == 'published' else 'button'
     attrs = f'href="{safe_url(item["url"])}"' if tag == 'a' else 'type="button"'
     category = item.get('category', 'book')
-    title_class = 'spine-title long-title' if len(title) > 5 else 'spine-title'
     return (f'<{tag} {attrs} class="glass-book tone-{tone}" data-resource="{esc(key)}" '
             f'data-category="{esc(category)}" data-search="{esc(search)}" '
             f'data-preview="preview-{esc(key)}" aria-label="{esc(item["title"])} · {esc(label)}" '
             f'title="{esc(item["title"])}" style="--book-variation:{index % 3}">'
             '<span class="glass-top" aria-hidden="true"></span>'
-            f'<span class="spine-label"><span class="{title_class}">{esc(title)}</span>'
+            f'<span class="spine-label"><span class="spine-title">{esc(title)}</span>'
             f'<span class="list-title">{esc(item["title"])}</span>'
             f'<span class="spine-category">{esc(label)}</span></span>'
             '<span class="glass-foot" aria-hidden="true"></span>'

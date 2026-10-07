@@ -1,11 +1,11 @@
 {
   "updated_at": "2026-10-07",
-  "goal": "서가에서 저장소 구축 문서 13개 제외; 실제 지식자료만 등록",
+  "goal": "책등 제목의 최대 18px·공백 제외 6글자 편집 규칙 적용",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
   "preferred_remote_name": "my-bookshelf",
   "remote_status": "uploaded_and_verified",
-  "pages_status": "knowledge_shelf_deployed_and_browser_verified",
+  "pages_status": "spine_rule_awaiting_deployment_verification",
   "first_book": "ai-book-interactive",
   "completed": [
     "원 사이트의 32권·포털 열람",
@@ -24,7 +24,8 @@
     "디자인·구현·문제 해결·검증·책 추가 방법과 Codex·Claude 공통 규칙 갱신",
     "운영·기획·구축 문서 13개를 지식자료 카탈로그에서 제외하고 빈 서가 안내 적용",
     "AI Book 첫 학습 책 등록; 학습 책을 중앙 서가와 검색·미리보기에 통합",
-    "공개 서가의 운영 문서 제외·AI 책 펼침·키보드 책 읽기 이동 확인; Python 15개와 JavaScript 4개 테스트 통과"
+    "공개 서가의 운영 문서 제외·AI 책 펼침·키보드 책 읽기 이동 확인; Python 15개와 JavaScript 4개 테스트 통과",
+    "책등 제목 규칙을 AGENTS.md와 운영·디자인 문서에 명시; AI 원리 실험으로 이름 편집; 생성기 검증 및 Python 17개·JavaScript 4개 테스트 통과"
   ],
   "verification": "data/validation-result.json",
   "next_action": "다음 학습자료는 사용자 요청에 따라 등록. 운영 문서를 지식자료로 재등록하지 않음.",
