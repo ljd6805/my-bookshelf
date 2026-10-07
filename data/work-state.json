@@ -1,11 +1,11 @@
 {
   "updated_at": "2026-10-07",
-  "goal": "승인한 색유리 서가 목업을 구현하고 GitHub Pages에 반영",
+  "goal": "승인한 색유리 서가와 책 펼침 인터랙션 구현 및 GitHub Pages 공개",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
   "preferred_remote_name": "my-bookshelf",
   "remote_status": "uploaded_and_verified",
-  "pages_status": "glass_redesign_pending_browser_verification",
+  "pages_status": "glass_library_deployed_and_browser_verified",
   "first_book": "not_selected",
   "completed": [
     "원 사이트의 32권·포털 열람",
@@ -16,16 +16,22 @@
     "자료 7개 검색·분류와 학습 책 목록을 갖춘 메인페이지 구현",
     "카탈로그 기반 정적 목록 생성 및 검증 테스트 8개 통과",
     "GitHub Pages main/root 배포 성공 및 공개 URL의 검색·필터·문서 이동 확인",
-    "Codex·Claude를 위한 책 추가·배포·인계 문서 갱신"
+    "Codex·Claude를 위한 책 추가·배포·인계 문서 갱신",
+    "승인 목업·디자인 계획을 저장하고 색유리 책등·명조체 라벨·분류 구현",
+    "실제 자료 13개의 미리보기·책 꺼내기·펼침·닫기·포커스 복원 구현",
+    "검색·분류·목록 보기·동작 줄이기와 4종 프레임 폭 검증",
+    "Python 14개·JavaScript 4개 테스트 통과, 내부 링크·카탈로그 검증",
+    "디자인·구현·문제 해결·검증·책 추가 방법과 Codex·Claude 공통 규칙 갱신"
   ],
   "verification": "data/validation-result.json",
-  "next_action": "공개 서가의 가독성·열기·닫기·검색·문서 이동을 실제 브라우저로 검사",
+  "next_action": "첫 학습 책의 주제·독자·학습 후 행동을 정하고 기획. 기존 책을 연결하려면 실제 Pages URL과 함께 catalog.json에 등록.",
   "limitations": [
-    "참조 사이트의 모든 장 정독·모든 실험 동작·수치 정확성·학습 효과는 검증하지 않음",
-    "모바일 실기기와 화면 읽기 프로그램 테스트는 수행하지 않음",
-    "학습 경로 화면·진도 저장·책 본문 전체 검색은 현재 미구현"
+    "Responsive iframe checks are not physical mobile-device testing.",
+    "Safari, Firefox, screen readers, Lighthouse and low-end performance not tested.",
+    "Reference-site numerical correctness and learning effects were not revalidated.",
+    "학습 경로 화면·진도 저장·책 본문 전체 검색은 미구현"
   ],
-  "verified_content_commit": "7e30d62f0b7f834bd52f0f6c0f8bb2433540a86c",
+  "verified_content_commit": "44e0cdf469ee81e9024267b1e7a40dd88f74bb73",
   "hub_url": "https://ljd6805.github.io/my-bookshelf/",
   "pages_source": {
     "branch": "main",

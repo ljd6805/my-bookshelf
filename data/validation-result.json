@@ -1,29 +1,58 @@
 {
   "checked_at": "2026-10-07",
-  "integrity_command": "python3 scripts/validate.py",
-  "html_files": 12,
+  "ui_commit": "44e0cdf469ee81e9024267b1e7a40dd88f74bb73",
+  "html_files": 15,
   "integrity_errors": 0,
-  "unit_test_command": "python3 -m unittest discover -s tests -v",
-  "unit_tests": 8,
+  "python_tests": 14,
+  "javascript_tests": 4,
   "unit_test_failures": 0,
-  "browser_rendering": "verified_on_live_github_pages",
-  "deployed_http_check": {"html_pages": 12, "assets": 4, "http_200": 16},
-  "external_links": "reference-site survey unchanged; not an exhaustive fresh check",
   "live_site_url": "https://ljd6805.github.io/my-bookshelf/",
-  "verified_ui_commit": "7e30d62f0b7f834bd52f0f6c0f8bb2433540a86c",
   "catalog_generation": "current_and_idempotent",
-  "javascript_syntax": "node --check assets/home.js passed",
   "browser_checks": {
-    "homepage": "rendered_with_image_and_7_resources",
-    "search": "시각화 -> 2 resources",
-    "category": "template -> 2 resources",
-    "empty_and_reset": "empty state visible; reset -> 7 resources",
-    "navigation": "home -> analysis -> home",
-    "inventory": "404 filter -> 4 / 648",
-    "desktop_overflow": {
-      "viewport": 1348,
-      "document_width": 1348
-    }
+    "resources_opened_and_closed": 13,
+    "correct_titles": 13,
+    "search": "시각화 -> 2; template intersection -> 0; reset -> 13",
+    "list_view": "full titles; return to shelves",
+    "keyboard": "Enter opens; Escape closes; focus returns; modal Shift+Tab checked",
+    "reduced_motion": "manual toggle and persisted preference checked; system precedence unit tested",
+    "navigation": "analysis report and collaboration document; browser back verified",
+    "desktop_title_clipping": 0,
+    "desktop_document_overflow": false,
+    "responsive_frames": [
+      {
+        "frame_width": 320,
+        "content_width": 305,
+        "overflow": false,
+        "clipped_titles": 0
+      },
+      {
+        "frame_width": 390,
+        "content_width": 375,
+        "overflow": false,
+        "clipped_titles": 0
+      },
+      {
+        "frame_width": 768,
+        "content_width": 753,
+        "overflow": false,
+        "clipped_titles": 0
+      },
+      {
+        "frame_width": 1024,
+        "content_width": 1009,
+        "overflow": false,
+        "clipped_titles": 0
+      }
+    ],
+    "mobile_reader": "320 and 390px single-column reader checked; real document link opened"
   },
-  "mobile": "CSS rules inspected; actual mobile device not tested"
+  "screenshots": [
+    "evidence/glass-bookshelf-live.jpg",
+    "evidence/glass-bookshelf-reader.jpg"
+  ],
+  "limitations": [
+    "Responsive iframe checks are not physical mobile-device testing.",
+    "Safari, Firefox, screen readers, Lighthouse and low-end performance not tested.",
+    "Reference-site numerical correctness and learning effects were not revalidated."
+  ]
 }

@@ -6,11 +6,13 @@
 
 GitHub Pages는 `main` 브랜치의 루트에서 자동 배포합니다. 별도 패키지 설치 없이 정적 HTML·CSS·JavaScript로 작동합니다.
 
-- [서재 메인페이지](index.html): 자료 검색·분류, 학습 책 목록, 서재 소개
+- [서재 메인페이지](index.html): 맑은 색유리 서가, 명조체 제목 라벨, 책 펼침, 검색·분류, 학습 책 목록
 - [분석 리포트](reports/2026-10-07-euiyun-analysis.html) · [32개 책의 개별 관찰](reports/book-by-book.html)
 - [전체 페이지 목록](reports/page-inventory.html)
 - [집필·시각화 기준](docs/01-library-charter.html) · [Codex·Claude 협업 규칙](docs/02-collaboration.html)
 - [서재 구성과 책 추가 방법](docs/04-site-plan.html) · [검증 기록](docs/03-verification.html)
+
+- [유리 서가 디자인 기준](docs/05-glass-library-design.html) · [구현·검증·문제 해결 기록](docs/06-glass-library-implementation.html)
 
 ## 책과 자료 추가
 
@@ -20,11 +22,12 @@ GitHub Pages는 `main` 브랜치의 루트에서 자동 배포합니다. 별도 
 python3 scripts/build_catalog.py
 python3 scripts/validate.py
 python3 -m unittest discover -s tests -v
+node --test tests/test_shelf_model.mjs
 ```
 
 `books`의 상태는 `planned`, `writing`, `published`입니다. 공개된 책은 HTTPS 배포 주소가 있어야 하며, 별도 저장소의 GitHub Pages 주소를 사용할 수 있습니다. 모든 책에서 이 서재로 돌아오는 링크를 제공합니다. 현재 첫 학습 책은 아직 등록하지 않았습니다.
 
-검색 없이도 모든 자료 링크가 정적 HTML에 들어 있습니다. 카탈로그가 메인페이지와 다르면 검증 명령이 실패합니다.
+책등에는 선택 항목 `spine_title`(권장 4~6글자), `spine_category`, `color`를 사용할 수 있습니다. 색은 aqua, blue, violet, sage, amber, rose입니다. JavaScript 없이도 모든 자료 링크가 정적 HTML에 들어 있습니다. 카탈로그가 메인페이지와 다르면 검증 명령이 실패합니다.
 
 ## 협업
 
