@@ -122,6 +122,10 @@ def shelf(items, category, offset=0):
 
 
 def render_resources(resources):
+    if not resources:
+        return ('<div class="empty-shelf"><div><h3>새로운 지식을 기다리는 서가입니다.</h3>'
+                '<p>아직 등록된 지식자료가 없습니다. 학습자료를 모아 이곳에 채워갑니다.</p>'
+                '</div></div>')
     seen = set()
     for item in resources:
         if not item['id'] or item['id'] in seen or item['category'] not in GROUPS:

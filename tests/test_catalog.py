@@ -1,9 +1,21 @@
 """Verify catalog publishing states, safe links, and repeatable generation."""
 import unittest
+import json
+from pathlib import Path
 from scripts.build_catalog import build, render_books, render_resources, safe_url
 
 
 class CatalogRenderingTests(unittest.TestCase):
+    def test_published_catalog_contains_only_learning_content(self):
+        root = Path(__file__).resolve().parents[1]
+        catalog = json.loads((root / 'data/catalog.json').read_text())
+        self.assertEqual(catalog['resources'], [])
+        self.assertEqual(catalog['books'][0]['id'], 'ai-book-interactive')
+        home = (root / 'index.html').read_text()
+        self.assertEqual(home.count('data-resource='), 1)
+        self.assertIn('전체 1개 자료', home)
+        self.assertIn('https://ljd6805.github.io/ai-book-interactive/', home)
+
     def test_empty_books_have_no_fake_book_link(self):
         result = render_books([])
         self.assertIn('아직 등록된 학습 책이 없습니다', result)

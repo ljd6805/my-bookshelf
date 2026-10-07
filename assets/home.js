@@ -34,6 +34,7 @@ function setupSearch() {
   const count = document.getElementById('result-count');
   const empty = document.getElementById('no-results');
   let category = 'all';
+  if (cards.length === 0) return;
 
   function updateResults() {
     cards.forEach(card => { card.hidden = !matchesItem(card.dataset, search.value, category); });

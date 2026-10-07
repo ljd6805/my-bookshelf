@@ -22,8 +22,7 @@ def render_books(books):
                 '<div><h3>첫 번째 책을 준비하는 자리입니다.</h3>'
                 '<p>아직 등록된 학습 책이 없습니다. 주제와 독자, 첫 장의 질문을 정하면 '
                 '이곳에서 책을 펼칠 수 있습니다.</p></div>'
-                '<a class="button secondary" href="templates/book-brief.html">'
-                '새 책 기획서 열기 <span aria-hidden="true">→</span></a></div>')
+                '</div>')
     labels = {'published': '읽을 수 있는 책', 'writing': '집필 중', 'planned': '기획 중'}
     seen = set()
     for book in books:
@@ -48,9 +47,9 @@ def build(source, catalog):
     ids = [item['id'] for item in catalog.get('resources', []) + catalog.get('books', [])]
     if len(ids) != len(set(ids)):
         raise ValueError('IDs must be unique across resources and books')
-    source = replace_section(source, 'RESOURCES', render_resources(catalog.get('resources', [])))
+    source = replace_section(source, 'RESOURCES', render_resources(catalog.get('resources', [])) if catalog.get('resources') or not catalog.get('books') else '')
     source = replace_section(source, 'BOOKS', render_books(catalog.get('books', [])))
-    return replace_section(source, 'COUNT', f'전체 {len(catalog.get("resources", []))}개 자료')
+    return replace_section(source, 'COUNT', f'전체 {len(catalog.get("resources", [])) + len(catalog.get("books", []))}개 자료')
 
 
 def main():

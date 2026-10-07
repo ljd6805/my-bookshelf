@@ -2,224 +2,48 @@
   "schema_version": 1,
   "title": "나만의 서재",
   "hub_url": "https://ljd6805.github.io/my-bookshelf/",
-  "resources": [
+  "resources": [],
+  "books": [
     {
-      "id": "euiyun-analysis",
-      "category": "analysis",
-      "label": "분석 리포트",
-      "title": "학습 콘텐츠를 연결하는 방법",
-      "description": "32권의 교과서에서 페이지 연결, 스토리텔링, 시각화와 실험의 원칙을 살펴봅니다.",
-      "url": "reports/2026-10-07-euiyun-analysis.html",
-      "keywords": [
-        "스토리텔링",
-        "시각화",
-        "실험",
-        "euiyun",
-        "서사"
-      ],
-      "spine_title": "학습의 연결",
-      "spine_category": "분석",
-      "color": "aqua"
-    },
-    {
-      "id": "book-by-book",
-      "category": "analysis",
-      "label": "책별 관찰",
-      "title": "32권에서 찾은 집필의 힌트",
-      "description": "센서, 반도체, AI, 수학. 각 책이 어떤 질문과 사례로 개념을 풀어 가는지 비교합니다.",
-      "url": "reports/book-by-book.html",
+      "id": "ai-book-interactive",
+      "title": "AI Book · 직접 실험하는 AI 교과서",
+      "spine_title": "실험하는 AI",
+      "spine_category": "인공지능",
+      "color": "aqua",
+      "description": "신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 18개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.",
+      "status": "published",
+      "url": "https://ljd6805.github.io/ai-book-interactive/",
       "keywords": [
         "AI",
-        "수학",
-        "센서",
-        "반도체",
-        "책"
+        "인공지능",
+        "신경망",
+        "LLM",
+        "RAG",
+        "에이전트"
       ],
-      "spine_title": "책을 읽는 법",
-      "spine_category": "사례",
-      "color": "blue"
-    },
-    {
-      "id": "page-inventory",
-      "category": "analysis",
-      "label": "조사 원자료",
-      "title": "648개 페이지를 따라가다",
-      "description": "조사한 주소와 구조, 확인 범위를 검색하고 원문 페이지로 이동할 수 있습니다.",
-      "url": "reports/page-inventory.html",
-      "keywords": [
-        "링크",
-        "페이지",
-        "증거",
-        "조사",
-        "검색"
-      ],
-      "spine_title": "페이지 지도",
-      "spine_category": "조사",
-      "color": "violet"
-    },
-    {
-      "id": "library-charter",
-      "category": "guide",
-      "label": "운영 기준",
-      "title": "한 장을 완성하는 기준",
-      "description": "문제에서 출발해 예측, 조작, 관찰, 설명과 새 문제로 이어지는 집필 흐름을 정합니다.",
-      "url": "docs/01-library-charter.html",
-      "keywords": [
-        "집필",
-        "시각화",
-        "스토리텔링",
-        "실험",
-        "규칙"
-      ],
-      "spine_title": "집필의 기준",
-      "spine_category": "운영",
-      "color": "amber"
-    },
-    {
-      "id": "collaboration",
-      "category": "guide",
-      "label": "공동 작업",
-      "title": "Codex와 Claude가 함께 쓰는 법",
-      "description": "공통 지침과 작업 기록, 검증과 인계 방식으로 두 도구가 같은 맥락에서 작업합니다.",
-      "url": "docs/02-collaboration.html",
-      "keywords": [
-        "협업",
-        "에이전트",
-        "AGENTS",
-        "CLAUDE",
-        "Codex"
-      ],
-      "spine_title": "함께 쓰는 법",
-      "spine_category": "협업",
-      "color": "rose"
-    },
-    {
-      "id": "book-brief",
-      "category": "template",
-      "label": "책 기획서",
-      "title": "새 책의 첫 질문 정하기",
-      "description": "누구를 위한 책인지, 어떤 사례를 따라가고 무엇을 할 수 있게 될지 정리합니다.",
-      "url": "templates/book-brief.html",
-      "keywords": [
-        "기획",
-        "양식",
-        "템플릿",
-        "독자",
-        "학습"
-      ],
-      "spine_title": "새 책의 질문",
-      "spine_category": "기획",
-      "color": "sage"
-    },
-    {
-      "id": "chapter-brief",
-      "category": "template",
-      "label": "장·실험 기획서",
-      "title": "하나의 실험을 설계하기",
-      "description": "질문과 입력값, 모델, 결과와 한계를 구현 전에 확인하는 기획서입니다.",
-      "url": "templates/chapter-brief.html",
-      "keywords": [
-        "기획",
-        "양식",
-        "템플릿",
-        "시뮬레이터",
-        "실험"
-      ],
-      "spine_title": "실험의 설계",
-      "spine_category": "기획",
-      "color": "blue"
-    },
-    {
-      "id": "sources",
-      "category": "analysis",
-      "label": "자료 출처",
-      "title": "분석에 사용한 자료와 출처",
-      "description": "직접 확인한 화면과 분석 근거, 원문 자료의 출처를 정리합니다.",
-      "url": "evidence/attribution.html",
-      "spine_title": "자료의 출처",
-      "spine_category": "출처",
-      "color": "sage",
-      "keywords": [
-        "출처",
-        "자료 출처"
-      ]
-    },
-    {
-      "id": "library-intent",
-      "category": "guide",
-      "label": "서재의 목적",
-      "title": "서재를 만들기 전에",
-      "description": "이 서재의 목적과 범위, 결정한 일과 아직 정하지 않은 일을 확인합니다.",
-      "url": "docs/00-intent.html",
-      "spine_title": "서재의 시작",
-      "spine_category": "운영",
-      "color": "amber",
-      "keywords": [
-        "운영",
-        "서재의 목적"
-      ]
-    },
-    {
-      "id": "site-plan",
-      "category": "guide",
-      "label": "서재 운영",
-      "title": "서재 구성과 책 추가 방법",
-      "description": "새 책을 등록하고 독립된 GitHub Pages로 연결하는 방법을 안내합니다.",
-      "url": "docs/04-site-plan.html",
-      "spine_title": "책을 잇는 법",
-      "spine_category": "운영",
-      "color": "rose",
-      "keywords": [
-        "운영",
-        "서재 운영"
-      ]
-    },
-    {
-      "id": "glass-design",
-      "category": "guide",
-      "label": "디자인 기준",
-      "title": "빛을 담는 유리 서가",
-      "description": "투명한 색유리와 명조체 책등, 책을 고르고 펼치는 경험의 설계 기준입니다.",
-      "url": "docs/05-glass-library-design.html",
-      "spine_title": "유리 서가",
-      "spine_category": "디자인",
-      "color": "violet",
-      "keywords": [
-        "디자인",
-        "디자인 기준"
-      ]
-    },
-    {
-      "id": "verification",
-      "category": "guide",
-      "label": "검증 기록",
-      "title": "무엇을 확인했는가",
-      "description": "원 사이트 분석과 서재 구현에서 확인한 범위와 한계를 살펴봅니다.",
-      "url": "docs/03-verification.html",
-      "spine_title": "확인의 기록",
-      "spine_category": "검증",
-      "color": "aqua",
-      "keywords": [
-        "검증",
-        "검증 기록"
-      ]
-    },
-    {
-      "id": "glass-implementation",
-      "category": "guide",
-      "label": "개발 기록",
-      "title": "유리 서가 구현과 검증",
-      "description": "구현 구조, 사용성 검사, 수정한 문제와 다음 작업을 기록합니다.",
-      "url": "docs/06-glass-library-implementation.html",
-      "spine_title": "구현의 기록",
-      "spine_category": "개발",
-      "color": "blue",
-      "keywords": [
-        "개발",
-        "개발 기록"
+      "chapters": [
+        {
+          "title": "전체 12개 챕터",
+          "url": "https://ljd6805.github.io/ai-book-interactive/#chapters"
+        },
+        {
+          "title": "01 · 신경망의 작은 부품",
+          "url": "https://ljd6805.github.io/ai-book-interactive/#neuron"
+        },
+        {
+          "title": "06 · 어떤 정보를 참고할까",
+          "url": "https://ljd6805.github.io/ai-book-interactive/#attention"
+        },
+        {
+          "title": "11 · 답하기 전에 근거 찾기",
+          "url": "https://ljd6805.github.io/ai-book-interactive/#rag"
+        },
+        {
+          "title": "12 · 도구를 쓰고 결과를 확인하기",
+          "url": "https://ljd6805.github.io/ai-book-interactive/#agents"
+        }
       ]
     }
   ],
-  "books": [],
   "learning_paths": []
 }

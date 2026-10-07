@@ -1,12 +1,12 @@
 {
   "updated_at": "2026-10-07",
-  "goal": "승인한 색유리 서가와 책 펼침 인터랙션 구현 및 GitHub Pages 공개",
+  "goal": "서가에서 저장소 구축 문서 13개 제외; 실제 지식자료만 등록",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
   "preferred_remote_name": "my-bookshelf",
   "remote_status": "uploaded_and_verified",
-  "pages_status": "glass_library_deployed_and_browser_verified",
-  "first_book": "not_selected",
+  "pages_status": "pending_deployment_verification",
+  "first_book": "ai-book-interactive",
   "completed": [
     "원 사이트의 32권·포털 열람",
     "648 URL 구조·3,903 실험 앵커 검사",
@@ -21,10 +21,12 @@
     "실제 자료 13개의 미리보기·책 꺼내기·펼침·닫기·포커스 복원 구현",
     "검색·분류·목록 보기·동작 줄이기와 4종 프레임 폭 검증",
     "Python 14개·JavaScript 4개 테스트 통과, 내부 링크·카탈로그 검증",
-    "디자인·구현·문제 해결·검증·책 추가 방법과 Codex·Claude 공통 규칙 갱신"
+    "디자인·구현·문제 해결·검증·책 추가 방법과 Codex·Claude 공통 규칙 갱신",
+    "운영·기획·구축 문서 13개를 지식자료 카탈로그에서 제외하고 빈 서가 안내 적용",
+    "AI Book 첫 학습 책 등록; 학습 책을 중앙 서가와 검색·미리보기에 통합"
   ],
   "verification": "data/validation-result.json",
-  "next_action": "첫 학습 책의 주제·독자·학습 후 행동을 정하고 기획. 기존 책을 연결하려면 실제 Pages URL과 함께 catalog.json에 등록.",
+  "next_action": "다음 학습자료는 사용자 요청에 따라 등록. 운영 문서를 지식자료로 재등록하지 않음.",
   "limitations": [
     "Responsive iframe checks are not physical mobile-device testing.",
     "Safari, Firefox, screen readers, Lighthouse and low-end performance not tested.",
