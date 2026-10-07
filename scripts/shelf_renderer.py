@@ -101,6 +101,7 @@ def spine(item, index, key):
             f'title="{esc(item["title"])}" style="--book-variation:{index % 3}">'
             '<span class="glass-top" aria-hidden="true"></span>'
             f'<span class="spine-label"><span class="{title_class}">{esc(title)}</span>'
+            f'<span class="list-title">{esc(item["title"])}</span>'
             f'<span class="spine-category">{esc(label)}</span></span>'
             '<span class="glass-foot" aria-hidden="true"></span>'
             f'</{tag}>' + preview(item, key))
