@@ -2,6 +2,113 @@
   "schema_version": 1,
   "title": "나만의 서재",
   "hub_url": null,
+  "resources": [
+    {
+      "id": "euiyun-analysis",
+      "category": "analysis",
+      "label": "분석 리포트",
+      "title": "학습 콘텐츠를 연결하는 방법",
+      "description": "32권의 교과서에서 페이지 연결, 스토리텔링, 시각화와 실험의 원칙을 살펴봅니다.",
+      "url": "reports/2026-10-07-euiyun-analysis.html",
+      "keywords": [
+        "스토리텔링",
+        "시각화",
+        "실험",
+        "euiyun",
+        "서사"
+      ]
+    },
+    {
+      "id": "book-by-book",
+      "category": "analysis",
+      "label": "책별 관찰",
+      "title": "32권에서 찾은 집필의 힌트",
+      "description": "센서, 반도체, AI, 수학. 각 책이 어떤 질문과 사례로 개념을 풀어 가는지 비교합니다.",
+      "url": "reports/book-by-book.html",
+      "keywords": [
+        "AI",
+        "수학",
+        "센서",
+        "반도체",
+        "책"
+      ]
+    },
+    {
+      "id": "page-inventory",
+      "category": "analysis",
+      "label": "조사 원자료",
+      "title": "648개 페이지를 따라가다",
+      "description": "조사한 주소와 구조, 확인 범위를 검색하고 원문 페이지로 이동할 수 있습니다.",
+      "url": "reports/page-inventory.html",
+      "keywords": [
+        "링크",
+        "페이지",
+        "증거",
+        "조사",
+        "검색"
+      ]
+    },
+    {
+      "id": "library-charter",
+      "category": "guide",
+      "label": "운영 기준",
+      "title": "한 장을 완성하는 기준",
+      "description": "문제에서 출발해 예측, 조작, 관찰, 설명과 새 문제로 이어지는 집필 흐름을 정합니다.",
+      "url": "docs/01-library-charter.html",
+      "keywords": [
+        "집필",
+        "시각화",
+        "스토리텔링",
+        "실험",
+        "규칙"
+      ]
+    },
+    {
+      "id": "collaboration",
+      "category": "guide",
+      "label": "공동 작업",
+      "title": "Codex와 Claude가 함께 쓰는 법",
+      "description": "공통 지침과 작업 기록, 검증과 인계 방식으로 두 도구가 같은 맥락에서 작업합니다.",
+      "url": "docs/02-collaboration.html",
+      "keywords": [
+        "협업",
+        "에이전트",
+        "AGENTS",
+        "CLAUDE",
+        "Codex"
+      ]
+    },
+    {
+      "id": "book-brief",
+      "category": "template",
+      "label": "책 기획서",
+      "title": "새 책의 첫 질문 정하기",
+      "description": "누구를 위한 책인지, 어떤 사례를 따라가고 무엇을 할 수 있게 될지 정리합니다.",
+      "url": "templates/book-brief.html",
+      "keywords": [
+        "기획",
+        "양식",
+        "템플릿",
+        "독자",
+        "학습"
+      ]
+    },
+    {
+      "id": "chapter-brief",
+      "category": "template",
+      "label": "장·실험 기획서",
+      "title": "하나의 실험을 설계하기",
+      "description": "질문과 입력값, 모델, 결과와 한계를 구현 전에 확인하는 기획서입니다.",
+      "url": "templates/chapter-brief.html",
+      "keywords": [
+        "기획",
+        "양식",
+        "템플릿",
+        "시뮬레이터",
+        "실험"
+      ]
+    }
+  ],
   "books": [],
   "learning_paths": []
 }

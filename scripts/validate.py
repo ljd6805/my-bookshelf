@@ -4,6 +4,10 @@ import json
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+if __package__:
+    from .build_catalog import build
+else:
+    from build_catalog import build
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -76,7 +80,11 @@ def main():
     errors, count = validate_html(ROOT)
     for path in ROOT.rglob('*.json'):
         json.loads(path.read_text())
-    errors += validate_catalog(json.loads((ROOT / 'data/catalog.json').read_text()))
+    catalog = json.loads((ROOT / 'data/catalog.json').read_text())
+    errors += validate_catalog(catalog)
+    home = (ROOT / 'index.html').read_text()
+    if build(home, catalog) != home:
+        errors.append('Catalog HTML is stale: run python scripts/build_catalog.py')
     errors += validate_python(ROOT)
     pages = json.loads((ROOT / 'data/page-audit.json').read_text())
     sims = json.loads((ROOT / 'data/experiment-audit.json').read_text())
