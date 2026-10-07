@@ -1,11 +1,11 @@
 {
   "updated_at": "2026-10-07",
-  "goal": "학습 서재의 최초 뼈대와 메인페이지를 구성하고 GitHub Pages로 공개",
+  "goal": "승인한 색유리 서가 목업을 구현하고 GitHub Pages에 반영",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
   "preferred_remote_name": "my-bookshelf",
   "remote_status": "uploaded_and_verified",
-  "pages_status": "deployed_and_browser_verified",
+  "pages_status": "glass_redesign_pending_browser_verification",
   "first_book": "not_selected",
   "completed": [
     "원 사이트의 32권·포털 열람",
@@ -19,7 +19,7 @@
     "Codex·Claude를 위한 책 추가·배포·인계 문서 갱신"
   ],
   "verification": "data/validation-result.json",
-  "next_action": "첫 책의 주제·독자·학습 후 행동을 정하고 기획서를 작성. 첫 장을 완결한 뒤 독립 저장소·Pages를 카탈로그로 연결.",
+  "next_action": "공개 서가의 가독성·열기·닫기·검색·문서 이동을 실제 브라우저로 검사",
   "limitations": [
     "참조 사이트의 모든 장 정독·모든 실험 동작·수치 정확성·학습 효과는 검증하지 않음",
     "모바일 실기기와 화면 읽기 프로그램 테스트는 수행하지 않음",

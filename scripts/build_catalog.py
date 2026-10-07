@@ -10,36 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 CATEGORIES = {'analysis', 'guide', 'template'}
 
 
-def esc(value):
-    return html.escape(str(value), quote=True)
-
-
-def safe_url(value, external=False):
-    u = urlsplit(value)
-    if u.scheme == 'https' and u.netloc:
-        return esc(value)
-    if (external or not value or u.scheme or u.netloc or value.startswith('/')
-            or '..' in u.path.split('/') or '\\' in value):
-        raise ValueError(f'Unsupported catalog URL: {value}')
-    return esc(value)
-
-
-def render_resources(resources):
-    output, seen = [], set()
-    for item in resources:
-        if not item['id'] or item['id'] in seen or item['category'] not in CATEGORIES:
-            raise ValueError('Resource ID must be unique and category must be known')
-        seen.add(item['id'])
-        search = ' '.join([item['title'], item['description'], *item.get('keywords', [])])
-        output.append(
-            f'<a class="resource-card" data-resource="{esc(item["id"])}" '
-            f'data-category="{esc(item["category"])}" data-search="{esc(search)}" '
-            f'href="{safe_url(item["url"])}">'
-            f'<span class="resource-label">{esc(item["label"])}</span>'
-            f'<h3>{esc(item["title"])} <span aria-hidden="true">↗</span></h3>'
-            f'<p>{esc(item["description"])}</p></a>'
-        )
-    return '\n'.join(output)
+if __package__:
+    from .shelf_renderer import esc, safe_url, render_resources, shelf
+else:
+    from shelf_renderer import esc, safe_url, render_resources, shelf
 
 
 def render_books(books):
@@ -51,19 +25,14 @@ def render_books(books):
                 '<a class="button secondary" href="templates/book-brief.html">'
                 '새 책 기획서 열기 <span aria-hidden="true">→</span></a></div>')
     labels = {'published': '읽을 수 있는 책', 'writing': '집필 중', 'planned': '기획 중'}
-    output, seen = [], set()
+    seen = set()
     for book in books:
         if not book['id'] or book['id'] in seen or book['status'] not in labels:
             raise ValueError('Book ID must be unique and status must be known')
         seen.add(book['id'])
-        action = (f'<a class="text-link" href="{safe_url(book["url"], external=True)}">'
-                  '책 읽기 ↗</a>' if book['status'] == 'published'
-                  else '<span class="book-state">준비되면 이곳에서 열 수 있습니다.</span>')
-        output.append(f'<article class="book-card" id="book-{esc(book["id"])}">'
-                      f'<span class="resource-label">{labels[book["status"]]}</span>'
-                      f'<h3>{esc(book["title"])}</h3><p>{esc(book["description"])}</p>'
-                      f'{action}</article>')
-    return '<div class="book-grid">' + '\n'.join(output) + '</div>'
+        if book['status'] == 'published':
+            safe_url(book['url'], external=True)
+    return ''.join(shelf(books[i:i + 12], 'book', i) for i in range(0, len(books), 12))
 
 
 def replace_section(source, name, content):
@@ -76,6 +45,9 @@ def replace_section(source, name, content):
 
 
 def build(source, catalog):
+    ids = [item['id'] for item in catalog.get('resources', []) + catalog.get('books', [])]
+    if len(ids) != len(set(ids)):
+        raise ValueError('IDs must be unique across resources and books')
     source = replace_section(source, 'RESOURCES', render_resources(catalog.get('resources', [])))
     source = replace_section(source, 'BOOKS', render_books(catalog.get('books', [])))
     return replace_section(source, 'COUNT', f'전체 {len(catalog.get("resources", []))}개 자료')
