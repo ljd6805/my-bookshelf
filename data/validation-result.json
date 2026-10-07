@@ -1,11 +1,29 @@
 {
   "checked_at": "2026-10-07",
   "integrity_command": "python3 scripts/validate.py",
-  "html_files": 11,
+  "html_files": 12,
   "integrity_errors": 0,
   "unit_test_command": "python3 -m unittest discover -s tests -v",
-  "unit_tests": 3,
+  "unit_tests": 8,
   "unit_test_failures": 0,
-  "browser_rendering": "not_run_local_file_url_blocked_by_browser_policy",
-  "external_links": "source survey only; final document links not exhaustively rechecked"
+  "browser_rendering": "verified_on_live_github_pages",
+  "deployed_http_check": {"html_pages": 12, "assets": 4, "http_200": 16},
+  "external_links": "reference-site survey unchanged; not an exhaustive fresh check",
+  "live_site_url": "https://ljd6805.github.io/my-bookshelf/",
+  "verified_ui_commit": "7e30d62f0b7f834bd52f0f6c0f8bb2433540a86c",
+  "catalog_generation": "current_and_idempotent",
+  "javascript_syntax": "node --check assets/home.js passed",
+  "browser_checks": {
+    "homepage": "rendered_with_image_and_7_resources",
+    "search": "시각화 -> 2 resources",
+    "category": "template -> 2 resources",
+    "empty_and_reset": "empty state visible; reset -> 7 resources",
+    "navigation": "home -> analysis -> home",
+    "inventory": "404 filter -> 4 / 648",
+    "desktop_overflow": {
+      "viewport": 1348,
+      "document_width": 1348
+    }
+  },
+  "mobile": "CSS rules inspected; actual mobile device not tested"
 }

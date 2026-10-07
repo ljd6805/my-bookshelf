@@ -34,10 +34,12 @@
 - localStorage 키는 bookshelf:book-id:v1:progress처럼 책과 버전을 포함한다.
 - 장 ID와 앵커는 안정적으로 유지한다. 이동 후 기존 링크를 검사한다.
 - catalog.json을 카탈로그 원본으로 사용하고 중복된 수동 집계를 줄인다.
+- 자료·책 목록 변경은 docs/04-site-plan.html을 읽고 python3 scripts/build_catalog.py로 반영한다. 카탈로그와 index.html을 함께 커밋한다.
 - 요구가 확인되기 전에 계정·서버·복잡한 빌드·서브모듈을 추가하지 않는다.
 
 ## 검증
 - 기본 검사: python3 scripts/validate.py
+- 카탈로그만 확인: python3 scripts/build_catalog.py --check
 - 검사기 단위 검증: python3 -m unittest discover -s tests -v
 - 계산 변경은 대표값·경계값·불변 조건을 검증한다.
 - 단순 문구·색상 변경에 구현을 그대로 복제하는 테스트를 추가하지 않는다.

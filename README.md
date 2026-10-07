@@ -1,31 +1,41 @@
 # 나만의 서재
 
-학습 콘텐츠를 이야기와 실험으로 연결하기 위한 서재 허브입니다.
+질문에서 시작해 읽고, 실험하고, 이해를 쌓는 학습 서재입니다.
 
-[문서 허브](index.html)에서 시작하세요.
+**[서재 열기 →](https://ljd6805.github.io/my-bookshelf/)** · [저장소](https://github.com/ljd6805/my-bookshelf)
 
-- [원 사이트 분석 리포트](reports/2026-10-07-euiyun-analysis.html)
-- [32개 책의 개별 관찰](reports/book-by-book.html)
+GitHub Pages는 `main` 브랜치의 루트에서 자동 배포합니다. 별도 패키지 설치 없이 정적 HTML·CSS·JavaScript로 작동합니다.
+
+- [서재 메인페이지](index.html): 자료 검색·분류, 학습 책 목록, 서재 소개
+- [분석 리포트](reports/2026-10-07-euiyun-analysis.html) · [32개 책의 개별 관찰](reports/book-by-book.html)
 - [전체 페이지 목록](reports/page-inventory.html)
-- [집필·시각화 기준](docs/01-library-charter.html)
-- [Codex·Claude 협업 규칙](docs/02-collaboration.html)
-- [검증과 남은 일](docs/03-verification.html)
+- [집필·시각화 기준](docs/01-library-charter.html) · [Codex·Claude 협업 규칙](docs/02-collaboration.html)
+- [서재 구성과 책 추가 방법](docs/04-site-plan.html) · [검증 기록](docs/03-verification.html)
 
-GitHub 파일 화면에서는 HTML이 코드로 보일 수 있습니다. 로컬에서 index.html을 열거나 정적 서버로 확인하세요.
+## 책과 자료 추가
+
+`data/catalog.json`이 자료와 책 목록의 원본입니다. 항목을 수정한 뒤 아래 명령을 실행하고 변경된 카탈로그와 `index.html`을 함께 커밋합니다.
+
+```sh
+python3 scripts/build_catalog.py
+python3 scripts/validate.py
+python3 -m unittest discover -s tests -v
+```
+
+`books`의 상태는 `planned`, `writing`, `published`입니다. 공개된 책은 HTTPS 배포 주소가 있어야 하며, 별도 저장소의 GitHub Pages 주소를 사용할 수 있습니다. 모든 책에서 이 서재로 돌아오는 링크를 제공합니다. 현재 첫 학습 책은 아직 등록하지 않았습니다.
+
+검색 없이도 모든 자료 링크가 정적 HTML에 들어 있습니다. 카탈로그가 메인페이지와 다르면 검증 명령이 실패합니다.
+
+## 협업
+
+Codex와 Claude의 공통 지침은 `AGENTS.md`, Claude 진입점은 `CLAUDE.md`입니다. 시작할 때 `data/work-state.json`과 운영 문서를 읽고, 완료·검증·남은 일을 기록합니다. 이 파일들은 계정이나 저장소 접근 권한을 부여하지 않습니다.
+
+로컬 미리보기:
 
 ```sh
 python3 -m http.server 8000
 ```
 
-브라우저에서 http://localhost:8000/ 을 엽니다. 별도 패키지 설치는 필요하지 않습니다.
+브라우저에서 http://localhost:8000/ 을 엽니다.
 
-```sh
-python3 scripts/validate.py
-python3 -m unittest discover -s tests -v
-```
-
-공통 지침은 AGENTS.md, Claude 진입점은 CLAUDE.md입니다. 이 파일들은 계정이나 저장소 접근 권한을 부여하지 않습니다.
-
-현재 첫 학습 책은 미등록 상태입니다. 각 책을 독립 저장소·GitHub Pages로 만들고 data/catalog.json으로 연결할 수 있습니다. Pages는 아직 배포하지 않았으며 배포 완료를 가정한 주소는 기록하지 않았습니다.
-
-분석 기준일: 2026-10-07. 원본: https://books.euiyun.com/ 및 연결된 책들. 참조 사이트의 원문 전체와 구현 코드는 포함하지 않습니다. screenshots는 출처가 명시된 분석 증거이며 원 저작물의 권리는 해당 저작자에게 있습니다. evidence/attribution.html을 참고하세요.
+분석 기준일: 2026-10-07. 원본: https://books.euiyun.com/ 및 연결된 책들. 참조 사이트의 원문 전체와 구현 코드는 포함하지 않습니다. 조사 화면의 출처와 권리는 [자료 출처](evidence/attribution.html)를 참고하세요.
