@@ -1,0 +1,30 @@
+{
+  "observed_at": "2026-10-07",
+  "published_books": 32,
+  "planned_books": 7,
+  "audited_urls": 648,
+  "successful_urls": 644,
+  "successful_chapter_urls": 594,
+  "experiment_index_entries": 3903,
+  "experiment_anchors_missing": 0,
+  "functional_test_scope": "대표 실험만 조작. 전체 정확성·동작·학습 효과 미검증",
+  "catalog_chapter_total": 584,
+  "chapter_mismatches": [
+    {
+      "book": "ComputerBook",
+      "catalog": 15,
+      "observed": 23
+    },
+    {
+      "book": "DesignBook",
+      "catalog": 14,
+      "observed": 16
+    }
+  ],
+  "broken_urls": [
+    "https://lithobook.euiyun.com/euv.html",
+    "https://processbook.euiyun.com/chapters/etching.html",
+    "https://processbook.euiyun.com/chapters/lithography.html",
+    "https://sensorbook.euiyun.com/chapters/darkcurrent.html"
+  ]
+}

@@ -1,0 +1,69 @@
+[
+  {
+    "id": "NAV-01",
+    "url": "https://books.euiyun.com/paths/",
+    "action": "ComputerBook→AI 경로와 기술 문서 검색 경로를 펼침",
+    "result": "선행 지식·장 순서·읽는 이유·남길 기록을 확인",
+    "level": "브라우저 펼침"
+  },
+  {
+    "id": "NAV-02",
+    "url": "https://books.euiyun.com/simulators/",
+    "action": "청킹 검색",
+    "result": "3,903개 항목 중 2개 결과가 표시됨",
+    "level": "브라우저 검색"
+  },
+  {
+    "id": "AI-01",
+    "url": "https://aibook.euiyun.com/chapters/rag.html",
+    "action": "고정 길이 120·겹침 0에서 문장 단위 분할로 전환",
+    "result": "청크 4→5개, 문장 절단 3/10→0/10",
+    "level": "실제 조작"
+  },
+  {
+    "id": "AI-02",
+    "url": "https://aibook.euiyun.com/chapters/rag.html",
+    "action": "고정 길이 분할로 돌아가 겹침을 5로 설정",
+    "result": "청크 5개, 문장 절단 4/10. 겹침이 모든 지표를 단조롭게 개선하지 않음",
+    "level": "실제 조작"
+  },
+  {
+    "id": "AI-03",
+    "url": "https://aibook.euiyun.com/chapters/rag.html",
+    "action": "규정 문서를 검색·인용하는 RAG 선택지 클릭",
+    "result": "미세조정·온도 설정과 비교한 해설 표시",
+    "level": "퀴즈 응답"
+  },
+  {
+    "id": "SEN-01",
+    "url": "https://sensorbook.euiyun.com/chapters/light.html",
+    "action": "파장 550 nm에서 1200 nm 버튼 선택",
+    "result": "2.254→1.033 eV, 흡수 가능→투과, 250 THz 표시",
+    "level": "실제 조작",
+    "image": "sensor-light.jpg"
+  },
+  {
+    "id": "SEN-02",
+    "url": "https://sensorbook.euiyun.com/chapters/pixel.html",
+    "action": "분해 슬라이더를 키보드 End로 100에 설정",
+    "result": "입력값은 변경되나 3D 화면은 비어 있음. 실행 환경 로그에 WebGL/GL_RENDERER Disabled 확인",
+    "level": "환경 제한 확인",
+    "image": "sensor-pixel.jpg"
+  },
+  {
+    "id": "YLD-01",
+    "url": "https://yieldbook.euiyun.com/chapters/detective.html",
+    "action": "사건 YD-3544에서 빈 맵 조사 선택",
+    "result": "예산 14→13, 조사 0→1. 빈 8의 전원 단락 단서와 비용 로그 표시",
+    "level": "실제 조작",
+    "image": "yield-detective.jpg"
+  },
+  {
+    "id": "MAT-01",
+    "url": "https://mathbook.euiyun.com/chapters/linalg.html#sim-la-grid",
+    "action": "일반 변환에서 직선 위로 투영 프리셋 선택",
+    "result": "행렬식 2.05→0.00, 계수 2→1, 면적 0.00. 그림이 직선으로 납작해짐",
+    "level": "실제 조작",
+    "image": "math-matrix.jpg"
+  }
+]
