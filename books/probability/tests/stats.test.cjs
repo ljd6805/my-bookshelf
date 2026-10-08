@@ -135,3 +135,18 @@ test('likelihood region: zero gap at k/n, 1.92 boundary, more data narrows it', 
   assert.ok(I.likelihoodRegion(0, 20, 0.2).gap > I.LR95);
   assert.equal(I.likelihoodRegion(0, 0, 0.3).gap, 0);
 });
+
+test('capTail keeps the total and lumps the upper tail', () => {
+  const pmf = S.binomialDistribution(20, 0.1);
+  const capped = I.capTail(pmf, 10);
+  assert.equal(capped.length, 11);
+  near(capped.reduce((a, b) => a + b, 0), 1, 1e-12);
+  near(capped[10], S.binomialUpper(20, 10, 0.1), 1e-12);
+  assert.deepEqual(I.capTail([1, 2], 4), [1, 2, 0, 0, 0]);
+});
+
+test('frequencies divide by the total and stay zero before any count', () => {
+  assert.deepEqual(I.frequencies([1, 3, 0], 4), [0.25, 0.75, 0]);
+  assert.deepEqual(I.frequencies([0, 0], 0), [0, 0]);
+  assert.throws(() => I.frequencies([1], -1), RangeError);
+});

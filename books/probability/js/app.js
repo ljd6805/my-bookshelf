@@ -1,4 +1,5 @@
-/* 주소(#장ID)에 따라 장을 그리고, 예측·실험 기록을 이 브라우저에만 저장한다. */
+/* 첫 화면·목차·참고 자료·마지막 과제를 그리고, 예측·실험 기록을 이 브라우저에만 저장한다.
+   화면 구성은 AI Book(books/ai/)과 같은 틀을 따른다. */
 (function () {
   'use strict';
   const B = window.ProbBook, F = window.ProbFigures, L = window.ProbLabs, U = window.ProbUI;
@@ -21,56 +22,52 @@
   const addTo = (list, id) => save((s) => { if (!s[list].includes(id)) s[list].push(id); });
 
   function renderSidebar() {
-    const state = load(), current = location.hash.slice(1) || 'home';
-    const mark = (id) => ((state.tried || []).includes(id) ? '<span class="mark done" title="실험 완료">●</span>'
-      : (state.visited || []).includes(id) ? '<span class="mark seen" title="읽음">○</span>' : '<span class="mark"></span>');
-    sidebar.innerHTML = `<button type="button" class="side-close" onclick="document.getElementById('menu').click()">닫기 ✕</button><nav aria-label="장 목록"><a href="#home" ${current === 'home' ? 'aria-current="page"' : ''}>책 소개</a>
-      <ol>${B.chapters.map((c) => `<li><a href="#${c.id}" ${current === c.id ? 'aria-current="page"' : ''}>${mark(c.id)}<span class="num">${c.num}</span> ${esc(c.title)}<span class="sr-only">${(state.tried || []).includes(c.id) ? ' (실험 완료)' : (state.visited || []).includes(c.id) ? ' (읽음)' : ''}</span></a></li>`).join('')}</ol>
-      <a href="#final" ${current === 'final' ? 'aria-current="page"' : ''}>마지막 과제</a><a href="#sources" ${current === 'sources' ? 'aria-current="page"' : ''}>참고 자료</a>
-      <p class="side-legend">○ 읽음 · ● 실험까지 해 봄</p></nav>`;
+    const tried = load().tried || [], current = location.hash.slice(1) || 'home';
+    const link = (id, num, title) => `<a href="#${id}" data-chapter="${id}"${current === id ? ' class="active" aria-current="page"' : ''}><span>${num}</span>${esc(title)}${tried.includes(id) ? '<i class="done" aria-hidden="true">✓</i><em class="sr-only"> (실험 완료)</em>' : ''}</a>`;
+    sidebar.innerHTML = `<div class="sidebar-title">CONTENTS / 전체 목차</div><a href="#home">확률과 통계 처음으로</a>
+      ${B.chapters.map((c) => link(c.id, c.num, c.title)).join('')}${link('final', '끝', '마지막 과제')}
+      <p class="sidebar-legend">✓ 실험까지 해 본 장</p>`;
   }
 
-  /* ---- 화면들 ---- */
+  /* ---- 공통 조각 ---- */
+  const flow = (items) => `<div class="flow">${items.map((x) => { const [a, b] = x.split('|'); return `<div><b>${esc(a)}</b><span>${esc(b)}</span></div>`; }).join('')}</div>`;
+  const sourceLinks = (list) => `<ul class="source-list">${list.map(([t, u, d]) => `<li><a href="${esc(u)}"${u.startsWith('http') ? ' target="_blank" rel="noreferrer"' : ''}>${esc(t)}</a><br><span class="caption">${esc(d)}</span></li>`).join('')}</ul>`;
+
   function chapterCards() {
-    return `<ol class="chapter-cards">${B.chapters.map((c) => `<li><a href="#${c.id}"><span class="num">${c.num}</span><strong>${esc(c.title)}</strong><span>${esc(c.subtitle)}</span><small>${esc(c.group)} · ${esc(c.time)}</small></a></li>`).join('')}
-      <li class="final-card"><a href="#final"><span class="num">끝</span><strong>${esc(B.final.title)}</strong><span>배운 도구로 새 센서 도입을 판단합니다.</span><small>마지막 과제 · 25분</small></a></li></ol>`;
+    const cards = B.chapters.map((c) => `<a class="chapter-card" href="#${c.id}"><span class="num">CHAPTER ${c.num} / ${esc(c.group)}</span>${F[c.figure]()}<h3>${esc(c.title)}</h3><p>${esc(c.subtitle)}</p><span class="tag">실험 1개</span><span class="caption">약 ${esc(c.time)}</span></a>`);
+    cards.push(`<a class="chapter-card final-card" href="#final"><span class="num">FINAL / 마지막 과제</span>${F.testing()}<h3>${esc(B.final.title.replace('마지막 과제 · ', ''))}</h3><p>배운 도구를 모두 써서 새 센서를 들일지 판단하고, 부족한 증거와 다음 측정을 적습니다.</p><span class="tag">질문 ${B.final.questions.length}개</span><span class="caption">약 25분</span></a>`);
+    return `<div class="chapter-grid">${cards.join('')}</div>`;
   }
 
   function renderHome() {
-    const flow = ['문제', '예측', '조작', '관찰', '설명', '전이'];
-    return `<section class="hero"><p class="eyebrow">나만의 서재 · 두 번째 책</p><h1 tabindex="-1">확률과 통계<br><span>경보가 울렸다, 정말 고장일까</span></h1>
-      <p class="lead">이 책을 끝내면 데이터 몇 개로 내린 결론이 얼마나 흔들릴 수 있는지 계산하고, 경보·검사·실험 결과를 믿어도 되는지 근거를 들어 판단할 수 있습니다.</p>
-      <p><a class="btn primary" href="#chance">1장부터 읽기</a> <a class="btn ghost" href="#chapters">전체 목차</a></p></section>
-      <section class="case" aria-labelledby="case-title"><h2 id="case-title">이 책의 사건</h2>${B.caseStory.map((p) => `<p>${esc(p)}</p>`).join('')}
-      <figure class="figure">${F.binomial()}<figcaption>모든 장이 같은 공장, 같은 센서 20대에서 출발합니다.</figcaption></figure></section>
-      <section aria-labelledby="flow-title"><h2 id="flow-title">한 장을 읽는 순서</h2><ol class="flow">${flow.map((f, i) => `<li style="--i:${i}"><span>${i + 1}</span>${f}</li>`).join('')}</ol>
-      <p>장마다 먼저 결과를 예측하고, 실험에서 한 번에 하나씩 값을 바꿔 본 뒤, 본 것을 문장으로 설명합니다. 마지막에는 공장 밖의 새 상황에 같은 생각을 옮겨 봅니다. 실험 상자에는 실제 계산인지, 난수로 흉내 낸 시뮬레이션인지 표시해 두었습니다.</p></section>
-      <section aria-labelledby="toc-title"><h2 id="toc-title">여덟 개의 장과 마지막 과제</h2>${chapterCards()}</section>
-      <section class="bridge" aria-labelledby="bridge-title"><h2 id="bridge-title">AI Book과 함께 읽기</h2>
-      <p>AI가 왜 틀리는지 이해하려면 이 책의 도구가 필요합니다. 아래 순서로 두 책을 오가면 "확신과 오류"라는 하나의 질문을 따라갈 수 있습니다.</p>
-      <ol class="path"><li><a href="#chance">01 우연은 얼마나 흔들릴까</a> 확률과 표본의 흔들림을 익힙니다.</li><li><a href="#bayes">05 경보가 울리면 정말 고장일까</a> 맞힌 것처럼 보이는 결과를 의심하는 법을 배웁니다.</li>
-      <li><a href="#likelihood">08 데이터에 가장 잘 맞는 확률 찾기</a> 우도와 손실이 같은 것임을 봅니다.</li><li><a href="../ai/#learning">AI Book 02 · 오차를 줄이는 방향으로</a> 손실의 바닥을 찾아가는 학습을 봅니다.</li>
-      <li><a href="../ai/#generalization">AI Book 03 · 외우는 것과 배우는 것</a> 표본의 흔들림이 과적합으로 나타나는 모습을 봅니다.</li></ol></section>`;
-  }
-
-  function renderChapters() {
-    return `<h1 tabindex="-1">전체 목차</h1><p class="lead">한 장은 15~22분 분량입니다. 1~4장은 흔들림을 재는 도구, 5~7장은 증거로 판단하는 도구, 8장은 AI로 건너가는 다리입니다.</p>${chapterCards()}`;
-  }
-
-  function renderSources() {
-    return `<h1 tabindex="-1">참고 자료</h1><p class="lead">개념과 계산 방법을 확인한 자료입니다. 본문과 실험은 이 책을 위해 새로 썼습니다. 2026-10-08 집필 환경에서는 네트워크 제한으로 링크를 직접 열어 보지 못했으므로, 열리지 않는 링크가 있으면 제목으로 찾아 주세요.</p>
-      <ul class="sources">${B.sources.map(([t, u, d]) => `<li><a href="${esc(u)}" target="_blank" rel="noreferrer">${esc(t)}</a><span>${esc(d)}</span></li>`).join('')}</ul>
-      <p>실험이 쓰는 계산식과 검증 방법은 <a href="docs/index.html">책 개발 문서</a>에 있습니다.</p>`;
+    return `<section class="hero"><div><div class="eyebrow">An interactive field guide to probability</div><h1 tabindex="-1">흔들리는 숫자에서<br><em>믿을 만한 판단까지.</em></h1>
+      <p class="lead">경보가 울렸다고 정말 고장일까요? 동전을 던지고, 표본을 뽑고, 기저율을 바꿔 보며 데이터 몇 개로 내린 결론이 얼마나 흔들리는지 직접 확인하세요.</p>
+      <div class="hero-links"><a class="button primary" href="#chance">01장부터 읽기</a><a class="button" href="#bayes">베이즈 실험하기</a></div>
+      <div class="stats"><span><b>${B.chapters.length}</b>챕터</span><span><b>${B.chapters.length}</b>인터랙티브 실험</span><span><b>0</b>외부 API 호출</span></div></div>
+      <div class="hero-lab" id="home-lab"></div></section>
+      <section class="section"><div class="section-heading"><h2>흔들림에서 판단까지</h2><p>몇 번의 관찰이 얼마나 흔들리는지 재고, 그 흔들림을 감안해 증거로 판단합니다. 각 단계가 아래의 챕터와 연결됩니다.</p></div>
+      ${flow(['관찰|경보 몇 번, 측정값 몇 개', '흔들림|확률·이항분포·요약값', '평균의 법칙|표본분포·σ/√n', '증거|베이즈·신뢰구간·검정', '학습|우도·손실·AI'])}</section>
+      <section class="section"><div class="section-heading"><h2>이 책의 사건</h2><p>모든 장이 같은 공장, 같은 센서 20대에서 출발합니다.</p></div>
+      ${B.caseStory.map((p) => `<p>${esc(p)}</p>`).join('')}
+      <div class="note"><strong>한 장을 읽는 순서</strong><br>문제를 읽고 → 결과를 먼저 예측하고 → 실험에서 값을 하나씩 바꿔 보고 → 본 것을 설명한 뒤 → 공장 밖의 새 상황에 옮겨 봅니다. 실험 상자에는 정확한 계산인지, 난수로 흉내 낸 시뮬레이션인지 적어 두었습니다.</div></section>
+      <section class="section" id="chapters"><div class="section-heading"><div class="eyebrow">EXPLORE THE BOOK</div><p>개념을 읽고, 그림을 보고, 직접 실험한 뒤 확인 문제로 마무리하세요.</p></div><h2>전체 챕터</h2>${chapterCards()}</section>
+      <section class="section"><div class="section-heading"><h2>나에게 맞는 학습 경로</h2><p>처음부터 순서대로 읽거나, 지금 궁금한 질문에서 출발해도 좋습니다.</p></div><div class="path-grid">
+      <div class="path"><h3>통계가 처음이라면</h3><p>확률과 분포, 요약값과 평균의 흔들림을 차례로 익힙니다.</p><a href="#chance">01</a><a href="#binomial">02</a><a href="#spread">03</a><a href="#clt">04</a></div>
+      <div class="path"><h3>결과를 믿어도 될지 판단하려면</h3><p>경보·검사·실험 결과를 기저율, 신뢰구간, p값으로 따져 봅니다.</p><a href="#bayes">05</a><a href="#interval">06</a><a href="#testing">07</a><a href="#final">끝</a></div>
+      <div class="path"><h3>AI가 왜 틀리는지 궁금하다면</h3><p>우도와 손실을 익힌 뒤 AI Book에서 학습과 과적합을 이어 봅니다.</p><a href="#chance">01</a><a href="#bayes">05</a><a href="#likelihood">08</a><a href="../ai/#learning">AI 02</a><a href="../ai/#generalization">AI 03</a></div></div></section>
+      <section class="section" id="sources"><h2>읽을거리와 실험의 경계</h2><p class="lead">공개 교과서와 원 논문을 바탕으로 개념을 설명했습니다. 본문과 실험은 이 책을 위해 새로 썼습니다.</p>${sourceLinks(B.sources)}
+      <div class="note">모든 실험은 브라우저 안에서 실행되고 외부로 아무것도 보내지 않습니다. 본문의 수치 예시는 실험과 같은 계산 모듈로 다시 계산해 맞췄습니다. 2026-10-08 집필 환경에서는 네트워크 제한으로 위 링크를 직접 열어 보지 못했으므로, 열리지 않으면 제목으로 찾아 주세요. 계산식과 검증 방법은 <a href="docs/index.html">책 개발 문서</a>에 있습니다.</div></section>`;
   }
 
   function renderFinal() {
-    const f = B.final;
-    return `<p class="eyebrow">마지막 과제</p><h1 tabindex="-1">${esc(f.title)}</h1><p class="lead">${esc(f.intro)}</p>
-      <section class="box case"><h2>받은 자료</h2><ul>${f.data.map((d) => `<li>${esc(d)}</li>`).join('')}</ul></section>
-      <ol class="final-q">${f.questions.map((q, i) => `<li><p>${esc(q.q)}</p><label for="final-${i}">내 답</label><textarea id="final-${i}" rows="3"></textarea><details><summary>예시 답과 비교하기</summary><p>${esc(q.a)}</p></details></li>`).join('')}</ol>
-      <p class="reading">적은 답은 이 화면에만 있고 저장되지 않습니다. 숫자보다 "무엇을 결정하고, 어떤 증거가 부족하며, 다음에 무엇을 측정할지"가 들어갔는지 확인하세요.</p>
-      <nav class="pager"><a href="#likelihood">← 08 데이터에 가장 잘 맞는 확률 찾기</a><a href="../ai/#learning">AI Book 02로 이어 읽기 → 손실의 바닥을 찾아가는 학습</a></nav>`;
+    const f = B.final, last = B.chapters[B.chapters.length - 1];
+    return `<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">FINAL PROJECT / 마지막 과제</div><h1 tabindex="-1">${esc(f.title.replace('마지막 과제 · ', ''))}</h1><p class="lead">${esc(f.intro)}</p><span class="tag">질문 ${f.questions.length}개</span><span class="caption">약 25분 · 1~8장의 도구 사용</span></div>
+      <section><h2>받은 자료</h2><div class="note"><ul class="data-list">${f.data.map((d) => `<li>${esc(d)}</li>`).join('')}</ul></div></section>
+      ${f.questions.map((q, i) => `<section class="quiz final-q"><div class="eyebrow">QUESTION ${String(i + 1).padStart(2, '0')}</div><h2>${esc(q.q)}</h2><label for="final-${i}">내 답</label><textarea id="final-${i}" rows="3"></textarea><details><summary>예시 답과 비교하기</summary><p>${esc(q.a)}</p></details></section>`).join('')}
+      <p class="caption">적은 답은 이 화면에만 있고 저장되지 않습니다. 숫자보다 "무엇을 결정하고, 어떤 증거가 부족하며, 다음에 무엇을 측정할지"가 들어갔는지 확인하세요.</p>
+      <nav class="chapter-nav" aria-label="이전·다음"><a href="#${last.id}">이전 · ${esc(last.title)}</a><a href="../ai/#learning">다음 · AI Book 02 오차를 줄이는 방향으로</a></nav></div>`;
   }
 
-  window.ProbApp = { esc, byId, load, save, has, addTo, renderSidebar, renderHome, renderChapters, renderSources, renderFinal, setCleanup: (f) => { cleanup = f; }, runCleanup: () => { cleanup(); cleanup = () => {}; }, main, sidebar, U, L, F, B };
+  window.ProbApp = { esc, byId, load, save, has, addTo, renderSidebar, renderHome, renderFinal, sourceLinks,
+    setCleanup: (f) => { cleanup = f; }, runCleanup: () => { cleanup(); cleanup = () => {}; }, main, sidebar, U, L, F, B };
 })();

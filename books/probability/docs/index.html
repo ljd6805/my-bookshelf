@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="ko" data-theme="light">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>확률과 통계 · 책 개발 문서</title>
-<link rel="stylesheet" href="../assets/style.css?v=20261008-prob2">
+<link rel="stylesheet" href="../assets/style.css?v=20261008-prob4">
 <style>
   .doc { max-width: 900px; margin: 0 auto; padding: 40px 18px 60px; }
   table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
   th, td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 8px 6px; }
-  th { font-family: var(--serif); }
+  th { color: var(--accent); }
   .table-wrap { overflow-x: auto; }
   section { margin: 34px 0; }
 </style>
@@ -79,9 +79,21 @@
 </ul>
 </section>
 
+<section id="layout">
+<h2>06 화면 구성 · AI Book과 같은 틀 (2026-10-08)</h2>
+<p>사용자 요청에 따라 서가의 새 책들이 첫 책(AI Book)과 같은 레이아웃과 내용 구성을 갖도록 바꿨다. 책 사이 코드 의존을 만들지 않도록 <code>books/ai/assets/style.css</code>를 이 책의 <code>assets/style.css</code> 앞부분에 그대로 복사하고, 뒤에 이 책 전용 규칙(실험 차트, 그림 애니메이션, 예측·과제)을 붙였다.</p>
+<ul>
+<li>머리말·옆 목차·바닥글: AI Book과 같은 마크업. 기본은 어두운 화면이고 테마 선택은 <code>bookshelf:probability-statistics:v1:theme</code>에 저장한다. 옆 목차는 장 화면(<code>body.reading</code>)에서만 보이고, 760px 이하에서는 "목차" 버튼으로 연다.</li>
+<li>첫 화면: 소개와 작은 실험(<code>js/home-lab.js</code>, 센서 20대의 하루 경보 시뮬레이션)을 나란히 둔 hero, 흐름 다섯 칸, 사건 소개, 챕터 카드 3열(그림 썸네일 포함, 마지막 과제 카드 포함), 학습 경로 세 갈래, 참고 자료. <code>#chapters</code>와 <code>#sources</code>는 첫 화면의 해당 구역으로 이동한다.</li>
+<li>장 화면 순서: CHAPTER 머리 → 이번 장의 질문 → 먼저 개념 잡기(그림 N-1, 식, 숫자로 보기) → PREDICT FIRST → EXPERIMENT(무엇을 확인하나요?·결과 읽기 안내, 조작 | 그림 두 칸, 결과 문장, 직접 해 보기) → 실험의 가정 → 실험에서 본 것 → 새 상황에 옮기기 → CHECK YOUR UNDERSTANDING → 더 읽어 보기 → 아직 풀지 못한 질문 → 이전·다음. 학습 흐름 문제→예측→조작→관찰→설명→전이는 그대로 유지했다.</li>
+<li>실험 안내 문장과 "직접 해 보기" 과제는 <code>js/guides.js</code>에 실험 ID별로 둔다. 장 ID, 앵커, 진도 저장 키는 바꾸지 않았다.</li>
+</ul>
+</section>
+
 <section id="limits">
 <h2>05 확인하지 못한 것</h2>
 <ul>
+<li>레이아웃 전환 후 Chromium 1280·390·320px에서 경로 12개, 실험 8개 조작·초기화, 가로 넘침 없음, 콘솔 오류 없음을 다시 확인했다. 밝은 화면은 1280px 한 화면(6장 실험)만 눈으로 확인했다.</li>
 <li>학습 효과: 실제 독자가 예측·설명·전이 문제를 풀 수 있게 되는지는 시험하지 않았다(L4 미확인).</li>
 <li>Safari, Firefox, 실제 모바일 기기, 화면 읽기 프로그램, 저사양 기기 성능은 확인하지 않았다.</li>
 <li>참고 자료 링크 여섯 개는 집필 환경의 네트워크 제한으로 직접 열어 보지 못했다. 확인한 사람이 날짜를 남겨 주어야 한다.</li>

@@ -42,6 +42,20 @@
     return counts;
   }
 
+  /* 개수 0..n의 값(확률이나 도수)을 0..maxBin-1과 "maxBin 이상" 한 칸으로 묶는다. 합은 보존된다. */
+  function capTail(values, maxBin) {
+    S.assertCount(maxBin);
+    const head = values.slice(0, maxBin);
+    while (head.length < maxBin) head.push(0);
+    return [...head, S.sum(values.slice(maxBin))];
+  }
+
+  /* 도수를 전체 횟수로 나눈 비율. 아직 한 번도 세지 않았으면 모두 0이다. */
+  function frequencies(counts, total) {
+    S.assertCount(total);
+    return counts.map((c) => (total ? c / total : 0));
+  }
+
   /* 경보가 울렸을 때 실제 고장일 확률. population명의 자연 빈도로도 돌려준다. */
   function bayes({ prevalence, sensitivity, falseAlarmRate, population: total = 1000 }) {
     S.assertProbability(prevalence, '고장률');
@@ -113,6 +127,6 @@
     return { best, gap, inside: gap <= threshold };
   }
 
-  return { POPULATIONS, population, sampleMean, histogram, bayes, wilson, intervalCovers,
+  return { POPULATIONS, population, sampleMean, histogram, capTail, frequencies, bayes, wilson, intervalCovers,
     lowerTailTest, rejectionRate, logLikelihood, crossEntropy, mle, LR95, likelihoodRegion };
 });
