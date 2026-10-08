@@ -1,5 +1,5 @@
-import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-spread-a11y1';
-import { createReader, connectSpines } from './reader.js?v=20261008-spread-a11y1';
+import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-curation1';
+import { createReader, connectSpines } from './reader.js?v=20261008-curation1';
 
 const storageKey = 'bookshelf:hub:v1:motion';
 const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');

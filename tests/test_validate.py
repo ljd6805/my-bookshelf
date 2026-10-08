@@ -3,7 +3,8 @@ import tempfile
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from validate import validate_html, validate_catalog, validate_shelf_return, validate_asset_versions
+from validate import (validate_html, validate_catalog, validate_shelf_return, validate_asset_versions,
+                      validate_cross_links)
 
 
 class IntegrityChecks(unittest.TestCase):
@@ -18,6 +19,18 @@ class IntegrityChecks(unittest.TestCase):
             self.assertEqual(validate_asset_versions(root), [])
             (root / 'assets/reader.js').write_text("import { b } from './motion.js';")
             self.assertEqual(len(validate_asset_versions(root)), 1)
+
+    def test_cross_book_links_need_a_known_route(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            for book in ('a', 'b'):
+                (root / 'books' / book / 'js').mkdir(parents=True)
+                (root / 'books' / book / 'index.html').write_text(
+                    '<meta name="book-routes" content="home,one">')
+            (root / 'books/a/js/content.js').write_text("x = '<a href=\"../b/#one\">'")
+            self.assertEqual(validate_cross_links(root), [])
+            (root / 'books/a/js/content.js').write_text("x = '../b/index.html#gone'")
+            self.assertEqual(len(validate_cross_links(root)), 1)
 
     def test_nested_links_and_anchors(self):
         with tempfile.TemporaryDirectory() as name:
