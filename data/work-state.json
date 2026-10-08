@@ -54,7 +54,8 @@
     "서가 펼침 삽화 규칙 강화: LLM 시스템 책이 움직임 없는 삽화(정지 SVG에 애니메이션 흔적만 있음)로 출간된 원인은 규칙이 운영 지침에만 있고 AGENTS.md·docs/08·검사기에는 없었기 때문. AGENTS.md 책 구성 표준과 docs/08#shelf-art에 명시하고 validate.py validate_illustrations가 출간 책 삽화의 존재·@keyframes/SMIL 움직임·동작 줄이기 규칙을 검사. LLM 책 삽화를 340×180 서가 규격으로 다시 그림, 5권 모두 Chromium에서 펼쳐 실행 중 애니메이션 확인(LLM 10개, 동작 줄이기 0개).",
     "서가 진열 규칙: 색·이웃 색·분류 길이·분류 묶음·삽화를 생성기에서 검사하고 AGENTS.md·docs/04#shelf-display-rule에 기록, 책 사이 간격 1px",
     "책 추가 시 지식 지도·큐레이션 갱신 규칙을 검사로 강화: scripts/curation_rules.py가 공개된 책마다 장 색인·공통 개념 2개 이상·읽기 노선·나가는/들어오는 링크를 확인하고 validate.py에서 실패 처리; AGENTS.md와 docs/08#knowledge-links에 절차 기록; 지식 지도 책 배치를 타원 자동 배치로, 개념 배치를 겹침 없는 나선 탐색으로 변경; 다섯 번째 책 LLM 시스템을 개념 4개·노선 1개·들어오는 링크 2개로 연결",
-    "펼친 책을 스크롤 없이 화면에 맞춤(데스크톱은 삽화가 남는 높이 흡수, 휴대폰은 한 면씩 넘기기)과 서재 이름을 Jdeok.Lee의 서재로 변경(docs/06#fit-spread)"
+    "펼친 책을 스크롤 없이 화면에 맞춤(데스크톱은 삽화가 남는 높이 흡수, 휴대폰은 한 면씩 넘기기)과 서재 이름을 Jdeok.Lee의 서재로 변경(docs/06#fit-spread)",
+    "여섯 번째 책 '검색과 RAG · 질문에서 근거까지'를 books/rag/에 추가: 가상의 도서관 안내 문서 13개와 질문 13개로 10개 장·10개 실험(역색인·BM25·조각·임베딩·혼합·평가·재순위·컨텍스트 예산·답 보류), 장마다 움직이는 개념 그림, 표지 대표 실험, 서가 펼침 삽화와 닫힌 표지 그림. 책 테스트 30개, Chromium 1280·390·320px 38화면·30실험 조작 통과, 서가에서 삽화 애니메이션 확인. 새 분류 '지식관리'(rose), 새 공통 개념 '검색과 근거'와 기존 개념 5개에 장 추가, 새 읽기 노선 '지식은 어떻게 저장되고, 찾아지고, 연결되는가', AI Book·LLM 시스템·확률과 통계에서 들어오는 링크 3개. 지식 지도 높이를 700으로 늘려 개념 15개 배치(books/rag/docs/index.html)"
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": "AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
@@ -68,7 +69,8 @@
     "컴퓨터 책: Safari·Firefox·실기기·화면 낭독기·학습 효과 미확인 (books/computer/docs/index.html#verification)",
     "벡터와 행렬 책: 독자 학습 효과(L4), Safari·Firefox·실기기·화면 읽기 프로그램, 2장 터치 끌기는 미확인 (books/linear-algebra/docs/index.html#verification)",
     "확률과 통계: 학습 효과·Safari·Firefox·실기기 미확인, 참고 링크 6개는 네트워크 제한으로 미열람(books/probability/docs/index.html#limits)",
-    "책 구성 표준(docs/08)은 자동 검사기가 없고, AI Book 자체도 장 연결 문장·다음 장 이동 이유는 아직 미보강(docs/08-book-template.html#gaps)"
+    "책 구성 표준(docs/08)은 자동 검사기가 없고, AI Book 자체도 장 연결 문장·다음 장 이동 이유는 아직 미보강(docs/08-book-template.html#gaps)",
+    "검색과 RAG: Safari·Firefox·실기기·학습 효과(L4) 미확인, 참고 자료 URL 재열람 못 함, 지식 그래프 책 링크와 닫힌 표지 확인은 그 책·표지 규칙 병합 후 (books/rag/docs/index.html#verification)"
   ],
   "verified_content_commit": "e20171142bab3e94f650b256cde17a273788516d",
   "hub_url": "https://ljd6805.github.io/my-bookshelf/",

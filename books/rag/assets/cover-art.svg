@@ -1,0 +1,14 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="질문이 안내 문서 묶음에서 키워드와 의미 두 길로 후보를 찾고, 1위 근거 D2가 출처 번호와 함께 답으로 이어지는 검색 흐름" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="12" y="54" width="62" height="40" rx="6"/><text class="cv-text" x="20" y="70">질문</text><text class="cv-text cv-muted" x="20" y="84">늦게 돌려주면?</text>
+<path class="cv-line cv-thin" d="M74 66C92 66 92 40 108 40M74 82C92 82 92 110 108 110"/>
+<rect class="cv-tint" x="108" y="28" width="58" height="24" rx="4"/><text class="cv-text" x="114" y="44">키워드 BM25</text>
+<rect class="cv-tint" x="108" y="98" width="58" height="24" rx="4"/><text class="cv-text" x="114" y="114">의미 cos</text>
+<path class="cv-stroke" d="M166 40C182 40 182 75 196 75M166 110C182 110 182 75 196 75"/>
+<rect class="cv-bar" x="196" y="38" width="48" height="12" rx="1"/><text class="cv-text cv-muted" x="200" y="47">D3 0.70</text>
+<rect class="cv-fill" x="196" y="56" width="58" height="14" rx="1"/><text class="cv-text cv-inverse" x="200" y="66">D2 0.81</text>
+<rect class="cv-bar" x="196" y="76" width="44" height="12" rx="1"/><text class="cv-text cv-muted" x="200" y="85">D8 0.66</text>
+<rect class="cv-bar" x="196" y="94" width="32" height="12" rx="1"/><text class="cv-text cv-muted" x="200" y="103">D9 0.50</text>
+<path class="cv-line cv-dash" d="M254 63H268"/>
+<rect class="cv-node" x="268" y="44" width="44" height="40" rx="6"/><text class="cv-text" x="274" y="60">정지</text><text class="cv-text" x="274" y="72">30일</text><text class="cv-text cv-muted" x="274" y="96">[D2]</text>
+<path class="cv-hair" d="M12 136H312"/><text class="cv-text cv-muted" x="12" y="130">찾기 · 의미 · 평가 · 답하기</text>
+</svg>
