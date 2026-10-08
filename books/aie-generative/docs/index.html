@@ -1,0 +1,78 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>생성 모델 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">생성 모델 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>생성 모델 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 09권 《생성 모델 · 오토인코더에서 디퓨전과 플로까지》의 기획, 원본 레슨 대응, 구현, 검증을 한곳에 모았습니다. 작성일은 2026-10-08입니다. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 8 · Generative AI입니다. 원문과 코드는 옮기지 않았고, 개념과 순서만 참고해 새로 썼습니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: 신경망 학습과 트랜스포머의 기본(앞 권)은 알지만, 그림을 “만드는” 모델이 왜 흐려지거나 한 가지만 그리거나 느려지는지 설명해 본 적은 없는 사람입니다.</li>
+<li><b>끝의 행동</b>: 생성기에 들어온 이상 보고 한 줄(흐림, 다양성 손실, 느림, 의심스러운 점수 향상)을 읽고, 원인을 겨냥한 손잡이 하나와 더 필요한 증거를 고를 수 있습니다.</li>
+<li><b>공통 사례</b>: 그림책 작업실의 여우 캐릭터 “도토리” 그림 2,000장입니다. 그림을 특징값 하나로 줄이면 낮 장면 N(−2, 0.5²)과 밤 장면 N(+2, 0.5²)이 반반인 두 봉우리 분포가 됩니다. 모든 장의 실험이 같은 분포에 다른 생성기를 써 보게 하므로, 모델 사이의 차이가 데이터 차이와 섞이지 않습니다.</li>
+<li><b>이야기 방식</b>: 하나의 제품을 완성합니다. 장마다 생성기를 한 단계씩 바꾸고(밀도 추정 → VAE → GAN → 조건 → 디퓨전 → 잠재 디퓨전 → 제어 → 다른 매체 → 플로 → VAR), 앞 장에서 남은 문제(흐림, 모드 붕괴, 느림)가 새 도구로 어떻게 풀리는지 확인합니다. 11장에서는 그 개선을 숫자로 믿을 수 있는지 따지고, 마지막 장에서는 새 실패 보고에 이 손잡이들을 씁니다.</li>
+<li><b>범위</b>: 원본 Phase 8의 레슨 15개 전부(01~14, 19)를 다룹니다. 우도·분산·구간 추정은 확률과 통계 책에, 주성분·벡터·행렬 합성은 선형대수 책에, 어텐션과 토큰은 AI Book에, 가중치 메모리와 병목은 LLM 시스템 책에 맡기고 링크로 보냅니다. 이 책은 생성기를 고르고 조정하는 공학적 판단에 분량을 씁니다.</li>
+<li><b>증거</b>: 실험 16개 중 14개는 브라우저에서 실제로 계산합니다. 커널 밀도, β-VAE 닫힌 해, GAN 축소 모형, 정확한 잡음 예측기로 돌린 DDIM과 가이던스, LoRA 매개변수 수, SDEdit 유지 확률, 비디오 토큰 수, 정확한 주변 속도장의 플로 매칭, VAR 잔차 척도, 2차원 FID가 여기에 속합니다. 비디오 압축 비율과 VAR 밝기 줄은 교육용 가정값이고, 마지막 장의 판정은 미리 정한 시나리오입니다. 어느 쪽인지는 각 실험의 결과 문장에 적었습니다. 모델 이름과 연도는 원본 커리큘럼 기준(확인일 2026-10-08)입니다.</li>
+</ul>
+<p>부 구성: 생성의 지도(1~2장) · 압축과 적대(3~4장) · 디퓨전(5~8장) · 더 빠르게(9~10장) · 믿을 만하게(11~12장).</p>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>원본 Phase 8의 레슨 15개가 각각 어느 장에 들어갔는지 적었습니다. 각 장의 “더 읽어 보기”에 해당 레슨 폴더 링크가 있습니다.</p>
+<table><tr><th>원본 레슨</th><th>들어간 장</th><th>장에서 다룬 핵심</th></tr>
+<tr><td>01 Generative Models: Taxonomy and History</td><td>01 map</td><td>명시적 밀도·암묵적 모델·점수 기반의 갈래, 분포를 배운다는 뜻, 커널 밀도 추정과 띠폭</td></tr>
+<tr><td>02 Autoencoders &amp; VAE</td><td>02 vae, 12 final</td><td>병목과 재구성 오차, 재매개변수화, ELBO의 재구성·KL 거래, β와 사후 붕괴, 흐림의 원인</td></tr>
+<tr><td>03 GANs: Generator vs Discriminator</td><td>03 gan, 12 final</td><td>생성자와 판별자의 게임, 포화하지 않는 손실, 학습률 균형, 모드 붕괴</td></tr>
+<tr><td>04 Conditional GANs &amp; Pix2Pix</td><td>04 cond</td><td>조건 입력, 짝 데이터 번역, L1과 L2 재구성 손실의 차이, 패치 판별자</td></tr>
+<tr><td>05 StyleGAN</td><td>04 cond, 12 final</td><td>매핑망과 W 공간, 층별 스타일, 절단 ψ로 품질과 다양성 맞바꾸기</td></tr>
+<tr><td>06 Diffusion Models: DDPM from Scratch</td><td>05 ddpm, 12 final</td><td>순방향 노이즈, 선형·코사인 스케줄, 잡음 예측 목표, DDIM 결정적 샘플링과 단계 수</td></tr>
+<tr><td>07 Latent Diffusion &amp; Stable Diffusion</td><td>06 latent, 12 final</td><td>VAE 잠재 공간 압축, 텍스트 인코더와 교차 어텐션, 분류기 없는 가이던스와 과포화</td></tr>
+<tr><td>08 ControlNet, LoRA &amp; Conditioning</td><td>07 control</td><td>구조 조건, 얼린 기반 모델 옆의 복사본, 저랭크 어댑터의 매개변수 수</td></tr>
+<tr><td>09 Inpainting, Outpainting &amp; Editing</td><td>07 control</td><td>마스크 안만 다시 그리기, SDEdit 강도와 원본 유지의 거래</td></tr>
+<tr><td>10 Video Generation</td><td>08 media</td><td>3D VAE와 시공간 조각, 토큰 수, 전체 3D 어텐션과 나눈 어텐션의 비용</td></tr>
+<tr><td>11 Audio Generation</td><td>08 media</td><td>신경 오디오 코덱, 잔차 벡터 양자화, 초당 토큰 수</td></tr>
+<tr><td>12 3D Generation</td><td>08 media</td><td>3D 가우시안 스플래팅의 저장량, 다중 시점 디퓨전</td></tr>
+<tr><td>13 Flow Matching &amp; Rectified Flows</td><td>09 flow, 12 final</td><td>직선 경로와 속도장, 오일러 단계, 재흐름으로 경로 곧게 펴기, 몇 단계 생성</td></tr>
+<tr><td>14 Evaluation: FID, CLIP Score, Human Preference</td><td>11 eval, 12 final</td><td>FID 식과 표본 수 치우침, CLIP 점수의 코사인 유사도, 사람 선호 평가의 한계</td></tr>
+<tr><td>19 Visual Autoregressive Modeling</td><td>10 var</td><td>다음 토큰이 아닌 다음 척도 예측, 잔차 다중 척도, 패스 수와 토큰 수</td></tr>
+</table>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li>파일 구성은 다음과 같습니다. <code>js/math.js</code>(순수 계산), <code>js/content.js</code>(모든 글과 출처 50개), <code>js/visual.js</code>(공통 UI에 분포 막대 <code>hist</code>와 산점도 <code>scatter</code> 추가), <code>js/figures.js</code>(장마다 움직이는 개념 그림 12개), <code>js/labs-shape.js</code>·<code>labs-diffusion.js</code>·<code>labs-speed.js</code>(실험 16개), <code>js/home-lab.js</code>(표지 대표 실험: 순방향 디퓨전 단계 t와 두 봉우리 밀도), <code>js/lab-guides.js</code>, <code>js/app.js</code>.</li>
+<li>전역 접두어는 <code>A09</code>, 서가 삽화 접두어는 <code>a09-ill-</code>, 진도 키는 <code>bookshelf:aie-09-generative:v1:progress</code>입니다.</li>
+<li>계산 모형은 두 가우스 혼합 하나에 모았습니다. 혼합의 점수는 닫힌 식이므로 최적 잡음 예측기 ε* = −√(1−ᾱ)·∇log p를 신경망 없이 정확히 계산합니다. DDIM, 가이던스(조건부 = 밤 장면, 무조건부 = 혼합), 플로 매칭의 주변 속도장 E[x₁ − x₀ | x_t]도 같은 방식으로 정확히 구합니다. 따라서 실험에서 보이는 흐림이나 과포화는 학습 오차가 아니라 샘플러 자체의 성질입니다. 이 가정은 결과 문장에 밝혔습니다.</li>
+<li>β-VAE는 선형 가우스 VAE의 닫힌 해를 씁니다. 축 분산 λ가 β/2보다 클 때만 그 축을 쓰고, 재구성 오차는 β/2, KL은 ½ln(2λ/β)입니다. GAN은 생성자 비율 하나와 로지스틱 판별자 두 수로 된 축소 모형입니다.</li>
+<li>강조색은 라벤더입니다(어두운 화면 #c9b6ff, 밝은 화면 #5b3fb0). 밝은 화면의 주 버튼 글자는 흰색으로 바꿔 대비를 지켰습니다.</li>
+<li>서가 삽화 <code>assets/shelf-illustration.svg</code>에서는 흩어진 노이즈 점들이 낮·밤 두 봉우리로 모이고 봉우리가 솟아오릅니다(시각적 비유). 동작 줄이기 두 규칙에서는 멈춥니다. 표지 그림 <code>assets/cover-art.svg</code>는 노이즈 상자에서 두 봉우리로 갈라지는 정지 그림이며 cv-* 클래스만 씁니다.</li>
+<li>나가는 링크는 다음과 같습니다. 1장 → 확률과 통계 #likelihood·AI Book #generation, 2장 → 선형대수 #pca·확률과 통계 #spread, 3장 → AI Book #learning, 4장 → AI Book #vision, 5장 → 확률과 통계 #spread, 6장 → AI Book #attention·LLM 시스템 #weights, 7장 → 선형대수 #matrix·#compose, 8장 → AI Book #tokens·LLM 시스템 #bottleneck, 9장 → 선형대수 #vectors, 10장 → AI Book #generation, 11장 → 확률과 통계 #interval·선형대수 #similarity, 12장 → 확률과 통계 #testing. 서재 등록 제안은 <a href="registration.json">registration.json</a>에 있습니다.</li>
+</ul>
+</section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p>검증일은 2026-10-08입니다. 실제 생성 모델을 학습하거나 GPU에서 측정한 검증은 아닙니다.</p>
+<ul>
+<li><b>계산 검사</b>: <code>npm test --prefix books/aie-generative</code>를 통과했습니다. 계산 함수마다 대표값·경계값·불변 조건을 확인합니다. 예를 들어 1단계 DDIM은 모두 흐린 중간에 떨어지고 20단계는 95% 이상이 장면에 닿는지, β = 2λ에서 재구성과 KL이 연속인지, 신호² + 잡음² = 1인지, 재흐름 경로는 1단계 오차가 0인지, 같은 분포의 FID는 0이고 대칭인지, 10초 1080p 패치 2의 토큰이 489,600개인지 확인합니다.</li>
+<li><b>브라우저 검사</b>: <code>tests/browser.cjs</code>로 1280·390·320px에서 표지와 12장을 열었습니다. 실험 16개마다 예제 버튼, 입력 최솟값과 최댓값, 선택 상자의 모든 값, 초기화를 눌러 결과 문장에 NaN·undefined가 없는지 봤습니다. 확인 문제의 정답·오답 반응, 가로 넘침, 서가로 버튼, 목차 열고 닫기, 콘솔 오류도 확인했습니다.</li>
+<li><b>팩트·출처 검수</b>: 집필하지 않은 에이전트가 사실·수치·실험·용어·출처를 검수하고 <a href="fact-review.html">팩트·출처 검수 기록</a>에 남겼습니다(2026-10-08, 결과 fixed).</li>
+<li><b>눈으로 확인</b>: 표지, 개념 그림, 320px 실험 스크린숏을 열어 글자 겹침과 잘림을 봤습니다.</li>
+<li><b>확인하지 못한 것</b>: 실제 독자의 학습 효과(L4)는 측정하지 않았습니다. 모델 이름과 연도는 원본 커리큘럼 기준이며, 집필하지 않은 검수 에이전트가 논문·공식 자료와 대조한 결과는 팩트·출처 검수 기록에 있습니다. 서가에서 삽화가 움직이는지는 서재 등록 뒤에 확인해야 합니다.</li>
+</ul>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>density 커널 밀도</td><td>확인</td><td>확인</td><td>확인: 구간 [1.5, 2.5]의 참값 0.341과 대조, 띠폭에 따른 봉우리 수</td><td>미확인</td></tr>
+<tr><td>bottleneck 병목 크기</td><td>확인</td><td>확인</td><td>확인: 버린 분산 = 오차, k=8에서 0</td><td>미확인</td></tr>
+<tr><td>beta β-VAE</td><td>확인</td><td>확인</td><td>확인: 닫힌 해 문턱 λ &gt; β/2, 경계 연속, 완전 붕괴</td><td>미확인</td></tr>
+<tr><td>balance GAN 학습률</td><td>확인</td><td>확인</td><td>부분: 세 수 축소 모형의 수렴·붕괴만 확인, 실제 GAN과는 대조하지 않음</td><td>미확인</td></tr>
+<tr><td>l1l2 재구성 손실</td><td>확인</td><td>확인</td><td>확인: 두 갈래 정답에서 L2 최소점이 평균인지 손계산</td><td>미확인</td></tr>
+<tr><td>truncation 절단 ψ</td><td>확인</td><td>확인</td><td>확인: 다양성이 ψ배, ψ=0이면 모두 안쪽</td><td>미확인</td></tr>
+<tr><td>schedule 노이즈 스케줄</td><td>확인</td><td>확인</td><td>확인: 단조 감소, t=300 신호 0.63·0.887</td><td>미확인</td></tr>
+<tr><td>steps DDIM 단계 수</td><td>확인</td><td>확인</td><td>확인: 정확한 예측기, 1단계 흐림 100%, 20단계 장면 97%</td><td>미확인</td></tr>
+<tr><td>cfg 가이던스</td><td>확인</td><td>확인</td><td>확인: w=0 평균 2.0, w가 클수록 평균 이동·분산 감소</td><td>미확인</td></tr>
+<tr><td>lora 랭크</td><td>확인</td><td>확인</td><td>확인: 640·16에서 20배, r = d/2에서 같음</td><td>미확인</td></tr>
+<tr><td>sdedit 편집 강도</td><td>확인</td><td>확인</td><td>확인: 단조 감소, 최대 강도에서 약 51%</td><td>미확인</td></tr>
+<tr><td>video 비디오 토큰</td><td>확인</td><td>확인</td><td>부분: 토큰 계산은 확인, 압축 비율은 교육용 가정</td><td>미확인</td></tr>
+<tr><td>flowsteps 플로 단계</td><td>확인</td><td>확인</td><td>확인: 단계가 늘면 오차 감소, 곧은 경로는 1단계 정확(학습 완벽 가정)</td><td>미확인</td></tr>
+<tr><td>scales VAR 척도</td><td>확인</td><td>확인</td><td>확인: 척도 추가 시 오차 단조 감소, 5척도에서 0, 토큰 341개</td><td>미확인</td></tr>
+<tr><td>fid FID 표본 수</td><td>확인</td><td>확인</td><td>확인: 닫힌 식과 대조, 작은 N의 양의 치우침. 2048차원 실제 FID는 아님</td><td>미확인</td></tr>
+<tr><td>triage 마지막 과제</td><td>확인</td><td>확인</td><td>시나리오: 보고마다 원인을 겨냥한 손잡이가 정확히 하나인지 확인</td><td>미확인</td></tr>
+</table>
+</section>
+</main></body></html>

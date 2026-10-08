@@ -1,0 +1,80 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>음성과 오디오 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">음성과 오디오 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>음성과 오디오 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 07권 《음성과 오디오 · 파형에서 대화하는 목소리까지》의 기획, 원본 레슨 대응, 구현, 검증을 한곳에 모았습니다. 작성일 2026-10-08. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 6 · Speech &amp; Audio이며, 원문과 코드를 옮기지 않고 개념과 순서만 참고해 새로 썼습니다. 모델 이름·벤치마크 수치·규제 일정은 원본 커리큘럼 기준(확인일 2026-10-08)입니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: 자연어 처리와 트랜스포머의 기초는 알지만 소리를 직접 다뤄 본 적은 없는 사람. “Whisper를 붙이면 된다”는 말은 들었어도, 왜 첫 소리가 잘리고 조용할 때 없는 문장이 적히고 대답이 굼뜬지 설명하지 못합니다.</li>
+<li><b>끝의 행동</b>: 음성 비서에 대한 사용자 불만 한 줄을 받고, 그 불만을 잴 지표(WER의 S·D·I, VAD 켜짐 시각, 지연 P95, 집단별 WER)로 바꾼 뒤, 원인을 겨누는 고침과 다시 잴 방법을 고를 수 있습니다.</li>
+<li><b>공통 사례</b>: 후드 팬이 도는 부엌의 음성 비서 솔이와 한 문장 “솔아, 타이머 오 분 맞춰 줘”. 1장에서는 이 문장을 숫자 열로 받아 적고, 장마다 부품을 하나씩 더해 마지막 장에서는 출시 뒤 들어온 불만을 진단합니다. 1장을 뺀 모든 장의 첫 문단은 앞 장에서 솔이가 얻은 부품과 그 부품이 남긴 문제로 시작합니다.</li>
+<li><b>이야기 방식</b>: 하나의 제품을 완성한다. 소리 읽기 → 알아듣기 → 목소리 만들기 → 대화와 신뢰 순서로 부품을 쌓습니다. 마지막 장은 새 상황(출시 후 불만 네 가지)에 앞 장의 도구를 쓰게 합니다.</li>
+<li><b>범위</b>: 원본 Phase 6의 레슨 17개 전부. 비트와 정수 표현은 컴퓨터 원리 책에, 합성곱과 어텐션의 원리는 AI Book에, 첫 토큰 지연과 양자화는 LLM 시스템 책에, 기저율·이항 분포·검정·신뢰구간은 확률과 통계 책에 맡기고 링크로 보냅니다. 이 책은 음성 시스템의 공학적 판단(어디서 자르고, 무엇을 기다리고, 무엇으로 재는가)에 분량을 씁니다. 음악 생성(레슨 09)은 코덱 토큰 장에서 토큰 예산 사례로만 다룹니다.</li>
+<li><b>증거</b>: 실험 16개 중 대부분은 원본 레슨의 공식을 브라우저에서 실제로 계산합니다(나이퀴스트와 접힘, STFT 프레임·빈 수, 멜 필터뱅크와 빈 필터, 클래스별 재현율·F1, CTC 축약, 편집 거리 WER, 30초 창 나누기, 정규분포 FAR·FRR·EER, 길이 조절, RVQ 잔차, 코덱 비트레이트, 지연 합, VAD 구간 판정, 이항 분포 워터마크 검출, 가중 평균 WER). 점수 분포·음절 프레임 수·VAD 확률 열·쉼 길이는 이 책의 가정값이고, 불만 진단은 미리 정한 시나리오입니다. 각 실험의 결과 문장에 어느 쪽인지 적었습니다.</li>
+</ul>
+<p>부 구성: 소리 읽기(1~3장) · 알아듣기(4~6장) · 목소리 만들기(7~8장) · 대화와 신뢰(9~12장).</p>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>원본 Phase 6의 레슨 17개가 모두 어느 장에 들어갔는지 적습니다. 각 장의 “더 읽어 보기”와 출처 화면에 해당 레슨 폴더 링크가 있습니다.</p>
+<table><tr><th>원본 레슨</th><th>들어간 장</th><th>장에서 다룬 핵심</th></tr>
+<tr><td>01 Audio Fundamentals</td><td>01 wave</td><td>샘플링 주파수, 나이퀴스트와 앨리어싱, 비트 깊이와 PCM, 정수→실수 변환, 16 kHz 모노 표준</td></tr>
+<tr><td>02 Spectrograms &amp; Mel Features</td><td>02 mel</td><td>STFT 창과 홉, 시간·주파수 해상도의 교환, 멜 척도와 필터뱅크, 로그 멜, MFCC와의 차이, 빈 필터</td></tr>
+<tr><td>03 Audio Classification</td><td>03 classify</td><td>로그 멜 위의 CNN·AST, 클래스 불균형과 정확도의 함정, 매크로 F1, SpecAugment</td></tr>
+<tr><td>04 Speech Recognition (ASR)</td><td>04 asr, 12 final</td><td>CTC 공백과 축약, 탐욕·빔 디코딩, RNN-T, WER의 S·D·I, 채점 전 정규화</td></tr>
+<tr><td>05 Whisper Architecture &amp; Fine-Tuning</td><td>05 whisper</td><td>30초 창과 덧댄 침묵, 인코더·디코더와 특수 토큰, 침묵 환각, 긴 녹음 나누기, LoRA 미세조정 비율</td></tr>
+<tr><td>06 Speaker Recognition &amp; Verification</td><td>06 speaker</td><td>화자 임베딩과 길이 정규화, 코사인 점수, 등록과 확인, FAR·FRR·EER, 잡음과 짧은 발화</td></tr>
+<tr><td>07 Text-to-Speech</td><td>07 tts</td><td>텍스트 정규화, 음향 모델과 보코더, 길이 예측과 말 속도, 자기회귀와 비자기회귀</td></tr>
+<tr><td>08 Voice Cloning &amp; Conversion</td><td>07 tts, 11 safety</td><td>몇 초 녹음으로 복제, 음성 변환, 동의와 오남용, 위조 위험</td></tr>
+<tr><td>09 Music Generation</td><td>08 codec</td><td>코덱 토큰 위의 생성, 코드북 층과 토큰 예산(MusicGen 사례)</td></tr>
+<tr><td>10 Audio-Language Models</td><td>05 whisper</td><td>인코더 + 프로젝터 + LLM 구조, 오디오 토큰 수와 묶기</td></tr>
+<tr><td>11 Real-Time Audio Processing</td><td>09 pipeline</td><td>프레임 버퍼, 스트리밍과 일괄 처리, 단계별 지연</td></tr>
+<tr><td>12 Voice Assistant Pipeline</td><td>09 pipeline</td><td>VAD → STT → LLM → TTS 연결, 지연 예산표, TTS가 기다리는 토큰 수</td></tr>
+<tr><td>13 Neural Audio Codecs</td><td>08 codec</td><td>잔차 벡터 양자화, 프레임 속도 × 코드북 수 = 토큰, 비트레이트, 의미 토큰과 음향 토큰</td></tr>
+<tr><td>14 VAD &amp; Turn-Taking</td><td>10 turn</td><td>음성 확률과 문턱, 최소 길이, 사전 버퍼, 침묵 대기(행오버), 끼어들기, 흘려보내기</td></tr>
+<tr><td>15 Streaming Speech-to-Speech</td><td>10 turn</td><td>반이중과 전이중, 맞장구, 80 ms 프레임의 동시 듣기·말하기(Moshi 사례)</td></tr>
+<tr><td>16 Anti-Spoofing &amp; Audio Watermarking</td><td>11 safety</td><td>위조 탐지, 워터마크 비트와 이항 검출, 출처 서명, 다시 인코딩·음높이 변경 공격</td></tr>
+<tr><td>17 Audio Evaluation Metrics</td><td>12 final</td><td>WER·CER, 집단별 지표, 지연 백분위, 지표 묶음과 불만 대응</td></tr>
+</table>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li>파일: <code>js/math.js</code>(순수 계산), <code>js/content.js</code>(모든 글과 출처 47개), <code>js/visual.js</code>(공통 UI, 상태 목록 <code>rows</code>, 정렬 칸 <code>cells</code>), <code>js/figures.js</code>(장마다 움직이는 개념 그림 12개), <code>js/labs-signal.js</code>·<code>labs-listen.js</code>·<code>labs-voice.js</code>·<code>labs-talk.js</code>(실험 16개), <code>js/home-lab.js</code>(표지 대표 실험: 침묵 대기 시간과 솔이의 첫 소리까지 걸리는 시간), <code>js/lab-guides.js</code>, <code>js/app.js</code>.</li>
+<li>전역 접두어 <code>A07</code>, 서가 삽화 접두어 <code>a07-ill-</code>, 진도 키 <code>bookshelf:aie-07-audio:v1:progress</code>, 자산 버전 <code>?v=20261008-aie2</code>.</li>
+<li>모바일에서 SVG 글자가 커지는 공통 규칙 때문에 CTC 축약·WER 정렬은 HTML 칸(<code>.a07-cells</code>)으로, 불만 진단은 상태 목록(<code>.a07-rows</code>)으로 그렸습니다. 칸의 상태는 색과 함께 “남김·반복 합침·공백 삭제·대체·삭제·삽입” 글자로도 보입니다. 침묵 대기 실험의 그림은 390px에서 글자가 겹쳐, 말 조각에 번호를 붙이고 쉼마다 판정을 글자로 적는 방식으로 다시 그렸습니다.</li>
+<li>강조색은 산호색(어두운 화면 #ffa58f, 밝은 화면 #a33a1f)입니다. 공통 주황과 구별되지 않아 이 책의 <code>--orange</code>를 호박색(#f2c75c, 밝은 화면 #86650a)으로 바꿨고, 밝은 화면의 주 버튼 글자는 흰색으로 바꿔 대비를 지켰습니다. 그림과 결과 문장에서 “초록” 같은 색 이름에 기대지 않고 점선·실선·회색처럼 모양으로 구별합니다.</li>
+<li>서가 삽화 <code>assets/shelf-illustration.svg</code>: 부엌의 말소리 파형이 점으로 찍히고, 멜 스펙트로그램 칸이 왼쪽부터 밝아진 뒤, 스피커에서 대답 파형이 퍼져 나갑니다(시각적 비유). @keyframes 네 개, 동작 줄이기 두 규칙(<code>prefers-reduced-motion</code>, <code>html[data-motion=reduce]</code>)에서 멈춥니다. 표지 그림 <code>assets/cover-art.svg</code>는 같은 장면의 정지 그림입니다.</li>
+<li>나가는 링크: 1장 → 컴퓨터 원리 #bits·#encoding, 2장 → 벡터와 행렬 #matrix, 3장 → AI Book #vision·확률과 통계 #bayes, 4장 → 확률과 통계 #likelihood, 5장 → AI Book #attention·LLM 시스템 #parameters, 6장 → 벡터와 행렬 #similarity·확률과 통계 #bayes, 7장 → AI Book #generation, 8장 → LLM 시스템 #weights, 9장 → LLM 시스템 #phases, 10장 → 확률과 통계 #binomial, 11장 → 확률과 통계 #testing, 12장 → 확률과 통계 #interval·AI Book #generalization. 이전 권 링크는 <code>../aie-nlp/</code>(자연어 처리)입니다. 서재 등록 제안(장 색인, 공통 개념 다섯 개, 읽기 노선 정거장 #turn, 들어오는 링크 세 개)은 <code>docs/registration.json</code>에 있습니다.</li>
+</ul>
+</section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p>검증일 2026-10-08. 실제 음성을 녹음하거나 Whisper·TTS·코덱 모델을 실행해 잰 검증은 아닙니다.</p>
+<ul>
+<li><b>계산 검사</b>: <code>npm test --prefix books/aie-audio</code> 23개 통과. 계산 함수마다 대표값·경계값·불변 조건을 확인합니다(예: 10 kHz로 찍은 7 kHz는 3 kHz, 접힌 주파수는 언제나 나이퀴스트 이하, 25 ms·10 ms 창으로 10초는 998프레임, 멜 필터 128개를 n_fft 400에 두면 빈 필터가 생김, CTC에서 공백 사이의 5는 둘 다 남음, S + D + I = 편집 수, 삽입으로 WER이 100%를 넘을 수 있음, 600초는 겹침 5초로 창 24개, EER 문턱에서 FAR = FRR, RVQ 오차가 코드북마다 줄어듦, 지연 예산 합 400 ms, 흘려보내기로 375 ms 절약, 워터마크 오탐 확률 137/65,536, 가중 평균 WER 5.3%).</li>
+<li><b>브라우저 검사</b>: <code>tests/browser.cjs</code>로 1280·390·320px에서 표지와 12장을 열고(화면 42개), 실험 16개마다(세 폭 합계 48회) 예제 버튼·입력 최솟값과 최댓값·선택 상자 모든 값·초기화를 눌러 결과 문장에 NaN·undefined가 없는지, 확인 문제 정답·오답 반응, 가로 넘침, 서가로 버튼, 목차 열고 닫기, 콘솔 오류 없음을 확인했습니다. 결과는 <code>docs/evidence/browser-results.json</code>.</li>
+<li><b>눈으로 확인</b>: 12개 개념 그림과 1280·390px 실험 32장을 열어 글자 겹침·잘림을 보고 고쳤습니다(파이프라인 문턱 글자 겹침, 코덱 막대 넘침, 말차례 대답 잘림, 안전 장 층 이름 겹침, 마지막 장 막대 잘림, 동작 줄이기에서 긴 선이 덜 그려지는 문제, 390px 침묵 대기 그림 겹침, 45초 녹음에서 덧댄 침묵이 그림 밖으로 나가는 문제, 밝은 화면에서 강조색과 주황이 구별되지 않는 문제). 증거 스크린숏: <code>docs/evidence/home-desktop.png</code>, <code>figure-desktop.png</code>, <code>lab-desktop.png</code>, <code>lab-light.png</code>, <code>lab-mobile.png</code>.</li>
+<li><b>팩트·출처 검수</b>: 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인하고 오류 10건을 고친 기록은 <a href="fact-review.html">fact-review.html</a>에 있습니다.</li>
+<li><b>수치 대조</b>: 실험 안내의 “결과 읽기” 문장에 적힌 숫자(예: 1.5배 속도 60프레임·0.6초, 0.7배와 쉼 1.48초, 균형 잡힌 분류기의 매크로 F1이 거의 두 배)는 node로 계산 함수를 불러 대조했습니다.</li>
+</ul>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>alias 앨리어싱</td><td>확인</td><td>확인</td><td>확인: 원본 예(10 kHz·7 kHz → 3 kHz), 나이퀴스트 경계</td><td>미확인</td></tr>
+<tr><td>stft 창 크기</td><td>확인</td><td>확인</td><td>확인: 프레임·빈 수, 창이 길수록 빈 간격 감소</td><td>미확인</td></tr>
+<tr><td>melbank 멜 필터뱅크</td><td>확인</td><td>확인</td><td>확인: 1000 Hz ≈ 1000 mel, 왕복 변환, 빈 필터 수</td><td>미확인</td></tr>
+<tr><td>imbalance 정확도</td><td>확인</td><td>확인</td><td>확인: 다수결 분류기의 매크로 재현율 1/3, 행 합 보존</td><td>미확인</td></tr>
+<tr><td>ctc 축약</td><td>확인</td><td>확인</td><td>확인: 네 경로와 세 규칙의 결과 손계산</td><td>미확인</td></tr>
+<tr><td>wer 단어 오류율</td><td>확인</td><td>확인</td><td>확인: S·D·I 대표 사례, 정규화 후 0%</td><td>미확인</td></tr>
+<tr><td>chunks 30초 창</td><td>확인</td><td>확인</td><td>확인: 창 수, 덧댄 침묵 비율, 오디오 토큰 수. 실제 도구의 겹침 처리와는 대조하지 않음</td><td>미확인</td></tr>
+<tr><td>eer 화자 확인</td><td>확인</td><td>확인</td><td>확인: 정규분포 누적확률, EER 지점. 점수 분포는 가정값</td><td>미확인</td></tr>
+<tr><td>duration 길이 예측</td><td>확인</td><td>확인</td><td>확인: 속도 배율별 프레임 합, 최소 1프레임</td><td>미확인</td></tr>
+<tr><td>rvq 코덱</td><td>확인</td><td>확인</td><td>확인: 잔차 단조 감소, 원본의 토큰·비트레이트 계산</td><td>미확인</td></tr>
+<tr><td>budget 지연 예산</td><td>확인</td><td>확인</td><td>확인: 원본 예산표 합 400 ms, 토큰 대기 추가</td><td>미확인</td></tr>
+<tr><td>vad 문턱</td><td>확인</td><td>확인</td><td>시나리오: 문턱 0.3·0.5·0.7의 잘림과 오작동, 사전 버퍼 효과</td><td>미확인</td></tr>
+<tr><td>hangover 침묵 대기</td><td>확인</td><td>확인</td><td>확인: 쉼 300·650 ms에 대한 끼어듦 판정, 흘려보내기 차이 375 ms</td><td>미확인</td></tr>
+<tr><td>watermark 워터마크</td><td>확인</td><td>확인</td><td>확인: 이항 확률 합 1, p에 대한 단조성, 오탐 확률</td><td>미확인</td></tr>
+<tr><td>slices 집단별 WER</td><td>확인</td><td>확인</td><td>확인: 가중 평균 손계산. 집단 WER은 가정값</td><td>미확인</td></tr>
+<tr><td>triage 불만 진단</td><td>확인</td><td>확인</td><td>시나리오: 불만 네 가지 × 고침의 판정표 검토</td><td>미확인</td></tr>
+</table>
+<p><b>확인하지 못한 것</b>: L4(대표 독자가 새 조건에서 설명하는지)는 사람 검토가 필요해 하지 못했습니다. 서가에서 책을 펼쳐 삽화가 움직이는지는 서재 등록 뒤 서재 관리자가 눈으로 확인해야 합니다(이 작업에서는 catalog.json을 고치지 않았습니다. 삽화 파일의 @keyframes와 동작 줄이기 규칙은 확인했습니다). 루트 <code>validate.py</code>와 <code>build_catalog.py --check</code>는 등록 전이라 이 책을 대상으로 돌리지 않았습니다. 실제 오디오 처리와 모델 추론은 하지 않았으므로 지연·WER·EER의 구체적 수치는 원본 레슨이나 가정값에 기댑니다. 모델 이름·벤치마크·지연 수치(예: 사람끼리 말차례 약 230 ms, 2022년 일괄 처리 약 2,500 ms)는 원본 커리큘럼 기준(확인일 2026-10-08)이며 공식 출처로 다시 확인하지 않았습니다. 이전 권 <code>../aie-nlp/</code>는 같은 시기에 만들어지는 중이라 링크가 열리는지 확인하지 못했습니다.</p>
+</section>
+<footer><a href="index.html">문서 허브</a> · <a href="../index.html">책 읽기</a> · <a href="../../../index.html">서가</a></footer></main></body></html>

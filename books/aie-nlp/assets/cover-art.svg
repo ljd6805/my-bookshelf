@@ -1,0 +1,13 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="마루책방 고객 문의함에 쌓인 문의 쪽지들 가운데 한 통이 낱말 조각으로 나뉘어 배송, 환불, 신간 세 칸으로 나눠 담기는 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="14" y="34" width="86" height="88" rx="6"/><path class="cv-hair" d="M24 52h66M24 66h66M24 80h66M24 94h52"/><text class="cv-text cv-muted" x="57" y="114" text-anchor="middle">문의함</text>
+<path class="cv-bus" d="M100 78H128"/>
+<rect class="cv-node" x="128" y="58" width="34" height="40" rx="4"/><text class="cv-text" x="145" y="83" text-anchor="middle">환불</text>
+<rect class="cv-node" x="166" y="58" width="34" height="40" rx="4"/><text class="cv-text" x="183" y="83" text-anchor="middle">언제</text>
+<path class="cv-bus" d="M200 78H222"/>
+<rect class="cv-node" x="222" y="22" width="86" height="30" rx="4"/><text class="cv-text cv-muted" x="265" y="42" text-anchor="middle">배송</text>
+<rect class="cv-node" x="222" y="62" width="86" height="34" rx="4"/><text class="cv-big" x="265" y="86" text-anchor="middle">환불</text>
+<rect class="cv-node" x="222" y="106" width="86" height="30" rx="4"/><text class="cv-text cv-muted" x="265" y="126" text-anchor="middle">신간</text>
+<path class="cv-hair" d="M222 37h-10v84h10"/>
+<text class="cv-text" x="145" y="134" text-anchor="middle">낱말을 주제로</text>
+<text class="cv-text cv-muted" x="57" y="22" text-anchor="middle">마루책방</text>
+</svg>

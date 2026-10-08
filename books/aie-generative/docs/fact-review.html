@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="생성 모델 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 생성 모델</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · 생성 모델</h1>
+<p>「AI 엔지니어링 처음부터」 09권 《생성 모델 · 오토인코더에서 디퓨전과 플로까지》를 집필하지 않은 에이전트가 검수한 기록입니다. 다시 검수하면 새 회차를 위에 더합니다. <a href="index.html">제작 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-generative)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-generative)" data-date="2026-10-08" data-scope="12개 장 본문·식·안내 상자·확인 문제·용어집, 16개 실험 계산(js/math.js), 그림 캡션 11개, 표지 실험, 출처 48개(검수 후 50개)와 다른 책 링크 16개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-generative). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-generative). 범위: 12개 장 본문·식·안내 상자·확인 문제·용어집, 16개 실험 계산, 그림 캡션, 표지 실험, 출처 목록과 다른 책 링크. 원본 대조는 로컬 사본의 <code>phases/08-generative-ai/*/docs/en.md</code> 15개 레슨으로 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>3건 수정</td><td>모델 이름·연도·규모를 원본 레슨과 대조하고, 원본과 다르거나 원본이 의심스러운 것은 논문 초록·공개 가중치·공식 설정 파일로 확인했습니다(v-예측 사용 모델, ControlNet·IP-Adapter 규모, HPSv2 데이터 규모).</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>안내 상자 “결과 읽기” 16개, 확인 문제 해설, 그림 캡션의 숫자를 node로 js/math.js를 불러 다시 계산했습니다. 예: 구간 참값 0.3413, k=3 보존 88.0%, β=0.1·1·5에서 살아 있는 차원 7·4·1, t=300 신호 0.630(선형)·0.887(코사인), t=700 선형 0.084, DDIM 1·3·20단계 장면 비율 0·70.5·97%, CFG w=0·3·9 평균 1.98·2.63·3.22, SDEdit 0.3·0.6·0.9 유지 94.8·62.8·51.3%, 비디오 1,492,992,000바이트·토큰 489,600·122,400, VAR 오차 0.083·0.013·0, FID N=50 평균 0.086(범위 0.013~0.175), FID 그림 이동 1·σ 0.6에서 1.32, 3DGS 100만 개 236MB, 코덱 K=8에서 600토큰·6kbps.</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>책 코드와 따로 식을 유도해 대조했습니다. 선형 β-VAE 닫힌 해(λ &gt; β/2일 때 재구성 β/2, KL ½ln(2λ/β))는 Python 격자 최적화로 λ=5·0.3·2.4·1.2의 최소 손실이 일치함을 확인했습니다. 혼합 가우스의 정확한 잡음 예측기 ε* = −√(1−ᾱ)∇log p, DDIM(η=0) 갱신, CFG (1+w)ε_c − wε_u, 코사인 스케줄(s=0.008, β ≤ 0.999), 플로 매칭 조건부 기댓값 E[x₁−x₀|x_t], SDEdit 유지 확률 Φ(2√ᾱ/√(1−ᾱ)), 2×2 행렬의 Tr√(Σ₁Σ₂) = √(tr+2√det)와 정확한 FID = 이동² + 2(1−σ)², GAN 축소 모형의 판별자·비포화 생성자 기울기, 포화·비포화 로짓 기울기 D·1−D를 각각 확인했습니다. 실제 계산·교육용 가정·시나리오 표시도 실험 결과 문장과 맞습니다(재흐름 1단계는 “학습 완벽 가정”으로 표시됨).</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>명시적·암시적 밀도, 재매개화, 사후 붕괴, 비포화 손실, 모드 붕괴, 절단 기법, 노이즈 스케줄, 신호대잡음비, 분류기 없는 가이던스, 영 합성곱, 잔차 벡터 양자화, 플로 매칭·정류 플로·재흐름, 다음 척도 예측의 번역어와 영어 원어 대응을 확인했고 책 안에서 일관되게 쓰입니다.</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>1건 수정, 2개 추가</td><td>원본 레슨 15개 폴더가 로컬 사본에 있는지, arXiv 번호 30개가 해당 논문(제목·저자·연도)인지 확인했습니다(HPSv2·IP-Adapter·Stein·CMMD·RePaint·Encodec·VAR 7편과 Sora 보고서는 페이지를 열어 확인, 나머지는 번호·제목·연도를 알려진 서지와 대조. 이 환경에서 arXiv API 일괄 조회는 프록시가 막았습니다). 장마다 source 번호(0부터 셈)가 그 장 내용과 맞고, 다른 책 링크 16개의 도착 장 ID가 각 책 book-routes에 있으며 제목과 이동 이유가 맞습니다. 원본 커리큘럼 크레딧(MIT)은 참고 자료 첫 항목과 꼬리말에 있습니다. 3장 본문이 같은 장의 그림을 “4장 그림”으로 가리키던 것을 고쳤습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#ddpm 함정과 서비스 손잡이 (js/content.js)</td><td>v-예측(v = α·ε − σ·x)을 “원본 기준으로 SDXL·SD3·Flux가 씁니다”라고 적음. 원본 레슨 06의 문장이지만 사실과 다름</td><td>SDXL base 1.0의 공식 scheduler_config.json은 prediction_type "epsilon". SD3·Flux는 정류 플로(속도 x₁ − x₀) 목표를 씀(원본 레슨 07·13도 플로 매칭으로 설명)</td><td>SD 2.x 768 모델이 v-예측을 쓰고, SDXL 기본 모델은 ε-예측, SD3·Flux는 플로 매칭 속도를 예측한다고 고치고 원본과의 차이를 밝힘</td></tr>
+<tr><td>#control ControlNet과 LoRA를 수식으로</td><td>ControlNet을 “SDXL용 약 360M, SD 1.5용 약 70M의 작은 옆 모델”로 적음(원본 레슨 08 인용). 인코더 절반을 복제한 모델이라 SD 1.5용도 수억 개 매개변수</td><td>lllyasviel/ControlNet-v1-1의 SD 1.5용 .pth가 모두 1.45GB(fp32, 약 3.6억 매개변수). 70M대는 T2I-Adapter(약 77M, Diffusers 문서)의 규모</td><td>SD 1.5용 약 3.6억 개 매개변수로 고치고 원본 수치와의 차이를 밝힘</td></tr>
+<tr><td>#control IP-Adapter</td><td>“약 20MB 어댑터”로 적음(원본 인용). 논문은 파일 크기가 아니라 매개변수 22M을 밝힘</td><td>Ye et al. (2023) 초록 “only 22M parameters”</td><td>“약 2,200만(22M) 매개변수의 작은 어댑터”로 고치고 IP-Adapter 논문을 출처에 추가(장 출처 목록에도 연결)</td></tr>
+<tr><td>#eval CLIP 점수와 사람 선호</td><td>HPSv2를 “사람 주석 10만여 개”로 적음(원본 레슨 14의 107k)</td><td>Wu et al. (2023) 초록: HPD v2는 이미지 쌍 433,760개에 대한 사람 선호 선택 798,090개</td><td>데이터 규모를 초록 기준으로 고치고 HPSv2 논문을 출처에 추가. ImageReward 13만 7천 개 비교는 논문과 일치해 유지</td></tr>
+<tr><td>#gan 학습 순서와 두 손실</td><td>포화·비포화 기울기 곡선이 이 장(3장) 그림에 있는데 “4장 그림에서 비교합니다”라고 가리킴</td><td>js/figures.js의 gan 그림에 두 곡선이 있음</td><td>“이 장의 그림에서”로 고침</td></tr>
+<tr><td>docs/index.html 구현·검증 절</td><td>출처 수 48개, 팩트 검수 미실시 문구</td><td>출처 2개 추가와 이 검수</td><td>출처 50개로 고치고 이 기록으로 가는 링크를 더함</td></tr>
+</tbody></table>
+<h3>보류 (판단이 갈려 고치지 않음)</h3>
+<ul>
+<li>#flow 서비스에서의 모습과 원본 레슨 01·13: “AudioCraft 2가 플로 매칭을 쓴다”. Meta AudioCraft 저장소에는 플로 매칭 모델(MelodyFlow, JASCO)이 있으나 “AudioCraft 2”라는 공식 모델·릴리스 이름은 확인하지 못했습니다. 책은 “원본 커리큘럼 기준”으로 밝히고 있어 유지했습니다.</li>
+<li>#media 비디오 생성: “Sora 캡션 평균 약 200토큰”은 원본 레슨 10의 문장이며 OpenAI 기술 보고서에는 이 수치가 없습니다(보고서는 DALL·E 3식 재캡션만 설명). 책이 “원본은 … 정리합니다”로 출처를 밝혀 유지했습니다.</li>
+<li>#flow: “재흐름 두 번이면 2단계 샘플러가 50단계 DDPM 품질”은 원본 레슨 13의 요약이며 Rectified Flow 논문의 실험 설정과 정확히 같은 비교인지는 확인하지 못했습니다. 원본 인용으로 표시되어 유지했습니다.</li>
+<li>#media: 원본은 10초 1080p 영상을 “2만~10만 조각”으로 어림하고, 책의 실험 가정(시간 4배·공간 8배·2×2 조각)은 489,600개를 냅니다. 둘 다 출처와 가정을 밝히고 있어 고치지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>논문은 arXiv 초록과 번호만 확인했고 본문 표까지 대조하지 않았습니다(StyleGAN, VAR의 척도 목록, SD3 로짓 정규 샘플링은 기억과 초록 수준). Diffusers 문서·β-VAE OpenReview 페이지는 주소 형식과 내용 설명만 확인했습니다. 초록을 열지 않은 arXiv 23편은 서지 대조만 했습니다. 원본 레슨 표의 지연 시간(Flux.1-dev 약 15초 등)과 SD 계열 매개변수 수는 원본 기준 표시를 그대로 두었습니다. 실제 학습 효과(L4)는 이 검수의 범위가 아닙니다. 원문 복제 여부는 장마다 한두 문단을 원본 en.md와 나란히 놓고 표본 확인했으며 긴 직역 구간은 찾지 못했습니다.</p>
+</section>
+</main></body></html>

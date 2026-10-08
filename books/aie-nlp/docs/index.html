@@ -1,0 +1,92 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자연어 처리 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">자연어 처리 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>자연어 처리 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 06권 《자연어 처리 · 단어 세기에서 문장 이해까지》의 기획, 원본 레슨 대응, 구현, 검증을 한곳에 모았습니다. 작성일 2026-10-08. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 5 · NLP — Foundations to Advanced이며, 원문과 코드를 옮기지 않고 개념과 순서, 실험 아이디어만 참고해 새로 썼습니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: 파이썬과 기초 확률은 알고, LLM API도 써 봤지만 그 아래에 있는 토큰화·가중치·태깅·평가 지표가 왜 그렇게 생겼는지는 설명하기 어려운 사람.</li>
+<li><b>끝의 행동</b>: 새 언어나 긴 문서가 들어온 텍스트 시스템을 보고, 어느 단계(토큰화, 검색, 청킹, 평가)를 바꿔야 하는지 고르고 그 판단에 부족한 증거를 말할 수 있습니다.</li>
+<li><b>공통 사례</b>: 온라인 서점 “마루책방”의 고객 문의함. 문의 여덟 통, 학습 리뷰 열두 개, 약관 열두 문장, 다섯 턴 배송 변경 대화가 모든 장에 다시 나옵니다.</li>
+<li><b>이야기 방식</b>: 하나의 제품을 완성한다. 장마다 문의 도우미에 도구 하나(토큰화, 가중치, 벡터, 주제, 분류, 태깅, 언어 모형, 번역, 청킹, 연결, 대화 상태)를 더하고, 마지막 장에서 해외 문의와 긴 약관이라는 새 상황에 내놓습니다.</li>
+<li><b>범위</b>: 원본 Phase 5의 레슨 29개 전부. 토큰·임베딩·어텐션·RAG의 기초 그림은 AI Book, 코사인 유사도는 선형대수 책에 맡겨 짧게 요약하고 링크로 보냅니다. 정보 검색, 청킹, 관계 추출, 개체 연결은 NLP 관점에서만 짧게 다루며, 아직 없는 시리즈 권(검색과 RAG, 지식 그래프)으로는 링크하지 않았습니다.</li>
+<li><b>증거</b>: 실험 16개 중 15개는 규칙과 수식을 브라우저에서 실제로 계산합니다. 단어 벡터, 주제 분포, HMM 확률표, 약관 문장 길이, 개체 사전 확률은 교육용 가정값이고, 다섯 턴 대화는 시나리오입니다. JSON 유효율은 토큰 독립 가정의 교육용 모형이며, 긴 문맥 바늘 찾기는 원본이 설명한 경향을 흉내 낸 교육용 모형으로 측정값이 아닙니다. 각 결과 문장에 어느 쪽인지 적었습니다.</li>
+</ul>
+<p>부 구성: 표현(1~3장) · 분류(4~6장) · 생성(7~9장) · 연결과 검증(10~12장).</p>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>원본 Phase 5의 레슨 29개가 모두 어느 장에 들어갔는지 적습니다. 각 장의 “더 읽어 보기”에 해당 레슨 폴더 링크가 있습니다.</p>
+<table><tr><th>원본 레슨</th><th>들어간 장</th><th>장에서 다룬 핵심</th></tr>
+<tr><td>01 Text Processing</td><td>01 clean</td><td>정규식으로 낱말 자르기, 어간 추출과 표제어 추출의 차이, 한국어 조사 떼기 규칙의 과잉 분리 실패</td></tr>
+<tr><td>02 Bag of Words &amp; TF-IDF</td><td>02 tfidf</td><td>어휘 사전과 단어 주머니, 평활 IDF와 비평활 IDF, L2 정규화, 순서를 잃는 한계</td></tr>
+<tr><td>03 Word Embeddings (word2vec)</td><td>03 vectors</td><td>분포 가설, skip-gram 문맥 창과 학습 쌍, 음성 표집, 벡터 유추</td></tr>
+<tr><td>04 GloVe, FastText, Subword</td><td>03 vectors</td><td>함께 나온 횟수 행렬, 글자 n-gram으로 처음 보는 낱말 다루기, 코사인과 내적 순위 차이</td></tr>
+<tr><td>05 Sentiment Analysis</td><td>05 sentiment</td><td>나이브 베이즈 로그 비율, 부정 범위 NOT_ 표시, 불균형 데이터의 정확도와 macro-F1</td></tr>
+<tr><td>06 Named Entity Recognition</td><td>06 tagging</td><td>BIO 표, 규칙에서 CRF·BiLSTM-CRF·트랜스포머·LLM 기반 NER까지의 흐름</td></tr>
+<tr><td>07 POS Tagging &amp; Parsing</td><td>06 tagging</td><td>최빈 품사 기준선, 바이그램 HMM과 비터비, 의존 구문 분석 요약</td></tr>
+<tr><td>08 CNNs &amp; RNNs for Text</td><td>07 sequence</td><td>TextCNN, RNN·LSTM·GRU, 기울기 소실(가중치의 T제곱), 어텐션이 필요해진 이유</td></tr>
+<tr><td>09 Sequence-to-Sequence</td><td>08 seq2seq</td><td>인코더-디코더, 교사 강요와 노출 편향, 빔 탐색, 문맥 벡터 병목</td></tr>
+<tr><td>10 Attention Mechanism</td><td>08 seq2seq</td><td>바다나우·루옹 점수, 소프트맥스 정렬, 날카로움 β, 설명으로서의 어텐션 함정</td></tr>
+<tr><td>11 Machine Translation</td><td>08 seq2seq</td><td>BLEU 수정 정밀도와 간결성 벌점, chrF, 세 층 평가, 번역 실무 실패</td></tr>
+<tr><td>12 Text Summarization</td><td>09 answer</td><td>TextRank 추출 요약, 생성 요약, ROUGE-1·ROUGE-L, 사실성 문제</td></tr>
+<tr><td>13 Question Answering</td><td>09 answer</td><td>추출형·검색 증강형·생성형 QA, EM과 F1, RAGAS 지표</td></tr>
+<tr><td>14 Information Retrieval &amp; Search</td><td>02 tfidf</td><td>BM25의 포화와 길이 보정, 밀집 검색과 역순위 융합, 교차 인코더 재순위(NLP 관점 요약)</td></tr>
+<tr><td>15 Topic Modeling</td><td>04 topics</td><td>LDA의 생성 이야기와 α, BERTopic 파이프라인, 응집도와 다양성</td></tr>
+<tr><td>16 Text Generation before Transformers</td><td>07 sequence</td><td>n-gram 언어 모형, 더하기-k 평활과 Kneser-Ney, 퍼플렉서티</td></tr>
+<tr><td>17 Chatbots, Rule-based to Neural</td><td>11 dialog</td><td>규칙·검색·신경·에이전트 네 시대, 혼합 경로, 프롬프트 주입</td></tr>
+<tr><td>18 Multilingual NLP</td><td>12 final</td><td>교차 언어 전이, 원천 언어 고르기, 토큰화 세금(같은 뜻에 더 많은 토큰)</td></tr>
+<tr><td>19 Subword Tokenization</td><td>01 clean</td><td>BPE 병합(실험), 바이트 수준 BPE, WordPiece, Unigram, SentencePiece와 tiktoken</td></tr>
+<tr><td>20 Structured Outputs &amp; Constrained Decoding</td><td>11 dialog</td><td>프롬프트·공급자 API·제약 디코딩 세 층, 필드 순서 함정, 유효율 계산(실험)</td></tr>
+<tr><td>21 NLI &amp; Textual Entailment</td><td>05 sentiment</td><td>함의·모순·중립, 제로샷 분류, RAG 충실도 검사, 가설만 보는 지름길</td></tr>
+<tr><td>22 Embedding Models Deep Dive</td><td>04 topics</td><td>밀집·희소·다중 벡터, 마트료시카 차원 자르기, MTEB로 고르는 법</td></tr>
+<tr><td>23 Chunking Strategies for RAG</td><td>09 answer</td><td>고정·재귀·의미·문장·부모 문서·늦은 청킹·맥락 검색, 답 구간 보존(실험)</td></tr>
+<tr><td>24 Coreference Resolution</td><td>10 links</td><td>언급 유형, 구조 다섯 가지, CoNLL F1, 어려운 경우</td></tr>
+<tr><td>25 Entity Linking</td><td>10 links</td><td>후보 생성과 중의성 해소, 사전 확률과 문맥 점수(실험), NIL, 인기 편향</td></tr>
+<tr><td>26 Relation Extraction &amp; KG</td><td>10 links</td><td>삼중항, 열린 IE와 닫힌 온톨로지, 고정·추출·검증·보충, 정규화(NLP 관점 요약)</td></tr>
+<tr><td>27 LLM Evaluation Frameworks</td><td>12 final</td><td>LLM 심판, RAGAS·DeepEval·G-Eval, 보정과 위치·길이 편향</td></tr>
+<tr><td>28 Long-Context Evaluation</td><td>12 final</td><td>NIAH, RULER, LongBench v2, MRCR, 보고할 두 숫자(실험은 교육용 모형)</td></tr>
+<tr><td>29 Dialogue State Tracking</td><td>11 dialog</td><td>슬롯-값 상태, 세 불변 조건, 결합 목표 정확도, 정정 처리(실험)</td></tr>
+</table>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li>파일: <code>js/math.js</code>(순수 계산), <code>js/content.js</code>(모든 글), <code>js/visual.js</code>(공통 UI), <code>js/figures.js</code>(장마다 움직이는 개념 그림 12개), <code>js/labs-text.js</code>·<code>labs-label.js</code>·<code>labs-generate.js</code>·<code>labs-dialog.js</code>(실험 16개), <code>js/home-lab.js</code>(표지 대표 실험: 문의 한 통의 TF-IDF), <code>js/lab-guides.js</code>, <code>js/app.js</code>.</li>
+<li>전역 접두어 <code>A06</code>, 서가 삽화 접두어 <code>a06-ill-</code>, 실험 화면 클래스 <code>a06-</code>, 진도 키 <code>bookshelf:aie-06-nlp:v1:progress</code>.</li>
+<li>모바일에서 SVG 글자가 커지는 공통 규칙 때문에 토큰 조각, 낱말별 증거, 품사 줄, 대화 슬롯은 HTML(<code>.a06-chips</code>, <code>.a06-diverge</code>, <code>.a06-tagwords</code>, <code>.a06-slot</code>)로 그렸습니다. 긍정·부정, 맞음·틀림은 색과 함께 부호·글자·테두리 굵기로도 구분합니다.</li>
+<li>강조색은 장미빛 분홍(어두운 화면 #f4a3b8, 밝은 화면 #a3264d)이며, 밝은 화면의 주 버튼 글자는 흰색으로 바꿔 대비를 지켰습니다.</li>
+<li>서가 삽화 <code>assets/shelf-illustration.svg</code>: 문의 한 통이 토큰으로 나뉘고 TF-IDF 막대가 자라 환불 문의 표가 켜집니다. 막대 길이는 1번 문의의 실제 TF-IDF(0.70·0.70·0.83)이고 흐름은 비유입니다. 동작 줄이기 두 규칙에서 멈춥니다. 표지 그림 <code>assets/cover-art.svg</code>는 문의함에서 낱말 조각이 주제 칸으로 나뉘는 다른 장면의 정지 그림이며 cv-* 클래스만 씁니다.</li>
+<li>나가는 링크: 1장 → AI Book #tokens, 2장 → 선형대수 #similarity, 3장 → AI Book #embeddings·선형대수 #similarity, 4장 → 선형대수 #pca, 5장 → 확률과 통계 #bayes, 6장 → 확률과 통계 #likelihood, 7장 → AI Book #generation·#learning, 8장 → AI Book #attention·LLM 실행 #cache, 9장 → AI Book #rag, 10장 → 확률과 통계 #bayes, 11장 → AI Book #agents, 12장 → LLM 실행 #cache·확률과 통계 #interval. 서재 등록 제안은 <code>docs/registration.json</code>에 있습니다.</li>
+<li>시점에 민감한 이름(모델·도구·벤치마크)은 원본 레슨이 쓴 범위에서만 언급하고 “원본 커리큘럼 기준(확인일 2026-10-08)”이라고 밝혔습니다.</li>
+</ul>
+</section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p>검증일 2026-10-08. 실제 언어 모형이나 임베딩 모형을 실행하거나 긴 문맥 정답률을 측정한 검증은 아닙니다.</p>
+<ul id="verify-list">
+<li><b>팩트·출처 검수</b>: 책을 쓰지 않은 검수 에이전트가 2026-10-08에 사실·수치·실험·용어·출처를 확인하고 10건을 고쳤습니다. 결과와 수정 내역은 <a href="fact-review.html">팩트·출처 검수 기록</a>에 있습니다.</li>
+<li><b>계산 검사</b>: <code>npm test --prefix books/aie-nlp</code> 통과(21개 검사). 계산 함수마다 대표값·경계값·불변 조건을 확인합니다(예: 평활 없는 IDF는 df=N에서 0, BPE 토큰 수 단조 감소, 주제 비율 합 1, k=0의 처음 보는 쌍은 무한대, 어텐션 가중치 합 1, 조각 경계 연속성, JSON 유효율 p=0·1 경계).</li>
+<li><b>브라우저 검사</b>: <code>tests/browser.cjs</code>로 1280·390·320px에서 표지와 12장을 열고, 실험 16개마다 예제 버튼·입력 최솟값과 최댓값·선택 상자 모든 값·초기화를 눌러 결과 문장에 NaN·undefined가 없는지, 확인 문제 반응, 가로 넘침, 서가로 버튼, 콘솔 오류 없음을 확인했습니다(통과: 화면 42개, 실험 48회). 결과는 <code>docs/evidence/browser-results.json</code>.</li>
+<li><b>눈으로 확인</b>: 표지, 1장 그림, 320px 마지막 장 실험 스크린숏과 12개 개념 그림(1280px)을 열어 보고 고쳤습니다. 7장 그림의 문장 경계 표시가 HTML 태그로 읽혀 그림이 비던 문제, 모바일 막대마다 긴 단위 문구가 반복되던 문제를 고쳤습니다.</li><li><b>삽화</b>: 표지 그림은 check_cover.py 통과, 서가 삽화는 @keyframes 4개와 동작 줄이기 두 규칙을 확인했습니다. 서가에서 직접 펼쳐 움직임을 보는 확인은 서재 등록 뒤에 남아 있습니다.</li>
+</ul>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>split 쪼개는 단위</td><td>확인</td><td>확인</td><td>확인: 어휘 26·28·47개, 검색 문의 수를 손 계산과 대조</td><td>미확인</td></tr>
+<tr><td>bpe BPE 병합</td><td>확인</td><td>확인</td><td>확인: 병합 순서와 토큰 수 79→33, 단조 감소 불변 조건</td><td>미확인</td></tr>
+<tr><td>tfidf 문서 빈도와 IDF</td><td>확인</td><td>확인</td><td>확인: df=8에서 비평활 0, 평활 1, 5번 문의 0.84</td><td>미확인</td></tr>
+<tr><td>skipgram 문맥 창</td><td>확인</td><td>확인</td><td>확인: 학습 쌍 44·72·86개, 짧은 문장 경계</td><td>미확인</td></tr>
+<tr><td>analogy 벡터 유추</td><td>확인</td><td>확인</td><td>확인: 코사인 1위 시인, 내적 1위 책(가정 벡터 기준)</td><td>미확인</td></tr>
+<tr><td>lda 주제 비율</td><td>확인</td><td>확인</td><td>확인: 비율 합 1, 증거를 더하면 해당 주제 증가, α 효과</td><td>미확인</td></tr>
+<tr><td>negation 부정 범위</td><td>확인</td><td>확인</td><td>확인: “내용이 안 좋아요”가 처리 전 긍정, 처리 후 부정(−1.46)</td><td>미확인</td></tr>
+<tr><td>viterbi 품사 줄</td><td>확인</td><td>확인</td><td>확인: 두 문장의 뒤집힘 경계(약 0.044, 0.01), 전이표 행 합 1</td><td>미확인</td></tr>
+<tr><td>perplexity 평활</td><td>확인</td><td>확인</td><td>확인: k=0에서 무한대 표시, k=0.05에서 16.9, 확률 범위</td><td>미확인</td></tr>
+<tr><td>align 어텐션 정렬</td><td>확인</td><td>확인</td><td>확인: β=0 균등 0.20, 가중치 합 1, 최대 위치</td><td>미확인</td></tr>
+<tr><td>bleu BLEU</td><td>확인</td><td>확인</td><td>확인: 100·67.3·48.1·19.6, 간결성 벌점</td><td>미확인</td></tr>
+<tr><td>chunk 조각과 답 구간</td><td>확인</td><td>확인</td><td>확인: 150 고정 분리·문장 보존, 조각 연속성 불변 조건</td><td>미확인</td></tr>
+<tr><td>linking 개체 연결</td><td>확인</td><td>확인</td><td>확인: λ 0.6에서 강으로 뒤집힘, 문맥 없으면 NIL</td><td>미확인</td></tr>
+<tr><td>dst 대화 상태</td><td>확인</td><td>확인</td><td>확인: 세 방식의 턴별 일치와 JGA 1·0.2·0.4</td><td>미확인</td></tr>
+<tr><td>constrain JSON 유효율</td><td>확인</td><td>확인</td><td>확인: p=0.98에서 61.6%·94.3%, p=0·1 경계</td><td>미확인</td></tr>
+<tr><td>needle 바늘 찾기</td><td>확인</td><td>확인</td><td>교육용 모형: 경향(가운데 최저, 다단계 먼저 하락)만 확인, 측정값 아님</td><td>미확인</td></tr>
+</table>
+<p><b>확인하지 못한 것</b>: 학습 효과(L4)는 실제 독자로 시험하지 않았습니다. 화면 낭독기로 직접 읽어 보지는 않았고, 역할·이름·상태 글자만 자동 검사했습니다. 원본 레슨이 언급한 모델·도구 이름과 벤치마크 수치는 원본 커리큘럼 기준이며 공식 출처로 다시 확인하지 않았습니다.</p>
+</section>
+</main></body></html>

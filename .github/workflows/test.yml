@@ -31,4 +31,9 @@ jobs:
       - run: npm test --prefix books/aie-ml
       - run: npm test --prefix books/aie-deep
       - run: npm test --prefix books/aie-vision
+      - run: npm test --prefix books/aie-nlp
+      - run: npm test --prefix books/aie-audio
+      - run: npm test --prefix books/aie-transformer
+      - run: npm test --prefix books/aie-generative
+      - run: npm test --prefix books/aie-rl
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v

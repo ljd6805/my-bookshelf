@@ -1,0 +1,79 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>트랜스포머 깊이 보기 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">트랜스포머 깊이 보기 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>트랜스포머 깊이 보기 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 08권 《트랜스포머 깊이 보기 · 셀프 어텐션에서 스케일링 법칙까지》의 기획, 원본 레슨 대응, 구현, 검증을 한곳에 모았습니다. 작성일 2026-10-08. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 7 · Transformers Deep Dive이며, 원문과 코드를 옮기지 않고 개념과 순서만 참고해 새로 썼습니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: 신경망과 역전파는 알고, 어텐션 그림도 한 번쯤 봤지만 Q·K·V를 직접 계산하거나 모델 설계표의 숫자가 왜 그렇게 정해졌는지 설명해 본 적은 없는 사람.</li>
+<li><b>끝의 행동</b>: “문맥을 네 배로 늘려 달라”, “응답을 두 배 빠르게”, “같은 예산에서 품질을 올려 달라” 같은 요구를 받으면, 설계표에서 바꿀 칸 하나를 고르고 메모리·속도·손실을 다시 계산해 통과 여부와 아직 부족한 증거를 말할 수 있습니다.</li>
+<li><b>공통 사례</b>: 작은 언어 모델 ‘도란’의 설계표와 문장 “나는 어제 산 책을 오늘 다 읽었다”. 장마다 설계표의 칸 하나(√d 나누기, 헤드 수, 위치 방식, 정규화, 목적 함수, 전문가 수, 캐시 방식, 데이터 양, 디코딩 방식)를 채우고, 같은 문장의 ‘읽었다’가 어디를 보는지로 결과를 확인합니다.</li>
+<li><b>이야기 방식</b>: 하나의 제품을 완성한다. 1장에서 빈 설계표로 시작해 11장까지 칸을 채우고, 마지막 장은 새 요구 세 가지에 그 설계표를 다시 짜게 합니다.</li>
+<li><b>범위</b>: 원본 Phase 7의 레슨 16개 전부. 어텐션 가중치의 직관은 AI Book(#attention)에, 행렬곱 실행·KV 캐시의 기본 크기·프리필과 디코드·병목·실행 예산은 LLM 시스템 책에 맡기고 한 문단 요약과 링크로 보냅니다. 이 책은 원본에만 있는 구현 관점(√d 나누기의 통계, 헤드 분할 규칙, RoPE의 상대 거리 성질, 사전 정규화와 RMSNorm, 80·10·10 규칙, 삼각 마스크 유도, 패치·프레임 토큰 수, 라우터 균형, 타일 softmax, 어텐션 변형별 캐시, 친칠라 배분, 추측 디코딩의 기대 토큰)에 분량을 씁니다.</li>
+<li><b>증거</b>: 실험 16개 중 15개는 원본 레슨의 식을 브라우저에서 실제로 계산합니다(시드 고정 난수로 만든 점수와 softmax, 회전 행렬, 파라미터 수, 정규화, 마스킹 표본, 타일 softmax의 오차, KV 캐시 바이트, Chinchilla 손실식 격자 탐색, 기대 토큰 공식). 라우터 실험은 실제 계산이지만 토큰 선호도는 합성 분포입니다. 마지막 장의 설계 재계산은 실제 공식을 쓰되 요구 기준값과 MoE 품질 판정 불가는 미리 정한 시나리오입니다. 각 실험 결과 문장과 “무엇을 계산하나요?”에 어느 쪽인지 적었습니다. 학습된 모델의 실제 가중치는 쓰지 않습니다.</li>
+</ul>
+<p>부 구성: 어텐션 부품(1~4장) · 블록과 가족(5~7장) · 키우고 빠르게(8~11장) · 마지막 과제(12장).</p>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>원본 Phase 7의 레슨 16개가 모두 어느 장에 들어갔는지 적습니다. 각 장의 “더 읽어 보기”에 해당 레슨 폴더 링크가 있습니다.</p>
+<table><tr><th>원본 레슨</th><th>들어간 장</th><th>장에서 다룬 핵심</th></tr>
+<tr><td>01 Why Transformers</td><td>01 why</td><td>RNN의 직렬 계산·기울기 소실·고정 폭 상태, 직렬 깊이와 점수표 크기 비교, 아직 RNN을 고르는 경우</td></tr>
+<tr><td>02 Self-Attention from Scratch</td><td>02 selfattn</td><td>Q·K·V 투영, 점수표, √d_k 나누기의 통계적 이유, softmax 가중합</td></tr>
+<tr><td>03 Multi-Head Attention</td><td>03 multihead</td><td>헤드 나누기·합치기와 W_o, d_head 어림, MHA·MQA·GQA·MLA 비교(변형별 캐시 크기는 09장에서 이어 계산)</td></tr>
+<tr><td>04 Positional Encoding</td><td>04 position</td><td>사인 인코딩, RoPE 회전과 상대 거리 성질, ALiBi, 문맥 확장 기법</td></tr>
+<tr><td>05 The Full Transformer</td><td>05 block, 12 final</td><td>여섯 부품, 사전 정규화, RMSNorm·SwiGLU, 층당 12d² 파라미터 어림</td></tr>
+<tr><td>06 BERT Masked Language Modeling</td><td>06 bertgpt</td><td>15% 마스킹과 80·10·10 규칙, NSP를 뺀 이유, 인코더의 쓰임새</td></tr>
+<tr><td>07 GPT Causal Language Modeling</td><td>06 bertgpt</td><td>삼각 마스크의 세 단계 유도, 한 칸 밀린 손실, 병렬 학습과 직렬 추론</td></tr>
+<tr><td>08 T5, BART Encoder-Decoder</td><td>07 encdec</td><td>교차 어텐션과 세 마스크, T5 구간 오염, BART 잡음, 인코더-디코더를 고르는 기준</td></tr>
+<tr><td>09 Vision Transformers</td><td>07 encdec</td><td>패치 토큰 수와 패치 차원, [CLS], 지역성 가정이 없어 생기는 데이터 요구</td></tr>
+<tr><td>10 Audio Transformers (Whisper)</td><td>07 encdec</td><td>로그 멜 프레임, 합성곱 줄기로 절반 줄이기, 30초 패딩, 과제 토큰</td></tr>
+<tr><td>11 Mixture of Experts</td><td>08 moe</td><td>라우터와 top-k, 부하 균형(보조 손실·편향 조정), 공유·세분화 전문가, 활성 대비 전체 메모리</td></tr>
+<tr><td>12 KV Cache &amp; Flash Attention</td><td>09 memory, 12 final</td><td>점수표 메모리, 타일 softmax의 정확성, 연속 배칭·PagedAttention·접두 캐시 요약</td></tr>
+<tr><td>13 Scaling Laws</td><td>10 scaling, 12 final</td><td>C≈6ND, Kaplan과 Chinchilla, 과잉 학습, 창발 논쟁</td></tr>
+<tr><td>14 Build a Transformer (Capstone)</td><td>12 final</td><td>부품을 끝까지 조립해 보는 종합 실습을, 설계표 전체를 새 요구에 맞춰 다시 짜는 과제로 바꿈</td></tr>
+<tr><td>15 Attention Variants</td><td>09 memory, 12 final</td><td>슬라이딩 창, 희소·블록 어텐션, 차등 어텐션, 변형별 KV 캐시 비교</td></tr>
+<tr><td>16 Speculative Decoding</td><td>11 speculative, 12 final</td><td>초안과 검증, 수락·거절과 잔여 분포, 기대 토큰 수, Medusa·EAGLE·lookahead 요약</td></tr>
+</table>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li>파일: <code>js/math.js</code>(순수 계산, Node에서도 불러 씀), <code>js/content.js</code>(모든 글), <code>js/visual.js</code>(공통 UI에 행렬 칸 <code>matrix</code>와 차트 틀 <code>chart</code> 추가), <code>js/figures.js</code>(장마다 움직이는 개념 그림 12개), <code>js/labs-attention.js</code>·<code>labs-blocks.js</code>·<code>labs-scale.js</code>(실험 16개), <code>js/home-lab.js</code>(표지 대표 실험: d_k와 √d_k 나누기), <code>js/lab-guides.js</code>, <code>js/app.js</code>.</li>
+<li>전역 접두어 <code>A08</code>, 서가 삽화 접두어 <code>a08-ill-</code>, 진도 키 <code>bookshelf:aie-08-transformer:v1:progress</code>.</li>
+<li>7×7 가중치 표와 마스크는 모바일에서도 글자가 커지지 않도록 HTML 격자(<code>.a08-mat</code>)로 그렸고, 가려진 칸은 색과 함께 “×” 글자로도 표시합니다. BERT 마스킹 토큰은 [MASK]·무작위·유지를 글자로도 구분합니다.</li>
+<li>강조색은 연보라(어두운 화면 #c3b1ff, 밝은 화면 #5b3fb8).</li>
+<li>계산 상수: KV 캐시는 80층·d_head 128·fp16 기준, Chinchilla 손실식은 Hoffmann 외(2022)의 적합값(A 406.4, B 410.7, α 0.34, β 0.28, E 1.69). 이 상수로 격자 탐색한 최적 토큰/파라미터 비율은 20이 아니라 계산량에 따라 대략 30~120이며, 본문은 “20”을 거친 기준선으로 소개하고 이 차이를 그대로 밝힙니다.</li>
+<li>서가 삽화 <code>assets/shelf-illustration.svg</code>: 토큰 사이에 어텐션 호가 그려지고 삼각형 마스크 칸이 한 줄씩 채워집니다(시각적 비유, @keyframes 2개, 동작 줄이기 두 규칙에서 멈춤). 표지 그림 <code>assets/cover-art.svg</code>는 QKᵀ/√d와 토큰 상자의 정지 그림이며 cv-* 클래스만 씁니다.</li>
+<li>나가는 링크: 1장 → AI Book #attention, 2장 → 선형대수 #similarity·AI Book #attention, 3장 → LLM 시스템 #cache, 4장 → 선형대수 #matrix, 5장 → LLM 시스템 #transformer·#parameters, 6장 → AI Book #generation·확률과 통계 #likelihood, 7장 → AI Book #vision, 8장 → LLM 시스템 #tradeoffs, 9장 → LLM 시스템 #cache·#hierarchy, 10장 → LLM 시스템 #parameters, 11장 → LLM 시스템 #phases·#bottleneck, 12장 → LLM 시스템 #design. 서재 등록 제안은 <code>docs/registration.json</code>에 있습니다.</li>
+</ul>
+</section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p>검증일 2026-10-08. 실제 모델을 학습하거나 GPU에서 속도를 잰 검증은 아닙니다.</p>
+<ul>
+<li><b>계산 검사</b>: <code>npm test --prefix books/aie-transformer</code> 통과(25개). 계산 함수마다 대표값·경계값·불변 조건을 확인합니다(예: 나누지 않은 점수의 표준편차 ≈ √d_k, RoPE는 길이를 보존하고 상대 거리에만 의존, 층당 12d², LayerNorm은 이동 불변·RMSNorm은 아님, 삼각 마스크 행 합 1, ViT 224/16 = 197 토큰, 타일 크기와 무관하게 오차 1e-12 미만, GQA = MHA/8, 친칠라 최적은 같은 계산량의 고정 비율보다 손실이 낮음, 기대 토큰 (1−α^(n+1))/(1−α)).</li>
+<li><b>브라우저 검사</b>: <code>tests/browser.cjs</code>로 1280·390·320px에서 표지와 12장을 열고 실험 16개마다 예제·입력 경계값·선택 상자 모든 값·초기화, 확인 문제, 가로 넘침, 서가로 버튼, 콘솔 오류를 확인합니다. 통과(화면 42개·실험 확인 48회, 오류 0). 결과는 <code>docs/evidence/browser-results.json</code>.</li>
+<li><b>팩트·출처 검수</b>: 집필하지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록은 <a href="fact-review.html">fact-review.html</a>에 있습니다(2026-10-08, fixed).</li>
+<li><b>눈으로 확인</b>: 표지·1장 그림·320px 마지막 장 실험 스크린숏을 열어 글자 겹침·잘림·빈 그림이 없음을 확인했습니다. <code>check_cover.py</code>로 표지 그림 규칙(cover ok), 서가 삽화의 @keyframes 2개와 동작 줄이기 두 규칙을 확인했습니다.</li>
+</ul>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>depth 직렬 단계</td><td>확인</td><td>확인</td><td>확인: 1024에서 10단계·1,048,576칸</td><td>미확인</td></tr>
+<tr><td>scale √d_k 나누기</td><td>확인</td><td>확인</td><td>확인: 표준편차 √d_k와 1, 포화와 기울기</td><td>미확인</td></tr>
+<tr><td>heads 헤드 차원</td><td>확인</td><td>확인</td><td>확인: 투영 파라미터가 헤드 수와 무관, 나누어떨어짐</td><td>미확인</td></tr>
+<tr><td>rope 위치 이동</td><td>확인</td><td>확인</td><td>확인: 이동량 1·50·1000에서 점수 불변, 사인은 변함</td><td>미확인</td></tr>
+<tr><td>params 블록 파라미터</td><td>확인</td><td>확인</td><td>확인: d 4096·32층 ≈ 6.57B(묶인 임베딩)</td><td>미확인</td></tr>
+<tr><td>norm 정규화</td><td>확인</td><td>확인</td><td>확인: 이동 불변·RMS 1</td><td>미확인</td></tr>
+<tr><td>mlm 80·10·10</td><td>확인</td><td>확인</td><td>확인: 1만 토큰에서 15%±1%, 부분 합 일치</td><td>미확인</td></tr>
+<tr><td>causal 삼각 마스크</td><td>확인</td><td>확인</td><td>확인: 위쪽 0, 행 합 1, 1단계 접두 평균</td><td>미확인</td></tr>
+<tr><td>masks 세 어텐션</td><td>확인</td><td>확인</td><td>확인: 열린 칸 수 49·6·21</td><td>미확인</td></tr>
+<tr><td>patch 패치 토큰</td><td>확인</td><td>확인</td><td>확인: 197·257·785, Whisper 30초 1500</td><td>미확인</td></tr>
+<tr><td>router 라우터 균형</td><td>확인</td><td>확인</td><td>부분: 합 T·k와 불균형 감소 확인, 선호도는 합성 분포</td><td>미확인</td></tr>
+<tr><td>tiled 타일 softmax</td><td>확인</td><td>확인</td><td>확인: 모든 타일 크기에서 오차 1e-12 미만</td><td>미확인</td></tr>
+<tr><td>kvvar 변형별 캐시</td><td>확인</td><td>확인</td><td>확인: 32K GQA 10.74GB, 비율 8·64·2</td><td>미확인</td></tr>
+<tr><td>chinchilla 예산 배분</td><td>확인</td><td>확인</td><td>확인: 6ND = C, 최적이 고정 비율보다 낮음</td><td>미확인</td></tr>
+<tr><td>spec 추측 디코딩</td><td>확인</td><td>확인</td><td>확인: 공식·극한(α 0, 1)·잔여 분포</td><td>미확인</td></tr>
+<tr><td>redesign 설계표 다시 짜기</td><td>확인</td><td>확인</td><td>시나리오: 요구 기준값은 가정, 계산은 위 함수 재사용</td><td>미확인</td></tr>
+</table>
+<p><b>확인하지 못한 것</b>: L4(대표 독자가 새 조건에서 설명하는지)는 사람 검토가 필요해 하지 못했습니다. 서가에서 책을 펼쳐 삽화가 움직이는지는 서재 등록 뒤 서재 관리자가 확인해야 합니다(이 작업에서는 catalog.json을 고치지 않았습니다). 루트 <code>validate.py</code>와 <code>build_catalog.py --check</code>는 등록 전이라 이 책을 대상으로 돌리지 않았습니다. 원본 레슨의 모델 정보(헤드 구성, 공개 모델 크기, 2026년 동향)는 원본 커리큘럼 기준(확인일 2026-10-08)이며 공식 출처로 다시 확인하지 않았습니다.</p>
+</section>
+<footer><a href="index.html">문서 허브</a> · <a href="../index.html">책 읽기</a> · <a href="../../../index.html">서가</a></footer></main></body></html>

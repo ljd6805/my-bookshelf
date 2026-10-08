@@ -1,0 +1,46 @@
+<svg class="a10-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="창고 바닥 4×4 칸에서 출고대의 보상이 뒤쪽 칸으로 번지듯 가치가 차오르고, 배송 로봇 나르미가 그 가치를 따라 출고대로 가는 그림. 실제 계산이 아닌 시각적 비유입니다.">
+<style>
+.a10-ill-bg{fill:#f6f2e7}
+.a10-ill-title{font:700 12px sans-serif;fill:#3b3220;text-anchor:middle}
+.a10-ill-note{font:11px sans-serif;fill:#6a5f48}
+.a10-ill-cell{fill:#fffdf6;stroke:#c9bd9c;stroke-width:1.5}
+.a10-ill-val{fill:#e2b33f;opacity:.08;animation:a10-ill-fill 7s ease-in-out infinite}
+.a10-ill-d1{animation-delay:.4s}.a10-ill-d2{animation-delay:.8s}.a10-ill-d3{animation-delay:1.2s}.a10-ill-d4{animation-delay:1.6s}.a10-ill-d5{animation-delay:2s}.a10-ill-d6{animation-delay:2.4s}
+.a10-ill-goal{fill:#e2b33f;stroke:#8a6514;stroke-width:1.5}
+.a10-ill-goaltext{font:700 11px sans-serif;fill:#3b3220;text-anchor:middle}
+.a10-ill-path{fill:none;stroke:#8a6514;stroke-width:2;stroke-dasharray:5 5;opacity:.6}
+.a10-ill-bot{animation:a10-ill-go 7s ease-in-out infinite}
+.a10-ill-body{fill:#3d5a80;stroke:#1f3048;stroke-width:1.5}
+.a10-ill-eye{fill:#fff}
+.a10-ill-star{fill:#c0392b;font:700 14px sans-serif;text-anchor:middle;opacity:0;animation:a10-ill-reward 7s linear infinite}
+@keyframes a10-ill-fill{0%,8%{opacity:.08}22%,80%{opacity:.85}100%{opacity:.08}}
+@keyframes a10-ill-go{0%,40%{transform:translate(0,0)}52%{transform:translate(36px,0)}60%{transform:translate(72px,0)}68%{transform:translate(108px,0)}74%{transform:translate(108px,36px)}80%{transform:translate(108px,72px)}86%,94%{transform:translate(108px,108px)}100%{transform:translate(0,0)}}
+@keyframes a10-ill-reward{0%,84%{opacity:0}88%,94%{opacity:1}100%{opacity:0}}
+html[data-motion=reduce] .a10-ill-val,html[data-motion=reduce] .a10-ill-bot,html[data-motion=reduce] .a10-ill-star{animation:none}
+html[data-motion=reduce] .a10-ill-val{opacity:.6}
+@media(prefers-reduced-motion:reduce){.a10-ill-val,.a10-ill-bot,.a10-ill-star{animation:none}.a10-ill-val{opacity:.6}}
+</style>
+<rect class="a10-ill-bg" width="340" height="180"/>
+<text class="a10-ill-title" x="170" y="20">보상이 거꾸로 번지고, 로봇은 그 길을 따라간다</text>
+<g transform="translate(30 34)">
+<rect class="a10-ill-cell" x="0" y="0" width="34" height="34"/><rect class="a10-ill-cell" x="36" y="0" width="34" height="34"/><rect class="a10-ill-cell" x="72" y="0" width="34" height="34"/><rect class="a10-ill-cell" x="108" y="0" width="34" height="34"/>
+<rect class="a10-ill-cell" x="0" y="36" width="34" height="34"/><rect class="a10-ill-cell" x="36" y="36" width="34" height="34"/><rect class="a10-ill-cell" x="72" y="36" width="34" height="34"/><rect class="a10-ill-cell" x="108" y="36" width="34" height="34"/>
+<rect class="a10-ill-cell" x="0" y="72" width="34" height="34"/><rect class="a10-ill-cell" x="36" y="72" width="34" height="34"/><rect class="a10-ill-cell" x="72" y="72" width="34" height="34"/><rect class="a10-ill-cell" x="108" y="72" width="34" height="34"/>
+<rect class="a10-ill-cell" x="0" y="108" width="34" height="34"/><rect class="a10-ill-cell" x="36" y="108" width="34" height="34"/><rect class="a10-ill-cell" x="72" y="108" width="34" height="34"/>
+<rect class="a10-ill-val" x="108" y="72" width="34" height="34"/><rect class="a10-ill-val" x="72" y="108" width="34" height="34"/>
+<rect class="a10-ill-val a10-ill-d1" x="108" y="36" width="34" height="34"/><rect class="a10-ill-val a10-ill-d1" x="72" y="72" width="34" height="34"/><rect class="a10-ill-val a10-ill-d1" x="36" y="108" width="34" height="34"/>
+<rect class="a10-ill-val a10-ill-d2" x="108" y="0" width="34" height="34"/><rect class="a10-ill-val a10-ill-d2" x="72" y="36" width="34" height="34"/><rect class="a10-ill-val a10-ill-d2" x="36" y="72" width="34" height="34"/><rect class="a10-ill-val a10-ill-d2" x="0" y="108" width="34" height="34"/>
+<rect class="a10-ill-val a10-ill-d3" x="72" y="0" width="34" height="34"/><rect class="a10-ill-val a10-ill-d3" x="36" y="36" width="34" height="34"/><rect class="a10-ill-val a10-ill-d3" x="0" y="72" width="34" height="34"/>
+<rect class="a10-ill-val a10-ill-d4" x="36" y="0" width="34" height="34"/><rect class="a10-ill-val a10-ill-d4" x="0" y="36" width="34" height="34"/>
+<rect class="a10-ill-val a10-ill-d5" x="0" y="0" width="34" height="34"/>
+<rect class="a10-ill-goal" x="108" y="108" width="34" height="34"/><text class="a10-ill-goaltext" x="125" y="129">출고</text>
+<path class="a10-ill-path" d="M17 17H125V125"/>
+<g class="a10-ill-bot"><rect class="a10-ill-body" x="5" y="5" width="24" height="22" rx="5"/><circle class="a10-ill-eye" cx="12" cy="14" r="2.5"/><circle class="a10-ill-eye" cx="22" cy="14" r="2.5"/><circle cx="10" cy="29" r="2.5" fill="#1f3048"/><circle cx="24" cy="29" r="2.5" fill="#1f3048"/></g>
+<text class="a10-ill-star" x="125" y="102">+보상</text>
+</g>
+<text class="a10-ill-note" x="196" y="62">① 출고대의 보상이</text>
+<text class="a10-ill-note" x="196" y="80">   이웃 칸으로 번진다</text>
+<text class="a10-ill-note" x="196" y="108">② 진해진 칸을 따라</text>
+<text class="a10-ill-note" x="196" y="126">   나르미가 이동한다</text>
+<text class="a10-ill-note" x="196" y="154">가치 → 정책</text>
+</svg>

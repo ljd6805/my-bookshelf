@@ -1,0 +1,39 @@
+<svg class="a06-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="서점 문의 한 통이 낱말 토큰으로 나뉘고 낱말마다 TF-IDF 막대가 자라 환불 문의로 분류되는 과정을 보여 주는 그림으로, 막대 길이는 문의함으로 실제 계산한 값이고 흐르는 움직임은 처리 순서를 나타내는 비유입니다.">
+<style>
+.a06-ill-bg{fill:#fbf3f1}
+.a06-ill-bubble{fill:#fffaf6;stroke:#a3264d;stroke-width:2}
+.a06-ill-text{font:600 13px sans-serif;fill:#3a1f28}
+.a06-ill-small{font:500 10px sans-serif;fill:#7a5560}
+.a06-ill-tok{fill:#fde4ea;stroke:#a3264d;stroke-width:1.5;opacity:0;animation:a06-ill-pop 6s ease-out infinite}
+.a06-ill-toktext{font:600 11px sans-serif;fill:#3a1f28;text-anchor:middle;opacity:0;animation:a06-ill-pop 6s ease-out infinite}
+.a06-ill-track{fill:#efdfe2}
+.a06-ill-bar{fill:#c4476f;transform-box:fill-box;transform-origin:left center;transform:scaleX(0);animation:a06-ill-grow 6s ease-out infinite}
+.a06-ill-wire{stroke:#c9a7b0;stroke-width:2;fill:none;stroke-dasharray:5 5;animation:a06-ill-dash 1.4s linear infinite}
+.a06-ill-tag{fill:#fffaf6;stroke:#4d7f90;stroke-width:2;opacity:.25;animation:a06-ill-tagon 6s ease-in-out infinite}
+.a06-ill-tagtext{font:700 12px sans-serif;fill:#23414a;text-anchor:middle}
+.a06-ill-d1{animation-delay:.3s}.a06-ill-d2{animation-delay:.7s}.a06-ill-d3{animation-delay:1.1s}
+.a06-ill-b1{animation-delay:1.6s}.a06-ill-b2{animation-delay:2s}.a06-ill-b3{animation-delay:2.4s}
+@keyframes a06-ill-pop{0%{opacity:0}8%,85%{opacity:1}100%{opacity:0}}
+@keyframes a06-ill-grow{0%,10%{transform:scaleX(0)}30%,85%{transform:scaleX(1)}100%{transform:scaleX(0)}}
+@keyframes a06-ill-dash{to{stroke-dashoffset:-20}}
+@keyframes a06-ill-tagon{0%,55%{opacity:.25}65%,88%{opacity:1}100%{opacity:.25}}
+@media(prefers-reduced-motion:reduce){.a06-ill-tok,.a06-ill-toktext,.a06-ill-bar,.a06-ill-wire,.a06-ill-tag{animation:none;opacity:1;transform:none}}
+html[data-motion=reduce] .a06-ill-tok,html[data-motion=reduce] .a06-ill-toktext,html[data-motion=reduce] .a06-ill-bar,html[data-motion=reduce] .a06-ill-wire,html[data-motion=reduce] .a06-ill-tag{animation:none;opacity:1;transform:none}
+</style>
+<rect class="a06-ill-bg" width="340" height="180"/>
+<path class="a06-ill-bubble" d="M16 14h150a8 8 0 0 1 8 8v22a8 8 0 0 1-8 8H50l-12 10v-10H24a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8z"/>
+<text class="a06-ill-text" x="30" y="38">환불은 언제 되나요</text>
+<text class="a06-ill-small" x="186" y="30">마루책방 문의 1번</text>
+<path class="a06-ill-wire" d="M90 62V78"/>
+<rect class="a06-ill-tok a06-ill-d1" x="20" y="80" width="52" height="22" rx="4"/><text class="a06-ill-toktext a06-ill-d1" x="46" y="95">환불</text>
+<rect class="a06-ill-tok a06-ill-d2" x="78" y="80" width="52" height="22" rx="4"/><text class="a06-ill-toktext a06-ill-d2" x="104" y="95">언제</text>
+<rect class="a06-ill-tok a06-ill-d3" x="136" y="80" width="60" height="22" rx="4"/><text class="a06-ill-toktext a06-ill-d3" x="166" y="95">되나요</text>
+<text class="a06-ill-small" x="20" y="124">TF-IDF</text>
+<rect class="a06-ill-track" x="64" y="114" width="130" height="10" rx="3"/><rect class="a06-ill-bar a06-ill-b1" x="64" y="114" width="109" height="10" rx="3"/>
+<rect class="a06-ill-track" x="64" y="132" width="130" height="10" rx="3"/><rect class="a06-ill-bar a06-ill-b2" x="64" y="132" width="109" height="10" rx="3"/>
+<rect class="a06-ill-track" x="64" y="150" width="130" height="10" rx="3"/><rect class="a06-ill-bar a06-ill-b3" x="64" y="150" width="130" height="10" rx="3"/>
+<text class="a06-ill-small" x="200" y="123">환불 0.70</text><text class="a06-ill-small" x="200" y="141">언제 0.70</text><text class="a06-ill-small" x="200" y="159">되나요 0.83</text>
+<path class="a06-ill-wire" d="M250 136H268"/>
+<rect class="a06-ill-tag" x="268" y="112" width="62" height="48" rx="8"/>
+<text class="a06-ill-tagtext" x="299" y="133">환불</text><text class="a06-ill-tagtext" x="299" y="150">문의</text>
+</svg>
