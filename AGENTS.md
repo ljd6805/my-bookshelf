@@ -36,7 +36,7 @@
 - 장 ID와 앵커는 안정적으로 유지한다. 이동 후 기존 링크를 검사한다.
 - catalog.json을 카탈로그 원본으로 사용하고 중복된 수동 집계를 줄인다.
 - 서가 디자인·동작 수정 전 docs/05-glass-library-design.html과 docs/06-glass-library-implementation.html을 읽는다. 승인 목업의 투명한 유리·아이보리 라벨·명조체·분류를 유지한다.
-- 스타일·스크립트 변경 시 index.html의 자산 버전과 tests/responsive.html의 미리보기 버전을 함께 갱신한다.
+- 스타일·스크립트 변경 시 index.html의 자산 버전, assets/*.js의 상대 import 경로 ?v=, tests/responsive.html의 미리보기 버전을 함께 갱신한다. validate.py가 셋의 일치를 검사한다.
 - 문서 제목·목차 변경도 build_catalog.py로 다시 생성해 미리보기와 동기화한다.
 - 자료·책 목록 변경은 docs/04-site-plan.html을 읽고 python3 scripts/build_catalog.py로 반영한다. 카탈로그와 index.html을 함께 커밋한다.
 - 요구가 확인되기 전에 계정·서버·복잡한 빌드·서브모듈을 추가하지 않는다.

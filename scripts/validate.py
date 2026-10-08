@@ -1,6 +1,7 @@
 """Offline integrity checks for the bookshelf; Python standard library only."""
 import ast
 import json
+import re
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -102,6 +103,21 @@ def validate_catalog(catalog):
     return errors
 
 
+def validate_asset_versions(root):
+    """Every asset URL shares index.html's release version, including transitive JS imports."""
+    match = re.search(r'assets/home\.js\?v=([\w-]+)', (root / 'index.html').read_text())
+    if not match:
+        return ['index.html: home.js has no ?v= release version']
+    version, errors = match.group(1), []
+    for path in sorted((root / 'assets').glob('*.js')):
+        for spec in re.findall(r"from '(\./[^']+)'", path.read_text()):
+            if not spec.endswith(f'?v={version}'):
+                errors.append(f'{path.name}: import {spec} must end with ?v={version}')
+    if f'v={version}' not in (root / 'tests/responsive.html').read_text():
+        errors.append(f'tests/responsive.html: preview must use v={version}')
+    return errors
+
+
 def validate_python(root):
     errors = []
     for path in root.rglob('*.py'):
@@ -123,6 +139,7 @@ def main():
     if build(home, catalog) != home:
         errors.append('Catalog HTML is stale: run python scripts/build_catalog.py')
     errors += validate_python(ROOT)
+    errors += validate_asset_versions(ROOT)
     pages = json.loads((ROOT / 'data/page-audit.json').read_text())
     sims = json.loads((ROOT / 'data/experiment-audit.json').read_text())
     if len(pages) != 648 or sum(p['ok'] for p in pages) != 644:

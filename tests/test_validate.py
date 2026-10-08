@@ -3,10 +3,22 @@ import tempfile
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from validate import validate_html, validate_catalog, validate_shelf_return
+from validate import validate_html, validate_catalog, validate_shelf_return, validate_asset_versions
 
 
 class IntegrityChecks(unittest.TestCase):
+    def test_transitive_imports_share_the_release_version(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / 'assets').mkdir()
+            (root / 'tests').mkdir()
+            (root / 'index.html').write_text('<script src="assets/home.js?v=r2"></script>')
+            (root / 'tests/responsive.html').write_text('<iframe src="../index.html?v=r2">')
+            (root / 'assets/home.js').write_text("import { a } from './reader.js?v=r2';")
+            self.assertEqual(validate_asset_versions(root), [])
+            (root / 'assets/reader.js').write_text("import { b } from './motion.js';")
+            self.assertEqual(len(validate_asset_versions(root)), 1)
+
     def test_nested_links_and_anchors(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)
