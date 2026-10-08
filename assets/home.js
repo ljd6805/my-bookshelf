@@ -1,6 +1,6 @@
-import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-type2';
-import { createReader, connectSpines } from './reader.js?v=20261008-type2';
-import { setupRoutes, setupAtlas } from './curation.js?v=20261008-type2';
+import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-tidy4';
+import { createReader, connectSpines } from './reader.js?v=20261008-tidy4';
+import { setupRoutes, setupAtlas } from './curation.js?v=20261008-tidy4';
 
 const storageKey = 'bookshelf:hub:v1:motion';
 const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');

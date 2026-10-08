@@ -11,10 +11,10 @@ CATEGORIES = {'analysis', 'guide', 'template'}
 
 
 if __package__:
-    from .shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url
+    from .shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url, check_shelf_harmony
     from .curation_renderer import render_curation, concept_terms
 else:
-    from shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url
+    from shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url, check_shelf_harmony
     from curation_renderer import render_curation, concept_terms
 
 
@@ -33,6 +33,7 @@ def render_books(books):
         seen.add(book['id'])
         if book['status'] == 'published':
             safe_book_url(book['url'])
+    check_shelf_harmony(books)
     return ''.join(shelf(books[i:i + 12], 'book', i) for i in range(0, len(books), 12))
 
 

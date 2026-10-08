@@ -25,8 +25,10 @@ class CatalogRenderingTests(unittest.TestCase):
 
     def test_only_published_book_gets_a_link(self):
         books = [{'id': 'one', 'title': '첫 책', 'spine_title': '첫 책', 'description': '설명',
-                  'status': 'published', 'url': 'https://example.com/book/'},
-                 {'id': 'two', 'title': '다음 책', 'spine_title': '다음 책', 'description': '기획', 'status': 'planned'}]
+                  'status': 'published', 'url': 'https://example.com/book/', 'spine_category': '수학',
+                  'color': 'sage', 'illustration': 'books/ai/assets/shelf-illustration.svg'},
+                 {'id': 'two', 'title': '다음 책', 'spine_title': '다음 책', 'description': '기획', 'status': 'planned',
+                  'spine_category': '수학', 'color': 'amber'}]
         result = render_books(books)
         self.assertEqual(result.count('책 읽기'), 1)
         self.assertIn('https://example.com/book/', result)
