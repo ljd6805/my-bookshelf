@@ -1,0 +1,29 @@
+<svg class="kg-ill" viewBox="0 0 340 180" role="img" aria-label="문장 조각 세 개가 트리플이 되어 그래프로 들어가고, 질문에서 출발한 탐색이 폴로늄에서 마리 퀴리, 이렌을 거쳐 1935 화학상까지 차례로 불을 밝히는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.kg-ill-chip{fill:#f5efe2;stroke:#7a6aa8;stroke-width:1.2}
+.kg-ill-word{font:600 10px sans-serif;fill:#3d3558}
+.kg-ill-move{animation:kg-ill-slide 4.8s ease-in-out infinite}
+.kg-ill-edge{fill:none;stroke:#b7aed1;stroke-width:1.6}
+.kg-ill-path{fill:none;stroke:#d9824f;stroke-width:3;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:kg-ill-draw 4.8s ease-in-out infinite}
+.kg-ill-node{fill:#f5efe2;stroke:#7a6aa8;stroke-width:1.8}
+.kg-ill-lit{animation:kg-ill-glow 4.8s ease-in-out infinite}
+.kg-ill-label{font:600 9.5px sans-serif;fill:#4f4866}
+.kg-ill-q{font:600 10.5px sans-serif;fill:#3d3558}
+@keyframes kg-ill-slide{0%{transform:translateX(0);opacity:1}30%,100%{transform:translateX(26px);opacity:.25}}
+@keyframes kg-ill-draw{0%,30%{stroke-dashoffset:1}75%,92%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes kg-ill-glow{0%,30%{fill:#f5efe2}45%,92%{fill:#e7a87c}100%{fill:#f5efe2}}
+html[data-motion=reduce] .kg-ill-move,html[data-motion=reduce] .kg-ill-path,html[data-motion=reduce] .kg-ill-lit{animation:none;stroke-dashoffset:0}
+@media(prefers-reduced-motion:reduce){.kg-ill-move,.kg-ill-path,.kg-ill-lit{animation:none;stroke-dashoffset:0}}
+</style>
+<text class="kg-ill-q" x="170" y="20" text-anchor="middle">폴로늄을 발견한 사람의 딸이 받은 상은?</text>
+<g class="kg-ill-move"><rect class="kg-ill-chip" x="10" y="48" width="62" height="20" rx="10"/><text class="kg-ill-word" x="41" y="62" text-anchor="middle">마리 퀴리</text>
+<rect class="kg-ill-chip" x="18" y="76" width="46" height="20" rx="10"/><text class="kg-ill-word" x="41" y="90" text-anchor="middle">발견</text>
+<rect class="kg-ill-chip" x="14" y="104" width="54" height="20" rx="10"/><text class="kg-ill-word" x="41" y="118" text-anchor="middle">폴로늄</text></g>
+<text class="kg-ill-label" x="41" y="146" text-anchor="middle">문장 → 트리플</text>
+<path class="kg-ill-edge" d="M120 112L178 64M178 64L250 104M178 64L196 140M250 104L316 64M120 112L130 154M250 104L292 150"/>
+<path class="kg-ill-path" pathLength="1" d="M120 112L178 64L250 104L316 64"/>
+<circle class="kg-ill-node kg-ill-lit" cx="120" cy="112" r="9"/><circle class="kg-ill-node kg-ill-lit" style="animation-delay:.35s" cx="178" cy="64" r="9"/><circle class="kg-ill-node kg-ill-lit" style="animation-delay:.7s" cx="250" cy="104" r="9"/><circle class="kg-ill-node kg-ill-lit" style="animation-delay:1.05s" cx="316" cy="64" r="10"/>
+<circle class="kg-ill-node" cx="196" cy="140" r="7"/><circle class="kg-ill-node" cx="130" cy="154" r="7"/><circle class="kg-ill-node" cx="292" cy="150" r="7"/>
+<text class="kg-ill-label" x="120" y="136" text-anchor="middle">폴로늄</text><text class="kg-ill-label" x="178" y="48" text-anchor="middle">마리 퀴리</text><text class="kg-ill-label" x="250" y="128" text-anchor="middle">이렌</text><text class="kg-ill-label" x="310" y="46" text-anchor="middle">1935 화학상</text>
+<text class="kg-ill-label" x="196" y="166" text-anchor="middle">피에르</text><text class="kg-ill-label" x="292" y="172" text-anchor="middle">프레데리크</text>
+</svg>

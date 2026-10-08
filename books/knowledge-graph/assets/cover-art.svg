@@ -1,0 +1,10 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="퀴리 가족 지식 그래프: 폴로늄에서 마리 퀴리, 딸 이렌을 거쳐 1935 화학상으로 이어지는 근거 사슬과 그 주변의 사실들" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-stroke cv-thin" d="M120 52L196 62M58 104L196 62M120 52L104 120M190 84L250 112M250 112L270 40M120 52L36 40M58 104L28 132"/>
+<path class="cv-line cv-bold" d="M58 104L120 52L190 84L270 40"/>
+<path class="cv-hair cv-dash" d="M190 84L196 62"/>
+<circle class="cv-fill" cx="58" cy="104" r="7"/><circle class="cv-fill" cx="120" cy="52" r="7"/><circle class="cv-fill" cx="190" cy="84" r="7"/><circle class="cv-fill" cx="270" cy="40" r="8"/>
+<circle class="cv-node" cx="196" cy="62" r="5"/><circle class="cv-node" cx="104" cy="120" r="5"/><circle class="cv-node" cx="250" cy="112" r="5"/><circle class="cv-node" cx="36" cy="40" r="5"/><circle class="cv-node" cx="28" cy="132" r="5"/>
+<text class="cv-text" x="58" y="126" text-anchor="middle">polonium</text><text class="cv-text" x="120" y="38" text-anchor="middle">marie</text><text class="cv-text" x="190" y="104" text-anchor="middle">irene</text><text class="cv-text" x="270" y="26" text-anchor="middle">nobel1935</text>
+<text class="cv-text cv-muted" x="84" y="74">discovered</text><text class="cv-text cv-muted" x="140" y="80">childOf</text><text class="cv-text cv-muted" x="236" y="70">awarded</text>
+<text class="cv-text cv-muted" x="210" y="58">pierre</text><text class="cv-text cv-muted" x="262" y="128">frederic</text><text class="cv-text cv-muted" x="36" y="26" text-anchor="middle">warsaw</text>
+</svg>

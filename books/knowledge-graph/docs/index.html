@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko" data-typeset="book" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>지식 그래프와 온톨로지 · 책 개발 문서</title>
+<link rel="stylesheet" href="../../../assets/type.css?v=20261008-type2">
+<link rel="stylesheet" href="../assets/style.css?v=20261008-kg1">
+<style>
+  .doc { max-width: 960px; margin: 0 auto; padding: 40px 18px 60px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  th, td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 8px 6px; }
+  th { color: var(--accent); }
+  .table-wrap { overflow-x: auto; }
+  section { margin: 34px 0; }
+</style>
+</head>
+<body>
+<main class="doc" id="main">
+<p class="eyebrow">책 개발 문서 · 2026-10-08</p>
+<h1>지식 그래프와 온톨로지 · 기획과 검증 기록</h1>
+<p class="lead">이 책이 무엇을 약속하는지, 장과 실험을 어떻게 이었는지, 무엇을 확인했고 무엇을 확인하지 못했는지 남깁니다.</p>
+<p><a href="../index.html">책으로 돌아가기</a> · <a href="../../../index.html#books">서가로 돌아가기</a></p>
+
+<section id="brief">
+<h2>01 책의 약속 (templates/book-brief.html의 다섯 가지)</h2>
+<div class="table-wrap"><table>
+<tr><td>책 ID·폴더</td><td><code>knowledge-graph-ontology</code> · <code>books/knowledge-graph/</code></td></tr>
+<tr><td>대상 독자</td><td>데이터베이스 표나 JSON은 다뤄 봤지만 “트리플”, “온톨로지”, “GraphRAG”가 무엇을 해 주는지 감이 없는 개발자와 학생</td></tr>
+<tr><td>끝의 행동</td><td>세 단계를 이어야 하는 질문에 대해, 필요한 트리플과 식별자를 적고, 문장 검색과 그래프 걷기 중 무엇이 근거를 놓치는지 예측하고, 사실이 빠졌을 때 무엇을 더 모아야 하는지 설명한다</td></tr>
+<tr><td>공통 사례</td><td>퀴리 가족의 사실 21개(<code>js/graph.js</code>): 마리·피에르·이렌·프레데리크·베크렐, 폴로늄·라듐, 1903·1911·1935 노벨상, 바르샤바·파리. 5장부터는 “폴란드·프랑스는 유럽에 속한다” 두 개를 더함</td></tr>
+<tr><td>범위</td><td>RDF 트리플, 식별자와 개체 해소, RDFS·OWL의 기초(클래스 계층, domain·range), 전방 연쇄, SPARQL 기본 그래프 패턴, 추출 평가, TransE, GraphRAG의 그래프 걷기. 다루지 않음: OWL 서로소·개수 제약, SPARQL FILTER·OPTIONAL·경로 표현식, 실제 언어 모델 실행, 그래프 데이터베이스 저장 구조</td></tr>
+<tr><td>증거</td><td>W3C RDF·RDFS·OWL·SPARQL·SHACL 표준, Hogan 외(2021) 개론 논문, Edge 외(2024) GraphRAG 논문, 노벨상 공식 기록(1903 물리학상, 1911·1935 화학상)</td></tr>
+<tr><td>이야기 방식</td><td>제품을 완성한다: 문장 더미에서 시작해 질문에 근거로 답하는 지식 그래프를 장마다 한 부품씩 만든다</td></tr>
+</table></div>
+</section>
+
+<section id="chapters">
+<h2>02 장 연결표</h2>
+<p>각 장의 첫 문단 첫 문장은 앞 장의 결과로, 둘째 문단 마지막 문장은 다음 장이 풀 질문으로 썼습니다. 다음 장 링크에는 이동 이유(다음 장의 시작 질문)를 붙였습니다.</p>
+<div class="table-wrap"><table>
+<tr><th>장</th><th>현재 문제</th><th>이전 장 결과</th><th>새 도구</th><th>해결한 부분</th><th>남은 질문</th></tr>
+<tr><td>01 triples</td><td>문장으로 흩어진 사실</td><td>(책의 출발점) 퀴리 가족 문장 21개</td><td>트리플, 점과 간선</td><td>문장이 같은 점을 공유하며 하나의 그래프로 이어짐</td><td>연결을 따라가면 무엇을 알 수 있나</td></tr><tr><td>02 walk</td><td>연결된 그래프에서 답 찾기</td><td>점 14개·사실 21개 그래프</td><td>너비 우선 탐색, 걸음 수</td><td>폴로늄에서 3걸음에 1935 화학상</td><td>다른 자료의 같은 사람은 같은 점인가</td></tr><tr><td>03 identity</td><td>같은 대상의 여러 이름</td><td>모든 문장이 같은 ID를 썼다는 전제</td><td>자카드 유사도, 단일 연결 묶기, 식별자</td><td>글자 비교의 한계와 식별자의 필요</td><td>점의 종류는 어떻게 알려 주나</td></tr><tr><td>04 ontology</td><td>형식은 맞지만 뜻이 틀린 트리플</td><td>식별자로 고정된 점</td><td>클래스 계층, domain·range, 검사와 RDFS</td><td>규칙이 잡아내는 오류와 RDFS의 타입 추론</td><td>규칙이 사실을 만든다는 뜻은</td></tr><tr><td>05 reasoning</td><td>적혀 있지 않은 사실</td><td>RDFS가 결론을 낸다는 관찰</td><td>전방 연쇄, 라운드, 고정점</td><td>사실 23개 → 35개, 2라운드 후 고정점</td><td>늘어난 그래프에 어떻게 묻나</td></tr><tr><td>06 query</td><td>여러 단계 질문을 정확히 묻기</td><td>추론으로 늘어난 그래프</td><td>트리플 패턴, 변수, 조인</td><td>폴로늄을 발견한 사람의 배우자</td><td>그래프는 글에서 어떻게 만드나</td></tr><tr><td>07 extraction</td><td>글에서 그래프 만들기</td><td>그래프가 있다는 6장의 가정</td><td>확신도 문턱, 정밀도·재현율·F1</td><td>어떤 문턱도 완벽하지 않다는 저울질</td><td>놓친 사실을 짐작할 수 있나</td></tr><tr><td>08 embedding</td><td>그래프의 빈칸</td><td>추출에서 놓친 사실</td><td>TransE, 관계 화살표, 평균 차이 벡터</td><td>처음 보는 마드리드의 나라를 1위로 맞힘</td><td>짐작이 아닌 근거로 답하려면</td></tr><tr><td>09 graphrag</td><td>세 단계 질문에 근거로 답하기(마지막 과제)</td><td>임베딩은 근거를 주지 못함</td><td>문장 검색 k, 그래프 걸음, 관계 제한, 사슬 확인</td><td>문장 검색 k=12 vs 그래프 3걸음(관계 제한 시 사실 11개)</td><td>사실이 빠지거나 새 질문이 오면 무엇을 바꿀까</td></tr>
+</table></div>
+</section>
+
+<section id="labs">
+<h2>03 실험과 확인 수준</h2>
+<p>확인 수준: L1 접근(화면이 열림), L2 반응(입력에 출력이 바뀜), L3 모형(계산 값이 기대값과 일치), L4 학습(독자가 새 상황에서 설명). 모든 실험은 Chromium 자동 검사로 L3까지 확인했고, L4는 실제 독자로 확인하지 않았습니다.</p>
+<div class="table-wrap"><table>
+<tr><th>실험</th><th>종류</th><th>확인한 값</th><th>수준</th><th>경계·조작</th></tr>
+<tr><td>triples</td><td>실제 계산</td><td>덩어리 수 1·2·3·4·4·3·3·2·1(문장 1~9), 0문장 경계</td><td>L3</td><td>예제 4개·초기화·0과 21 끝값</td></tr><tr><td>walk</td><td>실제 계산</td><td>닿는 점 0·3·9·13·13(0~4걸음), 최단 경로 3</td><td>L3</td><td>출발점·도착점 전체 선택 조합 오류 없음</td></tr><tr><td>resolve</td><td>실제 계산</td><td>J 값 0.17·0.45·0.50·0.67, 어떤 문턱도 섞임0+갈림0 불가</td><td>L3</td><td>식별자 모드에서 문턱 입력 비활성</td></tr><tr><td>schema</td><td>실제 계산(규칙 검사)</td><td>검사 위반, RDFS 결론 “파리는 상”</td><td>L3</td><td>모든 주어·관계·목적어 선택 조합 오류 없음</td></tr><tr><td>infer</td><td>실제 계산</td><td>라운드별 9·3, 고정점; 위치 규칙 5·3</td><td>L3</td><td>규칙 없음 경계</td></tr><tr><td>query</td><td>실제 계산</td><td>1줄 2개, 2줄 1개, 추론 포함 2개</td><td>L3</td><td>빈 결과 문장(열린 세계 설명)</td></tr><tr><td>extract</td><td>미리 정한 시나리오(점수)</td><td>0.30: P 75.0%, 0.50: P=R 88.9%, 0.85: R 33.3%, 1.00: P 정의 안 됨</td><td>L3</td><td>문턱 0·1 끝값</td></tr><tr><td>transe</td><td>실제 계산(손으로 정한 2차원 좌표)</td><td>r̂=(1.53, 1.21), 학습 쌍 4/4, 마드리드 1위</td><td>L3</td><td>r=0, 틀린 방향 예제</td></tr><tr><td>graphrag</td><td>실제 계산(언어 모델 없음)</td><td>문장 검색 k=12에서 완성, 그래프 3걸음(전체 21개·관계 제한 11개)</td><td>L3</td><td>k·걸음 끝값, 두 관계 모드</td></tr>
+</table></div>
+<p>표지 대표 실험(<code>js/home-graph.js</code>)은 2장의 탐색을 그대로 써서 2걸음은 사슬이 끊기고 3걸음에서 “1935 화학상”으로 완성되는 것을 확인했습니다. 장마다 움직이는 개념 그림(<code>js/figures.js</code>)은 간선이 차례로 그려지며, 동작 줄이기 설정에서 애니메이션이 멈추는 것(<code>animation-name: none</code>)을 확인했습니다.</p>
+</section>
+
+<section id="links">
+<h2>04 서가의 지식 연결</h2>
+<ul>
+<li>장 색인: <code>data/catalog.json</code>의 <code>chapter_index</code>에 9개 장 등록</li>
+<li>공통 개념: “벡터와 의미 공간”(8장), “기저율과 문턱”(7장), “검색과 근거”(6·9장)에 장을 더하고, 새 개념 “규칙과 논리 추론”(컴퓨터 원리 03 ↔ 4·5장)을 만듦</li>
+<li>읽기 노선: 기존 노선 “지식은 어떻게 저장되고, 찾아지고, 연결되는가”의 끝에 지식 그래프 01·09를 정거장으로 더함. 검색과 RAG 책의 마지막 과제 뒤에서 사실을 구조로 잇는 단계로 이어진다.</li>
+<li>나가는 링크: 1장→컴퓨터 원리 02, 2장→벡터와 행렬 04, 3장→확률과 통계 05, 5장→컴퓨터 원리 03, 6장→AI Book 11, 7장→AI Book 12, 8장→벡터와 행렬 01·AI Book 05, 9장→검색과 RAG 09·마지막 과제, AI Book 11, LLM 시스템 08</li>
+<li>들어오는 링크: AI Book 11(근거 찾기)→9장, AI Book 05(좌표 공간)→8장, 검색과 RAG 마지막 과제→9장</li>
+</ul>
+</section>
+
+<section id="verification">
+<h2>05 검증 기록 (2026-10-08)</h2>
+<ul>
+<li>구조: <code>npm test --prefix books/knowledge-graph</code> 16개 통과(경로·장 필드·실험 연결·카탈로그 링크·다른 책 링크 형식, 계산 대표값·경계값·불변 조건).</li>
+<li>동작: <code>tests/browser.cjs</code>로 Chromium에서 9개 장의 모든 예제 버튼(aria-pressed), 직접 조작, 슬라이더 끝값(Home/End), 모든 선택 상자 값, 초기화, 확인 문제 응답을 확인. 콘솔 오류 0개.</li>
+<li>화면 폭: 1280·390·320px에서 표지와 9개 장 모두 가로 넘침 0px, 머리말 “서가로” 버튼이 보임.</li>
+<li>서가: 1280·390·320px에서 서가의 책등을 눌러 펼친 뒤 삽화(<code>assets/shelf-illustration.svg</code>)에서 실행 중인 애니메이션 6개를 확인. 지식 지도와 새 읽기 노선을 1280px에서 눈으로 확인.</li>
+<li>수치: 노벨상 수상자·연도와 폴로늄·라듐 발견은 널리 알려진 공식 기록과 일치하도록 썼습니다. 집필 환경의 네트워크 제한으로 참고 링크 11개를 직접 열어 보지는 못했습니다.</li>
+</ul>
+</section>
+
+<section id="limits">
+<h2>06 확인하지 못한 것</h2>
+<ul>
+<li>독자 학습 효과(L4), Safari·Firefox·실제 휴대폰·화면 읽기 프로그램.</li>
+<li>참고 링크의 실제 열람(네트워크 제한). 링크 주소는 공식 사이트의 알려진 경로를 썼습니다.</li>
+<li>390px 이하에서 그래프 그림의 점 이름이 작게 보입니다. 결과는 아래 글(readout)로 함께 제공합니다.</li>
+<li>바르샤바의 소속 국가는 오늘날 기준입니다. 5장 “혼동하지 마세요”에 1867년의 맥락을 밝혔습니다.</li>
+</ul>
+</section>
+</main>
+</body>
+</html>
