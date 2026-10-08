@@ -45,6 +45,55 @@
           "url": "books/ai/#agents"
         }
       ]
+    },
+    {
+      "id": "how-computers-work",
+      "title": "컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지",
+      "spine_title": "컴퓨터 원리",
+      "spine_category": "컴퓨터",
+      "color": "amber",
+      "description": "3 + 4를 누르면 화면에 7이 뜨기까지. 비트와 게이트로 덧셈기와 메모리를 만들고, 작은 CPU에서 직접 프로그램을 실행하며 캐시까지 9개 장과 9개 실험으로 따라갑니다.",
+      "illustration": "books/computer/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 비트로 저장된 3과 4가 덧셈기를 지나 0111이 되고 화면에 7로 나타납니다. 회로 동작을 단순화한 그림입니다.",
+      "status": "published",
+      "url": "books/computer/",
+      "keywords": [
+        "컴퓨터",
+        "컴퓨터 구조",
+        "비트",
+        "이진수",
+        "논리 게이트",
+        "가산기",
+        "CPU",
+        "메모리",
+        "캐시"
+      ],
+      "chapters": [
+        {
+          "title": "전체 9개 장",
+          "url": "books/computer/#toc"
+        },
+        {
+          "title": "01 · 스위치로 수 세기",
+          "url": "books/computer/#bits"
+        },
+        {
+          "title": "04 · 게이트로 더하기",
+          "url": "books/computer/#adder"
+        },
+        {
+          "title": "06 · 명령을 하나씩 실행하기",
+          "url": "books/computer/#cpu"
+        },
+        {
+          "title": "08 · 기다리지 않는 법",
+          "url": "books/computer/#cache"
+        },
+        {
+          "title": "09 · 마지막 과제",
+          "url": "books/computer/#final"
+        }
+      ]
     }
   ],
   "learning_paths": []
