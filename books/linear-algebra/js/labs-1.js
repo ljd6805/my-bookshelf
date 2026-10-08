@@ -4,11 +4,19 @@
   const { fmt, vec } = UI;
   const F = SONGS.features;
 
-  // 표지: 여덟 곡과 '나'를 한 평면에 놓습니다.
+  // 표지: 여덟 곡과 '나'를 한 평면에 놓고, 취향 방향을 돌리면 코사인 1위 노래가 바뀝니다.
   UI.lab('songs-map', (root) => {
-    const p = new Plane(root.querySelector('svg'), { range: 3.5 });
-    p.grid().axes(F);
-    KIT.drawSongs(p).arrow(SONGS.me, 'me', '나').render();
+    const p = new Plane(root.querySelector('svg'), { range: 4 });
+    const out = root.querySelector('.readout');
+    const len = LA.norm(SONGS.me);
+    const draw = (v) => {
+      const me = LA.scale(len, LA.fromDeg(v.theta));
+      const best = SONGS.songs.map((s) => ({ s, c: LA.cosine(me, s.v) })).sort((x, y) => y.c - x.c)[0];
+      p.clear().grid().axes(F);
+      KIT.drawSongs(p, null, { hi: [best.s.id] }).arrow(me, 'me', '나').render();
+      out.innerHTML = `<p>취향 방향 ${fmt(v.theta, 0)}° → 가장 닮은 노래는 <strong>${best.s.name}</strong>(코사인 ${fmt(best.c)})입니다.</p>`;
+    };
+    UI.ranges(root, draw).update();
   });
 
   // 1장: 두 노래를 비율 t로 섞은 재생목록의 평균 특징 (1−t)·a + t·b

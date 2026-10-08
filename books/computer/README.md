@@ -16,4 +16,4 @@ node books/computer/tests/browser.cjs   # Playwright 필요, 서버 실행 중
 ```
 
 `js/model.js`(비트·게이트·가산기), `js/cpu.js`(교육용 8비트 CPU), `js/cache.js`(직접 사상 캐시)는 화면과 분리된 계산 모형입니다.
-`js/labs-*.js`가 실험 화면을, `js/app.js`가 실험 연결과 읽은 장 표시를 맡습니다. 외부 의존성과 서버 통신은 없습니다.
+화면 틀은 AI Book과 같습니다. `js/content.js`가 장 내용, `js/figures.js`가 삽화, `js/labs-*.js`가 실험 화면, `js/lab-guides.js`가 실험 안내, `js/app.js`가 hash 경로(`#home`, `#bits` …)와 목차를 맡습니다. 외부 의존성과 서버 통신은 없습니다.

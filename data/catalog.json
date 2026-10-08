@@ -44,7 +44,8 @@
           "title": "12 · 도구를 쓰고 결과를 확인하기",
           "url": "books/ai/#agents"
         }
-      ]
+      ],
+      "short_title": "AI Book"
     },
     {
       "id": "how-computers-work",
@@ -71,7 +72,7 @@
       "chapters": [
         {
           "title": "전체 9개 장",
-          "url": "books/computer/#toc"
+          "url": "books/computer/#chapters"
         },
         {
           "title": "01 · 스위치로 수 세기",
@@ -93,7 +94,8 @@
           "title": "09 · 마지막 과제",
           "url": "books/computer/#final"
         }
-      ]
+      ],
+      "short_title": "컴퓨터 원리"
     },
     {
       "id": "linear-algebra-world",
@@ -124,25 +126,26 @@
       "chapters": [
         {
           "title": "전체 11개 장",
-          "url": "books/linear-algebra/#contents"
+          "url": "books/linear-algebra/#chapters"
         },
         {
           "title": "01 · 노래를 화살표로 적기",
-          "url": "books/linear-algebra/vectors.html"
+          "url": "books/linear-algebra/#vectors"
         },
         {
           "title": "02 · 얼마나 닮았는지 재기",
-          "url": "books/linear-algebra/similarity.html"
+          "url": "books/linear-algebra/#similarity"
         },
         {
           "title": "04 · 행렬은 평면을 옮기는 규칙",
-          "url": "books/linear-algebra/matrix.html"
+          "url": "books/linear-algebra/#matrix"
         },
         {
           "title": "09 · 노래 구름의 가장 긴 방향",
-          "url": "books/linear-algebra/pca.html"
+          "url": "books/linear-algebra/#pca"
         }
-      ]
+      ],
+      "short_title": "벡터와 행렬"
     },
     {
       "id": "probability-statistics",
@@ -195,7 +198,8 @@
           "title": "마지막 과제 · 새 센서를 들일까",
           "url": "books/probability/#final"
         }
-      ]
+      ],
+      "short_title": "확률과 통계"
     }
   ],
   "learning_paths": [
@@ -261,6 +265,421 @@
         "정확도 숫자에 신뢰구간을 붙여 말할 수 있는가",
         "기저율이 낮은 문제에서 정밀도가 낮아지는 이유를 설명할 수 있는가",
         "교차 엔트로피 손실과 우도의 관계를 한 문장으로 말할 수 있는가"
+      ]
+    },
+    {
+      "id": "how-ai-reads-text",
+      "title": "AI는 내 문장을 어떻게 읽을까",
+      "question": "내가 입력한 문장은 AI 안에서 어떤 숫자가 되고, 무엇과 비교될까?",
+      "audience": "챗봇과 검색을 매일 쓰지만 안에서 무슨 일이 일어나는지 궁금한 입문자",
+      "prerequisites": "좌표평면에 점 찍기",
+      "start": "같은 질문을 조금 다르게 썼는데 검색 결과가 거의 같게 나왔다.",
+      "steps": [
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#encoding",
+          "task": "같은 바이트를 숫자와 글자로 바꿔 읽어 본다",
+          "minutes": 12,
+          "why": "글자는 처음부터 숫자로 저장되고, 읽는 약속이 뜻을 정한다",
+          "record": "한글 “가” 한 글자가 몇 바이트인지"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#tokens",
+          "task": "BPE 병합 횟수를 늘리며 조각 수가 줄어드는 모습을 본다",
+          "minutes": 10,
+          "why": "모델은 글자 하나하나가 아니라 자주 나오는 조각에 번호를 붙인다",
+          "record": "병합 0회와 8회의 조각 수"
+        },
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#vectors",
+          "task": "노래를 숫자 두 개로 적고 두 벡터를 섞어 본다",
+          "minutes": 12,
+          "why": "번호만으로는 가까움을 잴 수 없어 좌표가 필요하다",
+          "record": "두 노래를 반씩 섞은 좌표"
+        },
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#similarity",
+          "task": "거리 순위와 코사인 유사도 순위를 비교한다",
+          "minutes": 14,
+          "why": "뜻이 비슷한지는 길이보다 방향으로 잰다",
+          "record": "거리 1위와 코사인 1위가 다른 노래"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#embeddings",
+          "task": "각도와 길이를 바꾸며 유사도가 어떻게 변하는지 본다",
+          "minutes": 10,
+          "why": "같은 계산이 단어와 문장의 의미 공간에서 쓰인다",
+          "record": "90°에서 길이만 바꿨을 때의 유사도"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#rag",
+          "task": "키워드 겹침으로 근거 문서의 순위를 매겨 본다",
+          "minutes": 12,
+          "why": "키워드 검색이 놓치는 질문을 보면 벡터 검색이 왜 필요한지 알 수 있다",
+          "record": "“우주선” 검색에서 놓친 문서"
+        }
+      ],
+      "challenge": "“노트북이 느려요”와 “컴퓨터 속도가 떨어졌어요”를 같은 안내 문서로 연결하려면 키워드 검색과 임베딩 검색 중 무엇이 필요한지, 그리고 임베딩 검색이 틀릴 수 있는 경우 하나를 설명한다.",
+      "checks": [
+        "글자가 바이트가 되는 단계와 토큰 번호가 되는 단계를 구분할 수 있는가",
+        "코사인 유사도가 길이가 아니라 방향을 잰다는 것을 그림으로 설명할 수 있는가",
+        "키워드 검색이 놓치는 질문의 예를 하나 들 수 있는가"
+      ]
+    },
+    {
+      "id": "from-gate-to-layer",
+      "title": "판단하는 부품에서 배우는 층으로",
+      "question": "사람이 규칙을 정한 회로와 데이터로 배우는 신경망은 어디가 같고 어디가 다를까?",
+      "audience": "회로나 코딩을 조금 알고 신경망은 처음인 독자",
+      "prerequisites": "일차함수 y = ax + b",
+      "start": "“AND 게이트 하나는 뉴런 하나로 흉내 낼 수 있다”는 말을 들었다.",
+      "steps": [
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#gates",
+          "task": "스위치 연결만 바꿔 AND와 OR의 진리표를 만든다",
+          "minutes": 12,
+          "why": "판단의 최소 단위는 입력 조합마다 출력을 정한 규칙이다",
+          "record": "AND와 OR의 진리표"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#neuron",
+          "task": "가중치와 편향을 바꾸며 출력 곡선이 움직이는 모습을 본다",
+          "minutes": 12,
+          "why": "뉴런은 같은 판단을 사람이 쓴 규칙 대신 숫자로 조절한다",
+          "record": "AND처럼 동작하는 w₁, w₂, b 한 조합"
+        },
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#matrix",
+          "task": "행렬의 네 숫자를 바꾸며 격자 전체가 움직이는 모습을 본다",
+          "minutes": 15,
+          "why": "뉴런 여러 개를 한꺼번에 계산하면 행렬 곱이 된다",
+          "record": "격자가 한 줄로 납작해지는 행렬"
+        },
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#layer",
+          "task": "행렬 곱에 편향과 ReLU를 더해 신경망 한 층을 읽는다",
+          "minutes": 15,
+          "why": "꺾기가 없으면 층을 아무리 쌓아도 행렬 하나와 같다",
+          "record": "ReLU 전후 점들의 배치"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#learning",
+          "task": "경사하강법으로 손실의 바닥을 찾아간다",
+          "minutes": 15,
+          "why": "가중치를 사람이 고르지 않고 데이터에서 찾는 방법이다",
+          "record": "수렴하는 학습률과 발산하는 학습률"
+        }
+      ],
+      "challenge": "XOR(두 입력이 다를 때 1)은 뉴런 하나로 만들 수 없다. 컴퓨터 책에서 게이트를 이어 XOR을 만든 방법과 신경망에 층을 하나 더 쌓는 방법을 비교해 설명한다.",
+      "checks": [
+        "진리표와 가중치가 각각 무엇을 정하는지 말할 수 있는가",
+        "뉴런 여러 개를 행렬 W의 행으로 읽을 수 있는가",
+        "활성화 함수 없이 층을 쌓으면 왜 행렬 하나와 같은지 설명할 수 있는가"
+      ]
+    },
+    {
+      "id": "model-on-my-laptop",
+      "title": "내 노트북에서 모델이 돌아갈까",
+      "question": "모델 크기와 내 장비 사양만 보고 실행할 수 있을지 어떻게 판단할까?",
+      "audience": "로컬에서 언어 모델을 돌려 보려는 학생과 개발자",
+      "prerequisites": "바이트, 기가바이트 같은 저장 단위",
+      "start": "70억 파라미터 모델을 메모리 16GB 노트북에서 돌려 보려 한다.",
+      "steps": [
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#bits",
+          "task": "스위치 8개로 셀 수 있는 가장 큰 수와 넘침을 확인한다",
+          "minutes": 10,
+          "why": "숫자 하나를 몇 비트로 적느냐가 표현할 수 있는 범위를 정한다",
+          "record": "8비트 최댓값과 1을 더했을 때 남는 값"
+        },
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#memory",
+          "task": "클럭과 쓰기 허용을 바꾸며 레지스터가 값을 붙잡는 모습을 본다",
+          "minutes": 12,
+          "why": "값을 붙잡아 두려면 비트마다 칸이 필요하고, 그 칸의 합이 메모리 크기다",
+          "record": "쓰기 허용을 끈 채 클럭을 눌렀을 때의 Q"
+        },
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#cache",
+          "task": "읽는 순서를 바꾸며 캐시 적중률과 시간을 비교한다",
+          "minutes": 15,
+          "why": "계산보다 데이터를 옮기는 시간이 병목이 되는 경우가 많다",
+          "record": "차례로 읽기와 건너뛰며 읽기의 적중률"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#inference",
+          "task": "양자화 비트 수와 문맥 길이를 바꾸며 필요한 메모리를 계산한다",
+          "minutes": 15,
+          "why": "파라미터 수와 비트 수, 문맥 길이로 필요한 메모리를 어림할 수 있다",
+          "record": "4비트와 8비트의 가중치 메모리, 문맥을 두 배로 늘렸을 때의 변화"
+        }
+      ],
+      "challenge": "16GB 노트북에 70억 파라미터 모델을 올릴 때 4비트와 8비트 중 무엇을 고를지, 문맥 길이를 늘리면 무엇이 부족해지는지, 메모리 계산 말고 어떤 증거를 더 확인해야 하는지 설명한다.",
+      "checks": [
+        "파라미터 수와 비트 수로 가중치 메모리를 어림할 수 있는가",
+        "비트를 줄이면 무엇을 잃는지 숫자 예로 말할 수 있는가",
+        "같은 계산도 읽는 순서에 따라 빨라지거나 느려지는 이유를 설명할 수 있는가"
+      ]
+    }
+  ],
+  "chapter_index": {
+    "books/ai/#neuron": "01 · 신경망의 작은 부품",
+    "books/ai/#learning": "02 · 오차를 줄이는 방향으로",
+    "books/ai/#generalization": "03 · 외우는 것과 배우는 것",
+    "books/ai/#tokens": "04 · 문장을 숫자로 바꾸기",
+    "books/ai/#embeddings": "05 · 의미를 놓는 좌표 공간",
+    "books/ai/#attention": "06 · 어떤 정보를 참고할까",
+    "books/ai/#generation": "07 · 다음 토큰을 고르는 법",
+    "books/ai/#vision": "08 · 이미지에서 패턴 찾기",
+    "books/ai/#alignment": "09 · 답변 방식을 배우는 단계",
+    "books/ai/#inference": "10 · 내 장비에 모델 올리기",
+    "books/ai/#rag": "11 · 답하기 전에 근거 찾기",
+    "books/ai/#agents": "12 · 도구를 쓰고 결과를 확인하기",
+    "books/computer/#bits": "01 · 스위치로 수 세기",
+    "books/computer/#encoding": "02 · 같은 비트, 다른 뜻",
+    "books/computer/#gates": "03 · 전기로 판단하기",
+    "books/computer/#adder": "04 · 게이트로 더하기",
+    "books/computer/#memory": "05 · 값을 붙잡아 두기",
+    "books/computer/#cpu": "06 · 명령을 하나씩 실행하기",
+    "books/computer/#programs": "07 · 반복하고 갈라지기",
+    "books/computer/#cache": "08 · 기다리지 않는 법",
+    "books/computer/#final": "마지막 과제 · 100 × 3은 왜 44인가",
+    "books/linear-algebra/#vectors": "01 · 노래를 화살표로 적기",
+    "books/linear-algebra/#similarity": "02 · 얼마나 닮았는지 재기",
+    "books/linear-algebra/#projection": "03 · 내 취향 방향으로 그림자 드리우기",
+    "books/linear-algebra/#matrix": "04 · 행렬은 평면을 옮기는 규칙",
+    "books/linear-algebra/#compose": "05 · 변환을 이어 붙이면 순서가 중요하다",
+    "books/linear-algebra/#determinant": "06 · 넓이가 얼마나 변하는가",
+    "books/linear-algebra/#inverse": "07 · 기록에서 원래 노래 되찾기",
+    "books/linear-algebra/#eigen": "08 · 방향이 바뀌지 않는 화살표",
+    "books/linear-algebra/#pca": "09 · 노래 구름의 가장 긴 방향",
+    "books/linear-algebra/#layer": "10 · 신경망 한 층은 행렬 곱과 꺾기",
+    "books/linear-algebra/#challenge": "마지막 과제 · 셋째 특징이 생긴 날",
+    "books/probability/#chance": "01 · 우연은 얼마나 흔들릴까",
+    "books/probability/#binomial": "02 · 오늘 경보 다섯 번은 이상한가",
+    "books/probability/#spread": "03 · 평균 하나로는 부족하다",
+    "books/probability/#clt": "04 · 평균은 왜 종 모양이 되나",
+    "books/probability/#bayes": "05 · 경보가 울리면 정말 고장일까",
+    "books/probability/#interval": "06 · 불량률을 범위로 말하기",
+    "books/probability/#testing": "07 · 새 센서가 정말 나아졌나",
+    "books/probability/#likelihood": "08 · 데이터에 가장 잘 맞는 확률 찾기"
+  },
+  "concepts": [
+    {
+      "id": "number-representation",
+      "name": "비트와 수의 표현",
+      "aliases": [
+        "bit",
+        "byte",
+        "encoding",
+        "precision"
+      ],
+      "summary": "숫자와 글자를 몇 개의 비트로, 어떤 약속으로 적는가",
+      "chapters": [
+        "books/computer/#bits",
+        "books/computer/#encoding",
+        "books/ai/#tokens",
+        "books/ai/#inference"
+      ]
+    },
+    {
+      "id": "decision-unit",
+      "name": "판단하는 작은 부품",
+      "aliases": [
+        "logic gate",
+        "neuron",
+        "threshold"
+      ],
+      "summary": "입력 조합을 보고 출력을 정하는 가장 작은 계산 단위",
+      "chapters": [
+        "books/computer/#gates",
+        "books/ai/#neuron",
+        "books/linear-algebra/#layer"
+      ]
+    },
+    {
+      "id": "dot-product",
+      "name": "내적과 가중합",
+      "aliases": [
+        "dot product",
+        "weighted sum"
+      ],
+      "summary": "곱해서 더하기 한 번으로 점수와 닮음을 동시에 잰다",
+      "chapters": [
+        "books/linear-algebra/#vectors",
+        "books/linear-algebra/#similarity",
+        "books/ai/#neuron",
+        "books/ai/#attention"
+      ]
+    },
+    {
+      "id": "vector-space",
+      "name": "벡터와 의미 공간",
+      "aliases": [
+        "vector",
+        "embedding",
+        "cosine similarity"
+      ],
+      "summary": "대상을 좌표로 적고 방향으로 가까움을 잰다",
+      "chapters": [
+        "books/linear-algebra/#vectors",
+        "books/linear-algebra/#similarity",
+        "books/ai/#embeddings",
+        "books/ai/#rag"
+      ]
+    },
+    {
+      "id": "linear-transform",
+      "name": "행렬 변환과 층",
+      "aliases": [
+        "matrix",
+        "linear map",
+        "layer"
+      ],
+      "summary": "행렬은 공간 전체를 옮기는 규칙이고 신경망 한 층의 몸통이다",
+      "chapters": [
+        "books/linear-algebra/#matrix",
+        "books/linear-algebra/#compose",
+        "books/linear-algebra/#layer",
+        "books/ai/#neuron"
+      ]
+    },
+    {
+      "id": "variance",
+      "name": "흔들림과 분산",
+      "aliases": [
+        "variance",
+        "spread",
+        "standard deviation"
+      ],
+      "summary": "값이 평균에서 얼마나 퍼지는지가 정보의 양이자 불확실성이다",
+      "chapters": [
+        "books/probability/#chance",
+        "books/probability/#spread",
+        "books/probability/#clt",
+        "books/linear-algebra/#pca"
+      ]
+    },
+    {
+      "id": "dimension-reduction",
+      "name": "차원 줄이기",
+      "aliases": [
+        "PCA",
+        "eigenvector",
+        "principal component"
+      ],
+      "summary": "정보를 가장 덜 잃는 방향만 남겨 적은 숫자로 요약한다",
+      "chapters": [
+        "books/linear-algebra/#eigen",
+        "books/linear-algebra/#pca",
+        "books/ai/#embeddings"
+      ]
+    },
+    {
+      "id": "sampling",
+      "name": "확률 분포와 뽑기",
+      "aliases": [
+        "probability distribution",
+        "sampling",
+        "temperature"
+      ],
+      "summary": "확률표에서 하나를 뽑으면 같은 조건에서도 결과가 달라진다",
+      "chapters": [
+        "books/probability/#chance",
+        "books/probability/#binomial",
+        "books/ai/#generation"
+      ]
+    },
+    {
+      "id": "loss-likelihood",
+      "name": "손실과 우도",
+      "aliases": [
+        "loss",
+        "likelihood",
+        "cross-entropy",
+        "gradient descent"
+      ],
+      "summary": "데이터에 가장 잘 맞는 값을 찾는 일은 손실의 바닥을 찾는 일이다",
+      "chapters": [
+        "books/probability/#likelihood",
+        "books/probability/#spread",
+        "books/ai/#learning"
+      ]
+    },
+    {
+      "id": "evaluation-uncertainty",
+      "name": "평가 숫자의 불확실성",
+      "aliases": [
+        "confidence interval",
+        "hypothesis test",
+        "validation"
+      ],
+      "summary": "정확도도 표본에서 센 비율이라 범위와 함께 말해야 한다",
+      "chapters": [
+        "books/probability/#interval",
+        "books/probability/#testing",
+        "books/ai/#generalization",
+        "books/ai/#agents"
+      ]
+    },
+    {
+      "id": "base-rate-threshold",
+      "name": "기저율과 문턱",
+      "aliases": [
+        "base rate",
+        "threshold",
+        "false alarm",
+        "precision"
+      ],
+      "summary": "드문 사건을 잡는 경보는 문턱과 기저율에 따라 대부분 오경보가 될 수 있다",
+      "chapters": [
+        "books/probability/#binomial",
+        "books/probability/#bayes",
+        "books/ai/#agents"
+      ]
+    },
+    {
+      "id": "control-loop",
+      "name": "반복과 분기",
+      "aliases": [
+        "loop",
+        "branch",
+        "agent loop"
+      ],
+      "summary": "결과를 보고 다음 행동을 고르는 흐름이 프로그램과 에이전트를 만든다",
+      "chapters": [
+        "books/computer/#cpu",
+        "books/computer/#programs",
+        "books/ai/#agents"
+      ]
+    },
+    {
+      "id": "memory-hierarchy",
+      "name": "메모리와 캐시",
+      "aliases": [
+        "memory",
+        "cache",
+        "quantization"
+      ],
+      "summary": "계산보다 데이터를 담고 옮기는 비용이 속도와 실행 가능 여부를 정한다",
+      "chapters": [
+        "books/computer/#memory",
+        "books/computer/#cache",
+        "books/ai/#inference"
       ]
     }
   ]

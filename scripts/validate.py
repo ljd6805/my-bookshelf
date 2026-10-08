@@ -84,6 +84,19 @@ def validate_shelf_return(root):
     return errors
 
 
+def validate_cross_links(root):
+    """Links from one book's scripts to another book (../topic/#chapter) must hit a known route."""
+    routes, errors = {}, []
+    for page in root.glob('books/*/index.html'):
+        routes[page.parent.name] = Document(page.read_text()).ids
+    pattern = re.compile(r'\.\./([a-z-]+)/(?:index\.html)?#([\w-]+)')
+    for script in sorted(root.glob('books/*/js/*.js')):
+        for book, anchor in pattern.findall(script.read_text()):
+            if anchor not in routes.get(book, set()):
+                errors.append(f'{script.relative_to(root)}: missing cross-book link ../{book}/#{anchor}')
+    return errors
+
+
 def validate_catalog(catalog):
     errors, seen = [], set()
     for book in catalog.get('books', []):
@@ -135,6 +148,7 @@ def main():
     catalog = json.loads((ROOT / 'data/catalog.json').read_text())
     errors += validate_catalog(catalog)
     errors += validate_shelf_return(ROOT)
+    errors += validate_cross_links(ROOT)
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:
         errors.append('Catalog HTML is stale: run python scripts/build_catalog.py')

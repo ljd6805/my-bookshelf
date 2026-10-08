@@ -33,13 +33,13 @@ test('every lab has a guide with purpose, reading and challenge', () => {
   }
 });
 
-test('cross-book links point at declared AI Book routes', () => {
-  const ai = fs.readFileSync(path.join(root, '../ai/index.html'), 'utf8');
-  const aiRoutes = new Set(ai.match(/name="book-routes" content="([^"]+)"/)[1].split(','));
+test('cross-book links point at declared routes of another book', () => {
+  const routes = (dir) => new Set(fs.readFileSync(path.join(root, '..', dir, 'index.html'), 'utf8')
+    .match(/name="book-routes" content="([^"]+)"/)[1].split(','));
   for (const c of book.chapters) for (const d of c.deeper) {
-    const [file, hash] = d.href.split('#');
-    assert.equal(file, '../ai/');
-    assert.ok(aiRoutes.has(hash), d.href);
+    const [, dir, hash] = d.href.match(/^\.\.\/([a-z-]+)\/#(.+)$/) || [];
+    assert.ok(dir && dir !== 'probability', d.href);
+    assert.ok(routes(dir).has(hash), d.href);
   }
 });
 

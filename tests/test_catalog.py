@@ -51,7 +51,7 @@ class CatalogRenderingTests(unittest.TestCase):
 
     def test_rebuild_is_idempotent(self):
         source = '\n'.join(f'<!-- {x}:START --><!-- {x}:END -->'
-                           for x in ['RESOURCES', 'BOOKS', 'COUNT'])
+                           for x in ['RESOURCES', 'BOOKS', 'CURATION', 'COUNT'])
         first = build(source, {'resources': [], 'books': []})
         self.assertEqual(build(first, {'resources': [], 'books': []}), first)
 

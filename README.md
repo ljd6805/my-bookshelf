@@ -13,6 +13,7 @@ GitHub Pages는 `main` 브랜치의 루트에서 자동 배포합니다. 별도 
 - [서재 구성과 책 추가 방법](docs/04-site-plan.html) · [검증 기록](docs/03-verification.html)
 
 - [유리 서가 디자인 기준](docs/05-glass-library-design.html) · [구현·검증·문제 해결 기록](docs/06-glass-library-implementation.html)
+- [책 구성 표준 · AI Book 기준](docs/08-book-template.html): 모든 책이 따르는 화면 배치와 장 구조
 
 ## 책과 자료 추가
 
