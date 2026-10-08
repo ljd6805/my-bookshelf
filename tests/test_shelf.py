@@ -1,4 +1,5 @@
 """Glass shelves must stay honest, accessible and safe as the catalog grows."""
+import unicodedata
 import unittest
 from scripts.build_catalog import build
 from scripts.shelf_renderer import render_resources, spine, check_shelf_harmony
@@ -84,6 +85,8 @@ class GlassShelfTests(unittest.TestCase):
                  'next to each other': [shelf_book('a', '수학', 'sage'), shelf_book('b', '컴퓨터', 'blue'),
                                         shelf_book('c', '수학', 'amber')],
                  'spine_category': [shelf_book('a', '네트워크보안', 'sage')],
+                 'NFC with single spaces': [shelf_book('a', 'AI     시스', 'sage')],
+                 'NFC': [shelf_book('a', unicodedata.normalize('NFD', '수학'), 'amber')],
                  'color must be': [shelf_book('a', '수학', None)],
                  'illustration': [{**shelf_book('a', '수학', 'sage'), 'illustration': ''}]}
         for message, books in cases.items():

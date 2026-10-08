@@ -132,9 +132,10 @@ def check_shelf_harmony(books):
     """Display rules for the learning-book shelf (docs/04-site-plan.html#shelf-display-rule)."""
     seen_groups = []
     for i, book in enumerate(books):
-        label = book.get('spine_category')
-        if not isinstance(label, str) or not 1 <= len(visible_chars(label)) <= SPINE_CATEGORY_MAX_CHARS:
-            raise ValueError(f"{book['id']}: spine_category is required and must be "
+        raw = book.get('spine_category')
+        label = visible_chars(raw) if isinstance(raw, str) else ''
+        if raw != ' '.join(unicodedata.normalize('NFC', raw or '').split()) or not 1 <= len(label) <= SPINE_CATEGORY_MAX_CHARS:
+            raise ValueError(f"{book['id']}: spine_category is required, NFC with single spaces, and "
                              f"1–{SPINE_CATEGORY_MAX_CHARS} characters without spaces")
         if book.get('color') not in TONES:
             raise ValueError(f"{book['id']}: color must be one of {', '.join(TONES)}")
@@ -144,7 +145,7 @@ def check_shelf_harmony(books):
         if previous and previous['color'] == book['color']:
             raise ValueError(f"{book['id']}: neighbouring books {previous['id']} and {book['id']} "
                              "share a color; pick a different glass tone")
-        if previous and previous['spine_category'] == label:
+        if previous and visible_chars(previous['spine_category']) == label:
             continue
         if label in seen_groups:
             raise ValueError(f"{book['id']}: books in category {label} must stand next to each other")
