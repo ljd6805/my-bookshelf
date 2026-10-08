@@ -6,3 +6,4 @@
 - 계산은 `js/model.js`, `js/cpu.js`, `js/cache.js`(순수 함수)에, 화면은 `js/labs-*.js`에 둔다. 다른 책의 JavaScript를 가져오지 않는다.
 - CPU 명령 집합을 바꾸면 6장 명령표, `docs/index.html`의 모형 경계, 테스트를 함께 고친다.
 - 루트에서 `npm test --prefix books/computer`, `python3 scripts/validate.py`를 실행한다. 실험을 바꾸면 서버를 띄운 뒤 `node books/computer/tests/browser.cjs`로 실제 브라우저에서 확인한다.
+- 머리말의 서가로 돌아가기 버튼(`data-shelf-return`, `../../index.html#books`)을 유지한다. 기준은 `docs/07-book-integration.html#shelf-return`이다.

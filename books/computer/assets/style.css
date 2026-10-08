@@ -33,6 +33,13 @@ header.top {
 }
 header.top .brand { font-weight: 800; text-decoration: none; color: var(--ink); letter-spacing: .02em; }
 header.top nav { display: flex; gap: 14px; flex-wrap: wrap; }
+header.top nav { align-items: center; }
+/* 서가로 돌아가기 버튼: 모든 책의 머리말에 두는 공통 규칙(docs/07-book-integration.html#shelf-return) */
+header.top .shelf-return {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; white-space: nowrap;
+  border: 1px solid var(--accent); border-radius: 999px; color: #8a4307; font-weight: 700; text-decoration: none;
+}
+header.top .shelf-return:hover { background: var(--accent-soft); }
 .shell { max-width: 1280px; margin: auto; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 40px; padding: 0 4vw; }
 aside.toc { position: sticky; top: 64px; align-self: start; max-height: calc(100vh - 80px); overflow: auto; padding: 28px 0; font-size: 14px; }
 aside.toc ol { list-style: none; margin: 0; padding: 0; }

@@ -51,6 +51,38 @@ def validate_html(root):
     return errors, len(docs)
 
 
+class ShelfReturn(HTMLParser):
+    """Collects shelf-return links and whether each sits inside <header>."""
+    def __init__(self, text):
+        super().__init__()
+        self.depth, self.links = 0, []
+        self.feed(text)
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        self.depth += tag == 'header'
+        if tag == 'a' and 'data-shelf-return' in a and 'shelf-return' in (a.get('class') or '').split():
+            self.links.append((a.get('href', ''), self.depth > 0))
+
+    def handle_endtag(self, tag):
+        self.depth -= tag == 'header' and self.depth > 0
+
+
+def validate_shelf_return(root):
+    """Every books/<topic>/index.html needs a header button back to the shelf."""
+    errors, home = [], (root / 'index.html').resolve()
+    for page in sorted(root.glob('books/*/index.html')):
+        ok = False
+        for href, in_header in ShelfReturn(page.read_text()).links:
+            u = urlsplit(href)
+            target = (page.parent / unquote(u.path)).resolve()
+            ok |= in_header and not u.scheme and target == home and u.fragment == 'books'
+        if not ok:
+            errors.append(f'{page.relative_to(root)}: needs <a class="shelf-return" '
+                          'data-shelf-return href="../../index.html#books"> inside <header>')
+    return errors
+
+
 def validate_catalog(catalog):
     errors, seen = [], set()
     for book in catalog.get('books', []):
@@ -86,6 +118,7 @@ def main():
         json.loads(path.read_text())
     catalog = json.loads((ROOT / 'data/catalog.json').read_text())
     errors += validate_catalog(catalog)
+    errors += validate_shelf_return(ROOT)
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:
         errors.append('Catalog HTML is stale: run python scripts/build_catalog.py')
