@@ -1,0 +1,82 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AI 인프라와 운영 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">AI 인프라와 운영 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>AI 인프라와 운영 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 18권 《AI 인프라와 운영 · 모델 서버에서 운영 장부까지》의 기획, 원본 레슨 대응, 구현, 검증을 한곳에 모았습니다. 작성일 2026-10-08. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 17 · Infrastructure and Production입니다. 원문과 코드를 옮기지 않았고, 개념과 순서만 참고해 새로 썼습니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: LLM을 API로 불러 본 적은 있지만, 직접 모델 서버를 올리고 비용과 지연, 사고를 책임져 본 적은 없는 엔지니어. vLLM, goodput, 카나리라는 이름은 알아도 “지금 우리 서비스에 어느 손잡이를 돌려야 하는지” 숫자로 말하기 어려워합니다.</li>
+<li><b>끝의 행동</b>: 운영 보고 하나를 받고, 원인을 어느 장의 변수(웜 풀, 프롬프트 순서, 청크 프리필, 라우팅)에서 찾을지 고른 뒤, 같은 계산을 다시 돌려 처방이 실패한 지표를 실제로 움직이는지 확인합니다.</li>
+<li><b>공통 사례</b>: 다온의 상담 챗봇 누리봇. 쇼핑몰·병원 예약·유럽 매장 세 고객사가 하루 약 5만 건을 보내고, 요청마다 공통 접두부 2,000토큰·고객별 내용 500토큰·답 200토큰을 씁니다. 70B 모델을 H100 80GB에 올리고, 목표는 TTFT 800ms·TPOT 25ms·전체 3,000ms입니다.</li>
+<li><b>이야기 방식</b>: 하나의 제품을 완성한다. 장마다 누리봇 운영에 필요한 결정 하나(어디서 돌릴지, 어떤 형식으로 담을지, 엔진을 어떻게 설정할지, 무엇을 잴지, 어떻게 빠르게 할지, 어디로 보낼지, 언제 늘릴지, 청구서를 어떻게 줄일지, 무엇을 지킬지, 어떻게 바꿀지, 사고에 어떻게 대비할지)를 계산으로 내리고, 마지막 장에서 월요일 아침의 운영 보고 세 가지를 진단합니다.</li>
+<li><b>범위</b>: 원본 Phase 17의 레슨 28개 전부. 페이지 KV, 연속 배치, 지표 정의, 가중치 형식처럼 서재의 LLM 시스템(books/llm-gpu)·LLM 성능(books/llm-performance) 책이 깊게 다룬 내용은 한 문단으로 줄이고 그 장으로 링크합니다. 대신 운영 결정과 비용, 확률로 따지는 배포·사고 대응에 분량을 씁니다.</li>
+<li><b>증거</b>: 실험 16개는 모두 브라우저에서 js/math.js의 함수로 계산합니다. 실제 계산인지, 시드를 고정한 시나리오인지, 교육용 가정값이 무엇인지를 결과 문장마다 밝힙니다. 가격·제품 상태·버전은 원본 커리큘럼 기준(확인일 2026-10-08)으로만 쓰고 현재 가격표로 제시하지 않습니다.</li>
+</ul></section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>레슨 28개가 모두 한 장 이상에 들어갔습니다. 각 장의 “더 읽어 보기”에 원본 레슨 폴더 링크를 출처로 두었습니다.</p>
+<table><thead><tr><th>레슨</th><th>원본 제목</th><th>장</th><th>이 책에서 다룬 방식</th></tr></thead><tbody>
+<tr><td>01</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Managed LLM Platforms</a></td><td><a href="../index.html#platform">platform</a></td><td>세 갈래 플랫폼이 값을 매기는 단위만 요약하고, 토큰과 GPU의 손익분기 계산(breakeven)으로 옮겼습니다.</td></tr>
+<tr><td>02</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Inference Platform Economics</a></td><td><a href="../index.html#platform">platform</a></td><td>플랫폼별 가격 단위와 지속 사용률이 갈림길이라는 판단을 손익분기 실험의 중심으로 삼았습니다.</td></tr>
+<tr><td>03</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">GPU Autoscaling on Kubernetes</a></td><td><a href="../index.html#scaling">scaling</a></td><td>파드·노드·0대 축소 세 층, GPU 사용률 대신 대기열과 KV 사용률로 늘리는 이유를 설명했습니다.</td></tr>
+<tr><td>04</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Serving Engine Internals</a></td><td><a href="../index.html#engine">engine</a></td><td>페이지 KV와 연속 배치는 LLM 성능 책으로 보내고, 청크 프리필의 맞바꿈(chunk)을 계산합니다.</td></tr>
+<tr><td>05</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">EAGLE-3 Speculative Decoding</a></td><td><a href="../index.html#speculative">speculative</a></td><td>수락률 α와 기대 토큰 수의 정확한 식, 부하에 따른 손익분기(spec)를 계산합니다.</td></tr>
+<tr><td>06</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Prefix-Cache Serving · RadixAttention</a></td><td><a href="../index.html#locality">locality</a></td><td>접두부 트리와 캐시를 아는 라우팅을 라우팅 시뮬레이션(router)으로 확인합니다.</td></tr>
+<tr><td>07</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">FP8 and NVFP4 on Blackwell</a></td><td><a href="../index.html#precision">precision</a></td><td>FP8·NVFP4의 바이트 수와 배율 값이 HBM 예산(hbm)에 미치는 영향만 다룹니다.</td></tr>
+<tr><td>08</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Inference Metrics · TTFT, TPOT, ITL, Goodput</a></td><td><a href="../index.html#metrics">metrics</a>, <a href="../index.html#final">final</a></td><td>네 지표와 도구마다 다른 ITL 정의, goodput을 합성 분포 실험(goodput)으로 계산합니다.</td></tr>
+<tr><td>09</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Production Quantization</a></td><td><a href="../index.html#precision">precision</a></td><td>AWQ·GPTQ·FP8 가중치 형식과 KV 형식을 따로 고르는 판단을 HBM 예산 실험에 넣었습니다.</td></tr>
+<tr><td>10</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Cold Start Mitigation</a></td><td><a href="../index.html#scaling">scaling</a>, <a href="../index.html#final">final</a></td><td>원본의 70B 단계별 시간 표를 바탕으로 완화책과 웜 풀 비용(coldstart)을 계산합니다.</td></tr>
+<tr><td>11</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Multi-Region Serving and KV Locality</a></td><td><a href="../index.html#locality">locality</a></td><td>리전 사이 라우팅과 데이터 거주 요구를 KV 위치의 문제로 설명했습니다.</td></tr>
+<tr><td>12</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Edge Inference</a></td><td><a href="../index.html#precision">precision</a></td><td>대역폭이 정하는 디코드 상한(edge)으로 기기 위 추론의 한계를 계산합니다.</td></tr>
+<tr><td>13</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">LLM Observability Stack Selection</a></td><td><a href="../index.html#incident">incident</a></td><td>추적 기록의 표본 추출 규칙(sampling)과 관측 도구를 고르는 기준을 다룹니다.</td></tr>
+<tr><td>14</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Prompt and Semantic Caching</a></td><td><a href="../index.html#cost">cost</a>, <a href="../index.html#final">final</a></td><td>접두부 캐시의 읽기·쓰기 단가와 순서의 중요성을 청구서 실험(bill)으로 계산합니다. 의미 캐시의 위험도 설명합니다.</td></tr>
+<tr><td>15</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Batch APIs</a></td><td><a href="../index.html#cost">cost</a></td><td>배치 할인과 캐시를 겹치는 계산을 청구서 실험의 처리 차선으로 넣었습니다.</td></tr>
+<tr><td>16</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Model Routing</a></td><td><a href="../index.html#cost">cost</a></td><td>값싼 모델 먼저 보내기와 확신도 검사를 계단식 라우팅 실험(cascade)으로 계산합니다.</td></tr>
+<tr><td>17</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Disaggregated Prefill/Decode</a></td><td><a href="../index.html#speculative">speculative</a></td><td>프리필과 디코드 풀 사이 KV 전송 시간(kvtransfer)과 짧은 프롬프트 규칙을 계산합니다.</td></tr>
+<tr><td>18</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Production Serving Stack · KV Offloading</a></td><td><a href="../index.html#engine">engine</a></td><td>KV를 CPU·디스크로 내리는 계층 저장과 운영 스택 구성을 엔진 장에 요약했습니다.</td></tr>
+<tr><td>19</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">AI Gateways</a></td><td><a href="../index.html#gateway">gateway</a></td><td>재시도와 대체 공급자(fallback)를 계산하고, 키·한도·기록을 한곳에 모으는 이유를 설명합니다.</td></tr>
+<tr><td>20</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Shadow, Canary, Progressive Deployment</a></td><td><a href="../index.html#rollout">rollout</a></td><td>섀도·카나리·점진 배포 단계와 관문이 울릴 확률(canary)을 계산합니다.</td></tr>
+<tr><td>21</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">A/B Testing LLM Features</a></td><td><a href="../index.html#rollout">rollout</a></td><td>표본 크기와 여러 번 들여다보기의 위험을 카나리 장에서 확률 책으로 이어 설명합니다.</td></tr>
+<tr><td>22</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Load Testing LLM APIs</a></td><td><a href="../index.html#metrics">metrics</a></td><td>부하 시험이 평균이 아니라 분포와 goodput을 봐야 하는 이유를 지표 장에 넣었습니다.</td></tr>
+<tr><td>23</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">SRE for AI</a></td><td><a href="../index.html#incident">incident</a></td><td>SLO와 오류 예산, 소진 속도(burnrate)를 계산합니다.</td></tr>
+<tr><td>24</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Chaos Engineering for LLM Production</a></td><td><a href="../index.html#incident">incident</a></td><td>영향 범위와 중단 규칙을 소진 속도 실험으로 연결했습니다. 도구의 재단 지위 같은 바뀌기 쉬운 사실은 쓰지 않았습니다.</td></tr>
+<tr><td>25</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Security · Secrets, Rotation, Audit, Guardrails</a></td><td><a href="../index.html#gateway">gateway</a></td><td>비밀 저장, 짧게 사는 자격 증명, 감사 기록을 게이트웨이 장의 지킬 것으로 묶었습니다.</td></tr>
+<tr><td>26</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Compliance Frameworks</a></td><td><a href="../index.html#gateway">gateway</a></td><td>데이터 거주와 감사 요구가 게이트웨이와 리전 설계에 주는 제약만 요약했습니다. 법적 시행일은 쓰지 않았습니다.</td></tr>
+<tr><td>27</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">FinOps for LLMs</a></td><td><a href="../index.html#cost">cost</a></td><td>요청·고객사별 비용 태깅과 단위 경제를 청구서 장에 넣었습니다.</td></tr>
+<tr><td>28</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production">Self-Hosted Serving Selection</a></td><td><a href="../index.html#engine">engine</a>, <a href="../index.html#final">final</a></td><td>하드웨어·규모·작업 순서로 엔진을 고르는 판단을 엔진 장에 요약했습니다. 제품 버전과 유지 보수 상태는 원본 기준으로만 언급합니다.</td></tr>
+</tbody></table></section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li>파일 구조: <code>js/math.js</code>(계산만, DOM 없음) · <code>js/content.js</code>(장 글·출처·실험 설명) · <code>js/labs-serve.js</code>(1~6장 실험) · <code>js/labs-ops.js</code>(7~12장 실험) · <code>js/figures.js</code>(장마다 움직이는 그림) · <code>js/home-lab.js</code>(표지 실험) · <code>js/lab-guides.js</code>(예제와 결과 읽기).</li>
+<li>전역 접두어 <code>A18</code>, 서가 삽화 접두어 <code>a18-ill-</code>, 진도 키 <code>bookshelf:aie-18-production:v1:progress</code>.</li>
+<li>교육용 가정값: GPU 시간당 4달러, 70B FP8 한 대 처리량 2,300 tok/s(원본 레슨 04의 2,200~2,400 범위), HBM 대역폭 3,350GB/s, 프리필 초당 4만 토큰과 디코드 한 반복 7ms(원본의 “32K 프롬프트 약 800ms”에 맞춤), 링크 속도(원본의 “4K 프롬프트 20~80ms”에 맞춤), API 단가(원본 레슨 15의 예시 단가).</li>
+<li>원본의 근사식 가운데 정확하지 않은 것은 고쳐 썼습니다. 추측 디코딩의 기대 토큰은 1 + Kα가 아니라 (1−α^(K+1))/(1−α)를 쓰고, 근사식은 상한이라고 밝혔습니다. 원본 레슨 04·09의 KV 크기 예시처럼 모델 구조와 맞지 않는 수치는 쓰지 않고 Llama 3 70B 구조로 다시 계산했습니다.</li>
+<li>난수는 mulberry32에 시드를 고정해 화면과 테스트가 같은 값을 냅니다.</li>
+</ul></section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p>L1 접근(라벨·키보드·상태 알림), L2 반응(입력을 바꾸면 결과가 바뀌고 초기화가 처음 값으로 돌아감), L3 모형(대표값·경계값·불변 조건을 tests/math.test.cjs로 확인), L4 학습(독자가 실제로 이해했는지)으로 나누어 적습니다.</p>
+<table><thead><tr><th>실험</th><th>제목</th><th>근거의 종류</th><th>확인 수준</th></tr></thead><tbody>
+<tr><td>breakeven</td><td>토큰을 살까, GPU를 빌릴까</td><td>실제 계산(시간당 4달러·2,300 tok/s 가정)</td><td>L1 확인 · L2 확인 · L3 확인(대표값 1.61달러(30%), 손익분기 30.2%·53.7%, 단조 감소 테스트) · L4 확인 못 함</td></tr>
+<tr><td>hbm</td><td>H100 80GB의 메모리 예산</td><td>실제 계산(Llama 3 70B 구조, 활성값 5GB 가정)</td><td>L1 확인 · L2 확인 · L3 확인(대화 14·59·119·106개, BF16 불가, 119/120 경계) · L4 확인 못 함</td></tr>
+<tr><td>edge</td><td>대역폭이 정하는 디코드 상한</td><td>실제 계산(상한)</td><td>L1 확인 · L2 확인 · L3 확인(22.5·60·12.5 tok/s, 대역폭 비례) · L4 확인 못 함</td></tr>
+<tr><td>chunk</td><td>청크 프리필의 맞바꿈</td><td>실제 계산(프리필 속도·디코드 7ms 가정)</td><td>L1 확인 · L2 확인 · L3 확인(807ms(끔), 63조각·19.8ms·1,241ms, 조각이 프롬프트보다 클 때) · L4 확인 못 함</td></tr>
+<tr><td>goodput</td><td>평균, P99, goodput</td><td>시나리오(시드 고정 합성 분포)</td><td>L1 확인 · L2 확인 · L3 확인(94.45%·97%, P99 64.3ms, 목표를 조이면 감소) · L4 확인 못 함</td></tr>
+<tr><td>spec</td><td>수락률 α와 손익분기</td><td>기대 토큰은 실제 계산, 부하 비용은 가정</td><td>L1 확인 · L2 확인 · L3 확인(2.941토큰, 2.26·1.51배, 손익분기에서 비율 1, α=0·1 경계) · L4 확인 못 함</td></tr>
+<tr><td>kvtransfer</td><td>KV를 옮기는 세금</td><td>KV 크기는 실제 계산, 링크 속도는 가정</td><td>L1 확인 · L2 확인 · L3 확인(671MB, 20·80ms, 512토큰 규칙) · L4 확인 못 함</td></tr>
+<tr><td>router</td><td>라운드 로빈과 캐시를 아는 라우터</td><td>시나리오(시뮬레이션)</td><td>L1 확인 · L2 확인 · L3 확인(적중 32%·99.5%·약 1% 이하, 1대일 때 두 방식 같음, 요청 수 보존) · L4 확인 못 함</td></tr>
+<tr><td>coldstart</td><td>콜드 스타트 줄이기</td><td>단계 시간은 시나리오, 웜 풀 비용은 실제 계산</td><td>L1 확인 · L2 확인 · L3 확인(383초·62.5초·3초, 월 2,920달러) · L4 확인 못 함</td></tr>
+<tr><td>bill</td><td>캐시와 배치를 겹친 청구서</td><td>실제 계산(원본 단가를 교육용 가정으로)</td><td>L1 확인 · L2 확인 · L3 확인(105·120·115.17·68.94달러, 배치 절반, 부분합 일치) · L4 확인 못 함</td></tr>
+<tr><td>cascade</td><td>값싼 모델 먼저 보내기</td><td>시나리오</td><td>L1 확인 · L2 확인 · L3 확인(비용 39.1%, 손실 4%·20%, 0%일 때 비용 100%) · L4 확인 못 함</td></tr>
+<tr><td>fallback</td><td>재시도와 대체 공급자</td><td>실제 계산(독립 가정)</td><td>L1 확인 · L2 확인 · L3 확인(2.7%·0.054%, 완전 장애 100%, 최악 3,010ms) · L4 확인 못 함</td></tr>
+<tr><td>canary</td><td>카나리 관문이 울릴 확률</td><td>실제 계산(정규 근사)</td><td>L1 확인 · L2 확인 · L3 확인(21.8%·26.6%·70%, 관문과 같을 때 50%, 합이 1) · L4 확인 못 함</td></tr>
+<tr><td>burnrate</td><td>카오스 실험의 오류 예산</td><td>실제 계산</td><td>L1 확인 · L2 확인 · L3 확인(2.2·0.8·40.2배, 2배 문턱) · L4 확인 못 함</td></tr>
+<tr><td>sampling</td><td>추적을 무엇만 남길까</td><td>실제 계산</td><td>L1 확인 · L2 확인 · L3 확인(11.65%, 오류 100% 보관, 64.2%·18.2%) · L4 확인 못 함</td></tr>
+<tr><td>diagnose</td><td>월요일 아침 진단</td><td>앞 장 함수를 다시 돌린 실제 계산</td><td>L1 확인 · L2 확인 · L3 확인(맞는 처방만 지표 이동(12조합 전부 테스트)) · L4 확인 못 함</td></tr>
+</tbody></table>
+<ul>
+<li>실행한 검사: <code>npm test --prefix books/aie-production</code>(계산·경로 테스트), <code>tests/browser.cjs</code>(1280·390·320px, 모든 장·실험·예제·초기화·확인 문제, 가로 넘침, 콘솔 오류, NaN·undefined 문구), 표지 삽화 검사, 서가 삽화 키프레임 검사. 스크린샷은 <code>docs/evidence/</code>에 있습니다.</li>
+<li>확인하지 못한 것: L4 학습 효과(실제 독자 시험 없음), 원본이 인용한 외부 가격·제품 버전·유지 보수 상태의 현재 값(원본 기준으로만 썼으므로 공개 전 팩트·출처 검수에서 확인 필요), 실제 GPU에서 측정한 지연. 실험의 지연·처리량은 모두 모형이며 측정값이 아닙니다.</li>
+<li>팩트·출처 검수: 집필자가 아닌 검수 에이전트가 2026-10-08에 사실·수치·실험·용어·출처를 검수했습니다. 결과는 <a href="fact-review.html">팩트·출처 검수 기록</a>에 있습니다.</li>
+</ul></section>
+</main></body></html>

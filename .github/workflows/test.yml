@@ -41,4 +41,9 @@ jobs:
       - run: npm test --prefix books/aie-multimodal
       - run: npm test --prefix books/aie-tools
       - run: npm test --prefix books/aie-agents
+      - run: npm test --prefix books/aie-autonomy
+      - run: npm test --prefix books/aie-multiagent
+      - run: npm test --prefix books/aie-production
+      - run: npm test --prefix books/aie-safety
+      - run: npm test --prefix books/aie-capstone
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v

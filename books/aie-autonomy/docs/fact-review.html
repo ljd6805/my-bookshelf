@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="《자율 시스템》을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 자율 시스템</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · 자율 시스템</h1>
+<p>「AI 엔지니어링 처음부터」 16권 《자율 시스템 · 밤새 혼자 일하는 에이전트에 울타리 치기》(books/aie-autonomy/)의 팩트·출처 검수 기록입니다. 형식은 저장소의 <code>templates/fact-review.html</code>을 따릅니다. 프로젝트 문서로 돌아가려면 <a href="index.html#verification">검증 절</a>을 여세요.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-autonomy)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-autonomy)" data-date="2026-10-08" data-scope="12개 장 본문·더 알아보기·확인 문제·용어집, 16개 실험의 math.js 계산과 안내 상자 결과 읽기·그림 캡션, 참고 자료 63개(검수 뒤 67개), 다른 책 링크 14개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-autonomy). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-autonomy). 범위: 12개 장의 본문, 더 알아보기, 확인 문제, 용어집. 16개 실험의 계산과 안내 상자의 결과 읽기, 그림 캡션. 참고 자료 63개(검수 뒤 67개)와 다른 책으로 가는 링크 14개. 원본은 로컬 사본 <code>phases/15-autonomous-systems/*/docs/en.md</code> 22개와 대조했고, 시점에 민감한 외부 수치는 1차 출처(METR, arXiv 초록과 본문, 공식 문서, 주지사실 발표, 법안 기록)로 다시 확인했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>8건 수정</td><td>장마다 주장 문장을 원본 레슨과 대조하고, METR 시간 지평, SaferAI 점수, SB-53, Llama Guard 범주, Huang 외 가드 우회율, Claude 헌법의 하드코딩 금지, Claude Code 권한 모드를 1차 출처로 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>2건 수정</td><td>식과 formulaNote, 안내 상자의 결과 읽기, 확인 문제, 그림 캡션의 숫자를 node로 js/math.js를 실행해 다시 계산(0.99⁷⁰ = 49.5%, n₅₀ 69·138·693, (1.1/1.05)²⁰ = 2.54, 1.0×0.3×0.2×0.1 = 0.006, 지평 242.9·48.6·457.3·119.9분, 비용 상한 408분·2,448달러 등)</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>2건 수정</td><td>math.js 함수를 설명과 대조하고 대표값·경계값을 따로 계산. EWMA 경보는 c = 1.79에서 울리지 않고 1.81에서 울림을 400시간 실행으로 확인. 계산·시나리오·가정 표시가 사실과 맞는지 확인</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>시간 지평, 궤적, 보상 해킹, 평가기 방화벽, 간접 프롬프트 주입, 내구 실행, 멱등 키, 카나리 토큰, 차단기, 제안-확정의 한영 대응과 책 안의 일관성 확인. 이모지 숨기기에는 원어 emoji smuggling과 변형 선택자 설명을 더함(사실 항목에 기록)</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>4건 수정, 4건 추가</td><td>원본 레슨 폴더 22개의 로컬 경로 존재 확인, 외부 URL을 WebFetch로 열어 제목과 설명 대조(arXiv 6편, METR, Anthropic, OpenAI, DeepMind, Microsoft, Cloudflare, Cilium 등), 장별 source 번호와 장 내용 대조, 다른 책 링크의 도착 장 ID와 제목 대조, 표지 참고 자료와 꼬리말의 MIT 크레딧 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#horizon 본문 첫 문단, #policy “METR과 시간 지평 숫자”</td><td>Claude Opus 4.6의 지평 약 14시간을 “2026년 1월 측정”, “Time Horizon 1.1(2026년 1월) 기준”으로 적음. TH1.1 발표(2026-01-29)에는 Opus 4.6이 없고, Opus 4.6은 2026년 2월 측정되어 약 14.5시간(95% 신뢰구간 6~98시간)으로 발표됨</td><td>METR 공식 계정 발표(2026-02), metr.org/time-horizons 갱신 기록 “February 20th, 2026: Added Claude Opus 4.6”, METR 블로그 Time Horizon 1.1(2026-01-29)</td><td>날짜와 값을 바로잡고 신뢰구간과 “과제 묶음이 거의 포화되어 측정이 매우 불안정하다”는 METR의 단서를 더함. TH1.1의 두 배 시간(2023년 이후 130.8일, 전체 약 196일)과 과제 228개를 함께 적음</td></tr>
+<tr><td>#policy “METR과 시간 지평 숫자”</td><td>RE-Bench를 “ML 연구 공학 과제 71개”로 적음(원본의 오류)</td><td>RE-Bench 논문 초록(arXiv:2411.15114): 환경 7개, 전문가 61명의 8시간 시도 71회</td><td>“전문가 61명이 8시간씩 71번 시도한 기준선이 있는 ML 연구 공학 환경 7개”로 고침</td></tr>
+<tr><td>#policy 본문 첫 문단</td><td>SaferAI가 RSP 3.0 때문에 점수를 2.2에서 1.9로 낮췄다고 적음(원본의 오류)</td><td>SaferAI 글 “Anthropic’s Responsible Scaling Policy Update Makes a Step Backwards”(2024-10-23)는 RSP 2판 개정을 평가하며 2.2 → 1.9 하향을 발표. RSP 3.0은 2026-02-24 시행</td><td>하향이 2024년 10월 RSP 2판 때의 일임을 밝히고 SaferAI 글을 참고 자료에 더함. “멈춤 약속 삭제”는 RSP 3.0 원문(부록 A의 조건부 지연 약속)에 맞춰 “무조건적인 멈춤 약속이 조건부 지연 약속으로 바뀜”으로 고침</td></tr>
+<tr><td>#policy “사회 층” 상자, docs/index.html</td><td>캘리포니아 SB-53을 서명 여부가 정해지지 않은 법안으로 안내</td><td>주지사실 발표(2025-09-29), 법안 기록: 2025-09-29 주지사 서명, 같은 날 Chapter 138, Statutes of 2025로 공포(Transparency in Frontier Artificial Intelligence Act)</td><td>서명 날짜·장 번호·주요 의무를 적고, 주지사실 발표와 주 의회 법안 기록을 참고 자료에 더함</td></tr>
+<tr><td>#guard 본문 둘째 문단, 더 알아보기</td><td>Llama Guard 4가 S14 코드 인터프리터 남용 범주를 “더했다”고 적음. S14는 Llama Guard 3(8B)에 이미 있음</td><td>Hugging Face meta-llama/Llama-Guard-3-8B 모델 카드(14개 범주, 8개 언어, Llama-3.1-8B 기반), Llama-Guard-4-12B 모델 카드</td><td>Llama Guard 3이 13종 + S14를 쓰고, Llama Guard 4는 여러 이미지를 받으며 같은 S1~S14를 쓰는 12B 통합 모델이라고 고침</td></tr>
+<tr><td>#guard 본문·더 알아보기</td><td>이모지 숨기기를 “문자 사이에 이모지를 숨기는 공격”으로 설명하고, 100% 우회한 여섯 시스템을 앞 문장의 Llama Guard·NeMo Guardrails 같은 “가드”로 읽히게 씀. NeMo 72.54%를 “공들인 탈옥에 뚫림”으로 씀</td><td>Huang 외(arXiv:2504.11168) 표 1: “Text is embedded in emoji variation selectors”. 시험 대상은 Azure Prompt Shield, ProtectAI v1·v2, Meta Prompt Guard, NeMo Guard Jailbreak Detect, Vijil의 주입·탈옥 탐지기. 72.54%는 NeMo Guard Jailbreak Detect의 문자 주입 기법 전체 평균 공격 성공률</td><td>변형 선택자에 글을 싣는 공격으로 설명을 고치고, 시험 대상이 프롬프트 주입·탈옥 탐지기 여섯 개임을 밝히고, 72.54%를 “문자 주입 기법 전체 평균으로 탈옥 프롬프트의 72.54%를 놓침”으로 고침</td></tr>
+<tr><td>#guard “하드코딩 금지와 소프트 기본값” 표</td><td>“직접 물었을 때 AI임을 속이기”를 하드코딩 금지로 분류(원본의 오류)</td><td>Claude 헌법 원문(anthropic.com/constitution): 하드코딩 금지 7개(대량 살상 무기, 기반 시설 공격, 사이버 무기, AI 감독 훼손, 인류 살상·무력화, 불법적 권력 장악, 아동 성 착취물). AI임을 부정하지 않기는 운영자가 바꿀 수 없는 사용자 보호 기본값이며 사용자는 일부 바꿀 수 있음</td><td>하드코딩 금지 목록을 원문에 맞추고 “사용자 보호 기본값” 행을 따로 둠</td></tr>
+<tr><td>#permission 본문·표, 실험 ladder(js/math.js, labs-runtime.js, lab-guides.js)</td><td>default(Manual) 모드를 “위험한 것만 묻기”로 설명하고, 실험 규칙도 파일 편집을 자동으로 판정해 acceptEdits와 같아짐</td><td>Claude Code 문서 “Choose a permission mode”: Manual(default)은 읽기만 묻지 않고 파일 편집·셸·네트워크 전에 묻는다</td><td>설명과 규칙을 “읽기만 자동, 나머지는 묻기”로 고침. default의 묻기 횟수가 4번에서 6번이 되어 안내 상자 결과 읽기를 고치고 math.test.cjs에 대조를 더함</td></tr>
+<tr><td>#budget 실험 breaker(info, formulaNote, 확인 문제 해설, 결과 읽기, math.js, labs-runtime.js)</td><td>“EWMA가 끝내 울리지 않는 증가 속도”를 c(1−α)/α &lt; 3σ로 안내함. 코드는 새 값을 직전 시간까지의 EWMA와 비교하므로 실제 차이는 c/α이고, 한계는 c &lt; 1.8(안내식으로는 2.57)</td><td>node로 M.breaker 실행: c = 1.79는 400시간 동안 울리지 않고 c = 1.81은 15시간째, c = 2.0은 7시간째 울림. 정상 상태에서 x(t+1) − m(t) = c + c(1−α)/α = c/α</td><td>문장을 “EWMA는 c(1−α)/α 뒤처지고, 새 값은 직전 EWMA보다 c/α 앞선다”로 고치고 실험 화면에 c/α를 함께 보이게 함. math.js에 gap 값을 더하고 테스트에 경계값 1.79·1.81을 더함</td></tr>
+<tr><td>#star 더 알아보기 “STaR 가족 비교”</td><td>V-STaR의 4~17% 향상을 “GSM8K와 MATH에서”로만 적음</td><td>V-STaR 초록(arXiv:2402.06457): 코드 생성과 수학 추론 벤치마크</td><td>“수학 추론(GSM8K·MATH)과 코드 생성 벤치마크에서”로 고침</td></tr>
+<tr><td>참고 자료 · Anthropic Claude 헌법</td><td>“Claude’s Constitution (2026년 1월)” 링크가 2023년 5월 글(news/claudes-constitution)을 가리킴(원본의 링크)</td><td>해당 페이지 날짜 2023-05-09. 2026년 판 발표는 news/claude-new-constitution(2026-01-22, CC0)</td><td>URL과 제목을 2026년 판 발표로 바꿈</td></tr>
+<tr><td>참고 자료 · Anthropic Measuring AI agent autonomy in practice</td><td>설명을 “긴 지평, 정렬 위장, 배포 격차에 대한 관점”으로 적었으나 해당 글에는 정렬 위장 내용이 없음. 정렬 위장 12%·78%의 출처가 목록에 없었음</td><td>해당 글은 Claude Code·API 사용 기록으로 사람이 맡기는 자율을 잰 연구. 정렬 위장 수치는 Anthropic “Alignment faking in large language models”(2024-12-18)</td><td>설명을 고치고 정렬 위장 연구를 참고 자료에 더해 1장·5장 출처에 연결</td></tr>
+<tr><td>참고 자료 · METR Resources</td><td>설명에 SWAA가 있으나 해당 페이지에는 HCAST와 RE-Bench만 있음</td><td>metr.org/measuring-autonomous-ai-capabilities</td><td>설명에서 SWAA를 뺌</td></tr>
+<tr><td>#guard 다른 책 링크</td><td>“머신러닝 기초 · 드문 사건을 놓치지 않기”에 장 번호가 빠짐</td><td>aie-ml book-routes에서 rare는 11장</td><td>“머신러닝 기초 11”로 고침</td></tr>
+</tbody></table>
+<h3>보류(판단이 갈려 고치지 않은 것)</h3>
+<ul>
+<li>#permission: “같은 Claude Sonnet 4.5가 SWE-agent v1에서 43.2%, Cline에서 59.8%”는 원본에만 있고 1차 출처를 찾지 못했습니다. Sonnet 4.5의 공식 SWE-bench Verified 점수(77.2%)보다 크게 낮아 다른 설정의 값일 수 있습니다. 문단 끝의 “원본 커리큘럼 기준” 표시를 유지했습니다.</li>
+<li>#policy: RSP 3.0 원문(PDF)은 “AI R&amp;D-4”라는 이름 대신 “Automated R&amp;D in key domains” 문턱과 위험 보고서 체계를 씁니다. AI R&amp;D-4라는 이름은 이전 판과 모델 시스템 카드에서 쓰이므로 원본 표현을 남기고 “원본 커리큘럼 기준” 표시를 유지했습니다.</li>
+<li>#durable: “METR이 측정한 모든 에이전트에서 약 35분 넘게 일하면 신뢰도가 떨어지고, 길이를 두 배로 하면 실패율이 약 네 배”는 METR 1차 자료에서 확인하지 못했습니다. 본문이 “원본은 … 관찰을 전합니다”로 전달 형태를 밝히고 있어 그대로 두었습니다.</li>
+<li>#browser: “OpenAI의 대비 책임자”가 간접 주입을 “완전히 고칠 수 있는 버그가 아니다”라고 말했다는 발언 주체와 출처를 확인하지 못했습니다. Vercept 인수와 OSWorld 72.5%의 인과 관계, WebArena-Verified의 11.3%p와 258개 부분집합(OpenReview가 자동 접근을 막음)도 원본 기준으로 남겼습니다.</li>
+<li>#guard: Claude 헌법의 “79쪽”, NeMo 72.54%가 논문 부록 표 A.5의 기법별 값 평균(약 76.2%)과 맞지 않는 점은 논문 본문 값을 그대로 인용했습니다.</li>
+<li>#budget: Microsoft Agent Governance Toolkit(2026년 4월)과 월 비용 1,200 → 4,800달러 사례는 원본에만 있는 사례로, 본문이 “원본이 드는 사례”로 표시하고 있어 그대로 두었습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>METR 공개 순위표(benchmark_results_1_1)는 2026-10-08 현재 Claude Opus 4.6의 p50을 약 718.8분(약 12시간)으로 보여 2월 발표값(약 14.5시간)과 다릅니다. 이후 재계산으로 보이지만 METR의 설명을 찾지 못해, 본문은 발표 시점의 값과 신뢰구간을 적었습니다. 캘리포니아 주 의회 법안 기록 페이지(leginfo)는 자동 접근이 막혀 직접 열지 못했고, 같은 기록을 옮긴 LegiScan과 주지사실 발표로 확인했습니다. Huang 외 논문 PDF는 내려받지 못해 arXiv HTML 판으로 확인했습니다. ICLR 2026 RSI 워크숍 문서와 WebArena-Verified OpenReview 페이지는 자동 접근이 막혀 열지 못했습니다. AI Scientist의 Nature 2026 논문, ChatGPT agent의 BrowseComp 68.9%와 Operator 종료일, AlphaEvolve의 Borg 0.7%·커널 32.5%는 원본과 초록 수준에서만 대조했습니다. 원문 복제 여부는 1·2·9·10·11장 문단을 원본 en.md와 표본 대조했고 긴 직역 구간은 찾지 못했습니다.</p>
+</section>
+</main></body></html>

@@ -1369,6 +1369,339 @@
         }
       ],
       "short_title": "에이전트 엔지니어링"
+    },
+    {
+      "id": "aie-16-autonomy",
+      "title": "자율 시스템 · 밤새 혼자 일하는 에이전트에 울타리 치기",
+      "spine_title": "자율 시스템",
+      "spine_category": "AI공학",
+      "color": "rose",
+      "description": "온라인 서점 책마루의 야간 에이전트 누리가 밤새 혼자 일하는 동안 단계 신뢰도의 곱, STaR·진화 고리·자동 연구와 자기 개선 관문, 권한 모드와 읽기-쓰기 경계, 사건 기록과 제안-확정, 비용 상한과 차단기, 원칙의 층과 분류기, 연구소 정책과 METR식 시간 지평 적합을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 15의 레슨 22개를 모두 재구성했습니다.",
+      "illustration": "books/aie-autonomy/assets/shelf-illustration.svg",
+      "illustration_caption": "야간 에이전트 누리가 도구를 계속 부르는 동안 비용 막대가 차올라 상한에 닿으면 울타리 밖 멈춤 단추가 켜지는 시각적 비유입니다.",
+      "cover_art": "books/aie-autonomy/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-autonomy/",
+      "keywords": [
+        "자율 시스템",
+        "자율 에이전트",
+        "긴 지평 에이전트",
+        "시간 지평",
+        "METR",
+        "STaR",
+        "AlphaEvolve",
+        "Darwin Gödel Machine",
+        "AI Scientist",
+        "재귀적 자기 개선",
+        "권한 모드",
+        "프롬프트 주입",
+        "내구성 실행",
+        "제안-확정",
+        "비용 통제",
+        "킬 스위치",
+        "카나리 토큰",
+        "헌법 AI",
+        "Llama Guard",
+        "책임 있는 확장 정책",
+        "autonomous agents"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-autonomy/#chapters"
+        },
+        {
+          "title": "01 · 한 번 답하기에서 밤새 일하기로",
+          "url": "books/aie-autonomy/#horizon"
+        },
+        {
+          "title": "03 · 평가기가 길을 정한다",
+          "url": "books/aie-autonomy/#evolve"
+        },
+        {
+          "title": "06 · 권한 사다리 위의 코딩 에이전트",
+          "url": "books/aie-autonomy/#permission"
+        },
+        {
+          "title": "09 · 지갑과 멈춤 단추",
+          "url": "books/aie-autonomy/#budget"
+        },
+        {
+          "title": "11 · 연구소의 문턱과 바깥의 눈",
+          "url": "books/aie-autonomy/#policy"
+        }
+      ],
+      "short_title": "자율 시스템"
+    },
+    {
+      "id": "aie-17-multiagent",
+      "title": "멀티 에이전트 · 여럿이 나눠 맡고 서로 확인하기",
+      "spine_title": "멀티에이전트",
+      "spine_category": "AI공학",
+      "color": "aqua",
+      "description": "공공자전거 대여소 확대를 조사하는 보고서 팀 하나를 반장·조사원·작성자·검증자로 나누며, A2A 작업 수명주기, 차례 정하기, 반장과 조사원, 비평가와 검증자, 공유 대기열, 다수결과 단일 문화, 비잔틴 합의, 흥정과 섀플리 값, 마음 모형, 재시도 폭풍을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 16의 레슨 25개를 모두 재구성했습니다.",
+      "illustration": "books/aie-multiagent/assets/shelf-illustration.svg",
+      "illustration_caption": "반장이 하위 질문을 조사원 셋에게 나눠 보내고, 요약이 돌아오면 검증자가 원문과 대조해 확인 표시를 켜는 시각적 비유입니다.",
+      "cover_art": "books/aie-multiagent/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-multiagent/",
+      "keywords": [
+        "멀티 에이전트",
+        "다중 에이전트",
+        "multi-agent",
+        "A2A",
+        "MCP",
+        "오케스트레이터",
+        "supervisor",
+        "손넘김",
+        "handoff",
+        "블랙보드",
+        "공유 기억",
+        "다수결",
+        "self-consistency",
+        "토론",
+        "비잔틴 합의",
+        "BFT",
+        "흥정",
+        "섀플리 값",
+        "마음 이론",
+        "theory of mind",
+        "재시도 폭풍",
+        "회로 차단기",
+        "MAST",
+        "swarm"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-multiagent/#chapters"
+        },
+        {
+          "title": "01 · 혼자 일하는 에이전트의 천장",
+          "url": "books/aie-multiagent/#why"
+        },
+        {
+          "title": "04 · 반장 한 명과 조사원 여럿",
+          "url": "books/aie-multiagent/#supervisor"
+        },
+        {
+          "title": "05 · 만드는 쪽과 확인하는 쪽",
+          "url": "books/aie-multiagent/#roles"
+        },
+        {
+          "title": "07 · 여럿이 답하고 서로 읽기",
+          "url": "books/aie-multiagent/#debate"
+        },
+        {
+          "title": "11 · 죽어도 이어 가고, 폭풍은 끊기",
+          "url": "books/aie-multiagent/#ops"
+        }
+      ],
+      "short_title": "멀티 에이전트"
+    },
+    {
+      "id": "aie-18-production",
+      "title": "AI 인프라와 운영 · 모델 서버에서 운영 장부까지",
+      "spine_title": "인프라운영",
+      "spine_category": "AI공학",
+      "color": "violet",
+      "description": "상담 챗봇 누리봇 하나를 70B 모델로 내보내며 토큰과 GPU의 손익분기, HBM 예산, 청크 프리필, goodput, 추측 디코딩, 캐시를 아는 라우팅, 콜드 스타트, 청구서, 게이트웨이 재시도, 카나리 관문, 오류 예산을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 17의 레슨 28개를 모두 재구성했습니다.",
+      "illustration": "books/aie-production/assets/shelf-illustration.svg",
+      "illustration_caption": "누리봇의 요청이 라우터를 지나 같은 접두부를 가진 GPU로 모이고, 요청이 몰리면 GPU가 하나 더 켜지며 운영 장부가 차오르는 흐름을 보여 주는 그림입니다. 실제 계산이 아닌 시각적 비유입니다.",
+      "cover_art": "books/aie-production/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-production/",
+      "keywords": [
+        "LLM 서빙",
+        "추론 인프라",
+        "vLLM",
+        "SGLang",
+        "goodput",
+        "TTFT",
+        "TPOT",
+        "청크 프리필",
+        "추측 디코딩",
+        "EAGLE",
+        "분리 서빙",
+        "접두부 캐시",
+        "프롬프트 캐시",
+        "배치 API",
+        "모델 라우팅",
+        "콜드 스타트",
+        "오토스케일링",
+        "AI 게이트웨이",
+        "카나리 배포",
+        "SLO",
+        "오류 예산",
+        "카오스 엔지니어링",
+        "FinOps",
+        "양자화",
+        "inference serving"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-production/#chapters"
+        },
+        {
+          "title": "01 · 토큰을 살까, GPU를 빌릴까",
+          "url": "books/aie-production/#platform"
+        },
+        {
+          "title": "03 · 엔진 안의 스케줄러 읽기",
+          "url": "books/aie-production/#engine"
+        },
+        {
+          "title": "04 · 느림을 네 숫자로 나누기",
+          "url": "books/aie-production/#metrics"
+        },
+        {
+          "title": "08 · 청구서를 줄이는 네 손잡이",
+          "url": "books/aie-production/#cost"
+        },
+        {
+          "title": "10 · 바꾸는 날의 안전장치: 섀도·카나리·A/B",
+          "url": "books/aie-production/#rollout"
+        }
+      ],
+      "short_title": "AI 인프라와 운영"
+    },
+    {
+      "id": "aie-19-safety",
+      "title": "AI 안전과 윤리 · 출시 전에 무엇을 확인할까",
+      "spine_title": "안전과 윤리",
+      "spine_category": "AI공학",
+      "color": "amber",
+      "description": "누리은행의 상담 AI 누리를 출시하기 전에 RLHF와 DPO의 보상 신호, 숨은 백도어와 정렬 위장, AI 통제 프로토콜, 탈옥과 간접 프롬프트 주입, 조정 층, 대출 심사의 공정성, 차등 프라이버시와 워터마크, EU와 한국의 규제 일정을 차례로 점검합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 18의 레슨 30개를 모두 재구성했습니다.",
+      "illustration": "books/aie-safety/assets/shelf-illustration.svg",
+      "illustration_caption": "고객 요청 점들이 입력 점검, 누리, 출력 점검을 지나고 위험한 요청은 점검 층에서 멈추는 시각적 비유입니다.",
+      "cover_art": "books/aie-safety/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-safety/",
+      "keywords": [
+        "AI 안전",
+        "AI 윤리",
+        "정렬",
+        "RLHF",
+        "DPO",
+        "보상 해킹",
+        "아첨",
+        "헌법 AI",
+        "잠복 요원",
+        "정렬 위장",
+        "AI 통제",
+        "탈옥",
+        "프롬프트 주입",
+        "EchoLeak",
+        "Llama Guard",
+        "공정성",
+        "차등 프라이버시",
+        "워터마크",
+        "EU AI Act",
+        "AI 기본법",
+        "AI safety",
+        "alignment"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-safety/#chapters"
+        },
+        {
+          "title": "01 · 사람의 선호를 점수로 바꾸면 생기는 일",
+          "url": "books/aie-safety/#rlhf"
+        },
+        {
+          "title": "05 · 믿지 않고도 일을 맡기는 법",
+          "url": "books/aie-safety/#control"
+        },
+        {
+          "title": "07 · 누리가 읽은 메일이 명령을 내린다",
+          "url": "books/aie-safety/#injection"
+        },
+        {
+          "title": "09 · 같은 문턱이면 공정할까",
+          "url": "books/aie-safety/#fairness"
+        },
+        {
+          "title": "11 · 누가 언제부터 무엇을 요구하나",
+          "url": "books/aie-safety/#governance"
+        }
+      ],
+      "short_title": "AI 안전과 윤리"
+    },
+    {
+      "id": "aie-20-capstone",
+      "title": "캡스톤 · 배운 도구로 제품 하나를 끝까지",
+      "spine_title": "캡스톤",
+      "spine_category": "AI공학",
+      "color": "blue",
+      "description": "여섯 명의 플랫폼 팀이 개발자 200명을 위한 사내 AI 개발 도우미 모루를 만들며, 에이전트 고리의 재시도와 예산, pass@k와 꼬리 표집, 역할 팀의 비용, UCB 연구 스케줄러, 124M GPT 조립, SFT와 DPO, ZeRO와 파이프라인 병렬, RAG 지표, 패치 토큰 예산, 부트스트랩 구간, 안전 게이트의 문턱을 직접 계산합니다. 마지막 장에서는 사용량이 두 배가 된 달의 출시 사양표 다섯 줄을 한꺼번에 맞춥니다. 12장 15개 실험으로 원본 커리큘럼 Phase 19의 프로젝트 85개를 모두 재구성했습니다.",
+      "illustration": "books/aie-capstone/assets/shelf-illustration.svg",
+      "illustration_caption": "출시 사양표의 비용·지연·품질·위험 손잡이가 오가다 모두 목표 구간에 들어오면 출시 등이 켜지는 시각적 비유입니다.",
+      "cover_art": "books/aie-capstone/assets/cover-art.svg",
+      "cover_meta": "12장 · 15개 실험",
+      "status": "published",
+      "url": "books/aie-capstone/",
+      "keywords": [
+        "캡스톤",
+        "AI 엔지니어링",
+        "에이전트",
+        "하네스",
+        "pass@k",
+        "관측",
+        "꼬리 표집",
+        "다중 에이전트",
+        "UCB",
+        "GPT",
+        "SFT",
+        "DPO",
+        "ZeRO",
+        "파이프라인 병렬",
+        "분산 학습",
+        "RAG",
+        "재순위",
+        "nDCG",
+        "ViT",
+        "다중 모달",
+        "평가 하네스",
+        "부트스트랩",
+        "프롬프트 주입",
+        "안전 게이트",
+        "출시 사양표",
+        "capstone"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-capstone/#chapters"
+        },
+        {
+          "title": "01 · 에이전트 고리에 예산과 계약을 걸기",
+          "url": "books/aie-capstone/#harness"
+        },
+        {
+          "title": "02 · 행동은 관문에서 막고, 결과는 재서 남기기",
+          "url": "books/aie-capstone/#verify"
+        },
+        {
+          "title": "07 · 한 대에서 여러 대로 학습을 나누기",
+          "url": "books/aie-capstone/#scale"
+        },
+        {
+          "title": "08 · 근거를 찾아 붙이는 검색 파이프라인",
+          "url": "books/aie-capstone/#rag"
+        },
+        {
+          "title": "마지막 · 출시 사양표를 한 장으로 맞추기",
+          "url": "books/aie-capstone/#final"
+        }
+      ],
+      "short_title": "캡스톤"
     }
   ],
   "learning_paths": [
@@ -1985,6 +2318,64 @@
           "record": "켠 검사 순서, 단계별 통과 수, 끝까지 남은 말뿐인 완료 유형"
         }
       ]
+    },
+    {
+      "id": "aie-from-scratch-4",
+      "title": "에이전트를 맡겨도 되게 운영하기",
+      "question": "스스로 일하는 에이전트와 그 팀을 실제 서비스로 내보내려면, 비용·속도·안전을 무엇으로 묶어 두고 무엇을 기록해야 할까?",
+      "audience": "「LLM을 만들고 제품의 도구로 엮기」를 마쳤거나 에이전트를 직접 만들어 본 개발자",
+      "prerequisites": "에이전트 루프와 도구 호출, 평가 지표와 신뢰구간",
+      "start": "사내 에이전트가 밤새 혼자 일하고, 여러 에이전트가 보고서를 나눠 쓰며, 수만 건의 요청을 GPU 한 대로 받아야 한다. 무엇이 먼저 터질지, 출시해도 되는지 판단할 기준이 없다.",
+      "challenge": "자율 에이전트 팀을 사내 서비스로 출시한다. 비용 상한과 속도 제한, 조사원 수, goodput 목표, KL 벌점, 출시 사양표의 다섯 줄 가운데 무엇을 먼저 고정하고 무엇을 출시 뒤 기록으로 다시 확인할지 순서대로 설명한다.",
+      "checks": [
+        "비용 폭주를 끊는 상한·속도 제한이 각각 언제 작동하는지 말할 수 있는가",
+        "조사원을 늘릴수록 완료 시간과 토큰이 어떻게 바뀌는지 보일 수 있는가",
+        "평균 지연이 아니라 goodput으로 서비스 품질을 판단할 수 있는가",
+        "KL 벌점을 줄이면 맞장구 답이 왜 늘어나는지 설명할 수 있는가",
+        "출시 사양표의 다섯 줄을 동시에 지키는 조합과 그 가정을 밝힐 수 있는가"
+      ],
+      "steps": [
+        {
+          "book_id": "aie-16-autonomy",
+          "url": "books/aie-autonomy/#budget",
+          "task": "비용 폭주 실험에서 분당 지출을 6달러로 두고 이달 상한만, 하루 상한, 10분 속도 제한을 차례로 켜서 고리가 시작된 뒤 몇 분 만에 얼마를 쓰고 끊기는지 비교한 다음, 분당 2달러로 낮춰 같은 비교를 다시 한다.",
+          "minutes": 18,
+          "why": "앞 권에서 도구를 부르고 계획하는 에이전트를 만들었다면, 이 권은 그 에이전트를 사람 없이 밤새 돌릴 때 필요한 울타리를 다룬다. 시간 단위가 다른 상한이 각각 무엇을 잡고 무엇을 놓치는지 숫자로 보면, 권한·기록·멈춤 단추를 왜 겹으로 두는지가 분명해진다.",
+          "record": "분당 지출, 켠 상한, 끊긴 시각(고리 시작 후 분)과 잃은 돈, 속도 제한이 놓친 느린 누수를 막은 상한에 대한 한 문장"
+        },
+        {
+          "book_id": "aie-17-multiagent",
+          "url": "books/aie-multiagent/#supervisor",
+          "task": "조사원 수 실험에서 띄우기 비용을 1분으로 두고 K를 1, 5, 10으로 바꿔 완료 시간과 전체 토큰을 기록한 뒤, 비용을 3분으로 올려 가장 빠른 K가 어떻게 바뀌는지 확인한다.",
+          "minutes": 15,
+          "why": "앞 권의 에이전트는 혼자 도구를 부르며 일했지만, 이 권은 같은 일을 여럿으로 나눈다. 나누면 빨라지는 몫과 띄우기·종합 비용, 늘어나는 토큰을 직접 재 보는 일이 이후 운영과 안전을 판단하는 출발점이 된다.",
+          "record": "띄우기 비용, K별 완료 시간(분)과 전체 토큰, 가장 빠른 K, 혼자 할 때(108분)와 비교한 한 문장"
+        },
+        {
+          "book_id": "aie-18-production",
+          "url": "books/aie-production/#metrics",
+          "task": "goodput 실험에서 TPOT 목표 25ms를 두고 청크 프리필을 끔과 켬으로 바꿔 평균 TPOT, P99, goodput을 비교한 뒤, 목표를 10ms로 조여 goodput이 어떻게 변하는지 본다.",
+          "minutes": 15,
+          "why": "앞 권까지는 모델과 에이전트가 무엇을 하는지 다뤘다면, 이 권은 그것을 손님에게 약속한 시간 안에 계속 내보내는 일을 다룬다. 평균이 아니라 목표를 지킨 비율로 서비스를 재는 습관이 이후 비용·배포·사고 대응 판단의 기준이 된다.",
+          "record": "청크 프리필 설정별 평균 TPOT, P99, goodput, 목표를 조였을 때의 goodput, 평균만 보고 내릴 뻔한 잘못된 결론 한 문장"
+        },
+        {
+          "book_id": "aie-19-safety",
+          "url": "books/aie-safety/#rlhf",
+          "task": "KL 벌점과 동의 벌점 실험에서 β를 1에서 0.1로 줄이고, 이어서 α = 0.5를 더하며 맞장구 답의 비율, 보상 모델 점수, 실제 도움이 어떻게 바뀌는지 비교한다.",
+          "minutes": 15,
+          "why": "앞 권들이 모델을 만들고 운영하는 법을 다뤘다면, 마지막 앞 권인 이 권은 그 모델을 사람에게 내놓기 전에 무엇이 잘못될 수 있는지 묻는다. 보상 점수가 오를수록 실제 도움이 떨어질 수 있다는 첫 실험이 이후 감독·방어·제도 점검의 출발점이 된다.",
+          "record": "β와 α 값, 세 답의 비율, 보상 모델 점수와 실제 도움 기댓값, 최적화기보다 목적을 고쳐야 하는 이유 한 문장"
+        },
+        {
+          "book_id": "aie-20-capstone",
+          "url": "books/aie-capstone/#final",
+          "task": "출시 사양표 실험에서 시도 횟수와 방식, 문맥 조각 수, 차단 문턱, 출력 쪽 층을 함께 움직여 다섯 줄을 모두 지키는 조합을 찾고, 그 조합이 기대는 가정 하나를 골라 출시 뒤 어떤 기록으로 다시 잴지 적는다.",
+          "minutes": 20,
+          "why": "앞 권들이 비용, 지연, 품질, 위험을 각각 다루었다면, 마지막 권은 그 넷이 한 제품에서 서로를 끌어당긴다는 것을 한 장의 표로 보여 준다. 시리즈 전체의 도구를 한 판단에 모으는 정거장이다.",
+          "record": "고른 다섯 손잡이 값, 다섯 줄의 계산값과 목표, 가장 의심스러운 가정과 그것을 다시 잴 기록 이름"
+        }
+      ]
     }
   ],
   "series": [
@@ -2080,32 +2471,37 @@
         {
           "number": 15,
           "title": "에이전트 엔지니어링",
-          "book_id": "aie-15-agents"
+          "book_id": "aie-15-agents",
+          "next_why": "한 에이전트가 일을 끝내게 만들었으니, 사람이 지켜보지 않는 긴 시간 동안 맡겨도 되도록 권한·예산·차단기로 묶는 자율 시스템으로 갑니다."
         },
         {
           "number": 16,
           "title": "자율 시스템",
-          "status": "writing"
+          "book_id": "aie-16-autonomy",
+          "next_why": "에이전트 하나를 오래 맡길 수 있게 되었으니, 여러 에이전트가 역할을 나누고 합의하는 팀으로 넓힙니다."
         },
         {
           "number": 17,
           "title": "멀티 에이전트",
-          "status": "writing"
+          "book_id": "aie-17-multiagent",
+          "next_why": "에이전트 팀이 일하게 되었으니, 그 팀을 수만 건의 요청 아래에서 비용과 지연을 지키며 돌리는 인프라와 운영을 다룹니다."
         },
         {
           "number": 18,
           "title": "AI 인프라와 운영",
-          "status": "writing"
+          "book_id": "aie-18-production",
+          "next_why": "서비스를 안정적으로 돌리게 되었으니, 출시 전에 정렬·공격·공정성·규제를 점검하는 안전과 윤리로 넘어갑니다."
         },
         {
           "number": 19,
           "title": "AI 안전과 윤리",
-          "status": "writing"
+          "book_id": "aie-19-safety",
+          "next_why": "시리즈의 모든 도구를 갖췄으니, 마지막 권에서 제품 하나를 예산·지연·품질·위험의 사양표로 끝까지 완성합니다."
         },
         {
           "number": 20,
           "title": "캡스톤",
-          "status": "writing"
+          "book_id": "aie-20-capstone"
         }
       ]
     }
@@ -2363,7 +2759,67 @@
     "books/aie-agents/#workbench": "09 · 에이전트가 일하는 작업대",
     "books/aie-agents/#gates": "10 · “다 했습니다”를 믿지 않는 법",
     "books/aie-agents/#frame": "11 · 무엇을 만들지부터 틀 짓기",
-    "books/aie-agents/#final": "마지막 · 파일럿 결과가 도착했다"
+    "books/aie-agents/#final": "마지막 · 파일럿 결과가 도착했다",
+    "books/aie-autonomy/#horizon": "01 · 한 번 답하기에서 밤새 일하기로",
+    "books/aie-autonomy/#star": "02 · 맞힌 풀이만 남겨서 배우기",
+    "books/aie-autonomy/#evolve": "03 · 평가기가 길을 정한다",
+    "books/aie-autonomy/#research": "04 · 연구 전체를 맡기면",
+    "books/aie-autonomy/#bounded": "05 · 자기 개선에 울타리 치기",
+    "books/aie-autonomy/#permission": "06 · 권한 사다리 위의 코딩 에이전트",
+    "books/aie-autonomy/#browser": "07 · 읽은 글이 명령이 될 때",
+    "books/aie-autonomy/#durable": "08 · 끊겨도 이어서, 두 번은 하지 않게",
+    "books/aie-autonomy/#budget": "09 · 지갑과 멈춤 단추",
+    "books/aie-autonomy/#guard": "10 · 원칙의 순서와 걸러 내는 체",
+    "books/aie-autonomy/#policy": "11 · 연구소의 문턱과 바깥의 눈",
+    "books/aie-autonomy/#final": "마지막 · 주문 추적 도구를 붙인 첫 주",
+    "books/aie-multiagent/#why": "01 · 혼자 일하는 에이전트의 천장",
+    "books/aie-multiagent/#protocol": "02 · 메시지에 의도를 적는 약속",
+    "books/aie-multiagent/#turn": "03 · 다음 차례는 누가 정하나",
+    "books/aie-multiagent/#supervisor": "04 · 반장 한 명과 조사원 여럿",
+    "books/aie-multiagent/#roles": "05 · 만드는 쪽과 확인하는 쪽",
+    "books/aie-multiagent/#swarm": "06 · 반장 없이 대기열에서 일 가져가기",
+    "books/aie-multiagent/#debate": "07 · 여럿이 답하고 서로 읽기",
+    "books/aie-multiagent/#consensus": "08 · 거짓말쟁이와 따라쟁이가 섞일 때",
+    "books/aie-multiagent/#market": "09 · 흥정하고 몫을 나누기",
+    "books/aie-multiagent/#social": "10 · 기억과 마음 모형으로 생기는 협력",
+    "books/aie-multiagent/#ops": "11 · 죽어도 이어 가고, 폭풍은 끊기",
+    "books/aie-multiagent/#final": "마지막 · 시의회 보고 뒤 올라온 사고 세 건",
+    "books/aie-production/#platform": "01 · 토큰을 살까, GPU를 빌릴까",
+    "books/aie-production/#precision": "02 · 80GB 안에 무엇을 얼마나 담을까",
+    "books/aie-production/#engine": "03 · 엔진 안의 스케줄러 읽기",
+    "books/aie-production/#metrics": "04 · 느림을 네 숫자로 나누기",
+    "books/aie-production/#speculative": "05 · 초안을 쓰게 하고, 프리필과 디코드를 떼어 놓기",
+    "books/aie-production/#locality": "06 · KV 캐시가 있는 곳으로 보내기",
+    "books/aie-production/#scaling": "07 · 늘리고 줄이는 세 층과 콜드 스타트",
+    "books/aie-production/#cost": "08 · 청구서를 줄이는 네 손잡이",
+    "books/aie-production/#gateway": "09 · 게이트웨이 한 곳에서 지키기",
+    "books/aie-production/#rollout": "10 · 바꾸는 날의 안전장치: 섀도·카나리·A/B",
+    "books/aie-production/#incident": "11 · 사고를 미리 겪고, 기록으로 대응하기",
+    "books/aie-production/#final": "마지막 · 누리봇의 월요일 아침",
+    "books/aie-safety/#rlhf": "01 · 사람의 선호를 점수로 바꾸면 생기는 일",
+    "books/aie-safety/#dpo": "02 · 보상 모델 없이, 사람 라벨러 없이",
+    "books/aie-safety/#deception": "03 · 훈련에서는 착하고 배포에서는 다르게",
+    "books/aie-safety/#scheming": "04 · 심지 않아도 꾸미고, 감시받으면 순응한다",
+    "books/aie-safety/#control": "05 · 믿지 않고도 일을 맡기는 법",
+    "books/aie-safety/#jailbreak": "06 · 탈옥은 몇 번 만에 성공할까",
+    "books/aie-safety/#injection": "07 · 누리가 읽은 메일이 명령을 내린다",
+    "books/aie-safety/#guard": "08 · 분류기를 겹겹이 세우고 문턱 정하기",
+    "books/aie-safety/#fairness": "09 · 같은 문턱이면 공정할까",
+    "books/aie-safety/#privacy": "10 · 기억하지 않게, 표시는 남게",
+    "books/aie-safety/#governance": "11 · 누가 언제부터 무엇을 요구하나",
+    "books/aie-safety/#final": "마지막 · 출시 한 달 뒤 올라온 보고 세 건",
+    "books/aie-capstone/#harness": "01 · 에이전트 고리에 예산과 계약을 걸기",
+    "books/aie-capstone/#verify": "02 · 행동은 관문에서 막고, 결과는 재서 남기기",
+    "books/aie-capstone/#products": "03 · 에이전트 하나에서 팀과 제품으로",
+    "books/aie-capstone/#research": "04 · 실험을 스스로 고르는 연구 고리",
+    "books/aie-capstone/#gpt": "05 · 작은 GPT를 처음부터 조립하기",
+    "books/aie-capstone/#posttrain": "06 · 이어 쓰는 모델을 일하는 모델로",
+    "books/aie-capstone/#scale": "07 · 한 대에서 여러 대로 학습을 나누기",
+    "books/aie-capstone/#rag": "08 · 근거를 찾아 붙이는 검색 파이프라인",
+    "books/aie-capstone/#multimodal": "09 · 그림과 소리를 토큰 예산에 넣기",
+    "books/aie-capstone/#evals": "10 · 두 버전 중 무엇이 나은지 판정하기",
+    "books/aie-capstone/#safety": "11 · 막을 것과 지나갈 것 사이의 문턱",
+    "books/aie-capstone/#final": "마지막 · 출시 사양표를 한 장으로 맞추기"
   },
   "concepts": [
     {
@@ -2599,7 +3055,16 @@
         "books/aie-llm-apps/#eval",
         "books/aie-tools/#skills",
         "books/aie-agents/#measure",
-        "books/aie-agents/#final"
+        "books/aie-agents/#final",
+        "books/aie-autonomy/#evolve",
+        "books/aie-autonomy/#policy",
+        "books/aie-multiagent/#final",
+        "books/aie-production/#metrics",
+        "books/aie-production/#rollout",
+        "books/aie-safety/#jailbreak",
+        "books/aie-safety/#scheming",
+        "books/aie-capstone/#verify",
+        "books/aie-capstone/#evals"
       ]
     },
     {
@@ -2626,7 +3091,12 @@
         "books/aie-audio/#turn",
         "books/aie-llm-apps/#guardrails",
         "books/aie-tools/#skills",
-        "books/aie-agents/#defend"
+        "books/aie-agents/#defend",
+        "books/aie-autonomy/#guard",
+        "books/aie-production/#incident",
+        "books/aie-safety/#guard",
+        "books/aie-safety/#fairness",
+        "books/aie-capstone/#safety"
       ]
     },
     {
@@ -2648,7 +3118,14 @@
         "books/aie-multimodal/#agent",
         "books/aie-tools/#loop",
         "books/aie-tools/#tasks",
-        "books/aie-agents/#loop"
+        "books/aie-agents/#loop",
+        "books/aie-autonomy/#horizon",
+        "books/aie-autonomy/#durable",
+        "books/aie-autonomy/#budget",
+        "books/aie-multiagent/#turn",
+        "books/aie-multiagent/#supervisor",
+        "books/aie-capstone/#harness",
+        "books/aie-capstone/#research"
       ]
     },
     {
@@ -2674,7 +3151,10 @@
         "books/aie-transformer/#memory",
         "books/aie-llm-build/#memory",
         "books/aie-llm-build/#serving",
-        "books/aie-agents/#memory"
+        "books/aie-agents/#memory",
+        "books/aie-production/#precision",
+        "books/aie-production/#locality",
+        "books/aie-capstone/#scale"
       ]
     },
     {
@@ -2703,7 +3183,9 @@
         "books/aie-transformer/#memory",
         "books/aie-llm-build/#architecture",
         "books/aie-llm-apps/#cache",
-        "books/aie-multimodal/#bridge"
+        "books/aie-multimodal/#bridge",
+        "books/aie-production/#engine",
+        "books/aie-production/#speculative"
       ]
     },
     {
@@ -2726,7 +3208,9 @@
         "books/aie-nlp/#answer",
         "books/aie-llm-apps/#retrieval",
         "books/aie-multimodal/#docs",
-        "books/aie-agents/#memory"
+        "books/aie-agents/#memory",
+        "books/aie-safety/#injection",
+        "books/aie-capstone/#rag"
       ]
     },
     {
@@ -2767,7 +3251,46 @@
         "books/aie-llm-build/#preference",
         "books/aie-llm-build/#selfimprove",
         "books/aie-agents/#refine",
-        "books/aie-agents/#gates"
+        "books/aie-agents/#gates",
+        "books/aie-autonomy/#star",
+        "books/aie-autonomy/#evolve",
+        "books/aie-safety/#rlhf",
+        "books/aie-safety/#dpo"
+      ]
+    },
+    {
+      "id": "coordination-consensus",
+      "name": "협력과 합의",
+      "aliases": [
+        "multi-agent coordination",
+        "consensus",
+        "voting",
+        "theory of mind",
+        "MARL"
+      ],
+      "summary": "여러 에이전트가 일을 나누고 답을 모을 때, 서로 얼마나 독립인지와 무엇으로 확인하는지가 결과를 정한다",
+      "chapters": [
+        "books/aie-multiagent/#debate",
+        "books/aie-multiagent/#consensus",
+        "books/aie-multiagent/#social",
+        "books/aie-rl/#multi"
+      ]
+    },
+    {
+      "id": "inference-cost",
+      "name": "추론 비용 계산",
+      "aliases": [
+        "inference cost",
+        "unit economics",
+        "FinOps",
+        "cost per token"
+      ],
+      "summary": "GPU 시간, 토큰 단가, 캐시와 배치 할인을 같은 단위로 바꿔 어느 쪽이 싼지 따지는 일",
+      "chapters": [
+        "books/aie-production/#platform",
+        "books/aie-production/#cost",
+        "books/llm-gpu/#design",
+        "books/aie-workbench/#gpu"
       ]
     }
   ]
