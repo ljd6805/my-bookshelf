@@ -8,3 +8,8 @@
 @media(prefers-reduced-transparency:reduce){.glass-book{background:#dce9e3;backdrop-filter:none}.spine-label{background:#fff8e9}}
 
 .list-title{display:none}.resource-shelves.is-list .spine-title{display:none}.resource-shelves.is-list .list-title{display:block;font:700 18px/1.6 var(--serif)}
+
+/* Stacked shelves (assets/shelves.js): each board holds what the width allows; the caption sits under the last board. */
+.shelf-row.is-stacked:not(.is-last){margin-bottom:14px}
+.shelf-row.is-stacked:not(.is-last) .shelf-caption{display:none}
+.resource-shelves.is-list .shelf-row.is-stacked:not(.is-last){margin-bottom:0}

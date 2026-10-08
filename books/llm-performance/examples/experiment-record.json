@@ -1,0 +1,23 @@
+{
+  "status": "blank_template_not_measured",
+  "model_id": "Qwen/Qwen3-8B",
+  "model_revision": null,
+  "tokenizer_revision": null,
+  "thinking_mode": null,
+  "sampling_parameters": {},
+  "weight_dtype_and_quantization": null,
+  "kv_dtype": null,
+  "actual_input_tokens_per_request": [],
+  "actual_output_tokens_per_request": [],
+  "hardware": {"gpu": null, "count": null, "vram_gib": null, "links": null},
+  "software": {"os": null, "driver": null, "cuda": null, "engine": null, "engine_version": null},
+  "workload": {"arrival_model": null, "request_rate": null, "max_concurrency": null},
+  "measurement": {"start_boundary": null, "end_boundary": null, "warmup": null, "repeats": null, "profiler_enabled": false},
+  "cache_state": {"prefix_cache": null, "warm_or_cold": null},
+  "change_from_baseline": null,
+  "samples": [],
+  "quality_criteria_and_results": [],
+  "failures_and_oom": [],
+  "decision": null,
+  "next_experiment": null
+}
