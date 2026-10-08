@@ -11,6 +11,7 @@ GROUPS = {'analysis': ('분석과 사례', '다른 책에서 발견한 좋은 �
           'guide': ('집필과 운영', '다음 사람에게도 이어지는 서재의 기준'),
           'template': ('기획서', '한 권의 책은 하나의 질문에서 시작합니다')}
 SPINE_TITLE_MAX_CHARS = 6
+SPINE_CATEGORY_MAX_CHARS = 4
 TONES = ('aqua', 'blue', 'violet', 'sage', 'amber', 'rose')
 
 
@@ -116,11 +117,38 @@ def spine_title(item):
     raw = item.get('spine_title')
     if not isinstance(raw, str):
         raise ValueError(f"{item['id']}: spine_title is required; write a short content-based title")
-    title = ''.join(unicodedata.normalize('NFC', raw).split())
+    title = visible_chars(raw)
     if not 1 <= len(title) <= SPINE_TITLE_MAX_CHARS or '…' in title or '...' in title:
         raise ValueError(f"{item['id']}: spine_title must be 1–{SPINE_TITLE_MAX_CHARS} characters "
                          "without spaces or ellipses; rewrite the title to match the content")
     return title
+
+
+def visible_chars(text):
+    return ''.join(unicodedata.normalize('NFC', text).split())
+
+
+def check_shelf_harmony(books):
+    """Display rules for the learning-book shelf (docs/04-site-plan.html#shelf-display-rule)."""
+    seen_groups = []
+    for i, book in enumerate(books):
+        label = book.get('spine_category')
+        if not isinstance(label, str) or not 1 <= len(visible_chars(label)) <= SPINE_CATEGORY_MAX_CHARS:
+            raise ValueError(f"{book['id']}: spine_category is required and must be "
+                             f"1–{SPINE_CATEGORY_MAX_CHARS} characters without spaces")
+        if book.get('color') not in TONES:
+            raise ValueError(f"{book['id']}: color must be one of {', '.join(TONES)}")
+        if book.get('status') == 'published' and not book.get('illustration'):
+            raise ValueError(f"{book['id']}: a published book needs a representative illustration")
+        previous = books[i - 1] if i else None
+        if previous and previous['color'] == book['color']:
+            raise ValueError(f"{book['id']}: neighbouring books {previous['id']} and {book['id']} "
+                             "share a color; pick a different glass tone")
+        if previous and previous['spine_category'] == label:
+            continue
+        if label in seen_groups:
+            raise ValueError(f"{book['id']}: books in category {label} must stand next to each other")
+        seen_groups.append(label)
 
 
 def spine(item, index, key):

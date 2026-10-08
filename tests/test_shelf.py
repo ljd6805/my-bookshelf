@@ -1,7 +1,7 @@
 """Glass shelves must stay honest, accessible and safe as the catalog grows."""
 import unittest
 from scripts.build_catalog import build
-from scripts.shelf_renderer import render_resources, spine
+from scripts.shelf_renderer import render_resources, spine, check_shelf_harmony
 
 
 def resource(index=0):
@@ -74,6 +74,26 @@ class GlassShelfTests(unittest.TestCase):
         for path in ('../outside.svg', 'index.html'):
             with self.assertRaises(ValueError):
                 spine({**resource(), 'illustration': path}, 0, 'bad')
+
+    def test_shelf_display_rules_accept_grouped_distinct_neighbours(self):
+        check_shelf_harmony([shelf_book('a', '수학', 'violet'), shelf_book('b', '수학', 'sage'),
+                             shelf_book('c', '컴퓨터', 'violet')])
+
+    def test_shelf_display_rules_reject_untidy_neighbours(self):
+        cases = {'share a color': [shelf_book('a', '수학', 'sage'), shelf_book('b', '컴퓨터', 'sage')],
+                 'next to each other': [shelf_book('a', '수학', 'sage'), shelf_book('b', '컴퓨터', 'blue'),
+                                        shelf_book('c', '수학', 'amber')],
+                 'spine_category': [shelf_book('a', '네트워크보안', 'sage')],
+                 'color must be': [shelf_book('a', '수학', None)],
+                 'illustration': [{**shelf_book('a', '수학', 'sage'), 'illustration': ''}]}
+        for message, books in cases.items():
+            with self.subTest(message), self.assertRaisesRegex(ValueError, message):
+                check_shelf_harmony(books)
+
+
+def shelf_book(book_id, category, color):
+    return {'id': book_id, 'spine_category': category, 'color': color, 'status': 'published',
+            'illustration': 'books/ai/assets/shelf-illustration.svg'}
 
 
 if __name__ == '__main__':
