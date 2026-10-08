@@ -10,8 +10,9 @@ else:
     from shelf_renderer import esc
 
 WIDTH, HEIGHT = 960, 600
-# Book anchors: left, top, right, bottom. AI Book sits at the bottom as the shared destination.
-SLOTS = [(80, 290), (480, 62), (880, 290), (480, 500)]
+# Book anchors by shelf size. AI Book always takes the last slot (bottom) as the shared destination.
+SLOTS = {4: [(80, 290), (480, 62), (880, 290), (480, 500)],
+         5: [(80, 300), (260, 62), (700, 62), (880, 300), (480, 500)]}
 TONES = {'aqua': '#1e737b', 'blue': '#345d95', 'violet': '#6e508e', 'sage': '#517353',
          'amber': '#a66f26', 'rose': '#a15a50'}
 
@@ -22,7 +23,8 @@ def owner_of(url, books):
 
 def book_slots(books):
     order = sorted(books, key=lambda b: b['id'] == 'ai-book-interactive')
-    return {b['id']: SLOTS[i % len(SLOTS)] for i, b in enumerate(order)}
+    slots = SLOTS.get(len(order)) or SLOTS[max(SLOTS)]
+    return {b['id']: slots[i % len(slots)] for i, b in enumerate(order)}
 
 
 def label_width(text):
