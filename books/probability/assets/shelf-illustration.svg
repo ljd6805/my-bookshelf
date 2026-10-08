@@ -1,0 +1,34 @@
+<svg class="pb-ill" viewBox="0 0 340 180" role="img" aria-label="센서 20대 중 몇 대가 경보를 울리고, 하루 경보 개수가 막대로 쌓여 2번 근처가 가장 높은 산 모양이 되는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.pb-ill-sensor{fill:#f3ede0;stroke:#6f8f80;stroke-width:1.4}
+.pb-ill-lit{fill:#d98a5f;stroke:#b4542d;animation:pb-ill-blink 3.2s ease-in-out infinite}
+.pb-ill-bar{fill:#6f9a8b;transform-box:fill-box;transform-origin:bottom;animation:pb-ill-grow 3.2s ease-out infinite}
+.pb-ill-hot{fill:#d98a5f}
+.pb-ill-line{stroke:#b4542d;stroke-width:1.6;stroke-dasharray:5 4}
+.pb-ill-label{font:600 11px sans-serif;fill:#4f5b55}
+.pb-ill-arrow{fill:none;stroke:#8b8272;stroke-width:1.6}
+@keyframes pb-ill-blink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes pb-ill-grow{0%{transform:scaleY(0)}35%,85%{transform:scaleY(1)}100%{transform:scaleY(1)}}
+html[data-motion=reduce] .pb-ill-lit,html[data-motion=reduce] .pb-ill-bar{animation:none}
+@media(prefers-reduced-motion:reduce){.pb-ill-lit,.pb-ill-bar{animation:none}}
+</style>
+<g>
+<circle class="pb-ill-sensor" cx="24" cy="44" r="8"/><circle class="pb-ill-sensor" cx="48" cy="44" r="8"/><circle class="pb-ill-sensor pb-ill-lit" cx="72" cy="44" r="8"/><circle class="pb-ill-sensor" cx="96" cy="44" r="8"/><circle class="pb-ill-sensor" cx="120" cy="44" r="8"/>
+<circle class="pb-ill-sensor" cx="24" cy="70" r="8"/><circle class="pb-ill-sensor" cx="48" cy="70" r="8"/><circle class="pb-ill-sensor" cx="72" cy="70" r="8"/><circle class="pb-ill-sensor" cx="96" cy="70" r="8"/><circle class="pb-ill-sensor" cx="120" cy="70" r="8"/>
+<circle class="pb-ill-sensor" cx="24" cy="96" r="8"/><circle class="pb-ill-sensor" cx="48" cy="96" r="8"/><circle class="pb-ill-sensor" cx="72" cy="96" r="8"/><circle class="pb-ill-sensor pb-ill-lit" style="animation-delay:.8s" cx="96" cy="96" r="8"/><circle class="pb-ill-sensor" cx="120" cy="96" r="8"/>
+<circle class="pb-ill-sensor" cx="24" cy="122" r="8"/><circle class="pb-ill-sensor" cx="48" cy="122" r="8"/><circle class="pb-ill-sensor" cx="72" cy="122" r="8"/><circle class="pb-ill-sensor" cx="96" cy="122" r="8"/><circle class="pb-ill-sensor" cx="120" cy="122" r="8"/>
+</g>
+<text class="pb-ill-label" x="72" y="156" text-anchor="middle">센서 20대 · 각각 10%</text>
+<path class="pb-ill-arrow" d="M140 84 h30 m-8 -6 l8 6 l-8 6"/>
+<rect class="pb-ill-bar" x="182" y="128" width="16" height="22"/>
+<rect class="pb-ill-bar" style="animation-delay:.1s" x="200" y="104" width="16" height="46"/>
+<rect class="pb-ill-bar" style="animation-delay:.2s" x="218" y="98" width="16" height="52"/>
+<rect class="pb-ill-bar" style="animation-delay:.3s" x="236" y="114" width="16" height="36"/>
+<rect class="pb-ill-bar" style="animation-delay:.4s" x="254" y="132" width="16" height="18"/>
+<rect class="pb-ill-bar pb-ill-hot" style="animation-delay:.5s" x="272" y="142" width="16" height="8"/>
+<rect class="pb-ill-bar pb-ill-hot" style="animation-delay:.6s" x="290" y="147" width="16" height="3"/>
+<line class="pb-ill-line" x1="270" x2="270" y1="70" y2="152"/>
+<text class="pb-ill-label" x="266" y="80" text-anchor="end">5번 이상 ≈ 4% →</text>
+<text class="pb-ill-label" x="182" y="166">0</text><text class="pb-ill-label" x="222" y="166">2</text><text class="pb-ill-label" x="276" y="166">5</text>
+<text class="pb-ill-label" x="170" y="24" text-anchor="middle">오늘 경보 5번, 우연일까?</text>
+</svg>

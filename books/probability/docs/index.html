@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>확률과 통계 · 책 개발 문서</title>
+<link rel="stylesheet" href="../assets/style.css?v=20261008-prob1">
+<style>
+  .doc { max-width: 900px; margin: 0 auto; padding: 40px 18px 60px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); padding: 8px 6px; }
+  th { font-family: var(--serif); }
+  .table-wrap { overflow-x: auto; }
+  section { margin: 34px 0; }
+</style>
+</head>
+<body>
+<main class="doc" id="main">
+<p class="eyebrow">책 개발 문서 · 2026-10-08</p>
+<h1>확률과 통계 · 기획과 검증 기록</h1>
+<p class="lead">이 책이 무엇을 약속하는지, 장과 실험을 어떻게 이었는지, 무엇을 확인했고 무엇을 확인하지 못했는지 남깁니다.</p>
+<p><a href="../index.html">책으로 돌아가기</a> · <a href="../../../index.html#books">서가로 돌아가기</a></p>
+
+<section id="brief">
+<h2>01 책의 약속</h2>
+<div class="table-wrap"><table>
+<tr><th>책 ID·제목</th><td><code>probability-statistics</code> · 확률과 통계 · 경보가 울렸다, 정말 고장일까 (폴더 <code>books/probability/</code>)</td></tr>
+<tr><th>대상 독자</th><td>비율과 평균은 알지만 "표본", "유의하다", "신뢰구간"이 나오면 막히는 사람. AI를 쓰거나 평가하면서 숫자를 얼마나 믿어야 할지 판단해야 하는 사람.</td></tr>
+<tr><th>학습 후 할 일</th><td>적은 데이터로 내린 결론이 얼마나 흔들리는지 계산하고, 경보·검사·실험 결과를 믿어도 되는지 기저율·신뢰구간·p값·검정력을 근거로 설명한다.</td></tr>
+<tr><th>공통 사례</th><td>한빛 공장의 모터 20대와 진동 센서. 담당자 서윤이 "오늘 경보 5번은 고장 신호인가"를 조사한다. 기준값: 센서별 하루 경보 확률 10%, 고장률 1%, 민감도 90%, 오경보율 5%.</td></tr>
+<tr><th>끝의 과제</th><td>새 공급업체 센서의 시험 자료(150센서·일 중 오경보 4번, 고장 재현 20번 중 19번 감지)를 보고 도입 여부, 부족한 증거, 다음 측정을 쓴다.</td></tr>
+<tr><th>이야기 방식</th><td>사건을 조사한다. 장마다 도구 하나를 얻고, 그 도구로 풀리지 않는 질문이 다음 장을 부른다.</td></tr>
+<tr><th>범위·제외</th><td>이산 확률, 이항분포, 요약 통계, 중심극한정리, 베이즈, 비율의 신뢰구간, 한쪽 이항검정, 우도와 교차 엔트로피. 연속분포의 일반 이론, 회귀분석, 다중검정, 베이즈 추론의 사전분포 설계, 인과추론은 다루지 않는다.</td></tr>
+<tr><th>증거</th><td>모든 수치 예시는 <code>js/stats.js</code>·<code>js/inference.js</code>로 다시 계산해 본문과 맞췄다. 개념 설명은 참고 자료 화면의 출처와 대조할 수 있다.</td></tr>
+</table></div>
+</section>
+
+<section id="chapters">
+<h2>02 장 사이의 연결</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>장 (ID)</th><th>시작 질문</th><th>새 도구</th><th>남는 질문 → 다음 장</th></tr></thead>
+<tbody>
+<tr><td>01 chance</td><td>적은 횟수의 결과를 믿을 수 있나</td><td>확률과 비율, 큰 수의 법칙</td><td>하루 5번은 흔한 흔들림 밖인가</td></tr>
+<tr><td>02 binomial</td><td>5번 이상은 얼마나 드문가</td><td>이항분포, 독립 가정</td><td>진동값 자체는 어떻게 요약하나</td></tr>
+<tr><td>03 spread</td><td>평소 진동은 얼마인가</td><td>평균·중앙값·표준편차</td><td>평균은 얼마나 믿을 만한가</td></tr>
+<tr><td>04 clt</td><td>평균은 어떻게 흔들리나</td><td>표본분포, 중심극한정리, σ/√n</td><td>경보 하나가 고장 확률을 얼마나 올리나</td></tr>
+<tr><td>05 bayes</td><td>경보가 울리면 고장인가</td><td>조건부 확률, 기저율, 베이즈</td><td>고장률 1%는 얼마나 정확한가</td></tr>
+<tr><td>06 interval</td><td>표본 비율을 얼마나 믿나</td><td>Wilson 95% 신뢰구간</td><td>새 센서의 개선은 우연인가</td></tr>
+<tr><td>07 testing</td><td>새 센서가 나아졌나</td><td>귀무가설, p값, 검정력</td><td>데이터로 확률을 직접 고르려면</td></tr>
+<tr><td>08 likelihood</td><td>가장 그럴듯한 확률은</td><td>우도, 최대우도, 교차 엔트로피</td><td>마지막 과제와 AI Book 02·03으로</td></tr>
+</tbody></table></div>
+<p>다른 책으로 가는 링크(AI Book 02 learning, 03 generalization, 07 generation, 12 agents)는 장마다 "더 깊이 보기"에 이동 이유와 함께 둔다. 서가 <code>data/catalog.json</code>의 <code>learning_paths</code>에 첫 읽기 경로 "AI는 왜 틀리는가"(이 책 01·05·06·08 → AI Book 02·03)를 등록했다.</p>
+</section>
+
+<section id="labs">
+<h2>03 실험 명세</h2>
+<div class="table-wrap"><table>
+<thead><tr><th>실험</th><th>입력(기본값·범위)</th><th>모델</th><th>검증</th></tr></thead>
+<tbody>
+<tr><td>coin · 1장</td><td>p 0.5 (0.05~0.95), 던지기 1·10·100·1000번, 최대 5,000번</td><td>씨앗 고정 난수(mulberry32)로 베르누이 시행, 누적 비율</td><td>20,000번에서 p̂이 p의 ±0.015 이내</td></tr>
+<tr><td>alarms · 2장</td><td>n 20 (5~50), p 0.10 (0.02~0.50), 기준 5번</td><td>이항분포 정확 계산 + 모의 날짜</td><td>pmf 합 1, B(4,0.5)의 P(2)=6/16, 모의 평균≈n·p</td></tr>
+<tr><td>outlier · 3장</td><td>아홉 번째 값 5 (4~40 mm/s)</td><td>평균·중앙값·표본표준편차(n−1)</td><td>극단값 30에서 평균 +2.5 이상, 중앙값 변화 ≤ 0.1</td></tr>
+<tr><td>clt · 4장</td><td>모집단 3종, n 1 (1~50), 평균 최대 5,000개</td><td>표본평균 시뮬레이션, 정규곡선 N(μ, σ/√n)</td><td>세 모집단에서 평균들의 표준편차가 σ/√n의 ±8%</td></tr>
+<tr><td>bayes · 5장</td><td>고장률 1% (0.1~20%), 민감도 90%, 오경보율 5%</td><td>베이즈 정리를 1,000대 자연 빈도로 표시</td><td>사후확률 9/58.5, 네 칸 합 1,000, 경계값 0·1</td></tr>
+<tr><td>interval · 6장</td><td>진짜 비율 12% (2~50%), n 40 (10~500)</td><td>Wilson 95% 점수 구간</td><td>4,000번 반복 포함률 95% ± 2%p, 0~1 밖으로 나가지 않음</td></tr>
+<tr><td>testing · 7장</td><td>진짜 오경보율 5% (2~15%), 시험 60일 (20~500)</td><td>한쪽 정확 이항검정 P(X ≤ k | 0.1), α = 0.05</td><td>귀무가설에서 기각률 ≤ 6%, n=400 검정력 > 95%</td></tr>
+<tr><td>likelihood · 8장</td><td>n 60, k 3, 후보 q 0.10 (0.01~0.50)</td><td>로그우도, 교차 엔트로피, 차이 1.92 기준선</td><td>최댓값이 k/n, 교차 엔트로피 = −로그우도/n</td></tr>
+</tbody></table></div>
+<p>그림 여덟 개는 개념 도식이며 실제 계산 결과가 아니다. 움직임은 CSS 애니메이션이고 <code>prefers-reduced-motion</code>에서 모두 멈춘다. 실험의 누적 애니메이션도 동작 줄이기 설정에서는 한 번에 끝난다. 모든 실험은 라벨이 붙은 슬라이더(키보드 화살표 가능), 초기화 버튼, 결과 문장(<code>aria-live</code>), 색 외의 표시(빗금·모양·✕·점선)를 갖는다.</p>
+</section>
+
+<section id="verification">
+<h2>04 검증 결과 (2026-10-08)</h2>
+<ul>
+<li><strong>수치 정확성</strong>: <code>npm test --prefix books/probability</code> 17개 통과(계산 13개, 장 경로·학습 흐름·교차 링크·카탈로그 4개). 본문의 모든 수치 예시를 계산 모듈로 다시 계산해 맞췄고, 이 과정에서 7장 p값(0.058 → 0.14)과 검정력(약 45% → 약 20%), 8장 손실값, 마지막 과제 p값을 바로잡았다.</li>
+<li><strong>동작 확인</strong>: 로컬 서버에서 Chromium(Playwright)으로 <code>tests/browser.cjs</code>를 실행했다. 1280·390·320px에서 12개 경로가 모두 열리고 가로 넘침과 콘솔 오류가 없었다. 1280px에서 실험 8개마다 버튼 조작 후 결과 문장이 바뀌고, 키보드 화살표로 슬라이더가 움직이고, 초기화 후 처음 결과로 돌아오는 것을 확인했다. 진도 기록이 8개 실험 모두 저장되었다.</li>
+<li><strong>구조 확인</strong>: <code>python3 scripts/validate.py</code>로 내부 링크·앵커(이 책 → AI Book 장 경로 포함)를 검사했다.</li>
+<li><strong>화면 확인</strong>: 밝은 화면·어두운 화면에서 1장, 5장, 6장 실험과 320px 장 목록 열기·닫기를 스크린숏으로 확인했다.</li>
+</ul>
+</section>
+
+<section id="limits">
+<h2>05 확인하지 못한 것</h2>
+<ul>
+<li>학습 효과: 실제 독자가 예측·설명·전이 문제를 풀 수 있게 되는지는 시험하지 않았다(L4 미확인).</li>
+<li>Safari, Firefox, 실제 모바일 기기, 화면 읽기 프로그램, 저사양 기기 성능은 확인하지 않았다.</li>
+<li>참고 자료 링크 여섯 개는 집필 환경의 네트워크 제한으로 직접 열어 보지 못했다. 확인한 사람이 날짜를 남겨 주어야 한다.</li>
+<li>서가에서 책을 펼칠 때 보이는 대표 삽화(<code>assets/shelf-illustration.svg</code>)는 생성기 검사만 통과했고, 펼친 화면은 1280px 한 화면에서만 확인했다.</li>
+<li>루트 <code>docs/03-verification.html</code>은 다른 작업과 동시에 수정하지 않도록 이번에는 고치지 않았고, 이 문서에 기록했다.</li>
+</ul>
+</section>
+</main>
+</body>
+</html>
