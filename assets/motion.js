@@ -9,6 +9,10 @@ const EASE_IN = 'cubic-bezier(.55,0,.8,.4)';
 const SETTLE = 'cubic-bezier(.3,1.45,.55,1)';
 /** Timings below are written at the original pace; 0.8 plays every beat 20% faster. */
 const PACE = .8;
+/** Opening plays about 20% slower than closing so the paper cover can be read. */
+const OPEN_PACE = .96;
+/** Extra pause on the closed cover before it swings open (original-pace ms). */
+const COVER_HOLD = 220;
 
 export function cancelMotion(dialog) {
   // Only script-driven motion; CSS animations (the book illustration) keep playing.
@@ -18,8 +22,8 @@ export function cancelMotion(dialog) {
   dialog.querySelectorAll('.book-flight, .book-cover').forEach(node => node.remove());
 }
 
-function animate(element, frames, duration, delay = 0, easing = EASE_OUT) {
-  return element.animate(frames, { duration: duration * PACE, delay: delay * PACE, easing, fill: 'both' });
+function animate(element, frames, duration, delay = 0, easing = EASE_OUT, pace = PACE) {
+  return element.animate(frames, { duration: duration * pace, delay: delay * pace, easing, fill: 'both' });
 }
 
 async function finish(animation) {
@@ -53,13 +57,20 @@ function coverFor(book) {
   const cover = document.createElement('div');
   cover.className = 'book-cover';
   cover.setAttribute('aria-hidden', 'true');
-  const title = document.createElement('span');
-  title.className = 'book-cover-title';
-  title.textContent = book.querySelector('.reader-title')?.textContent || '';
-  const category = document.createElement('span');
-  category.className = 'book-cover-category';
-  category.textContent = book.querySelector('.reader-category')?.textContent || '';
-  cover.append(category, title);
+  // Books carry a paper jacket (scripts/cover_renderer.py); anything without one shows its title.
+  const jacket = book.querySelector('template.book-jacket');
+  if (jacket) {
+    cover.classList.add('has-jacket');
+    cover.append(jacket.content.cloneNode(true));
+  } else {
+    const title = document.createElement('span');
+    title.className = 'book-cover-title';
+    title.textContent = book.querySelector('.reader-title')?.textContent || '';
+    const category = document.createElement('span');
+    category.className = 'book-cover-category';
+    category.textContent = book.querySelector('.reader-category')?.textContent || '';
+    cover.append(category, title);
+  }
   if (isStacked(book)) cover.classList.add('is-stacked');
   book.append(cover);
   return cover;
@@ -121,18 +132,19 @@ export async function openMotion(dialog, source, reduced) {
   const { flight, rect } = flightFor(source, dialog);
   const cover = coverFor(book);
   nudgeNeighbours(source, 1);
+  const turn = 1080 + COVER_HOLD;
   const motions = [
-    animate(flight, flightFrames(rect, landingRect(book)), 820, 0, 'cubic-bezier(.45,.05,.3,1)'),
-    animate(book, bookFrames(stacked), 560, 560),
-    animate(cover, coverFrames(stacked), 440, 1080, EASE_IN)
+    animate(flight, flightFrames(rect, landingRect(book)), 820, 0, 'cubic-bezier(.45,.05,.3,1)', OPEN_PACE),
+    animate(book, bookFrames(stacked), 560, 560, EASE_OUT, OPEN_PACE),
+    animate(cover, coverFrames(stacked), 440, turn, EASE_IN, OPEN_PACE)
   ];
   if (!stacked) {
     motions.push(animate(book.querySelector('.leaf-left'), [
       { transform: 'perspective(1600px) rotateY(90deg)' }, { transform: 'perspective(1600px) rotateY(5deg)' }
-    ], 620, 1520, SETTLE));
+    ], 620, turn + 440, SETTLE, OPEN_PACE));
     motions.push(animate(book.querySelector('.leaf-right'), [
       { transform: 'rotateY(-5deg)' }, { transform: 'rotateY(-9deg)', offset: .4 }, { transform: 'rotateY(-5deg)' }
-    ], 620, 1520, SETTLE));
+    ], 620, turn + 440, SETTLE, OPEN_PACE));
   }
   await Promise.all(motions.map(finish));
   flight.remove();

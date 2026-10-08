@@ -6,6 +6,11 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlsplit, unquote
 
+if __package__:
+    from .cover_renderer import jacket
+else:
+    from cover_renderer import jacket
+
 ROOT = Path(__file__).resolve().parents[1]
 GROUPS = {'analysis': ('분석과 사례', '다른 책에서 발견한 좋은 질문들'),
           'guide': ('집필과 운영', '다음 사람에게도 이어지는 서재의 기준'),
@@ -90,7 +95,7 @@ def illustration(item):
             + (f'<figcaption>{esc(caption)}</figcaption>' if caption else '') + '</figure>')
 
 
-def preview(item, key):
+def preview(item, key, number=1):
     chapters = outline(item)
     links = ''.join(f'<li><a href="{safe_url(c["url"])}">{esc(c["title"])}</a></li>'
                     for c in chapters)
@@ -110,7 +115,7 @@ def preview(item, key):
             f'<p class="reader-category">{esc(label)}</p>{illustration(item)}'
             f'<h2 class="reader-title">{esc(item["title"])}</h2>'
             f'<p class="reader-description">{esc(item["description"])}</p>'
-            f'{action}</div></template>')
+            f'{action}{jacket(item, number)}</div></template>')
 
 
 def spine_title(item):
@@ -173,7 +178,7 @@ def spine(item, index, key):
             f'<span class="list-title">{esc(item["title"])}</span>'
             f'<span class="spine-category">{esc(label)}</span></span>'
             '<span class="glass-foot" aria-hidden="true"></span>'
-            f'</{tag}>' + preview(item, key))
+            f'</{tag}>' + preview(item, key, index + 1))
 
 
 def shelf(items, category, offset=0):

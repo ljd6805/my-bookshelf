@@ -1,0 +1,12 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="스위치로 놓은 0011(3)과 0100(4)이 덧셈기를 지나 7세그먼트 화면에 7을 켜는 회로" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="14" y="16">0011 = 3</text><rect class="cv-node" x="14" y="22" width="13" height="26" rx="6.5"/><circle class="cv-ink" cx="20.5" cy="41" r="4.2"/><rect class="cv-node" x="32" y="22" width="13" height="26" rx="6.5"/><circle class="cv-ink" cx="38.5" cy="41" r="4.2"/><rect class="cv-node" x="50" y="22" width="13" height="26" rx="6.5"/><circle class="cv-fill" cx="56.5" cy="29" r="4.2"/><rect class="cv-node" x="68" y="22" width="13" height="26" rx="6.5"/><circle class="cv-fill" cx="74.5" cy="29" r="4.2"/><text class="cv-text cv-muted" x="14" y="80">0100 = 4</text><rect class="cv-node" x="14" y="86" width="13" height="26" rx="6.5"/><circle class="cv-ink" cx="20.5" cy="105" r="4.2"/><rect class="cv-node" x="32" y="86" width="13" height="26" rx="6.5"/><circle class="cv-fill" cx="38.5" cy="93" r="4.2"/><rect class="cv-node" x="50" y="86" width="13" height="26" rx="6.5"/><circle class="cv-ink" cx="56.5" cy="105" r="4.2"/><rect class="cv-node" x="68" y="86" width="13" height="26" rx="6.5"/><circle class="cv-ink" cx="74.5" cy="105" r="4.2"/>
+<path class="cv-bus" d="M88 35H104V62H124M88 99H104V90H124"/>
+<path class="cv-hair" d="M98 31l4 8M98 95l4 8"/>
+<rect class="cv-node" x="124" y="42" width="62" height="68" rx="5"/>
+<text class="cv-big" x="155" y="86" text-anchor="middle">+</text><text class="cv-text cv-muted" x="155" y="103" text-anchor="middle">ADDER</text>
+<path class="cv-bus" d="M186 76H214"/><path class="cv-hair" d="M198 72l4 8"/><text class="cv-text cv-muted" x="200" y="66" text-anchor="middle">0111</text>
+<rect class="cv-node" x="216" y="30" width="58" height="92" rx="6"/>
+<path class="cv-seg cv-off" d="M234 98h22M232 80v14M232 60v14M234 78h22"/>
+<path class="cv-seg cv-on" d="M234 52h22M258 56v18M258 82v14"/>
+<path class="cv-line" d="M284 52l10-6M286 76h12M284 100l10 6"/>
+</svg>
