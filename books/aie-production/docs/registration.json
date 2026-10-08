@@ -1,0 +1,132 @@
+{
+ "book": {
+  "id": "aie-18-production",
+  "title": "AI 인프라와 운영 · 모델 서버에서 운영 장부까지",
+  "short_title": "AI 인프라와 운영",
+  "spine_title": "인프라운영",
+  "spine_category": "AI공학",
+  "description": "상담 챗봇 누리봇 하나를 70B 모델로 내보내며 토큰과 GPU의 손익분기, HBM 예산, 청크 프리필, goodput, 추측 디코딩, 캐시를 아는 라우팅, 콜드 스타트, 청구서, 게이트웨이 재시도, 카나리 관문, 오류 예산을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 17의 레슨 28개를 모두 재구성했습니다.",
+  "illustration_caption": "누리봇의 요청이 라우터를 지나 같은 접두부를 가진 GPU로 모이고, 요청이 몰리면 GPU가 하나 더 켜지며 운영 장부가 차오르는 흐름을 보여 주는 그림입니다. 실제 계산이 아닌 시각적 비유입니다.",
+  "keywords": [
+   "LLM 서빙",
+   "추론 인프라",
+   "vLLM",
+   "SGLang",
+   "goodput",
+   "TTFT",
+   "TPOT",
+   "청크 프리필",
+   "추측 디코딩",
+   "EAGLE",
+   "분리 서빙",
+   "접두부 캐시",
+   "프롬프트 캐시",
+   "배치 API",
+   "모델 라우팅",
+   "콜드 스타트",
+   "오토스케일링",
+   "AI 게이트웨이",
+   "카나리 배포",
+   "SLO",
+   "오류 예산",
+   "카오스 엔지니어링",
+   "FinOps",
+   "양자화",
+   "inference serving"
+  ],
+  "chapters_featured": [
+   "#platform",
+   "#engine",
+   "#metrics",
+   "#cost",
+   "#rollout"
+  ],
+  "cover_meta": "12장 · 16개 실험"
+ },
+ "chapter_index": {
+  "books/aie-production/#platform": "01 · 토큰을 살까, GPU를 빌릴까",
+  "books/aie-production/#precision": "02 · 80GB 안에 무엇을 얼마나 담을까",
+  "books/aie-production/#engine": "03 · 엔진 안의 스케줄러 읽기",
+  "books/aie-production/#metrics": "04 · 느림을 네 숫자로 나누기",
+  "books/aie-production/#speculative": "05 · 초안을 쓰게 하고, 프리필과 디코드를 떼어 놓기",
+  "books/aie-production/#locality": "06 · KV 캐시가 있는 곳으로 보내기",
+  "books/aie-production/#scaling": "07 · 늘리고 줄이는 세 층과 콜드 스타트",
+  "books/aie-production/#cost": "08 · 청구서를 줄이는 네 손잡이",
+  "books/aie-production/#gateway": "09 · 게이트웨이 한 곳에서 지키기",
+  "books/aie-production/#rollout": "10 · 바꾸는 날의 안전장치: 섀도·카나리·A/B",
+  "books/aie-production/#incident": "11 · 사고를 미리 겪고, 기록으로 대응하기",
+  "books/aie-production/#final": "마지막 · 누리봇의 월요일 아침"
+ },
+ "concepts": [
+  {
+   "id": "memory-hierarchy",
+   "new": false,
+   "chapters": [
+    "books/aie-production/#precision",
+    "books/aie-production/#locality"
+   ]
+  },
+  {
+   "id": "attention-kv",
+   "new": false,
+   "chapters": [
+    "books/aie-production/#engine",
+    "books/aie-production/#speculative"
+   ]
+  },
+  {
+   "id": "evaluation-uncertainty",
+   "new": false,
+   "chapters": [
+    "books/aie-production/#metrics",
+    "books/aie-production/#rollout"
+   ]
+  },
+  {
+   "id": "base-rate-threshold",
+   "new": false,
+   "chapters": [
+    "books/aie-production/#incident"
+   ]
+  },
+  {
+   "id": "inference-cost",
+   "new": true,
+   "name": "추론 비용 계산",
+   "aliases": [
+    "inference cost",
+    "unit economics",
+    "FinOps",
+    "cost per token"
+   ],
+   "summary": "GPU 시간, 토큰 단가, 캐시와 배치 할인을 같은 단위로 바꿔 어느 쪽이 싼지 따지는 일",
+   "chapters": [
+    "books/aie-production/#platform",
+    "books/aie-production/#cost",
+    "books/llm-gpu/#design",
+    "books/aie-workbench/#gpu"
+   ]
+  }
+ ],
+ "series_step": {
+  "url": "books/aie-production/#metrics",
+  "task": "goodput 실험에서 TPOT 목표 25ms를 두고 청크 프리필을 끔과 켬으로 바꿔 평균 TPOT, P99, goodput을 비교한 뒤, 목표를 10ms로 조여 goodput이 어떻게 변하는지 본다.",
+  "minutes": 15,
+  "why": "앞 권까지는 모델과 에이전트가 무엇을 하는지 다뤘다면, 이 권은 그것을 손님에게 약속한 시간 안에 계속 내보내는 일을 다룬다. 평균이 아니라 목표를 지킨 비율로 서비스를 재는 습관이 이후 비용·배포·사고 대응 판단의 기준이 된다.",
+  "record": "청크 프리필 설정별 평균 TPOT, P99, goodput, 목표를 조였을 때의 goodput, 평균만 보고 내릴 뻔한 잘못된 결론 한 문장"
+ },
+ "incoming": [
+  {
+   "from": "books/llm-performance/#batching",
+   "label": "AI 인프라와 운영 · 엔진 안의 스케줄러 읽기",
+   "url": "../aie-production/#engine",
+   "why": "연속 배치와 페이지 KV가 어떻게 동작하는지 봤다면, 그 엔진을 운영할 때 청크 프리필 조각 크기 하나가 긴 손님의 첫 토큰과 이웃 손님의 끊김을 어떻게 맞바꾸는지 계산해 봅니다."
+  },
+  {
+   "from": "books/llm-gpu/#design",
+   "label": "AI 인프라와 운영 · 토큰을 살까, GPU를 빌릴까",
+   "url": "../aie-production/#platform",
+   "why": "GPU 한 대에 모델을 담는 설계를 마쳤다면, 그 GPU를 시간으로 빌릴지 토큰으로 살지 지속 사용률로 손익분기를 계산해 봅니다."
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+<svg class="a18-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="누리봇의 요청 점들이 라우터를 지나 접두부가 같은 GPU로 모이고, 요청이 몰리면 세 번째 GPU가 켜지며 아래 운영 장부의 막대가 차오르는 장면. 실제 계산이 아니라 운영 흐름을 보여 주는 그림입니다.">
+<style>
+.a18-ill-bg{fill:#f6f1e7}
+.a18-ill-box{fill:#fffaf0;stroke:#7b4f12;stroke-width:2}
+.a18-ill-gpu{fill:#fffaf0;stroke:#4d6f80;stroke-width:2}
+.a18-ill-label{font:700 12px sans-serif;fill:#3a2a12;text-anchor:middle}
+.a18-ill-small{font:500 10px sans-serif;fill:#6b5a40;text-anchor:middle}
+.a18-ill-wire{stroke:#d3c2a3;stroke-width:2;fill:none}
+.a18-ill-a{fill:#b7793d;animation:a18-ill-go-a 3s ease-in-out infinite}
+.a18-ill-b{fill:#4d6f80;animation:a18-ill-go-b 3s ease-in-out infinite 1s}
+.a18-ill-c{fill:#b13a22;animation:a18-ill-go-c 3s ease-in-out infinite 2s}
+.a18-ill-new{animation:a18-ill-wake 6s ease-in-out infinite}
+.a18-ill-bar{fill:#b7793d;transform-box:fill-box;transform-origin:left center;animation:a18-ill-fill 6s ease-in-out infinite}
+@keyframes a18-ill-go-a{0%{transform:translate(0,0);opacity:0}10%{opacity:1}45%{transform:translate(100px,0)}90%{transform:translate(190px,-44px);opacity:1}100%{transform:translate(190px,-44px);opacity:0}}
+@keyframes a18-ill-go-b{0%{transform:translate(0,0);opacity:0}10%{opacity:1}45%{transform:translate(100px,0)}90%{transform:translate(190px,0);opacity:1}100%{transform:translate(190px,0);opacity:0}}
+@keyframes a18-ill-go-c{0%{transform:translate(0,0);opacity:0}10%{opacity:1}45%{transform:translate(100px,0)}90%{transform:translate(190px,44px);opacity:1}100%{transform:translate(190px,44px);opacity:0}}
+@keyframes a18-ill-wake{0%,40%{opacity:.25}55%,90%{opacity:1}100%{opacity:.25}}
+@keyframes a18-ill-fill{0%{transform:scaleX(.2)}60%{transform:scaleX(1)}100%{transform:scaleX(.2)}}
+html[data-motion=reduce] .a18-ill-a,html[data-motion=reduce] .a18-ill-b,html[data-motion=reduce] .a18-ill-c,html[data-motion=reduce] .a18-ill-new,html[data-motion=reduce] .a18-ill-bar{animation:none;opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.a18-ill-a,.a18-ill-b,.a18-ill-c,.a18-ill-new,.a18-ill-bar{animation:none;opacity:1;transform:none}}
+</style>
+<rect class="a18-ill-bg" width="340" height="180"/>
+<rect class="a18-ill-box" x="14" y="56" width="62" height="36" rx="6"/><text class="a18-ill-label" x="45" y="78">누리봇</text>
+<path class="a18-ill-wire" d="M76 74H124M180 74H210M210 30V118M210 30H236M210 74H236M210 118H236"/>
+<rect class="a18-ill-box" x="124" y="54" width="56" height="40" rx="6"/><text class="a18-ill-label" x="152" y="78">라우터</text>
+<rect class="a18-ill-gpu" x="236" y="14" width="88" height="32" rx="5"/><text class="a18-ill-label" x="280" y="34">GPU 1</text>
+<rect class="a18-ill-gpu" x="236" y="58" width="88" height="32" rx="5"/><text class="a18-ill-label" x="280" y="78">GPU 2</text>
+<g class="a18-ill-new"><rect class="a18-ill-gpu" x="236" y="102" width="88" height="32" rx="5"/><text class="a18-ill-label" x="280" y="122">GPU 3 켜짐</text></g>
+<circle class="a18-ill-a" cx="50" cy="74" r="6"/><circle class="a18-ill-b" cx="50" cy="74" r="6"/><circle class="a18-ill-c" cx="50" cy="74" r="6"/>
+<text class="a18-ill-small" x="80" y="150">운영 장부</text>
+<rect x="110" y="142" width="200" height="12" rx="6" fill="#e8dcc6"/><rect class="a18-ill-bar" x="110" y="142" width="200" height="12" rx="6"/>
+<text class="a18-ill-small" x="210" y="172">비용 · goodput · 오류 예산</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="상담 AI 누리로 들어가는 요청이 입력 점검과 출력 점검 두 겹을 지나고, 출시 전 점검표의 항목이 하나씩 확인되는 장면" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M20 75H300"/>
+<rect class="cv-off" x="70" y="30" width="14" height="90" rx="3"/>
+<rect class="cv-node" x="120" y="40" width="80" height="70" rx="8"/><text class="cv-text cv-bold" x="160" y="80" text-anchor="middle">누리</text>
+<rect class="cv-off" x="236" y="30" width="14" height="90" rx="3"/>
+<circle class="cv-dot" cx="36" cy="75" r="5"/><circle class="cv-on" cx="276" cy="75" r="5"/>
+<path class="cv-dash" d="M41 75H70M84 75H120M200 75H236M250 75H271"/>
+<text class="cv-text cv-muted" x="77" y="136" text-anchor="middle">입력 점검</text><text class="cv-text cv-muted" x="243" y="136" text-anchor="middle">출력 점검</text>
+<text class="cv-text cv-muted" x="160" y="22" text-anchor="middle">출시 전 점검 · 정렬 · 감독 · 방어 · 공정</text>
+</svg>

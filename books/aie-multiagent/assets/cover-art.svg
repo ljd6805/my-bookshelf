@@ -1,0 +1,14 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="보고서 팀의 반장이 조사원 세 명에게 하위 질문을 나눠 주고, 돌아온 요약을 검증자가 원문과 대조해 4.2%를 확인하는 장면" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M10 6H310M10 134H310"/>
+<rect class="cv-fill" x="118" y="12" width="84" height="28" rx="5"/><text class="cv-text cv-inverse" x="160" y="30" text-anchor="middle">반장</text>
+<path class="cv-line" d="M160 40L60 84M160 40V84M160 40L260 84"/>
+<rect class="cv-node" x="28" y="84" width="64" height="26" rx="5"/><text class="cv-text" x="60" y="101" text-anchor="middle">조사원</text>
+<rect class="cv-node" x="128" y="84" width="64" height="26" rx="5"/><text class="cv-text" x="160" y="101" text-anchor="middle">조사원</text>
+<rect class="cv-node" x="228" y="84" width="64" height="26" rx="5"/><text class="cv-text" x="260" y="101" text-anchor="middle">조사원</text>
+<circle class="cv-dot" cx="110" cy="62" r="4"/><circle class="cv-dot" cx="160" cy="62" r="4"/><circle class="cv-dot" cx="210" cy="62" r="4"/>
+<path class="cv-stroke cv-dash" d="M202 26H262"/>
+<rect class="cv-node" x="262" y="12" width="50" height="28" rx="5"/><text class="cv-text" x="287" y="30" text-anchor="middle">검증</text>
+<text class="cv-matrix" x="30" y="34">42%</text><path class="cv-stroke" d="M28 30H58"/>
+<text class="cv-matrix" x="68" y="34">4.2%</text>
+<text class="cv-text cv-muted" x="160" y="125" text-anchor="middle">나눠 맡고 · 원문과 대조하고 · 합의한다</text>
+</svg>

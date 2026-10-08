@@ -67,10 +67,11 @@
     "서가 큐레이션에 시리즈 구역 추가: catalog.json series(권 순서·book_id 또는 writing/planned·next_why)로 권 순서 책등 줄·출간 수·다음 권 이유를 그리고, 마지막으로 연 권을 bookshelf:shelf:v1:series:ID에 기억해 '이어 읽기' 단추로 연결. AI 엔지니어링 처음부터 20권 등록(공개 5권). 단위 테스트 2개, Chromium 1280·390·320px 확인. 기록: docs/04-site-plan.html#series",
     "AI 엔지니어링 시리즈 06~10권 출간(자연어 처리·음성과 오디오·트랜스포머 깊이 보기·생성 모델·강화학습, 60장 80실험). 권마다 별도 에이전트 팩트·출처 검수(fixed, 오류 37건 수정). 읽기 노선 aie-from-scratch-2, 새 개념 reward-feedback, 기존 책에서 오는 링크 12개, catalog series 6~10권 공개·11~15권 writing. 각 권에 이전·다음 권 이동과 서가 이어 읽기 키(bookshelf:shelf:v1:series:aie-from-scratch) 기록. 기록: docs/09-aie-series.html",
     "AI 엔지니어링 시리즈 11~15권 출간(LLM 직접 만들기·LLM 엔지니어링·멀티모달 AI·도구와 프로토콜·에이전트 엔지니어링, 60장 79실험). 권마다 별도 에이전트 팩트·출처 검수(fixed, 오류 44건 수정, MCP 2026-07-28 규격·Anthropic 캐시 단가 등 공식 문서 대조). 읽기 노선 aie-from-scratch-3, 다른 책에서 오는 링크 10개, catalog series 11~15권 공개·16~20권 writing. 기록: docs/09-aie-series.html",
+    "AI 엔지니어링 시리즈 16~20권 출간으로 20권 완간(자율 시스템·멀티 에이전트·AI 인프라와 운영·AI 안전과 윤리·캡스톤). 권마다 별도 에이전트 팩트·출처 검수(fixed, 오류 48건 수정: EU AI Act 옴니버스 일정, SB 53 서명, METR 수치, vLLM 이력 등). 읽기 노선 aie-from-scratch-4, 새 개념 coordination-consensus·inference-cost, 다른 책에서 오는 링크 10개, 캡스톤→11~19권 링크 12개, catalog series 20권 모두 공개. 기록: docs/09-aie-series.html#complete",
     "지식 지도를 섬 지도 + 책 중심 확대로 다시 만듦(사용자가 시안 A+C 선택). 분야는 섬, 함께 쓰는 개념은 다리, 책등·가운데 책 선택으로 방사형 책 중심 보기. 배치는 assets/atlas-model.mjs(테스트 tests/test_atlas_model.mjs), 그리기 assets/atlas-view.js, 동작 assets/atlas.js, 자료·목록 scripts/atlas_renderer.py. 720px 이하 세로 배치. 기록: docs/04-site-plan.html#knowledge-map, docs/03-verification.html#knowledge-map-check"
   ],
   "verification": "docs/07-book-integration.html#verification",
-  "next_action": "AI 엔지니어링 시리즈 16~20권을 docs/09-aie-series.html 순서대로 검수·등록(권마다 catalog series의 status를 book_id로 바꾸고 next_why 작성). AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
+  "next_action": "AI 엔지니어링 시리즈는 완간. 시점에 민감한 사실(EU AI Act, MCP 규격, 모델 현황)은 다음 개정 때 공식 문서로 재확인. AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
   "limitations": [
     "Responsive iframe checks are not physical mobile-device testing.",
     "Safari, Firefox, screen readers, Lighthouse and low-end performance not tested.",
