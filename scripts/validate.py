@@ -7,8 +7,10 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 if __package__:
     from .build_catalog import build, safe_book_url
+    from .curation_rules import validate_knowledge_links
 else:
     from build_catalog import build, safe_book_url
+    from curation_rules import validate_knowledge_links
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -172,6 +174,7 @@ def main():
     errors += validate_shelf_return(ROOT)
     errors += validate_typography(ROOT)
     errors += validate_cross_links(ROOT)
+    errors += validate_knowledge_links(ROOT, catalog)
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:
         errors.append('Catalog HTML is stale: run python scripts/build_catalog.py')
