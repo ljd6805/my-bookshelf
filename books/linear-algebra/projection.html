@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>03 · 내 취향 방향으로 그림자 드리우기 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="투영은 벡터를 한 방향 위의 점수 하나로 바꿉니다. 취향 방향을 돌리며 여덟 곡의 순위가 어떻게 바뀌는지 관찰합니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="projection">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a><a href="../../index.html#books">서가로</a></nav>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">3장 · Projection</p>
+<h1>내 취향 방향으로 그림자 드리우기</h1>
+<p class="lead">2장의 내적은 방향이 맞는 정도를 알려 주었지만, 단위가 애매했습니다. 이 장에서는 취향 방향에 길이 1짜리 자를 대고, 모든 노래가 그 자 위에 드리우는 그림자의 길이를 점수로 씁니다. 이것이 투영입니다.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>“내 취향 방향으로 몇 칸 나아갔나”를 해석하기 쉬운 점수로 매겨야 합니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>내적 a·b = |a||b|cos θ와 코사인 유사도로 방향의 닮음을 잴 수 있습니다.</dd></div>
+  <div><dt>새 도구</dt><dd>단위벡터, 투영(그림자), 투영 점수, 나머지 성분</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>여덟 곡 전체를 취향 방향 위에 한 줄로 세운 추천 순위</dd></div>
+  <div><dt>남는 질문</dt><dd>점수표를 두 개 이상 동시에 쓰면, 노래들은 어디로 옮겨 갈까요?</dd></div>
+</dl>
+
+<h2 id="problem">자를 대고 그림자를 재기</h2>
+<p>한낮에 막대를 땅에 비스듬히 세우면 바로 아래에 그림자가 생깁니다. 막대가 땅과 나란할수록 그림자가 길고, 수직이면 그림자는 점이 됩니다. 노래 벡터를 막대로, 내 취향 방향을 땅 위의 선으로 생각하면, 그림자의 길이가 곧 “그 노래가 내 취향 쪽으로 간 거리”입니다.</p>
+<figure class="diagram">
+  <svg viewBox="0 0 520 230" role="img" aria-labelledby="f3-t f3-d">
+    <title id="f3-t">노래 벡터가 취향 방향 선 위로 드리우는 그림자</title>
+    <desc id="f3-d">비스듬한 붉은 선이 취향 방향이고, 주황 노래 점에서 그 선으로 수직인 점선이 내려와 그림자 끝을 만듭니다. 원점에서 그림자 끝까지의 보라색 구간이 투영 점수이고, 노래 점과 그림자 끝 사이의 점선이 취향과 관계없는 나머지 성분입니다.</desc>
+    <g transform="translate(40 200)">
+      <path class="s-me" d="M0 0 L440 -160" stroke="currentColor" stroke-width="2" stroke-dasharray="9 5"/>
+      <path class="s-song draw" d="M0 0 L190 -150" stroke="currentColor" stroke-width="3" fill="none"/>
+      <circle class="f-song" cx="190" cy="-150" r="7" fill="currentColor"/>
+      <path class="draw" d="M190 -150 L229 -83" stroke="currentColor" stroke-dasharray="4 4" stroke-width="1.6" fill="none" opacity=".7"/>
+      <path class="s-res draw" d="M0 0 L229 -83" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none" opacity=".75"/>
+      <path d="M220 -80 l3 9 l9 -3" stroke="currentColor" fill="none" opacity=".6"/>
+      <text x="198" y="-152" font-size="13" fill="currentColor">노래 s</text>
+      <text class="f-res" x="80" y="-12" font-size="13" fill="currentColor">그림자 길이 = s·u (투영 점수)</text>
+      <text x="246" y="-122" font-size="12" fill="currentColor" opacity=".75">나머지 성분(취향과 무관)</text>
+      <text class="f-me" x="384" y="-150" font-size="13" fill="currentColor">취향 방향 u</text>
+    </g>
+  </svg>
+  <figcaption>노래 s를 취향 방향 u 위로 수직으로 떨어뜨리면 그림자(보라)와 나머지(점선)로 나뉩니다. 순위는 그림자 길이로만 매깁니다.</figcaption>
+</figure>
+
+<h2 id="predict">방향을 조금 돌리면</h2>
+<p>나의 취향 (1, 2)는 가로축에서 약 63° 방향입니다. 이 방향으로 재면 1위는 여름 축제입니다. 그렇다면 취향을 에너지 쪽(90°)으로 조금 돌리면 어떻게 될까요?</p>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> 취향 방향을 63°에서 80°로 돌리면 1위 노래는?</p>
+  <div class="buttons"><button type="button" data-choice="festival" aria-pressed="false">여름 축제가 그대로 1위</button><button type="button" data-choice="rock" aria-pressed="false">옥상 록 공연이 1위로</button><button type="button" data-choice="run" aria-pressed="false">아침 달리기가 1위로</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="projection" id="lab-projection" aria-labelledby="lab-proj-title">
+  <header><h3 id="lab-proj-title">실험 3 · 취향 방향 돌리기</h3><p>방향 θ를 바꾸면 붉은 점선(취향 방향)이 돌고, 표의 순위가 다시 매겨집니다. ‘그림자 떨어뜨리기’를 누르면 노래들이 선 위로 내려앉습니다. <span class="kind">실제 계산</span></p></header>
+  <div class="stage"><svg role="img" aria-labelledby="lab-proj-svg"><title id="lab-proj-svg">취향 방향 선과 노래들의 그림자. 순위는 옆의 표에 있습니다.</title></svg></div>
+  <div class="controls">
+    <div class="field"><label for="proj-theta">취향 방향 θ</label><input type="range" id="proj-theta" name="theta" min="0" max="180" step="1" value="63" data-digits="0" data-unit="°"><output for="proj-theta">63°</output></div>
+    <div class="buttons"><button type="button" data-play>그림자 떨어뜨리기</button><button type="button" data-reset>처음 값으로</button></div>
+    <div class="readout" aria-live="polite"><p>θ = 63°이면 1위는 여름 축제(3.59), 꼴찌는 자장가(−3.59)입니다.</p></div>
+    <div class="ranking table-scroll"></div>
+  </div>
+  <p class="footer">입력: 방향 θ = 0~180°(0°는 빠르기만, 90°는 에너지만 따지는 취향). 계산: u = (cos θ, sin θ), 점수 = s·u. 출력 점수의 단위는 노래 특징과 같습니다. 그림자 애니메이션은 계산 결과로 점을 옮기는 연출이며, 점이 겹쳐 이름이 겹칠 수 있습니다.</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>θ = 63°에서 여름 축제(3.59)와 옥상 록 공연(3.35)은 근소한 차이로 1, 2위입니다. θ가 72°에 이르면 록 공연이 1위로 올라섭니다. 에너지를 더 중시할수록 에너지 3인 록 공연이 유리해지기 때문입니다. 반대로 θ를 0°까지 내리면 빠르기만 보게 되어 여름 축제가 압도적 1위가 되고, 골목 재즈는 −1점으로 떨어집니다.</p>
+<p>그림자를 떨어뜨리면 2차원에 흩어져 있던 여덟 곡이 직선 하나 위에 한 줄로 섭니다. 순위를 매길 수 있게 된 대신, 선에 수직인 방향의 차이는 보이지 않게 됩니다. 63° 방향에서는 골목 재즈와 출근 지하철이 둘 다 0점 근처에 겹쳐 서는데, 두 곡은 원래 정반대 쪽에 있던 노래입니다.</p>
+
+<h2 id="explain">설명: 길이 1짜리 자로 잰 내적</h2>
+<ol class="explain">
+  <li>그림자 길이는 노래 길이에 “얼마나 같은 쪽을 보는가(cos θ)”를 곱한 값입니다. 2장의 내적에서 취향 벡터의 길이만 1로 바꾸면 바로 그 값이 됩니다.</li>
+  <li>u는 길이가 1인 방향 벡터(단위벡터), s는 노래, s·u는 투영 점수, (s·u)·u는 그림자 벡터, s − (s·u)·u는 나머지 성분입니다.</li>
+  <li><div class="math">u = 나 ÷ |나| &nbsp;·&nbsp; 점수 = s·u = |s| cos θ &nbsp;·&nbsp; 그림자 = (s·u)·u</div></li>
+  <li>나 = (1, 2)이면 u = (1, 2) ÷ √5 ≈ (0.447, 0.894)입니다. 여름 축제 (3, 2.5)의 점수는 3 × 0.447 + 2.5 × 0.894 ≈ 3.58, 그림자 벡터는 3.58 × (0.447, 0.894) ≈ (1.6, 3.2), 나머지는 (3, 2.5) − (1.6, 3.2) = (1.4, −0.7)입니다. 나머지는 u와 내적이 0, 즉 직각입니다.</li>
+</ol>
+<p>투영은 벡터를 “이 방향으로 간 몫”과 “이 방향과 상관없는 몫”으로 정확히 나눕니다. 두 몫은 언제나 서로 직각이고, 둘을 더하면 원래 노래가 됩니다.</p>
+
+<details class="check">
+  <summary>예측의 정답과 이유</summary>
+  <p><strong>옥상 록 공연이 1위가 됩니다.</strong> 80° 방향 u ≈ (0.17, 0.98)으로 재면 여름 축제는 3 × 0.17 + 2.5 × 0.98 ≈ 2.98, 록 공연은 1.5 × 0.17 + 3 × 0.98 ≈ 3.21입니다. 취향이 에너지 쪽으로 돌면 에너지가 더 큰 곡이 앞섭니다.</p>
+</details>
+<details class="check">
+  <summary>θ를 63°에서 243°로 돌리면 순위는?</summary>
+  <p>u가 정반대가 되므로 모든 점수의 부호가 바뀌고 순위가 완전히 뒤집힙니다. 자장가가 1위가 됩니다. 실험의 범위는 0~180°이지만 표를 거꾸로 읽으면 같은 결과입니다.</p>
+</details>
+
+<h2 id="transfer">새 상황에 써 보기</h2>
+<p>달리기 앱은 “빠르기 위주”, 수면 앱은 “조용함 위주”로 같은 노래를 추천합니다. 둘 다 같은 노래 데이터에 서로 다른 방향 u를 대고 투영할 뿐입니다. 데이터는 그대로 두고 자를 바꾸면 새 순위가 나옵니다. 수면 앱이라면 어떤 θ를 고르면 될까요? 빠르기와 에너지가 모두 낮을수록 좋으니 225° 근처, 즉 (−1, −1) 방향입니다.</p>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> θ를 63°에 두고 ‘그림자 떨어뜨리기’를 누른 뒤, 골목 재즈와 출근 지하철이 같은 자리에 서는 것을 확인하세요. 투영 하나로는 구별할 수 없는 노래가 생긴다는 것이 다음 장의 출발점입니다.</div>
+
+<details class="deeper">
+  <summary>u의 길이가 1이 아니면 무엇이 달라지나요?</summary>
+  <p>길이 2짜리 방향으로 내적을 하면 모든 점수가 두 배가 됩니다. 순위는 그대로지만 “몇 칸 나아갔는가”라는 뜻이 사라집니다. 그래서 투영 공식은 (s·d) ÷ |d|처럼 길이를 나누어 줍니다. 방향 벡터의 길이가 0이면 나눌 수 없으므로, 이 책의 계산 모듈은 그때 결과를 내지 않고 ‘방향 없음’으로 처리합니다.</p>
+</details>
+
+<h2 id="next-question">남은 질문</h2>
+<p>투영 하나는 2차원을 1차원으로 줄여, 골목 재즈와 출근 지하철처럼 다른 노래를 같은 점수로 만들었습니다. 이 손실을 막으려면 자를 하나 더, 이번에는 첫째 자와 직각으로 대면 됩니다. 점수표 두 개를 동시에 쓰면 노래 하나가 새로운 숫자 두 개를 얻습니다. 그렇게 모든 노래를 한꺼번에 새 좌표로 옮기는 규칙이 바로 행렬입니다.</p>
+<a class="next" href="matrix.html"><span>다음 장 · 04 · 점수표 여러 개를 한꺼번에 적용하는 방법이 필요하니까</span><strong>행렬은 평면을 옮기는 규칙</strong></a>
+<a class="prev" href="similarity.html">← 이전 장 · 02 얼마나 닮았는지 재기</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-1.js"></script>
+</body>
+</html>

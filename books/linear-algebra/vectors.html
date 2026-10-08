@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>01 · 노래를 화살표로 적기 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="노래의 특징을 숫자 두 개로 적으면 화살표가 됩니다. 벡터의 덧셈과 실수배로 두 노래를 섞은 재생목록의 위치를 계산합니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="vectors">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a><a href="../../index.html#books">서가로</a></nav>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">1장 · Vectors</p>
+<h1>노래를 화살표로 적기</h1>
+<p class="lead">친구가 “신나는 노래 하나만 추천해 줘”라고 합니다. 머릿속에는 몇 곡이 떠오르지만, ‘신난다’는 느낌을 컴퓨터에게 어떻게 전할 수 있을까요? 이 장에서는 노래를 숫자 두 개로 적고, 그 숫자 묶음을 화살표로 그려 계산하는 법을 배웁니다.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>‘신나는 노래’라는 느낌을 계산할 수 있는 형태로 적어야 합니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>출발점입니다. 노래 여덟 곡과 나의 취향 (1, 2)만 있습니다.</dd></div>
+  <div><dt>새 도구</dt><dd>벡터, 벡터의 덧셈, 실수배, 두 점 사이의 거리</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>두 노래를 섞은 재생목록이 어디에 놓이는지 계산합니다.</dd></div>
+  <div><dt>남는 질문</dt><dd>두 노래가 ‘얼마나 닮았는지’는 숫자 하나로 어떻게 잴까요?</dd></div>
+</dl>
+
+<h2 id="problem">느낌을 숫자로 적기</h2>
+<p>사람마다 ‘신난다’의 뜻이 조금씩 다르지만, 많은 경우 두 가지가 섞여 있습니다. 템포가 빠른가, 그리고 소리가 힘찬가. 그래서 이 책은 노래마다 <strong>빠르기</strong>와 <strong>에너지</strong>라는 두 점수를 붙였습니다. 여름 축제는 빠르기 3, 에너지 2.5이므로 (3, 2.5)로 적습니다. 자장가는 (−3, −2.5)입니다.</p>
+<p>순서가 정해진 숫자 묶음을 <strong>벡터</strong>라고 부릅니다. 첫째 칸은 언제나 빠르기, 둘째 칸은 언제나 에너지입니다. 순서를 바꾸면 전혀 다른 노래가 되므로 (3, 2.5)와 (2.5, 3)은 다른 벡터입니다.</p>
+
+<figure class="diagram">
+  <svg viewBox="0 0 520 260" role="img" aria-labelledby="f1-t f1-d">
+    <title id="f1-t">숫자 두 개가 화살표가 되는 과정</title>
+    <desc id="f1-d">왼쪽에는 여름 축제의 점수 표가 있고, 오른쪽 좌표평면에서 원점에서 출발해 오른쪽으로 3칸, 위로 2.5칸 간 곳에 화살표 끝이 놓입니다. 가로 이동은 빠르기, 세로 이동은 에너지라고 표시되어 있습니다.</desc>
+    <rect x="16" y="70" width="150" height="110" rx="10" fill="none" stroke="currentColor" opacity=".35"/>
+    <text x="30" y="98" font-size="15" fill="currentColor">여름 축제</text>
+    <text x="30" y="128" font-size="14" fill="currentColor" opacity=".75">빠르기  3</text>
+    <text x="30" y="154" font-size="14" fill="currentColor" opacity=".75">에너지  2.5</text>
+    <path d="M178 125 h50" stroke="currentColor" stroke-width="2" opacity=".5"/><path d="M228 125 l-8 -5 v10 z" fill="currentColor" opacity=".5"/>
+    <g transform="translate(270 220)">
+      <g stroke="currentColor" opacity=".18">
+        <path d="M0 0 v-200 M40 0 v-200 M80 0 v-200 M120 0 v-200 M160 0 v-200 M200 0 v-200 M0 0 h220 M0 -40 h220 M0 -80 h220 M0 -120 h220 M0 -160 h220 M0 -200 h220"/>
+      </g>
+      <path class="s-a draw" d="M0 0 H120" stroke="currentColor" stroke-width="3" stroke-dasharray="6 5" fill="none"/>
+      <path class="s-b draw" d="M120 0 V-100" stroke="currentColor" stroke-width="3" stroke-dasharray="6 5" fill="none"/>
+      <path class="s-song draw" d="M0 0 L120 -100" stroke="currentColor" stroke-width="4" fill="none"/>
+      <circle class="f-song" cx="120" cy="-100" r="7" fill="currentColor"/>
+      <text class="f-a" x="40" y="18" font-size="13" fill="currentColor">빠르기 +3</text>
+      <text class="f-b" x="128" y="-44" font-size="13" fill="currentColor">에너지 +2.5</text>
+      <text x="132" y="-108" font-size="14" fill="currentColor">(3, 2.5)</text>
+      <text x="-14" y="16" font-size="12" fill="currentColor" opacity=".7">0</text>
+    </g>
+  </svg>
+  <figcaption>숫자 두 개는 “원점에서 가로로 3, 세로로 2.5만큼 가라”는 지시로 읽을 수 있습니다. 그 지시를 그린 것이 화살표입니다.</figcaption>
+</figure>
+<p>그림처럼 벡터는 점으로도, 원점에서 그 점까지 그은 화살표로도 그릴 수 있습니다. 점으로 보면 “노래가 놓인 자리”이고, 화살표로 보면 “원점에서 그 자리까지의 이동”입니다. 이 책은 두 그림을 오가며 씁니다. 노래는 주황 점으로, 계산에 쓰는 벡터는 화살표로 그립니다.</p>
+
+<h2 id="predict">섞으면 어디로 갈까</h2>
+<p>이제 진짜 질문입니다. 골목 재즈 (−1, 0.5)와 여름 축제 (3, 2.5)를 번갈아 트는 재생목록을 만들었습니다. 이 재생목록 전체의 ‘평균 느낌’은 어디쯤일까요?</p>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> 두 곡을 반씩 섞은 재생목록의 평균 느낌과 가장 가까운 곡은 무엇일까요?</p>
+  <div class="buttons"><button type="button" data-choice="jazz" aria-pressed="false">골목 재즈 쪽에 가깝다</button><button type="button" data-choice="run" aria-pressed="false">아침 달리기와 가깝다</button><button type="button" data-choice="festival" aria-pressed="false">여름 축제 쪽에 가깝다</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="vector-mix" id="lab-mix" aria-labelledby="lab-mix-title">
+  <header><h3 id="lab-mix-title">실험 1 · 두 노래 섞기</h3><p>섞는 비율 t를 바꾸면 보라색 화살표 m = (1 − t)·a + t·b가 a와 b 사이를 움직입니다. <span class="kind">실제 계산</span></p></header>
+  <div class="stage"><svg role="img" aria-labelledby="lab-mix-svg-t"><title id="lab-mix-svg-t">노래 a, b와 섞은 재생목록 m의 화살표. 정확한 값은 옆의 결과 문장에 있습니다.</title></svg></div>
+  <div class="controls">
+    <label>노래 a <select name="a" id="mix-a"></select></label>
+    <label>노래 b <select name="b" id="mix-b"></select></label>
+    <div class="field"><label for="mix-t">섞는 비율 t</label><input type="range" id="mix-t" name="t" min="0" max="1" step="0.05" value="0.5" data-digits="2"><output for="mix-t">0.50</output></div>
+    <div class="buttons"><button type="button" data-play>a + b 과정 재생</button><button type="button" data-reset>처음 값으로</button></div>
+    <div class="readout" aria-live="polite"><p>a = 골목 재즈 (−1, 0.5), b = 여름 축제 (3, 2.5)일 때 t = 0.5이면 m = (1, 1.5)이고, 가장 가까운 노래는 아침 달리기(거리 1.00)입니다.</p></div>
+  </div>
+  <p class="footer">입력: 노래 두 곡(특징 점수, 단위 없음), t는 0~1. 출력: m의 좌표와 가장 가까운 노래까지의 직선거리. t = 0이면 m은 a, t = 1이면 b와 같습니다. 재생 버튼은 b를 a의 끝에 이어 붙여 a + b를 만드는 과정을 보여 줍니다.</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>t를 0에서 1로 밀면 m은 a의 끝에서 b의 끝까지 <em>곧은 선을 따라</em> 움직입니다. 휘어 돌아가지 않습니다. 반씩 섞은 t = 0.5에서 m은 (1, 1.5)이고, 가장 가까운 곡은 두 원곡 어느 쪽도 아닌 아침 달리기 (2, 1.5)입니다. 섞은 결과가 두 원곡과 다른 제3의 곡에 가까울 수 있다는 점이 첫 번째 발견입니다.</p>
+<p>‘a + b 과정 재생’을 누르면 b 화살표가 a의 끝으로 옮겨 붙습니다. 두 이동을 이어서 하면 (−1 + 3, 0.5 + 2.5) = (2, 3)에 도착합니다. 벡터의 덧셈은 칸끼리 더하는 계산이고, 그림으로는 화살표를 꼬리에서 머리로 잇는 것입니다.</p>
+
+<h2 id="explain">설명: 덧셈과 실수배</h2>
+<ol class="explain">
+  <li>화살표 두 개를 이어 붙이면 덧셈, 화살표를 같은 방향으로 늘이거나 줄이면 실수배입니다. 평균은 “더한 뒤 반으로 줄인 것”이므로 두 연산만으로 만들 수 있습니다.</li>
+  <li>a = (a₁, a₂), b = (b₁, b₂)는 노래 두 곡, t는 b의 비중(0~1), m은 섞은 재생목록의 평균 특징입니다.</li>
+  <li><div class="math">a + b = (a₁ + b₁, a₂ + b₂) &nbsp;·&nbsp; k·a = (k·a₁, k·a₂) &nbsp;·&nbsp; m = (1 − t)·a + t·b</div></li>
+  <li>a = (−1, 0.5), b = (3, 2.5), t = 0.5이면 m = 0.5·(−1, 0.5) + 0.5·(3, 2.5) = (−0.5 + 1.5, 0.25 + 1.25) = (1, 1.5)입니다. 아침 달리기 (2, 1.5)까지의 거리는 √((2 − 1)² + (1.5 − 1.5)²) = 1입니다.</li>
+</ol>
+<p>두 점 사이의 <strong>거리</strong>는 피타고라스 정리로 계산합니다. 가로 차이와 세로 차이를 각각 제곱해 더한 뒤 제곱근을 씌웁니다. 실험의 “가장 가까운 노래”는 이 거리가 가장 작은 곡입니다.</p>
+
+<details class="check">
+  <summary>예측의 정답과 이유</summary>
+  <p><strong>아침 달리기와 가깝습니다.</strong> 반씩 섞은 점 (1, 1.5)는 a와 b를 잇는 선분의 한가운데이고, 그 주변에 있는 곡은 아침 달리기입니다. 원곡 중 하나에 가깝다고 예측했다면, “섞으면 둘 중 강한 쪽을 닮는다”는 직관을 썼을 가능성이 큽니다. 평균은 두 점의 한가운데로 갈 뿐 어느 쪽 편을 들지 않습니다.</p>
+</details>
+<details class="check">
+  <summary>자장가 (−3, −2.5)와 여름 축제 (3, 2.5)를 반씩 섞으면?</summary>
+  <p>평균은 (0, 0)입니다. 아주 조용한 곡과 아주 신나는 곡을 섞었더니 ‘보통’이 되었습니다. 두 노래가 서로 정반대 방향의 화살표이기 때문입니다. 그런데 이 재생목록을 실제로 들으면 보통 노래 한 곡과는 전혀 다르게 느껴질 것입니다. 평균 하나로는 ‘얼마나 들쭉날쭉한지’가 사라진다는 점을 기억해 두세요. 9장에서 이 퍼짐을 직접 다룹니다.</p>
+</details>
+
+<h2 id="transfer">새 상황에 써 보기</h2>
+<p>세 곡을 섞으면 어떻게 될까요? 평균은 세 벡터를 모두 더한 뒤 3으로 나누면 됩니다. 옥상 록 공연 (1.5, 3), 출근 지하철 (1, −0.5), 새벽 산책 (−1.5, −1)의 평균은 ((1.5 + 1 − 1.5)/3, (3 − 0.5 − 1)/3) = (0.33, 0.5)입니다. 같은 계산은 특징이 셋이든 백 개든 칸마다 똑같이 반복하면 됩니다. 벡터의 힘은 이처럼 칸 수가 늘어도 계산 규칙이 바뀌지 않는다는 데 있습니다.</p>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> 실험 1에서 a를 자장가, b를 여름 축제로 고르고 t를 0, 0.5, 1로 바꿔 보세요. 가운데에서 m의 길이가 0이 되는 순간을 확인하면, 덧셈이 ‘상쇄’도 할 수 있다는 점이 눈에 들어옵니다.</div>
+
+<details class="deeper">
+  <summary>왜 화살표를 원점에서 그리나요?</summary>
+  <p>노래의 위치는 기준점이 있어야 말할 수 있습니다. 이 책에서는 모든 특징이 0인 ‘보통 노래’를 원점으로 정했습니다. 기준점을 바꾸면 모든 벡터의 좌표가 함께 바뀌지만, 두 노래 사이의 차이 b − a는 바뀌지 않습니다. 그래서 거리와 같은 ‘차이’에 관한 계산은 기준점을 어디로 잡든 결과가 같습니다. 반대로 다음 장에서 쓰는 ‘방향’은 기준점이 어디냐에 따라 달라집니다. 9장에서 노래들의 평균을 새 기준점으로 쓰는 이유가 여기에 있습니다.</p>
+</details>
+
+<h2 id="next-question">남은 질문</h2>
+<p>이제 노래를 벡터로 적고, 섞고, 거리를 잴 수 있습니다. 그런데 거리만으로 추천을 하면 이상한 일이 생깁니다. 나의 취향 (1, 2)에서 가장 가까운 곡은 거리 1.12의 아침 달리기인데, 같은 방향으로 더 멀리 있는 옥상 록 공연 (1.5, 3)은 ‘더 진하게 내 취향’인데도 거리로는 1.12로 같고, 여름 축제는 2.06이나 떨어져 있습니다. ‘얼마나 닮았나’를 거리 말고 방향으로 잴 방법은 없을까요?</p>
+<a class="next" href="similarity.html"><span>다음 장 · 02 · 거리 대신 방향으로 닮음을 재는 도구가 필요하니까</span><strong>얼마나 닮았는지 재기</strong></a>
+<a class="prev" href="index.html">← 표지와 공통 사례로</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-1.js"></script>
+</body>
+</html>
