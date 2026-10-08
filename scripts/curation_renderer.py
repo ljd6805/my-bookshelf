@@ -7,11 +7,11 @@ moved chapter fails the build instead of leaving a dead link on the shelf.
 if __package__:
     from .series_renderer import render_series
     from .shelf_renderer import esc, safe_book_url
-    from .atlas_renderer import render_atlas_table, owner_of, short_name, field_of
+    from .atlas_renderer import atlas_payload, payload_script, render_atlas_list, book_picker, owner_of, short_name, field_of
 else:
     from series_renderer import render_series
     from shelf_renderer import esc, safe_book_url
-    from atlas_renderer import render_atlas_table, owner_of, short_name, field_of
+    from atlas_renderer import atlas_payload, payload_script, render_atlas_list, book_picker, owner_of, short_name, field_of
 
 
 def book_lookup(catalog):
@@ -160,13 +160,19 @@ def render_concept(concept, catalog):
 def render_atlas(concepts, catalog):
     if not concepts:
         return ''
-    table = render_atlas_table(concepts, catalog['books'], lambda c: render_concept(c, catalog))
+    cards = render_atlas_list(concepts, catalog['books'], lambda c: render_concept(c, catalog))
     return ('<div class="concept-atlas" data-atlas><div class="atlas-head">'
-            '<p class="curation-eyebrow">지식 지도</p><h3 id="concept-title">책과 책이 만나는 개념</h3>'
-            '<p id="atlas-help">세로 칸은 서가 순서대로 선 책이고, 가로줄 하나가 개념 하나입니다. '
-            '점은 그 책에서 개념을 다루는 장이며 숫자는 장 수입니다. 선이 다른 분야로 길게 뻗을수록 '
-            '여러 분야를 잇는 개념입니다. 개념 이름을 누르면 만나는 장이 줄 아래에 펼쳐지고, 책등을 누르면 그 책으로 갑니다.</p></div>'
-            f'{table}</div>')
+            '<p class="curation-eyebrow">지식 지도</p><h3 id="concept-title">분야는 섬, 함께 쓰는 개념은 다리</h3>'
+            '<p id="atlas-help">분야마다 섬 하나를 그리고 그 분야의 책을 섬 위에 세웠습니다. 두 분야가 함께 쓰는 개념은 '
+            '섬 사이 다리가 되고, 다리가 굵을수록 함께 쓰는 개념이 많습니다. 섬이나 다리를 누르면 옆에 개념이 나오고, '
+            '책등을 누르거나 가운데 책을 고르면 그 책 하나를 가운데 두고 이어지는 개념과 책만 보여 줍니다.</p></div>'
+            '<div class="atlas-tools" data-atlas-tools hidden><div class="atlas-view" role="group" aria-label="지식 지도 보기 방식">'
+            '<button type="button" data-view="map" aria-pressed="true">지도</button>'
+            '<button type="button" data-view="list" aria-pressed="false">목록</button></div>'
+            f'{book_picker(catalog["books"])}</div>'
+            '<div class="atlas-stage" data-atlas-stage hidden><div class="atlas-canvas" data-atlas-canvas></div>'
+            '<aside class="atlas-panel" data-atlas-panel aria-live="polite" aria-label="고른 섬·다리·개념 설명"></aside></div>'
+            f'{cards}{payload_script(atlas_payload(concepts, catalog))}</div>')
 
 
 def render_curation(catalog):
