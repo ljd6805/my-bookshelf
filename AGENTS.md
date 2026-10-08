@@ -45,6 +45,7 @@
 - AI 책은 books/ai/가 개발 원본이다. 이전 ai-book-interactive 저장소는 보존하며 자동 동기화하지 않는다.
 - 도서 카탈로그 URL은 books/주제/ 상대 경로를 기본으로 하고 안정적인 장 ID를 유지한다.
 - books/주제/AGENTS.md에 책별 규칙을 둔다. 책 사이 내부 코드 의존을 추가하지 않는다.
+- 모든 책의 books/주제/index.html 머리말(`<header>`)에 서가로 돌아가는 버튼 `<a class="shelf-return" data-shelf-return href="../../index.html#books">`를 둔다. 320px에서도 보이고 누를 수 있어야 하며 validate.py가 검사한다. 세부 기준은 docs/07-book-integration.html#shelf-return을 따른다.
 - 변경 책의 테스트와 공통 링크 검사를 실행한다. 공통 코드 수정 시 모든 책을 검사한다.
 - 통합 기준과 이전 기록은 docs/07-book-integration.html을 따른다.
 
