@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="확률과 통계 · 경보가 울렸다, 정말 고장일까의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · 확률과 통계 · 경보가 울렸다, 정말 고장일까</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · 확률과 통계 · 경보가 울렸다, 정말 고장일까</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="Claude · 확률과 통계 책 집필 스레드" data-date="2026-10-08" data-scope="8개 장 본문과 마지막 과제, 8개 실험 계산, 출처 6개(검수 후 7개), 책 개발 문서" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: Claude · 확률과 통계 책 집필 스레드. 범위: 8개 장 본문과 마지막 과제, 8개 실험 계산, 출처 6개(검수 후 7개), 책 개발 문서. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 0건, medium 2건, low 9건. 모든 수치는 맞았습니다. 베이즈 장이 실험 결과를 거꾸로 설명한 문장과, 검정 실험 안내가 실제 화면과 어긋난 문장을 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>신뢰구간·p값 해석을 ASA 성명과 대조. 중심극한정리 조건, 역확률 혼동 명칭 수정</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>이항·포아송 확률, Wilson 구간, 베이즈 사후확률, 검정력, 교차 엔트로피 등 전 수치 재계산. 표준편차·p값·손실 정의 문장 3건 수정</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>npm test 21개 통과, stats.js·inference.js 경계값과 실험 시드 재현. 베이즈 설명·검정 안내·경보 문구 수정</td></tr><tr data-check="terms" data-status="fixed"><td>용어</td><td>수정함</td><td>표준편차/표준오차·사전/사후확률·검정력·1종 오류 용어 확인, 우도와 손실의 관계 표현 수정</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 6개 해석 확인(DOI 2개는 출판사가 자동 접근 차단). 링크 미확인 안내를 확인일로 바꾸고 Wald 구간 근거(Brown, Cai &amp; DasGupta 2001) 추가</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>M1 medium</td><td>#bayes 설명</td><td>고장률을 낮추면 진짜 경보는 그대로, 오경보가 많아진다</td><td>격자 계산: 진짜 경보가 비례해 줄고 오경보는 거의 그대로</td><td>방향을 바로잡음</td></tr><tr><td>M2 medium</td><td>js/guides.js testing</td><td>기각 비율이 “5% 안팎”이어야 한다</td><td>정확 이항검정은 보수적, n=60이면 실제 α 약 1.4%</td><td>“5%를 넘지 않아야”와 이유 추가</td></tr><tr><td>L1 low</td><td>#testing</td><td>p값 정의에 “또는 더 극단적인” 누락</td><td>식은 P(X ≤ k)</td><td>추가</td></tr><tr><td>L2 low</td><td>#likelihood</td><td>손실 = 우도의 음수</td><td>손실은 음의 로그우도 평균</td><td>수정</td></tr><tr><td>L3 low</td><td>#spread</td><td>표준편차를 평균 거리, 평균으로 나눔으로 설명</td><td>식은 n−1로 나눔</td><td>수정</td></tr><tr><td>L4 low</td><td>#clt</td><td>중심극한정리 조건 누락</td><td>독립·유한 분산·충분한 n</td><td>조건 추가</td></tr><tr><td>L5 low</td><td>#bayes 확인 답</td><td>역확률 혼동을 기저율 무시와 같은 이름으로</td><td>서로 다른 오류</td><td>역확률 혼동(검사의 오류)으로</td></tr><tr><td>L6 low</td><td>js/labs-a.js</td><td>P&lt;1%를 “100일에 한 번도 안 나옴”</td><td>기대 횟수 1 미만일 뿐</td><td>“한 번꼴도 안 됨”</td></tr><tr><td>L7 low</td><td>#bayes·#testing 문제</td><td>5% 센서와 10% 센서가 같은 센서처럼 읽힘</td><td>장마다 다른 양</td><td>센서와 기록을 구분하는 문장</td></tr><tr><td>L8 low</td><td>#testing → RAG 링크</td><td>이 장의 검정을 그대로 적용한다고 씀</td><td>같은 질문 비교는 짝지은 검정</td><td>표현 완화</td></tr><tr><td>L9 low</td><td>docs/index.html, js/app.js</td><td>테스트 18개, 링크 미확인 안내</td><td>현재 21개, 이번 검수에서 링크 확인</td><td>갱신</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>A&amp;S 299쪽은 스캔 이미지라 본문 대신 식의 수치 오차(1.39e-7)로 대조했습니다. DOI 세 개는 해석까지만 확인했습니다. 브라우저 실행과 학습 효과는 범위 밖입니다.</p>
+</section>
+</main></body></html>

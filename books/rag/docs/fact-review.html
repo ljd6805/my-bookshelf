@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="검색과 RAG · 질문에서 근거까지의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · 검색과 RAG · 질문에서 근거까지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · 검색과 RAG · 질문에서 근거까지</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="Claude · 검색과 RAG 책 집필 스레드" data-date="2026-10-08" data-scope="10개 장 본문, 10개 실험 계산(역색인·BM25·조각·임베딩·혼합·평가·재순위·예산·답 보류), 그림 설명, 출처 11개, 교차 링크 13개" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: Claude · 검색과 RAG 책 집필 스레드. 범위: 10개 장 본문, 10개 실험 계산(역색인·BM25·조각·임베딩·혼합·평가·재순위·예산·답 보류), 그림 설명, 출처 11개, 교차 링크 13개. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 1건, medium 3건, low 6건. 혼합 검색 그림 설명이 D2의 키워드 몫을 0이라고 썼지만 실제 계산은 0.35였습니다. 이를 포함해 모두 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>BM25·IDF·DPR·재순위·lost in the middle·RAG 원 논문 주장을 원문과 대조. Lucene 식 차이와 원 논문의 미세조정 보충</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>BM25(D1 2.3748 손계산), P@k·R@k·MRR, 조각 수 식, KV 128 KiB 재계산. 그림 설명 수치 1건(high) 수정</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>npm test 30개 통과, 모든 실험 안내·프리셋 수치 재계산. 문턱 주장과 이를 뒷받침하던 순환 테스트를 실제 대가(답할 질문 7개 보류)를 검사하도록 수정</td></tr><tr data-check="terms" data-status="fixed"><td>용어</td><td>수정함</td><td>역색인·조각·교차 인코더·혼합 검색/RRF 용어 확인, IDF 로그 안의 양을 odds로 바로잡음</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 11개 확인. RRF 논문 전체 제목, Anthropic 글의 현재 주소로 수정</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>F1 high</td><td>js/figures.js 혼합 검색 그림</td><td>“D2는 키워드 몫이 0”</td><td>“책”이 겹쳐 키워드 몫 0.35, 그림 막대와도 모순</td><td>계산값으로 설명을 만들도록 수정(키워드 0.35 + 의미 0.46 = 0.81)</td></tr><tr><td>F2 medium</td><td>#abstain 본문·그림</td><td>노트북 질문은 어떤 문턱으로도 걸러지지 않는다</td><td>문턱 0.96이면 막히지만 답할 질문 7개도 보류</td><td>대가를 설명하는 문장, 테스트도 같은 사실을 검사</td></tr><tr><td>F3 medium</td><td>#embedding, lab-guides.js, figures.js</td><td>낱말이 하나도 겹치지 않는 D2</td><td>흔한 낱말 “책”이 겹침</td><td>“핵심 낱말이 겹치지 않는”</td></tr><tr><td>F4 medium</td><td>Lucene 출처 설명, #bm25 식 설명</td><td>책의 식이 Lucene과 같다</td><td>Lucene 8 이후 분자의 (k1+1) 제거(순위는 같음)</td><td>차이 명시</td></tr><tr><td>F5 low</td><td>lab-guides.js bm25</td><td>k1=0에서 같아지는 문서에 D13 누락</td><td>D13도 2.0693</td><td>D13 추가</td></tr><tr><td>F6 low</td><td>#bm25 교차 링크</td><td>IDF 로그 안을 확률로 설명</td><td>실제는 odds 비</td><td>수정</td></tr><tr><td>F7 low</td><td>출처 RRF</td><td>논문 제목 축약</td><td>SIGIR 2009 원제</td><td>전체 제목</td></tr><tr><td>F8 low</td><td>출처 Anthropic</td><td>리디렉트되는 주소</td><td>현재 /engineering/ 경로</td><td>주소 교체</td></tr><tr><td>F9 low</td><td>#why-rag</td><td>원 RAG 논문이 미세조정을 했다는 점 누락</td><td>Lewis et al. 2020</td><td>괄호로 보충</td></tr><tr><td>F10 low</td><td>#context</td><td>37.5 MiB를 실험에서 재현할 수 없음</td><td>실험은 후보 6개, 약 200토큰</td><td>보충 설명</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>Robertson &amp; Zaragoza(2009) DOI는 출판사의 봇 확인 화면 때문에 본문을 보지 못했고, Cormack(2009) DOI는 ACM이 접근을 막아 다른 공개 사본으로 확인했습니다. 브라우저 실행과 학습 효과는 범위 밖입니다.</p>
+</section>
+</main></body></html>

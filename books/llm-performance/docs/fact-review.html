@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="GPT(Codex) · 사용자 저장소 커밋으로 집필" data-date="2026-10-08" data-scope="12개 장 본문, 실험 계산과 프리셋, Python·CUDA 실행 예제, 출처 16개(검수 후 19개), 구현·검증 문서" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: GPT(Codex) · 사용자 저장소 커밋으로 집필. 범위: 12개 장 본문, 실험 계산과 프리셋, Python·CUDA 실행 예제, 출처 16개(검수 후 19개), 구현·검증 문서. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 0건, medium 2건, low 4건. 다시 계산한 모든 수치가 맞았고, 실제 계산·가상 시나리오·측정의 구분도 정확했습니다. 주장을 뒷받침하지 못하는 출처 2건을 보강하고 표기 4건을 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>CUDA 비동기 실행·event·SDPA·PagedAttention·FlashAttention·continuous batching·NCCL 설명을 원문과 대조</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>TTFT·ITL 계산, 블록·warp·sector 수, occupancy, roofline 하한, 융합 바이트, KV 144 KiB/token(Qwen3-8B config.json 대조), 페이징 슬롯, 배칭 일정, ring AllReduce 비용 재계산. 문서의 데이터형 표기 1건 수정</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>npm test 34개, 예제 테스트 4개 통과. profile_matmul.py를 CPU용 torch 2.14.1로 실행해 정확도 검사 통과</td></tr><tr data-check="terms" data-status="fixed"><td>용어</td><td>수정함</td><td>TTFT·ITL·TPOT·occupancy·sector·coalescing 용어 확인. roofline 그림의 경사 지붕 이름을 ‘메모리 대역폭 상한’으로 수정</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 18개 확인. vLLM 벤치마크 문서 설명을 실제 내용에 맞추고 NVIDIA NIM 지표 정의, NCCL_ALGO, Orca 논문 출처 추가</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>F1 medium</td><td>#metrics, 출처 vLLM bench serve</td><td>TPOT·ITL 정의의 근거로 vLLM 벤치마크 문서를 연결</td><td>문서는 지표 이름만 나열하고 정의하지 않음</td><td>설명 수정, NVIDIA NIM LLM Benchmarking Metrics 추가</td></tr><tr><td>F2 medium</td><td>#parallel 주의, 출처 NCCL Collectives</td><td>“NCCL이 항상 ring을 고르지 않는다”의 근거</td><td>Collectives 문서에 알고리즘 선택 내용 없음</td><td>NCCL_ALGO 환경 변수 문서 추가</td></tr><tr><td>F3 low</td><td>#batching</td><td>continuous batching의 원 출처 없음</td><td>Orca(OSDI 2022)가 반복 단위 스케줄링 제안</td><td>출처 추가</td></tr><tr><td>F4 low</td><td>js/figures.js roofline</td><td>경사 지붕을 ‘처리량 상한’으로 표시</td><td>두 지붕 모두 처리량 상한이라 모호</td><td>‘메모리 대역폭 상한’</td></tr><tr><td>F5 low</td><td>docs/implementation.html</td><td>Qwen3-8B FP16 KV</td><td>config.json은 bfloat16</td><td>16bit(BF16/FP16)</td></tr><tr><td>F6 low</td><td>docs/validation.html</td><td>torch.mm CPU 실행을 확인하지 못했다고 기록</td><td>이번 검수에서 CPU 경로 실행</td><td>CPU 확인 기록 추가, CUDA·Nsight는 미확인 유지</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>CUDA·nvcc·Nsight 실행은 GPU가 없어 확인하지 못했습니다. 공개 Pages 주소는 검수 환경의 프록시가 막았고, NCCL_ALGO 절의 본문과 PyTorch Profiler 본문은 제목까지만 확인했습니다. 학습 효과는 범위 밖입니다.</p>
+</section>
+</main></body></html>

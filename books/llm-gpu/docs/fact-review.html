@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드" data-date="2026-10-08" data-scope="12개 장 본문, 14개 실험 계산, Qwen 두 모델 사양, 외부 출처 18개, 구현 문서" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드. 범위: 12개 장 본문, 14개 실험 계산, Qwen 두 모델 사양, 외부 출처 18개, 구현 문서. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 0건, medium 0건, low 4건. Qwen3-8B·Qwen3-30B-A3B 사양이 공식 config.json·모델 카드와 맞았고, KV 1 GiB·0.750 GiB·예산 22.10 GiB 등 모든 수치가 재계산과 일치했습니다. 표기 문제 4건을 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>Qwen 층 수·헤드·KV 헤드·문맥 길이를 Hugging Face config.json과 대조. 메모리 계층 그림의 크기 표기 수정</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>가중치·KV·예산·루프라인·FLOPs·MoE 활성 파라미터·전송 시간 재계산. 2PB 표기와 GB/GiB 혼용 2건 수정</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>npm test 31개 통과, math.js 대표값과 범위 밖 입력 거부 확인</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>prefill/decode·TTFT/ITL·GQA·FlashAttention·PagedAttention·병렬화 용어 확인</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>외부 출처 18개와 Actions 실행 2개를 열어 주장과 대조. 구현 문서의 교차 링크 수만 갱신</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>L1 low</td><td>js/figures.js 메모리 계층</td><td>VRAM “수십 GB”, L2 “수십 MB”</td><td>소비자 GPU는 L2 수 MB, VRAM 8 GB부터</td><td>“수 GB~수백 GB”, “수 MB~수십 MB”</td></tr><tr><td>L2 low</td><td>#bottleneck, docs/implementation.html</td><td>“연산량은 대략 2PB”</td><td>페타바이트로 읽힘</td><td>“2×P×B FLOP”</td></tr><tr><td>L3 low</td><td>#weights 설명·퀴즈</td><td>4 GB GPU</td><td>판매 표기 4 GB는 4 GiB</td><td>“4 GB(약 3.73 GiB)”, “4 GiB GPU”</td></tr><tr><td>L4 low</td><td>docs/implementation.html</td><td>교차 링크 19개</td><td>content.js 기준 22개, RAG·추론 최적화 포함</td><td>수 갱신</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>양자화 개요 문서가 활성화 양자화를 명시하는지는 확인하지 못했습니다. 브라우저 실행과 실제 GPU 측정은 범위 밖입니다.</p>
+</section>
+</main></body></html>

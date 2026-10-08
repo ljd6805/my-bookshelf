@@ -1,6 +1,6 @@
 window.PBook=(()=>{
 const sources=[
- ['vLLM · Serving benchmark','https://docs.vllm.ai/en/latest/cli/bench/serve/','TTFT·TPOT·ITL·처리량을 구분하는 벤치마크 옵션. 도구마다 집계 범위를 확인합니다.'],
+ ['vLLM · Serving benchmark','https://docs.vllm.ai/en/latest/cli/bench/serve/','vLLM 벤치마크 CLI. TTFT·TPOT·ITL·E2EL을 측정 항목으로 고릅니다(정의는 NIM 지표 문서 참고). 도구마다 집계 범위를 확인합니다.'],
  ['PyTorch · CUDA semantics','https://docs.pytorch.org/docs/2.14/notes/cuda.html','비동기 실행, stream과 동기화, 메모리 관리.'],
  ['PyTorch · CUDA Event','https://docs.pytorch.org/docs/2.14/generated/torch.cuda.Event.html','CUDA event로 장치 구간의 경과 시간을 측정합니다.'],
  ['PyTorch · Profiler','https://docs.pytorch.org/docs/2.14/profiler.html','CPU·CUDA 활동 수집과 Chrome trace 내보내기 API.'],
@@ -15,10 +15,13 @@ const sources=[
  ['Qwen · Qwen3-8B 모델 카드','https://huggingface.co/Qwen/Qwen3-8B','공식 오픈웨이트 모델의 실행 조건과 thinking 모드를 확인할 사례.'],
  ['Hugging Face · Cache explanation','https://huggingface.co/docs/transformers/cache_explanation','과거 토큰의 K·V를 보존하는 이유와 상태.'],
  ['Qwen · Qwen3-8B config.json','https://huggingface.co/Qwen/Qwen3-8B/raw/main/config.json','층 수·KV head 수·head_dim의 공식 구성 파일.'],
- ['PyTorch · Reproducibility','https://docs.pytorch.org/docs/2.14/notes/randomness.html','난수·환경·알고리즘 차이를 통제할 때의 한계.']
+ ['PyTorch · Reproducibility','https://docs.pytorch.org/docs/2.14/notes/randomness.html','난수·환경·알고리즘 차이를 통제할 때의 한계.'],
+ ['NVIDIA · NIM LLM Benchmarking Metrics','https://docs.nvidia.com/nim/benchmarking/llm/latest/metrics.html','TTFT·ITL(TPOT)·E2E 지연의 정의와 도구마다 다른 집계 방식.'],
+ ['NVIDIA · NCCL 환경 변수 NCCL_ALGO','https://docs.nvidia.com/deeplearning/nccl/user-guide/docs/env.html#nccl-algo','collective 알고리즘(Ring·Tree 등)의 선택.'],
+ ['Yu 외 · Orca (OSDI 2022)','https://www.usenix.org/conference/osdi22/presentation/yu','요청 단위가 아닌 반복(iteration) 단위 스케줄링을 제안한 원 논문.']
 ];
 const chapters=[
-{id:'metrics',title:'느리다는 말을 숫자로 바꾸기',subtitle:'첫 토큰 대기, 토큰 사이 간격, 전체 처리량은 서로 다른 질문에 답합니다.',desc:'답변이 빨라졌다는 말은 무엇을 재야 확인할 수 있을까요?',time:'14분',group:'측정',labs:['metrics'],source:[0,12],
+{id:'metrics',title:'느리다는 말을 숫자로 바꾸기',subtitle:'첫 토큰 대기, 토큰 사이 간격, 전체 처리량은 서로 다른 질문에 답합니다.',desc:'답변이 빨라졌다는 말은 무엇을 재야 확인할 수 있을까요?',time:'14분',group:'측정',labs:['metrics'],source:[0,16,12],
  paragraphs:['앞 권에서 모델이 메모리에 들어갈 조건을 계산했습니다. 이제 같은 회의록을 요약하는 서비스가 “돌아가지만 느리다”는 문제를 조사합니다. 요청을 보낸 시각부터 첫 토큰까지의 시간을 TTFT(time to first token), 이후 도착한 토큰 사이 간격을 ITL(inter-token latency)이라고 부릅니다. 긴 입력을 처리하는 시간이 줄어도 그다음 토큰 간격은 그대로일 수 있습니다.','출력 토큰 수와 측정 시작점을 고정해야 비교가 가능합니다. 이 장에서는 네트워크와 대기열을 포함한 요청 시작부터 마지막 토큰까지를 end-to-end 시간으로 정합니다. 실험의 간격은 일정하다고 가정하지만 실제 서비스에서는 간격의 분포와 p95도 봐야 합니다. 지표를 정했다면, Python 함수 앞뒤의 시계가 GPU 완료까지 재는지부터 확인해야 합니다.'],
  formula:'전체 시간 = TTFT + (출력 토큰 수 − 1) × 일정한 ITL',formulaNote:'시간 단위는 ms입니다. 출력이 한 토큰이면 ITL은 정의되지 않습니다. 화면의 tokens/s는 한 요청의 출력 수 ÷ 전체 시간이며 여러 요청의 서비스 처리량과 다릅니다.',flow:['요청 시작|대기·입력 처리','첫 토큰|여기까지 TTFT','다음 토큰들|도착 간격 ITL','마지막 토큰|전체 시간 확정'],
  details:[['비교 전에 적는 실험 조건','<p>모델 이름과 revision, tokenizer, 가중치·KV 자료형, 입력·출력 토큰 수, 배치와 동시 요청 수, 캐시 상태, GPU와 라이브러리 버전을 기록합니다. Qwen3-8B 같은 오픈웨이트 모델은 thinking 모드도 고정해야 출력 길이와 계산 경로를 비교하기 쉽습니다. “8B”라는 이름만 같아서는 같은 작업이라고 할 수 없습니다.</p>'],['이 책에서 계속 쓸 요청','<p>회의록 입력 2,048토큰, 출력 32토큰을 고정한 교육용 요청을 사용합니다. 기준 TTFT 400 ms, 일정한 ITL 20 ms이면 전체 시간은 1,020 ms입니다. 실제 Qwen의 측정치가 아니라 식을 확인할 공통 사례입니다. 출력 길이를 줄인 결과를 같은 일을 더 빠르게 한 것으로 보고하지 마세요.</p>']],
@@ -74,13 +77,13 @@ if (i &lt; n) y[i] = fmaxf(0.0f, x[i] + bias);</pre><p>이 코드는 벡터의 b
  details:[['공간과 주소의 두 관점','<p>KV의 의미상 길이는 사용한 토큰 수로 정해지고, 실제 할당량은 블록 크기의 배수가 됩니다. 기본 예제에서 사용량은 899자리, 블록 16은 944자리, 블록 256은 1,536자리를 할당합니다. 요청별로 2,048자리를 미리 예약하면 6,144자리입니다. 이는 선택한 비교 정책의 차이이며 모든 연속 할당 구현이 반드시 이렇게 낭비한다는 뜻은 아닙니다.</p>'],['공유 prefix와 KV 양자화는 별도 선택','<p>같은 prefix의 KV를 공유하는 정책은 요청 사이 중복을 줄입니다. KV 자료형을 줄이는 정책은 토큰당 byte를 줄입니다. 페이지 방식은 공간을 나누고 배정하는 방법입니다. 세 기법을 함께 쓸 수도 있지만 적용 조건과 정확성 검증은 각각 다릅니다.</p>']],
  warning:'PagedAttention의 page는 여기서 GPU KV 메모리의 블록을 뜻합니다. 반드시 디스크나 CPU RAM으로 page fault가 발생한다는 뜻이 아닙니다. 실제 엔진의 CPU offload 정책은 별도로 확인하세요.',
  quiz:['블록 크기 16에서 17토큰 요청에 필요한 토큰 자리는?',['17자리','32자리','256자리'],1,'두 블록을 배정하므로 32자리이며 마지막 블록의 15자리가 비어 있습니다.'],cross:[['시스템 이해편 · 대화 길이가 차지하는 공간','../llm-gpu/#cache','토큰당 KV 크기부터 계산한 뒤 의미상 사용량과 블록 할당량의 차이로 돌아오세요.']]},
-{id:'batching',title:'빈자리에 다음 요청 넣기',subtitle:'같은 묶음의 모든 요청이 끝날 때까지 기다릴지, 매 단계 새 요청을 받을지 비교합니다.',desc:'출력 길이가 다른 네 요청을 어떻게 함께 처리할까요?',time:'17분',group:'서비스',labs:['schedule'],source:[0,10],
+{id:'batching',title:'빈자리에 다음 요청 넣기',subtitle:'같은 묶음의 모든 요청이 끝날 때까지 기다릴지, 매 단계 새 요청을 받을지 비교합니다.',desc:'출력 길이가 다른 네 요청을 어떻게 함께 처리할까요?',time:'17분',group:'서비스',labs:['schedule'],source:[0,10,18],
  paragraphs:['앞 장에서 KV 공간을 효율적으로 배정했습니다. 이번에는 네 개의 요약 요청이 동시에 도착했고 각각 2·6·3·5개의 추가 토큰을 생성해야 한다고 가정합니다. 고정 배치는 같은 묶음의 긴 요청이 끝날 때까지 빈자리를 두지만, continuous batching은 단계 사이에 완료 요청을 빼고 기다리던 요청을 넣을 수 있습니다.','실험에서는 prefill이 이미 끝났고 decode 한 단계가 활성 요청 수와 무관하게 일정하다고 가정합니다. 모든 대기 요청은 처음부터 준비돼 있습니다. 따라서 실제 서비스 성능 예측이 아니라 슬롯을 비워 두는 정책의 차이를 보는 모형입니다. 실제로는 요청 도착, prefill과 decode 간섭, KV 여유, 대기열과 지연 목표를 함께 봅니다. 장비를 추가했을 때는 GPU 사이의 통신이라는 비용도 생깁니다.'],
  formula:'전체 출력 처리량 = 완료한 출력 토큰 합 / 첫 단계부터 마지막 완료까지의 시간',formulaNote:'추가 토큰 합은 16입니다. 대기 시간을 포함한 요청별 완료 시각도 함께 표시합니다. 이 실험의 step 시간은 고정된 가정이며 실제 batch 크기에 따른 처리 시간을 재현하지 않습니다.',flow:['대기 요청|길이가 서로 다름','실행 슬롯|단계별 한 토큰','완료 검사|자리 반환','다음 단계|새 요청 투입'],
  details:[['처리량과 지연을 함께 보기','<p>슬롯 2개·단계 10 ms에서 고정 배치는 마지막 완료 110 ms, 연속 배치는 100 ms입니다. 세 번째 요청의 완료는 90 ms에서 50 ms로 앞당겨집니다. 반면 모든 요청의 토큰 간격은 이 단순 모형에서 10 ms로 고정돼 있습니다. 실제 엔진에서 배치를 키우면 간격이 늘 수 있으므로 처리량 상승과 사용자 지연 개선을 같은 말로 쓰지 않습니다.</p>'],['실제 부하를 만드는 방법','<p>정해진 동시 요청 수만 유지하는 부하와 초당 일정 요청을 계속 도착시키는 부하는 큐를 다르게 만듭니다. 입력·출력 길이 분포, 도착률, 최대 동시성, prefix cache 적중, 취소·실패를 기록하세요. 한 요청이 끝나야 다음을 보내는 측정만으로 과부하 상황의 p95를 판단하지 마세요.</p>']],
  warning:'continuous batching을 켜면 모든 환경에서 같은 배율로 빨라진다는 뜻은 아닙니다. 스케줄링 비용·prefill 간섭·메모리 부족이 있으며 실제 개선 폭은 요청 분포에 달려 있습니다.',
  quiz:['여러 요청의 전체 처리량이 늘었다면 자동으로 보장되는 것은?',['모든 요청의 TTFT가 짧아진다','모든 ITL이 줄어든다','둘 다 자동으로 보장되지는 않는다'],2,'처리량은 서버 전체의 완료량이고 지연은 개별 요청의 기다림입니다. 함께 측정해야 합니다.'],cross:[['확률과 통계 · 평균 하나로는 부족하다','../probability/#spread','대기 시간의 꼬리를 평균이 숨길 수 있음을 복습하고 p95를 포함한 부하 실험으로 돌아오세요.']]},
-{id:'parallel',title:'GPU를 더해도 남는 시간',subtitle:'줄어드는 계산 시간과 새로 생기는 통신 시간을 함께 합산합니다.',desc:'GPU를 두 배로 늘렸는데 왜 응답이 느려질 수 있을까요?',time:'16분',group:'서비스',labs:['parallel'],source:[6,11],
+{id:'parallel',title:'GPU를 더해도 남는 시간',subtitle:'줄어드는 계산 시간과 새로 생기는 통신 시간을 함께 합산합니다.',desc:'GPU를 두 배로 늘렸는데 왜 응답이 느려질 수 있을까요?',time:'16분',group:'서비스',labs:['parallel'],source:[6,11,17],
  paragraphs:['앞 장에서는 한 GPU의 실행 슬롯을 잘 채우는 방법을 살펴봤습니다. 더 큰 모델이나 더 많은 요청을 처리하려면 GPU 여러 개를 사용할 수도 있습니다. 모델 복제본마다 다른 요청을 맡기는 data parallel과 한 연산을 나누는 tensor parallel은 목적이 다릅니다. 여기서는 tensor parallel에서 줄어든 계산과 collective 통신의 교환을 생각합니다.','실험은 계산 16 ms를 GPU 수로 정확히 나눌 수 있고, 직렬 작업 2 ms가 그대로 남는다고 가정합니다. 장치가 둘 이상이면 64회 ring AllReduce의 단순 비용을 더합니다. 실제 NCCL의 알고리즘·토폴로지·겹침·메시지 크기는 다를 수 있습니다. 최적화 후보가 늘어난 지금, 마지막 장에서는 하나의 속도 숫자 대신 여러 조건으로 변경을 판정합니다.'],
  formula:'T = 2 + 16 / n + 64 × [2(n−1)α + 2(n−1)M / (nB)]',formulaNote:'단위는 ms입니다. n=1의 통신 비용은 0. n>1에서는 ring 단계 지연 α=0.005 ms, 메시지 M은 MB, B는 GB/s이며 M/B는 ms가 됩니다. 64회는 교육용 가정입니다. 가상 payload이며 Qwen 실측이 아닙니다.',flow:['분할 계산|GPU별 일부 연산','중간 텐서|collective 입력','통신·동기화|결과 합치기','전체 시간|직렬 비용까지 포함'],
  details:[['VRAM을 더하는 것과 속도를 더하는 것','<p>여러 GPU에 가중치를 나눠야 모델이 들어갈 수 있습니다. 그러나 각 GPU의 KV와 임시 텐서, 복제되는 상태, 연결 방식 때문에 모든 메모리가 자유롭게 합쳐진 단일 공간처럼 동작하지는 않습니다. Tensor parallel은 계산 단계마다 중간 결과를 주고받을 수 있으므로 작은 batch에서 통신 지연이 크게 드러날 수 있습니다.</p>'],['비용식으로 다음 실험 정하기','<p>기본 payload 0.25 MB·링크 50 GB/s에서 이 모형의 1·2·4·8 GPU 시간은 18·10.96·8.40·9.04 ms입니다. 8개에서 더 느려지는 이유는 줄어든 계산보다 늘어난 ring 단계 비용이 크기 때문입니다. 실제 장비에서는 collective별 시간과 compute overlap을 측정해 이 설명이 맞는지 확인하세요.</p>']],

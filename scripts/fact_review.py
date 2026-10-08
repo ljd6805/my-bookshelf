@@ -15,8 +15,7 @@ DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 
 # Books published before the rule (2026-10-08). The existing-book review removes each id
 # when it adds that book's record; a listed book that already has a record is an error.
-PENDING = {'ai-book-interactive', 'llm-systems', 'llm-performance', 'how-computers-work',
-           'linear-algebra-world', 'probability-statistics', 'search-rag'}
+PENDING = set()
 
 
 class ReviewDocument(HTMLParser):
