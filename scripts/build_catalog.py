@@ -12,8 +12,10 @@ CATEGORIES = {'analysis', 'guide', 'template'}
 
 if __package__:
     from .shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url
+    from .curation_renderer import render_curation, concept_terms
 else:
     from shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url
+    from curation_renderer import render_curation, concept_terms
 
 
 def render_books(books):
@@ -48,7 +50,12 @@ def build(source, catalog):
     if len(ids) != len(set(ids)):
         raise ValueError('IDs must be unique across resources and books')
     source = replace_section(source, 'RESOURCES', render_resources(catalog.get('resources', [])) if catalog.get('resources') or not catalog.get('books') else '')
-    source = replace_section(source, 'BOOKS', render_books(catalog.get('books', [])))
+    terms = concept_terms(catalog)
+    books = [{**b, 'keywords': b.get('keywords', []) + [t for t in terms.get(b['id'], [])
+                                                       if t not in b.get('keywords', [])]}
+             for b in catalog.get('books', [])]
+    source = replace_section(source, 'BOOKS', render_books(books))
+    source = replace_section(source, 'CURATION', render_curation(catalog))
     return replace_section(source, 'COUNT', f'전체 {len(catalog.get("resources", [])) + len(catalog.get("books", []))}개 자료')
 
 

@@ -1,5 +1,5 @@
-import { cancelMotion, openMotion, closeMotion } from './motion.js?v=20261008-spread-a11y1';
-import { shouldPreview } from './shelf-model.mjs?v=20261008-spread-a11y1';
+import { cancelMotion, openMotion, closeMotion } from './motion.js?v=20261008-curation1';
+import { shouldPreview } from './shelf-model.mjs?v=20261008-curation1';
 
 export function createReader(dialog, isReduced) {
   let source = null;
