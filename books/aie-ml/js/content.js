@@ -27,7 +27,7 @@ meta:{
   ['교차 검증 (cross-validation)','데이터를 여러 겹으로 나눠 돌아가며 검증하고 평균 내는 평가 방법입니다.'],
   ['데이터 이동 (drift)','운영 중에 입력이나 정답의 분포가 학습 때와 달라지는 현상입니다.']
  ],
- series:{name:'AI 엔지니어링 처음부터',no:3,total:20,prev:['../aie-math/','모델을 움직이는 수학'],next:null}
+ series:{name:'AI 엔지니어링 처음부터',no:3,total:20,prev:['../aie-math/','모델을 움직이는 수학'],next:['../aie-deep/','딥러닝 핵심']}
 },
 sources:[
  ['AI Engineering from Scratch (원본 커리큘럼, MIT)','https://github.com/rohitg00/ai-engineering-from-scratch','이 시리즈가 단계와 레슨 순서를 참고한 공개 저장소. 문장과 코드는 옮기지 않고 새로 썼다.'],
