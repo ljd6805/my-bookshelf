@@ -63,6 +63,18 @@ class GlassShelfTests(unittest.TestCase):
         self.assertNotIn('reader-action', result)
         self.assertIn('<button type="button"', result)
 
+    def test_book_illustration_is_inlined_with_caption(self):
+        item = {**resource(), 'illustration': 'books/ai/assets/shelf-illustration.svg',
+                'illustration_caption': '시각적 비유'}
+        result = spine(item, 0, 'ai')
+        self.assertIn('<figure class="reader-illustration"><svg', result)
+        self.assertIn('<figcaption>시각적 비유</figcaption>', result)
+
+    def test_illustration_outside_repository_or_not_svg_fails(self):
+        for path in ('../outside.svg', 'index.html'):
+            with self.assertRaises(ValueError):
+                spine({**resource(), 'illustration': path}, 0, 'bad')
+
 
 if __name__ == '__main__':
     unittest.main()
