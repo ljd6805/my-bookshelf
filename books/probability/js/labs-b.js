@@ -148,37 +148,31 @@
     }
   };
 
-  const LR95 = 1.92;
-
   function lossChart(k, n, q) {
-    const qs = Array.from({ length: 200 }, (_, i) => 0.0025 + i * 0.0025), best = I.mle(k, n);
-    const minLoss = -I.logLikelihood(k, n, Math.min(0.999, Math.max(0.001, best)));
-    const x = C.scale(0, 0.5, C.PAD.l, C.W - C.PAD.r), y = C.scale(0, 10, C.H - C.PAD.b, C.PAD.t);
-    let s = C.frame(C.ticks(0, 0.5, 5, (v) => v.toFixed(1)), C.ticks(0, 10, 5, (v) => String(v)), x, y, { x: '후보 확률 q', y: '최소 손실보다 큰 정도' });
-    s += `<rect class="band" x="${C.PAD.l}" width="${C.W - C.PAD.l - C.PAD.r}" y="${y(LR95)}" height="${y(0) - y(LR95)}"/>`;
-    const d = qs.map((v, i) => `${i ? 'L' : 'M'}${x(v).toFixed(1)},${y(Math.min(10, -I.logLikelihood(k, n, v) - minLoss)).toFixed(1)}`).join('');
-    s += `<path class="curve" d="${d}"/><line class="target" x1="${x(Math.min(0.5, best))}" x2="${x(Math.min(0.5, best))}" y1="${C.PAD.t}" y2="${C.H - C.PAD.b}"/>`;
-    const cur = Math.min(10, -I.logLikelihood(k, n, q) - minLoss);
-    s += `<circle class="dot" r="6" cx="${x(q)}" cy="${y(cur)}"/>`;
+    const qs = Array.from({ length: 199 }, (_, i) => 0.005 + i * 0.005), best = I.mle(k, n);
+    const x = C.scale(0, 1, C.PAD.l, C.W - C.PAD.r), y = C.scale(0, 10, C.H - C.PAD.b, C.PAD.t);
+    let s = C.frame(C.ticks(0, 1, 5, (v) => v.toFixed(1)), C.ticks(0, 10, 5, (v) => String(v)), x, y, { x: '후보 확률 q', y: '최소 손실보다 큰 정도' });
+    s += `<rect class="band" x="${C.PAD.l}" width="${C.W - C.PAD.l - C.PAD.r}" y="${y(I.LR95)}" height="${y(0) - y(I.LR95)}"/>`;
+    const d = qs.map((v, i) => `${i ? 'L' : 'M'}${x(v).toFixed(1)},${y(Math.min(10, I.likelihoodRegion(k, n, v).gap)).toFixed(1)}`).join('');
+    s += `<path class="curve" d="${d}"/><line class="target" x1="${x(best)}" x2="${x(best)}" y1="${C.PAD.t}" y2="${C.H - C.PAD.b}"/>`;
+    s += `<circle class="dot" r="6" cx="${x(q)}" cy="${y(Math.min(10, I.likelihoodRegion(k, n, q).gap))}"/>`;
     return C.svg(s, `오경보 ${k}일/${n}일의 손실 곡선. 바닥은 q = ${best.toFixed(3)}, 현재 후보 q = ${q.toFixed(2)}`);
   }
 
   labs.likelihood = {
     title: '손실 곡선의 바닥 찾기', kind: '정확한 계산',
-    units: '시험 일수 n: 10~600일 · 오경보 일수 k: 0~n · 후보 확률 q: 0.01~0.50',
+    units: '시험 일수 n: 10~600일 · 오경보 일수 k: 0~n · 후보 확률 q: 0.01~0.99',
     assumptions: '날마다 오경보 여부는 독립이고 같은 확률 q를 따릅니다. 세로축은 전체 손실(−로그우도)이 최솟값보다 큰 정도입니다.',
     mount(root) {
       const nS = U.slider({ id: 'lk-n', label: '시험 일수 n', min: 10, max: 600, step: 10, value: 60, unit: '일' }, () => { kS.input.max = nS.get(); if (kS.get() > nS.get()) kS.set(nS.get()); render(); });
       const kS = U.slider({ id: 'lk-k', label: '오경보가 있었던 날 k', min: 0, max: 60, step: 1, value: 3, unit: '일' }, render);
-      const qS = U.slider({ id: 'lk-q', label: '후보 확률 q', min: 0.01, max: 0.5, step: 0.01, value: 0.1, format: (v) => v.toFixed(2) }, render);
+      const qS = U.slider({ id: 'lk-q', label: '후보 확률 q', min: 0.01, max: 0.99, step: 0.01, value: 0.1, format: (v) => v.toFixed(2) }, render);
       const chart = U.h('div', { class: 'chart' }), readout = U.h('p', { class: 'readout', 'aria-live': 'polite' }), note = U.h('p', { class: 'reading' });
       function render() {
-        const n = nS.get(), k = kS.get(), q = qS.get(), best = I.mle(k, n);
+        const n = nS.get(), k = kS.get(), q = qS.get(), region = I.likelihoodRegion(k, n, q);
         chart.innerHTML = lossChart(k, n, q);
-        const ce = I.crossEntropy(k, n, q), ceBest = I.crossEntropy(k, n, Math.min(0.999, Math.max(0.001, best)));
-        const inside = n * (ce - ceBest) <= LR95;
-        readout.textContent = `후보 q = ${q.toFixed(2)}: 하루 평균 손실 ${ce.toFixed(3)} · 바닥 q = k/n = ${best.toFixed(3)}의 평균 손실 ${ceBest.toFixed(3)} · 전체 손실 차이 ${(n * (ce - ceBest)).toFixed(2)}`;
-        note.textContent = inside ? '이 후보는 회색 띠 안에 있습니다. 데이터와 크게 어긋나지 않아 아직 버릴 수 없는 후보입니다.'
+        readout.textContent = `후보 q = ${q.toFixed(2)}: 하루 평균 손실 ${I.crossEntropy(k, n, q).toFixed(3)} · 바닥 q = k/n = ${region.best.toFixed(3)}의 평균 손실 ${I.crossEntropy(k, n, region.best).toFixed(3)} · 전체 손실 차이 ${region.gap.toFixed(2)}`;
+        note.textContent = region.inside ? '이 후보는 회색 띠 안에 있습니다. 데이터와 크게 어긋나지 않아 아직 버릴 수 없는 후보입니다.'
           : '이 후보는 회색 띠 밖에 있습니다. 데이터가 이 확률과 잘 맞지 않습니다. 시험 일수를 늘리면 띠 안에 남는 범위가 어떻게 변하는지 보세요.';
       }
       const preset = (n, k) => () => { nS.set(n); kS.input.max = n; kS.set(k); render(); };

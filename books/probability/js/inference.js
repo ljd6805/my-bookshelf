@@ -103,6 +103,16 @@
 
   function mle(k, n) { return n ? k / n : 0.5; }
 
+  /* 우도비 기준: 전체 손실(−로그우도)이 바닥보다 1.92(= χ²₁의 95% 분위수 3.84의 절반) 이하로 큰 후보는
+     데이터와 크게 어긋나지 않는 약 95% 범위에 든다. */
+  const LR95 = 1.92;
+
+  function likelihoodRegion(k, n, q, threshold = LR95) {
+    const best = mle(k, n);
+    const gap = n ? logLikelihood(k, n, best) - logLikelihood(k, n, q) : 0;
+    return { best, gap, inside: gap <= threshold };
+  }
+
   return { POPULATIONS, population, sampleMean, histogram, bayes, wilson, intervalCovers,
-    lowerTailTest, rejectionRate, logLikelihood, crossEntropy, mle };
+    lowerTailTest, rejectionRate, logLikelihood, crossEntropy, mle, LR95, likelihoodRegion };
 });

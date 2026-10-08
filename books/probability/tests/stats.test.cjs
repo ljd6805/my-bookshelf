@@ -122,3 +122,16 @@ test('likelihood peaks at k/n and cross-entropy is its scaled negative', () => {
   assert.equal(I.crossEntropy(2, 5, 0), Infinity);
   assert.equal(I.mle(0, 0), 0.5);
 });
+
+test('likelihood region: zero gap at k/n, 1.92 boundary, more data narrows it', () => {
+  const at = I.likelihoodRegion(3, 60, 0.05);
+  near(at.gap, 0); assert.equal(at.inside, true);
+  near(I.likelihoodRegion(3, 60, 0.1).gap, 60 * (I.crossEntropy(3, 60, 0.1) - I.crossEntropy(3, 60, 0.05)));
+  assert.equal(I.likelihoodRegion(3, 60, 0.1).inside, true);
+  assert.equal(I.likelihoodRegion(30, 600, 0.1).inside, false);
+  assert.equal(I.likelihoodRegion(5, 10, 0.5, 0).inside, true);
+  assert.equal(I.likelihoodRegion(48, 60, 0.8).gap, 0);
+  near(I.likelihoodRegion(0, 20, 0).gap, 0);
+  assert.ok(I.likelihoodRegion(0, 20, 0.2).gap > I.LR95);
+  assert.equal(I.likelihoodRegion(0, 0, 0.3).gap, 0);
+});
