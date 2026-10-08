@@ -25,3 +25,5 @@ jobs:
       - run: npm test --prefix books/probability
       - run: npm test --prefix books/llm-gpu
       - run: npm test --prefix books/rag
+      - run: npm test --prefix books/llm-performance
+      - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v

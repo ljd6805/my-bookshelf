@@ -107,6 +107,64 @@
       "short_title": "LLM 시스템"
     },
     {
+      "id": "llm-performance",
+      "title": "LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지",
+      "short_title": "추론 최적화",
+      "spine_title": "추론 최적화",
+      "spine_category": "인공지능",
+      "color": "rose",
+      "description": "같은 요약 요청의 시간을 재고, CUDA 스레드와 메모리 접근, KV 할당·배치·통신을 조사합니다. 12장·13개 실험과 PyTorch·CUDA 예제로 성능·메모리·품질을 함께 검증합니다.",
+      "illustration": "books/llm-performance/assets/shelf-illustration.svg",
+      "illustration_caption": "개념 애니메이션: 커널 사이의 빈 구간을 찾고, 변경한 타임라인에서 결과와 시간을 다시 확인합니다. 실제 소요 시간의 축척이 아닙니다.",
+      "status": "published",
+      "url": "books/llm-performance/",
+      "keywords": [
+        "LLM",
+        "CUDA",
+        "GPU",
+        "프로파일링",
+        "추론",
+        "최적화",
+        "TTFT",
+        "ITL",
+        "coalescing",
+        "occupancy",
+        "FlashAttention",
+        "PagedAttention",
+        "배치",
+        "NCCL",
+        "오픈웨이트"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/llm-performance/#chapters"
+        },
+        {
+          "title": "01 · 느리다는 말을 숫자로 바꾸기",
+          "url": "books/llm-performance/#metrics"
+        },
+        {
+          "title": "02 · GPU가 끝난 시간을 재기",
+          "url": "books/llm-performance/#timing"
+        },
+        {
+          "title": "05 · 함께 읽는 주소 모으기",
+          "url": "books/llm-performance/#coalescing"
+        },
+        {
+          "title": "09 · KV를 필요한 만큼 할당하기",
+          "url": "books/llm-performance/#paging"
+        },
+        {
+          "title": "12 · 개선안을 끝까지 검증하기",
+          "url": "books/llm-performance/#review"
+        }
+      ],
+      "cover_art": "books/llm-performance/assets/cover-art.svg",
+      "cover_meta": "12장 · 13개 실험"
+    },
+    {
       "id": "how-computers-work",
       "title": "컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지",
       "spine_title": "컴퓨터 원리",
@@ -712,6 +770,62 @@
         "정밀도·재현율·MRR이 각각 무엇을 세는지 설명할 수 있는가",
         "점수가 높은데도 답을 보류해야 하는 경우를 설명할 수 있는가"
       ]
+    },
+    {
+      "id": "measure-llm-performance",
+      "title": "모델은 돌아가는데 왜 느릴까",
+      "question": "메모리에 들어간 모델을 어떤 근거로 더 빠르게 만들까?",
+      "audience": "로컬 LLM을 실행하고 성능을 개선하려는 개발자",
+      "prerequisites": "파라미터·KV·prefill과 decode의 구분",
+      "start": "회의록을 요약하는 모델이 실행되지만 첫 답변과 토큰 사이의 기다림이 길다.",
+      "steps": [
+        {
+          "book_id": "llm-systems",
+          "url": "books/llm-gpu/#bottleneck",
+          "task": "배치와 대역폭을 바꾸며 시간 하한의 제한 요인을 비교한다",
+          "minutes": 18,
+          "why": "모델이 들어가는 조건과 충분히 빠른 조건은 다르다",
+          "record": "가정한 byte·FLOP·처리율과 시간 하한"
+        },
+        {
+          "book_id": "llm-performance",
+          "url": "books/llm-performance/#metrics",
+          "task": "첫 토큰 대기와 이후 간격을 따로 바꾸고 전체 시간을 계산한다",
+          "minutes": 14,
+          "why": "어떤 기다림을 개선할지 정해야 같은 작업을 비교한다",
+          "record": "출력 32토큰에서 TTFT 절반의 전체 시간 변화"
+        },
+        {
+          "book_id": "llm-performance",
+          "url": "books/llm-performance/#timing",
+          "task": "CPU 제출 시간과 GPU 완료 시간의 차이를 확인한다",
+          "minutes": 16,
+          "why": "비동기 제출을 계산 완료로 오해하면 잘못된 속도를 보고한다",
+          "record": "측정 시작·종료 경계와 동기화 방식"
+        },
+        {
+          "book_id": "llm-performance",
+          "url": "books/llm-performance/#coalescing",
+          "task": "연속·어긋난·8칸 간격 접근의 sector 수를 비교한다",
+          "minutes": 16,
+          "why": "같은 양의 숫자도 주소 패턴에 따라 이동 비용이 달라진다",
+          "record": "요청 128 byte와 포함된 sector byte의 차이"
+        },
+        {
+          "book_id": "llm-performance",
+          "url": "books/llm-performance/#review",
+          "task": "네 후보를 시간·메모리·품질 목표로 판정하고 TTFT 목표를 강화한다",
+          "minutes": 18,
+          "why": "한 지표의 개선만으로 전체 변경을 채택할 수는 없다",
+          "record": "채택 또는 보류 이유와 실제 장비의 다음 측정 계획"
+        }
+      ],
+      "challenge": "TTFT 목표가 500 ms로 바뀌면 가상 후보 중 채택할 수 있는 것이 있는지 판단하고, 실제 오픈웨이트 모델에서 어떤 조건을 고정하고 무엇을 측정할지 설명한다.",
+      "checks": [
+        "제출과 완료를 구분한 측정 경계를 설명할 수 있는가",
+        "예측 모형·고정 가상 기록·실측을 구분할 수 있는가",
+        "성능을 바꾼 뒤 메모리와 품질도 확인하는가"
+      ]
     }
   ],
   "chapter_index": {
@@ -776,7 +890,19 @@
     "books/rag/#evaluation": "07 · 검색이 좋아졌다는 증거",
     "books/rag/#rerank": "08 · 후보를 다시 읽고 순서 바꾸기",
     "books/rag/#context": "09 · 근거를 얼마나 넣을까",
-    "books/rag/#final": "마지막 과제 · 모르면 모른다고 말하기"
+    "books/rag/#final": "마지막 과제 · 모르면 모른다고 말하기",
+    "books/llm-performance/#metrics": "01 · 느리다는 말을 숫자로 바꾸기",
+    "books/llm-performance/#timing": "02 · GPU가 끝난 시간을 재기",
+    "books/llm-performance/#timeline": "03 · 타임라인에서 기다림 찾기",
+    "books/llm-performance/#threads": "04 · 한 스레드가 맡은 원소 찾기",
+    "books/llm-performance/#coalescing": "05 · 함께 읽는 주소 모으기",
+    "books/llm-performance/#tiling": "06 · 재사용과 자리 차지 사이",
+    "books/llm-performance/#evidence": "07 · 병목 주장에 근거 붙이기",
+    "books/llm-performance/#fusion": "08 · 중간 결과를 덜 옮기기",
+    "books/llm-performance/#paging": "09 · KV를 필요한 만큼 할당하기",
+    "books/llm-performance/#batching": "10 · 빈자리에 다음 요청 넣기",
+    "books/llm-performance/#parallel": "11 · GPU를 더해도 남는 시간",
+    "books/llm-performance/#review": "12 · 개선안을 끝까지 검증하기"
   },
   "concepts": [
     {
@@ -942,7 +1068,9 @@
         "books/ai/#generalization",
         "books/ai/#agents",
         "books/llm-gpu/#design",
-        "books/rag/#evaluation"
+        "books/rag/#evaluation",
+        "books/llm-performance/#timing",
+        "books/llm-performance/#review"
       ]
     },
     {
@@ -993,7 +1121,9 @@
         "books/ai/#inference",
         "books/llm-gpu/#hierarchy",
         "books/llm-gpu/#cache",
-        "books/llm-gpu/#bottleneck"
+        "books/llm-gpu/#bottleneck",
+        "books/llm-performance/#coalescing",
+        "books/llm-performance/#paging"
       ]
     },
     {
@@ -1014,7 +1144,8 @@
         "books/llm-gpu/#phases",
         "books/llm-gpu/#cache",
         "books/llm-gpu/#modelcards",
-        "books/rag/#context"
+        "books/rag/#context",
+        "books/llm-performance/#fusion"
       ]
     },
     {

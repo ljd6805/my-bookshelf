@@ -1,4 +1,4 @@
-"""Draw the shared-concept atlas: four books as glass spines, concepts as labels between them.
+"""Draw the shared-concept atlas: books as glass spines, concepts as labels between them.
 
 Layout is computed here, deterministically, so the map is plain SVG that works without
 JavaScript. Each concept starts at the weighted centre of the books it appears in and is
@@ -51,9 +51,9 @@ def inside(n):
 
 
 def place(node, taken):
-    """Walk a widening spiral from the concept's anchor to the first free spot."""
+    """Search beyond the central cluster as new books change the anchors."""
     ax, ay = node['x'], node['y']
-    for step in range(4000):
+    for step in range(20000):
         radius, angle = 3 * math.sqrt(step), step * 2.39996  # golden-angle spiral
         node['x'], node['y'] = ax + radius * math.cos(angle) * 1.8, ay + radius * math.sin(angle)
         if inside(node) and not any(overlaps(node, other) for other in taken):

@@ -1,0 +1,17 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="GPU 커널을 확대해 스레드가 읽는 주소를 살피고, 메모리 접근과 완료 시간을 함께 측정하는 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="18" y="27" width="118" height="91" rx="5"/>
+<path class="cv-stroke" d="M31 19v8M49 19v8M67 19v8M85 19v8M103 19v8M121 19v8M31 118v8M49 118v8M67 118v8M85 118v8M103 118v8M121 118v8M14 45h4M14 66h4M14 87h4M136 45h8M136 66h8M136 87h8"/>
+<text class="cv-text" x="77" y="42" text-anchor="middle">GPU · kernel</text>
+<rect class="cv-bar" x="30" y="52" width="94" height="18" rx="2"/>
+<path class="cv-hair" d="M42 52v18M54 52v18M66 52v18M78 52v18M90 52v18M102 52v18M114 52v18"/>
+<rect class="cv-fill" x="30" y="86" width="42" height="19" rx="2"/><rect class="cv-tint" x="80" y="86" width="44" height="19" rx="2"/>
+<path class="cv-line" d="M35 73v9M47 73v9M59 73v9M85 73v9M97 73v9M109 73v9"/>
+<text class="cv-text cv-muted" x="76" y="140" text-anchor="middle">thread → byte</text>
+<circle class="cv-node" cx="244" cy="67" r="39"/>
+<path class="cv-line" d="M244 34v6M277 67h-6M244 100v-6M211 67h6M244 67l16-21"/>
+<circle class="cv-dot" cx="244" cy="67" r="3"/>
+<path class="cv-stroke" d="M237 21h14M244 21v7M279 31l7 8"/>
+<path class="cv-line cv-dash" d="M145 70h49"/><path class="cv-head" d="M197 70l-6-3v6z"/>
+<text class="cv-text cv-muted" x="244" y="124" text-anchor="middle">FLOP · byte · ms</text>
+<text class="cv-text" x="244" y="138" text-anchor="middle">measure → verify</text>
+</svg>

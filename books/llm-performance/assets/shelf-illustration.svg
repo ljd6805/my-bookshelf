@@ -1,0 +1,15 @@
+<svg class="lp-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="여러 커널 사이의 빈 구간을 찾고 중간 작업을 합친 뒤 타임라인을 다시 측정하는 개념 애니메이션. 실제 시간 축척이 아닙니다.">
+<style>
+.lp-ill-bg{fill:#fcf0f3}.lp-ill-label{fill:#683f50;font:600 12px var(--font-sans,sans-serif)}.lp-ill-caption{fill:#865c6c;font:10px var(--font-sans,sans-serif)}.lp-ill-axis{stroke:#d2adb9;stroke-width:1}.lp-ill-before{fill:#c8839c}.lp-ill-after{fill:#6e9ca7}.lp-ill-gap{fill:#f7d8bb;stroke:#c69b78;stroke-dasharray:3 3;animation:lp-ill-pulse 2.8s ease-in-out infinite}.lp-ill-scan{stroke:#814860;stroke-width:2;animation:lp-ill-scan 2.8s linear infinite}.lp-ill-check{fill:#49747f;animation:lp-ill-pulse 2.8s ease-in-out infinite;animation-delay:1.4s}
+@keyframes lp-ill-scan{0%{transform:translateX(0)}100%{transform:translateX(252px)}}
+@keyframes lp-ill-pulse{0%,100%{opacity:.35}50%{opacity:1}}
+html[data-motion=reduce] .lp-ill-scan,html[data-motion=reduce] .lp-ill-gap,html[data-motion=reduce] .lp-ill-check{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.lp-ill-scan,.lp-ill-gap,.lp-ill-check{animation:none;opacity:1}}
+</style>
+<rect class="lp-ill-bg" width="340" height="180" rx="8"/><text class="lp-ill-label" x="16" y="24">측정 → 원인 확인 → 다시 측정</text>
+<text class="lp-ill-label" x="14" y="63">기준</text><path class="lp-ill-axis" d="M63 76H325"/>
+<rect class="lp-ill-before" x="66" y="44" width="54" height="27" rx="4"/><rect class="lp-ill-gap" x="126" y="44" width="34" height="27" rx="4"/><rect class="lp-ill-before" x="166" y="44" width="52" height="27" rx="4"/><rect class="lp-ill-gap" x="224" y="44" width="26" height="27" rx="4"/><rect class="lp-ill-before" x="256" y="44" width="65" height="27" rx="4"/>
+<text class="lp-ill-caption" x="126" y="94">빈 구간은 왜 생겼을까?</text><text class="lp-ill-label" x="14" y="127">변경</text><path class="lp-ill-axis" d="M63 142H325"/>
+<rect class="lp-ill-after" x="66" y="109" width="133" height="27" rx="4"/><rect class="lp-ill-after" x="205" y="109" width="57" height="27" rx="4"/><path class="lp-ill-check" d="M282 119l7 7 13-15 4 4-17 20-12-12z"/>
+<path class="lp-ill-scan" d="M66 34V147"/><text class="lp-ill-caption" x="16" y="165">계산 결과와 시간을 함께 확인합니다 · 개념도</text>
+</svg>
