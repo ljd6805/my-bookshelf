@@ -1,0 +1,12 @@
+{
+  "url": "https://ljd6805.github.io/my-bookshelf/",
+  "checks": [
+    "공개 서가에서 책 펼침과 읽기 이동",
+    "공개 cache 예제 입력과 결과",
+    "공개 modelcards 예제 입력과 결과",
+    "공개 design 예제 입력과 결과",
+    "320px 공개 화면, 서가 복귀와 다시 읽기"
+  ],
+  "errors": [],
+  "success": true
+}
