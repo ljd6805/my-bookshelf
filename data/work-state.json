@@ -50,7 +50,8 @@
     "컴퓨터원리 책 2차 다듬기: 휴대폰에서 잘리던 그림 4개(게이트·전가산기·클럭·반복)를 화면 폭에 맞게 다시 그림, 덧셈기 실험 세로 배치, 머리말 책 이름 표시, 색·글꼴·흐름 상자를 AI Book과 맞춤, 본문 문장 다듬기·6장 명령표·장마다 다른 책으로 이어 읽기 추가; 단위 16개·실험 9개·140개 화면 조합 통과. 기록: books/computer/docs/redesign-validation.html#polish",
     "서가와 다섯 권의 책에 공통 글꼴 체계 적용: assets/type.css 하나에서 Pretendard(본문)·Noto Serif KR(제목·책등, Nanum Myeongjo 대체)·JetBrains Mono(숫자·코드)를 유니코드 조각으로 제공, 책별 글꼴 파일 제거, docs/08#typography 기준과 validate.py 검사 추가; Chromium 1280·390·320px 가로 넘침 없음·책등 18px 유지 확인",
     "서가 진열 규칙: 색·이웃 색·분류 길이·분류 묶음·삽화를 생성기에서 검사하고 AGENTS.md·docs/04#shelf-display-rule에 기록, 책 사이 간격 1px",
-    "책 추가 시 지식 지도·큐레이션 갱신 규칙을 검사로 강화: scripts/curation_rules.py가 공개된 책마다 장 색인·공통 개념 2개 이상·읽기 노선·나가는/들어오는 링크를 확인하고 validate.py에서 실패 처리; AGENTS.md와 docs/08#knowledge-links에 절차 기록; 지식 지도 책 배치를 타원 자동 배치로, 개념 배치를 겹침 없는 나선 탐색으로 변경; 다섯 번째 책 LLM 시스템을 개념 4개·노선 1개·들어오는 링크 2개로 연결"
+    "책 추가 시 지식 지도·큐레이션 갱신 규칙을 검사로 강화: scripts/curation_rules.py가 공개된 책마다 장 색인·공통 개념 2개 이상·읽기 노선·나가는/들어오는 링크를 확인하고 validate.py에서 실패 처리; AGENTS.md와 docs/08#knowledge-links에 절차 기록; 지식 지도 책 배치를 타원 자동 배치로, 개념 배치를 겹침 없는 나선 탐색으로 변경; 다섯 번째 책 LLM 시스템을 개념 4개·노선 1개·들어오는 링크 2개로 연결",
+    "펼친 책을 스크롤 없이 화면에 맞춤(데스크톱은 삽화가 남는 높이 흡수, 휴대폰은 한 면씩 넘기기)과 서재 이름을 Jdeok.Lee의 서재로 변경(docs/06#fit-spread)"
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": "AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
