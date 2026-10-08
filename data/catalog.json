@@ -124,23 +124,23 @@
       "chapters": [
         {
           "title": "전체 11개 장",
-          "url": "books/linear-algebra/#contents"
+          "url": "books/linear-algebra/#chapters"
         },
         {
           "title": "01 · 노래를 화살표로 적기",
-          "url": "books/linear-algebra/vectors.html"
+          "url": "books/linear-algebra/#vectors"
         },
         {
           "title": "02 · 얼마나 닮았는지 재기",
-          "url": "books/linear-algebra/similarity.html"
+          "url": "books/linear-algebra/#similarity"
         },
         {
           "title": "04 · 행렬은 평면을 옮기는 규칙",
-          "url": "books/linear-algebra/matrix.html"
+          "url": "books/linear-algebra/#matrix"
         },
         {
           "title": "09 · 노래 구름의 가장 긴 방향",
-          "url": "books/linear-algebra/pca.html"
+          "url": "books/linear-algebra/#pca"
         }
       ]
     },
