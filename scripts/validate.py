@@ -8,9 +8,11 @@ from urllib.parse import unquote, urlsplit
 if __package__:
     from .build_catalog import build, safe_book_url
     from .curation_rules import validate_knowledge_links
+    from .cover_renderer import cover_errors, COVER_FILE, COVER_META
 else:
     from build_catalog import build, safe_book_url
     from curation_rules import validate_knowledge_links
+    from cover_renderer import cover_errors, COVER_FILE, COVER_META
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -165,6 +167,26 @@ def validate_illustrations(root, catalog):
     return errors
 
 
+def validate_covers(root, catalog):
+    """Every published book has a still, wide cover plate drawn with the shared cv-* classes
+    (AGENTS.md 표지 규칙, docs/08-book-template.html#cover)."""
+    errors = []
+    for book in catalog.get('books', []):
+        if book.get('status') != 'published':
+            continue
+        bid, rel = book.get('id'), book.get('cover_art', '')
+        folder = book.get('url', '').split('#')[0].rstrip('/')
+        if rel != f'{folder}/{COVER_FILE}' or not (root / rel).is_file():
+            errors.append(f'catalog: published book {bid} needs cover_art at {folder}/{COVER_FILE}')
+        else:
+            errors += [f'{rel}: {e}' for e in cover_errors((root / rel).read_text().strip())]
+        if not COVER_META.match(book.get('cover_meta', '')):
+            errors.append(f"catalog: {bid} cover_meta must read like '12장 · 18개 실험'")
+        if ' · ' not in book.get('title', ''):
+            errors.append(f"catalog: {bid} title needs ' · ' between the cover title and subtitle")
+    return errors
+
+
 def validate_asset_versions(root):
     """Every asset URL shares index.html's release version, including transitive JS imports."""
     match = re.search(r'assets/home\.js\?v=([\w-]+)', (root / 'index.html').read_text())
@@ -200,6 +222,7 @@ def main():
     errors += validate_typography(ROOT)
     errors += validate_cross_links(ROOT)
     errors += validate_illustrations(ROOT, catalog)
+    errors += validate_covers(ROOT, catalog)
     errors += validate_knowledge_links(ROOT, catalog)
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:

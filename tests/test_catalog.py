@@ -26,13 +26,28 @@ class CatalogRenderingTests(unittest.TestCase):
     def test_only_published_book_gets_a_link(self):
         books = [{'id': 'one', 'title': '첫 책', 'spine_title': '첫 책', 'description': '설명',
                   'status': 'published', 'url': 'https://example.com/book/', 'spine_category': '수학',
-                  'color': 'sage', 'illustration': 'books/ai/assets/shelf-illustration.svg'},
+                  'color': 'sage', 'illustration': 'books/ai/assets/shelf-illustration.svg',
+                  'cover_art': 'books/ai/assets/cover-art.svg', 'cover_meta': '3장 · 2개 실험'},
                  {'id': 'two', 'title': '다음 책', 'spine_title': '다음 책', 'description': '기획', 'status': 'planned',
                   'spine_category': '수학', 'color': 'amber'}]
         result = render_books(books)
         self.assertEqual(result.count('책 읽기'), 1)
         self.assertIn('https://example.com/book/', result)
         self.assertIn('기획 중', result)
+
+    def test_published_book_needs_a_jacket(self):
+        book = {'id': 'one', 'title': '첫 책 · 부제', 'spine_title': '첫 책', 'description': '설명',
+                'status': 'published', 'url': 'books/ai/', 'spine_category': '수학', 'color': 'sage',
+                'illustration': 'books/ai/assets/shelf-illustration.svg'}
+        with self.assertRaises(ValueError):
+            render_books([book])
+        result = render_books([{**book, 'cover_art': 'books/ai/assets/cover-art.svg', 'cover_meta': '3장 · 2개 실험'}])
+        self.assertIn('<template class="book-jacket">', result)
+        self.assertIn('<p class="jacket-title">첫 책</p>', result)
+        self.assertIn('<p class="jacket-sub">부제</p>', result)
+        self.assertIn('No. 01', result)
+        with self.assertRaises(ValueError):
+            render_books([{**book, 'cover_art': 'books/ai/assets/cover-art.svg', 'cover_meta': '세 장'}])
 
     def test_reject_unsafe_or_project_root_breaking_links(self):
         for url in ['javascript:alert(1)', '//example.com', '/report.html', '../report.html', '']:

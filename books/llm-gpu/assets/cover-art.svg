@@ -1,0 +1,18 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="4비트 가중치가 GPU로 들어가 다음 토큰을 하나 붙이고, 그 토큰이 KV 캐시로 다시 돌아가는 고리" xmlns="http://www.w3.org/2000/svg">
+<g transform="translate(0 0)"><rect class="cv-node" x="14" y="52" width="52" height="52" rx="2"/>
+<path class="cv-hair" d="M14 62h52M24 52v52M14 72h52M34 52v52M14 82h52M44 52v52M14 92h52M54 52v52"/></g><g transform="translate(6 -6)"><rect class="cv-node" x="14" y="52" width="52" height="52" rx="2"/>
+<path class="cv-hair" d="M14 62h52M24 52v52M14 72h52M34 52v52M14 82h52M44 52v52M14 92h52M54 52v52"/></g><g transform="translate(12 -12)"><rect class="cv-node" x="14" y="52" width="52" height="52" rx="2"/>
+<path class="cv-hair" d="M14 62h52M24 52v52M14 72h52M34 52v52M14 82h52M44 52v52M14 92h52M54 52v52"/></g><g transform="translate(18 -18)"><rect class="cv-node" x="14" y="52" width="52" height="52" rx="2"/>
+<path class="cv-hair" d="M14 62h52M24 52v52M14 72h52M34 52v52M14 82h52M44 52v52M14 92h52M54 52v52"/></g>
+<text class="cv-text cv-muted" x="14" y="122">weights · 4-bit</text>
+<path class="cv-stroke" d="M92 76h18"/><path class="cv-head" d="M111.0 76.0L105.0 79.3L105.0 72.7z"/>
+<path class="cv-stroke" d="M126 26v8M126 118v8M106 46h8M194 46h8"/><path class="cv-stroke" d="M139 26v8M139 118v8M106 59h8M194 59h8"/><path class="cv-stroke" d="M152 26v8M152 118v8M106 72h8M194 72h8"/><path class="cv-stroke" d="M165 26v8M165 118v8M106 85h8M194 85h8"/><path class="cv-stroke" d="M178 26v8M178 118v8M106 98h8M194 98h8"/>
+<rect class="cv-node" x="114" y="34" width="80" height="84" rx="6"/>
+<rect class="cv-tint" x="124" y="44" width="12" height="12" rx="2"/><rect class="cv-tint" x="140" y="44" width="12" height="12" rx="2"/><rect class="cv-tint" x="156" y="44" width="12" height="12" rx="2"/><rect class="cv-tint" x="172" y="44" width="12" height="12" rx="2"/><rect class="cv-tint" x="124" y="60" width="12" height="12" rx="2"/><rect class="cv-fill" x="140" y="60" width="12" height="12" rx="2"/><rect class="cv-tint" x="156" y="60" width="12" height="12" rx="2"/><rect class="cv-tint" x="172" y="60" width="12" height="12" rx="2"/><rect class="cv-tint" x="124" y="76" width="12" height="12" rx="2"/><rect class="cv-tint" x="140" y="76" width="12" height="12" rx="2"/><rect class="cv-fill" x="156" y="76" width="12" height="12" rx="2"/><rect class="cv-tint" x="172" y="76" width="12" height="12" rx="2"/><rect class="cv-tint" x="124" y="92" width="12" height="12" rx="2"/><rect class="cv-tint" x="140" y="92" width="12" height="12" rx="2"/><rect class="cv-tint" x="156" y="92" width="12" height="12" rx="2"/><rect class="cv-tint" x="172" y="92" width="12" height="12" rx="2"/>
+<text class="cv-text cv-muted" x="154" y="142" text-anchor="middle">GPU</text>
+<path class="cv-stroke" d="M204 70h12"/><path class="cv-head" d="M217.0 70.0L211.0 73.3L211.0 66.7z"/>
+<rect class="cv-node" x="216" y="60" width="21" height="20" rx="3"/><text class="cv-text" x="226.5" y="73.5" text-anchor="middle">오늘</text><rect class="cv-node" x="240" y="60" width="21" height="20" rx="3"/><text class="cv-text" x="250.5" y="73.5" text-anchor="middle">날씨</text><rect class="cv-node" x="264" y="60" width="21" height="20" rx="3"/><text class="cv-text" x="274.5" y="73.5" text-anchor="middle">는</text>
+<rect class="cv-fill" x="288" y="60" width="21" height="20" rx="3"/><text class="cv-text cv-inverse" x="298.5" y="73.5" text-anchor="middle">맑</text>
+<path class="cv-line cv-dash" d="M297 84C297 126 210 132 196 106"/><path class="cv-head" d="M195.0 104.0L200.8 107.7L194.9 110.8z"/>
+<text class="cv-text cv-muted" x="252" y="134" text-anchor="middle">KV 캐시 · 다음 토큰</text>
+</svg>

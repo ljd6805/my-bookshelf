@@ -13,6 +13,37 @@ html.reader-active{overflow:hidden}
 .book-cover-category{font-size:12px;letter-spacing:.12em;color:#fffdf3;text-shadow:0 1px 4px rgba(var(--edge),.9)}
 .book-cover.is-stacked{left:0;border-radius:20px}
 @keyframes cover-sheen{to{transform:translateX(60%)}}
+/* Paper jacket on the closed cover (docs/08-book-template.html#cover): category and number,
+   a wide drawing plate as wide as the title, the serif title with a short rule and subtitle,
+   then size and library name. Drawings use only the cv-* classes below, tinted by the book tone. */
+.book-cover.has-jacket{padding:clamp(12px,2.2vw,22px);gap:0}
+.jacket{position:relative;width:100%;height:100%;display:flex;flex-direction:column;padding:clamp(16px,2.4vw,26px) clamp(16px,2.4vw,28px) clamp(14px,2vw,20px);background:linear-gradient(100deg,#ece3d0,#fff9ec 18%,#f8f1e3 80%,#ebe2cf);border-radius:3px 12px 12px 3px;color:#1f2f35;box-shadow:0 10px 24px rgba(var(--edge),.28),0 1px 2px rgba(var(--edge),.3),inset 0 0 0 1px #ffffffd0}
+.jacket::before{content:'';position:absolute;inset:7px;border:1px solid rgba(var(--edge),.32);border-radius:2px 8px 8px 2px;pointer-events:none}
+.jacket-head,.jacket-foot{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:600 10px/1.2 var(--font-sans);letter-spacing:.22em;color:rgb(var(--edge))}
+.jacket-head{padding-bottom:10px;border-bottom:1px solid rgba(var(--edge),.3)}
+.jacket-no{font:500 10px var(--font-mono);letter-spacing:.08em}
+.jacket-main{flex:1;display:flex;flex-direction:column;min-height:0}
+.jacket-plate{position:relative;margin-top:16px;aspect-ratio:320/168;background:linear-gradient(rgba(var(--glass),.1),rgba(var(--glass),.16));border:1px solid rgba(var(--edge),.35);border-radius:2px}
+.jacket-plate svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.jacket-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:18px 0 14px}
+.jacket-title{margin:0;font:700 clamp(21px,2.35vw,31px)/1.32 var(--font-serif);letter-spacing:-.035em;color:#1c2b30;word-break:keep-all}
+.jacket-rule{width:34px;height:2px;margin:14px 0 12px;background:rgb(var(--edge))}
+.jacket-sub{margin:0;font:500 clamp(13px,1.25vw,16px)/1.5 var(--font-serif);color:#4a5a5d;letter-spacing:-.02em;word-break:keep-all}
+.jacket-foot{padding-top:10px;border-top:1px solid rgba(var(--edge),.3);letter-spacing:.06em;font-weight:500;color:#5d6b6c}
+.jacket-foot b{font:700 12px var(--font-serif);letter-spacing:.02em;color:#1f2f35;text-align:right}
+.book-cover.is-stacked .jacket-main{justify-content:center}.book-cover.is-stacked .jacket-body{flex:0 0 auto;padding-top:26px}
+.cover-art .cv-hair{stroke:#24363c;stroke-width:.6;opacity:.32}.cover-art .cv-dash{stroke-dasharray:3 3}
+.cover-art .cv-grid{stroke:rgb(var(--edge));stroke-width:.9;opacity:.75}
+.cover-art .cv-node{stroke:#24363c;stroke-width:1.4;fill:#fffbf2}.cover-art .cv-ink,.cover-art .cv-head{fill:#24363c}
+.cover-art .cv-pixel{fill:#fffbf2;stroke:#24363c;stroke-width:.5;opacity:.6}
+.cover-art .cv-fill{fill:rgb(var(--edge));stroke:#24363c;stroke-width:1}
+.cover-art .cv-tint{fill:rgba(var(--glass),.35)}.cover-art .cv-bar{fill:rgba(var(--glass),.3);stroke:#24363c;stroke-width:1}
+.cover-art .cv-line{stroke:rgb(var(--edge));stroke-width:2.2}.cover-art .cv-bold{stroke-width:2.8}.cover-art .cv-thin{stroke-width:1.4}
+.cover-art .cv-stroke{stroke:#24363c;stroke-width:1.4}.cover-art .cv-bus{stroke:#24363c;stroke-width:3.2}
+.cover-art .cv-dot{fill:rgb(var(--edge));stroke:#fffbf2;stroke-width:1.2}
+.cover-art .cv-seg{stroke-width:6}.cover-art .cv-on{stroke:rgb(var(--edge))}.cover-art .cv-off{stroke:#24363c;opacity:.1}
+.cover-art .cv-text{font:500 8.5px var(--font-mono);fill:#24363c;stroke:none}.cover-art .cv-muted{fill:#5d6b6c}.cover-art .cv-inverse{fill:#fffbf2}
+.cover-art .cv-big{font:700 34px var(--font-serif);fill:#24363c;stroke:none}.cover-art .cv-matrix{font:500 11px var(--font-mono);fill:#24363c;stroke:none}
 
 /* Portrait pages like a printed book: each leaf is 7:10, sized to fit the viewport height. */
 @media(min-width:641px){.open-book{width:min(840px,100%,calc(74dvh*1.4));max-height:none}.glass-leaf{aspect-ratio:7/10}.paper-page{min-height:0;height:100%;max-height:none;padding:30px 28px 26px}.reader-category{margin:0 0 14px}.reader-title{font-size:clamp(22px,2.3vw,30px);line-height:1.5;padding-bottom:14px}.reader-description{margin-top:14px;font-size:14px;line-height:1.85}}

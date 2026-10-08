@@ -4,7 +4,8 @@ import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from validate import (validate_html, validate_catalog, validate_shelf_return, validate_asset_versions,
-                      validate_cross_links, validate_typography, validate_illustrations)
+                      validate_cross_links, validate_typography, validate_illustrations, validate_covers)
+from cover_renderer import cover_errors
 
 
 class IntegrityChecks(unittest.TestCase):
@@ -32,6 +33,29 @@ class IntegrityChecks(unittest.TestCase):
             (root / 'b.svg').write_text('<svg><style>.x{animation:k 2s infinite}@keyframes k{to{opacity:0}}'
                                         '@media(prefers-reduced-motion:reduce){.x{animation:none}}</style></svg>')
             self.assertEqual(validate_illustrations(root, catalog), [])
+
+    def test_cover_art_is_a_still_wide_plate_with_shared_classes(self):
+        good = ('<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="입력이 층을 건너 확률이 되는 모습">'
+                '<circle class="cv-node" cx="1" cy="1" r="1"/></svg>')
+        self.assertEqual(cover_errors(good), [])
+        for bad in [good.replace('0 0 320 150', '0 0 100 100'), good.replace('cv-node', 'ai-node'),
+                    good.replace('</svg>', '<style>@keyframes x{}</style></svg>'),
+                    good.replace(' aria-label="입력이 층을 건너 확률이 되는 모습"', ''),
+                    good.replace('r="1"', 'r="1" style = "fill:red"'), good.replace('<circle', '<use href = "x.svg#a"/><circle')]:
+            with self.subTest(bad=bad):
+                self.assertTrue(cover_errors(bad))
+
+    def test_published_books_need_cover_art_and_meta(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            book = {'id': 'b', 'status': 'published', 'url': 'books/b/', 'title': '책 · 부제',
+                    'cover_art': 'books/b/assets/cover-art.svg', 'cover_meta': '3장 · 2개 실험'}
+            self.assertEqual(len(validate_covers(root, {'books': [book]})), 1)
+            (root / 'books/b/assets').mkdir(parents=True)
+            (root / 'books/b/assets/cover-art.svg').write_text(
+                '<svg class="cover-art" viewBox="0 0 320 150" aria-label="스위치 두 개가 등을 켜는 회로"></svg>')
+            self.assertEqual(validate_covers(root, {'books': [book]}), [])
+            self.assertEqual(len(validate_covers(root, {'books': [{**book, 'cover_meta': '3장'}]})), 1)
 
     def test_cross_book_links_need_a_known_route(self):
         with tempfile.TemporaryDirectory() as name:
