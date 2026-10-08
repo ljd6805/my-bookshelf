@@ -265,6 +265,67 @@
         }
       ],
       "short_title": "확률과 통계"
+    },
+    {
+      "id": "search-rag",
+      "title": "검색과 RAG · 질문에서 근거까지",
+      "spine_title": "검색과 RAG",
+      "spine_category": "지식관리",
+      "color": "rose",
+      "description": "도서관 안내 문서 13개로 질문에 근거를 붙여 답하는 도우미를 만듭니다. 역색인과 BM25, 문서 조각, 임베딩, 혼합 검색, 평가 지표, 재순위, 답 보류까지 10개 장과 10개 실험으로 직접 조작합니다.",
+      "illustration": "books/rag/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 돋보기가 안내 문서를 훑어 연체 문서 D2를 찾고, 그 문장이 출처 번호와 함께 답이 됩니다. 실제 순위는 책 안의 실험에서 계산합니다.",
+      "cover_art": "books/rag/assets/cover-art.svg",
+      "cover_meta": "10장 · 10개 실험",
+      "status": "published",
+      "url": "books/rag/",
+      "keywords": [
+        "RAG",
+        "검색",
+        "retrieval",
+        "검색 증강 생성",
+        "역색인",
+        "inverted index",
+        "BM25",
+        "TF-IDF",
+        "청킹",
+        "chunking",
+        "임베딩",
+        "embedding",
+        "코사인 유사도",
+        "하이브리드 검색",
+        "hybrid search",
+        "재순위",
+        "reranking",
+        "정밀도",
+        "재현율",
+        "MRR",
+        "컨텍스트",
+        "답 보류"
+      ],
+      "chapters": [
+        {
+          "title": "전체 10개 장",
+          "url": "books/rag/#chapters"
+        },
+        {
+          "title": "03 · 더 관련 있는 문서를 위로",
+          "url": "books/rag/#bm25"
+        },
+        {
+          "title": "06 · 키워드와 의미를 섞기",
+          "url": "books/rag/#hybrid"
+        },
+        {
+          "title": "07 · 검색이 좋아졌다는 증거",
+          "url": "books/rag/#evaluation"
+        },
+        {
+          "title": "마지막 과제 · 모르면 모른다고 말하기",
+          "url": "books/rag/#final"
+        }
+      ],
+      "short_title": "검색과 RAG"
     }
   ],
   "learning_paths": [
@@ -579,6 +640,78 @@
         "KV 캐시가 계산을 아끼는 대신 무엇을 쓰는지 설명할 수 있는가",
         "배치 1 decode가 대역폭에 묶이는 이유를 byte와 FLOP로 말할 수 있는가"
       ]
+    },
+    {
+      "id": "how-knowledge-flows",
+      "title": "지식은 어떻게 저장되고, 찾아지고, 연결되는가",
+      "question": "쌓아 둔 문서에서 컴퓨터는 내 질문의 근거를 어떻게 찾아내고, 그 답을 믿어도 되는지는 어떻게 판단할까?",
+      "audience": "사내 문서나 개인 노트를 검색·RAG로 연결해 보려는 학생과 개발자",
+      "prerequisites": "벡터가 숫자 목록이라는 정도",
+      "start": "도서관 안내 도우미에게 “책을 늦게 돌려주면?”이라고 물었더니, 이 도서관에는 없는 “하루 100원 연체료”를 자신 있게 말했다.",
+      "steps": [
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#encoding",
+          "task": "아래 글자 칸에 한글과 영문을 넣고 UTF-8 바이트 수를 비교한다",
+          "minutes": 10,
+          "why": "검색 엔진이 비교하는 낱말도 결국 바이트 열이라, 한 글자만 달라도 완전히 다른 값이 된다",
+          "record": "“반납”과 “반납할”의 바이트 수"
+        },
+        {
+          "book_id": "search-rag",
+          "url": "books/rag/#keywords",
+          "task": "질문 “책 반납”을 OR와 AND로 바꾸고, “늦게 돌려주면”도 입력해 걸리는 문서 수를 비교한다",
+          "minutes": 12,
+          "why": "낱말이 같아야만 찾는 역색인의 힘과 한계를 먼저 손으로 확인한다",
+          "record": "OR·AND 결과 수와 “늦게 돌려주면”이 0개인 이유"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#embeddings",
+          "task": "두 벡터의 각도와 길이를 따로 바꾸며 코사인 유사도가 무엇을 재는지 확인한다",
+          "minutes": 12,
+          "why": "낱말이 달라도 뜻이 가까운 글을 찾으려면 글을 방향으로 비교해야 한다",
+          "record": "각도 90°에서 길이만 바꿨을 때 코사인 값"
+        },
+        {
+          "book_id": "search-rag",
+          "url": "books/rag/#embedding",
+          "task": "“늦게 돌려주면”, “그림책 읽어 주기”, “노트북 대여” 예제를 눌러 질문 벡터와 1위 문서를 본다",
+          "minutes": 15,
+          "why": "의미 검색이 바꿔 말한 질문은 찾지만 사전에 없는 이름은 놓치고, 답 없는 질문도 가깝게 본다는 것을 확인한다",
+          "record": "세 질문의 1위 문서와 코사인 값"
+        },
+        {
+          "book_id": "search-rag",
+          "url": "books/rag/#evaluation",
+          "task": "키워드·의미·혼합 방식과 k를 바꾸며 질문 10개의 정밀도·재현율·MRR을 표로 남긴다",
+          "minutes": 16,
+          "why": "“더 좋아 보인다”를 숫자 근거로 바꿔야 검색 설정을 고를 수 있다",
+          "record": "세 방식의 MRR과 k=1·3의 정밀도"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#rag",
+          "task": "근거 없는 질문 예제를 눌러 검색이 답을 보류하는 경우를 확인한다",
+          "minutes": 12,
+          "why": "찾은 근거를 모델 입력에 넣는 RAG 전체 흐름 안에서 검색 단계의 자리를 본다",
+          "record": "답을 보류한 질문과 그 이유"
+        },
+        {
+          "book_id": "search-rag",
+          "url": "books/rag/#final",
+          "task": "문턱과 재순위 사용을 바꾸며 맞게 답함·틀리게 답함·놓침·바르게 보류를 센다",
+          "minutes": 20,
+          "why": "근거를 찾는 것만큼, 근거가 없을 때 답하지 않는 정책이 믿을 수 있는 답을 만든다",
+          "record": "틀린 답이 가장 적은 문턱과 그때 놓친 질문 수"
+        }
+      ],
+      "challenge": "안내 문서에 “노트북 대여는 하지 않습니다”라는 한 줄이 없을 때와 있을 때 도우미의 답이 어떻게 달라질지 예측하고, 문턱만으로는 막을 수 없는 오답을 줄이려면 문서·평가 질문·검사 단계 중 무엇을 바꿀지 근거와 함께 설명한다.",
+      "checks": [
+        "역색인과 임베딩이 각각 어떤 질문을 놓치는지 예를 들어 말할 수 있는가",
+        "정밀도·재현율·MRR이 각각 무엇을 세는지 설명할 수 있는가",
+        "점수가 높은데도 답을 보류해야 하는 경우를 설명할 수 있는가"
+      ]
     }
   ],
   "chapter_index": {
@@ -633,7 +766,17 @@
     "books/llm-gpu/#bottleneck": "09 · 들어가는데 왜 느릴까?",
     "books/llm-gpu/#tradeoffs": "10 · 줄이고 나누는 방법의 대가",
     "books/llm-gpu/#modelcards": "11 · 오픈웨이트 모델 사양 읽기",
-    "books/llm-gpu/#design": "12 · 내 장비의 실행 예산 만들기"
+    "books/llm-gpu/#design": "12 · 내 장비의 실행 예산 만들기",
+    "books/rag/#question": "01 · 모르는 것을 그럴듯하게 말하는 이유",
+    "books/rag/#keywords": "02 · 같은 낱말이 있는 문서 찾기",
+    "books/rag/#bm25": "03 · 더 관련 있는 문서를 위로",
+    "books/rag/#chunking": "04 · 긴 문서를 알맞게 자르기",
+    "books/rag/#embedding": "05 · 뜻이 가까운 문서 찾기",
+    "books/rag/#hybrid": "06 · 키워드와 의미를 섞기",
+    "books/rag/#evaluation": "07 · 검색이 좋아졌다는 증거",
+    "books/rag/#rerank": "08 · 후보를 다시 읽고 순서 바꾸기",
+    "books/rag/#context": "09 · 근거를 얼마나 넣을까",
+    "books/rag/#final": "마지막 과제 · 모르면 모른다고 말하기"
   },
   "concepts": [
     {
@@ -682,7 +825,8 @@
         "books/linear-algebra/#similarity",
         "books/ai/#neuron",
         "books/ai/#attention",
-        "books/llm-gpu/#transformer"
+        "books/llm-gpu/#transformer",
+        "books/rag/#hybrid"
       ]
     },
     {
@@ -698,7 +842,8 @@
         "books/linear-algebra/#vectors",
         "books/linear-algebra/#similarity",
         "books/ai/#embeddings",
-        "books/ai/#rag"
+        "books/ai/#rag",
+        "books/rag/#embedding"
       ]
     },
     {
@@ -796,7 +941,8 @@
         "books/probability/#testing",
         "books/ai/#generalization",
         "books/ai/#agents",
-        "books/llm-gpu/#design"
+        "books/llm-gpu/#design",
+        "books/rag/#evaluation"
       ]
     },
     {
@@ -812,7 +958,8 @@
       "chapters": [
         "books/probability/#binomial",
         "books/probability/#bayes",
-        "books/ai/#agents"
+        "books/ai/#agents",
+        "books/rag/#final"
       ]
     },
     {
@@ -866,7 +1013,27 @@
         "books/ai/#generation",
         "books/llm-gpu/#phases",
         "books/llm-gpu/#cache",
-        "books/llm-gpu/#modelcards"
+        "books/llm-gpu/#modelcards",
+        "books/rag/#context"
+      ]
+    },
+    {
+      "id": "retrieval-grounding",
+      "name": "검색과 근거",
+      "aliases": [
+        "retrieval",
+        "RAG",
+        "grounding",
+        "search",
+        "검색 증강 생성"
+      ],
+      "summary": "답하기 전에 관련 문서를 찾아 근거로 넣고, 근거가 없으면 답을 보류한다",
+      "chapters": [
+        "books/ai/#rag",
+        "books/rag/#question",
+        "books/rag/#keywords",
+        "books/rag/#bm25",
+        "books/rag/#rerank"
       ]
     }
   ]

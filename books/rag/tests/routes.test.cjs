@@ -1,0 +1,13 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const base=path.resolve(__dirname,'..');
+const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(base,'js/content.js'),'utf8'),ctx);
+const B=ctx.window.RBook,html=fs.readFileSync(path.join(base,'index.html'),'utf8');
+test('10 unique chapters and 10 labs',()=>{assert.equal(B.chapters.length,10);assert.equal(new Set(B.chapters.map(c=>c.id)).size,10);assert.equal(new Set(B.chapters.flatMap(c=>c.labs)).size,10);});
+test('chapter fields, question choices and source references are complete',()=>{for(const c of B.chapters){for(const k of ['id','title','subtitle','desc','time','group','labs','source','paragraphs','formula','formulaNote','flow','warning','quiz'])assert.ok(c[k],c.id+':'+k);assert.equal(c.paragraphs.length,2);assert.equal(c.quiz[1].length,3);assert.ok(c.quiz[2]>=0&&c.quiz[2]<3);for(const i of c.source)assert.ok(B.sources[i]);}});
+test('all chapter IDs are registered stable hash routes',()=>{const routes=html.match(/name="book-routes" content="([^"]+)"/)[1].split(',');for(const c of B.chapters)assert.ok(routes.includes(c.id));});
+test('every HTML script and asset exists locally',()=>{for(const [,url] of html.matchAll(/(?:src|href)="([^"#]+)"/g)){if(url.startsWith('http')||url.startsWith('../'))continue;assert.ok(fs.existsSync(path.join(base,url.split('?')[0])),url);}});
+test('header has the standard bookshelf return and accessible inputs rely on labels',()=>{assert.match(html,/<header>[\s\S]*data-shelf-return href="\.\.\/\.\.\/index.html#books"[\s\S]*<\/header>/);});
+test('source URLs are HTTPS',()=>B.sources.forEach(s=>assert.match(s[1],/^https:\/\//)));
+test('every chapter links to another book with a reason',()=>{for(const c of B.chapters){assert.ok(c.cross&&c.cross.length,c.id);for(const [name,url,why] of c.cross){assert.match(url,/^\.\.\/[a-z-]+\/#[a-z]+$/);assert.ok(name&&why.length>20,c.id);}}});
+test('every lab has a title, guide and renderer in the scripts',()=>{const app=fs.readFileSync(path.join(base,'js/app.js'),'utf8'),guides=fs.readFileSync(path.join(base,'js/lab-guides.js'),'utf8'),labs=['labs-search','labs-meaning','labs-answer'].map(f=>fs.readFileSync(path.join(base,`js/${f}.js`),'utf8')).join('');for(const id of B.chapters.flatMap(c=>c.labs)){assert.match(app,new RegExp(`\\b${id}:\\[`),id);assert.match(guides,new RegExp(`\\b${id}:\\[`),id);assert.match(labs,new RegExp(`RLabs\\.${id}=`),id);}});
+test('first paragraph opens from the previous chapter and the second ends with a question',()=>{B.chapters.forEach((c,i)=>{assert.match(c.paragraphs[1],/\?$/,c.id);if(i>0&&i<B.chapters.length-1)assert.match(c.paragraphs[0],/^\d+장/,c.id);});});

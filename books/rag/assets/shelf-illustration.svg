@@ -1,0 +1,42 @@
+<svg class="rg-ill" viewBox="0 0 340 180" role="img" aria-label="질문 카드에서 출발한 돋보기가 안내 문서 다섯 장을 훑고, 연체 문서 D2가 밝아지면 그 문장이 출처 번호와 함께 답 말풍선으로 옮겨 가는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.rg-ill-card{fill:#fbf6f1;stroke:#8a6f7c;stroke-width:1.3}
+.rg-ill-q{fill:#fff;stroke:#b4547a;stroke-width:1.6}
+.rg-ill-line{stroke:#c9b6bf;stroke-width:2;stroke-linecap:round}
+.rg-ill-hit{fill:#f7d9e3;stroke:#b4547a;stroke-width:2;opacity:0;animation:rg-ill-hit 4.4s ease-in-out infinite}
+.rg-ill-lens{animation:rg-ill-scan 4.4s ease-in-out infinite}
+.rg-ill-glass{fill:rgba(255,255,255,.55);stroke:#4f3946;stroke-width:2.4}
+.rg-ill-handle{stroke:#4f3946;stroke-width:4;stroke-linecap:round}
+.rg-ill-chip{fill:#b4547a;animation:rg-ill-fly 4.4s ease-in-out infinite}
+.rg-ill-ans{fill:#fff;stroke:#5a8f7f;stroke-width:1.6}
+.rg-ill-say{opacity:0;animation:rg-ill-say 4.4s ease-in-out infinite}
+.rg-ill-label{font:600 10.5px sans-serif;fill:#4f3946}
+.rg-ill-small{font:500 9px sans-serif;fill:#7b6872}
+.rg-ill-good{font:700 10.5px sans-serif;fill:#3f7a68}
+@keyframes rg-ill-scan{0%{transform:translate(0,0)}15%{transform:translate(0,0)}35%{transform:translate(38px,0)}48%,100%{transform:translate(38px,0)}}
+@keyframes rg-ill-hit{0%,34%{opacity:0}42%,92%{opacity:1}100%{opacity:0}}
+@keyframes rg-ill-fly{0%,46%{transform:translate(0,0);opacity:0}50%{opacity:1}70%{transform:translate(112px,-26px);opacity:1}76%,100%{transform:translate(112px,-26px);opacity:0}}
+@keyframes rg-ill-say{0%,70%{opacity:0}78%,94%{opacity:1}100%{opacity:0}}
+html[data-motion=reduce] .rg-ill-lens,html[data-motion=reduce] .rg-ill-chip{animation:none}
+html[data-motion=reduce] .rg-ill-hit,html[data-motion=reduce] .rg-ill-say{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.rg-ill-lens,.rg-ill-chip{animation:none}.rg-ill-hit,.rg-ill-say{animation:none;opacity:1}}
+</style>
+<rect class="rg-ill-q" x="10" y="24" width="84" height="46" rx="8"/>
+<text class="rg-ill-small" x="18" y="40">질문</text>
+<text class="rg-ill-label" x="18" y="58">늦게 돌려주면?</text>
+<path d="M94 47 C110 47 110 70 122 72" fill="none" stroke="#c9b6bf" stroke-width="1.6" stroke-dasharray="4 4"/>
+<g>
+<rect class="rg-ill-card" x="112" y="70" width="34" height="46" rx="3"/><text class="rg-ill-small" x="118" y="82">D1</text><path class="rg-ill-line" d="M118 92h22M118 100h18M118 108h20"/>
+<rect class="rg-ill-card" x="150" y="70" width="34" height="46" rx="3"/><rect class="rg-ill-hit" x="150" y="70" width="34" height="46" rx="3"/><text class="rg-ill-small" x="156" y="82">D2</text><path class="rg-ill-line" d="M156 92h22M156 100h18M156 108h20"/>
+<rect class="rg-ill-card" x="188" y="70" width="34" height="46" rx="3"/><text class="rg-ill-small" x="194" y="82">D3</text><path class="rg-ill-line" d="M194 92h22M194 100h18M194 108h20"/>
+<rect class="rg-ill-card" x="130" y="124" width="34" height="40" rx="3"/><text class="rg-ill-small" x="136" y="136">D8</text><path class="rg-ill-line" d="M136 146h22M136 154h16"/>
+<rect class="rg-ill-card" x="168" y="124" width="34" height="40" rx="3"/><text class="rg-ill-small" x="174" y="136">R2</text><path class="rg-ill-line" d="M174 146h22M174 154h16"/>
+</g>
+<text class="rg-ill-small" x="112" y="62">안내 문서 13개</text>
+<g class="rg-ill-lens"><circle class="rg-ill-glass" cx="129" cy="96" r="13"/><path class="rg-ill-handle" d="M138 106l9 10"/></g>
+<rect class="rg-ill-chip" x="160" y="98" width="16" height="7" rx="2"/>
+<path class="rg-ill-ans" d="M238 52h92a8 8 0 0 1 8 8v40a8 8 0 0 1-8 8h-60l-12 12v-12h-20a8 8 0 0 1-8-8v-40a8 8 0 0 1 8-8z" transform="translate(-6 0)"/>
+<text class="rg-ill-small" x="240" y="68">도우미</text>
+<g class="rg-ill-say"><text class="rg-ill-good" x="240" y="84">대출 정지,</text><text class="rg-ill-good" x="240" y="98">최대 30일 [D2]</text></g>
+<text class="rg-ill-small" x="170" y="20" text-anchor="middle">찾고 · 고르고 · 근거와 함께 답하기</text>
+</svg>

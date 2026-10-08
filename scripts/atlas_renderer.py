@@ -11,10 +11,10 @@ if __package__:
 else:
     from shelf_renderer import esc
 
-WIDTH, HEIGHT = 960, 600
+WIDTH, HEIGHT = 960, 700
 # Books stand evenly on an ellipse, AI Book at the bottom as the shared destination, so a new
 # book in the catalog gets its own place on the map without hand-placed coordinates.
-CENTER, RADIUS = (480, 290), (400, 222)
+CENTER, RADIUS = (480, 340), (400, 268)
 TONES = {'aqua': '#1e737b', 'blue': '#345d95', 'violet': '#6e508e', 'sage': '#517353',
          'amber': '#a66f26', 'rose': '#a15a50'}
 
