@@ -28,7 +28,7 @@ async function finish(animation) {
 
 /** The phone layout stacks both pages, so the cover hides the whole book there. */
 function isStacked(book) {
-  return getComputedStyle(book).display === 'block';
+  return getComputedStyle(book).display !== 'grid';
 }
 
 function flightFor(source, dialog) {
