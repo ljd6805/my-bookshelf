@@ -13,3 +13,12 @@ html.reader-active{overflow:hidden}
 .book-cover-category{font-size:12px;letter-spacing:.12em;color:#fffdf3;text-shadow:0 1px 4px rgba(var(--edge),.9)}
 .book-cover.is-stacked{left:0;border-radius:20px}
 @keyframes cover-sheen{to{transform:translateX(60%)}}
+
+/* Portrait pages like a printed book: each leaf is 7:10, sized to fit the viewport height. */
+@media(min-width:641px){.open-book{width:min(840px,100%,calc(74dvh*1.4));max-height:none}.glass-leaf{aspect-ratio:7/10}.paper-page{min-height:0;height:100%;max-height:none;padding:30px 28px 26px}.reader-category{margin:0 0 14px}.reader-title{font-size:clamp(22px,2.3vw,30px);line-height:1.5;padding-bottom:14px}.reader-description{margin-top:14px;font-size:14px;line-height:1.85}}
+
+/* Book illustration: an inline animated SVG that plays like a plate in the opened book. */
+.reader-illustration{margin:0 0 16px;padding:10px 10px 8px;border:1px solid #e3dac8;border-radius:12px;background:linear-gradient(#fffdf6,#f3ede0);box-shadow:inset 0 0 0 4px #fffaf2,0 2px 6px #6d655314}.reader-illustration svg{display:block;width:100%;height:auto}.reader-illustration figcaption{margin-top:6px;font-size:11px;line-height:1.5;color:#6a7a74}
+html[data-motion=reduce] .reader-illustration *{animation:none!important}
+@media(prefers-reduced-motion:reduce){.reader-illustration *{animation:none!important}}
+@media(min-width:641px){.leaf-left .bookmark{left:auto;right:30px}.reader-contents .reader-description{margin:0 0 22px;padding-bottom:20px;border-bottom:1px solid #83918c47}.reader-contents h3{margin-top:0}}

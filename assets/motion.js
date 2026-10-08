@@ -9,7 +9,10 @@ const EASE_IN = 'cubic-bezier(.55,0,.8,.4)';
 const SETTLE = 'cubic-bezier(.3,1.45,.55,1)';
 
 export function cancelMotion(dialog) {
-  dialog.getAnimations({ subtree: true }).forEach(animation => animation.cancel());
+  // Only script-driven motion; CSS animations (the book illustration) keep playing.
+  dialog.getAnimations({ subtree: true })
+    .filter(animation => !(window.CSSAnimation && animation instanceof CSSAnimation))
+    .forEach(animation => animation.cancel());
   dialog.querySelectorAll('.book-flight, .book-cover').forEach(node => node.remove());
 }
 

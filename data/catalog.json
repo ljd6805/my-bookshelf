@@ -11,6 +11,8 @@
       "spine_category": "인공지능",
       "color": "aqua",
       "description": "신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 18개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.",
+      "illustration": "books/ai/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 입력 신호가 층을 건너며 출력 확률로 바뀝니다. 실제 계산 결과가 아닙니다.",
       "status": "published",
       "url": "books/ai/",
       "keywords": [

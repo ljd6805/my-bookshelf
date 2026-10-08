@@ -1,5 +1,6 @@
 """Render accessible glass spines and real document previews from the catalog."""
 import html
+import re
 import unicodedata
 from html.parser import HTMLParser
 from pathlib import Path
@@ -72,6 +73,22 @@ def outline(item):
             for title, anchor in parser.titles[:5]]
 
 
+def illustration(item):
+    """Inline a book's animated SVG so the page's reduced-motion setting can pause it."""
+    path_text = item.get('illustration')
+    if not path_text:
+        return ''
+    path = (ROOT / path_text).resolve()
+    if path.suffix != '.svg' or ROOT not in path.parents or not path.is_file():
+        raise ValueError(f"{item['id']}: illustration must be an SVG file inside the repository")
+    svg = path.read_text().strip()
+    if not svg.startswith('<svg') or re.search(r'<script|\son\w+\s*=|<foreignObject|href=', svg, re.I):
+        raise ValueError(f"{item['id']}: illustration SVG must not contain scripts, handlers or links")
+    caption = item.get('illustration_caption', '')
+    return (f'<figure class="reader-illustration">{svg}'
+            + (f'<figcaption>{esc(caption)}</figcaption>' if caption else '') + '</figure>')
+
+
 def preview(item, key):
     chapters = outline(item)
     links = ''.join(f'<li><a href="{safe_url(c["url"])}">{esc(c["title"])}</a></li>'
@@ -87,10 +104,11 @@ def preview(item, key):
         '<p>이 책의 소개를 읽고, 아래 링크에서 내용을 이어서 살펴보세요.</p>'
         if state == 'published' else '<p>첫 장의 질문과 목차가 정해지면 이곳에 담습니다.</p>')
     return (f'<template id="preview-{esc(key)}"><div class="reader-copy">'
-            f'<p class="reader-category">{esc(label)}</p>'
+            f'<p class="reader-category">{esc(label)}</p>{illustration(item)}'
             f'<h2 class="reader-title">{esc(item["title"])}</h2>'
+            '</div><div class="reader-contents">'
             f'<p class="reader-description">{esc(item["description"])}</p>'
-            '</div><div class="reader-contents"><h3>이 책에서 만날 내용</h3>'
+            '<h3>이 책에서 만날 내용</h3>'
             f'{contents}{action}</div></template>')
 
 
