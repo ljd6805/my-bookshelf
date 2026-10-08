@@ -200,6 +200,60 @@
         }
       ],
       "short_title": "확률과 통계"
+    },
+    {
+      "id": "llm-systems",
+      "title": "LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지",
+      "spine_title": "LLM 시스템",
+      "spine_category": "AI 시스템",
+      "color": "sage",
+      "description": "모델의 B와 bit부터 GPU 안의 데이터 이동, prefill·decode, KV 캐시, 대역폭과 MoE까지. 12장·14개 실험으로 오픈웨이트 모델의 사양과 하드웨어 제약을 연결하고 실행 예산을 직접 만듭니다.",
+      "illustration": "books/llm-gpu/assets/shelf-illustration.svg",
+      "illustration_caption": "개념도: 가중치와 과거 토큰의 KV를 읽어 계산하고 다음 토큰을 만듭니다. 크기·속도를 재현한 그림은 아닙니다.",
+      "status": "published",
+      "url": "books/llm-gpu/",
+      "keywords": [
+        "LLM",
+        "GPU",
+        "오픈웨이트",
+        "파라미터",
+        "VRAM",
+        "KV 캐시",
+        "메모리",
+        "대역폭",
+        "양자화",
+        "MoE",
+        "prefill",
+        "decode",
+        "Qwen",
+        "통합 메모리"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/llm-gpu/#chapters"
+        },
+        {
+          "title": "03 · 가중치가 차지하는 메모리",
+          "url": "books/llm-gpu/#weights"
+        },
+        {
+          "title": "05 · GPU 안의 저장소와 계산기",
+          "url": "books/llm-gpu/#hierarchy"
+        },
+        {
+          "title": "08 · 대화 길이가 차지하는 공간",
+          "url": "books/llm-gpu/#cache"
+        },
+        {
+          "title": "11 · 오픈웨이트 모델 사양 읽기",
+          "url": "books/llm-gpu/#modelcards"
+        },
+        {
+          "title": "12 · 내 장비의 실행 예산 만들기",
+          "url": "books/llm-gpu/#design"
+        }
+      ]
     }
   ],
   "learning_paths": [
@@ -426,6 +480,14 @@
           "minutes": 15,
           "why": "파라미터 수와 비트 수, 문맥 길이로 필요한 메모리를 어림할 수 있다",
           "record": "4비트와 8비트의 가중치 메모리, 문맥을 두 배로 늘렸을 때의 변화"
+        },
+        {
+          "book_id": "llm-systems",
+          "url": "books/llm-gpu/#design",
+          "task": "가중치·KV·실행 여유를 합산하고 24 GiB 과제의 초과 원인을 찾는다",
+          "minutes": 18,
+          "why": "추론 입문에서 어림한 용량을 동시 요청과 실행 여유까지 포함한 예산으로 확장한다",
+          "record": "가정한 실행 조건, 항목별 GiB, 용량을 맞추기 위해 바꾼 조건과 실측할 지표"
         }
       ],
       "challenge": "16GB 노트북에 70억 파라미터 모델을 올릴 때 4비트와 8비트 중 무엇을 고를지, 문맥 길이를 늘리면 무엇이 부족해지는지, 메모리 계산 말고 어떤 증거를 더 확인해야 하는지 설명한다.",
@@ -476,7 +538,19 @@
     "books/probability/#bayes": "05 · 경보가 울리면 정말 고장일까",
     "books/probability/#interval": "06 · 불량률을 범위로 말하기",
     "books/probability/#testing": "07 · 새 센서가 정말 나아졌나",
-    "books/probability/#likelihood": "08 · 데이터에 가장 잘 맞는 확률 찾기"
+    "books/probability/#likelihood": "08 · 데이터에 가장 잘 맞는 확률 찾기",
+    "books/llm-gpu/#files": "01 · 다운로드한 모델의 실체",
+    "books/llm-gpu/#parameters": "02 · 8B는 무엇을 세는 숫자일까?",
+    "books/llm-gpu/#weights": "03 · 가중치가 차지하는 메모리",
+    "books/llm-gpu/#journey": "04 · 질문이 GPU에 도착하기까지",
+    "books/llm-gpu/#hierarchy": "05 · GPU 안의 저장소와 계산기",
+    "books/llm-gpu/#transformer": "06 · 행렬곱으로 토큰을 바꾸기",
+    "books/llm-gpu/#phases": "07 · 첫 토큰과 다음 토큰의 차이",
+    "books/llm-gpu/#cache": "08 · 대화 길이가 차지하는 공간",
+    "books/llm-gpu/#bottleneck": "09 · 들어가는데 왜 느릴까?",
+    "books/llm-gpu/#tradeoffs": "10 · 줄이고 나누는 방법의 대가",
+    "books/llm-gpu/#modelcards": "11 · 오픈웨이트 모델 사양 읽기",
+    "books/llm-gpu/#design": "12 · 내 장비의 실행 예산 만들기"
   },
   "concepts": [
     {
@@ -679,7 +753,9 @@
       "chapters": [
         "books/computer/#memory",
         "books/computer/#cache",
-        "books/ai/#inference"
+        "books/ai/#inference",
+        "books/llm-gpu/#hierarchy",
+        "books/llm-gpu/#cache"
       ]
     }
   ]

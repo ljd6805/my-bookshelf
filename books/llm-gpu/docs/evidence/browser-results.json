@@ -1,0 +1,568 @@
+{
+  "url": "http://127.0.0.1:8765/books/llm-gpu/",
+  "date": "2026-10-08",
+  "views": [
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "files",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "parameters",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "weights",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "journey",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "hierarchy",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "transformer",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "phases",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "cache",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "bottleneck",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "tradeoffs",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "modelcards",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "design",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "home",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "files",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "parameters",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "weights",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "journey",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "hierarchy",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "transformer",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "phases",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "cache",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "bottleneck",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "tradeoffs",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "modelcards",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "design",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "files",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "parameters",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "weights",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "journey",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "hierarchy",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "transformer",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "phases",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "cache",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "bottleneck",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "tradeoffs",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "modelcards",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "design",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "hierarchy",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "design",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "hierarchy",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "design",
+      "scroll": 320,
+      "returnVisible": true
+    }
+  ],
+  "labs": [
+    {
+      "width": 1280,
+      "id": "bundle",
+      "controls": 1,
+      "presets": 2,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "params",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "weights",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "quant",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "journey",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "hierarchy",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "matrix",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "phases",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "cache",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "roofline",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "moe",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "transfer",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "cards",
+      "controls": 3,
+      "presets": 2,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "budget",
+      "controls": 7,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "bundle",
+      "controls": 1,
+      "presets": 2,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "params",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "weights",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "quant",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "journey",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "hierarchy",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "matrix",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "phases",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "cache",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "roofline",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "moe",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "transfer",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "cards",
+      "controls": 3,
+      "presets": 2,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "budget",
+      "controls": 7,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "bundle",
+      "controls": 1,
+      "presets": 2,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "params",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "weights",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "quant",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "journey",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "hierarchy",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "matrix",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "phases",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "cache",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "roofline",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "moe",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "transfer",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "cards",
+      "controls": 3,
+      "presets": 2,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "budget",
+      "controls": 7,
+      "presets": 3,
+      "reset": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}

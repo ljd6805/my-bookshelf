@@ -23,3 +23,4 @@ jobs:
       - run: npm test --prefix books/computer
       - run: npm test --prefix books/linear-algebra
       - run: npm test --prefix books/probability
+      - run: npm test --prefix books/llm-gpu
