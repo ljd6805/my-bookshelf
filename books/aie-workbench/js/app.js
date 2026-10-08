@@ -41,5 +41,7 @@ side();window.addEventListener('hashchange',route);
 document.querySelector('#theme').onclick=()=>{const dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';const b=document.querySelector('#theme');b.textContent=dark?'어두운 화면':'밝은 화면';b.setAttribute('aria-label',b.textContent+'으로 전환');};
 document.querySelector('#menu').onclick=()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('#menu').setAttribute('aria-expanded',String(open));};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.remove('menu-open');document.querySelector('#menu').setAttribute('aria-expanded','false');}});
+/* 서가의 시리즈 이어 읽기 단추가 이 권을 가리키도록 권 번호를 남긴다(docs/04-site-plan.html#series). */
+try{if(M.series&&M.series.no)localStorage.setItem('bookshelf:shelf:v1:series:aie-from-scratch',String(M.series.no));}catch(e){}
 route();
 })();

@@ -1,0 +1,25 @@
+{"book":{"id":"aie-09-generative","title":"생성 모델 · 오토인코더에서 디퓨전과 플로까지","short_title":"생성 모델","spine_title":"생성 모델","spine_category":"AI공학","description":"여우 캐릭터 도토리의 그림 2,000장으로 새 삽화를 만드는 생성기를 VAE, GAN, 디퓨전, 잠재 디퓨전, 플로 매칭, VAR 순서로 바꿔 가며 같은 두 봉우리 분포에서 흐림·모드 붕괴·단계 수·가이던스·평가 숫자를 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 8의 레슨 15개를 모두 재구성했습니다.","illustration_caption":"흩어진 노이즈 점들이 단계를 거치며 낮 장면과 밤 장면 두 무리로 모여드는 디노이징 과정을 보여 주는 시각적 비유입니다.","keywords":["생성 모델","오토인코더","VAE","GAN","StyleGAN","디퓨전","DDPM","DDIM","잠재 디퓨전","Stable Diffusion","가이던스","CFG","ControlNet","LoRA","인페인팅","비디오 생성","플로 매칭","정류 플로","VAR","FID","CLIP 점수","generative model","diffusion","flow matching"],"chapters_featured":["#vae","#gan","#ddpm","#flow","#eval"],"cover_meta":"12장 · 16개 실험"},
+ "chapter_index":{
+  "books/aie-generative/#map":"01 · 그림을 만드는 모델의 다섯 갈래",
+  "books/aie-generative/#vae":"02 · 압축했다 되살리는 오토인코더와 VAE",
+  "books/aie-generative/#gan":"03 · 가짜를 만드는 쪽과 가려내는 쪽",
+  "books/aie-generative/#cond":"04 · 원하는 그림을 주문하기: 조건부 GAN과 StyleGAN",
+  "books/aie-generative/#ddpm":"05 · 노이즈를 더하고 거꾸로 걷어 내기",
+  "books/aie-generative/#latent":"06 · 작은 잠재 공간에서 그리고 글로 이끌기",
+  "books/aie-generative/#control":"07 · 모양을 붙잡고 일부만 고치기: ControlNet·LoRA·인페인팅",
+  "books/aie-generative/#media":"08 · 그림 밖으로: 비디오·오디오·3D",
+  "books/aie-generative/#flow":"09 · 곧은 길로 빨리 가기: 플로 매칭과 정류 플로",
+  "books/aie-generative/#var":"10 · 거친 그림에서 고운 그림으로: 시각 자기회귀 VAR",
+  "books/aie-generative/#eval":"11 · 좋아졌다는 말을 숫자로 확인하기: FID·CLIP 점수·사람 평가",
+  "books/aie-generative/#final":"마지막 · 도토리 생성기가 이상하다"},
+ "concepts":[
+  {"id":"loss-likelihood","new":false,"chapters":["books/aie-generative/#map","books/aie-generative/#vae"]},
+  {"id":"dimension-reduction","new":false,"chapters":["books/aie-generative/#vae"]},
+  {"id":"sampling","new":false,"chapters":["books/aie-generative/#ddpm","books/aie-generative/#var"]},
+  {"id":"variance","new":false,"chapters":["books/aie-generative/#ddpm"]},
+  {"id":"evaluation-uncertainty","new":false,"chapters":["books/aie-generative/#eval"]},
+  {"id":"vector-space","new":false,"chapters":["books/aie-generative/#eval"]}],
+ "series_step":{"url":"books/aie-generative/#ddpm","task":"디노이징 단계 수 실험에서 1단계·5단계·20단계를 차례로 넣고, 샘플이 두 장면으로 갈라지는 비율과 흐릿한 중간 비율이 어떻게 바뀌는지 적은 뒤 1단계 결과가 흐린 이유를 설명한다.","minutes":15,"why":"트랜스포머로 다음 토큰을 예측하는 법을 익힌 뒤, 같은 학습 도구로 데이터 전체의 분포를 그려 내는 생성 모델의 핵심 손잡이(단계 수와 속도·품질의 거래)를 직접 확인한다.","record":"단계 수별 장면 도달 비율, 흐린 중간 비율, 단계를 더 늘려도 거의 같아지는 지점"},
+ "incoming":[
+  {"from":"books/probability/#likelihood","label":"생성 모델 · 그림을 만드는 모델의 다섯 갈래","url":"../aie-generative/#map","why":"우도로 분포를 평가하는 법을 익혔다면, 우도를 직접 계산하는 모델과 우회하는 모델(GAN·디퓨전)이 어떻게 갈리는지 도토리 그림 분포로 비교해 봅니다."},
+  {"from":"books/linear-algebra/#pca","label":"생성 모델 · 압축했다 되살리는 오토인코더와 VAE","url":"../aie-generative/#vae","why":"주성분으로 차원을 줄여 봤다면, 같은 압축을 배우는 오토인코더가 병목 크기와 β에 따라 어떤 축을 버리는지 직접 조정해 봅니다."}]}

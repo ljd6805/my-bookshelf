@@ -1,0 +1,25 @@
+{"book":{"id":"aie-07-audio","title":"음성과 오디오 · 파형에서 대화하는 목소리까지","short_title":"음성과 오디오","spine_title":"음성 오디오","spine_category":"AI공학","description":"후드 팬이 도는 부엌에서 “솔아, 타이머 오 분 맞춰 줘”를 알아듣고 대답하는 음성 비서 솔이를 만들며 샘플링과 앨리어싱, 스펙트로그램과 멜 특징, CTC와 WER, Whisper의 30초 창, 화자 확인 문턱, 음성 합성 길이, 코덱 토큰, 지연 예산, VAD와 말차례, 워터마크 검출을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 6의 레슨 17개를 모두 재구성했습니다.","illustration_caption":"부엌의 말소리 파형이 점으로 찍히고 멜 스펙트로그램 칸이 차례로 밝아진 뒤 스피커에서 대답이 퍼져 나가는 시각적 비유입니다.","keywords":["음성","오디오","샘플링","나이퀴스트","앨리어싱","스펙트로그램","멜","음성 인식","CTC","WER","Whisper","화자 확인","EER","TTS","음성 합성","오디오 코덱","RVQ","VAD","말차례","지연 시간","워터마크","speech","audio","ASR","voice agent"],"chapters_featured":["#wave","#mel","#asr","#pipeline","#turn"],"cover_meta":"12장 · 16개 실험"},
+ "chapter_index":{
+  "books/aie-audio/#wave":"01 · 소리를 숫자로 받아 적기",
+  "books/aie-audio/#mel":"02 · 시간과 주파수를 한 장에",
+  "books/aie-audio/#classify":"03 · 무슨 소리인지 가려내기",
+  "books/aie-audio/#asr":"04 · 소리를 글자로 옮기기",
+  "books/aie-audio/#whisper":"05 · 30초 창으로 듣는 큰 모델",
+  "books/aie-audio/#speaker":"06 · 누가 말했는지 확인하기",
+  "books/aie-audio/#tts":"07 · 글자를 목소리로 되돌리기",
+  "books/aie-audio/#codec":"08 · 소리를 토큰으로 바꾸기",
+  "books/aie-audio/#pipeline":"09 · 한 턴을 1초 안에 돌려주기",
+  "books/aie-audio/#turn":"10 · 언제 듣고 언제 말할까",
+  "books/aie-audio/#safety":"11 · 가짜 목소리를 가려내기",
+  "books/aie-audio/#final":"마지막 · 출시 후 들어온 불만"},
+ "concepts":[
+  {"id":"number-representation","new":false,"chapters":["books/aie-audio/#wave","books/aie-audio/#codec"]},
+  {"id":"vector-space","new":false,"chapters":["books/aie-audio/#speaker"]},
+  {"id":"base-rate-threshold","new":false,"chapters":["books/aie-audio/#classify","books/aie-audio/#turn"]},
+  {"id":"evaluation-uncertainty","new":false,"chapters":["books/aie-audio/#final"]},
+  {"id":"attention-kv","new":false,"chapters":["books/aie-audio/#whisper"]}],
+ "series_step":{"url":"books/aie-audio/#turn","task":"VAD 실험에서 문턱을 0.3, 0.5, 0.7로 바꾸며 “솔아”의 첫 소리가 잘린 길이와 후드 팬 오작동 횟수를 적고, 사전 버퍼 300 ms를 켰을 때 잘림이 0이 되는 이유를 설명한다.","minutes":15,"why":"음성 에이전트의 첫 실패는 모델보다 앞에서, 말이 시작되고 끝나는 순간을 잘못 자르는 데서 자주 생기므로 문턱 하나가 만드는 교환을 직접 본다.","record":"문턱별 잘린 길이(ms)와 오작동 횟수, 사전 버퍼를 켠 뒤의 결과, 내가 고를 문턱과 그 이유"},
+ "incoming":[
+  {"from":"books/computer/#encoding","label":"음성과 오디오 · 소리를 숫자로 받아 적기","url":"../aie-audio/#wave","why":"같은 비트를 정수와 실수로 다르게 읽는 법을 봤다면, 마이크 소리가 16비트 정수로 적히고 실수로 바뀌는 과정과 샘플링 속도가 만드는 앨리어싱을 직접 계산해 봅니다."},
+  {"from":"books/ai/#vision","label":"음성과 오디오 · 시간과 주파수를 한 장에","url":"../aie-audio/#mel","why":"합성곱 필터가 이미지에서 패턴을 찾는 법을 봤다면, 소리를 이미지처럼 만드는 스펙트로그램과 멜 특징이 어떻게 계산되는지 이어서 확인합니다."},
+  {"from":"books/llm-gpu/#phases","label":"음성과 오디오 · 한 턴을 1초 안에 돌려주기","url":"../aie-audio/#pipeline","why":"첫 토큰과 다음 토큰의 속도가 다른 이유를 알았다면, 음성 비서 한 턴의 지연 예산에서 LLM 첫 토큰이 차지하는 몫과 TTS가 기다리는 토큰 수를 직접 바꿔 봅니다."}]}

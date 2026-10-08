@@ -1,0 +1,41 @@
+<svg class="a08-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="문장 끝 토큰 ‘읽었다’가 앞의 토큰들로 굵기가 다른 어텐션 선을 차례로 보내고, 왼쪽 위 삼각 가중치표가 한 줄씩 채워지는 그림. 선의 굵기는 예시 값이며 실제 계산이 아닌 시각적 비유입니다.">
+<style>
+.a08-ill-bg{fill:#f4f1fa}
+.a08-ill-title{font:700 12px sans-serif;fill:#3a2d63}
+.a08-ill-sub{font:11px sans-serif;fill:#5d5378}
+.a08-ill-t{font:700 11px sans-serif;fill:#2e2548;text-anchor:middle}
+.a08-ill-tok{fill:#fffdf8;stroke:#8c7cc4;stroke-width:1.5}
+.a08-ill-q{fill:#e6defc;stroke:#5b3fb8;stroke-width:2.5}
+.a08-ill-arc{fill:none;stroke:#7a5fd0;stroke-linecap:round;stroke-dasharray:320;stroke-dashoffset:320;animation:a08-ill-draw 6s ease-in-out infinite}
+.a08-ill-row rect{fill:#7a5fd0}
+.a08-ill-row{opacity:.15;animation:a08-ill-fill 6s ease-in-out infinite}
+.a08-ill-d0{animation-delay:0.00s}.a08-ill-d1{animation-delay:0.45s}.a08-ill-d2{animation-delay:0.90s}.a08-ill-d3{animation-delay:1.35s}.a08-ill-d4{animation-delay:1.80s}.a08-ill-d5{animation-delay:2.25s}.a08-ill-r0{animation-delay:0.0s}.a08-ill-r1{animation-delay:0.5s}.a08-ill-r2{animation-delay:1.0s}.a08-ill-r3{animation-delay:1.5s}.a08-ill-r4{animation-delay:2.0s}.a08-ill-r5{animation-delay:2.5s}.a08-ill-r6{animation-delay:3.0s}
+@keyframes a08-ill-draw{0%{stroke-dashoffset:320}30%,75%{stroke-dashoffset:0}100%{stroke-dashoffset:-320}}
+@keyframes a08-ill-fill{0%,5%{opacity:.15}15%,80%{opacity:1}95%,100%{opacity:.15}}
+html[data-motion=reduce] .a08-ill-arc,html[data-motion=reduce] .a08-ill-row{animation:none;stroke-dashoffset:0;opacity:1}
+@media(prefers-reduced-motion:reduce){.a08-ill-arc,.a08-ill-row{animation:none;stroke-dashoffset:0;opacity:1}}
+</style>
+<rect class="a08-ill-bg" width="340" height="180"/>
+<g class="a08-ill-row a08-ill-r0"><rect x="14" y="26" width="8" height="8" rx="1"/></g>
+<g class="a08-ill-row a08-ill-r1"><rect x="14" y="35" width="8" height="8" rx="1"/><rect x="23" y="35" width="8" height="8" rx="1"/></g>
+<g class="a08-ill-row a08-ill-r2"><rect x="14" y="44" width="8" height="8" rx="1"/><rect x="23" y="44" width="8" height="8" rx="1"/><rect x="32" y="44" width="8" height="8" rx="1"/></g>
+<g class="a08-ill-row a08-ill-r3"><rect x="14" y="53" width="8" height="8" rx="1"/><rect x="23" y="53" width="8" height="8" rx="1"/><rect x="32" y="53" width="8" height="8" rx="1"/><rect x="41" y="53" width="8" height="8" rx="1"/></g>
+<g class="a08-ill-row a08-ill-r4"><rect x="14" y="62" width="8" height="8" rx="1"/><rect x="23" y="62" width="8" height="8" rx="1"/><rect x="32" y="62" width="8" height="8" rx="1"/><rect x="41" y="62" width="8" height="8" rx="1"/><rect x="50" y="62" width="8" height="8" rx="1"/></g>
+<g class="a08-ill-row a08-ill-r5"><rect x="14" y="71" width="8" height="8" rx="1"/><rect x="23" y="71" width="8" height="8" rx="1"/><rect x="32" y="71" width="8" height="8" rx="1"/><rect x="41" y="71" width="8" height="8" rx="1"/><rect x="50" y="71" width="8" height="8" rx="1"/><rect x="59" y="71" width="8" height="8" rx="1"/></g>
+<g class="a08-ill-row a08-ill-r6"><rect x="14" y="80" width="8" height="8" rx="1"/><rect x="23" y="80" width="8" height="8" rx="1"/><rect x="32" y="80" width="8" height="8" rx="1"/><rect x="41" y="80" width="8" height="8" rx="1"/><rect x="50" y="80" width="8" height="8" rx="1"/><rect x="59" y="80" width="8" height="8" rx="1"/><rect x="68" y="80" width="8" height="8" rx="1"/></g>
+<text class="a08-ill-title" x="96" y="34">‘읽었다’는 어디를 볼까</text>
+<text class="a08-ill-sub" x="96" y="52">softmax(QKᵀ/√d)·V · 과거만 보는 삼각 마스크</text>
+<path class="a08-ill-arc a08-ill-d0" d="M320 132Q182.0 70 44 132" stroke-width="2.0"/>
+<path class="a08-ill-arc a08-ill-d1" d="M320 132Q205.0 82 90 132" stroke-width="1.6"/>
+<path class="a08-ill-arc a08-ill-d2" d="M320 132Q228.0 94 136 132" stroke-width="2.4"/>
+<path class="a08-ill-arc a08-ill-d3" d="M320 132Q251.0 106 182 132" stroke-width="6.4"/>
+<path class="a08-ill-arc a08-ill-d4" d="M320 132Q274.0 118 228 132" stroke-width="3.2"/>
+<path class="a08-ill-arc a08-ill-d5" d="M320 132Q297.0 130 274 132" stroke-width="1.7"/>
+<rect class="a08-ill-tok" x="24" y="134" width="40" height="28" rx="4"/><text class="a08-ill-t" x="44" y="152">나는</text>
+<rect class="a08-ill-tok" x="70" y="134" width="40" height="28" rx="4"/><text class="a08-ill-t" x="90" y="152">어제</text>
+<rect class="a08-ill-tok" x="116" y="134" width="40" height="28" rx="4"/><text class="a08-ill-t" x="136" y="152">산</text>
+<rect class="a08-ill-tok" x="162" y="134" width="40" height="28" rx="4"/><text class="a08-ill-t" x="182" y="152">책을</text>
+<rect class="a08-ill-tok" x="208" y="134" width="40" height="28" rx="4"/><text class="a08-ill-t" x="228" y="152">오늘</text>
+<rect class="a08-ill-tok" x="254" y="134" width="40" height="28" rx="4"/><text class="a08-ill-t" x="274" y="152">다</text>
+<rect class="a08-ill-tok a08-ill-q" x="300" y="134" width="40" height="28" rx="4"/><text class="a08-ill-t" x="320" y="152">읽었다</text>
+</svg>

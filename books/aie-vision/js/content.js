@@ -32,7 +32,7 @@ meta:{
   ['CFG(분류기 없는 가이던스)','조건부 예측과 무조건부 예측의 차이를 배율 w만큼 키워 글 조건을 세게 따르게 하는 방법.'],
   ['정류 흐름(rectified flow)','데이터와 잡음을 직선으로 잇고 그 속도를 학습해 적은 단계로 생성하는 방법.']
  ],
- series:{name:'AI 엔지니어링 처음부터',no:5,total:20,prev:['../aie-deep/','딥러닝 핵심'],next:null}
+ series:{name:'AI 엔지니어링 처음부터',no:5,total:20,prev:['../aie-deep/','딥러닝 핵심'],next:['../aie-nlp/','자연어 처리']}
 },
 sources:[
  ['AI Engineering from Scratch (원본 커리큘럼, MIT)','https://github.com/rohitg00/ai-engineering-from-scratch','이 책이 4단계 컴퓨터 비전의 레슨 순서와 실험 아이디어를 참고한 공개 저장소. 문장과 코드는 옮기지 않고 새로 썼다.'],

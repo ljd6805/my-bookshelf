@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="《강화학습 · 보상에서 정책까지》를 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 강화학습</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · 강화학습</h1>
+<p>「AI 엔지니어링 처음부터」 10권 《강화학습 · 보상에서 정책까지》(<code>books/aie-rl/</code>)의 검수 기록입니다. 규칙과 절차는 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-rl)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-rl)" data-date="2026-10-08" data-scope="12개 장 본문·식·상세 상자·혼동 상자·확인 문제, 실험 16개와 표지 실험의 계산(js/math.js), 안내 상자 결과 읽기 16개, 그림 캡션 12개, 용어집 10개, 출처 43개와 장별 출처 번호, 다른 책 링크 12개, registration.json" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-rl). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-rl). 범위: 12개 장 전체, 실험 16개와 표지 실험, 출처 43개, 다른 책 링크 12개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>3건 수정</td><td>장마다 “원본은 …” 주장을 원본 레슨 <code>phases/09-reinforcement-learning/*/docs/en.md</code> 12개와 대조. 모델·논문 사실(DQN 49게임·버퍼 10⁶·동기화 10,000걸음, TRPO 켤레 기울기, PPO ε=0.2·K=10, AlphaZero 손실과 PUCT 식, MuZero의 h·g·f, R1-Zero의 정확도·형식 보상, R1 네 단계, 증류 모델 공개, GRPO가 DeepSeekMath에서 제안됨)을 원본과 논문 초록으로 확인. TRL의 적응형 KL은 TRL 소스(<code>trl/trainer/utils.py</code>, v0.11.0 AdaptiveKLController)로 확인.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>2건 수정</td><td>벨만 식·수축 부등식·TD 목표·이중 DQN 목표·REINFORCE·GAE·L^CLIP·브래들리-테리·KL 규제 닫힌 해·PUCT·GRPO 이점을 다시 유도. 본문·캡션·결과 읽기의 숫자 약 60개를 node로 <code>js/math.js</code>를 호출해 재계산(예: 무작위 정책 −59.43, 몬테카를로 4,000회 −59.06, 가치 반복 7·21번 훑기와 −6.43·−8.10, 절벽 −49.6·−23.6, 최대화 편향 1.53·3.71, 분산 0.313·24.25·0.21, PPO KL 0.009·0.037·1.508와 비율 1.355·2.869, 만족도 −1.99·0.16·0.67·0.48, 협조 게임 93.3%, DR −201.4·−43.4·−26.1·−100, PUCT 14·23·3과 7·25·8, 신호 없음 12.5%·18.5%·0.12%, 표지 경계 γ=0.2^{1/4}≈0.669).</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 수정</td><td>math.js 함수가 설명한 식대로 계산하는지 코드로 대조(동기식 가치 반복, 가우스-자이델 정책 평가, Q-learning max와 SARSA a′, 소프트맥스 비율 기울기 ratio·A·(원핫−π), 클리핑 기울기 0 조건, 최적 기준선 b*=(1−p)μ₁+pμ₀, GAE 편향 c(1−λ^{T−1})·분산 Σλ^{2l}, 협조 게임 보상표가 등반 게임과 같음, PUCT 동점 처리). 실제 계산·가정값·시각적 비유 표시가 코드와 맞는지 확인. 브라우저에서 dp·pg 그림의 프레임 표시 확인.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>MDP·정책·가치·이득·할인율·TD 오차·부트스트래핑·온/오프폴리시·치명적 세 요소·경험 재생·타깃 망·기준선·이점·비평가·중요도 비·잘린 대리 목적·보상 해킹·도메인 랜덤화·시스템 식별·CTDE·자기 대국·리그 훈련의 한영 대응이 Sutton &amp; Barto와 원 논문 용어에 맞고 책 안에서 일관됨.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 링크 14개는 로컬 사본의 폴더 존재로 확인. 외부 링크 29개 중 28개는 원본 레슨의 참고 문헌에 같은 URL로 실려 있음을 대조했고, MAPPO(2103.01955)·Sutton &amp; Barto 2판 페이지·DeepSeek-R1(2501.12948)은 직접 열어 제목을 확인. 장별 source 번호(0부터 셈)가 장 내용과 맞음. 다른 책 링크 12개의 도착 장(probability #chance·#clt·#spread·#testing, linear-algebra #eigen, ai #neuron·#learning·#generalization·#generation·#alignment·#agents)이 book-routes에 있고 이름의 장 번호·제목과 이동 이유가 맞음. MIT 크레딧이 참고 자료 첫 줄, 꼬리말, content.js 머리 주석에 있음.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#dp 확인 문제 (content.js)</td><td>출발 칸을 “출고대에서 5칸”, 해설을 “5번째 훑기에서 −5”라고 씀. 출발 칸(0,0)에서 출고대(3,3)까지는 6칸이고 본문·그림도 −6을 씀</td><td><code>valueSweeps(warehouse(),1,k)</code>: 3번 −3, 6번에 −6</td><td>“6칸”, “6번째 훑기에서 비로소 −6”으로 고침(정답 −3은 그대로)</td></tr>
+<tr><td>#dp 둘째 문단</td><td>벨만 연산을 “모든 칸의 오차를 적어도 γ배씩 줄이는 수축”이라고 씀. 수축은 최대 노름에 대한 성질이라 칸마다 오차가 γ배로 준다는 보장은 없음</td><td>‖TV−V*‖∞ ≤ γ‖V−V*‖∞ (같은 장의 식)</td><td>“가장 큰 칸의 오차(최대 노름)를 한 번 훑을 때마다 γ배 이하로 줄이는 수축”으로 고침</td></tr>
+<tr><td>#ppo 첫 문단</td><td>전이 1,024개를 모으는 데 “수십 초”라고 씀</td><td>원본 08 en.md: “a dozen seconds of environment time”</td><td>“십여 초”로 고침</td></tr>
+<tr><td>#rlhf 상세 “세 단계 파이프라인”</td><td>TRL 적응형 KL을 “목표를 넘으면 β 두 배, 절반 아래면 반”이라고 원본 그대로 옮김. TRL의 AdaptiveKLController는 비례 조절(오차를 ±0.2로 자르고 걸음 수/지평을 곱해 β에 곱함)이고, 두 배·반 규칙은 PPO 논문의 KL 벌점 변형(목표의 1.5배 기준)</td><td>TRL v0.11.0 <code>trl/trainer/utils.py</code> AdaptiveKLController.update; Schulman 외(2017) 4절</td><td>원본의 서술과 실제 동작을 나눠 적음</td></tr>
+<tr><td>#games 상세 “함정”</td><td>“묶음 기준선의 분산은 1/√G로 줄어든다”. 평균의 분산은 1/G, 표준편차가 1/√G (원본 12 en.md의 같은 오류)</td><td>독립 표본 평균의 분산 σ²/G</td><td>“표준편차는 1/√G로, 분산은 1/G로”로 고침</td></tr>
+<tr><td>#simreal 둘째 문단·formulaNote, math.js 10장 주석, labs-field.js 입력 라벨</td><td>“slip~균등[0,w] 훈련은 평균 미끄러짐 w/2로 훈련한 것과 같은 정책”이라는 동치가 미끄러짐을 걸음마다 새로 뽑을 때만 정확함. 에피소드마다 고정하면 가치가 미끄러짐에 비선형이라 근사</td><td>전이 확률의 기대값은 선형이지만 고정된 정책의 가치는 전이 행렬에 비선형</td><td>“걸음마다 새로 뽑는” 훈련으로 명시하고, 에피소드마다 고정하면 근사라는 문장을 formulaNote에 더함. 계산 결과는 바뀌지 않음</td></tr>
+<tr><td>docs/registration.json series_step</td><td>SARSA가 “낭떠러지에서 한 줄 떨어져 걷는다”고 했지만 이 책의 계산(ε=0.1)에서 SARSA는 맨 윗줄로 돌아가는 17걸음 길을 배움</td><td><code>cliffCompare(0.1).sarsa.topRow = 0</code>, 4장 본문</td><td>“낭떠러지에서 멀리 떨어진 윗길로 돌아가는지”로 고침(카탈로그에는 아직 반영되지 않은 문구)</td></tr>
+<tr><td>assets/style.css .fig-turn (dp·pg 그림)</td><td>프레임이 번갈아 나오는 그림은 기본 불투명도가 0이라, 무한 애니메이션을 취소하는 스크린숏 도구(Playwright <code>animations:'disabled'</code>)에서 dp 격자와 pg 막대가 빈칸으로 찍힘. 실제 독자 화면은 정상: 움직임 허용이면 4.8초 주기로 프레임이 하나씩 보이고, prefers-reduced-motion에서는 첫 프레임이 보임(브라우저에서 두 경우 모두 보이는 프레임 1개 확인)</td><td>Playwright로 dp·pg의 계산된 불투명도와 스크린숏 확인</td><td>결함은 아니지만 첫 프레임의 기본 불투명도를 1로 두어(<code>.fig-turn.fig-first{opacity:1}</code>) 애니메이션 없는 캡처에서도 첫 프레임이 보이게 함. index.html 자산 버전을 aie2로 올림</td></tr>
+</tbody></table>
+<h3>보류</h3>
+<ul>
+<li>#rlhf “보상 모델은 정책만큼은 커야”, “사람 선호 표시의 약 30%가 잡음”, #games “가치 망이 없어 메모리가 절반”, #pg “λ=0.95 기본값”: 원본의 경험칙·주장이며 책이 “원본은”으로 출처를 밝히고 있어 고치지 않았습니다.</li>
+<li>#games R1-Zero의 응답 길이 “약 100토큰에서 약 10,000토큰”: 원본의 서술이며 R1 논문 그림의 시작값과 정확히 같은지는 확인하지 못했습니다. “원본은 … 설명합니다”로 출처가 밝혀져 있어 그대로 두었습니다.</li>
+<li>figures.js 머리 주석은 html[data-motion=reduce]에서도 멈춘다고 하지만, 책 페이지에는 그 속성을 거는 코드와 CSS 규칙이 없고 prefers-reduced-motion만 작동합니다. 독자 화면의 사실 오류가 아니라 시리즈 공통 구조라 고치지 않았습니다.</li>
+<li>#ppo·#td 등 “함정” 목록 몇 개는 원본 bullet의 순서와 내용을 짧게 옮긴 수준입니다. 문장 단위의 긴 직역 구간은 표본 확인에서 찾지 못했습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>이 환경에서는 외부 사이트에 직접 접속(curl)이 막혀 외부 링크 29개 전부를 열어 보지는 못했습니다. 원본 레슨 참고 문헌과의 URL 대조와 세 개의 직접 확인으로 대신했습니다. 유료 논문(Nature·Science·Springer)은 본문을 보지 않았고, 실제 Gym 환경이나 언어 모델 훈련으로 결과를 재현하지 않았습니다.</p>
+<p>검사: <code>npm test --prefix books/aie-rl</code> 26개 통과, <code>tests/browser.cjs</code>(1280·390·320px, 화면 42개·실험 확인 48회, 콘솔 오류 없음) 통과.</p>
+</section>
+</main></body></html>

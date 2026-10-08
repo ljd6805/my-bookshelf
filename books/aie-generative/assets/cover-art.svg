@@ -1,0 +1,10 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="도토리 그림 특징값의 두 봉우리 분포가 노이즈 단계를 거꾸로 걸어 낮 장면과 밤 장면으로 갈라지는 장면" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M14 112H306"/>
+<rect class="cv-node" x="14" y="40" width="70" height="62" rx="5"/><text class="cv-text cv-muted" x="49" y="66" text-anchor="middle">노이즈</text><text class="cv-text cv-muted" x="49" y="88" text-anchor="middle">t=1000</text>
+<path class="cv-bus" d="M84 71H124"/>
+<path class="cv-bus" d="M124 104C150 104 156 50 172 50S194 104 214 104"/>
+<path class="cv-bus" d="M214 104C236 104 242 50 258 50S280 104 302 104"/>
+<text class="cv-text" x="172" y="130" text-anchor="middle">낮</text><text class="cv-text" x="258" y="130" text-anchor="middle">밤</text>
+<text class="cv-big" x="215" y="34" text-anchor="middle">도토리</text>
+<path class="cv-hair" d="M134 18h162M134 18v8M296 18v8"/>
+</svg>
