@@ -16,7 +16,7 @@ WIDTH, HEIGHT = 960, 700
 # book in the catalog gets its own place on the map without hand-placed coordinates.
 CENTER, RADIUS = (480, 340), (400, 268)
 TONES = {'aqua': '#1e737b', 'blue': '#345d95', 'violet': '#6e508e', 'sage': '#517353',
-         'amber': '#a66f26', 'rose': '#a15a50'}
+         'amber': '#a66f26', 'rose': '#a15a50', 'plum': '#803a6c'}
 
 
 def owner_of(url, books):

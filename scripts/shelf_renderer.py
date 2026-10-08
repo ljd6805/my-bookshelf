@@ -17,7 +17,7 @@ GROUPS = {'analysis': ('분석과 사례', '다른 책에서 발견한 좋은 �
           'template': ('기획서', '한 권의 책은 하나의 질문에서 시작합니다')}
 SPINE_TITLE_MAX_CHARS = 6
 SPINE_CATEGORY_MAX_CHARS = 4
-TONES = ('aqua', 'blue', 'violet', 'sage', 'amber', 'rose')
+TONES = ('aqua', 'blue', 'violet', 'sage', 'amber', 'rose', 'plum')
 
 
 def esc(value):
