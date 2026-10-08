@@ -95,9 +95,14 @@ def validate_typography(root):
             errors.append(f'{name}: <html> needs data-typeset="book"')
         if 'href="../../assets/type.css' not in text:
             errors.append(f'{name}: needs <link rel="stylesheet" href="../../assets/type.css?v=...">')
+    family = re.compile(r'(?<![\w-])font(-family)?\s*:\s*([^;}]+)')
     for css in sorted(root.glob('books/*/assets/*.css')):
-        if '@font-face' in css.read_text():
-            errors.append(f'{css.relative_to(root)}: fonts come from assets/type.css; remove @font-face')
+        text, name = css.read_text(), css.relative_to(root)
+        if '@font-face' in text:
+            errors.append(f'{name}: fonts come from assets/type.css; remove @font-face')
+        for _, value in family.findall(re.sub(r'@font-face\s*{[^}]*}', '', text)):
+            if 'var(--font-' not in value and value.strip() != 'inherit':
+                errors.append(f'{name}: use var(--font-sans|serif|mono) instead of "{value.strip()}"')
     return errors
 
 

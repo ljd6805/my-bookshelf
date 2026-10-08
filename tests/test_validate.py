@@ -93,6 +93,12 @@ class IntegrityChecks(unittest.TestCase):
             self.assertEqual(validate_typography(root), [])
             css.write_text("@font-face{font-family:X;src:url(x.woff)}")
             self.assertEqual(len(validate_typography(root)), 1)
+            for bad in ['h1{font-family:Arial}', '.x{font:12px sans-serif}']:
+                with self.subTest(bad=bad):
+                    css.write_text(bad)
+                    self.assertEqual(len(validate_typography(root)), 1)
+            css.write_text('a{font:inherit}.b{font:600 .8rem/1.6 var(--font-mono)}')
+            self.assertEqual(validate_typography(root), [])
             css.write_text('')
             page.write_text('<html lang="ko"><link rel="stylesheet" href="assets/style.css">')
             self.assertEqual(len(validate_typography(root)), 2)
