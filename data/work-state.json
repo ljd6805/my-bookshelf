@@ -59,7 +59,8 @@
     "새 종이 표지가 잘 보이도록 책 열기 연출만 약 20% 느리게(OPEN_PACE 0.96)하고 표지 넘기기 전 0.2초 멈춤 추가; 데스크톱 열기 약 1.7초→2.3초, 닫기와 삽화 반복 속도는 그대로",
     "여섯 번째 책 '검색과 RAG · 질문에서 근거까지'를 books/rag/에 추가: 가상의 도서관 안내 문서 13개와 질문 13개로 10개 장·10개 실험(역색인·BM25·조각·임베딩·혼합·평가·재순위·컨텍스트 예산·답 보류), 장마다 움직이는 개념 그림, 표지 대표 실험, 서가 펼침 삽화와 닫힌 표지 그림. 책 테스트 30개, Chromium 1280·390·320px 38화면·30실험 조작 통과, 서가에서 삽화 애니메이션 확인. 새 분류 '지식관리'(rose), 새 공통 개념 '검색과 근거'와 기존 개념 5개에 장 추가, 새 읽기 노선 '지식은 어떻게 저장되고, 찾아지고, 연결되는가', AI Book·LLM 시스템·확률과 통계에서 들어오는 링크 3개. 지식 지도 높이를 700으로 늘려 개념 15개 배치(books/rag/docs/index.html)",
     "LLM 추론 최적화 후속권 구현: 12장·13개 실험·PyTorch/CUDA 예제, 표준 장 구조·공통 글꼴·움직이는 펼침 삽화·닫힌 표지·지식 지도와 읽기 노선. 로컬 검증 기록: books/llm-performance/docs/validation.html",
-    "서가를 화면 폭에 맞춰 여러 단으로 쌓음: 한 단이 차면 아래 새 선반 판에 이어 세우고, 창 크기·검색·목록 보기 전환 때 다시 나눔. 분류 묶음은 한 단에 들어가면 쪼개지 않음(assets/shelves.js, shelf-model.mjs packShelves). Node 테스트 4개 추가, Chromium 1440·1024·768·390·320px에서 7권·28권 모의 서가 확인(docs/06-glass-library-implementation.html#stacked-shelves)"
+    "서가를 화면 폭에 맞춰 여러 단으로 쌓음: 한 단이 차면 아래 새 선반 판에 이어 세우고, 창 크기·검색·목록 보기 전환 때 다시 나눔. 분류 묶음은 한 단에 들어가면 쪼개지 않음(assets/shelves.js, shelf-model.mjs packShelves). Node 테스트 4개 추가, Chromium 1440·1024·768·390·320px에서 7권·28권 모의 서가 확인(docs/06-glass-library-implementation.html#stacked-shelves)",
+    "팩트·출처 검수 그라운드룰 추가: 책을 만들거나 크게 고친 뒤 집필자가 아닌 새 에이전트가 사실·수치·실험 계산·용어·출처를 검수하고 books/주제/docs/fact-review.html에 기록(templates/fact-review.html). validate.py(scripts/fact_review.py)가 공개 책의 기록·검수자≠집필자·열린 항목을 검사; 기존 일곱 권은 PENDING으로 두고 검수 기록을 더할 때 지움. AGENTS.md·docs/03#fact-review·docs/08#checklist 갱신"
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": "AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
