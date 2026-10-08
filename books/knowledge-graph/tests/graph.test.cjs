@@ -78,6 +78,15 @@ test('TransE ranks by distance and the mean offset minimises squared error',()=>
  const rank=G.transe([0,0],[1,1],{a:[1,1],b:[3,3],c:[1.2,1]});assert.deepEqual(rank.map(x=>x.id),['a','c','b']);assert.equal(rank[0].d,0);
 });
 
+test('the chapter 8 coordinates: mean offset fits all training pairs and generalises to Madrid',()=>{
+ const {cities,countries,answer,train}=G.embedding,cand=Object.fromEntries(Object.entries(countries).map(([k,v])=>[k,v[1]]));
+ const pairs=train.map(c=>[cities[c][1],answer[c]]),best=G.meanOffset(train.map(c=>[cities[c][1],countries[answer[c]][1]]));
+ assert.deepEqual(best.map(v=>+v.toFixed(4)),[1.525,1.2125]);
+ const fit=G.transeScore(pairs,best,cand),none=G.transeScore(pairs,[0,0],cand);
+ assert.equal(fit.hits,4);assert.ok(fit.meanError<none.meanError);assert.ok(none.hits<4);
+ assert.equal(G.transe(cities.madrid[1],best,cand)[0].id,'spain');
+});
+
 test('keyword ranking keeps document order for ties',()=>{
  const r=G.keywordRank([{text:'가 나'},{text:'나'},{text:'가 나 다'}],['가','나']);
  assert.deepEqual(r.map(x=>x.i),[0,2,1]);

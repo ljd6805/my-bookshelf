@@ -32,19 +32,16 @@ L.extract=el=>{
   el.querySelector('.readout').innerHTML=`문턱 ${t.toFixed(2)} 이상 <b>${r.kept}</b>개를 넣음 · 맞음(TP) ${r.tp} · 틀림(FP) ${r.fp} · 놓침(FN) ${r.fn}<br>정밀도 <b>${U.pct(r.precision)}</b> · 재현율 <b>${U.pct(r.recall)}</b> · F1 <b>${U.fmt(r.f1,3)}</b>${r.precision===null?' · 넣은 후보가 없어 정밀도를 정의할 수 없습니다.':''}`;
  });
 };
-const cities={warsaw:['바르샤바',[1,.6]],paris:['파리',[-.6,.4]],berlin:['베를린',[.4,1]],rome:['로마',[.2,-.6]],madrid:['마드리드',[-1.2,-.4]]};
-const countries={poland:['폴란드',[2.55,1.75]],france:['프랑스',[.95,1.65]],germany:['독일',[1.85,2.3]],italy:['이탈리아',[1.75,.55]],spain:['스페인',[.35,.75]]};
-const answer={warsaw:'poland',paris:'france',berlin:'germany',rome:'italy',madrid:'spain'},train=['warsaw','paris','berlin','rome'];
+const {cities,countries,answer,train}=G.embedding;
 L.transe=el=>{
  U.setup(el,U.range('rx','관계 화살표 r의 가로',-1,3,.05,0)+U.range('ry','관계 화살표 r의 세로',-1,3,.05,0)+U.select('head','머리 도시 h',Object.keys(cities).map(k=>[k,cities[k][0]+(train.includes(k)?' (학습 쌍)':' (처음 보는 쌍)')]),'warsaw'));
  U.bind(el,()=>{
   const r=[U.value(el,'rx'),U.value(el,'ry')],h=U.pick(el,'head'),cand=Object.fromEntries(Object.entries(countries).map(([k,v])=>[k,v[1]]));
   const rank=G.transe(cities[h][1],r,cand),pos=rank.findIndex(x=>x.id===answer[h])+1,end=[cities[h][1][0]+r[0],cities[h][1][1]+r[1]];
-  const errs=train.map(c=>Math.hypot(cities[c][1][0]+r[0]-countries[answer[c]][1][0],cities[c][1][1]+r[1]-countries[answer[c]][1][1]));
-  const hits=train.filter(c=>G.transe(cities[c][1],r,cand)[0].id===answer[c]).length,best=G.meanOffset(train.map(c=>[cities[c][1],countries[answer[c]][1]]));
+  const score=G.transeScore(train.map(c=>[cities[c][1],answer[c]]),r,cand),best=G.meanOffset(train.map(c=>[cities[c][1],countries[answer[c]][1]]));
   const points=[...Object.values(cities).map(([n,p])=>({at:p,text:n,color:'var(--blue)',r:4})),...Object.values(countries).map(([n,p])=>({at:p,text:n,color:'var(--accent)',r:4})),{at:end,color:'var(--orange)',r:6}];
   el.querySelector('.chart').innerHTML=U.plot({points,arrows:[{from:cities[h][1],to:end,color:'var(--orange)',width:2.5}],xmin:-1.5,xmax:3,ymin:-1,ymax:2.5,xlabel:'좌표 1',ylabel:'좌표 2'});
-  el.querySelector('.readout').innerHTML=`r = (${U.fmt(r[0])}, ${U.fmt(r[1])}) · 학습 쌍 네 개의 평균 거리 <b>${U.fmt(errs.reduce((a,b)=>a+b)/4)}</b> · 1위로 맞힌 쌍 <b>${hits}/4</b><br>${cities[h][0]} + r에 가장 가까운 나라: <b>${countries[rank[0].id][0]}</b> (거리 ${U.fmt(rank[0].d)}). 정답 ${countries[answer[h]][0]}의 순위는 <b>${pos}위</b>입니다.<br>거리 제곱합을 가장 작게 만드는 r̂ = (${U.fmt(best[0])}, ${U.fmt(best[1])})`;
+  el.querySelector('.readout').innerHTML=`r = (${U.fmt(r[0])}, ${U.fmt(r[1])}) · 학습 쌍 네 개의 평균 거리 <b>${U.fmt(score.meanError)}</b> · 1위로 맞힌 쌍 <b>${score.hits}/${train.length}</b><br>${cities[h][0]} + r에 가장 가까운 나라: <b>${countries[rank[0].id][0]}</b> (거리 ${U.fmt(rank[0].d)}). 정답 ${countries[answer[h]][0]}의 순위는 <b>${pos}위</b>입니다.<br>거리 제곱합을 가장 작게 만드는 r̂ = (${U.fmt(best[0])}, ${U.fmt(best[1])})`;
  });
 };
 const doc=[['marie','bornIn','warsaw','마리 퀴리는 바르샤바에서 태어났다.'],['warsaw','locatedIn','poland','바르샤바는 폴란드에 있다.'],['marie','spouse','pierre','마리 퀴리는 피에르 퀴리와 결혼했다.'],['marie','workedIn','paris','마리 퀴리는 파리에서 연구했다.'],['marie','discovered','polonium','마리 퀴리는 폴로늄을 발견했다.'],['polonium','namedAfter','poland','폴로늄이라는 이름은 폴란드에서 따왔다.'],['marie','discovered','radium','마리 퀴리는 라듐을 발견했다.'],['marie','awarded','nobel1903','마리 퀴리는 1903년 노벨 물리학상을 받았다.'],['marie','awarded','nobel1911','마리 퀴리는 1911년 노벨 화학상을 받았다.'],['pierre','bornIn','paris','피에르 퀴리는 파리에서 태어났다.'],['paris','locatedIn','france','파리는 프랑스에 있다.'],['pierre','discovered','polonium','피에르 퀴리도 폴로늄 발견에 참여했다.'],['pierre','discovered','radium','피에르 퀴리는 라듐을 함께 발견했다.'],['pierre','awarded','nobel1903','피에르 퀴리는 1903년 노벨 물리학상을 받았다.'],['becquerel','awarded','nobel1903','앙리 베크렐은 1903년 노벨 물리학상을 받았다.'],['irene','childOf','marie','이렌은 마리 퀴리의 딸이다.'],['irene','childOf','pierre','이렌은 피에르 퀴리의 딸이다.'],['irene','bornIn','paris','이렌은 파리에서 태어났다.'],['irene','spouse','frederic','이렌은 프레데리크 졸리오와 결혼했다.'],['irene','awarded','nobel1935','이렌 졸리오퀴리는 1935년 노벨 화학상을 받았다.'],['frederic','awarded','nobel1935','프레데리크 졸리오는 1935년 노벨 화학상을 받았다.']].map(([s,p,o,text])=>({t:[s,p,o],text}));

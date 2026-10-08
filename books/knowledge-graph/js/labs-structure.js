@@ -2,6 +2,8 @@
 (()=>{
 const U=KGUI,G=KGGraph,L=KGLabs;
 const entityOptions=Object.keys(G.entities).map(id=>[id,G.entities[id].label]);
+// 걷기는 사실 21개로 만든 그래프 위에서만 한다. 유럽은 5장 추론용 사실에만 있어 출발점·목표에서 뺀다.
+const walkNodes=new Set(G.triples.flat().filter(x=>G.entities[x])),walkOptions=entityOptions.filter(([id])=>walkNodes.has(id));
 L.triples=el=>{
  U.setup(el,U.range('facts','더한 문장 수',0,G.triples.length,1,5));
  U.bind(el,()=>{
@@ -12,13 +14,13 @@ L.triples=el=>{
  });
 };
 L.walk=el=>{
- U.setup(el,U.select('start','출발점',entityOptions,'polonium')+U.range('hops','걸음 수(홉)',0,4,1,1)+U.select('target','찾을 점',entityOptions,'nobel1935'));
+ U.setup(el,U.select('start','출발점',walkOptions,'polonium')+U.range('hops','걸음 수(홉)',0,4,1,1)+U.select('target','찾을 점',walkOptions,'nobel1935'));
  U.bind(el,()=>{
   const start=U.pick(el,'start'),hops=U.value(el,'hops'),target=U.pick(el,'target'),r=G.reach(G.triples,start,hops),route=G.path(G.triples,start,target);
   const reached=route&&r.dist[target]!==undefined,on=new Set(Object.keys(r.dist));
   el.querySelector('.chart').innerHTML=U.graph(G.triples,{on,edges:reached?route:r.used,names:reached,title:`${U.label(start)}에서 ${hops}걸음 안에 닿는 점`});
   const steps=route?route.map(U.fact).join('<br>'):'';
-  el.querySelector('.readout').innerHTML=`${U.label(start)}에서 ${hops}걸음 안에 닿는 점 <b>${r.count}</b>개 (전체 ${Object.keys(G.entities).length-1}개 중) · 함께 따라온 사실 <b>${r.used.length}</b>개<br>${start===target?'출발점과 찾을 점이 같습니다.':route?`${U.label(target)}까지 가장 짧은 길은 <b>${route.length}걸음</b>입니다. ${reached?'지금 걸음 수로 닿습니다.':`지금 걸음 수로는 ${route.length-hops}걸음이 모자랍니다.`}<br>${reached?steps:''}`:'두 점 사이에 길이 없습니다.'}`;
+  el.querySelector('.readout').innerHTML=`${U.label(start)}에서 ${hops}걸음 안에 닿는 점 <b>${r.count}</b>개 (전체 ${walkNodes.size-1}개 중) · 함께 따라온 사실 <b>${r.used.length}</b>개<br>${start===target?'출발점과 찾을 점이 같습니다.':route?`${U.label(target)}까지 가장 짧은 길은 <b>${route.length}걸음</b>입니다. ${reached?'지금 걸음 수로 닿습니다.':`지금 걸음 수로는 ${route.length-hops}걸음이 모자랍니다.`}<br>${reached?steps:''}`:'두 점 사이에 길이 없습니다.'}`;
  });
 };
 const names=[{name:'마리 퀴리',id:'marie'},{name:'Marie Curie',id:'marie'},{name:'M. Curie',id:'marie'},{name:'마리 스크워도프스카 퀴리',id:'marie'},{name:'피에르 퀴리',id:'pierre'},{name:'Pierre Curie',id:'pierre'},{name:'P. Curie',id:'pierre'},{name:'이렌 졸리오퀴리',id:'irene'},{name:'Irène Joliot-Curie',id:'irene'}];

@@ -120,10 +120,21 @@ function prf(cands,threshold){
 // TransE: 머리 h에 관계 r을 더한 점이 꼬리 t와 가까울수록 그럴듯한 사실이다. 점수는 거리(작을수록 좋음).
 const dist2=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
 function transe(h,r,candidates){return Object.entries(candidates).map(([id,t])=>({id,d:dist2([h[0]+r[0],h[1]+r[1]],t)})).sort((a,b)=>a.d-b.d);}
+// pairs: [[머리 좌표, 정답 꼬리 id]]. 학습 쌍의 평균 거리와 정답이 1위인 쌍 수를 함께 잰다.
+function transeScore(pairs,r,candidates){
+ const errs=pairs.map(([h,id])=>dist2([h[0]+r[0],h[1]+r[1]],candidates[id]));
+ return {meanError:errs.reduce((a,b)=>a+b,0)/pairs.length,hits:pairs.filter(([h,id])=>transe(h,r,candidates)[0].id===id).length};
+}
+// 8장 실험의 2차원 좌표. 설명용으로 직접 정한 값이며 학습된 임베딩이 아니다.
+const embedding={
+ cities:{warsaw:['바르샤바',[1,.6]],paris:['파리',[-.6,.4]],berlin:['베를린',[.4,1]],rome:['로마',[.2,-.6]],madrid:['마드리드',[-1.2,-.4]]},
+ countries:{poland:['폴란드',[2.55,1.75]],france:['프랑스',[.95,1.65]],germany:['독일',[1.85,2.3]],italy:['이탈리아',[1.75,.55]],spain:['스페인',[.35,.75]]},
+ answer:{warsaw:'poland',paris:'france',berlin:'germany',rome:'italy',madrid:'spain'},train:['warsaw','paris','berlin','rome']
+};
 function meanOffset(pairs){const n=pairs.length;return [pairs.reduce((s,[h,t])=>s+t[0]-h[0],0)/n,pairs.reduce((s,[h,t])=>s+t[1]-h[1],0)/n];}
 // 키워드 검색: 질문 낱말이 문장에 몇 개 들어 있는지 세고, 같은 점수는 원래 순서를 지킨다.
 function keywordRank(chunks,words){return chunks.map((c,i)=>({...c,i,score:words.filter(w=>c.text.includes(w)).length})).sort((a,b)=>b.score-a.score||a.i-b.i);}
 function chainComplete(list){return match(list,[['?x','discovered','polonium'],['?y','childOf','?x'],['?y','awarded','?z']]);}
-const api={entities,predicates,triples,extra,classes,schema,key,stats,reach,path,norm,jaccard,resolve,ancestors,typesOf,check,ruleBook,infer,match,prf,transe,meanOffset,keywordRank,chainComplete};
+const api={entities,predicates,triples,extra,classes,schema,key,stats,reach,path,norm,jaccard,resolve,ancestors,typesOf,check,ruleBook,infer,match,prf,transe,transeScore,embedding,meanOffset,keywordRank,chainComplete};
 if(typeof module!=='undefined')module.exports=api;else root.KGGraph=api;
 })(typeof window!=='undefined'?window:globalThis);
