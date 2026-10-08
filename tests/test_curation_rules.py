@@ -56,6 +56,13 @@ class KnowledgeLinkRules(unittest.TestCase):
         data['learning_paths'][0]['steps'].append({'book_id': 'a', 'url': 'books/a/#one'})
         self.assertEqual(len(validate_knowledge_links(self.root, data)), 3)
 
+    def test_long_concept_name_that_would_not_fit_its_map_row_fails(self):
+        data = catalog()
+        data['concepts'][0]['name'] = '평가 숫자의 불확실성'
+        self.assertEqual(validate_knowledge_links(self.root, data), [])
+        data['concepts'][0]['name'] = '아주 긴 이름을 가진 공통 개념 하나'
+        self.assertTrue(any('fits its row' in e for e in validate_knowledge_links(self.root, data)))
+
 
 if __name__ == '__main__':
     unittest.main()

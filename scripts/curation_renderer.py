@@ -6,10 +6,10 @@ moved chapter fails the build instead of leaving a dead link on the shelf.
 """
 if __package__:
     from .shelf_renderer import esc, safe_book_url
-    from .atlas_renderer import render_atlas_svg, owner_of, short_name
+    from .atlas_renderer import render_atlas_table, owner_of, short_name
 else:
     from shelf_renderer import esc, safe_book_url
-    from atlas_renderer import render_atlas_svg, owner_of, short_name
+    from atlas_renderer import render_atlas_table, owner_of, short_name
 
 
 def book_lookup(catalog):
@@ -118,17 +118,13 @@ def render_concept(concept, catalog):
 def render_atlas(concepts, catalog):
     if not concepts:
         return ''
-    cards = ''.join(render_concept(c, catalog) for c in concepts)
-    legend = ''.join(f'<li><i class="tone-{esc(b.get("color", "aqua"))}"></i>{esc(short_name(b))}</li>'
-                     for b in catalog['books'])
+    table = render_atlas_table(concepts, catalog['books'], lambda c: render_concept(c, catalog))
     return ('<div class="concept-atlas" data-atlas><div class="atlas-head">'
             '<p class="curation-eyebrow">지식 지도</p><h3 id="concept-title">책과 책이 만나는 개념</h3>'
-            '<p id="atlas-help">같은 개념이 책마다 다른 사례로 나옵니다. 가운데 개념을 고르면 '
-            '그 개념이 지나가는 책이 선으로 밝아지고, 옆에 만나는 장이 펼쳐집니다. 책등을 누르면 그 책으로 갑니다.</p></div>'
-            f'<div class="atlas-body"><figure class="atlas-figure">{render_atlas_svg(concepts, catalog["books"])}'
-            f'<figcaption><ul class="atlas-legend" aria-label="선 색이 뜻하는 책">{legend}</ul>'
-            '선이 굵을수록 그 책에서 해당 개념을 다루는 장이 많습니다.</figcaption></figure>'
-            f'<div class="atlas-cards" aria-live="polite">{cards}</div></div></div>')
+            '<p id="atlas-help">세로 칸은 서가 순서대로 선 책이고, 가로줄 하나가 개념 하나입니다. '
+            '점은 그 책에서 개념을 다루는 장이며 숫자는 장 수입니다. 선이 다른 분야로 길게 뻗을수록 '
+            '여러 분야를 잇는 개념입니다. 개념 이름을 누르면 만나는 장이 줄 아래에 펼쳐지고, 책등을 누르면 그 책으로 갑니다.</p></div>'
+            f'{table}</div>')
 
 
 def render_curation(catalog):
