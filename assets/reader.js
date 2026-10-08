@@ -1,5 +1,5 @@
-import { cancelMotion, openMotion, closeMotion } from './motion.js?v=20261008-tidy4';
-import { shouldPreview } from './shelf-model.mjs?v=20261008-tidy4';
+import { cancelMotion, openMotion, closeMotion } from './motion.js?v=20261008-fit1';
+import { shouldPreview } from './shelf-model.mjs?v=20261008-fit1';
 
 export function createReader(dialog, isReduced) {
   let source = null;
@@ -17,9 +17,30 @@ export function createReader(dialog, isReduced) {
     document.getElementById('reader-right').replaceChildren(contents.querySelector('.reader-copy'));
     dialog.querySelector('.reader-title').id = 'reader-title';
     book.className = `open-book ${[...link.classList].find(c => c.startsWith('tone-')) || 'tone-aqua'}`;
-    dialog.querySelectorAll('.paper-page').forEach(page => { page.scrollTop = 0; });
-    book.scrollTop = 0;
+    addPageTurns();
+    showPage('title');
     return true;
+  }
+
+  /** Phones show one page at a time; these buttons turn between the title page and the contents. */
+  function addPageTurns() {
+    const turns = [['.reader-copy', 'contents', '목차 보기 →'], ['.reader-contents', 'title', '← 첫 면으로']];
+    turns.forEach(([selector, page, label]) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'page-turn';
+      button.dataset.turn = page;
+      button.textContent = label;
+      button.addEventListener('click', () => {
+        showPage(page);
+        book.querySelector(`.page-turn[data-turn="${page === 'title' ? 'contents' : 'title'}"]`)?.focus();
+      });
+      dialog.querySelector(selector).append(button);
+    });
+  }
+
+  function showPage(page) {
+    book.dataset.page = page;
   }
 
   async function open(link) {
