@@ -7,12 +7,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 320,
@@ -52,7 +47,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -66,7 +61,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -80,7 +75,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -108,7 +103,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -142,12 +137,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 320,
@@ -187,7 +177,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -201,7 +191,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -215,7 +205,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -243,7 +233,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -271,9 +261,18 @@
       "figures": []
     },
     {
-      "width": 390,
+      "width": 375,
       "theme": "dark",
       "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "bits",
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
@@ -283,6 +282,252 @@
           "minText": 16
         }
       ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
     },
     {
       "width": 390,
@@ -322,7 +567,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -336,7 +581,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -350,7 +595,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -378,7 +623,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -412,12 +657,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 390,
@@ -457,7 +697,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -471,7 +711,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -485,7 +725,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -513,7 +753,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -541,9 +781,18 @@
       "figures": []
     },
     {
-      "width": 768,
+      "width": 412,
       "theme": "dark",
       "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "bits",
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
@@ -553,6 +802,252 @@
           "minText": 16
         }
       ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17.5
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17.5
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
     },
     {
       "width": 768,
@@ -592,7 +1087,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -606,7 +1101,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.7
         }
       ]
     },
@@ -620,7 +1115,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -648,7 +1143,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -682,12 +1177,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 768,
@@ -727,7 +1217,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -741,7 +1231,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.7
         }
       ]
     },
@@ -755,7 +1245,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -783,7 +1273,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -817,12 +1307,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1024,
@@ -862,7 +1347,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -876,7 +1361,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 23
         }
       ]
     },
@@ -890,7 +1375,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -918,7 +1403,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -952,12 +1437,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1024,
@@ -997,7 +1477,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -1011,7 +1491,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 23
         }
       ]
     },
@@ -1025,7 +1505,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -1053,7 +1533,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -1087,12 +1567,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1440,
@@ -1132,7 +1607,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 17
         }
       ]
     },
@@ -1146,7 +1621,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 23
         }
       ]
     },
@@ -1160,7 +1635,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
@@ -1188,7 +1663,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
@@ -1222,12 +1697,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1440,
@@ -1267,7 +1737,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 17
         }
       ]
     },
@@ -1281,7 +1751,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 23
         }
       ]
     },
@@ -1295,7 +1765,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
@@ -1323,7 +1793,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
