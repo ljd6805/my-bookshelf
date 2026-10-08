@@ -138,7 +138,7 @@ def spine(item, index, key):
     return (f'<{tag} {attrs} class="glass-book tone-{tone}" data-resource="{esc(key)}" '
             f'data-category="{esc(category)}" data-search="{esc(search)}" '
             f'data-preview="preview-{esc(key)}" aria-label="{esc(item["title"])} · {esc(label)}" '
-            f'title="{esc(item["title"])}" style="--book-variation:{index % 3}">'
+            f'title="{esc(item["title"])}">'
             '<span class="glass-top" aria-hidden="true"></span>'
             f'<span class="spine-label"><span class="spine-title">{esc(title)}</span>'
             f'<span class="list-title">{esc(item["title"])}</span>'
