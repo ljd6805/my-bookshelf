@@ -92,9 +92,9 @@ function nudgeNeighbours(source, direction) {
   [[source.previousElementSibling, -1], [source.nextElementSibling, 1]].forEach(([book, side]) => {
     if (!book?.classList.contains('glass-book') || !book.animate) return;
     book.animate([
-      { transform: 'translateY(0) rotateY(-5deg)' },
-      { transform: `translateX(${side * 4}px) rotateZ(${side * 2.5 * direction}deg) rotateY(-5deg)` },
-      { transform: 'translateY(0) rotateY(-5deg)' }
+      { transform: 'perspective(1100px) translateY(0) rotateY(-5deg)' },
+      { transform: `perspective(1100px) translateX(${side * 4}px) rotateZ(${side * 2.5 * direction}deg) rotateY(-5deg)` },
+      { transform: 'perspective(1100px) translateY(0) rotateY(-5deg)' }
     ], { duration: 620 * PACE, easing: SETTLE });
   });
 }
