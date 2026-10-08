@@ -143,7 +143,125 @@
           "url": "books/linear-algebra/pca.html"
         }
       ]
+    },
+    {
+      "id": "probability-statistics",
+      "title": "확률과 통계 · 경보가 울렸다, 정말 고장일까",
+      "spine_title": "확률과 통계",
+      "spine_category": "수학",
+      "color": "sage",
+      "description": "공장 진동 센서의 경보 하나를 따라가며 확률, 분포, 베이즈, 신뢰구간, 가설검정, 우도를 배웁니다. 8개 장과 8개 실험, 마지막 판단 과제로 불확실한 숫자를 믿을 만한 결론으로 바꾸는 법을 익힙니다.",
+      "illustration": "books/probability/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 센서 20대가 각각 10% 확률로 경보를 울릴 때 하루 경보 개수를 모으면 2번 근처가 가장 높고, 5번 이상은 약 4%입니다.",
+      "status": "published",
+      "url": "books/probability/",
+      "keywords": [
+        "확률",
+        "통계",
+        "probability",
+        "statistics",
+        "이항분포",
+        "정규분포",
+        "중심극한정리",
+        "베이즈",
+        "신뢰구간",
+        "가설검정",
+        "p값",
+        "우도",
+        "교차 엔트로피"
+      ],
+      "chapters": [
+        {
+          "title": "전체 8개 장",
+          "url": "books/probability/#chapters"
+        },
+        {
+          "title": "01 · 우연은 얼마나 흔들릴까",
+          "url": "books/probability/#chance"
+        },
+        {
+          "title": "05 · 경보가 울리면 정말 고장일까",
+          "url": "books/probability/#bayes"
+        },
+        {
+          "title": "07 · 새 센서가 정말 나아졌나",
+          "url": "books/probability/#testing"
+        },
+        {
+          "title": "08 · 데이터에 가장 잘 맞는 확률 찾기",
+          "url": "books/probability/#likelihood"
+        },
+        {
+          "title": "마지막 과제 · 새 센서를 들일까",
+          "url": "books/probability/#final"
+        }
+      ]
     }
   ],
-  "learning_paths": []
+  "learning_paths": [
+    {
+      "id": "why-ai-is-wrong",
+      "title": "AI는 왜 틀리는가",
+      "question": "그럴듯하게 맞히는 AI의 결과를 언제 믿고 언제 의심해야 할까?",
+      "audience": "AI를 쓰거나 평가해야 하지만 확률·통계 배경이 약한 독자",
+      "prerequisites": "중학교 수준의 비율과 평균",
+      "start": "모델이 검증 데이터에서 92%를 맞혔다는 보고서를 받았다.",
+      "steps": [
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#chance",
+          "task": "동전 실험으로 적은 횟수의 비율이 얼마나 흔들리는지 확인한다",
+          "minutes": 15,
+          "why": "정확도도 표본에서 센 비율이다",
+          "record": "10번과 1,000번 던졌을 때 비율의 흔들림 비교"
+        },
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#bayes",
+          "task": "기저율을 바꾸며 경보의 신뢰도가 변하는 모습을 본다",
+          "minutes": 20,
+          "why": "맞힌 것처럼 보이는 결과도 기저율에 따라 대부분 틀릴 수 있다",
+          "record": "고장률 1%와 10%에서의 사후확률"
+        },
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#interval",
+          "task": "검증 정확도에 신뢰구간을 붙여 본다",
+          "minutes": 18,
+          "why": "92%가 얼마나 정확한 숫자인지 말하려면 범위가 필요하다",
+          "record": "표본 크기 40과 400의 구간 폭"
+        },
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#likelihood",
+          "task": "손실 곡선의 바닥이 관찰한 비율에 있음을 확인한다",
+          "minutes": 20,
+          "why": "AI가 줄이는 교차 엔트로피가 우도의 반대임을 본다",
+          "record": "60일과 600일에서 회색 띠 안에 남는 후보 범위"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#learning",
+          "task": "경사하강법으로 손실의 바닥을 찾아간다",
+          "minutes": 12,
+          "why": "우도를 최대화하는 일을 기계가 어떻게 하는지 본다",
+          "record": "학습률을 바꿨을 때 수렴 여부"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#generalization",
+          "task": "훈련 오차와 검증 오차가 갈라지는 지점을 찾는다",
+          "minutes": 12,
+          "why": "표본의 흔들림을 외워 버리면 새 데이터에서 틀린다",
+          "record": "검증 오차가 가장 작은 복잡도"
+        }
+      ],
+      "challenge": "두 모델의 검증 정확도가 91%와 93%이고 검증 데이터는 200개다. 어느 모델을 고를지, 그리고 결론을 내리려면 무엇이 더 필요한지 설명한다.",
+      "checks": [
+        "정확도 숫자에 신뢰구간을 붙여 말할 수 있는가",
+        "기저율이 낮은 문제에서 정밀도가 낮아지는 이유를 설명할 수 있는가",
+        "교차 엔트로피 손실과 우도의 관계를 한 문장으로 말할 수 있는가"
+      ]
+    }
+  ]
 }
