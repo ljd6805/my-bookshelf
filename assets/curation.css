@@ -71,43 +71,88 @@
 .atlas-head{max-width:700px}
 .atlas-head h3{font-family:var(--serif);font-size:24px;margin-bottom:8px}
 .atlas-head p:last-child{font-size:13.5px;color:var(--muted)}
-/* 지식 지도: 세로 칸은 책, 가로줄은 개념. 책과 개념이 늘어도 선이 엉키지 않고 칸과 줄만 늘어납니다. */
-.atlas-scroll{position:relative;container-type:inline-size;margin-top:14px;overflow-x:auto;border:1px solid #71877c38;border-radius:20px;background:linear-gradient(180deg,#fffdf6,#f6f0e3);scrollbar-width:thin;scrollbar-color:#78918a70 transparent}
-.atlas-scroll:focus-visible{outline:3px solid #315f70;outline-offset:3px}
-.atlas-map{--name:196px;--col:clamp(38px,calc((100cqi - var(--name) - 40px) / var(--books)),88px);border-collapse:separate;border-spacing:0;margin:0 auto 10px}
-.atlas-map th,.atlas-map td{padding:0;font-weight:inherit;text-align:left}
-.atlas-corner,.atlas-row>th{position:sticky;left:0;z-index:2;width:var(--name);min-width:var(--name);background:#fdf9f0}
-.atlas-corner{vertical-align:bottom;padding:0 12px 10px 18px!important;font-size:11.5px;color:#5d7470;letter-spacing:.06em}
-.atlas-corner span{display:block}.atlas-corner span+span{font-size:10.5px;opacity:.8}
-.atlas-field{text-align:left;vertical-align:bottom;padding:14px 4px 6px 6px!important;font:600 11px/1.25 var(--sans);letter-spacing:.02em;color:#465c55;word-break:break-all}
-.field-start{border-left:1px dashed #6f877f4d}
-.atlas-book{width:var(--col);min-width:var(--col);vertical-align:bottom;padding:0 0 8px!important}
-.atlas-book a{display:block;text-decoration:none;color:#24363c}
-.atlas-spine{display:block;width:28px;margin:0 auto;padding:9px 0 8px;writing-mode:vertical-rl;text-orientation:upright;font:700 13.5px/1 var(--serif);letter-spacing:.06em;white-space:nowrap;border:3px solid rgba(var(--glass),.6);border-radius:7px 7px 5px 5px;background:linear-gradient(90deg,#ece2cf,#fff9eb 36%,#f3ebda);box-shadow:inset 0 0 0 1px #ffffffd0,0 3px 6px rgba(var(--edge),.22);transition:transform .25s var(--ease),border-color .25s}
-.atlas-book a:hover .atlas-spine,.atlas-book a:focus-visible .atlas-spine,.atlas-book.is-col .atlas-spine{transform:translateY(-4px);border-color:rgb(var(--edge))}
-.atlas-group-head th{text-align:left;padding:16px 0 4px 18px!important;border-top:1px solid #71877c2e}
-.atlas-group-label{position:sticky;left:18px;display:inline-block;font-size:11.5px;letter-spacing:.04em;color:#5d7470}
-.atlas-group-label b{font-weight:700;color:#365f69}.atlas-group-label small{margin-left:6px;font-size:10.5px;opacity:.85}
-.atlas-row>th{padding:2px 8px 2px 10px!important}
-.atlas-node{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:5px 10px 5px 8px;border-radius:999px;text-decoration:none;color:var(--ink);font:700 14px/1.35 var(--serif);transition:background .2s,color .2s}
-.atlas-node small{flex:none;font:500 10.5px var(--sans);color:#66736e}
-.atlas-node:hover{background:#ece7da}
-.atlas-node.is-active{background:#365f69;color:#fffaf2}.atlas-node.is-active small{color:#dce8e2}
-.atlas-cell{position:relative;height:36px;--line:#a6b8b1}
-.atlas-cell.on-line{background:linear-gradient(var(--line),var(--line)) center/100% 2px no-repeat}
-.atlas-cell.from{background-position:right center;background-size:50% 2px}
-.atlas-cell.to{background-position:left center;background-size:50% 2px}
-.atlas-cell.is-col{background-color:#e3ece680}
-.atlas-row:hover .atlas-cell,.atlas-row.is-active .atlas-cell{--line:#365f69}
-.atlas-row:hover>th,.atlas-row.is-active>th{background:#f6f1e4}
-.atlas-row.is-active .atlas-cell.on-line{background-size:100% 3px}
-.atlas-row.is-active .atlas-cell.from,.atlas-row.is-active .atlas-cell.to{background-size:50% 3px}
-.atlas-stop{position:absolute;left:50%;top:50%;display:grid;place-items:center;width:13px;height:13px;transform:translate(-50%,-50%);border-radius:50%;background:rgb(var(--edge));border:2px solid #fffaf2;box-shadow:0 1px 3px #22403a40;color:#fffaf2;font:700 10px/1 var(--font-mono)}
-.atlas-stop.n2{width:19px;height:19px}.atlas-stop.n3{width:23px;height:23px}
-.atlas-detail td{padding:2px 0 14px 18px!important}
-.atlas-detail .concept-card{position:sticky;left:18px;max-width:min(680px,calc(100vw - 72px))}
-.concept-atlas.is-enhanced .atlas-detail:not(.is-open),.atlas-map .is-filtered{display:none}
-.concept-atlas.is-enhanced .atlas-detail.is-open .concept-card{animation:stop-in .4s var(--ease)}
+/* 지식 지도: 분야는 섬, 함께 쓰는 개념은 다리. 책등을 누르면 그 책 하나를 가운데 둔 보기로 들어갑니다. */
+.atlas-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;margin-top:16px}
+.atlas-tools[hidden],.atlas-stage[hidden],.atlas-list[hidden]{display:none}
+.atlas-view{display:inline-flex;padding:3px;border:1px solid #78858248;border-radius:999px;background:#fbf6eb99}
+.atlas-view button{border:0;background:none;border-radius:999px;padding:5px 15px;font:600 12.5px var(--sans);color:#465c55;cursor:pointer}
+.atlas-view button[aria-pressed=true]{background:#365f69;color:#fffaf2}
+.atlas-pick{display:inline-flex;align-items:center;gap:8px;font-size:12px;letter-spacing:.06em;color:#5d7470}
+.atlas-pick select{min-width:190px;padding:6px 30px 6px 12px;border:1px solid #78858270;border-radius:999px;background:#fffdf8;font:500 13px var(--sans);color:var(--ink)}
+.atlas-pick select:disabled{opacity:.5}
+.atlas-stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start;margin-top:14px}
+.atlas-canvas{position:relative;overflow:hidden;border:1px solid #71877c38;border-radius:22px;background:radial-gradient(ellipse at 50% 45%,#fffdf6,#f3ecdd 80%)}
+.atlas-svg{display:block;width:100%;height:auto;max-height:720px;font-family:var(--sans)}
+.atlas-svg [role=button]{cursor:pointer;outline:none}
+.atlas-svg .sea{opacity:.5}.atlas-svg .sea-wave{fill:none;stroke:#c9d6cf;stroke-width:.8}
+.atlas-bridge{fill:none;stroke:#9fb3ab;stroke-linecap:round;opacity:.5;transition:opacity .25s,stroke .25s}
+.atlas-bridge.is-far{stroke-dasharray:3 8;opacity:0;pointer-events:none}
+.atlas-bridge.is-on{stroke:#365f69;opacity:.75}.atlas-bridge.is-far.is-on{opacity:.8}
+.atlas-bridge.is-dim{opacity:.16}
+.isl-halo{fill:none;stroke:rgba(var(--edge),.28);stroke-width:1.2;stroke-dasharray:3 4}
+.isl-base{fill:#fbf7ec}
+.isl-land{fill:rgba(var(--glass),.17);stroke:rgba(var(--edge),.55);stroke-width:1.6;transition:stroke-width .2s,fill .2s}
+.atlas-island:hover .isl-land,.atlas-island:focus-visible .isl-base{fill:#fbf7ec}
+.isl-land{fill:rgba(var(--glass),.26);stroke-width:2.4}
+.atlas-island:focus-visible .isl-halo{stroke:#315f70;stroke-width:3;stroke-dasharray:none}
+.atlas-island.is-on .isl-base{fill:#fbf7ec}
+.isl-land{fill:rgba(var(--glass),.3);stroke:rgb(var(--edge));stroke-width:3}
+.atlas-island.is-on .isl-halo{stroke:rgb(var(--edge));stroke-dasharray:none;stroke-width:1.6}
+.atlas-island,.atlas-badge,.atlas-orbit,.atlas-pill,.atlas-spoke,.atlas-link{transition:opacity .25s}
+.atlas-island.is-dim{opacity:.35}
+.isl-name{font:700 21px var(--serif);fill:#24353b}.atlas-island.is-hub .isl-name{font-size:23px}
+.isl-count{font-size:12.5px;fill:#5d6b66}
+.spine-glass{fill:rgb(var(--edge));opacity:.88}.spine-paper{fill:#fbf6ea}
+.spine-text{font:700 11px var(--serif);fill:#24363c}
+.atlas-spine{transition:transform .2s}.atlas-spine:hover{transform:translateY(-4px)}
+.atlas-spine.is-lit .spine-glass{opacity:1;stroke:#24353b;stroke-width:1.5}
+.has-selection .atlas-spine:not(.is-lit) .spine-glass{opacity:.6}
+.atlas-badge rect{fill:#fffcf4;stroke:#8fa79f;transition:fill .2s}
+.badge-text{font-size:13px;font-weight:600;fill:#365f69}
+.atlas-badge:hover rect,.atlas-badge:focus-visible rect{stroke:#315f70;stroke-width:2}
+.atlas-badge.is-on rect{fill:#365f69;stroke:#365f69}.atlas-badge.is-on .badge-text{fill:#fffaf2}
+.atlas-badge.is-dim{opacity:0;pointer-events:none}.atlas-badge.is-far:not(.is-on){display:none}
+.orbit-ring{fill:none;stroke:#c7d3cd;stroke-dasharray:2 6}
+.atlas-arc{fill:none;stroke:rgb(var(--edge));stroke-width:7;stroke-linecap:round;opacity:.55}
+.arc-name{font:700 14px var(--serif);fill:rgb(var(--edge))}
+.atlas-spoke{stroke:#365f69;stroke-width:1.2;opacity:.35}
+.atlas-link{fill:none;stroke:rgb(var(--edge));stroke-width:1.1;opacity:.14}
+.atlas-spoke.is-on{stroke-width:2.6;opacity:.85}.atlas-link.is-on{stroke-width:2.4;opacity:.9}
+.atlas-spoke.is-dim,.atlas-link.is-dim{opacity:.07}
+.atlas-orbit .spine-glass{opacity:1}.orbit-name{font-size:11px;font-weight:600;fill:#24353b}
+.atlas-orbit.is-crowded:not(.is-lit) .orbit-name{display:none}
+.atlas-orbit:hover .spine-glass,.atlas-orbit:focus-visible .spine-glass{stroke:#24353b;stroke-width:2}
+.atlas-orbit.is-dim{opacity:.4}.atlas-orbit.is-lit .spine-glass{stroke:#24353b;stroke-width:1.5}
+.atlas-pill rect{fill:#fffcf4;stroke:#8fa79f;transition:fill .2s}
+.pill-text{font:700 12.5px var(--serif);fill:#24353b}
+.atlas-pill:hover rect,.atlas-pill:focus-visible rect{stroke:#315f70;stroke-width:2}
+.atlas-pill.is-on rect{fill:#365f69;stroke:#365f69}.atlas-pill.is-on .pill-text{fill:#fffaf2}
+.atlas-pill.is-dim{opacity:.45}
+.core-text{font:700 15px var(--serif);fill:#24363c}.core-name{font:700 16px var(--serif);fill:#24353b}
+.empty-note{font-size:13px;fill:#5d6b66}
+.atlas-panel{position:sticky;top:76px;padding:20px 22px;border:1px solid #71877c40;border-radius:16px;background:#fffdf8e6;font-size:13px}
+.atlas-panel h4{font:700 20px/1.4 var(--serif);margin:0 0 6px;outline:none}
+.atlas-panel>p:not(.stop-kicker){margin:0 0 6px;color:#3f4f4b}
+.atlas-panel .stop-kicker{margin:14px 0 6px}.atlas-panel .stop-kicker:first-child{margin-top:0}
+.atlas-chips{display:flex;flex-wrap:wrap;gap:6px}
+.atlas-chip{border:1px solid #8fa79f;background:#fffcf4;border-radius:999px;padding:3px 11px;font:600 12px var(--sans);color:#365f69;cursor:pointer}
+.atlas-chip:hover,.atlas-chip:focus-visible{background:#365f69;border-color:#365f69;color:#fffaf2}
+.atlas-chip.is-book{border-color:rgba(var(--edge),.6);color:#24363c}
+.atlas-chip.is-book:hover,.atlas-chip.is-book:focus-visible{background:rgb(var(--edge));color:#fffaf2}
+.atlas-tip{margin-top:12px!important;font-size:12px;color:#5d6b66!important}
+.atlas-open{margin:8px 0 2px}
+.atlas-back{margin-top:16px;border:0;background:none;padding:0;font:600 12.5px var(--sans);color:#365f69;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.atlas-book-group{margin-top:10px;padding-left:10px;border-left:3px solid rgba(var(--edge),.55)}
+.atlas-book-head{display:flex;align-items:baseline;gap:4px;margin:0 0 4px}
+.atlas-book-link{border:0;background:none;padding:0;font:700 13.5px var(--serif);color:var(--ink);cursor:pointer;text-decoration:underline;text-decoration-color:#9fb3ab;text-underline-offset:3px}
+.atlas-book-group ul{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.atlas-book-group a{color:var(--ink);text-underline-offset:3px}
+.atlas-list{margin-top:14px}
+.atlas-list-group+.atlas-list-group{margin-top:22px}
+.atlas-list-group h4{font-size:12.5px;font-weight:500;color:#5d7470;letter-spacing:.04em;margin-bottom:10px}
+.atlas-list-group h4 b{color:#365f69}.atlas-list-group h4 small{margin-left:4px;font-size:11px}
+.atlas-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.atlas-list .is-filtered{display:none}
 .concept-card{padding:20px 22px;border:1px solid #71877c40;border-radius:16px;background:#fffdf8e6}
 .concept-card h4{font-family:var(--serif);font-size:20px}
 .concept-alias{font-size:12px;color:#66736e;margin:2px 0 10px}
@@ -158,11 +203,13 @@
   .station-book,.station-title,.station-time{grid-column:2;margin:0}
   .station-book{grid-row:1;padding-top:2px}
   .route-stop dl{grid-template-columns:1fr}
-  /* 작은 화면에서는 개념 이름 칸을 좁혀 붙여 두고, 책 칸은 옆으로 밀어 봅니다. */
-  .atlas-map{--name:124px;--col:34px}.atlas-group-head th{padding-left:12px!important}
-  .atlas-corner{padding-left:12px!important}.atlas-group-label{left:12px}
-  .atlas-node{flex-direction:column;align-items:flex-start;gap:0;font-size:13px;padding:5px 8px}
-  .atlas-detail td{padding-left:10px!important}.atlas-detail .concept-card{left:10px;max-width:calc(100vw - 52px);padding:16px}
+  /* 작은 화면에서는 설명판을 지도 아래로 내리고, 지도는 글씨가 읽히는 폭을 지키며 옆으로 밉니다. */
+  .atlas-stage{grid-template-columns:1fr}.atlas-panel{position:static}
+  .atlas-canvas{overflow-x:auto;scrollbar-width:thin}.atlas-svg{max-height:none}.atlas-svg.is-focus{width:auto;min-width:520px}
+  .is-portrait .isl-name{font-size:27px}.is-portrait .isl-count{font-size:16px}.is-portrait .badge-text{font-size:16px}
+  .is-portrait .atlas-badge rect{transform-box:fill-box;transform-origin:center;transform:scale(1.15)}
+  .atlas-tools{align-items:stretch}.atlas-pick{flex-wrap:wrap}.atlas-pick select{min-width:0;max-width:100%}
+  .atlas-cards{grid-template-columns:1fr}
 }
 @media(max-width:420px){.route-group-picks{grid-template-columns:1fr}}
-@media print{.route-explorer.is-enhanced .route,.route-explorer.is-enhanced .route-stop{display:block!important}.concept-atlas.is-enhanced .atlas-detail{display:table-row!important}.field-bar{display:none!important}}
+@media print{.route-explorer.is-enhanced .route,.route-explorer.is-enhanced .route-stop{display:block!important}.atlas-list[hidden]{display:block!important}.atlas-tools,.atlas-stage{display:none!important}.field-bar{display:none!important}}

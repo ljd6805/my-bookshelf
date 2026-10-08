@@ -92,44 +92,46 @@ class SeriesTests(unittest.TestCase):
 
 
 class AtlasLayoutTests(unittest.TestCase):
-    def test_every_real_concept_is_one_row_with_a_stop_at_each_of_its_books(self):
-        from scripts.atlas_renderer import columns, grouped_rows, owner_of
+    def test_payload_carries_every_real_concept_with_its_chapters(self):
+        from scripts.atlas_renderer import atlas_payload
         catalog = json.loads((ROOT / 'data/catalog.json').read_text())
-        books, concepts = catalog['books'], catalog['concepts']
-        cols = columns(concepts, books)
-        rows = [r for _, group in grouped_rows(concepts, cols, books) for r in group]
-        self.assertEqual(sorted(r['concept']['id'] for r in rows), sorted(c['id'] for c in concepts))
-        for row in rows:
-            owners = {owner_of(url, books) for url in row['concept']['chapters']}
-            self.assertEqual(set(row['counts']), owners, row['concept']['id'])
-            self.assertEqual(sum(row['counts'].values()), len(row['concept']['chapters']))
-            self.assertLess(row['first'], row['last'], row['concept']['id'])
+        data = atlas_payload(catalog['concepts'], catalog)
+        ids = {b['id'] for b in data['books']}
+        self.assertEqual([c['id'] for c in data['concepts']], [c['id'] for c in catalog['concepts']])
+        for concept, source in zip(data['concepts'], catalog['concepts']):
+            self.assertEqual(len(concept['chapters']), len(source['chapters']))
+            for chapter in concept['chapters']:
+                self.assertIn(chapter['book'], ids)
+                self.assertEqual(chapter['title'], catalog['chapter_index'][chapter['url']])
+        self.assertEqual({b['field'] for b in data['books']}, {f['name'] for f in data['fields']})
 
-    def test_columns_keep_shelf_order_and_groups_follow_the_fields(self):
-        from scripts.atlas_renderer import columns, grouped_rows, fields_in_order
+    def test_list_groups_concepts_under_their_home_field_in_shelf_order(self):
+        from scripts.atlas_renderer import concept_fields, render_atlas_list
         books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='컴퓨터'),
                  {'id': 'c', 'title': '책 C', 'url': 'books/c/', 'spine_category': '수학'}]
         concepts = [{'id': 'x', 'name': 'X', 'chapters': ['books/b/#1', 'books/b/#2', 'books/a/#1']},
                     {'id': 'y', 'name': 'Y', 'chapters': ['books/a/#1', 'books/c/#1']}]
-        cols = columns(concepts, books)
-        self.assertEqual([b['id'] for b in cols], ['a', 'b', 'c'])
-        self.assertEqual(fields_in_order(cols), ['수학', '컴퓨터'])
-        groups = grouped_rows(concepts, cols, books)
-        self.assertEqual([(f, [r['concept']['id'] for r in rows]) for f, rows in groups],
-                         [('수학', ['y']), ('컴퓨터', ['x'])])
+        self.assertEqual(concept_fields(concepts[0], books), (['수학', '컴퓨터'], '컴퓨터'))
+        html = render_atlas_list(concepts, books, lambda c: f'<i>{c["id"]}</i>')
+        self.assertLess(html.index('data-field="수학"'), html.index('data-field="컴퓨터"'))
+        self.assertLess(html.index('<i>y</i>'), html.index('<i>x</i>'))
+        self.assertIn('data-fields="수학|컴퓨터"', html)
 
     def test_thirty_books_and_sixty_concepts_render_without_layout_limits(self):
-        books = [{'id': f'b{i}', 'title': f'책 {i}', 'url': f'books/b{i}/', 'spine_category': f'분야{i // 6}'}
+        books = [{'id': f'b{i}', 'title': f'책 {i}', 'url': f'books/b{i}/', 'spine_category': f'분야 {i // 6}'}
                  for i in range(30)]
-        index = {f'books/b{i}/#c': f'01 · 장 {i}' for i in range(30)}
+        index = {f'books/b{i}/#c': f'01 · 장 {i} </script>' for i in range(30)}
         concepts = [{'id': f'k{n}', 'name': f'개념 {n}', 'summary': '요약',
                      'chapters': [f'books/b{n % 30}/#c', f'books/b{(n * 7 + 3) % 30}/#c']}
                     for n in range(60) if n % 30 != (n * 7 + 3) % 30]
         html = render_curation({'books': books, 'chapter_index': index, 'learning_paths': [],
                                 'concepts': concepts})
-        self.assertEqual(html.count('class="atlas-row"'), len(concepts))
-        self.assertEqual(html.count('scope="col" class="atlas-book'), 30)
-        self.assertIn('--books:30', html)
+        self.assertEqual(html.count('class="atlas-item"'), len(concepts))
+        raw = html.split('data-atlas-data>', 1)[1].split('</script>', 1)[0]
+        data = json.loads(raw)
+        self.assertEqual(len(data['books']), 30)
+        self.assertEqual(len(data['fields']), 5)
+        self.assertNotIn('</', raw)
 
 
 if __name__ == '__main__':
