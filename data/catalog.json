@@ -48,6 +48,60 @@
       "short_title": "AI Book"
     },
     {
+      "id": "llm-systems",
+      "title": "LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지",
+      "spine_title": "LLM 시스템",
+      "spine_category": "인공지능",
+      "color": "blue",
+      "description": "모델의 B와 bit부터 GPU 안의 데이터 이동, prefill·decode, KV 캐시, 대역폭과 MoE까지. 12장·14개 실험으로 오픈웨이트 모델의 사양과 하드웨어 제약을 연결하고 실행 예산을 직접 만듭니다.",
+      "illustration": "books/llm-gpu/assets/shelf-illustration.svg",
+      "illustration_caption": "개념도: 가중치와 과거 토큰의 KV를 읽어 계산하고 다음 토큰을 만듭니다. 크기·속도를 재현한 그림은 아닙니다.",
+      "status": "published",
+      "url": "books/llm-gpu/",
+      "keywords": [
+        "LLM",
+        "GPU",
+        "오픈웨이트",
+        "파라미터",
+        "VRAM",
+        "KV 캐시",
+        "메모리",
+        "대역폭",
+        "양자화",
+        "MoE",
+        "prefill",
+        "decode",
+        "Qwen",
+        "통합 메모리"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/llm-gpu/#chapters"
+        },
+        {
+          "title": "03 · 가중치가 차지하는 메모리",
+          "url": "books/llm-gpu/#weights"
+        },
+        {
+          "title": "05 · GPU 안의 저장소와 계산기",
+          "url": "books/llm-gpu/#hierarchy"
+        },
+        {
+          "title": "08 · 대화 길이가 차지하는 공간",
+          "url": "books/llm-gpu/#cache"
+        },
+        {
+          "title": "11 · 오픈웨이트 모델 사양 읽기",
+          "url": "books/llm-gpu/#modelcards"
+        },
+        {
+          "title": "12 · 내 장비의 실행 예산 만들기",
+          "url": "books/llm-gpu/#design"
+        }
+      ]
+    },
+    {
       "id": "how-computers-work",
       "title": "컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지",
       "spine_title": "컴퓨터 원리",
@@ -200,60 +254,6 @@
         }
       ],
       "short_title": "확률과 통계"
-    },
-    {
-      "id": "llm-systems",
-      "title": "LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지",
-      "spine_title": "LLM 시스템",
-      "spine_category": "AI 시스템",
-      "color": "sage",
-      "description": "모델의 B와 bit부터 GPU 안의 데이터 이동, prefill·decode, KV 캐시, 대역폭과 MoE까지. 12장·14개 실험으로 오픈웨이트 모델의 사양과 하드웨어 제약을 연결하고 실행 예산을 직접 만듭니다.",
-      "illustration": "books/llm-gpu/assets/shelf-illustration.svg",
-      "illustration_caption": "개념도: 가중치와 과거 토큰의 KV를 읽어 계산하고 다음 토큰을 만듭니다. 크기·속도를 재현한 그림은 아닙니다.",
-      "status": "published",
-      "url": "books/llm-gpu/",
-      "keywords": [
-        "LLM",
-        "GPU",
-        "오픈웨이트",
-        "파라미터",
-        "VRAM",
-        "KV 캐시",
-        "메모리",
-        "대역폭",
-        "양자화",
-        "MoE",
-        "prefill",
-        "decode",
-        "Qwen",
-        "통합 메모리"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/llm-gpu/#chapters"
-        },
-        {
-          "title": "03 · 가중치가 차지하는 메모리",
-          "url": "books/llm-gpu/#weights"
-        },
-        {
-          "title": "05 · GPU 안의 저장소와 계산기",
-          "url": "books/llm-gpu/#hierarchy"
-        },
-        {
-          "title": "08 · 대화 길이가 차지하는 공간",
-          "url": "books/llm-gpu/#cache"
-        },
-        {
-          "title": "11 · 오픈웨이트 모델 사양 읽기",
-          "url": "books/llm-gpu/#modelcards"
-        },
-        {
-          "title": "12 · 내 장비의 실행 예산 만들기",
-          "url": "books/llm-gpu/#design"
-        }
-      ]
     }
   ],
   "learning_paths": [
