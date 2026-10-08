@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>11 · 마지막 과제: 셋째 특징이 생긴 날 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="노래에 가사 비중이라는 셋째 특징이 생겼습니다. 3차원 코사인 유사도로 추천기를 고치고, 무엇을 바꿀지와 그 이유, 아직 부족한 증거를 스스로 판단하는 마지막 과제입니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="challenge">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">11장 · Final challenge</p>
+<h1>마지막 과제: 셋째 특징이 생긴 날</h1>
+<p class="lead">10장까지 만든 추천기는 빠르기와 에너지 두 특징으로 움직였습니다. 오늘 음악 데이터 담당자가 새 특징 하나를 추가했습니다. <strong>가사 비중</strong>입니다. −3은 연주만 있는 곡, 3은 가사가 중심인 곡입니다. 새 친구 ‘민’은 “신나는데 가사는 없는 곡”을 원합니다. 지금까지의 도구로 이 요청에 답하고, 그 답을 얼마나 믿을 수 있는지 판단해 보세요.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>처음 보는 3차원 데이터와 새 사용자에게 추천기를 고쳐 적용해야 합니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>벡터·내적·투영·행렬·행렬식·역행렬·고유벡터·주성분·신경망 한 층</dd></div>
+  <div><dt>새 도구</dt><dd>새 도구는 없습니다. 같은 계산을 칸 하나 늘려 씁니다.</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>무엇을 바꿀지, 왜인지, 어떤 증거가 부족한지 글로 설명하기</dd></div>
+  <div><dt>남는 질문</dt><dd>여러분이 이 책 밖에서 만날 데이터입니다.</dd></div>
+</dl>
+
+<h2 id="data">새 데이터</h2>
+<div class="table-scroll">
+<table class="data">
+  <caption class="muted">노래별 특징 점수 (빠르기, 에너지, 가사 비중) · 설명용 가상 데이터</caption>
+  <thead><tr><th scope="col">노래</th><th scope="col">빠르기</th><th scope="col">에너지</th><th scope="col">가사 비중</th></tr></thead>
+  <tbody>
+    <tr><td>새벽 산책</td><td class="num">−1.5</td><td class="num">−1</td><td class="num">1</td></tr>
+    <tr><td>비 오는 창가</td><td class="num">−2.5</td><td class="num">−2</td><td class="num">2.5</td></tr>
+    <tr><td>여름 축제</td><td class="num">3</td><td class="num">2.5</td><td class="num">−1</td></tr>
+    <tr><td>아침 달리기</td><td class="num">2</td><td class="num">1.5</td><td class="num">−2</td></tr>
+    <tr><td>골목 재즈</td><td class="num">−1</td><td class="num">0.5</td><td class="num">−2.5</td></tr>
+    <tr><td>출근 지하철</td><td class="num">1</td><td class="num">−0.5</td><td class="num">0.5</td></tr>
+    <tr><td>옥상 록 공연</td><td class="num">1.5</td><td class="num">3</td><td class="num">2</td></tr>
+    <tr><td>자장가</td><td class="num">−3</td><td class="num">−2.5</td><td class="num">1.5</td></tr>
+  </tbody>
+</table>
+</div>
+<p>민의 취향을 벡터로 적으면 (1, 2, −2)입니다. 빠르기는 조금, 에너지는 많이, 가사는 적을수록 좋습니다. 3차원은 평면에 그대로 그릴 수 없으므로, 이 장은 그림 대신 표와 숫자로 판단합니다. 1장에서 말했듯 계산 규칙은 칸이 늘어도 같습니다.</p>
+
+<figure class="diagram">
+  <svg viewBox="0 0 520 190" role="img" aria-labelledby="f11-t f11-d">
+    <title id="f11-t">2차원 추천과 3차원 추천의 차이</title>
+    <desc id="f11-d">왼쪽 2차원 그림에서는 옥상 록 공연이 나의 취향과 같은 방향에 있습니다. 오른쪽 그림은 셋째 축 가사 비중이 위로 솟아 있어, 가사가 많은 록 공연 화살표가 위로 들리고, 가사를 싫어하는 민의 취향은 아래로 기울어져 둘 사이의 각도가 크게 벌어집니다.</desc>
+    <g font-size="12.5" fill="currentColor">
+      <g transform="translate(40 160)"><path d="M0 0 H170 M0 0 V-140" stroke="currentColor" opacity=".3"/>
+        <path class="s-me" d="M0 0 L50 -100" stroke="currentColor" stroke-width="3"/><path class="s-song" d="M0 0 L65 -130" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="72" y="-128">록 공연: 각도 0°</text><text x="0" y="22">2차원: 가사를 모를 때</text></g>
+      <g transform="translate(300 160)"><path d="M0 0 H180 M0 0 V-140 M0 0 L-60 30" stroke="currentColor" opacity=".3"/>
+        <text x="-80" y="-4" opacity=".7">가사 ↑</text>
+        <path class="s-me" d="M0 0 L95 -55" stroke="currentColor" stroke-width="3"/><path class="s-song" d="M0 0 L40 -135" stroke="currentColor" stroke-width="2" stroke-dasharray="5 4"/>
+        <path class="s-res" d="M30 -18 A35 35 0 0 0 12 -36" stroke="currentColor" fill="none"/>
+        <text x="48" y="-130">록 공연: 가사 많음</text><text class="f-me" x="100" y="-56" fill="currentColor">민: 가사 싫음</text><text x="0" y="22">3차원: 각도가 72°로 벌어짐</text></g>
+    </g>
+  </svg>
+  <figcaption>새 특징은 원래 같은 방향이던 두 벡터를 갈라놓을 수 있습니다. 개념 그림이며 각도는 계산값을 표시한 것이고 길이는 축척이 아닙니다.</figcaption>
+</figure>
+
+<h2 id="predict">고치기 전에 예측하기</h2>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> 2차원 추천기는 민에게도 옥상 록 공연을 1위로 추천했습니다(빠르기·에너지 방향이 같으니까요). 셋째 특징을 넣으면 1위는?</p>
+  <div class="buttons"><button type="button" data-choice="rock" aria-pressed="false">여전히 옥상 록 공연</button><button type="button" data-choice="festival" aria-pressed="false">여름 축제</button><button type="button" data-choice="run" aria-pressed="false">아침 달리기</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="challenge" id="lab-challenge" aria-labelledby="lab-ch-title">
+  <header><h3 id="lab-ch-title">실험 11 · 세 칸짜리 취향으로 추천하기</h3><p>세 값을 바꿔 새 취향을 만들면 표가 3차원 코사인 순으로 다시 정렬됩니다. 같은 노래의 2차원 순위와 3차원 내적도 함께 비교하세요. <span class="kind">실제 계산</span></p></header>
+  <div class="controls" style="grid-column:1/-1">
+    <div class="field"><label for="ch-u1">빠르기 선호</label><input type="range" id="ch-u1" name="u1" min="-3" max="3" step="0.5" value="1"><output for="ch-u1">1.0</output></div>
+    <div class="field"><label for="ch-u2">에너지 선호</label><input type="range" id="ch-u2" name="u2" min="-3" max="3" step="0.5" value="2"><output for="ch-u2">2.0</output></div>
+    <div class="field"><label for="ch-u3">가사 선호</label><input type="range" id="ch-u3" name="u3" min="-3" max="3" step="0.5" value="-2"><output for="ch-u3">−2.0</output></div>
+    <div class="buttons"><button type="button" data-reset>민의 취향으로</button></div>
+    <div class="readout" aria-live="polite"><p>민의 취향 (1, 2, −2)의 1위는 아침 달리기(3D 코사인 0.94)이고, 2D 기준에서는 옥상 록 공연이 1위입니다.</p></div>
+    <div class="ranking table-scroll"></div>
+  </div>
+  <p class="footer">코사인 = u·s ÷ (|u||s|), 세 칸 모두 −3~3, 0.5 간격. ‘2D 코사인 순위’는 셋째 칸을 지운 (빠르기, 에너지)만으로 계산한 순위입니다. 취향의 세 값이 모두 0이면 방향이 없어 계산하지 않습니다.</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>민에게 3차원 기준 1위는 <strong>아침 달리기</strong>(0.94), 2위는 여름 축제(0.83)입니다. 2차원에서 코사인 1.00으로 완벽했던 옥상 록 공연은 0.30으로 4위까지 떨어집니다. 가사 비중이 2로 높아, 가사를 싫어하는 민과 셋째 축에서 정반대이기 때문입니다. 2차원에서 관련 없음(0.00)이던 골목 재즈는 연주곡이라 3위(0.61)로 올라옵니다.</p>
+<p>이번에는 가사 선호를 0으로 두어 보세요. “가사는 상관없다”는 뜻으로 넣었는데도 옥상 록 공연의 코사인은 1.00이 아니라 0.86으로 내려가 여름 축제(0.89)에 밀립니다. 노래 쪽 벡터는 셋째 칸 때문에 길어졌고, 코사인은 그 길어진 길이로 나누기 때문입니다. ‘0을 넣는 것’과 ‘그 특징을 빼고 계산하는 것’은 다릅니다.</p>
+
+<h2 id="task">과제: 세 가지 질문에 답하기</h2>
+<p>아래 질문에 각각 두세 문장으로 답해 보세요. 답을 적은 뒤에 펼쳐서 비교합니다. 정답이 하나가 아닌 질문도 있습니다. 근거를 무엇으로 댔는지가 중요합니다.</p>
+<ol>
+  <li><strong>무엇을 바꿀까?</strong> 2차원 추천기에서 그대로 쓸 수 있는 부분과 고쳐야 하는 부분을 하나씩 고르세요. (힌트: 2장의 코사인, 3장의 투영 방향, 4장의 점수표 행렬의 크기)</li>
+  <li><strong>왜 그렇게 바꾸나?</strong> 민에게 옥상 록 공연을 추천하지 않아야 하는 이유를, 실험 11의 숫자 하나를 근거로 설명하세요. 그리고 가사 선호 0이 ‘상관없음’을 정확히 표현하지 못하는 이유를 쓰세요.</li>
+  <li><strong>어떤 증거가 부족한가?</strong> 이 추천을 실제 서비스에 쓰기 전에 확인해야 할 것 두 가지를 적으세요. (힌트: 9장의 공분산, 7장의 민감도, 데이터의 출처)</li>
+</ol>
+
+<details class="check">
+  <summary>질문 1 · 예시 답안과 채점 기준</summary>
+  <p><strong>그대로 쓰는 것:</strong> 코사인 유사도의 공식, 투영의 공식, 행렬 곱의 규칙은 칸 하나를 더해 그대로 씁니다. <strong>고쳐야 하는 것:</strong> 점수표 행렬은 2×2에서 열이 하나 늘어난 2×3이 되어야 합니다(행 = 점수 수, 열 = 특징 수). 취향 방향 u도 세 칸짜리로 다시 정해야 하며, 사용자에게 셋째 선호를 물어야 합니다.</p>
+  <p class="muted">채점: 공식은 유지되고 크기(차원)가 바뀐다는 구분을 했다면 충분합니다. “행렬식으로 확인”처럼 2×3 행렬에 정의되지 않는 도구를 그대로 쓰겠다고 했다면 6장을 다시 보세요.</p>
+</details>
+<details class="check">
+  <summary>질문 2 · 예시 답안과 채점 기준</summary>
+  <p>민과 옥상 록 공연의 3차원 코사인은 0.30으로, 2차원의 1.00과 크게 다릅니다. 내적도 1·1.5 + 2·3 + (−2)·2 = 3.5로, 아침 달리기(9.0)보다 훨씬 낮습니다. 가사 축에서 둘이 반대 방향이기 때문입니다. 가사 선호 0은 “가사 축 방향으로는 기울지 않음”을 뜻할 뿐, 노래 벡터의 길이에서 가사 성분을 지우지는 않습니다. ‘상관없음’을 표현하려면 계산에서 그 칸을 빼거나(투영으로 2차원으로 내리기), 칸별 가중치를 따로 두어야 합니다.</p>
+  <p class="muted">채점: 숫자 근거(0.30 또는 3.5)와 ‘축에서 반대 방향’이라는 원인, ‘0 ≠ 제외’를 길이와 연결해 설명했는지 봅니다.</p>
+</details>
+<details class="check">
+  <summary>질문 3 · 예시 답안과 채점 기준</summary>
+  <ul>
+    <li><strong>특징의 단위와 퍼짐:</strong> 가사 비중의 분산이 빠르기·에너지와 크게 다르면 한 특징이 코사인을 지배합니다. 9장처럼 공분산 행렬을 계산해 특징끼리 함께 움직이는지, 크기를 맞춰야 하는지 확인해야 합니다. 이 데이터에서 가사 비중은 빠르기와 음의 상관이 있어(빠른 곡일수록 가사가 적음), 두 특징이 같은 정보를 일부 중복해서 담고 있을 수 있습니다.</li>
+    <li><strong>점수의 출처와 오차:</strong> 점수 여덟 곡이 누군가의 판단으로 붙인 값이라면, 0.5만 달라져도 순위가 바뀌는지 확인해야 합니다. 7장의 민감도와 같은 질문입니다. 실험 11에서 슬라이더를 한 칸씩 움직여 1위가 바뀌는 경계를 찾아보면 그 위험을 볼 수 있습니다.</li>
+    <li><strong>실제 만족도:</strong> 코사인이 높은 곡을 민이 정말 좋아하는지는 계산이 아니라 민의 반응으로만 확인할 수 있습니다. 추천 후 반응을 모아 W와 b를 고치는 것이 10장의 학습입니다.</li>
+  </ul>
+  <p class="muted">채점: 계산 안의 문제(단위·상관·민감도)와 계산 밖의 문제(데이터 출처·사용자 반응)를 하나씩 들었다면 충분합니다.</p>
+</details>
+
+<h2 id="check-levels">이 책에서 얻은 것 점검하기</h2>
+<p>다음 문장을 남에게 설명할 수 있다면 이 책의 목표에 도달한 것입니다. 막히는 문장이 있다면 괄호 안의 장으로 돌아가세요.</p>
+<ul>
+  <li>데이터 한 건을 특징의 벡터로 적고, 평균을 덧셈과 실수배로 계산할 수 있다. (<a href="vectors.html">1장</a>)</li>
+  <li>내적과 코사인 유사도의 차이를 ‘길이를 지우는가’로 설명할 수 있다. (<a href="similarity.html">2장</a>)</li>
+  <li>투영 점수가 무엇을 남기고 무엇을 버리는지 말할 수 있다. (<a href="projection.html">3장</a>)</li>
+  <li>행렬의 열을 보고 격자가 어떻게 변할지 그릴 수 있고, 변환의 순서가 곱의 순서임을 안다. (<a href="matrix.html">4장</a>, <a href="compose.html">5장</a>)</li>
+  <li>행렬식 0이 정보 손실을, 0에 가까운 행렬식이 불안정한 역산을 뜻하는 이유를 안다. (<a href="determinant.html">6장</a>, <a href="inverse.html">7장</a>)</li>
+  <li>고유벡터와 주성분이 같은 계산임을, 공분산 행렬로 설명할 수 있다. (<a href="eigen.html">8장</a>, <a href="pca.html">9장</a>)</li>
+  <li>ReLU가 없으면 층을 쌓아도 행렬 하나가 되는 이유를 말할 수 있다. (<a href="layer.html">10장</a>)</li>
+</ul>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> 가사 선호를 −2에서 2까지 0.5씩 올리며 1위가 아침 달리기에서 옥상 록 공연으로 바뀌는 지점을 찾아보세요. 그 경계값 근처의 사용자에게는 추천을 단정하기보다 두 곡을 함께 보여 주는 편이 낫다는 판단도 이 책의 결과입니다.</div>
+
+<h2 id="beyond">이 책 밖으로</h2>
+<p>이 책은 2차원과 3차원에 머물렀지만, 실제 데이터는 수백, 수천 칸입니다. 그래도 계산은 같습니다. 칸끼리 곱해 더하면 내적이고, 행마다 내적하면 행렬 곱이며, 공분산 행렬의 고유벡터가 가장 중요한 방향입니다.</p>
+<div class="cross">
+  <p><strong>다른 책으로 이어 읽기</strong> → AI Book <a href="../ai/#attention">6장 어떤 정보를 참고할까</a></p>
+  <p>이동 이유: 어텐션은 Query와 Key의 내적(2장)으로 점수를 매기고, 그 비율로 Value 벡터를 섞는(1장의 가중 평균) 계산입니다. 이 책의 도구만으로 어텐션 행렬 하나를 끝까지 읽어 낼 수 있습니다. 필요한 배경은 1·2·4장입니다.</p>
+</div>
+<a class="next" href="index.html"><span>처음으로 · 표지와 목차에서 다시 읽고 싶은 장을 고르기 위해</span><strong>벡터와 행렬로 보는 세상</strong></a>
+<a class="prev" href="layer.html">← 이전 장 · 10 신경망 한 층은 행렬 곱과 꺾기</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-3.js"></script>
+</body>
+</html>

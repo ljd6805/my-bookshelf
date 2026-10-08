@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>05 · 변환을 이어 붙이면 순서가 중요하다 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="두 변환을 연달아 하면 행렬의 곱이 됩니다. 회전·늘이기·밀기·뒤집기의 순서를 바꾸며 결과가 달라지는 경우와 같은 경우를 나란히 비교합니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="compose">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">5장 · Composition</p>
+<h1>변환을 이어 붙이면 순서가 중요하다</h1>
+<p class="lead">4장에서 행렬 하나로 평면을 옮겼습니다. 실제 추천기는 여러 단계를 거칩니다. 먼저 단위를 맞추고, 그다음 점수표를 적용하는 식입니다. 이 장에서는 변환 두 개를 이어 붙이는 계산, 행렬의 곱을 만들고 순서를 바꾸면 무슨 일이 생기는지 직접 비교합니다.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>변환을 여러 단계로 이어서 할 때 결과를 한 번에 계산하고 싶습니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>행렬의 열이 e₁, e₂의 도착지라는 것, M·s를 계산하는 법을 압니다.</dd></div>
+  <div><dt>새 도구</dt><dd>행렬의 곱, 합성 변환, 교환법칙이 성립하지 않는 경우</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>여러 단계를 행렬 하나로 줄이는 법과, 단계의 순서를 지켜야 하는 이유</dd></div>
+  <div><dt>남는 질문</dt><dd>어떤 변환은 평면을 납작하게 만들었습니다. 그 정도를 숫자 하나로 잴 수 있을까요?</dd></div>
+</dl>
+
+<h2 id="problem">양말 먼저, 신발 나중</h2>
+<p>일상에서도 순서가 결과를 바꾸는 일은 흔합니다. 양말을 신고 신발을 신는 것과 신발을 신고 양말을 신는 것은 다릅니다. 평면의 변환도 그럴까요? 90° 회전과 가로 2배 늘이기를 생각해 봅시다. 둘 다 4장에서 만든 행렬입니다.</p>
+<p>그림이 방향을 가진 모양이어야 차이가 잘 보이므로, 이 장에서는 노래 대신 <strong>깃발</strong> 하나를 옮깁니다. 깃대는 원점에서 위로 2칸, 깃발은 오른쪽을 향합니다. 나의 취향 화살표 (1, 2)도 함께 옮깁니다.</p>
+
+<figure class="diagram">
+  <svg viewBox="0 0 520 200" role="img" aria-labelledby="f5-t f5-d">
+    <title id="f5-t">변환 두 개를 이어 붙이는 흐름</title>
+    <desc id="f5-d">왼쪽의 원래 깃발이 첫째 상자 A를 지나 중간 모양이 되고, 둘째 상자 B를 지나 최종 모양이 됩니다. 아래에는 이 전체가 B 곱하기 A라는 행렬 하나와 같다고 적혀 있고, 오른쪽에서 왼쪽으로 읽는다는 화살표가 있습니다.</desc>
+    <g font-size="13" fill="currentColor">
+      <path d="M30 120 V60 L66 72 L30 84" stroke="currentColor" stroke-width="2.5" fill="none"/>
+      <rect x="100" y="60" width="80" height="50" rx="8" fill="none" stroke="currentColor" opacity=".5"/>
+      <text x="113" y="90">A 먼저</text>
+      <path d="M190 85 h30" stroke="currentColor" opacity=".5"/>
+      <path class="s-b" d="M230 115 L290 115 L278 80 L266 115" stroke="currentColor" stroke-width="2.5" fill="none" stroke-dasharray="5 4"/>
+      <path d="M300 85 h20" stroke="currentColor" opacity=".5"/>
+      <rect x="330" y="60" width="80" height="50" rx="8" fill="none" stroke="currentColor" opacity=".5"/>
+      <text x="343" y="90">B 나중</text>
+      <path d="M420 85 h20" stroke="currentColor" opacity=".5"/>
+      <path class="s-a bob" d="M450 115 L500 85 L478 70 L472 100" stroke="currentColor" stroke-width="2.5" fill="none"/>
+      <text x="150" y="160">전체 = B·A &#160; (행렬은 오른쪽에서 왼쪽으로 적용)</text>
+      <path d="M330 175 h-130" stroke="currentColor" opacity=".5"/><path d="M200 175 l8 -4 v8 z" fill="currentColor" opacity=".5"/>
+    </g>
+  </svg>
+  <figcaption>변환을 차례로 하면 결과는 두 행렬의 곱 하나로 적힙니다. 먼저 하는 변환이 곱의 오른쪽에 옵니다.</figcaption>
+</figure>
+
+<h2 id="predict">돌리고 늘이기, 늘이고 돌리기</h2>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> “90° 회전 → 가로 2배”와 “가로 2배 → 90° 회전”의 결과 깃발은 어떻게 다를까요?</p>
+  <div class="buttons"><button type="button" data-choice="same" aria-pressed="false">같다</button><button type="button" data-choice="pole" aria-pressed="false">한쪽은 깃대가, 한쪽은 깃발이 길어진다</button><button type="button" data-choice="mirror" aria-pressed="false">서로 거울에 비친 모양이다</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="compose" id="lab-compose" aria-labelledby="lab-compose-title">
+  <header><h3 id="lab-compose-title">실험 5 · 순서 바꿔 보기</h3><p>첫째 변환과 둘째 변환을 고르면 왼쪽 그림은 그 순서대로, 오른쪽 그림은 반대 순서로 적용합니다. 회색 점선은 원래 깃발, 청록 점선은 첫 단계 뒤, 파란 면은 최종 결과입니다. <span class="kind">실제 계산</span></p></header>
+  <div class="stage two-planes">
+    <figure><svg role="img" aria-labelledby="lab-c1"><title id="lab-c1">고른 순서대로 적용한 결과</title></svg><figcaption>고른 순서</figcaption></figure>
+    <figure><svg role="img" aria-labelledby="lab-c2"><title id="lab-c2">반대 순서로 적용한 결과</title></svg><figcaption>반대 순서</figcaption></figure>
+  </div>
+  <div class="controls">
+    <label>첫째 변환 <select name="first" id="c-first"><option value="rot90" selected>90° 회전</option><option value="wide">가로 2배</option><option value="shear">오른쪽으로 밀기</option><option value="mirror">가로축 뒤집기</option></select></label>
+    <label>둘째 변환 <select name="second" id="c-second"><option value="rot90">90° 회전</option><option value="wide" selected>가로 2배</option><option value="shear">오른쪽으로 밀기</option><option value="mirror">가로축 뒤집기</option></select></label>
+    <div class="buttons"><button type="button" data-reset>처음 값으로</button></div>
+    <div class="readout" aria-live="polite"><p>90° 회전 다음 가로 2배 = [0, −2 ; 1, 0], 가로 2배 다음 90° 회전 = [0, −1 ; 2, 0]. 순서를 바꾸면 결과가 달라집니다.</p></div>
+  </div>
+  <p class="footer">변환: 90° 회전 [0, −1 ; 1, 0], 가로 2배 [2, 0 ; 0, 1], 오른쪽으로 밀기 [1, 1 ; 0, 1], 가로축 뒤집기 [1, 0 ; 0, −1]. 같은 변환을 두 번 고를 수도 있습니다. 결과 판정은 네 칸이 모두 10⁻⁹ 이내로 같은지로 합니다.</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>기본 조합에서 왼쪽(회전 → 늘이기)은 깃발이 누워 있고 깃대가 가로 방향이라 늘어난 것은 <em>깃대</em>입니다. 오른쪽(늘이기 → 회전)은 깃발이 먼저 가로로 늘어났다가 돌아가므로 길어진 것은 <em>깃발</em>입니다. 나의 취향 (1, 2)도 왼쪽에서는 (−4, 1), 오른쪽에서는 (−2, 2)에 도착합니다.</p>
+<p>모든 조합이 다른 것은 아닙니다. 회전을 두 번, 늘이기와 뒤집기처럼 축 방향을 따로 다루는 변환끼리는 순서를 바꿔도 같습니다. 반면 회전과 뒤집기, 밀기와 늘이기는 순서에 따라 결과가 갈립니다.</p>
+
+<h2 id="explain">설명: 행렬의 곱은 “열마다 다시 적용하기”</h2>
+<ol class="explain">
+  <li>A를 먼저 하면 e₁은 A의 첫째 열로 갑니다. 그다음 B를 하면 그 화살표가 다시 B로 옮겨집니다. 그러니 합성 변환의 첫째 열은 “B·(A의 첫째 열)”입니다. 둘째 열도 같습니다.</li>
+  <li>A는 먼저 하는 변환, B는 나중에 하는 변환, B·A는 둘을 이어 붙인 변환입니다.</li>
+  <li><div class="math">(B·A)·s = B·(A·s) &nbsp;&nbsp; B·A의 i행 j열 = (B의 i행) · (A의 j열)</div></li>
+  <li>A = 90° 회전 [0, −1 ; 1, 0], B = 가로 2배 [2, 0 ; 0, 1]이면 B·A의 첫째 열은 B·(0, 1) = (0, 1), 둘째 열은 B·(−1, 0) = (−2, 0)이므로 B·A = [0, −2 ; 1, 0]입니다. 반대로 A·B = [0, −1 ; 2, 0]입니다. 나 (1, 2)에 적용하면 각각 (−4, 1)과 (−2, 2)입니다.</li>
+</ol>
+<p>숫자의 곱셈은 2 × 3 = 3 × 2이지만, 행렬의 곱셈은 일반적으로 B·A ≠ A·B입니다. 두 행렬이 같은 순서로 ‘축을 따로 다루는’ 경우처럼 특별한 때만 같아집니다.</p>
+
+<details class="check">
+  <summary>예측의 정답과 이유</summary>
+  <p><strong>한쪽은 깃대가, 한쪽은 깃발이 길어집니다.</strong> 가로 2배는 “지금 가로 방향에 있는 것”을 늘립니다. 회전을 먼저 하면 깃대가 가로로 누운 뒤 늘어나고, 늘이기를 먼저 하면 원래 가로 방향이던 깃발이 늘어난 뒤 돌아갑니다. 같은 동작이라도 그때 무엇이 가로에 있느냐가 다릅니다.</p>
+</details>
+<details class="check">
+  <summary>90° 회전을 네 번 하면 어떤 행렬이 될까요?</summary>
+  <p>항등행렬 [1, 0 ; 0, 1]입니다. 실험에서 첫째와 둘째를 모두 90° 회전으로 고르면 180° 회전 [−1, 0 ; 0, −1]이 나오고, 그것을 두 번 하면 제자리입니다. 회전끼리는 순서를 바꿔도 결과가 같다는 것도 확인할 수 있습니다.</p>
+</details>
+
+<h2 id="transfer">새 상황에 써 보기</h2>
+<p>추천기에서 “단위를 맞추는 단계 S”와 “점수표 W”를 이어 붙이면 W·S라는 행렬 하나로 줄일 수 있습니다. 노래가 백만 곡이면 두 번 곱하는 대신 미리 W·S를 계산해 한 번만 곱하면 됩니다. 단, S를 먼저 해야 한다는 순서를 지켜 W·S로 곱해야 하고, S·W로 바꾸면 다른 추천기가 됩니다. 10장에서는 이 성질 때문에 신경망이 행렬만 겹쳐서는 안 되는 이유를 봅니다.</p>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> 첫째를 ‘오른쪽으로 밀기’, 둘째를 ‘가로축 뒤집기’로 골라 보세요. 한쪽 깃발은 오른쪽 아래로, 다른 쪽은 왼쪽 아래로 기울어집니다. 같은 두 동작이 정반대 기울기를 만드는 장면입니다.</div>
+
+<details class="deeper">
+  <summary>순서를 바꿔도 결과가 같은 변환은 어떤 것들인가요?</summary>
+  <p>원점을 중심으로 한 회전끼리, 그리고 가로·세로를 따로 늘이거나 뒤집는 대각행렬끼리는 언제나 순서를 바꿔도 같습니다. 일반적으로 두 행렬이 “같은 방향들을 늘이기만 하는” 관계일 때 교환이 됩니다. 이 ‘늘이기만 하는 방향’이 8장의 고유벡터입니다.</p>
+</details>
+
+<h2 id="next-question">남은 질문</h2>
+<p>순서에 따라 깃발이 길어지기도, 뒤집히기도 했습니다. 그런데 4장의 ‘한 직선으로 납작하게’ 예시처럼 깃발이 아예 선이 되어 버리는 변환도 있었습니다. 변환이 넓이를 얼마나 늘리고 줄이는지, 뒤집는지, 납작하게 만드는지를 숫자 하나로 알아낼 수는 없을까요?</p>
+<a class="next" href="determinant.html"><span>다음 장 · 06 · 변환이 정보를 잃는지 한눈에 알아볼 숫자가 필요하니까</span><strong>넓이가 얼마나 변하는가</strong></a>
+<a class="prev" href="matrix.html">← 이전 장 · 04 행렬은 평면을 옮기는 규칙</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-2.js"></script>
+</body>
+</html>

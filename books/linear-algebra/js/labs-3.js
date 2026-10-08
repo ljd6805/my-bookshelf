@@ -93,7 +93,7 @@
       const zeros = rows.filter((r) => r.h[0] === 0).length;
       KIT.table(tbl, ['노래', 'h₁ 취향 신호', 'h₂ 빠르지만 차분함'], rows.map((r, i) => ({ top: i === 0, cells: [r.s.name, fmt(r.h[0]), fmt(r.h[1])] })), [1, 2]);
       out.innerHTML = `<p>W = ${mat(W, 2)}, b = ${vec(b, 1)}, ReLU ${v.relu ? '켬' : '끔'}</p>` +
-        `<p>${v.relu ? `h₁이 정확히 0이 된 노래: <strong>${zeros}곡</strong>. 경계선(주황 점선) 아래쪽 노래는 모두 같은 값 0으로 접힙니다.`
+        `<p>${v.relu ? `h₁이 정확히 0이 된 노래: <strong>${zeros}곡</strong>. 경계선(붉은 점선) 아래쪽 노래는 모두 같은 값 0으로 접힙니다.`
           : 'ReLU를 끄면 이 층은 행렬 곱 하나에 덧셈만 더한 직선 변환입니다. 오른쪽 그림의 격자가 휘지 않습니다.'}</p>`;
     };
     UI.ranges(root, draw).update();

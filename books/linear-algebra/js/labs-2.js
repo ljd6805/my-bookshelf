@@ -116,7 +116,7 @@
           `<p>가장 가까운 노래: ${near.song.name} (거리 ${fmt(near.d)})</p>`;
       }
       p.render();
-      out.innerHTML = `<p>식 ① 2x + y = ${fmt(b[0])} (주황 점선), 식 ② x + ${fmt(v.d)}y = ${fmt(b[1])} (보라 실선)</p>` +
+      out.innerHTML = `<p>식 ① 2x + y = ${fmt(b[0])} (붉은 점선), 식 ② x + ${fmt(v.d)}y = ${fmt(b[1])} (보라 실선)</p>` +
         `<p>det M = 2·${fmt(v.d)} − 1 = <strong>${fmt(d)}</strong></p>${msg}`;
     };
     UI.ranges(root, draw).update();

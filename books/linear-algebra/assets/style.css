@@ -186,3 +186,8 @@ footer.foot a { color: var(--muted); }
 .s-a { stroke: var(--a); } .s-b { stroke: var(--b); } .s-me { stroke: var(--me); } .s-res { stroke: var(--res); } .s-song { stroke: var(--song); } .s-mute { stroke: var(--axis); }
 .f-a { fill: var(--a); } .f-b { fill: var(--b); } .f-me { fill: var(--me); } .f-res { fill: var(--res); } .f-song { fill: var(--song); } .f-mute { fill: var(--muted); }
 .f-soft { fill: var(--soft); }
+.top { flex-wrap: wrap; row-gap: 6px; }
+.shelf-return { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 4px 14px; border: 1px solid var(--ink);
+  border-radius: 99px; color: var(--ink); text-decoration: none; font-size: .9rem; white-space: nowrap; background: var(--paper); }
+.shelf-return:hover { background: var(--ink); color: var(--paper); }
+@media (max-width: 420px) { .brand small { display: none; } .top nav { gap: 10px; } }
