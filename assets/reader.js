@@ -12,8 +12,9 @@ export function createReader(dialog, isReduced) {
     const template = document.getElementById(link.dataset.preview);
     if (!template) return false;
     const contents = template.content.cloneNode(true);
-    document.getElementById('reader-left').replaceChildren(contents.querySelector('.reader-copy'));
-    document.getElementById('reader-right').replaceChildren(contents.querySelector('.reader-contents'));
+    // Contents on the left page, title page with illustration on the right (see shelf_renderer.preview).
+    document.getElementById('reader-left').replaceChildren(contents.querySelector('.reader-contents'));
+    document.getElementById('reader-right').replaceChildren(contents.querySelector('.reader-copy'));
     dialog.querySelector('.reader-title').id = 'reader-title';
     book.className = `open-book ${[...link.classList].find(c => c.startsWith('tone-')) || 'tone-aqua'}`;
     dialog.querySelectorAll('.paper-page').forEach(page => { page.scrollTop = 0; });

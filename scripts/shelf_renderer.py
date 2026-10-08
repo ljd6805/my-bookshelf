@@ -103,13 +103,13 @@ def preview(item, key):
     contents = f'<ol class="chapter-list">{links}</ol>' if links else (
         '<p>이 책의 소개를 읽고, 아래 링크에서 내용을 이어서 살펴보세요.</p>'
         if state == 'published' else '<p>첫 장의 질문과 목차가 정해지면 이곳에 담습니다.</p>')
-    return (f'<template id="preview-{esc(key)}"><div class="reader-copy">'
+    # Like a printed spread: contents on the left (verso), title page on the right (recto).
+    return (f'<template id="preview-{esc(key)}"><div class="reader-contents">'
+            f'<h3>이 책에서 만날 내용</h3>{contents}</div><div class="reader-copy">'
             f'<p class="reader-category">{esc(label)}</p>{illustration(item)}'
             f'<h2 class="reader-title">{esc(item["title"])}</h2>'
-            '</div><div class="reader-contents">'
             f'<p class="reader-description">{esc(item["description"])}</p>'
-            '<h3>이 책에서 만날 내용</h3>'
-            f'{contents}{action}</div></template>')
+            f'{action}</div></template>')
 
 
 def spine_title(item):
