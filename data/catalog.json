@@ -332,7 +332,7 @@
       "title": "지식 그래프와 온톨로지 · 의미를 구조로",
       "spine_title": "지식 그래프",
       "spine_category": "지식관리",
-      "color": "violet",
+      "color": "plum",
       "description": "퀴리 가족에 관한 문장 스물한 개를 트리플로 바꾸고, 이름을 식별자로 정리하고, 온톨로지와 추론 규칙을 붙여 질문을 던집니다. 9개 장과 9개 실험으로 글에서 그래프를 뽑고 빈칸을 짐작한 뒤, 마지막에 GraphRAG로 세 단계 질문에 근거를 갖춰 답합니다.",
       "illustration": "books/knowledge-graph/assets/shelf-illustration.svg",
       "illustration_caption": "개념도: 문장 조각이 트리플이 되어 점과 화살표로 이어지고, 질문에서 출발한 탐색이 폴로늄 → 마리 → 이렌 → 1935 화학상으로 근거 사슬을 밝힙니다.",
