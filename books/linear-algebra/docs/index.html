@@ -1,21 +1,20 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>기획과 검증 기록 · 벡터와 행렬로 보는 세상</title>
 <meta name="description" content="벡터와 행렬로 보는 세상의 책 기획서, 장 구성, 실험 명세, 교차 링크, 검증 결과와 남은 일.">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="../assets/style.css?v=20261008-1">
+<link rel="stylesheet" href="../assets/style.css?v=20261008-ailayout1">
 </head>
 <body>
 <a class="skip" href="#main">본문으로 이동</a>
 <header class="top">
   <a class="brand" href="../index.html">벡터와 행렬로 보는 세상<small>기획과 검증 기록</small></a>
-  <nav aria-label="문서 메뉴"><a href="#brief">기획서</a><a href="#chapters">장 구성</a><a href="#labs">실험 명세</a><a href="#verification">검증</a></nav>
-  <a class="shelf-return" data-shelf-return href="../../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+  <nav aria-label="문서 메뉴"><a class="shelf-return" data-shelf-return href="../../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a><a href="#brief">기획서</a><a href="#chapters">장 구성</a><a href="#labs">실험 명세</a><a href="#verification">검증</a></nav>
 </header>
-<main id="main" tabindex="-1">
+<main id="main" class="docs" tabindex="-1">
 <p class="kicker">운영 문서 · 2026-10-08</p>
 <h1>기획과 검증 기록</h1>
 <p class="lead">이 문서는 독자가 읽는 본문이 아니라 책을 만들고 고칠 사람(사람·GPT·Claude)을 위한 기록입니다. 기획 결정, 장과 실험의 계약, 실제로 확인한 것과 확인하지 못한 것을 구분해 남깁니다.</p>
@@ -33,7 +32,8 @@
     <tr><th scope="row">증거</th><td>11장 마지막 과제: 3차원 데이터에서 무엇을 바꿀지·왜·부족한 증거를 쓰고, 예시 답안과 채점 기준으로 비교한다. 각 장의 예측 문제와 이해 확인 두 개.</td></tr>
   </tbody>
 </table>
-<p>구조 결정: 장마다 독립 HTML 파일(<code>vectors.html</code> 등)로 두어 JavaScript 없이도 본문·예시 숫자·표를 읽을 수 있게 했다. AI Book처럼 해시 라우팅을 쓰지 않은 이유는 검증기의 정적 앵커 검사와 텍스트 대체를 단순하게 하기 위해서다. 장 파일 이름이 곧 안정적인 장 ID다.</p>
+<p>구조 결정(2026-10-08 개편): 사용자 요청에 따라 서가의 첫 책인 AI Book(<code>books/ai/</code>)과 같은 화면 구성으로 바꿨다. <code>index.html</code> 한 페이지가 해시 경로(<code>#home</code>, <code>#chapters</code>, <code>#sources</code>, <code>#vectors</code> … <code>#challenge</code>)로 표지와 11개 장을 보여 준다. 머리말(서가로·전체 목차·참고 자료·밝은/어두운 화면·모바일 목차), 장을 읽을 때의 왼쪽 사이드바, 표지 순서(히어로 실험 → 흐름 → 공통 사례 → 전체 챕터 → 학습 경로 → 참고 자료), 장 순서(머리말 → 먼저 개념 잡기 → EXPERIMENT → 혼동하지 마세요 → 확인 문제 → 더 읽어 보기 → 이전·다음)를 AI Book에 맞췄다. 이 서재의 흐름(문제 → 예측 → 조작 → 관찰 → 설명 → 전이)을 지키려고 첫 실험 안에 예측을, 실험 뒤에 ‘실험 결과 읽기’·‘새 상황에 써 보기’·‘남은 질문’을, 다음 장 링크에 이동 이유를 둔다.</p>
+<p>파일: 본문은 <code>js/content.js</code>(장마다 장 지도 5칸·개념 그림·공식·예측·관찰·숫자 예·이해 확인·전이·혼동 주의·더 깊이·확인 문제·참고 자료·남은 질문·다음 장 이유), 실험 마크업과 안내 상자(무엇을 확인하나요?·비교 예제·결과 읽기)는 <code>js/lab-views.js</code>, 화면은 <code>js/helpers.js</code>·<code>js/page-home.js</code>·<code>js/page-chapter.js</code>·<code>js/app.js</code>가 만든다. 계산(<code>linalg.js</code>)과 실험 코드(<code>labs-*.js</code>)는 개편 전과 같다. 이전의 장별 파일(<code>vectors.html</code> 등)은 없어졌고 카탈로그의 장 링크는 <code>books/linear-algebra/#vectors</code> 형식으로 바꿨다. 장 ID는 그대로다. JavaScript가 꺼진 환경에서는 본문이 보이지 않는다(AI Book과 같은 제약, <code>noscript</code> 안내).</p>
 
 <h2 id="chapters">장 구성과 연결</h2>
 <div class="table-scroll">
@@ -93,11 +93,11 @@
 <h2 id="verification">검증 기록 (2026-10-08)</h2>
 <h3>자동 검사</h3>
 <ul>
-  <li><code>npm test --prefix books/linear-algebra</code>: 12개 통과. 계산 8개(내적·코사인의 대표값과 영벡터, 투영 분해의 직각·합 불변 조건, 곱의 비교환과 det(AB) = det A·det B, 역행렬·해와 det 0 거부, 고유쌍 M·v = λv와 회전·밀기 경계, 노래 PCA 42.08°·94.3%, ReLU로 접히는 네 곡, 데이터 범위)와 구조 4개(목차 순서, 장마다 장 지도 5칸·예측·실험·4단계 설명·이해 확인·초기화·이유 있는 다음 장 링크·서가 복귀, SVG 접근 이름과 슬라이더 라벨, 카탈로그 링크).</li>
-  <li><code>python3 scripts/validate.py</code>와 <code>python3 scripts/build_catalog.py --check</code>: 내부 링크·앵커·카탈로그 동기화 오류 0개(실행 결과는 PR 설명에 기록).</li>
+  <li><code>npm test --prefix books/linear-algebra</code>: 14개 통과. 계산 8개(내적·코사인의 대표값과 영벡터, 투영 분해의 직각·합 불변 조건, 곱의 비교환과 det(AB) = det A·det B, 역행렬·해와 det 0 거부, 고유쌍 M·v = λv와 회전·밀기 경계, 노래 PCA 42.08°·94.3%, ReLU로 접히는 네 곡, 데이터 범위)와 구조 6개(book-routes와 장 ID, AI Book과 같은 머리말·서가 복귀, 장마다 장 지도 5칸·개념·예측·관찰·전이·이해 확인·공식·숫자 예·확인 문제·참고 자료, 실험마다 안내 상자·예제 입력 이름·결과 영역·라벨, 내부 해시 링크, 카탈로그 링크).</li>
+  <li><code>python3 scripts/validate.py</code>와 <code>python3 scripts/build_catalog.py --check</code>: 오류 0개(실행 결과는 PR 설명에 기록).</li>
 </ul>
 <h3>브라우저 확인 (로컬 Chromium, Playwright)</h3>
-<p><code>tests/browser.cjs</code>로 표지와 11개 장을 1280px·320px에서 열어 실험 준비, 콘솔 오류 0, 가로 넘침 0, 키보드 화살표로 슬라이더 조작 시 결과 문장 변화, ‘처음 값으로’로 원래 문장 복귀를 확인했다(25/25, 동작 줄이기 1회 포함). 4·5·8·9·10장은 화면 캡처로 그림과 수치를 눈으로 대조했다.</p>
+<p><code>tests/browser.cjs</code>로 표지와 11개 장을 1280px·320px에서 열어 콘솔 오류 0, 가로 넘침 0, 머리말의 서가 버튼(높이 36px 이상, 화면 안), 실험 준비를 확인했다(24/24). 1280px에서는 실험마다 비교 예제 버튼을 차례로 눌러 결과 문장에 본문의 검증값(예: 1장 (1.00, 1.50)·(0.00, 0.00), 6장 3.18·0.00·−2.25, 7장 (2.00, 1.50)·(−4.75, 15.00), 9장 55%·94%·6%)이 나오는지, ‘실험 초기화’로 처음 문장으로 돌아오는지, 키보드 화살표로 슬라이더가 움직이는지, 확인 문제의 정답 버튼이 ‘정답입니다.’를 보이는지 확인했다. 표지·1·5·9·11장은 1280px·390px 화면 캡처로 배치를 눈으로 확인했다.</p>
 <h3>실험 확인 수준</h3>
 <table class="data">
   <thead><tr><th scope="col">수준</th><th scope="col">뜻</th><th scope="col">상태</th></tr></thead>
@@ -123,7 +123,7 @@
   <li>확률·통계 책이 공개되면 9장 공분산과 그 책의 분산 장을 잇고, 첫 읽기 경로 후보(“AI는 왜 틀리는가” 또는 “데이터를 숫자로 요약하기”)를 <code>learning_paths</code>에 제안한다.</li>
   <li>3차원 회전·투영을 2D 대안과 함께 보여 주는 부록 장(그래픽 사례)을 검토한다.</li>
 </ul>
-<p><a href="../index.html">← 책 표지로</a></p>
+<p><a href="../index.html#home">← 책 표지로</a></p>
 </main>
 <footer class="foot"><a href="../../../index.html#books">나만의 서재로 돌아가기</a><a href="../index.html">책 표지</a></footer>
 </body>

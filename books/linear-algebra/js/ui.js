@@ -1,8 +1,9 @@
-/* 공통 화면 도우미: 숫자 표시, 슬라이더 연결, 애니메이션, 예측 버튼, 읽은 장 기록. */
+/* 공통 화면 도우미: 숫자 표시, 슬라이더 연결, 애니메이션, 예측 버튼, 읽은 장 기록, 실험 연결. */
 (function () {
   'use strict';
   const KEY = 'bookshelf:linear-algebra-world:v1:progress';
   const labs = {};
+  const running = new Set();
 
   const fmt = (x, d) => {
     if (x === null || x === undefined || Number.isNaN(x)) return '—';
@@ -23,11 +24,15 @@
       if (start === null) start = now;
       const t = Math.min(1, (now - start) / ms);
       frame(ease(t));
-      if (t < 1) id = requestAnimationFrame(step); else if (done) done();
+      if (t < 1) id = requestAnimationFrame(step); else { running.delete(stop); if (done) done(); }
     };
     id = requestAnimationFrame(step);
-    return () => { stopped = true; cancelAnimationFrame(id); };
+    const stop = () => { stopped = true; cancelAnimationFrame(id); running.delete(stop); };
+    running.add(stop);
+    return stop;
   }
+  // 장을 떠날 때 남은 애니메이션을 모두 멈춥니다.
+  const stopAll = () => [...running].forEach((stop) => stop());
 
   // 실험 안의 슬라이더 값을 읽고, 옆의 output에 값을 표시합니다.
   function ranges(root, onChange) {
@@ -42,8 +47,8 @@
     };
     const update = () => { show(); onChange(values()); };
     inputs.forEach((el) => el.addEventListener('input', update));
-    const resetBtn = root.querySelector('[data-reset]');
-    if (resetBtn) resetBtn.addEventListener('click', () => {
+    // 안내 상자의 '실험 초기화'가 lab-request-reset 이벤트를 보냅니다.
+    root.addEventListener('lab-request-reset', () => {
       inputs.forEach((el) => {
         if (el.type === 'checkbox') el.checked = el.defaultChecked;
         else if (el.tagName === 'SELECT') el.value = ([...el.options].find((o) => o.defaultSelected) || el.options[0]).value;
@@ -60,53 +65,42 @@
     return { values, update, set };
   }
 
-  function predictions(root) {
-    root.querySelectorAll('.predict').forEach((box) => {
-      const note = box.querySelector('.predict-note');
-      box.querySelectorAll('button[data-choice]').forEach((btn) => btn.addEventListener('click', () => {
-        box.querySelectorAll('button[data-choice]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
-        if (note) note.textContent = `내 예측: “${btn.textContent.trim()}”. 이제 아래 실험으로 확인해 보세요. 정답과 이유는 실험 뒤에 있습니다.`;
-      }));
-    });
+  // 예측 버튼: 고른 답을 표시하고, 정답은 실험 뒤의 해설에서 확인하게 합니다.
+  function predict(box) {
+    const note = box.querySelector('.predict-note');
+    box.querySelectorAll('button[data-choice]').forEach((btn) => btn.addEventListener('click', () => {
+      box.querySelectorAll('button[data-choice]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      if (note) note.textContent = `내 예측: “${btn.textContent.trim()}”. 이제 아래 실험으로 확인해 보세요. 정답과 이유는 실험 뒤에 있습니다.`;
+    }));
   }
 
-  function progress() {
-    let state = {};
-    try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { state = {}; }
-    const chapter = document.body.dataset.chapter;
-    if (chapter) {
-      state[chapter] = true;
-      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* 저장할 수 없어도 읽기는 계속됩니다. */ }
-    }
-    document.querySelectorAll('[data-progress]').forEach((li) => {
-      if (state[li.dataset.progress]) {
-        li.classList.add('visited');
-        const mark = li.querySelector('.visit-mark');
-        if (mark) mark.textContent = '읽음';
-      }
-    });
+  // 읽은 장 기록. 저장할 수 없는 환경에서도 읽기는 계속됩니다.
+  function readState() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
+  }
+  function markRead(id) {
+    const state = readState();
+    state[id] = true;
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* 무시 */ }
+    return state;
   }
 
   const lab = (name, fn) => { labs[name] = fn; };
 
-  function start() {
-    document.documentElement.classList.add('js');
-    predictions(document);
-    progress();
-    document.querySelectorAll('[data-lab]').forEach((root) => {
-      const fn = labs[root.dataset.lab];
-      if (!fn) return;
-      try { fn(root); root.classList.add('ready'); } catch (e) {
-        const msg = document.createElement('p');
-        msg.className = 'lab-error';
-        msg.setAttribute('role', 'alert');
-        msg.textContent = '실험을 불러오지 못했습니다. 위의 글과 예시 숫자로 내용을 확인할 수 있습니다.';
-        root.appendChild(msg);
-        console.error(e);
-      }
-    });
+  // root[data-lab] 안의 마크업에 실험을 연결합니다. 실패하면 오류 문장을 보여 줍니다.
+  function mount(root) {
+    const fn = labs[root.dataset.lab];
+    if (!fn) return false;
+    try { fn(root); root.classList.add('ready'); return true; } catch (e) {
+      const msg = document.createElement('p');
+      msg.className = 'lab-error';
+      msg.setAttribute('role', 'alert');
+      msg.textContent = '실험을 불러오지 못했습니다. 위의 글과 예시 숫자로 내용을 확인할 수 있습니다.';
+      root.appendChild(msg);
+      console.error(e);
+      return false;
+    }
   }
 
-  window.UI = { fmt, vec, mat, animate, ranges, lab, reducedMotion };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else setTimeout(start);
+  window.UI = { fmt, vec, mat, animate, stopAll, ranges, lab, mount, predict, readState, markRead, reducedMotion };
 })();
