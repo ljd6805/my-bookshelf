@@ -16,7 +16,7 @@ class CatalogRenderingTests(unittest.TestCase):
         count = len(catalog['resources']) + len(catalog['books'])
         self.assertEqual(home.count('data-resource='), count)
         self.assertIn(f'전체 {count}개 자료', home)
-        self.assertIn('https://ljd6805.github.io/ai-book-interactive/', home)
+        self.assertIn('books/ai/', home)
 
     def test_empty_books_have_no_fake_book_link(self):
         result = render_books([])

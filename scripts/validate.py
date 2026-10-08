@@ -5,9 +5,9 @@ from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 if __package__:
-    from .build_catalog import build
+    from .build_catalog import build, safe_book_url
 else:
-    from build_catalog import build
+    from build_catalog import build, safe_book_url
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -20,6 +20,8 @@ class Document(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        if tag == 'meta' and a.get('name') == 'book-routes':
+            self.ids.update(a.get('content', '').split(','))
         if a.get('id') in self.ids:
             self.duplicates.append(a['id'])
         if a.get('id'):
@@ -57,8 +59,10 @@ def validate_catalog(catalog):
             errors.append(f'catalog: missing or duplicate book id {bid}')
         seen.add(bid)
         if book.get('status') == 'published':
-            if urlsplit(book.get('url', '')).scheme != 'https':
-                errors.append(f'catalog: published book {bid} needs https url')
+            try:
+                safe_book_url(book.get('url', ''))
+            except ValueError:
+                errors.append(f'catalog: published book {bid} needs a safe book url')
     for route in catalog.get('learning_paths', []):
         for step in route.get('steps', []):
             if step.get('book_id') not in seen:

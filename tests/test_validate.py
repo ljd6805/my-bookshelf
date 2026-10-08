@@ -17,6 +17,27 @@ class IntegrityChecks(unittest.TestCase):
             (root / 'index.html').write_text('<a href="docs/a.html#missing">bad</a><img src="absent.jpg">')
             self.assertEqual(len(validate_html(root)[0]), 2)
 
+    def test_dynamic_routes_still_reject_unknown_fragments(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / 'index.html').write_text(
+                '<meta name="book-routes" content="home,neuron">'
+                '<a href="#neuron">valid</a><a href="#absent">invalid</a>')
+            errors, _ = validate_html(root)
+            self.assertEqual(len(errors), 1)
+            self.assertIn('#absent', errors[0])
+
+    def test_internal_book_urls_reject_unsafe_paths(self):
+        for url in ['books/ai/', 'books/ai/index.html#neuron']:
+            self.assertEqual(validate_catalog({'books': [
+                {'id': 'ai', 'status': 'published', 'url': url}]}), [])
+        for url in ['books/../docs/a.html', 'books/%2e%2e/docs/a.html',
+                    'books/ai%5csecret', '/books/ai/', 'docs/a.html',
+                    'javascript:alert(1)', '//example.com/book/']:
+            with self.subTest(url=url):
+                self.assertTrue(validate_catalog({'books': [
+                    {'id': 'ai', 'status': 'published', 'url': url}]}))
+
     def test_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)

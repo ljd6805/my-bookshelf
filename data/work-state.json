@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-10-07",
-  "goal": "펼친 책의 읽기 버튼 마우스 클릭 오류 수정",
+  "updated_at": "2026-10-08",
+  "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
   "preferred_remote_name": "my-bookshelf",
   "remote_status": "uploaded_and_verified",
-  "pages_status": "reader_click_fix_deployed_and_mouse_verified",
+  "pages_status": "integration_pending_browser_verification",
   "first_book": "ai-book-interactive",
   "completed": [
     "원 사이트의 32권·포털 열람",
@@ -27,10 +27,11 @@
     "공개 서가의 운영 문서 제외·AI 책 펼침·키보드 책 읽기 이동 확인; Python 15개와 JavaScript 4개 테스트 통과",
     "책등 제목 규칙을 AGENTS.md와 운영·디자인 문서에 명시; AI 원리 실험으로 이름 편집; 생성기 검증 및 Python 17개·JavaScript 4개 테스트 통과",
     "책등 제목 최대 18px·공백 제외 6글자 규칙 공개; 4종 화면 폭에서 잘림·분류 겹침 없음과 전체 제목 보존 확인",
-    "읽기 버튼의 :active transform 제거; 공개 페이지에서 마우스 클릭으로 AI Book 본문 이동 확인"
+    "읽기 버튼의 :active transform 제거; 공개 페이지에서 마우스 클릭으로 AI Book 본문 이동 확인",
+    "AI 교과서 본문·실험·자산·테스트·개발 문서를 books/ai/로 복사; 내부 카탈로그·서가 복귀 링크·CI 통합"
   ],
-  "verification": "data/spine-title-validation.json",
-  "next_action": "다음 학습자료 등록 시 내용에 맞는 spine_title(공백 제외 최대 6글자)을 작성하고 320px 화면을 확인. 운영 문서를 지식자료로 재등록하지 않음.",
+  "verification": "docs/07-book-integration.html#verification",
+  "next_action": "AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
   "limitations": [
     "Responsive iframe checks are not physical mobile-device testing.",
     "Safari, Firefox, screen readers, Lighthouse and low-end performance not tested.",

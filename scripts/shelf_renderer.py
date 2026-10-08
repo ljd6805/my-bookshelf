@@ -3,7 +3,7 @@ import html
 import unicodedata
 from html.parser import HTMLParser
 from pathlib import Path
-from urllib.parse import urlsplit
+from urllib.parse import urlsplit, unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 GROUPS = {'analysis': ('분석과 사례', '다른 책에서 발견한 좋은 질문들'),
@@ -18,13 +18,21 @@ def esc(value):
 
 
 def safe_url(value, external=False):
-    u = urlsplit(value)
+    u = urlsplit(unquote(value))
     if u.scheme == 'https' and u.netloc:
         return esc(value)
-    if (external or not value or u.scheme or u.netloc or value.startswith('/')
-            or '..' in u.path.split('/') or '\\' in value):
+    if (external or not value or u.scheme or u.netloc or u.path.startswith('/')
+            or '..' in u.path.split('/') or '\\' in u.path):
         raise ValueError(f'Unsupported catalog URL: {value}')
     return esc(value)
+
+
+def safe_book_url(value):
+    url = safe_url(value)
+    parsed = urlsplit(unquote(value))
+    if not parsed.scheme and not parsed.path.startswith('books/'):
+        raise ValueError('Local books must live under books/')
+    return url
 
 
 class Outline(HTMLParser):
@@ -50,6 +58,8 @@ class Outline(HTMLParser):
 
 
 def outline(item):
+    if 'chapters' in item:
+        return item['chapters'][:5]
     url = item.get('url', '')
     if urlsplit(url).scheme:
         return item.get('chapters', [])[:5]

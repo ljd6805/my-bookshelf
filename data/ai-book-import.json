@@ -1,0 +1,179 @@
+{
+  "source_repository": "ljd6805/ai-book-interactive",
+  "source_tree": "929d6dfd410c20312cde5829719a8d6e4c5ebc7a",
+  "imported_at": "2026-10-08",
+  "destination": "books/ai/",
+  "files": [
+    {
+      "path": ".github/workflows/test.yml",
+      "source_blob_sha": "d09f21d6215d1e638383ed0edb31a73b9f1d9410",
+      "destination": "root CI adapted"
+    },
+    {
+      "path": ".gitignore",
+      "source_blob_sha": "2752eb92e5922f0f1d60494d1793a54775e0d830",
+      "destination": "books/ai/.gitignore",
+      "copied_blob_sha": "2752eb92e5922f0f1d60494d1793a54775e0d830",
+      "unchanged": true
+    },
+    {
+      "path": ".nojekyll",
+      "source_blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "destination": "root .nojekyll retained"
+    },
+    {
+      "path": "README.md",
+      "source_blob_sha": "b4ed06eb001887512c426d78c92738365cae5a1b",
+      "destination": "books/ai/README.md",
+      "copied_blob_sha": "2a0662fa7fe8ef13b4cbe0bb630f79950e259f68",
+      "unchanged": false
+    },
+    {
+      "path": "assets/favicon.svg",
+      "source_blob_sha": "b8b1e5a691cbc1ba830a52c29602e476d6ad63c4",
+      "destination": "books/ai/assets/favicon.svg",
+      "copied_blob_sha": "b8b1e5a691cbc1ba830a52c29602e476d6ad63c4",
+      "unchanged": true
+    },
+    {
+      "path": "assets/style.css",
+      "source_blob_sha": "13d4fe97f40f7a4409a865690020a6d6ce7bbe5e",
+      "destination": "books/ai/assets/style.css",
+      "copied_blob_sha": "18b28508c81bfac8b50b42bc67519d557689e5de",
+      "unchanged": false
+    },
+    {
+      "path": "docs/experiment-audit.html",
+      "source_blob_sha": "77dd7e45ad6930855d4e8805c1e808964cde891b",
+      "destination": "books/ai/docs/experiment-audit.html",
+      "copied_blob_sha": "77dd7e45ad6930855d4e8805c1e808964cde891b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/home-network-fix.html",
+      "source_blob_sha": "0d5188f8f914e542c1aa491666927251833194ee",
+      "destination": "books/ai/docs/home-network-fix.html",
+      "copied_blob_sha": "0d5188f8f914e542c1aa491666927251833194ee",
+      "unchanged": true
+    },
+    {
+      "path": "docs/implementation.html",
+      "source_blob_sha": "842e7140ea23ff868b101eedbb8daec72f73b624",
+      "destination": "books/ai/docs/implementation.html",
+      "copied_blob_sha": "842e7140ea23ff868b101eedbb8daec72f73b624",
+      "unchanged": true
+    },
+    {
+      "path": "docs/index.html",
+      "source_blob_sha": "9b60e2be73d25cebf3b2b633da6b30b90b33da4e",
+      "destination": "books/ai/docs/index.html",
+      "copied_blob_sha": "4dfcae40207c051b217bae72b6afd54f28133531",
+      "unchanged": false
+    },
+    {
+      "path": "docs/plan.html",
+      "source_blob_sha": "c6e5c9e8b3c4cd85b8e5c361310a076a6caa479c",
+      "destination": "books/ai/docs/plan.html",
+      "copied_blob_sha": "c6e5c9e8b3c4cd85b8e5c361310a076a6caa479c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/validation.html",
+      "source_blob_sha": "39edd667203f762b548c773e7716da2e54023816",
+      "destination": "books/ai/docs/validation.html",
+      "copied_blob_sha": "39edd667203f762b548c773e7716da2e54023816",
+      "unchanged": true
+    },
+    {
+      "path": "index.html",
+      "source_blob_sha": "3cbdf52fa2ab74565575b13499fde992a87357f1",
+      "destination": "books/ai/index.html",
+      "copied_blob_sha": "224ee08916ef792f70cfddb8d7bf7b3a842ca705",
+      "unchanged": false
+    },
+    {
+      "path": "js/app.js",
+      "source_blob_sha": "40d168ac4de5ffd7f9714d4ee1661f2ed6072a2c",
+      "destination": "books/ai/js/app.js",
+      "copied_blob_sha": "40d168ac4de5ffd7f9714d4ee1661f2ed6072a2c",
+      "unchanged": true
+    },
+    {
+      "path": "js/content.js",
+      "source_blob_sha": "7cb3a1438661ec87eec7d0a616bbb454de06e2cf",
+      "destination": "books/ai/js/content.js",
+      "copied_blob_sha": "7cb3a1438661ec87eec7d0a616bbb454de06e2cf",
+      "unchanged": true
+    },
+    {
+      "path": "js/home-network.js",
+      "source_blob_sha": "c5e1a2915014dea5b4cad723da3fdfde80fb5d13",
+      "destination": "books/ai/js/home-network.js",
+      "copied_blob_sha": "c5e1a2915014dea5b4cad723da3fdfde80fb5d13",
+      "unchanged": true
+    },
+    {
+      "path": "js/lab-guides.js",
+      "source_blob_sha": "90f27022fbf8e1839cdb7f103ecd9a1300c1c0a1",
+      "destination": "books/ai/js/lab-guides.js",
+      "copied_blob_sha": "90f27022fbf8e1839cdb7f103ecd9a1300c1c0a1",
+      "unchanged": true
+    },
+    {
+      "path": "js/labs-basic.js",
+      "source_blob_sha": "88685516335e4372a186c960cae8e91efcaa7925",
+      "destination": "books/ai/js/labs-basic.js",
+      "copied_blob_sha": "88685516335e4372a186c960cae8e91efcaa7925",
+      "unchanged": true
+    },
+    {
+      "path": "js/labs-language.js",
+      "source_blob_sha": "8ee079b47aa248c43000ccd67846e05b69770f5f",
+      "destination": "books/ai/js/labs-language.js",
+      "copied_blob_sha": "8ee079b47aa248c43000ccd67846e05b69770f5f",
+      "unchanged": true
+    },
+    {
+      "path": "js/labs-systems.js",
+      "source_blob_sha": "2021b47d8b19fdbbaf3432f23195c8a62256b796",
+      "destination": "books/ai/js/labs-systems.js",
+      "copied_blob_sha": "2021b47d8b19fdbbaf3432f23195c8a62256b796",
+      "unchanged": true
+    },
+    {
+      "path": "js/math.js",
+      "source_blob_sha": "2a798837937b2658f75804ff6c679aedfca18ceb",
+      "destination": "books/ai/js/math.js",
+      "copied_blob_sha": "2a798837937b2658f75804ff6c679aedfca18ceb",
+      "unchanged": true
+    },
+    {
+      "path": "js/visual.js",
+      "source_blob_sha": "7061a826247c3f9b14c99b43f5bc973fe94e9fc8",
+      "destination": "books/ai/js/visual.js",
+      "copied_blob_sha": "7061a826247c3f9b14c99b43f5bc973fe94e9fc8",
+      "unchanged": true
+    },
+    {
+      "path": "package.json",
+      "source_blob_sha": "8674602a90197f3402a3545a4d19515a00035f97",
+      "destination": "books/ai/package.json",
+      "copied_blob_sha": "8674602a90197f3402a3545a4d19515a00035f97",
+      "unchanged": true
+    },
+    {
+      "path": "tests/browser.cjs",
+      "source_blob_sha": "7f10c7a84322c4b5ca6096d85f9e045ce254440c",
+      "destination": "books/ai/tests/browser.cjs",
+      "copied_blob_sha": "e18b125eda4ee0a1cd6758ddb06437aff8f14dbd",
+      "unchanged": false
+    },
+    {
+      "path": "tests/math.test.cjs",
+      "source_blob_sha": "2d4eb3e1410e23905218c3e34e3d7e59d5c5585e",
+      "destination": "books/ai/tests/math.test.cjs",
+      "copied_blob_sha": "2d4eb3e1410e23905218c3e34e3d7e59d5c5585e",
+      "unchanged": true
+    }
+  ]
+}

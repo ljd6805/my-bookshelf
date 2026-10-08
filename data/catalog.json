@@ -12,7 +12,7 @@
       "color": "aqua",
       "description": "신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 18개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.",
       "status": "published",
-      "url": "https://ljd6805.github.io/ai-book-interactive/",
+      "url": "books/ai/",
       "keywords": [
         "AI",
         "인공지능",
@@ -24,23 +24,23 @@
       "chapters": [
         {
           "title": "전체 12개 챕터",
-          "url": "https://ljd6805.github.io/ai-book-interactive/#chapters"
+          "url": "books/ai/#chapters"
         },
         {
           "title": "01 · 신경망의 작은 부품",
-          "url": "https://ljd6805.github.io/ai-book-interactive/#neuron"
+          "url": "books/ai/#neuron"
         },
         {
           "title": "06 · 어떤 정보를 참고할까",
-          "url": "https://ljd6805.github.io/ai-book-interactive/#attention"
+          "url": "books/ai/#attention"
         },
         {
           "title": "11 · 답하기 전에 근거 찾기",
-          "url": "https://ljd6805.github.io/ai-book-interactive/#rag"
+          "url": "books/ai/#rag"
         },
         {
           "title": "12 · 도구를 쓰고 결과를 확인하기",
-          "url": "https://ljd6805.github.io/ai-book-interactive/#agents"
+          "url": "books/ai/#agents"
         }
       ]
     }

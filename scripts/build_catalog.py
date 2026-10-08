@@ -11,9 +11,9 @@ CATEGORIES = {'analysis', 'guide', 'template'}
 
 
 if __package__:
-    from .shelf_renderer import esc, safe_url, render_resources, shelf
+    from .shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url
 else:
-    from shelf_renderer import esc, safe_url, render_resources, shelf
+    from shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url
 
 
 def render_books(books):
@@ -30,7 +30,7 @@ def render_books(books):
             raise ValueError('Book ID must be unique and status must be known')
         seen.add(book['id'])
         if book['status'] == 'published':
-            safe_url(book['url'], external=True)
+            safe_book_url(book['url'])
     return ''.join(shelf(books[i:i + 12], 'book', i) for i in range(0, len(books), 12))
 
 
