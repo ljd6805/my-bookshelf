@@ -65,13 +65,13 @@ F.transformer=()=>{
 F.phases=()=>{
  const cell=(x,y,c,s,o=1)=>`<rect x="${x}" y="${y}" width="40" height="34" rx="5" fill="${c}" opacity="${o}"/>`+t(x+20,y+22,s,{size:13,fill:'var(--bg)',w:700});
  let b=t(20,40,'Prefill',{a:'start',w:700,size:17,fill:'var(--accent)'})+t(110,40,'프롬프트 6개 위치를 한꺼번에 계산하고 K·V를 남깁니다',{a:'start',size:13,fill:'var(--muted)'});
- b+=blink([0,1,2,3,4,5].map(i=>cell(20+i*46,56,'var(--accent)','p'+(i+1))).join(''),0);
+ b+=blink([0,1,2,3,4,5].map(i=>cell(20+i*46,56,'var(--accent)','p'+(i+1))).join('')+`<path d="M300 73H336" stroke="var(--accent)" stroke-width="2"/>`+cell(342,56,'var(--orange)','g1')+t(362,108,'첫 출력',{size:12,fill:'var(--orange)'}),0);
  b+=t(20,148,'Decode',{a:'start',w:700,size:17,fill:'var(--orange)'})+t(110,148,'새 토큰 하나씩, 남겨 둔 K·V를 읽으며 이어 갑니다',{a:'start',size:13,fill:'var(--muted)'});
- b+=[0,1,2,3,4,5].map(i=>cell(20+i*46,164,'var(--muted)','p'+(i+1),.55)).join('');
- [0,1,2,3].forEach(i=>b+=blink(cell(296+i*46,164,'var(--orange)','g'+(i+1))+`<path d="M${316+i*46} 200Q${316+i*46} 232 292 216" fill="none" stroke="var(--orange)" stroke-width="1.5" stroke-dasharray="4 4"/>`,.4+i*.9));
- b+=`<path d="M22 206V214H290V206" fill="none" stroke="var(--muted)" stroke-width="1.5"/>`+t(156,236,'과거 K·V를 읽음',{size:13,fill:'var(--muted)'});
- b+=t(20,282,'출력 G개 = prefill 1번(첫 출력 g1 포함) + decode G−1번',{a:'start',size:14,fill:'var(--text)'});
- return {svg:svg('Prefill은 프롬프트 6개 위치를 한꺼번에 처리하고, Decode는 새 토큰을 하나씩 만들며 과거 K·V를 읽는 그림',b),caption:'Prefill은 프롬프트 여러 위치를 함께 계산하고 K·V를 남깁니다. Decode는 새 토큰을 하나 만들 때마다 앞에서 남긴 K·V 전체를 다시 읽습니다. 점선은 읽기를 뜻하는 개념도입니다.'};
+ b+=[0,1,2,3,4,5,6].map(i=>cell(20+i*46,164,'var(--muted)',i<6?'p'+(i+1):'g1',.55)).join('');
+ [0,1,2].forEach(i=>b+=blink(cell(342+i*46,164,'var(--orange)','g'+(i+2))+`<path d="M${362+i*46} 200Q${362+i*46} 232 338 216" fill="none" stroke="var(--orange)" stroke-width="1.5" stroke-dasharray="4 4"/>`,.4+i*.9));
+ b+=`<path d="M22 206V214H336V206" fill="none" stroke="var(--muted)" stroke-width="1.5"/>`+t(178,236,'과거 K·V를 읽음',{size:13,fill:'var(--muted)'});
+ b+=t(20,282,'출력 G개 = prefill 1번(첫 출력 g1) + decode G−1번(g2부터)',{a:'start',size:14,fill:'var(--text)'});
+ return {svg:svg('Prefill은 프롬프트 6개 위치를 한꺼번에 처리해 첫 출력 g1을 내고, Decode는 g2부터 새 토큰을 하나씩 만들며 과거 K·V를 읽는 그림',b),caption:'Prefill은 프롬프트 여러 위치를 함께 계산하고 K·V를 남깁니다. 첫 출력 g1은 prefill 끝에서 나오고, decode는 g2부터 새 토큰을 하나 만들 때마다 앞에서 남긴 K·V 전체를 다시 읽습니다. 점선은 읽기를 뜻하는 개념도입니다.'};
 };
 F.cache=()=>{
  const m=M.models.toy,perToken=M.kvBytes({...m,tokens:1}),ctx=M.kvBytes({...m,tokens:8192});let b='';
