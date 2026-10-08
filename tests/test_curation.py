@@ -48,5 +48,21 @@ class CurationTests(unittest.TestCase):
             self.assertGreater(len(owners), 1, concept['id'])
 
 
+
+
+class AtlasLayoutTests(unittest.TestCase):
+    def test_real_concept_labels_do_not_overlap_and_stay_on_the_map(self):
+        from scripts.atlas_renderer import layout, WIDTH, HEIGHT
+        catalog = json.loads((ROOT / 'data/catalog.json').read_text())
+        nodes, _ = layout(catalog['concepts'], catalog['books'])
+        for i, a in enumerate(nodes):
+            self.assertTrue(a['w'] / 2 <= a['x'] <= WIDTH - a['w'] / 2, a['id'])
+            self.assertTrue(0 < a['y'] < HEIGHT, a['id'])
+            for b in nodes[i + 1:]:
+                apart = (abs(a['x'] - b['x']) >= (a['w'] + b['w']) / 2
+                         or abs(a['y'] - b['y']) >= (a['h'] + b['h']) / 2)
+                self.assertTrue(apart, f"{a['id']} overlaps {b['id']}")
+
+
 if __name__ == '__main__':
     unittest.main()
