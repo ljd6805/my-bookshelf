@@ -101,8 +101,8 @@
         const exact = S.binomialUpper(n, k, p), sim = days ? S.sum(counts.slice(k)) / days : null;
         readout.textContent = `계산한 P(경보 ≥ ${k}) = ${U.fmt.pct(exact, 2)} · 평균 개수 n·p = ${(n * p).toFixed(1)}번` +
           (days ? ` · 모의 ${U.fmt.int(days)}일 중 ${k}번 이상인 날 ${U.fmt.pct(sim, 1)}${last !== null ? ` · 마지막 날 ${last}번` : ''}` : ' · 아직 모의 실험 전');
-        note.textContent = exact < 0.01 ? '평소 상태라면 100일에 한 번도 나오지 않을 날입니다. 이런 날이 오면 원인을 조사할 가치가 있습니다.'
-          : exact < 0.1 ? '드물지만 한 달에 몇 번쯤은 나오는 날입니다. 한 번 나왔다고 고장으로 단정하기는 이릅니다.'
+        note.textContent = exact < 0.01 ? '평소 상태라면 100일에 한 번꼴도 나오지 않을 날입니다. 이런 날이 오면 원인을 조사할 가치가 있습니다.'
+          : exact < 0.1 ? '드물지만 몇 달에 한 번에서 한 달에 몇 번까지는 나올 수 있는 날입니다. 한 번 나왔다고 고장으로 단정하기는 이릅니다.'
           : '평소에도 자주 나오는 날입니다. 이 기준으로 경보를 울리면 오경보가 많아집니다.';
       }
       function run(d) {

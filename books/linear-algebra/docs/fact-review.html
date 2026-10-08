@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · 벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · 벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="Claude · 벡터와 행렬 책 집필 스레드" data-date="2026-10-08" data-scope="11개 장 본문, 11개 실험 계산, 출처 6개(검수 후 8개), 교차 링크" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: Claude · 벡터와 행렬 책 집필 스레드. 범위: 11개 장 본문, 11개 실험 계산, 출처 6개(검수 후 8개), 교차 링크. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 0건, medium 5건, low 12건. 모든 계산 예는 맞았고, 실험이 보여 주는 결과와 본문·과제 문장이 어긋난 곳과 반올림에서 생긴 차이를 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>응용 설명(PageRank, 고유얼굴, 성격 요인) 표현을 고치고 출처 2개 추가</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>거리·내적·코사인·사영·행렬곱·행렬식·역행렬·연립방정식·고윳값·PCA·ReLU 층·3차원 코사인 재계산. 반올림 불일치 5건과 장 번호 1건 수정</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>npm test 14개 통과, linalg.js의 0 벡터·특이 행렬·결손 행렬 경계값 확인. 고유 방향 판정 허용치(2°→0.5°)와 과제 문장 2건 수정</td></tr><tr data-check="terms" data-status="fixed"><td>용어</td><td>수정함</td><td>고유값→고윳값, 대칭 행렬→대칭행렬로 통일, 공분산 주석의 표본/모집단 구분 수정</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 7개 WebFetch 확인. 임베딩 출처 설명을 실제 내용에 맞추고 Brin &amp; Page 1998, Turk &amp; Pentland 1991 추가</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>M1 medium</td><td>js/lab-views.js 마지막 과제</td><td>1위가 아침 달리기→옥상 록으로 한 번 바뀐다</td><td>실제로는 여름 축제를 거쳐 두 번 바뀜</td><td>과제 문장 수정</td></tr><tr><td>M2 medium</td><td>js/labs-3.js 고유 방향 판정</td><td>2° 허용치로 전단 행렬의 351~11°를 고유 방향으로 표시</td><td>결손 고유벡터 근처는 각도 차이가 φ²로만 자람</td><td>허용치 0.5°, 과제·계산 조건 문장 수정</td></tr><tr><td>M3 medium</td><td>#layer 본문</td><td>(3.58, 1.55), (−2.01, −1.12)</td><td>실험 표시는 1.54, −2.00, −1.11</td><td>실험 값으로 통일</td></tr><tr><td>M4 medium</td><td>#layer 예측 답</td><td>정답 4곡이 W 반올림에서 생긴 결과</td><td>정확한 (1,2)/√5면 5곡</td><td>답에 반올림 효과 설명 추가</td></tr><tr><td>M5 medium</td><td>출처 MLCC Embeddings</td><td>코사인 유사도 근거로 표시</td><td>페이지에 코사인 정의 없음</td><td>설명을 벡터 표현의 기초로 한정</td></tr><tr><td>L1~L12 low</td><td>content.js 여러 장, linalg.js</td><td>9장 고윳값(실제 8장), 3.59/3.58, 0.82→0.81, 72°→73°, ±0.01, 세 가지→네 가지, 평면 밖→그림 밖, 둘째 행 부호, 셋째 줄→셋째 식, 표본/모집단 공분산, 용어 표기, 응용 설명의 출처</td><td>node 재계산과 장 대조</td><td>각각 수정</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>새로 넣은 두 출처(DOI)는 이 검수 환경에서 열어 보지 못했습니다(서지 정보로 확인). 3Blue1Brown 페이지는 스크립트로 그려져 강의 목록을 직접 보지 못했습니다. 브라우저 실행과 학습 효과는 범위 밖입니다.</p>
+</section>
+</main></body></html>

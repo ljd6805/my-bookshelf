@@ -72,7 +72,7 @@
 <section id="verification">
 <h2>04 검증 결과 (2026-10-08)</h2>
 <ul>
-<li><strong>수치 정확성</strong>: <code>npm test --prefix books/probability</code> 18개 통과(계산 14개, 장 경로·학습 흐름·교차 링크·카탈로그 4개). 본문의 모든 수치 예시를 계산 모듈로 다시 계산해 맞췄고, 이 과정에서 7장 p값(0.058 → 0.14)과 검정력(약 45% → 약 20%), 8장 손실값, 마지막 과제 p값을 바로잡았다.</li>
+<li><strong>수치 정확성</strong>: <code>npm test --prefix books/probability</code> 21개 통과(2026-10-08 팩트 검수 시점). 본문의 모든 수치 예시를 계산 모듈로 다시 계산해 맞췄고, 이 과정에서 7장 p값(0.058 → 0.14)과 검정력(약 45% → 약 20%), 8장 손실값, 마지막 과제 p값을 바로잡았다.</li>
 <li><strong>동작 확인</strong>: 로컬 서버에서 Chromium(Playwright)으로 <code>tests/browser.cjs</code>를 실행했다. 1280·390·320px에서 12개 경로가 모두 열리고 가로 넘침과 콘솔 오류가 없었다. 1280px에서 실험 8개마다 버튼 조작 후 결과 문장이 바뀌고, 키보드 화살표로 슬라이더가 움직이고, 초기화 후 처음 결과로 돌아오는 것을 확인했다. 진도 기록이 8개 실험 모두 저장되었다.</li>
 <li><strong>구조 확인</strong>: <code>python3 scripts/validate.py</code>로 내부 링크·앵커(이 책 → AI Book 장 경로 포함)를 검사했다.</li>
 <li><strong>화면 확인</strong>: 밝은 화면·어두운 화면에서 1장, 5장, 6장 실험과 320px 장 목록 열기·닫기를 스크린숏으로 확인했다.</li>
@@ -96,11 +96,12 @@
 <li>레이아웃 전환 후 Chromium 1280·390·320px에서 경로 12개, 실험 8개 조작·초기화, 가로 넘침 없음, 콘솔 오류 없음을 다시 확인했다. 밝은 화면은 1280px 한 화면(6장 실험)만 눈으로 확인했다.</li>
 <li>학습 효과: 실제 독자가 예측·설명·전이 문제를 풀 수 있게 되는지는 시험하지 않았다(L4 미확인).</li>
 <li>Safari, Firefox, 실제 모바일 기기, 화면 읽기 프로그램, 저사양 기기 성능은 확인하지 않았다.</li>
-<li>참고 자료 링크 여섯 개는 집필 환경의 네트워크 제한으로 직접 열어 보지 못했다. 확인한 사람이 날짜를 남겨 주어야 한다.</li>
+<li>참고 자료 링크는 2026-10-08 독립 팩트 검수에서 모두 열리는 것을 확인했다(DOI 두 개는 출판사가 자동 접근을 막아 DOI 해석까지만, A&amp;S 299쪽은 스캔 이미지라 식은 수치로 대조). <a href="fact-review.html">팩트·출처 검수 기록</a></li>
 <li>서가에서 책을 펼칠 때 보이는 대표 삽화(<code>assets/shelf-illustration.svg</code>)는 생성기 검사만 통과했고, 펼친 화면은 1280px 한 화면에서만 확인했다.</li>
 <li>요약은 루트 <a href="../../../docs/03-verification.html#probability-book">검증 기록</a>에도 남겼다.</li>
 </ul>
 </section>
+<p><a href="fact-review.html">팩트·출처 검수 기록 (2026-10-08)</a></p>
 </main>
 </body>
 </html>

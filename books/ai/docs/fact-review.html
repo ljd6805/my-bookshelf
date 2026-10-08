@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI Book · 직접 실험하는 AI 교과서의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드" data-date="2026-10-08" data-scope="12개 장 본문, 18개 실험 계산, 출처 8개와 문서의 외부 링크 4개, 이 책이 들어간 읽기 노선 정거장" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드. 범위: 12개 장 본문, 18개 실험 계산, 출처 8개와 문서의 외부 링크 4개, 이 책이 들어간 읽기 노선 정거장. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 0건, medium 3건, low 6건. 학습자가 틀린 사실이나 숫자를 배우게 되는 오류는 없었고, 출처가 주장을 뒷받침하지 못하는 곳과 노선 기록이 실험과 맞지 않는 곳을 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>논문 연도·저자를 arXiv 원문과 대조, 어텐션·인과 마스크·온도·교차상관·정렬 공식(πᵢ ∝ π₀ᵢ·exp(rᵢ/β)) 유도 확인</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>회귀 최소제곱 해(1.96, 1.02), 경사하강 발산 조건, BPE 조각 수, 메모리 3.725 GiB·KV 1 GiB 재계산. top-p 정의와 합성곱 출력 크기 식 2건 수정</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>npm test 13개 통과, node로 18개 실험의 대표값·경계값 재계산. 검색 실험의 조사 제거 오류 1건 수정</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>temperature·top-k·top-p·SFT/RLHF·정밀도/재현율 정의와 한영 용어 확인</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 12개를 WebFetch로 열어 확인. 주장을 뒷받침하지 못하는 연결 3건을 고치고 출처 2개(Holtzman 2019, Ainslie 2023) 추가, 모든 출처에 확인일 표기</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>M1 medium</td><td>#generation · js/content.js</td><td>temperature·top-k·top-p의 출처가 Transformer 논문(Vaswani 2017)</td><td>논문에 샘플링 내용이 없음</td><td>Holtzman et al. 2019(arXiv 1904.09751)를 출처에 추가해 연결</td></tr><tr><td>M2 medium</td><td>data/catalog.json 읽기 노선 #neuron</td><td>기록 “AND처럼 동작하는 w₁, w₂, b”</td><td>실험이 x₂=1로 고정되어 AND 진리표를 확인할 수 없음</td><td>“x₁이 1 근처일 때만 출력이 0.5를 넘게 하는 w₁, b 한 조합”</td></tr><tr><td>M3 medium</td><td>data/catalog.json 읽기 노선 #rag</td><td>“우주선 검색에서 놓친 문서”</td><td>관련 문서가 없어 실험은 답 보류를 보여 줌</td><td>이유·기록을 답 보류로 수정</td></tr><tr><td>L1 low</td><td>js/labs-systems.js terms()</td><td>조사 ‘이’ 제거로 ‘길이’가 ‘길’이 됨</td><td>node로 토큰화 확인</td><td>남는 길이가 2글자 이상일 때만 조사 제거</td></tr><tr><td>L2 low</td><td>#generation, js/lab-guides.js sampling</td><td>top-p를 “p를 넘는” 집합으로 설명</td><td>표준 정의와 구현은 “p 이상”</td><td>“p 이상”으로 수정</td></tr><tr><td>L3 low</td><td>#vision 식</td><td>출력 크기 식에 내림 없음</td><td>PyTorch Conv2d 문서의 floor 식</td><td>⌊…⌋와 padding 0 기준 추가</td></tr><tr><td>L4 low</td><td>#embeddings 출처</td><td>RAG 논문을 코사인 유사도 근거로 연결</td><td>논문에 해당 내용 없음</td><td>출처를 MLCC로 한정</td></tr><tr><td>L5 low</td><td>#inference 출처</td><td>KV 공식의 출처 없음</td><td>연결된 양자화 문서는 KV를 다루지 않음</td><td>GQA(Ainslie 2023) 추가</td></tr><tr><td>L6 low</td><td>js/content.js sources</td><td>출처에 확인일 없음</td><td>AGENTS.md 확인일 규칙</td><td>모든 출처에 (확인 2026-10-08)</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>브라우저 실행(tests/browser.cjs)과 학습 효과는 이번 검수 범위가 아니었습니다. 새로 넣은 출처 두 개는 검수 에이전트가 WebFetch로 열어 확인했습니다.</p>
+</section>
+</main></body></html>

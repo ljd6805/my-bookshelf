@@ -89,7 +89,7 @@
     return points.reduce((s, p) => add(s, p), points[0].map(() => 0)).map((x) => x / n);
   }
 
-  // 표본 공분산 행렬(n으로 나눔). 점이 하나뿐이면 0 행렬입니다.
+  // 공분산 행렬(n으로 나눔, 모집단 공식). 점이 하나뿐이면 0 행렬입니다.
   function covariance(points) {
     const m = mean(points);
     const C = [[0, 0], [0, 0]];

@@ -243,20 +243,20 @@ window.LAViews = {
  "eigen": {
   "title": "시험 화살표 돌리기",
   "desc": "파란 화살표 v(길이 1)의 방향 φ를 바꾸면 청록 화살표 Mv가 따라 움직입니다. 둘이 한 직선 위에 놓이는 φ를 찾으세요. ‘한 바퀴 돌리기’는 φ를 360° 자동으로 돌립니다.",
-  "html": "<div class=\"lab-columns\"><div class=\"controls\"><label>행렬 고르기 <select name=\"preset\" id=\"e-preset\"><option value=\"sym\" selected>대칭으로 섞기 [2, 1 ; 1, 2]</option><option value=\"stretch\">가로 2배, 세로 절반</option><option value=\"shear\">오른쪽으로 밀기</option><option value=\"rotate\">45° 회전</option></select></label>\n<div class=\"field\"><label for=\"e-phi\">v의 방향 φ</label><input type=\"range\" id=\"e-phi\" name=\"phi\" min=\"0\" max=\"359\" step=\"1\" value=\"0\" data-digits=\"0\" data-unit=\"°\"><output for=\"e-phi\">0°</output></div>\n<label><input type=\"checkbox\" name=\"show\" id=\"e-show\"> 계산한 고유벡터 방향 보기(보라 선)</label>\n<div class=\"buttons\"><button type=\"button\" data-play>한 바퀴 돌리기</button></div></div><div class=\"stage\"><svg role=\"img\" aria-labelledby=\"lab-eigen-svg\"><title id=\"lab-eigen-svg\">시험 화살표 v와 변환된 Mv, 단위원과 그 상인 타원. 판정은 옆의 결과 문장에 있습니다.</title></svg></div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>φ = 0°이면 Mv = (2, 1)로 v에서 27° 돌아가므로 고유벡터가 아닙니다.</p></div><p class=\"caption lab-note\"><b>계산 조건</b> v = (cos φ, sin φ). v와 Mv의 각도 차이가 2° 이내이거나 180°에서 2° 이내이면 ‘방향 그대로’로 판정하고, 고윳값은 v·Mv로 추정합니다. 점선 원은 모든 v, 청록 점선은 모든 Mv가 지나는 곳입니다. 보라 선은 특성방정식으로 계산한 실제 고유벡터 방향입니다.</p>",
-  "task": "‘오른쪽으로 밀기’를 고르고 ‘한 바퀴 돌리기’를 눌러 보세요. 방향이 맞는 순간이 0°와 180°에서만 잠깐 나타납니다. 고유 방향이 두 개가 아닐 수도 있다는 점을 직접 보게 됩니다.",
+  "html": "<div class=\"lab-columns\"><div class=\"controls\"><label>행렬 고르기 <select name=\"preset\" id=\"e-preset\"><option value=\"sym\" selected>대칭으로 섞기 [2, 1 ; 1, 2]</option><option value=\"stretch\">가로 2배, 세로 절반</option><option value=\"shear\">오른쪽으로 밀기</option><option value=\"rotate\">45° 회전</option></select></label>\n<div class=\"field\"><label for=\"e-phi\">v의 방향 φ</label><input type=\"range\" id=\"e-phi\" name=\"phi\" min=\"0\" max=\"359\" step=\"1\" value=\"0\" data-digits=\"0\" data-unit=\"°\"><output for=\"e-phi\">0°</output></div>\n<label><input type=\"checkbox\" name=\"show\" id=\"e-show\"> 계산한 고유벡터 방향 보기(보라 선)</label>\n<div class=\"buttons\"><button type=\"button\" data-play>한 바퀴 돌리기</button></div></div><div class=\"stage\"><svg role=\"img\" aria-labelledby=\"lab-eigen-svg\"><title id=\"lab-eigen-svg\">시험 화살표 v와 변환된 Mv, 단위원과 그 상인 타원. 판정은 옆의 결과 문장에 있습니다.</title></svg></div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>φ = 0°이면 Mv = (2, 1)로 v에서 27° 돌아가므로 고유벡터가 아닙니다.</p></div><p class=\"caption lab-note\"><b>계산 조건</b> v = (cos φ, sin φ). v와 Mv의 각도 차이가 0.5° 이내이거나 180°에서 0.5° 이내이면 ‘방향 그대로’로 판정하고, 고윳값은 v·Mv로 추정합니다. 점선 원은 모든 v, 청록 점선은 모든 Mv가 지나는 곳입니다. 보라 선은 특성방정식으로 계산한 실제 고유벡터 방향입니다.</p>",
+  "task": "‘오른쪽으로 밀기’를 고르고 ‘한 바퀴 돌리기’를 눌러 보세요. ‘방향 그대로’ 판정은 0°와 180° 근처에서만 나타나고, 정확한 고유 방향은 0°와 180°뿐이며 고윳값은 1입니다. 고유 방향이 두 개가 아닐 수도 있다는 점을 직접 보게 됩니다.",
   "guide": [
    "길이 1인 화살표 v를 돌리며, 행렬을 적용한 Mv가 v와 같은 직선 위에 놓이는 방향을 찾습니다.",
    [
     [
-     "대칭 행렬 φ = 45°",
+     "대칭행렬 φ = 45°",
      {
       "preset": "sym",
       "phi": 45
      }
     ],
     [
-     "대칭 행렬 φ = 135°",
+     "대칭행렬 φ = 135°",
      {
       "preset": "sym",
       "phi": 135
@@ -270,7 +270,7 @@ window.LAViews = {
      }
     ]
    ],
-   "대칭 행렬 [2, 1 ; 1, 2]는 45°에서 고윳값 3, 135°에서 고윳값 1인 고유벡터를 가집니다. 45° 회전은 모든 방향을 돌리므로 어느 φ에서도 ‘방향 그대로’가 나오지 않습니다."
+   "대칭행렬 [2, 1 ; 1, 2]는 45°에서 고윳값 3, 135°에서 고윳값 1인 고유벡터를 가집니다. 45° 회전은 모든 방향을 돌리므로 어느 φ에서도 ‘방향 그대로’가 나오지 않습니다."
   ]
  },
  "pca": {
@@ -343,7 +343,7 @@ window.LAViews = {
   "title": "세 칸짜리 취향으로 추천하기",
   "desc": "세 값을 바꿔 새 취향을 만들면 표가 3차원 코사인 순으로 다시 정렬됩니다. 같은 노래의 2차원 순위와 3차원 내적도 함께 비교하세요.",
   "html": "<div class=\"lab-columns wide\"><div class=\"controls\"><div class=\"field\"><label for=\"ch-u1\">빠르기 선호</label><input type=\"range\" id=\"ch-u1\" name=\"u1\" min=\"-3\" max=\"3\" step=\"0.5\" value=\"1\"><output for=\"ch-u1\">1.0</output></div>\n<div class=\"field\"><label for=\"ch-u2\">에너지 선호</label><input type=\"range\" id=\"ch-u2\" name=\"u2\" min=\"-3\" max=\"3\" step=\"0.5\" value=\"2\"><output for=\"ch-u2\">2.0</output></div>\n<div class=\"field\"><label for=\"ch-u3\">가사 선호</label><input type=\"range\" id=\"ch-u3\" name=\"u3\" min=\"-3\" max=\"3\" step=\"0.5\" value=\"-2\"><output for=\"ch-u3\">−2.0</output></div></div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>민의 취향 (1, 2, −2)의 1위는 아침 달리기(3D 코사인 0.94)이고, 2D 기준에서는 옥상 록 공연이 1위입니다.</p></div><div class=\"ranking table-scroll\"></div><p class=\"caption lab-note\"><b>계산 조건</b> 코사인 = u·s ÷ (|u||s|), 세 칸 모두 −3~3, 0.5 간격. ‘2D 코사인 순위’는 셋째 칸을 지운 (빠르기, 에너지)만으로 계산한 순위입니다. 취향의 세 값이 모두 0이면 방향이 없어 계산하지 않습니다.</p>",
-  "task": "가사 선호를 −2에서 2까지 0.5씩 올리며 1위가 아침 달리기에서 옥상 록 공연으로 바뀌는 지점을 찾아보세요. 그 경계값 근처의 사용자에게는 추천을 단정하기보다 두 곡을 함께 보여 주는 편이 낫다는 판단도 이 책의 결과입니다.",
+  "task": "가사 선호를 −2에서 2까지 0.5씩 올리며 1위가 아침 달리기 → 여름 축제 → 옥상 록 공연으로 두 번 바뀌는 지점(−1과 0.5 근처)을 찾아보세요. 그 경계값 근처의 사용자에게는 추천을 단정하기보다 두 곡을 함께 보여 주는 편이 낫다는 판단도 이 책의 결과입니다.",
   "guide": [
    "세 칸짜리 취향으로 여덟 곡을 3차원 코사인 순으로 줄 세우고, 가사를 무시한 2차원 순위와 비교합니다.",
    [
