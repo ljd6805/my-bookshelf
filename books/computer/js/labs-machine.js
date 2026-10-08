@@ -33,7 +33,7 @@
   }
 
   Labs.cpu = function (root, options = {}) {
-    const programs = (root.dataset.programs || 'add').split(','), editable = root.dataset.editable === 'true';
+    const programs = options.programs || ['add'], editable = !!options.editable;
     root.innerHTML = cpuTemplate(programs, editable);
     let key = programs[0], memory, state, view, pending = [], phase = null, log = '';
     const $ = (k) => root.querySelector(`[data-k="${k}"]`);
@@ -90,6 +90,8 @@
     });
     load(C.PROGRAMS[key].memory);
   };
+  Labs.program = (root) => Labs.cpu(root, { programs: ['multiply', 'countdown'], editable: true });
+  Labs.final = (root) => Labs.cpu(root, { programs: ['overflow', 'multiply'], editable: true });
 
   Labs.cache = function (root) {
     root.innerHTML = `
@@ -126,5 +128,6 @@
       if (k === 'reset') { stop(); $('kind').value = 'sequential'; $('lines').value = '4'; $('block').value = '4'; shown = 64; show(); }
     });
     show();
+    return stop;
   };
 })();

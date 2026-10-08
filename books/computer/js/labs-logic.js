@@ -44,6 +44,7 @@
       }
     });
     show();
+    return stop;
   };
 
   Labs.encoding = function (root) {
