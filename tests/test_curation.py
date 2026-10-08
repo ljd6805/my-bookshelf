@@ -28,6 +28,20 @@ class CurationTests(unittest.TestCase):
         self.assertIn('약 20분 · 2단계', html)
         self.assertIn('href="books/b/#two"', html)
 
+    def test_paths_group_under_the_field_with_most_stops_and_share_one_field_bar(self):
+        from scripts.curation_renderer import path_fields
+        books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='AI 공학')]
+        catalog = {'books': books, 'chapter_index': dict(INDEX, **{'books/b/#three': '03 · 셋'}),
+                   'learning_paths': [path(('a', 'books/a/#one'), ('b', 'books/b/#two'), ('b', 'books/b/#three'))],
+                   'concepts': []}
+        self.assertEqual(path_fields(catalog['learning_paths'][0], catalog), (['수학', 'AI 공학'], 'AI 공학'))
+        html = render_curation(catalog)
+        self.assertIn('class="route-group" role="presentation" data-field="AI 공학"', html)
+        self.assertIn('data-fields="수학|AI 공학"', html)  # spaces stay inside one field name
+        self.assertNotIn('data-field="수학"><p', html)
+        self.assertIn('<button type="button" data-field="수학"', html)
+        self.assertEqual(html.count('class="field-bar"'), 1)
+
     def test_unknown_or_mismatched_chapter_fails_the_build(self):
         for steps in [[('a', 'books/a/#missing')], [('b', 'books/a/#one')]]:
             with self.subTest(steps=steps), self.assertRaises(ValueError):
@@ -51,17 +65,44 @@ class CurationTests(unittest.TestCase):
 
 
 class AtlasLayoutTests(unittest.TestCase):
-    def test_real_concept_labels_do_not_overlap_and_stay_on_the_map(self):
-        from scripts.atlas_renderer import layout, WIDTH, HEIGHT
+    def test_every_real_concept_is_one_row_with_a_stop_at_each_of_its_books(self):
+        from scripts.atlas_renderer import columns, grouped_rows, owner_of
         catalog = json.loads((ROOT / 'data/catalog.json').read_text())
-        nodes, _ = layout(catalog['concepts'], catalog['books'])
-        for i, a in enumerate(nodes):
-            self.assertTrue(a['w'] / 2 <= a['x'] <= WIDTH - a['w'] / 2, a['id'])
-            self.assertTrue(0 < a['y'] < HEIGHT, a['id'])
-            for b in nodes[i + 1:]:
-                apart = (abs(a['x'] - b['x']) >= (a['w'] + b['w']) / 2
-                         or abs(a['y'] - b['y']) >= (a['h'] + b['h']) / 2)
-                self.assertTrue(apart, f"{a['id']} overlaps {b['id']}")
+        books, concepts = catalog['books'], catalog['concepts']
+        cols = columns(concepts, books)
+        rows = [r for _, group in grouped_rows(concepts, cols, books) for r in group]
+        self.assertEqual(sorted(r['concept']['id'] for r in rows), sorted(c['id'] for c in concepts))
+        for row in rows:
+            owners = {owner_of(url, books) for url in row['concept']['chapters']}
+            self.assertEqual(set(row['counts']), owners, row['concept']['id'])
+            self.assertEqual(sum(row['counts'].values()), len(row['concept']['chapters']))
+            self.assertLess(row['first'], row['last'], row['concept']['id'])
+
+    def test_columns_keep_shelf_order_and_groups_follow_the_fields(self):
+        from scripts.atlas_renderer import columns, grouped_rows, fields_in_order
+        books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='컴퓨터'),
+                 {'id': 'c', 'title': '책 C', 'url': 'books/c/', 'spine_category': '수학'}]
+        concepts = [{'id': 'x', 'name': 'X', 'chapters': ['books/b/#1', 'books/b/#2', 'books/a/#1']},
+                    {'id': 'y', 'name': 'Y', 'chapters': ['books/a/#1', 'books/c/#1']}]
+        cols = columns(concepts, books)
+        self.assertEqual([b['id'] for b in cols], ['a', 'b', 'c'])
+        self.assertEqual(fields_in_order(cols), ['수학', '컴퓨터'])
+        groups = grouped_rows(concepts, cols, books)
+        self.assertEqual([(f, [r['concept']['id'] for r in rows]) for f, rows in groups],
+                         [('수학', ['y']), ('컴퓨터', ['x'])])
+
+    def test_thirty_books_and_sixty_concepts_render_without_layout_limits(self):
+        books = [{'id': f'b{i}', 'title': f'책 {i}', 'url': f'books/b{i}/', 'spine_category': f'분야{i // 6}'}
+                 for i in range(30)]
+        index = {f'books/b{i}/#c': f'01 · 장 {i}' for i in range(30)}
+        concepts = [{'id': f'k{n}', 'name': f'개념 {n}', 'summary': '요약',
+                     'chapters': [f'books/b{n % 30}/#c', f'books/b{(n * 7 + 3) % 30}/#c']}
+                    for n in range(60) if n % 30 != (n * 7 + 3) % 30]
+        html = render_curation({'books': books, 'chapter_index': index, 'learning_paths': [],
+                                'concepts': concepts})
+        self.assertEqual(html.count('class="atlas-row"'), len(concepts))
+        self.assertEqual(html.count('scope="col" class="atlas-book'), 30)
+        self.assertIn('--books:30', html)
 
 
 if __name__ == '__main__':
