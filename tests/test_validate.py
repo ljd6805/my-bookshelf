@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from validate import (validate_html, validate_catalog, validate_shelf_return, validate_asset_versions,
-                      validate_cross_links)
+                      validate_cross_links, validate_typography)
 
 
 class IntegrityChecks(unittest.TestCase):
@@ -81,6 +81,27 @@ class IntegrityChecks(unittest.TestCase):
                 with self.subTest(bad=bad):
                     page.write_text(bad)
                     self.assertEqual(len(validate_shelf_return(root)), 1)
+
+    def test_shelf_and_books_share_the_type_system(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / 'index.html').write_text('<link rel="stylesheet" href="assets/type.css?v=1">')
+            (root / 'books/demo/assets').mkdir(parents=True)
+            page, css = root / 'books/demo/index.html', root / 'books/demo/assets/style.css'
+            page.write_text('<html lang="ko" data-typeset="book"><link rel="stylesheet" href="../../assets/type.css?v=1">')
+            css.write_text('body{font-family:var(--font-sans)}')
+            self.assertEqual(validate_typography(root), [])
+            css.write_text("@font-face{font-family:X;src:url(x.woff)}")
+            self.assertEqual(len(validate_typography(root)), 1)
+            for bad in ['h1{font-family:Arial}', '.x{font:12px sans-serif}']:
+                with self.subTest(bad=bad):
+                    css.write_text(bad)
+                    self.assertEqual(len(validate_typography(root)), 1)
+            css.write_text('a{font:inherit}.b{font:600 .8rem/1.6 var(--font-mono)}')
+            self.assertEqual(validate_typography(root), [])
+            css.write_text('')
+            page.write_text('<html lang="ko"><link rel="stylesheet" href="assets/style.css">')
+            self.assertEqual(len(validate_typography(root)), 2)
 
     def test_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as name:
