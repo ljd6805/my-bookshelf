@@ -12,7 +12,7 @@ COVER_FILE = 'assets/cover-art.svg'
 COVER_VIEWBOX = '0 0 320 150'
 COVER_META = re.compile(r'^\d+장 · \d+개 실험$')
 LIBRARY_NAME = 'Jdeok.Lee의 서재'
-UNSAFE = re.compile(r'<script|\son\w+\s*=|<foreignObject|href=|<image|<style|style=', re.I)
+UNSAFE = re.compile(r'<script|<style|<image|<foreignObject|\s(on\w+|style|(xlink:)?href)\s*=', re.I)
 MOTION = re.compile(r'@keyframes|<animate|<set\b|animation', re.I)
 
 

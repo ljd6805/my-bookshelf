@@ -40,7 +40,8 @@ class IntegrityChecks(unittest.TestCase):
         self.assertEqual(cover_errors(good), [])
         for bad in [good.replace('0 0 320 150', '0 0 100 100'), good.replace('cv-node', 'ai-node'),
                     good.replace('</svg>', '<style>@keyframes x{}</style></svg>'),
-                    good.replace(' aria-label="입력이 층을 건너 확률이 되는 모습"', '')]:
+                    good.replace(' aria-label="입력이 층을 건너 확률이 되는 모습"', ''),
+                    good.replace('r="1"', 'r="1" style = "fill:red"'), good.replace('<circle', '<use href = "x.svg#a"/><circle')]:
             with self.subTest(bad=bad):
                 self.assertTrue(cover_errors(bad))
 
