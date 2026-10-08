@@ -1,0 +1,37 @@
+<svg class="la-ill" viewBox="0 0 340 184" role="img" aria-label="노래 여덟 곡이 놓인 격자가 행렬 하나로 기울고 늘어났다가 제자리로 돌아오는 모습. 격자의 직선은 직선으로, 원점은 제자리에 남습니다." xmlns="http://www.w3.org/2000/svg">
+<style>
+.la-ill-bg{fill:#fbf7ee}
+.la-ill-grid{stroke:#d9cfbb;stroke-width:1;fill:none}
+.la-ill-axis{stroke:#8d8677;stroke-width:1.4;fill:none}
+.la-ill-song{fill:#c27a12;stroke:#fffaf0;stroke-width:1}
+.la-ill-me{stroke:#c2452d;stroke-width:3;stroke-linecap:round;fill:none}
+.la-ill-head{fill:#c2452d}
+.la-ill-e1{stroke:#3f5bd8;stroke-width:3;stroke-linecap:round}
+.la-ill-e2{stroke:#0f8a7e;stroke-width:3;stroke-linecap:round}
+.la-ill-move{transform-box:view-box;transform-origin:0 0;animation:la-ill-warp 4.8s ease-in-out infinite}
+.la-ill-ghost{opacity:.35}
+.la-ill-label{font:600 11px sans-serif;fill:#5f6470}
+.la-ill-math{font:600 15px serif;fill:#23262d}
+.la-ill-small{font:11px sans-serif;fill:#5f6470}
+@keyframes la-ill-warp{0%,12%{transform:translate(102px,92px) matrix(1,0,0,1,0,0)}45%,62%{transform:translate(102px,92px) matrix(1.2,0.3,-0.5,0.9,0,0)}95%,100%{transform:translate(102px,92px) matrix(1,0,0,1,0,0)}}
+@media (prefers-reduced-motion: reduce){.la-ill-move{animation:none;transform:translate(102px,92px) matrix(1.2,0.3,-0.5,0.9,0,0)}}
+html[data-motion=reduce] .la-ill-move{animation:none;transform:translate(102px,92px) matrix(1.2,0.3,-0.5,0.9,0,0)}
+</style>
+<rect class="la-ill-bg" x="0" y="0" width="340" height="184" rx="10"/>
+<defs><clipPath id="la-ill-clip"><rect x="8" y="8" width="190" height="168" rx="6"/></clipPath></defs>
+<g clip-path="url(#la-ill-clip)">
+<g class="la-ill-ghost" transform="translate(102 92)"><path class="la-ill-grid" d="M-80 -80 V80 M-80 -80 H80"/><path class="la-ill-grid" d="M-60 -80 V80 M-80 -60 H80"/><path class="la-ill-grid" d="M-40 -80 V80 M-80 -40 H80"/><path class="la-ill-grid" d="M-20 -80 V80 M-80 -20 H80"/><path class="la-ill-axis" d="M0 -80 V80 M-80 0 H80"/><path class="la-ill-grid" d="M20 -80 V80 M-80 20 H80"/><path class="la-ill-grid" d="M40 -80 V80 M-80 40 H80"/><path class="la-ill-grid" d="M60 -80 V80 M-80 60 H80"/><path class="la-ill-grid" d="M80 -80 V80 M-80 80 H80"/></g>
+<g class="la-ill-move" transform="translate(102 92)">
+<path class="la-ill-grid" d="M-80 -80 V80 M-80 -80 H80"/><path class="la-ill-grid" d="M-60 -80 V80 M-80 -60 H80"/><path class="la-ill-grid" d="M-40 -80 V80 M-80 -40 H80"/><path class="la-ill-grid" d="M-20 -80 V80 M-80 -20 H80"/><path class="la-ill-axis" d="M0 -80 V80 M-80 0 H80"/><path class="la-ill-grid" d="M20 -80 V80 M-80 20 H80"/><path class="la-ill-grid" d="M40 -80 V80 M-80 40 H80"/><path class="la-ill-grid" d="M60 -80 V80 M-80 60 H80"/><path class="la-ill-grid" d="M80 -80 V80 M-80 80 H80"/>
+<path class="la-ill-e1" d="M0 0 H20"/><path class="la-ill-e2" d="M0 0 V-20"/>
+<circle class="la-ill-song" cx="-30" cy="20" r="3.6"/><circle class="la-ill-song" cx="-50" cy="40" r="3.6"/><circle class="la-ill-song" cx="60" cy="-50" r="3.6"/><circle class="la-ill-song" cx="40" cy="-30" r="3.6"/><circle class="la-ill-song" cx="-20" cy="-10" r="3.6"/><circle class="la-ill-song" cx="20" cy="10" r="3.6"/><circle class="la-ill-song" cx="30" cy="-60" r="3.6"/><circle class="la-ill-song" cx="-60" cy="50" r="3.6"/>
+<path class="la-ill-me" d="M0 0 L20 -40"/><circle class="la-ill-head" cx="20" cy="-40" r="4"/>
+</g>
+</g>
+<text class="la-ill-math" x="212" y="54">M = [1.2  0.5</text>
+<text class="la-ill-math" x="241" y="74">−0.3  0.9]</text>
+<text class="la-ill-small" x="212" y="104">주황 점: 노래 8곡</text>
+<text class="la-ill-small" x="212" y="122">붉은 화살표: 내 취향</text>
+<text class="la-ill-small" x="212" y="140">격자 전체가 함께</text>
+<text class="la-ill-label" x="212" y="166">직선·원점은 그대로</text>
+</svg>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>10 · 신경망 한 층은 행렬 곱과 꺾기 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="신경망 한 층 h = ReLU(W·x + b)를 지금까지의 도구로 읽습니다. 편향과 ReLU를 바꾸며 노래들이 새 공간에서 어떻게 접히는지 관찰합니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="layer">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">10장 · A neural network layer</p>
+<h1>신경망 한 층은 행렬 곱과 꺾기</h1>
+<p class="lead">9장까지의 도구는 모두 직선을 직선으로 보냈습니다. 그래서 “일정 수준을 넘으면 좋아하고, 아니면 관심 없다”는 판단은 만들지 못했습니다. 이 장에서는 행렬 곱에 덧셈 하나와 ‘0 아래는 자르기’ 하나를 더합니다. 그것이 신경망의 한 층입니다.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>문턱을 넘으면 반응이 바뀌는, 직선적이지 않은 취향을 계산해야 합니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>행렬의 행은 점수표(3·4장), 변환을 이으면 곱(5장), 납작해지면 정보를 잃음(6장)</dd></div>
+  <div><dt>새 도구</dt><dd>편향 b, 활성화 함수 ReLU, 은닉 벡터 h, 층 쌓기</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>신경망 한 층의 계산을 그림으로 읽고, ReLU가 꼭 필요한 이유를 확인하기</dd></div>
+  <div><dt>남는 질문</dt><dd>특징이 하나 더 생기면 지금까지 만든 추천기의 무엇을 바꿔야 할까요?</dd></div>
+</dl>
+
+<h2 id="problem">점수표에 문턱 달기</h2>
+<p>4장에서 만든 두 점수표를 다시 씁니다. 첫째 행 (0.45, 0.89)는 내 취향 방향의 점수, 둘째 행 (0.89, −0.45)는 그와 직각인 “빠르지만 차분한” 정도의 점수입니다. 여기에 두 가지를 더합니다.</p>
+<ul>
+  <li><strong>편향 b</strong>: 점수에 일정한 값을 더해 문턱을 옮깁니다. b₁ = −2이면 취향 점수가 2를 넘어야 양수가 됩니다.</li>
+  <li><strong>ReLU</strong>: 음수는 0으로 자르고 양수는 그대로 둡니다. “문턱 아래는 관심 없음”을 뜻합니다.</li>
+</ul>
+
+<figure class="diagram">
+  <svg viewBox="0 0 520 210" role="img" aria-labelledby="f10-t f10-d">
+    <title id="f10-t">신경망 한 층의 세 단계</title>
+    <desc id="f10-d">노래 벡터 x가 행렬 W를 지나 점수 두 개가 되고, 편향 b가 더해진 뒤, ReLU를 지나 음수가 0으로 잘린 은닉 벡터 h가 됩니다. ReLU 그래프는 왼쪽은 0으로 평평하고 오른쪽은 45도로 올라가는 꺾인 선입니다.</desc>
+    <g font-size="13" fill="currentColor">
+      <rect x="10" y="70" width="70" height="60" rx="8" fill="none" stroke="currentColor" opacity=".5"/><text x="22" y="98">노래 x</text><text x="18" y="118" font-size="11.5" opacity=".75">(빠르기, 에너지)</text>
+      <path d="M85 100 h24" stroke="currentColor" opacity=".5"/>
+      <rect class="s-a" x="115" y="70" width="80" height="60" rx="8" fill="none" stroke="currentColor"/><text class="f-a" x="128" y="98" fill="currentColor">W·x</text><text x="125" y="118" font-size="11.5" opacity=".75">점수표 두 장</text>
+      <path d="M200 100 h24" stroke="currentColor" opacity=".5"/>
+      <rect class="s-me" x="230" y="70" width="70" height="60" rx="8" fill="none" stroke="currentColor"/><text class="f-me" x="246" y="98" fill="currentColor">+ b</text><text x="240" y="118" font-size="11.5" opacity=".75">문턱 옮기기</text>
+      <path d="M305 100 h24" stroke="currentColor" opacity=".5"/>
+      <rect class="s-res" x="335" y="50" width="100" height="100" rx="8" fill="none" stroke="currentColor"/>
+      <path d="M345 125 H385" class="s-res" stroke="currentColor" stroke-width="3"/><path class="s-res draw" d="M385 125 L425 75" stroke="currentColor" stroke-width="3" fill="none"/>
+      <text class="f-res" x="355" y="68" fill="currentColor">ReLU</text>
+      <path d="M440 100 h24" stroke="currentColor" opacity=".5"/>
+      <rect x="470" y="70" width="44" height="60" rx="8" fill="none" stroke="currentColor" opacity=".5"/><text x="482" y="105">h</text>
+      <text x="40" y="185">h = ReLU(W·x + b) &#160;·&#160; ReLU(z) = max(0, z)를 칸마다 적용</text>
+    </g>
+  </svg>
+  <figcaption>앞의 두 단계는 지금까지 배운 행렬 곱과 덧셈이고, 마지막 ReLU만 새롭습니다. ReLU는 음수 쪽을 평평하게 접어 버리는 꺾인 함수입니다.</figcaption>
+</figure>
+
+<h2 id="predict">접으면 무엇이 같아질까</h2>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> b = (0, 0)에 ReLU를 켜면, 여덟 곡 중 몇 곡의 h₁(취향 신호)이 정확히 0이 될까요?</p>
+  <div class="buttons"><button type="button" data-choice="0" aria-pressed="false">0곡</button><button type="button" data-choice="4" aria-pressed="false">4곡</button><button type="button" data-choice="8" aria-pressed="false">8곡</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="layer" id="lab-layer" aria-labelledby="lab-layer-title">
+  <header><h3 id="lab-layer-title">실험 10 · 노래를 은닉 공간으로 보내기</h3><p>왼쪽은 원래 노래 공간입니다. 붉은 점선은 h₁ = 0, 보라 선은 h₂ = 0이 되는 경계선입니다. 오른쪽은 한 층을 지난 뒤의 공간(h₁, h₂)입니다. 편향을 옮기고 ReLU를 켜고 끄며 비교하세요. <span class="kind">실제 계산</span></p></header>
+  <div class="stage two-planes">
+    <figure><svg role="img" aria-labelledby="lab-l1"><title id="lab-l1">원래 노래 공간과 두 경계선</title></svg><figcaption>입력 공간 (빠르기, 에너지)</figcaption></figure>
+    <figure><svg role="img" aria-labelledby="lab-l2"><title id="lab-l2">한 층을 지난 은닉 공간의 노래 점</title></svg><figcaption>은닉 공간 (h₁, h₂)</figcaption></figure>
+  </div>
+  <div class="controls">
+    <div class="field"><label for="l-b1">편향 b₁ (취향 문턱)</label><input type="range" id="l-b1" name="b1" min="-3" max="3" step="0.25" value="0" data-digits="2"><output for="l-b1">0.00</output></div>
+    <div class="field"><label for="l-b2">편향 b₂</label><input type="range" id="l-b2" name="b2" min="-3" max="3" step="0.25" value="0" data-digits="2"><output for="l-b2">0.00</output></div>
+    <label><input type="checkbox" name="relu" id="l-relu" checked> ReLU 켜기</label>
+    <div class="buttons"><button type="button" data-reset>처음 값으로</button></div>
+    <div class="readout" aria-live="polite"><p>b = (0, 0), ReLU를 켜면 h₁이 0인 노래는 4곡입니다.</p></div>
+    <div class="ranking table-scroll"></div>
+  </div>
+  <p class="footer">W = [0.45, 0.89 ; 0.89, −0.45](고정), b₁·b₂는 −3~3. 표는 h₁이 큰 순서입니다. 이 W와 b는 학습한 값이 아니라 설명을 위해 직접 정한 값입니다. 실제 신경망은 데이터로부터 W와 b를 학습합니다.</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>ReLU를 끄면 오른쪽 그림은 4장의 행렬 변환에 평행이동을 더한 것일 뿐입니다. 노래들이 돌고 밀려도 흩어진 모양은 그대로입니다. ReLU를 켜면 왼쪽 그림에서 붉은 점선 아래에 있던 새벽 산책, 비 오는 창가, 자장가, 골목 재즈의 h₁이 모두 0으로 접힙니다. 오른쪽 그림에서 이 곡들은 세로축 위에 붙어 섭니다.</p>
+<p>이제 b₁을 −2로 내려 보세요. 경계선이 내 취향 방향으로 2만큼 물러나고, h₁이 0보다 큰 곡은 여름 축제(1.58), 옥상 록 공연(1.34), 아침 달리기(0.23)만 남습니다. “확실히 내 취향인 곡에만 신호를 보낸다”는 문턱이 생겼습니다.</p>
+
+<h2 id="explain">설명: 직선 변환 + 꺾기</h2>
+<ol class="explain">
+  <li>W·x는 노래를 점수표들에 동시에 투영하고(3·4장), +b는 문턱을 옮기며, ReLU는 문턱 아래를 0으로 접습니다. 접는 단계가 있어야 “문턱을 넘으면 반응”이라는 판단이 생깁니다.</li>
+  <li>x는 입력 노래, W는 가중치 행렬(행마다 점수표 하나), b는 편향, h는 은닉 벡터입니다.</li>
+  <li><div class="math">h = ReLU(W·x + b) &nbsp;&nbsp; ReLU 없이 두 층을 쌓으면 W₂(W₁x + b₁) + b₂ = (W₂W₁)x + (W₂b₁ + b₂)</div></li>
+  <li>여름 축제 x = (3, 2.5), b = (−2, 0)이면 W·x = (0.45 × 3 + 0.89 × 2.5, 0.89 × 3 − 0.45 × 2.5) = (3.58, 1.55), 편향을 더하면 (1.58, 1.55), ReLU 뒤에도 (1.58, 1.55)입니다. 골목 재즈 (−1, 0.5)는 W·x + b = (−2.01, −1.12)이므로 ReLU 뒤 (0, 0)입니다.</li>
+</ol>
+<p>셋째 줄의 오른쪽 식이 이 장의 핵심입니다. 5장에서 변환을 이어 붙이면 행렬 하나가 된다는 것을 보았습니다. ReLU가 없으면 층을 백 개 쌓아도 결국 행렬 하나와 덧셈 하나로 줄어들어, 직선적인 판단밖에 못 합니다. ReLU가 층 사이마다 평면을 접어 주기 때문에 층을 쌓을수록 더 복잡한 경계를 만들 수 있습니다.</p>
+
+<details class="check">
+  <summary>예측의 정답과 이유</summary>
+  <p><strong>4곡입니다.</strong> b₁ = 0이면 h₁은 3장의 취향 점수 그대로이고, 점수가 음수인 곡이 접힙니다. 새벽 산책(−1.56), 비 오는 창가(−2.91), 자장가(−3.58), 그리고 정확히 직각에 가까운 골목 재즈(−0.01)입니다. 출근 지하철은 +0.01로 아슬아슬하게 남습니다.</p>
+</details>
+<details class="check">
+  <summary>ReLU가 정보를 잃게 한다면, 6장의 ‘납작해짐’과 무엇이 다른가요?</summary>
+  <p>행렬식 0인 행렬은 평면 전체를 한꺼번에 납작하게 만들어 모든 곳에서 같은 방향의 정보를 잃습니다. ReLU는 경계선 한쪽만 접고 다른 쪽은 그대로 둡니다. “관심 없는 노래끼리의 차이”는 버리고 “관심 있는 노래끼리의 차이”는 지키는, 장소에 따라 다른 선택적 손실입니다.</p>
+</details>
+
+<h2 id="transfer">새 상황에 써 보기</h2>
+<p>“신나는 노래는 좋지만 너무 시끄러우면 싫다”는 취향은 어떻게 만들까요? 첫째 칸 h₁ = ReLU(에너지 − 0)과 둘째 칸 h₂ = ReLU(에너지 − 2.5)를 만든 뒤, 다음 층에서 h₁ − 3·h₂를 계산하면 됩니다. 에너지가 2.5를 넘는 순간부터 점수가 꺾여 내려갑니다. 직선 하나로는 그릴 수 없는 산 모양의 반응이 ReLU 두 개로 만들어집니다.</p>
+<div class="cross">
+  <p><strong>다른 책으로 이어 읽기</strong> → AI Book <a href="../ai/#neuron">1장 신경망의 작은 부품</a></p>
+  <p>이동 이유: 이 장의 W 한 행이 뉴런 하나입니다. AI Book에서 가중치와 편향을 직접 바꾸며 뉴런 하나의 출력 곡선이 움직이는 모습을 보면, 행렬의 행 하나가 하는 일이 다시 보입니다. 이어서 <a href="../ai/#learning">2장 오차를 줄이는 방향으로</a>에서는 W와 b를 데이터로부터 찾는 학습을 다룹니다. 마친 뒤 <a href="challenge.html">마지막 과제</a>로 돌아오세요.</p>
+</div>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> b₁을 −2로 둔 채 ReLU를 켰다 껐다 해 보세요. 꺼져 있을 때는 오른쪽 그림이 왼쪽을 돌려 놓은 것이고, 켜면 대부분의 노래가 축 위로 접힙니다. 신경망에서 ‘비선형’이 무엇을 뜻하는지 한 장면으로 보입니다.</div>
+
+<details class="deeper">
+  <summary>실제 신경망은 W와 b를 어떻게 정하나요?</summary>
+  <p>처음에는 무작위 값으로 시작해, 정답과의 오차가 줄어드는 방향으로 W와 b를 조금씩 고칩니다(경사하강법). 그 방향을 계산할 때도 행렬 곱이 쓰입니다. 오차를 각 층의 W에 나누어 거꾸로 전달하는 계산이 W의 전치(행과 열을 바꾼 행렬)와의 곱이기 때문입니다. 이 책은 학습 과정을 다루지 않습니다. 학습은 AI Book의 2장과 3장에서 이어집니다.</p>
+</details>
+
+<h2 id="next-question">남은 질문</h2>
+<p>노래를 벡터로 적는 것에서 시작해 닮음, 투영, 행렬 변환, 되돌리기, 고유벡터, 주성분, 그리고 신경망 한 층까지 왔습니다. 이제 추천기의 부품이 모두 갖춰졌습니다. 마지막으로 처음 보는 상황을 줍니다. 노래에 셋째 특징이 생긴 날, 지금까지 만든 추천기의 무엇을 그대로 두고 무엇을 고쳐야 할까요?</p>
+<a class="next" href="challenge.html"><span>마지막 장 · 11 · 배운 도구를 처음 보는 데이터에 직접 써 보기 위해</span><strong>마지막 과제: 셋째 특징이 생긴 날</strong></a>
+<a class="prev" href="pca.html">← 이전 장 · 09 노래 구름의 가장 긴 방향</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-3.js"></script>
+</body>
+</html>

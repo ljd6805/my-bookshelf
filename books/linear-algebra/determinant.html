@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>06 · 넓이가 얼마나 변하는가 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="행렬식은 변환이 넓이를 몇 배로 바꾸는지, 앞뒤를 뒤집는지, 평면을 납작하게 만드는지를 숫자 하나로 알려 줍니다. 둘째 열을 돌리며 행렬식이 0이 되는 순간을 관찰합니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="determinant">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">6장 · Determinant</p>
+<h1>넓이가 얼마나 변하는가</h1>
+<p class="lead">5장에서 깃발은 늘어나고, 뒤집히고, 때로는 선이 되었습니다. 선이 된 깃발은 원래 모양을 잃은 것입니다. 이 장에서는 변환이 넓이를 몇 배로 바꾸는지 알려 주는 숫자, 행렬식을 계산하고, 그 값이 0이 되는 순간 노래 데이터에 어떤 일이 생기는지 봅니다.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>변환이 평면을 납작하게 만들어 정보를 잃는지 미리 알아내야 합니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>행렬의 열은 e₁, e₂의 도착지이고, 변환은 곱으로 이어 붙일 수 있습니다.</dd></div>
+  <div><dt>새 도구</dt><dd>행렬식 det M, 넓이 배율, 방향(앞뒤) 뒤집힘, 납작한 변환</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>네 숫자만으로 “이 변환은 되돌릴 수 있는가”의 첫 신호를 읽는 법</dd></div>
+  <div><dt>남는 질문</dt><dd>행렬식이 0이 아니면 정말 원래 노래를 되찾을 수 있을까요? 어떻게요?</dd></div>
+</dl>
+
+<h2 id="problem">작은 정사각형 하나만 보면 된다</h2>
+<p>4장에서 격자는 변환 뒤에도 간격이 일정했습니다. 그래서 칸 하나의 넓이가 몇 배가 되는지만 알면, 평면 위 모든 모양의 넓이가 같은 배율로 바뀝니다. 그 칸은 e₁과 e₂로 만든 넓이 1짜리 정사각형입니다. 변환 뒤에는 두 열 화살표가 만드는 평행사변형이 됩니다.</p>
+
+<figure class="diagram">
+  <svg viewBox="0 0 520 220" role="img" aria-labelledby="f6-t f6-d">
+    <title id="f6-t">넓이 배율로 본 세 가지 변환</title>
+    <desc id="f6-d">세 개의 작은 그림이 있습니다. 첫째는 정사각형이 넓은 평행사변형이 되어 넓이가 커지는 경우, 둘째는 두 열 화살표의 순서가 바뀌어 평행사변형이 뒤집힌 경우로 점선 테두리이고, 셋째는 두 화살표가 한 직선 위에 겹쳐 평행사변형이 선분이 되어 넓이가 0인 경우입니다.</desc>
+    <g font-size="12.5" fill="currentColor">
+      <g transform="translate(40 160)">
+        <path d="M0 0 h40 v-40 h-40 z" stroke="currentColor" fill="none" stroke-dasharray="3 3" opacity=".5"/>
+        <path class="s-a f-soft" d="M0 0 L80 -20 L110 -90 L30 -70 Z" stroke="currentColor" stroke-width="2"/>
+        <text x="0" y="30">det ≈ 3.1 · 넓이 3.1배</text>
+      </g>
+      <g transform="translate(220 160)">
+        <path d="M0 0 h40 v-40 h-40 z" stroke="currentColor" fill="none" stroke-dasharray="3 3" opacity=".5"/>
+        <path class="s-me" d="M0 0 L30 -70 L110 -90 L80 -20 Z" stroke="currentColor" stroke-width="2" stroke-dasharray="6 4" fill="none"/>
+        <text x="0" y="30">det ≈ −3.1 · 뒤집힘</text>
+      </g>
+      <g transform="translate(390 160)">
+        <path d="M0 0 h40 v-40 h-40 z" stroke="currentColor" fill="none" stroke-dasharray="3 3" opacity=".5"/>
+        <path class="s-me draw" d="M0 0 L100 -100" stroke="currentColor" stroke-width="4" fill="none"/>
+        <text x="0" y="30">det = 0 · 납작해짐</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption>점선 정사각형(넓이 1)이 무엇으로 변하는지만 보면 됩니다. 행렬식은 그 넓이에 ‘앞뒤가 뒤집혔는지’를 부호로 붙인 값입니다.</figcaption>
+</figure>
+
+<h2 id="predict">두 화살표가 겹치면</h2>
+<p>아래 실험에서 첫째 열은 (1.5, 1.5)로 고정하고, 둘째 열만 같은 길이 1.5를 유지한 채 방향 θ를 돌립니다.</p>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> 둘째 열의 방향을 135°에서 45°로 돌려 첫째 열과 겹치게 하면 노래 여덟 곡은 어떻게 될까요?</p>
+  <div class="buttons"><button type="button" data-choice="small" aria-pressed="false">한 점으로 모인다</button><button type="button" data-choice="line" aria-pressed="false">한 직선 위에 늘어선다</button><button type="button" data-choice="same" aria-pressed="false">조금 찌그러질 뿐 흩어져 있다</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="determinant" id="lab-det" aria-labelledby="lab-det-title">
+  <header><h3 id="lab-det-title">실험 6 · 둘째 열을 돌려 넓이 재기</h3><p>θ를 바꾸면 청록 화살표(둘째 열)가 돌고, 파란 면(옮겨진 단위 정사각형)의 넓이가 바뀝니다. 앞뒤가 뒤집히면 붉은 점선 면으로 표시합니다. <span class="kind">실제 계산</span></p></header>
+  <div class="stage"><svg role="img" aria-labelledby="lab-det-svg"><title id="lab-det-svg">두 열 화살표가 만드는 평행사변형과 옮겨진 노래 점. 수치는 옆의 결과 문장에 있습니다.</title></svg></div>
+  <div class="controls">
+    <div class="field"><label for="det-theta">둘째 열 방향 θ</label><input type="range" id="det-theta" name="theta" min="0" max="180" step="5" value="120" data-digits="0" data-unit="°"><output for="det-theta">120°</output></div>
+    <div class="buttons"><button type="button" data-reset>처음 값으로</button></div>
+    <div class="readout" aria-live="polite"><p>θ = 120°이면 det M = 3.07로, 넓이 1이 3.07이 되고 방향은 그대로입니다.</p></div>
+  </div>
+  <p class="footer">M = [1.5, 1.5cos θ ; 1.5, 1.5sin θ]. θ는 0~180°, 5° 간격. |det M| &lt; 0.05이면 ‘납작해짐’으로 표시합니다. 노래 점은 M·s 위치에 그립니다.</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>θ = 135°에서 두 열이 직각이 되어 넓이가 가장 큰 3.18이 됩니다. θ를 줄여 45°에 가까워질수록 평행사변형이 얇아지고, 정확히 45°에서 det M = 0이 되며 여덟 곡이 모두 한 직선 위로 내려앉습니다. 45°보다 작아지면 넓이가 다시 생기지만 부호가 음수이고, 면이 뒤집혀 붉은 점선이 됩니다.</p>
+<p>납작해진 순간을 자세히 보세요. 원래 다른 자리에 있던 노래들이 직선 위의 위치 하나만 남기고, 직선에 수직인 방향의 차이는 모두 잃습니다. 이 상태에서는 결과만 보고 원래 노래가 무엇이었는지 하나로 정할 수 없습니다.</p>
+
+<h2 id="explain">설명: 행렬식 = 부호 붙은 넓이</h2>
+<ol class="explain">
+  <li>e₁에서 e₂로 반시계 방향으로 도는 순서가 변환 뒤에도 유지되면 행렬식은 양수, 시계 방향으로 바뀌면 음수입니다. 크기는 정사각형이 변한 평행사변형의 넓이입니다.</li>
+  <li>M = [a, b ; c, d]. 첫째 열 (a, c), 둘째 열 (b, d). det M은 단위 넓이의 배율입니다.</li>
+  <li><div class="math">det M = a·d − b·c &nbsp;&nbsp; 모든 모양의 넓이 × |det M| &nbsp;&nbsp; det(B·A) = det B · det A</div></li>
+  <li>θ = 120°이면 둘째 열은 1.5·(cos 120°, sin 120°) = (−0.75, 1.30)이고, det M = 1.5 × 1.30 − (−0.75) × 1.5 = 1.95 + 1.125 ≈ 3.07입니다. θ = 45°이면 둘째 열이 (1.06, 1.06)으로 첫째 열과 같은 방향이 되어 1.5 × 1.06 − 1.06 × 1.5 = 0입니다.</li>
+</ol>
+<p>마지막 식 det(B·A) = det B · det A는 5장과 이어집니다. 변환을 이어 붙이면 넓이 배율은 곱해집니다. 그러니 단계 중 하나라도 행렬식이 0이면, 전체도 0이 되어 정보를 잃습니다.</p>
+
+<details class="check">
+  <summary>예측의 정답과 이유</summary>
+  <p><strong>한 직선 위에 늘어섭니다.</strong> 두 열이 같은 방향이면 M·s = x·(첫째 열) + y·(둘째 열)은 모두 그 방향의 배수입니다. 한 점으로 모이려면 두 열이 모두 0 벡터여야 합니다. 한 직선은 ‘한 방향의 정보만 남은’ 상태입니다.</p>
+</details>
+<details class="check">
+  <summary>90° 회전 행렬과 가로축 뒤집기 행렬의 행렬식은?</summary>
+  <p>90° 회전 [0, −1 ; 1, 0]은 0·0 − (−1)·1 = 1입니다. 넓이도 방향도 그대로입니다. 가로축 뒤집기 [1, 0 ; 0, −1]은 −1입니다. 넓이는 그대로지만 앞뒤가 뒤집힙니다. 5장의 깃발이 거울에 비친 것처럼 보인 경우가 바로 행렬식이 음수인 경우입니다.</p>
+</details>
+
+<h2 id="transfer">새 상황에 써 보기</h2>
+<p>추천 점수표 두 장이 거의 같은 방향이라면 어떨까요? 예를 들어 “신나는 정도”와 “파티에 어울리는 정도”는 실제로 거의 같은 것을 잽니다. 이런 점수표 두 장으로 만든 행렬은 행렬식이 0에 가깝고, 두 점수만 보고는 노래를 구별하기 어렵습니다. 점수표를 고를 때 서로 다른 것을 재는지 확인하는 간단한 방법이 행렬식입니다.</p>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> θ를 50°, 45°, 40°로 차례로 바꿔 보세요. 면이 얇아지다 선이 되고, 다시 뒤집혀 펼쳐지는 장면에서 행렬식의 부호가 왜 필요한지 보입니다.</div>
+
+<details class="deeper">
+  <summary>3차원에서는 행렬식이 무엇을 재나요?</summary>
+  <p>3×3 행렬의 행렬식은 단위 정육면체가 변한 평행육면체의 부피입니다. 세 열 중 하나가 나머지 둘이 만드는 평면 위에 있으면 부피가 0이 되어 공간이 평면으로 납작해집니다. 크기가 큰 행렬에서는 행렬식을 직접 계산하기보다, 9장에서 볼 고윳값이나 행렬을 단계별로 분해하는 방법으로 납작한 방향을 찾는 경우가 많습니다.</p>
+</details>
+
+<h2 id="next-question">남은 질문</h2>
+<p>행렬식이 0이면 정보를 잃는다는 것을 알았습니다. 그렇다면 0이 아닐 때는 반대로, 변환된 결과에서 원래 노래를 정확히 되찾을 수 있다는 뜻일까요? 되찾는다면 어떤 계산으로, 그리고 행렬식이 0에 가까울 때는 얼마나 믿을 수 있을까요?</p>
+<a class="next" href="inverse.html"><span>다음 장 · 07 · 변환을 되돌려 원래 노래를 찾아야 하니까</span><strong>기록에서 원래 노래 되찾기</strong></a>
+<a class="prev" href="compose.html">← 이전 장 · 05 변환을 이어 붙이면 순서가 중요하다</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-2.js"></script>
+</body>
+</html>

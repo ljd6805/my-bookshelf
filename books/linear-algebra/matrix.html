@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>04 · 행렬은 평면을 옮기는 규칙 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="점수표 두 개를 한꺼번에 적용하면 행렬이 됩니다. 행렬의 네 숫자를 바꾸며 격자와 노래 여덟 곡이 어떻게 옮겨 가는지 애니메이션으로 봅니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="matrix">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">4장 · Matrices</p>
+<h1>행렬은 평면을 옮기는 규칙</h1>
+<p class="lead">3장에서 자 하나로 재면 골목 재즈와 출근 지하철이 같은 점수를 받았습니다. 직각인 자를 하나 더 대면 두 곡이 다시 구별됩니다. 점수표 두 개를 한 번에 적용하는 표가 행렬이고, 행렬을 적용하면 노래뿐 아니라 평면의 모든 점이 함께 움직입니다.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>여러 점수표를 동시에 쓰고, 그 결과를 하나의 그림으로 이해해야 합니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>방향 u에 대한 투영 점수 s·u로 노래 한 곡을 숫자 하나로 바꿀 수 있습니다.</dd></div>
+  <div><dt>새 도구</dt><dd>2×2 행렬, 행렬과 벡터의 곱, 기저 벡터 e₁·e₂, 선형 변환</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>네 숫자만 보고 평면 전체가 어떻게 변하는지 예측하는 법</dd></div>
+  <div><dt>남는 질문</dt><dd>변환 두 개를 연달아 하면, 그것도 행렬 하나일까요? 순서는 상관없을까요?</dd></div>
+</dl>
+
+<h2 id="problem">점수표 두 장을 한 장으로</h2>
+<p>첫째 점수표는 3장의 취향 방향 (0.45, 0.89)로 재고, 둘째 점수표는 그와 직각인 방향 (−0.89, 0.45)로 잽니다. 노래 s = (x, y)마다 점수 두 개가 나옵니다.</p>
+<div class="math">첫째 점수 = 0.45x + 0.89y &nbsp;&nbsp; 둘째 점수 = −0.89x + 0.45y</div>
+<p>두 줄의 계수만 떼어 네모 안에 모으면 행렬이 됩니다. 행렬의 각 <strong>행</strong>은 점수표 하나이고, 행렬과 벡터의 곱은 “각 행과 내적하기”입니다. 골목 재즈 (−1, 0.5)는 (−0.01, 1.11), 출근 지하철 (1, −0.5)은 (0.01, −1.11)이 되어 둘째 점수에서 확실히 갈립니다.</p>
+
+<figure class="diagram">
+  <svg viewBox="0 0 520 250" role="img" aria-labelledby="f4-t f4-d">
+    <title id="f4-t">행렬을 읽는 두 가지 방법</title>
+    <desc id="f4-d">왼쪽은 행으로 읽는 법으로, 행렬의 위 행과 아래 행이 각각 노래 벡터와 내적되어 점수 두 개가 됩니다. 오른쪽은 열로 읽는 법으로, 원래 격자의 가로 단위 화살표 e1이 첫째 열의 위치로, 세로 단위 화살표 e2가 둘째 열의 위치로 옮겨 가고 격자 전체가 함께 기울어집니다.</desc>
+    <g font-size="13" fill="currentColor">
+      <text x="20" y="28" font-weight="700">행으로 읽기: 점수표 두 장</text>
+      <rect x="20" y="50" width="120" height="70" rx="8" fill="none" stroke="currentColor" opacity=".4"/>
+      <text class="f-me" x="34" y="78" fill="currentColor">0.45 &#160; 0.89</text>
+      <text class="f-b" x="30" y="106" fill="currentColor">−0.89 &#160; 0.45</text>
+      <text x="152" y="92">×</text>
+      <text x="170" y="80">x</text><text x="170" y="104">y</text>
+      <text x="195" y="92">=</text>
+      <text class="f-me" x="20" y="150" fill="currentColor">위 행 · s → 취향 점수</text>
+      <text class="f-b" x="20" y="174" fill="currentColor">아래 행 · s → 직각 점수</text>
+      <text x="290" y="28" font-weight="700">열로 읽기: e₁, e₂가 가는 곳</text>
+      <g transform="translate(390 170)">
+        <path d="M-80 0 H90 M0 60 V-120" stroke="currentColor" opacity=".25"/>
+        <path d="M0 0 H60 M0 0 V-60 M60 0 V-60 M0 -60 H60" stroke="currentColor" stroke-dasharray="3 4" opacity=".45"/>
+        <path class="s-a draw" d="M0 0 L27 53" stroke="currentColor" stroke-width="3" fill="none"/>
+        <path class="s-b draw" d="M0 0 L53 -27" stroke="currentColor" stroke-width="3" fill="none"/>
+        <path class="s-a" d="M0 0 L27 53 L80 26 L53 -27 Z" stroke="currentColor" fill="none" opacity=".5"/>
+        <text class="f-a" x="-74" y="54" fill="currentColor">e₁ → 첫째 열</text>
+        <text class="f-a" x="-74" y="70" fill="currentColor">(0.45, −0.89)</text>
+        <text class="f-b" x="60" y="-36" fill="currentColor">e₂ → 둘째 열</text>
+        <text class="f-b" x="60" y="-20" fill="currentColor">(0.89, 0.45)</text>
+      </g>
+    </g>
+  </svg>
+  <figcaption>같은 행렬을 행으로 읽으면 “점수표 두 장”, 열로 읽으면 “단위 화살표 두 개가 도착하는 곳”입니다. 두 읽기는 같은 계산을 다른 쪽에서 본 것입니다.</figcaption>
+</figure>
+
+<h2 id="predict">네 숫자로 그림 예측하기</h2>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> M = [2, 0 ; 0, 0.5]를 적용하면 아침 달리기 (2, 1.5)는 어디로 갈까요?</p>
+  <div class="buttons"><button type="button" data-choice="a" aria-pressed="false">(4, 0.75)</button><button type="button" data-choice="b" aria-pressed="false">(2.5, 2)</button><button type="button" data-choice="c" aria-pressed="false">(1, 3)</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="matrix-grid" id="lab-matrix" aria-labelledby="lab-matrix-title">
+  <header><h3 id="lab-matrix-title">실험 4 · 행렬로 평면 옮기기</h3><p>네 숫자 a, b, c, d를 바꾸거나 예시를 고르세요. 연한 격자는 원래 평면, 파란 격자는 옮겨진 평면입니다. ‘변환 재생’은 항등행렬에서 M까지 천천히 바뀌는 과정을 보여 줍니다. <span class="kind">실제 계산</span></p></header>
+  <div class="stage"><svg role="img" aria-labelledby="lab-matrix-svg"><title id="lab-matrix-svg">원래 격자와 행렬로 옮긴 격자, 그리고 옮겨진 노래 점들. 숫자는 옆의 결과 문장에 있습니다.</title></svg></div>
+  <div class="controls">
+    <label>예시 행렬 <select name="preset" id="m-preset">
+      <option value="identity" selected>항등(그대로)</option><option value="scores">두 점수표(3장 방향과 직각 방향)</option>
+      <option value="stretch">가로 2배, 세로 절반</option><option value="rotate">45° 회전에 가까움</option>
+      <option value="shear">오른쪽으로 밀기</option><option value="flat">한 직선으로 납작하게</option></select></label>
+    <div class="field"><label for="m-a">a (1행 1열)</label><input type="range" id="m-a" name="a" min="-2" max="2" step="0.01" value="1" data-digits="2"><output for="m-a">1.00</output></div>
+    <div class="field"><label for="m-b">b (1행 2열)</label><input type="range" id="m-b" name="b" min="-2" max="2" step="0.01" value="0" data-digits="2"><output for="m-b">0.00</output></div>
+    <div class="field"><label for="m-c">c (2행 1열)</label><input type="range" id="m-c" name="c" min="-2" max="2" step="0.01" value="0" data-digits="2"><output for="m-c">0.00</output></div>
+    <div class="field"><label for="m-d">d (2행 2열)</label><input type="range" id="m-d" name="d" min="-2" max="2" step="0.01" value="1" data-digits="2"><output for="m-d">1.00</output></div>
+    <div class="buttons"><button type="button" data-play>변환 재생</button><button type="button" data-reset>처음 값으로</button></div>
+    <div class="readout" aria-live="polite"><p>항등행렬 [1, 0 ; 0, 1]은 모든 점을 그대로 둡니다. e₁ = (1, 0)은 첫째 열 (1, 0)로, e₂ = (0, 1)은 둘째 열 (0, 1)로 갑니다.</p></div>
+  </div>
+  <p class="footer">M = [a, b ; c, d]. 각 값의 범위는 −2~2. 노래 점은 M·s 위치에 그립니다. 예시를 고른 뒤 슬라이더를 움직이면 예시와 다른 행렬이 됩니다. 이 실험은 원점을 옮기지 못합니다. 평행이동은 행렬 곱만으로는 만들 수 없기 때문입니다(10장의 +b가 그 역할을 합니다).</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>어떤 숫자를 넣어도 세 가지는 변하지 않습니다. 원점은 제자리에 있고, 격자의 직선은 직선으로 남으며, 평행한 선은 평행하게, 간격은 일정하게 유지됩니다. 이 성질을 가진 변환을 <strong>선형 변환</strong>이라 부릅니다.</p>
+<p>a와 c만 바꾸면 파란 화살표 e₁만 움직이고, b와 d만 바꾸면 청록 화살표 e₂만 움직입니다. 그리고 격자 전체가 이 두 화살표를 따라옵니다. ‘두 점수표’ 예시를 고르면 평면이 시계 방향으로 약 63° 돌아가, 나의 취향 (1, 2)가 가로축 위 (2.23, 0.01)에 눕습니다. 내 취향 방향이 새 평면의 첫째 축이 된 것입니다.</p>
+
+<h2 id="explain">설명: 열은 도착지, 곱은 섞는 비율</h2>
+<ol class="explain">
+  <li>평면의 모든 점은 e₁ = (1, 0)과 e₂ = (0, 1)을 몇 개씩 섞은 것입니다. (2, 1.5)는 e₁ 두 개와 e₂ 1.5개입니다. 선형 변환은 섞는 비율을 그대로 둔 채 재료인 e₁, e₂만 새 화살표로 바꿉니다. 그래서 e₁과 e₂가 어디로 가는지만 알면 모든 점의 행선지를 알 수 있습니다.</li>
+  <li>M = [a, b ; c, d]의 첫째 열 (a, c)는 e₁의 도착지, 둘째 열 (b, d)는 e₂의 도착지입니다. s = (x, y)는 옮길 노래입니다.</li>
+  <li><div class="math">M·s = x·(a, c) + y·(b, d) = (ax + by, cx + dy)</div></li>
+  <li>M = [2, 0 ; 0, 0.5], s = (2, 1.5)이면 M·s = 2·(2, 0) + 1.5·(0, 0.5) = (4, 0.75)입니다. 행으로 읽어도 같습니다. 첫째 칸은 (2, 0)·(2, 1.5) = 4, 둘째 칸은 (0, 0.5)·(2, 1.5) = 0.75입니다.</li>
+</ol>
+
+<details class="check">
+  <summary>예측의 정답과 이유</summary>
+  <p><strong>(4, 0.75)입니다.</strong> 이 행렬은 빠르기를 두 배로 늘리고 에너지를 절반으로 줄입니다. (2.5, 2)를 골랐다면 행렬의 숫자를 노래에 더했을 가능성이 있습니다. 행렬은 더하는 것이 아니라 각 칸에 비율을 곱해 섞습니다.</p>
+</details>
+<details class="check">
+  <summary>‘한 직선으로 납작하게’ 예시에서 노래들은 왜 한 줄로 늘어설까요?</summary>
+  <p>이 행렬의 두 열 (1, 2)와 (0.5, 1)은 같은 방향입니다. e₁과 e₂가 같은 직선 위로 가면, 그 둘을 아무리 섞어도 그 직선을 벗어날 수 없습니다. 3장에서 투영 하나로 정보가 줄었던 것과 같은 일이 행렬에서도 일어납니다. 6장에서 이 현상을 숫자 하나로 잡아냅니다.</p>
+</details>
+
+<h2 id="transfer">새 상황에 써 보기</h2>
+<p>사진 편집 앱의 ‘기울이기’와 ‘가로 늘이기’, 게임 화면의 회전은 모두 픽셀 좌표에 행렬을 곱하는 일입니다. 추천기에서도 같습니다. 특징이 10개이고 점수표가 3장이면 3×10 행렬 하나로 노래마다 점수 세 개를 한 번에 계산합니다. 행의 수는 “몇 개의 점수를 만들까”, 열의 수는 “몇 개의 특징을 읽을까”입니다.</p>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> 항등행렬에서 시작해 b만 0에서 1로 올려 보세요. 가로선은 그대로인데 세로선만 오른쪽으로 눕습니다. e₂ 하나만 옮겨도 평면 전체가 따라 움직인다는 것을 볼 수 있습니다.</div>
+
+<details class="deeper">
+  <summary>3차원 그래픽에서는 왜 4×4 행렬을 쓰나요?</summary>
+  <p>위의 실험 설명처럼 행렬 곱은 원점을 옮기지 못합니다. 3차원 그래픽은 좌표에 1을 하나 덧붙인 (x, y, z, 1)을 쓰고 4×4 행렬의 마지막 열에 이동량을 넣어, 회전과 이동을 곱셈 하나로 처리합니다. 이 책은 2차원에 머물지만, 같은 생각이 3차원 장면 전체를 움직입니다.</p>
+</details>
+
+<h2 id="next-question">남은 질문</h2>
+<p>행렬 하나로 평면을 돌리고, 늘이고, 기울일 수 있게 되었습니다. 그럼 “먼저 돌리고 그다음 늘이기”처럼 두 변환을 이어서 하면 어떻게 될까요? 그 결과도 행렬 하나로 적을 수 있을까요? 그리고 “먼저 늘이고 그다음 돌리기”와 결과가 같을까요?</p>
+<a class="next" href="compose.html"><span>다음 장 · 05 · 변환 두 개를 이어 붙이는 규칙을 알아야 하니까</span><strong>변환을 이어 붙이면 순서가 중요하다</strong></a>
+<a class="prev" href="projection.html">← 이전 장 · 03 내 취향 방향으로 그림자 드리우기</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-2.js"></script>
+</body>
+</html>

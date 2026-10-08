@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>07 · 기록에서 원래 노래 되찾기 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="변환된 점수만 남았을 때 역행렬과 연립방정식으로 원래 노래를 되찾습니다. 두 직선의 교점으로 해를 보고, 행렬식이 0에 가까울 때 답이 얼마나 흔들리는지 확인합니다.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body data-chapter="inverse">
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="index.html#contents">목차</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">7장 · Inverse &amp; linear systems</p>
+<h1>기록에서 원래 노래 되찾기</h1>
+<p class="lead">6장에서 행렬식이 0이면 정보가 사라진다는 것을 보았습니다. 이번에는 반대 방향입니다. 추천기의 기록에는 변환된 점수 두 개만 남아 있습니다. 변환 규칙은 알고 있으니, 기록에서 원래 노래의 빠르기와 에너지를 되찾아 봅시다.</p>
+<dl class="chapter-map">
+  <div><dt>현재 문제</dt><dd>점수 b만 남았을 때 M·x = b를 만족하는 원래 노래 x를 찾아야 합니다.</dd></div>
+  <div><dt>이전 결과</dt><dd>det M = 0이면 평면이 납작해져 서로 다른 노래가 같은 결과가 됩니다.</dd></div>
+  <div><dt>새 도구</dt><dd>역행렬 M⁻¹, 연립일차방정식, 두 직선의 교점, 해의 민감도</dd></div>
+  <div><dt>이 장에서 해결할 것</dt><dd>기록에서 노래를 되찾는 계산과, 되찾은 답을 믿어도 되는 조건</dd></div>
+  <div><dt>남는 질문</dt><dd>어떤 변환은 특정 방향을 돌리지 않고 늘이기만 합니다. 그런 방향을 찾으면 무엇이 쉬워질까요?</dd></div>
+</dl>
+
+<h2 id="problem">점수 두 개, 미지수 두 개</h2>
+<p>기록 규칙은 M = [2, 1 ; 1, 1.5]입니다. 첫째 점수는 “빠르기 2배 + 에너지”, 둘째 점수는 “빠르기 + 에너지 1.5배”입니다. 어떤 노래의 기록이 b = (5.5, 4.25)로 남았습니다. 빠르기를 x, 에너지를 y라고 하면 다음 두 식을 동시에 만족해야 합니다.</p>
+<div class="math">2x + y = 5.5 &nbsp;&nbsp;&nbsp; x + 1.5y = 4.25</div>
+<p>식 하나는 평면 위의 직선 하나입니다. 첫째 식을 만족하는 (x, y)는 무수히 많지만 모두 한 직선 위에 있습니다. 두 식을 모두 만족하는 점은 <strong>두 직선이 만나는 곳</strong>입니다.</p>
+
+<figure class="diagram">
+  <svg viewBox="0 0 520 230" role="img" aria-labelledby="f7-t f7-d">
+    <title id="f7-t">연립방정식을 보는 세 가지 경우</title>
+    <desc id="f7-d">첫째 그림은 두 직선이 한 점에서 만나 답이 하나인 경우, 둘째는 두 직선이 평행해 만나지 않아 답이 없는 경우, 셋째는 두 직선이 완전히 겹쳐 직선 위의 모든 점이 답인 경우입니다.</desc>
+    <g font-size="12.5" fill="currentColor">
+      <g transform="translate(20 20)"><rect width="150" height="150" rx="8" fill="none" stroke="currentColor" opacity=".25"/>
+        <path class="s-me draw" d="M10 130 L140 30" stroke="currentColor" stroke-width="2.5" stroke-dasharray="7 4" fill="none"/>
+        <path class="s-res draw" d="M10 40 L140 120" stroke="currentColor" stroke-width="2.5" fill="none"/>
+        <circle class="f-res" cx="76" cy="80" r="6" fill="currentColor"/><text x="10" y="180">한 점에서 만남 · 답 하나</text></g>
+      <g transform="translate(185 20)"><rect width="150" height="150" rx="8" fill="none" stroke="currentColor" opacity=".25"/>
+        <path class="s-me" d="M10 110 L140 40" stroke="currentColor" stroke-width="2.5" stroke-dasharray="7 4"/>
+        <path class="s-res" d="M10 140 L140 70" stroke="currentColor" stroke-width="2.5"/><text x="10" y="180">평행 · 답 없음 (det = 0)</text></g>
+      <g transform="translate(350 20)"><rect width="150" height="150" rx="8" fill="none" stroke="currentColor" opacity=".25"/>
+        <path class="s-res" d="M10 120 L140 40" stroke="currentColor" stroke-width="5" opacity=".6"/>
+        <path class="s-me" d="M10 120 L140 40" stroke="currentColor" stroke-width="2.5" stroke-dasharray="7 4"/><text x="0" y="180">겹침 · 답 무수히 (det = 0)</text></g>
+    </g>
+  </svg>
+  <figcaption>답이 하나로 정해지는 것은 두 직선이 서로 다른 방향일 때뿐입니다. 방향이 같으면(행렬식 0) 답이 없거나 너무 많습니다.</figcaption>
+</figure>
+
+<h2 id="predict">규칙이 거의 납작하면</h2>
+<div class="predict">
+  <p><strong>예측해 보기.</strong> 규칙의 d를 1.5에서 0.6으로 바꾸면(det 2 → 0.2), 같은 기록 b = (5.5, 4.25)에서 되찾은 노래는 어떻게 될까요?</p>
+  <div class="buttons"><button type="button" data-choice="small" aria-pressed="false">조금만 움직인다</button><button type="button" data-choice="far" aria-pressed="false">평면 밖으로 멀리 날아간다</button><button type="button" data-choice="none" aria-pressed="false">답이 사라진다</button></div>
+  <p class="predict-note" aria-live="polite"></p>
+</div>
+
+<section class="lab" data-lab="solve" id="lab-solve" aria-labelledby="lab-solve-title">
+  <header><h3 id="lab-solve-title">실험 7 · 기록에서 노래 되찾기</h3><p>기록된 점수 b₁, b₂와 규칙의 d를 바꿔 보세요. 붉은 점선은 식 ①, 보라 실선은 식 ②의 직선입니다. 보라 점이 되찾은 노래입니다. <span class="kind">실제 계산</span></p></header>
+  <div class="stage"><svg role="img" aria-labelledby="lab-solve-svg"><title id="lab-solve-svg">두 식의 직선과 교점. 수치는 옆의 결과 문장에 있습니다.</title></svg></div>
+  <div class="controls">
+    <div class="field"><label for="s-b1">기록 b₁</label><input type="range" id="s-b1" name="b1" min="-6" max="6" step="0.25" value="5.5" data-digits="2"><output for="s-b1">5.50</output></div>
+    <div class="field"><label for="s-b2">기록 b₂</label><input type="range" id="s-b2" name="b2" min="-6" max="6" step="0.25" value="4.25" data-digits="2"><output for="s-b2">4.25</output></div>
+    <div class="field"><label for="s-d">규칙의 d</label><input type="range" id="s-d" name="d" min="0" max="2" step="0.05" value="1.5" data-digits="2"><output for="s-d">1.50</output></div>
+    <div class="buttons"><button type="button" data-reset>처음 값으로</button></div>
+    <div class="readout" aria-live="polite"><p>d = 1.5, b = (5.5, 4.25)이면 det M = 2이고 x = (2, 1.5), 아침 달리기입니다.</p></div>
+  </div>
+  <p class="footer">M = [2, 1 ; 1, d]. b₁, b₂는 −6~6(0.25 간격), d는 0~2(0.05 간격). |det M| &lt; 0.02이면 하나의 답을 정할 수 없다고 판단해 해를 표시하지 않습니다. 되찾은 노래가 그림 범위(−4~4) 밖이면 점은 보이지 않고 숫자만 나옵니다.</p>
+</section>
+
+<h2 id="observe">무엇이 보였나</h2>
+<p>처음 값에서 두 직선은 (2, 1.5)에서 만나고, 그 자리에 아침 달리기가 있습니다. 기록에서 노래를 정확히 되찾았습니다. b₂를 4.25에서 4.5로 한 칸 올리면 답은 (1.88, 1.75)로 조금 움직입니다.</p>
+<p>이제 d를 줄여 보세요. 보라 직선이 점점 주황 직선과 나란해지고, 교점이 빠르게 멀어집니다. d = 0.6에서는 같은 기록의 답이 (−4.75, 15)로 그림 밖까지 날아가고, 여기서 b₂를 한 칸(0.25)만 바꿔도 답이 (−6, 17.5)로 크게 움직입니다. d = 0.5에서는 두 직선이 평행해져 답이 하나로 정해지지 않습니다.</p>
+
+<h2 id="explain">설명: 역행렬은 변환을 거꾸로 돌리는 행렬</h2>
+<ol class="explain">
+  <li>M이 평면을 납작하게 만들지 않았다면, 옮겨진 격자를 원래대로 펴는 변환이 있습니다. 그 변환의 행렬이 역행렬 M⁻¹이고, 기록에 곱하면 원래 노래가 나옵니다.</li>
+  <li>M = [a, b ; c, d]는 기록 규칙, b는 기록된 점수, x는 되찾을 노래, M⁻¹은 역행렬입니다.</li>
+  <li><div class="math">M⁻¹ = (1 / det M) · [d, −b ; −c, a] &nbsp;&nbsp; x = M⁻¹·b &nbsp;&nbsp; M⁻¹·M = 항등행렬</div></li>
+  <li>M = [2, 1 ; 1, 1.5]이면 det M = 3 − 1 = 2, M⁻¹ = ½·[1.5, −1 ; −1, 2] = [0.75, −0.5 ; −0.5, 1]입니다. x = (0.75 × 5.5 − 0.5 × 4.25, −0.5 × 5.5 + 1 × 4.25) = (2, 1.5)입니다.</li>
+</ol>
+<p>역행렬 공식에 1/det M이 들어 있다는 점이 핵심입니다. 행렬식이 0이면 나눌 수 없어 역행렬이 없고, 0에 가까우면 아주 큰 수로 곱하게 되어 기록의 작은 오차가 답에서 크게 부풀려집니다.</p>
+
+<details class="check">
+  <summary>예측의 정답과 이유</summary>
+  <p><strong>평면 밖으로 멀리 날아갑니다.</strong> 답이 사라지는 것은 det M이 정확히 0일 때뿐입니다. 0.2처럼 작지만 0이 아니면 답은 존재하지만 1/0.2 = 5배로 부풀려진 값이 되어, 원래 노래 범위(−3~3)를 크게 벗어난 (−4.75, 15)가 나옵니다. 계산은 틀리지 않았지만, 이 규칙으로 남긴 기록은 되찾기에 믿을 만하지 않습니다.</p>
+</details>
+<details class="check">
+  <summary>5장의 90° 회전을 되돌리는 역행렬은?</summary>
+  <p>−90° 회전 [0, 1 ; −1, 0]입니다. 공식으로 계산해도 det = 1이고 [0, 1 ; −1, 0]이 나옵니다. 회전은 넓이를 바꾸지 않으므로 되돌려도 오차가 부풀지 않습니다.</p>
+</details>
+
+<h2 id="transfer">새 상황에 써 보기</h2>
+<p>GPS 수신기는 위성 여러 개까지의 거리로 위치를 계산하는데, 위성들이 하늘 한쪽에 몰려 있으면 위치 오차가 커집니다. 직선들이 거의 나란하게 만나는 실험 7의 상황과 같습니다. 추천기에서도 같은 교훈이 나옵니다. 기록을 남길 점수표 두 장은 서로 충분히 다른 방향이어야 나중에 노래를 되찾을 수 있습니다. 6장의 행렬식이 그 확인 수단입니다.</p>
+
+<div class="today"><strong>오늘 꼭 해 볼 실험 하나</strong> d를 1.5와 0.6에 각각 두고 b₂를 4.25 ↔ 4.5로 바꿔 보세요. 같은 0.25의 기록 오차가 답을 얼마나 움직이는지 비교하면, ‘풀 수 있다’와 ‘믿을 수 있다’가 다른 말이라는 것이 보입니다.</div>
+
+<details class="deeper">
+  <summary>식이 미지수보다 많으면 어떻게 하나요?</summary>
+  <p>점수표가 세 장인데 특징은 두 개라면, 세 직선이 한 점에서 만나지 않는 경우가 많습니다. 그때는 모든 식을 정확히 만족하는 대신 오차의 제곱합이 가장 작은 답을 고릅니다. 이것을 최소제곱법이라 하고, 3장의 투영으로 풀 수 있습니다. 기록 b를 “M의 열들이 만들 수 있는 공간” 위로 투영한 뒤 그 점을 되찾는 것입니다. AI Book의 직선 맞추기 실험이 바로 이 문제를 손으로 푸는 실험입니다.</p>
+</details>
+
+<h2 id="next-question">남은 질문</h2>
+<p>변환을 되돌리는 법과 그 위험을 알았습니다. 그런데 변환을 하나 하나 분석할 때마다 네 숫자를 계속 따지는 것은 번거롭습니다. 4장의 ‘가로 2배, 세로 절반’은 가로 방향과 세로 방향을 각각 늘이기만 해서 이해하기 쉬웠습니다. 다른 행렬에도 이렇게 “돌리지 않고 늘이기만 하는” 특별한 방향이 숨어 있을까요?</p>
+<a class="next" href="eigen.html"><span>다음 장 · 08 · 변환을 가장 단순하게 보이게 하는 방향을 찾기 위해</span><strong>방향이 바뀌지 않는 화살표</strong></a>
+<a class="prev" href="determinant.html">← 이전 장 · 06 넓이가 얼마나 변하는가</a>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="index.html#contents">전체 목차</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-2.js"></script>
+</body>
+</html>

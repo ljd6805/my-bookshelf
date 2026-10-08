@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수</title>
+<meta name="description" content="노래 여덟 곡으로 작은 추천기를 만들며 벡터, 내적, 투영, 행렬 변환, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층을 직접 움직여 익히는 한국어 인터랙티브 교과서.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css?v=20261008-1">
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>직접 움직이는 선형대수</small></a>
+  <nav aria-label="책 메뉴"><a href="#contents">목차</a><a href="#promise">이 책의 약속</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<section class="cover" id="home">
+  <p class="kicker">Vectors &amp; Matrices · 인터랙티브 교과서</p>
+  <h1>벡터와 행렬로 보는 세상</h1>
+  <p class="lead">“이 노래가 좋았다면 저 노래도 좋아할까?” 이 질문 하나에 답하는 작은 추천기를 처음부터 만듭니다. 노래를 화살표로 적는 데서 시작해, 닮음을 재고, 평면을 통째로 옮기고, 데이터의 가장 중요한 방향을 찾고, 마지막에는 신경망 한 층이 하는 일을 직접 계산합니다.</p>
+  <p>모든 장은 같은 노래 여덟 곡을 다룹니다. 앞 장에서 만든 도구가 다음 장의 재료가 되므로, 처음 읽는다면 1장부터 차례로 읽기를 권합니다.</p>
+  <p><a class="btn" href="vectors.html">1장부터 읽기</a></p>
+</section>
+
+<h2 id="case">이 책의 공통 사례: 노래 여덟 곡과 ‘나’</h2>
+<p>노래마다 두 가지 특징을 점수로 붙였습니다. <strong>빠르기</strong>는 템포가 얼마나 빠른지, <strong>에너지</strong>는 소리가 얼마나 힘차고 꽉 찼는지입니다. 두 점수 모두 −3(아주 낮음)부터 3(아주 높음)까지이고 0이 보통입니다. 실제 음원을 분석한 값이 아니라 설명을 위해 정한 가상의 값입니다.</p>
+<p>독자인 ‘나’의 취향도 같은 방식으로 적습니다. 나는 빠른 노래를 조금 좋아하고 힘 있는 노래를 더 좋아하므로 취향은 (1, 2)입니다.</p>
+<figure class="lab single" data-lab="songs-map">
+  <div class="stage"><svg role="img" aria-labelledby="map-title map-desc"><title id="map-title">노래 여덟 곡의 특징 지도</title><desc id="map-desc">가로축은 빠르기, 세로축은 에너지입니다. 오른쪽 위에는 여름 축제, 옥상 록 공연, 아침 달리기가, 왼쪽 아래에는 자장가, 비 오는 창가, 새벽 산책이 있습니다. 골목 재즈와 출근 지하철은 가운데 가까이 있습니다. 붉은 화살표 ‘나’는 (1, 2)를 가리킵니다.</desc></svg></div>
+  <figcaption>가로는 빠르기, 세로는 에너지입니다. 점 하나가 노래 한 곡이고, 붉은 화살표가 나의 취향입니다. 그림을 볼 수 없다면 아래 표가 같은 내용을 담고 있습니다.</figcaption>
+</figure>
+<div class="table-scroll">
+<table class="data">
+  <caption class="muted">노래별 특징 점수 (빠르기, 에너지)</caption>
+  <thead><tr><th scope="col">노래</th><th scope="col">빠르기</th><th scope="col">에너지</th><th scope="col">한 줄 느낌</th></tr></thead>
+  <tbody>
+    <tr><td>새벽 산책</td><td class="num">−1.5</td><td class="num">−1</td><td>느리고 조용한 걷기</td></tr>
+    <tr><td>비 오는 창가</td><td class="num">−2.5</td><td class="num">−2</td><td>아주 느리고 잔잔함</td></tr>
+    <tr><td>여름 축제</td><td class="num">3</td><td class="num">2.5</td><td>가장 빠르고 신남</td></tr>
+    <tr><td>아침 달리기</td><td class="num">2</td><td class="num">1.5</td><td>빠르고 경쾌함</td></tr>
+    <tr><td>골목 재즈</td><td class="num">−1</td><td class="num">0.5</td><td>느리지만 소리가 꽉 참</td></tr>
+    <tr><td>출근 지하철</td><td class="num">1</td><td class="num">−0.5</td><td>빠르지만 담담함</td></tr>
+    <tr><td>옥상 록 공연</td><td class="num">1.5</td><td class="num">3</td><td>힘이 가장 셈</td></tr>
+    <tr><td>자장가</td><td class="num">−3</td><td class="num">−2.5</td><td>가장 느리고 조용함</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="promise">이 책의 약속</h2>
+<div class="cards">
+  <div><h3>누구를 위한 책인가</h3><p>좌표평면과 곱셈은 알지만, 벡터·행렬이 왜 AI와 그래픽에서 계속 나오는지 감이 오지 않는 사람.</p></div>
+  <div><h3>끝나면 할 수 있는 일</h3><p>데이터를 벡터로 적고, 닮음을 내적과 코사인으로 계산하고, 행렬 하나가 공간을 어떻게 바꾸는지 그림으로 예측해 설명합니다.</p></div>
+  <div><h3>계속 쓰는 사례</h3><p>가상의 노래 여덟 곡과 나의 취향 (1, 2). 장마다 같은 곡들로 추천기의 부품을 하나씩 만듭니다.</p></div>
+  <div><h3>다루는 범위</h3><p>2차원을 중심으로 벡터, 내적, 투영, 2×2 행렬, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층. 3차원 이상은 같은 계산이 어떻게 늘어나는지만 보입니다.</p></div>
+  <div><h3>배웠는지 확인하는 방법</h3><p>마지막 장에서 셋째 특징이 생긴 노래 데이터를 받고, 무엇을 바꿀지와 그 이유, 아직 부족한 증거를 스스로 판단합니다.</p></div>
+</div>
+
+<h2 id="contents">목차</h2>
+<p class="muted">각 장의 마지막에는 아직 풀지 못한 질문이 남고, 그 질문이 다음 장의 출발점입니다. 읽은 장에는 ‘읽음’ 표시가 붙습니다(이 브라우저에만 저장).</p>
+<ol class="toc">
+  <li data-progress="vectors"><span class="num">01</span><a href="vectors.html">노래를 화살표로 적기</a><span class="visit-mark"></span><p>“신나는 노래”를 숫자로 적고, 두 노래를 섞은 재생목록의 위치를 계산합니다.</p></li>
+  <li data-progress="similarity"><span class="num">02</span><a href="similarity.html">얼마나 닮았는지 재기</a><span class="visit-mark"></span><p>거리 대신 방향으로 닮음을 재는 내적과 코사인 유사도로 첫 추천을 합니다.</p></li>
+  <li data-progress="projection"><span class="num">03</span><a href="projection.html">내 취향 방향으로 그림자 드리우기</a><span class="visit-mark"></span><p>모든 노래를 취향 방향 위의 점수 하나로 줄 세우는 투영을 배웁니다.</p></li>
+  <li data-progress="matrix"><span class="num">04</span><a href="matrix.html">행렬은 평면을 옮기는 규칙</a><span class="visit-mark"></span><p>점수표 두 개를 한꺼번에 적용하면 행렬이 되고, 평면 전체가 움직입니다.</p></li>
+  <li data-progress="compose"><span class="num">05</span><a href="compose.html">변환을 이어 붙이면 순서가 중요하다</a><span class="visit-mark"></span><p>회전과 늘이기를 연달아 할 때 순서를 바꾸면 결과가 왜 달라지는지 봅니다.</p></li>
+  <li data-progress="determinant"><span class="num">06</span><a href="determinant.html">넓이가 얼마나 변하는가</a><span class="visit-mark"></span><p>행렬식이 0이 되는 순간 평면이 납작해지고 정보가 사라지는 장면을 만듭니다.</p></li>
+  <li data-progress="inverse"><span class="num">07</span><a href="inverse.html">기록에서 원래 노래 되찾기</a><span class="visit-mark"></span><p>역행렬과 연립방정식으로 변환을 되돌리고, 되돌릴 수 없는 경우를 구분합니다.</p></li>
+  <li data-progress="eigen"><span class="num">08</span><a href="eigen.html">방향이 바뀌지 않는 화살표</a><span class="visit-mark"></span><p>행렬이 늘이기만 하고 돌리지 않는 특별한 방향, 고유벡터를 직접 찾습니다.</p></li>
+  <li data-progress="pca"><span class="num">09</span><a href="pca.html">노래 구름의 가장 긴 방향</a><span class="visit-mark"></span><p>두 특징을 하나로 줄여도 정보가 가장 덜 사라지는 방향, 주성분을 찾습니다.</p></li>
+  <li data-progress="layer"><span class="num">10</span><a href="layer.html">신경망 한 층은 행렬 곱과 꺾기</a><span class="visit-mark"></span><p>지금까지의 도구로 Wx + b와 ReLU를 계산하며 신경망 한 층의 뜻을 읽습니다.</p></li>
+  <li data-progress="challenge"><span class="num">11</span><a href="challenge.html">마지막 과제: 셋째 특징이 생긴 날</a><span class="visit-mark"></span><p>처음 보는 3차원 데이터로 추천기를 고치고, 판단의 근거와 부족한 증거를 적습니다.</p></li>
+</ol>
+
+<h2 id="how">읽는 법과 그림의 약속</h2>
+<p>모든 장은 <strong>문제 → 예측 → 조작 → 관찰 → 설명 → 전이</strong>의 흐름을 따릅니다. 실험을 움직이기 전에 결과를 먼저 짐작해 보고, 한 번에 한 값만 바꾸며, 바뀐 숫자를 문장으로 읽어 보세요.</p>
+<div class="legend" aria-label="그림 색 범례"><span class="a">파랑: 첫째 벡터·첫째 열</span><span class="b">청록: 둘째 벡터·둘째 열</span><span class="me">붉은색: 나의 취향·기준 방향</span><span class="res">보라: 계산 결과</span><span class="song">주황 점: 노래</span></div>
+<p class="muted">색만으로 구분하지 않도록 그림 속 화살표에는 이름표를 붙이고, 모든 실험의 결과는 그림 옆에 문장과 숫자로도 나옵니다. 실험은 모두 브라우저에서 실제 계산을 하며, 미리 정한 결과를 재생하지 않습니다. 동작 줄이기 설정을 켜면 애니메이션은 마지막 장면만 보여 줍니다.</p>
+
+<h2 id="links">다른 책과 이어지는 곳</h2>
+<div class="cross">
+  <p><strong>AI Book · 직접 실험하는 AI 교과서</strong> → <a href="../ai/#embeddings">5장 의미를 놓는 좌표 공간</a></p>
+  <p>이 책의 2장에서 코사인 유사도를 계산했다면, AI Book의 임베딩 장에서 같은 계산이 단어와 문장의 ‘의미 거리’로 쓰이는 모습을 볼 수 있습니다. 10장을 마친 뒤에는 AI Book의 <a href="../ai/#neuron">1장 신경망의 작은 부품</a>에서 뉴런 하나의 가중치를 바꿔 보면 행렬의 한 행이 무슨 일을 하는지 다시 확인할 수 있습니다.</p>
+</div>
+<p class="muted">이 책은 서가의 다른 책과 코드를 공유하지 않습니다. 같은 개념을 서로 다른 사례로 다시 만나도록 링크만 겁니다.</p>
+</main>
+<footer class="foot">
+  <a href="../../index.html#books">나만의 서재로 돌아가기</a>
+  <a href="docs/index.html">이 책의 기획과 검증 기록</a>
+  <span>노래와 점수는 모두 설명용 가상 데이터입니다.</span>
+</footer>
+<script src="js/linalg.js"></script><script src="js/songs.js"></script><script src="js/plane.js"></script><script src="js/ui.js"></script><script src="js/kit.js"></script><script src="js/labs-1.js"></script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>기획과 검증 기록 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="벡터와 행렬로 보는 세상의 책 기획서, 장 구성, 실험 명세, 교차 링크, 검증 결과와 남은 일.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css?v=20261008-1">
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="../index.html">벡터와 행렬로 보는 세상<small>기획과 검증 기록</small></a>
+  <nav aria-label="문서 메뉴"><a href="#brief">기획서</a><a href="#chapters">장 구성</a><a href="#labs">실험 명세</a><a href="#verification">검증</a></nav>
+  <a class="shelf-return" data-shelf-return href="../../../index.html#books" aria-label="나만의 서재 서가로 돌아가기"><span aria-hidden="true">←</span>서가로</a>
+</header>
+<main id="main" tabindex="-1">
+<p class="kicker">운영 문서 · 2026-10-08</p>
+<h1>기획과 검증 기록</h1>
+<p class="lead">이 문서는 독자가 읽는 본문이 아니라 책을 만들고 고칠 사람(사람·GPT·Claude)을 위한 기록입니다. 기획 결정, 장과 실험의 계약, 실제로 확인한 것과 확인하지 못한 것을 구분해 남깁니다.</p>
+
+<h2 id="brief">책 기획서</h2>
+<table class="data">
+  <tbody>
+    <tr><th scope="row">책 ID·제목</th><td><code>linear-algebra-world</code> · 벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수 (폴더 <code>books/linear-algebra/</code>)</td></tr>
+    <tr><th scope="row">독자</th><td>좌표평면과 곱셈은 알지만 벡터·행렬이 AI와 그래픽에서 왜 계속 나오는지 감이 오지 않는 사람. 공식은 외웠어도 “행렬이 공간을 바꾼다”는 그림이 없는 상태.</td></tr>
+    <tr><th scope="row">끝의 행동</th><td>데이터를 벡터로 적고, 내적·코사인으로 닮음을 계산하고, 행렬의 네 숫자를 보고 평면이 어떻게 변할지 예측해 설명한다. 행렬식·고유벡터·주성분이 무엇을 알려 주는지 판단한다.</td></tr>
+    <tr><th scope="row">공통 사례</th><td>가상의 노래 여덟 곡(빠르기, 에너지; −3~3)과 독자의 취향 (1, 2). 마지막 장에서 셋째 특징(가사 비중)과 새 사용자 (1, 2, −2)가 추가된다. 데이터 원본: <code>js/songs.js</code>.</td></tr>
+    <tr><th scope="row">이야기 방식</th><td><strong>하나의 제품을 완성한다.</strong> 장마다 작은 노래 추천기의 부품(표현 → 닮음 → 점수 → 변환 → 되돌리기 → 요약 → 비선형 판단)을 하나씩 만든다.</td></tr>
+    <tr><th scope="row">범위</th><td>2차원 중심의 벡터, 내적, 투영, 2×2 행렬, 합성, 행렬식, 역행렬·연립방정식, 고유벡터, 공분산과 PCA, 신경망 한 층(Wx + b, ReLU). 3차원은 계산만, 고차원은 개념만.</td></tr>
+    <tr><th scope="row">다루지 않는 것</th><td>행렬 분해(LU, QR, SVD)의 계산 절차, 일반 n×n 행렬식 전개, 복소 고윳값, 벡터 공간의 공리적 정의, 학습(경사하강법) 과정.</td></tr>
+    <tr><th scope="row">증거</th><td>11장 마지막 과제: 3차원 데이터에서 무엇을 바꿀지·왜·부족한 증거를 쓰고, 예시 답안과 채점 기준으로 비교한다. 각 장의 예측 문제와 이해 확인 두 개.</td></tr>
+  </tbody>
+</table>
+<p>구조 결정: 장마다 독립 HTML 파일(<code>vectors.html</code> 등)로 두어 JavaScript 없이도 본문·예시 숫자·표를 읽을 수 있게 했다. AI Book처럼 해시 라우팅을 쓰지 않은 이유는 검증기의 정적 앵커 검사와 텍스트 대체를 단순하게 하기 위해서다. 장 파일 이름이 곧 안정적인 장 ID다.</p>
+
+<h2 id="chapters">장 구성과 연결</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">장 ID</th><th scope="col">시작 질문</th><th scope="col">새 도구</th><th scope="col">해결한 것</th><th scope="col">남은 질문 → 다음 장</th></tr></thead>
+  <tbody>
+    <tr><td>vectors</td><td>‘신나는 노래’를 어떻게 숫자로?</td><td>벡터, 덧셈, 실수배, 거리</td><td>두 곡을 섞은 재생목록의 위치</td><td>거리 말고 방향으로 닮음을?</td></tr>
+    <tr><td>similarity</td><td>같은 방향의 진한 곡이 손해 보는 문제</td><td>길이, 내적, 코사인</td><td>첫 추천(코사인 1위 록 공연)</td><td>방향 위의 점수로 줄 세우기?</td></tr>
+    <tr><td>projection</td><td>취향 방향으로 몇 칸 갔나</td><td>단위벡터, 투영, 나머지 성분</td><td>여덟 곡의 순위</td><td>자를 여러 개 동시에?</td></tr>
+    <tr><td>matrix</td><td>점수표 두 장을 한 번에</td><td>2×2 행렬, 열 = e₁·e₂의 도착지</td><td>네 숫자로 평면 전체 예측</td><td>변환을 이어 붙이면?</td></tr>
+    <tr><td>compose</td><td>돌리고 늘이기 vs 늘이고 돌리기</td><td>행렬 곱, 비교환성</td><td>여러 단계를 행렬 하나로</td><td>납작해짐을 숫자로?</td></tr>
+    <tr><td>determinant</td><td>정보를 잃는지 미리 알기</td><td>부호 있는 넓이 배율</td><td>det = 0 ⇔ 납작함</td><td>0이 아니면 되돌릴 수 있나?</td></tr>
+    <tr><td>inverse</td><td>기록에서 원래 노래 찾기</td><td>역행렬, 연립방정식, 민감도</td><td>되찾기와 믿을 조건</td><td>늘이기만 하는 방향?</td></tr>
+    <tr><td>eigen</td><td>변환을 가장 단순하게 보는 방향</td><td>고유벡터, 고윳값, 특성방정식</td><td>고유 방향 0·1·2개인 경우</td><td>데이터의 특별한 방향?</td></tr>
+    <tr><td>pca</td><td>두 특징을 하나로 줄이기</td><td>공분산 행렬, 주성분, 설명 비율</td><td>42° 축 하나로 94% 보존</td><td>직선으로 못 그리는 취향?</td></tr>
+    <tr><td>layer</td><td>문턱이 있는 판단</td><td>편향, ReLU, 층 쌓기</td><td>ReLU 없이는 층이 행렬 하나</td><td>특징이 하나 더 생기면?</td></tr>
+    <tr><td>challenge</td><td>셋째 특징이 생긴 날</td><td>(새 도구 없음)</td><td>판단·근거·부족한 증거 쓰기</td><td>책 밖의 데이터</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="labs">실험 명세</h2>
+<p>모든 실험은 <code>js/linalg.js</code>의 순수 함수로 계산하고 <code>js/labs-*.js</code>가 SVG로 그린다. 미리 정한 결과를 재생하는 시나리오는 없다. 애니메이션은 계산 결과 사이를 보간하는 연출이며 <code>prefers-reduced-motion</code>에서는 마지막 장면만 그린다.</p>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">ID(장)</th><th scope="col">입력·범위</th><th scope="col">계산</th><th scope="col">출력</th><th scope="col">경계·오류 상태</th></tr></thead>
+  <tbody>
+    <tr><td>vector-mix (1)</td><td>노래 a, b; t 0~1</td><td>(1−t)a + tb, 최근접 곡</td><td>m 좌표, 거리</td><td>t = 0, 1에서 원곡과 일치</td></tr>
+    <tr><td>similarity (2)</td><td>방향 0~359°, 길이 0~4, 그림 누르기</td><td>내적, 코사인, 사잇각</td><td>세 값, 두 기준 순위표</td><td>길이 0 → 코사인 정의 안 됨</td></tr>
+    <tr><td>projection (3)</td><td>θ 0~180°</td><td>s·u</td><td>순위표, 그림자 애니메이션</td><td>점 겹침은 연출의 한계로 명시</td></tr>
+    <tr><td>matrix-grid (4)</td><td>a~d −2~2, 예시 6개</td><td>M·s, 격자 변환</td><td>e₁·e₂ 도착지, M·(1,2)</td><td>‘납작’ 예시로 det 0 미리 보기</td></tr>
+    <tr><td>compose (5)</td><td>변환 4종 × 2</td><td>B·A, A·B</td><td>두 그림, 일치 판정</td><td>오차 10⁻⁹ 이내를 같다고 판정</td></tr>
+    <tr><td>determinant (6)</td><td>둘째 열 방향 0~180°(5°)</td><td>ad − bc</td><td>넓이, 뒤집힘 표시</td><td>|det| &lt; 0.05 → 납작 경고</td></tr>
+    <tr><td>solve (7)</td><td>b₁, b₂ −6~6; d 0~2</td><td>M⁻¹b, 두 직선</td><td>해, 검산, 최근접 곡</td><td>|det| &lt; 0.02 → 해 없음/무수히</td></tr>
+    <tr><td>eigen (8)</td><td>행렬 4종, φ 0~359°</td><td>Mv, 특성방정식</td><td>각도 차, 고윳값 추정</td><td>회전 → 실수 고윳값 없음</td></tr>
+    <tr><td>pca (9)</td><td>θ 0~179°</td><td>uᵀCu, C의 고유벡터</td><td>분산·비율·곡선</td><td>전체 분산 0이면 비율 1로 처리</td></tr>
+    <tr><td>layer (10)</td><td>b₁, b₂ −3~3; ReLU 켜기/끄기</td><td>ReLU(Wx + b)</td><td>두 공간 그림, 표</td><td>W는 설명용 고정값(학습 아님)</td></tr>
+    <tr><td>challenge (11)</td><td>세 선호 −3~3(0.5)</td><td>3D·2D 코사인, 3D 내적</td><td>순위표</td><td>영벡터 → 계산 안 함</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="links">다른 책과의 연결</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">출발</th><th scope="col">도착</th><th scope="col">이동 이유</th><th scope="col">필요한 배경</th><th scope="col">돌아올 곳</th></tr></thead>
+  <tbody>
+    <tr><td>2장 similarity</td><td>AI Book <code>#embeddings</code>, <code>#attention</code></td><td>코사인 유사도가 의미 거리·Q·K 점수로 쓰이는 모습</td><td>내적, 길이</td><td>3장 projection</td></tr>
+    <tr><td>9장 pca</td><td>AI Book <code>#embeddings</code></td><td>고차원 임베딩을 2D로 볼 때의 정보 손실 해석</td><td>설명된 분산 비율</td><td>10장 layer</td></tr>
+    <tr><td>10장 layer</td><td>AI Book <code>#neuron</code>, <code>#learning</code></td><td>W의 한 행이 뉴런 하나; W와 b의 학습</td><td>행렬 곱, 편향</td><td>11장 challenge</td></tr>
+    <tr><td>11장 challenge</td><td>AI Book <code>#attention</code></td><td>어텐션 = 내적 점수 + 가중 평균</td><td>1·2·4장</td><td>(책 끝)</td></tr>
+  </tbody>
+</table>
+</div>
+<p>공통 개념 후보(서가의 개념 ID가 생기면 연결): 벡터, 내적·코사인 유사도, 행렬 곱, 고유벡터, 주성분 분석, 신경망 층. 병렬로 집필 중인 확률·통계 책과는 9장의 분산·공분산이 가장 자연스러운 접점이며, 그 책이 공개되면 교차 링크를 추가한다.</p>
+
+<h2 id="verification">검증 기록 (2026-10-08)</h2>
+<h3>자동 검사</h3>
+<ul>
+  <li><code>npm test --prefix books/linear-algebra</code>: 12개 통과. 계산 8개(내적·코사인의 대표값과 영벡터, 투영 분해의 직각·합 불변 조건, 곱의 비교환과 det(AB) = det A·det B, 역행렬·해와 det 0 거부, 고유쌍 M·v = λv와 회전·밀기 경계, 노래 PCA 42.08°·94.3%, ReLU로 접히는 네 곡, 데이터 범위)와 구조 4개(목차 순서, 장마다 장 지도 5칸·예측·실험·4단계 설명·이해 확인·초기화·이유 있는 다음 장 링크·서가 복귀, SVG 접근 이름과 슬라이더 라벨, 카탈로그 링크).</li>
+  <li><code>python3 scripts/validate.py</code>와 <code>python3 scripts/build_catalog.py --check</code>: 내부 링크·앵커·카탈로그 동기화 오류 0개(실행 결과는 PR 설명에 기록).</li>
+</ul>
+<h3>브라우저 확인 (로컬 Chromium, Playwright)</h3>
+<p><code>tests/browser.cjs</code>로 표지와 11개 장을 1280px·320px에서 열어 실험 준비, 콘솔 오류 0, 가로 넘침 0, 키보드 화살표로 슬라이더 조작 시 결과 문장 변화, ‘처음 값으로’로 원래 문장 복귀를 확인했다(25/25, 동작 줄이기 1회 포함). 4·5·8·9·10장은 화면 캡처로 그림과 수치를 눈으로 대조했다.</p>
+<h3>실험 확인 수준</h3>
+<table class="data">
+  <thead><tr><th scope="col">수준</th><th scope="col">뜻</th><th scope="col">상태</th></tr></thead>
+  <tbody>
+    <tr><td>L1 접근</td><td>열리고, 키보드로 조작되며, 글 대체가 있다</td><td>11개 실험 확인(자동 + 캡처)</td></tr>
+    <tr><td>L2 반응</td><td>입력이 바뀌면 출력과 그림이 바뀌고 초기화된다</td><td>11개 실험 확인(자동)</td></tr>
+    <tr><td>L3 모형</td><td>계산이 정의대로 맞다</td><td>단위 테스트와 본문 예시 숫자를 node로 재계산해 대조</td></tr>
+    <tr><td>L4 학습</td><td>독자가 새 상황에서 설명할 수 있다</td><td><strong>미확인.</strong> 실제 독자 검토를 하지 않았다.</td></tr>
+  </tbody>
+</table>
+<h3>확인하지 못한 것과 한계</h3>
+<ul>
+  <li>Safari·Firefox, 실제 모바일 기기, 화면 읽기 프로그램, 저사양 기기의 애니메이션 성능은 검사하지 않았다. 320px 확인은 데스크톱 Chromium의 창 폭 조절이다.</li>
+  <li>그림을 끌어서 B를 옮기는 2장의 터치 조작은 코드만 확인했다. 같은 값을 슬라이더로 조작할 수 있다.</li>
+  <li>그림자 애니메이션(3장)에서 점이 겹치면 이름표도 겹친다. 순위는 표로 읽는다.</li>
+  <li>노래와 특징 점수는 모두 설명용 가상 데이터다. 외부 사실 주장(검색 엔진, GPS, PageRank류 계산)은 원리 수준의 예시로만 썼으며 수치를 인용하지 않았다.</li>
+  <li>서가 미리보기의 삽화(<code>assets/shelf-illustration.svg</code>)는 CSS 애니메이션이며, 서가 쪽 동작 줄이기 설정과 <code>prefers-reduced-motion</code>에서 변환 후 장면으로 멈춘다.</li>
+</ul>
+
+<h2 id="next">다음 작업</h2>
+<ul>
+  <li>독자 한두 명에게 1~3장을 읽히고 예측 문제의 선택과 이유를 기록해 L4 근거를 만든다.</li>
+  <li>확률·통계 책이 공개되면 9장 공분산과 그 책의 분산 장을 잇고, 첫 읽기 경로 후보(“AI는 왜 틀리는가” 또는 “데이터를 숫자로 요약하기”)를 <code>learning_paths</code>에 제안한다.</li>
+  <li>3차원 회전·투영을 2D 대안과 함께 보여 주는 부록 장(그래픽 사례)을 검토한다.</li>
+</ul>
+<p><a href="../index.html">← 책 표지로</a></p>
+</main>
+<footer class="foot"><a href="../../../index.html#books">나만의 서재로 돌아가기</a><a href="../index.html">책 표지</a></footer>
+</body>
+</html>
