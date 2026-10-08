@@ -460,14 +460,6 @@
         },
         {
           "book_id": "how-computers-work",
-          "url": "books/computer/#memory",
-          "task": "클럭과 쓰기 허용을 바꾸며 레지스터가 값을 붙잡는 모습을 본다",
-          "minutes": 12,
-          "why": "값을 붙잡아 두려면 비트마다 칸이 필요하고, 그 칸의 합이 메모리 크기다",
-          "record": "쓰기 허용을 끈 채 클럭을 눌렀을 때의 Q"
-        },
-        {
-          "book_id": "how-computers-work",
           "url": "books/computer/#cache",
           "task": "읽는 순서를 바꾸며 캐시 적중률과 시간을 비교한다",
           "minutes": 15,
@@ -481,6 +473,22 @@
           "minutes": 15,
           "why": "파라미터 수와 비트 수, 문맥 길이로 필요한 메모리를 어림할 수 있다",
           "record": "4비트와 8비트의 가중치 메모리, 문맥을 두 배로 늘렸을 때의 변화"
+        },
+        {
+          "book_id": "llm-systems",
+          "url": "books/llm-gpu/#weights",
+          "task": "모델 크기와 저장 bit를 바꾸며 가중치 용량을 GB와 GiB로 계산한다",
+          "minutes": 16,
+          "why": "첫 번째 예산은 파라미터 수 × bit ÷ 8로 나온다",
+          "record": "8B 모델의 4bit와 16bit 가중치 용량"
+        },
+        {
+          "book_id": "llm-systems",
+          "url": "books/llm-gpu/#cache",
+          "task": "문맥 길이와 동시 요청 수를 바꾸며 KV 캐시 용량을 본다",
+          "minutes": 16,
+          "why": "모델이 들어가도 긴 대화에서는 KV 캐시가 남은 메모리를 채운다",
+          "record": "문맥 2배·요청 3배일 때 KV 캐시의 배율"
         },
         {
           "book_id": "llm-systems",
@@ -697,8 +705,8 @@
         "books/linear-algebra/#compose",
         "books/linear-algebra/#layer",
         "books/ai/#neuron",
-        "books/llm-gpu/#parameters",
-        "books/llm-gpu/#transformer"
+        "books/llm-gpu/#transformer",
+        "books/llm-gpu/#parameters"
       ]
     },
     {
@@ -818,7 +826,8 @@
       "aliases": [
         "memory",
         "cache",
-        "quantization"
+        "quantization",
+        "KV cache"
       ],
       "summary": "계산보다 데이터를 담고 옮기는 비용이 속도와 실행 가능 여부를 정한다",
       "chapters": [

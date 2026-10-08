@@ -6,15 +6,15 @@ moved chapter fails the build instead of leaving a dead link on the shelf.
 """
 if __package__:
     from .shelf_renderer import esc, safe_book_url
-    from .atlas_renderer import render_atlas_svg, owner_of
+    from .atlas_renderer import render_atlas_svg, owner_of, short_name
 else:
     from shelf_renderer import esc, safe_book_url
-    from atlas_renderer import render_atlas_svg, owner_of
+    from atlas_renderer import render_atlas_svg, owner_of, short_name
 
 
 def book_lookup(catalog):
     """Map book id → (short title, url prefix)."""
-    return {b['id']: (b.get('short_title', b['title']), b['url']) for b in catalog.get('books', [])}
+    return {b['id']: (short_name(b), b['url']) for b in catalog.get('books', [])}
 
 
 def chapter_link(url, catalog, book_id=None):
@@ -119,7 +119,7 @@ def render_atlas(concepts, catalog):
     if not concepts:
         return ''
     cards = ''.join(render_concept(c, catalog) for c in concepts)
-    legend = ''.join(f'<li><i class="tone-{esc(b.get("color", "aqua"))}"></i>{esc(b.get("short_title", b["title"]))}</li>'
+    legend = ''.join(f'<li><i class="tone-{esc(b.get("color", "aqua"))}"></i>{esc(short_name(b))}</li>'
                      for b in catalog['books'])
     return ('<div class="concept-atlas" data-atlas><div class="atlas-head">'
             '<p class="curation-eyebrow">지식 지도</p><h3 id="concept-title">책과 책이 만나는 개념</h3>'
