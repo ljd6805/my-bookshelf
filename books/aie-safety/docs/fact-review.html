@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI 안전과 윤리 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · AI 안전과 윤리</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · AI 안전과 윤리</h1>
+<p>「AI 엔지니어링 처음부터」 19권을 쓰지 않은 검수 에이전트가 본문, 실험 계산, 출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다. 기준은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. 책 문서로 돌아가려면 <a href="index.html#verification">프로젝트 문서의 검증 절</a>로 가세요.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-safety)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-safety)" data-date="2026-10-08" data-scope="12개 장 본문·식·세부·확인 문제·더 읽어 보기, 실험 16개와 안내 상자 결과 읽기, 그림 12개 캡션, 용어집, 출처 101개, 원본 Phase 18 레슨 30개 대조" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-safety). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-safety). 범위: 12개 장 본문·식·세부·확인 문제·다른 책 링크, 실험 16개와 결과 읽기 문장, 그림 캡션, 용어집, 출처 101개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>6건 수정</td><td>원본 레슨 en.md와 대조하고, 규제·논문 수치는 EUR-Lex·집행위원회 페이지, 논문 초록·본문(arXiv), Apollo·Anthropic·OpenAI·DeepMind 공식 글로 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>본문·formulaNote·확인 문제·결과 읽기·그림 캡션의 숫자 약 90개를 js/math.js로 node에서 다시 계산해 대조. DPO·IPO 손실, KL 닫힌 해, 가우스 DP의 δ(ε)와 μ = √T/σ, 멤버십 추론 상한 Φ(Φ⁻¹(α)+μ), 초록 목록 z 식을 원 논문 식과 대조</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 수정</td><td>16개 실험의 대표값·경계값(β → 0, w = 0, d = 0, 바꿔 쓴 비율 1 등)을 책 테스트와 따로 계산. 실제 계산·시나리오·가정값 표시가 사실과 맞는지 확인. EU 일정 조회의 날짜 표를 개정 법령에 맞춤</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>RLHF, 보상 해킹, 아첨, 기만적 정렬, 순응 격차, 균등 오즈, 차등 프라이버시 등 번역어와 원어 대응, 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>3건 수정</td><td>원본 레슨 폴더 30개는 로컬 사본에서 경로 존재 확인. 외부 링크는 WebFetch·curl로 열어 제목·내용 대조, 장별 출처 번호가 그 장 내용과 맞는지 확인. MIT 크레딧이 출처 목록과 꼬리말에 있음을 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#governance formula·formulaNote·확인 문제, js/math.js EU 표, js/lab-guides.js euact, js/labs-society.js, js/figures.js 11장 그림, tests/math.test.cjs</td><td>부속서 III 고위험 의무가 2026-08-02부터 적용된다고 적었고 확인 문제의 정답도 그 날짜였음. 원본 기준으로는 맞지만 확인일 현재 법령과 다름</td><td>AI 옴니버스 규정 (EU) 2026/1744(2026-07-08 채택, 2026-07-24 관보, 2026-07-27 발효), EUR-Lex 본문 전문 40항·38항; 집행위원회 AI Act 규제 틀 페이지: 부속서 III 고위험 2027-12-02, 부속서 I 2028-08-02, 투명성은 2026년 8월 유지</td><td>일정을 2026-08-02 제50조 → 2027-08-02 기존 범용 모델 → 2027-12-02 고위험(부속서 III) → 2028-08-02 부속서 I로 고침. 확인 문제 보기와 정답을 2027년 12월 2일로, 실험 날짜 표·결과 읽기(2027년 12월 예제 추가)·그림·테스트를 맞춤. AI 리터러시 문구는 개정 전후 모두 맞는 “이해를 높이는 조치”로 바꿈</td></tr>
+<tr><td>#governance 본문, labs-society.js, lab-guides.js euact</td><td>한국 인공지능 기본법 시행을 “원본 기준 2026년 1월”로만 적음</td><td>CSET 번역본 머리(법률 제20676호, 2025-01-21 제정, 2026-01-22 시행), 법령 사본(wikidocs)</td><td>“법률 제20676호, 2026년 1월 22일 시행”으로 확정 표기하고 “원본 기준” 단서를 뗌</td></tr>
+<tr><td>#scheming 본문 1문단</td><td>Apollo가 “시험한 다섯 모델이 모두” 계략을 보였다고 적음. 논문은 gpt-4o 등도 시험했고 gpt-4o는 어떤 평가에서도 계략을 보이지 않음</td><td>Meinke 외 arXiv:2412.04984 본문 “The only model that does not show scheming capabilities in any of our evaluations is gpt-4o”</td><td>“시험한 모델 가운데 gpt-4o를 뺀 다섯 모델”로 고침</td></tr>
+<tr><td>#injection 세부 “EchoLeak의 공격 사슬과 그 뒤”</td><td>CamoLeak의 CVSS 9.6을 Aim Labs 평가로 적음(원본의 오류). CamoLeak은 Legit Security가 발견·평가</td><td>Legit Security 공개 글 “CamoLeak: Critical GitHub Copilot Vulnerability…”, The Register 2025-10-09 보도</td><td>“발견한 Legit Security의 평가 CVSS 9.6”으로 고침</td></tr>
+<tr><td>#injection 세부 “방어를 평가하는 법”</td><td>Nasr 외가 방어 12개를 “모두” 90% 넘게 뚫었다고 적음(원본 표현)</td><td>arXiv:2510.09023 초록 “attack success rate above 90% for most”</td><td>“대부분을 90%가 넘는 성공률로”로 고치고 원본과 초록의 차이를 밝힘</td></tr>
+<tr><td>sources[86] Nasr 외 (2025)</td><td>링크 arXiv:2510.18108이 전혀 다른 논문(법률 AI 비교 연구)으로 연결됨. 원본 레슨의 링크 오류를 그대로 옮김</td><td>arXiv:2510.18108 초록 확인, 검색으로 실제 논문 arXiv:2510.09023 확인</td><td>링크를 https://arxiv.org/abs/2510.09023으로 고침</td></tr>
+<tr><td>#governance 세부 “세 실험실 프레임워크와 안전 사례”</td><td>WMDP 문항 수를 원본의 4,157개만 적고 “판에 따라 다를 수 있음”으로 넘김</td><td>arXiv:2403.03218 현재 초록 “a dataset of 3,668 multiple-choice questions”</td><td>원본의 4,157개는 첫 판 수치이고 현재 초록은 3,668개라고 함께 적음</td></tr>
+<tr><td>sources[81] METR (2025)</td><td>2025-03-26 주소가 2025-12-09 개정판으로 넘겨짐</td><td>WebFetch로 넘김 대상 확인(“Common Elements of Frontier AI Safety Policies (December 2025 Update)”)</td><td>최신 주소로 바꿈</td></tr>
+<tr><td>#scheming 출처 목록</td><td>4장 출처에 실험실 안전 정책 비교(METR)가 들어 있었으나 4장 본문은 METR을 다루지 않음</td><td>장 본문과 출처 대조</td><td>4장 출처에서 METR을 뺌(12장에는 유지)</td></tr>
+<tr><td>js/figures.js 9장 그림 aria-label</td><td>B 집단 승인율을 31.9%로 적음. 계산값은 0.3185라 31.8%(캡션과 실험은 31.8%)</td><td>A19Math.fairness(1,1,0.3).B.sel = 0.31850</td><td>31.8%로 고침</td></tr>
+</tbody></table>
+<h3>계산으로 확인한 대표값</h3>
+<ul>
+<li>KL 정책: β = 1에서 맞장구 0.426·도움 0.053, β = 0.1에서 0.923·−0.847·점수 1.277, α = 0.5를 더하면 0.075·0.850, β = 0.3에서 0.619 → α = 0.5로 0.235. 과최적화 정점 d* = 1.5625(1천 쌍), 6.687(3만 쌍).</li>
+<li>DPO: Δ_w −0.5·Δ_l −2·β 0.1에서 손실 0.621, IPO 12.25, BPO 1.121; β 0.5·여유 3에서 0.201.</li>
+<li>백도어 시나리오 10번 뒤 0.017과 0.948, 증류 20번 0.994. 순응 격차 w 0.3·h 0.6에서 14.2%·2.7%·11.5%p, h 0.8에서 3.9%p.</li>
+<li>통제: 감시 2%·d 2 → 0.479, 10% → 0.764, d 3 → 0.828, 편집 20% → 0.813·쓸모 0.9. PGR 1, 0.43, −0.14.</li>
+<li>질의 예산: A 질의당 0.0114, 20번 20.6%; B 1번 9.0%. 다회 예시 4·32·256개 3.2%·17.1%·90.0%, 방어 3.0%, 32 → 256개 5.3배.</li>
+<li>조정 층: 놓침 15.4%, 잘못 막음 4.5%, 정밀도 16.0%(8,457/52,990), 가린 요청 입력 층만 93.3%, τ 1에서 29.2%·3.3%, 기저율 10%에서 67.6%.</li>
+<li>공정성: TPR 0.692, FPR 0.159, 승인율 0.425·0.318, 정밀도 0.81·0.65, 문턱 0.65에서 승인율 차 0.004·TPR 차 −0.111.</li>
+<li>가우스 DP: σ 1 → ε 4.377·탐지율 9.2%, σ 5 → 0.726·1.7%, σ 10 → 0.341, T 100·σ 1 → ε 약 92. 워터마크 z 15.06(15토큰이면 검출), 80% 바꿈 3.01, δ 1에서 7.36(60토큰).</li>
+</ul>
+<h3>보류(판단이 갈려 고치지 않음)</h3>
+<ul>
+<li>#scheming의 정렬 위장 순응률 “약 12~14%”: 논문 초록은 무료 이용자 순응 14%, 원본 레슨은 12%로 적고, 12%는 정렬 위장 추론이 드러난 비율로도 쓰입니다. 범위 표기가 두 수치를 모두 담고 있어 그대로 두었습니다.</li>
+<li>원본만 근거인 최근 사실: Anthropic의 새 헌법(2026년 1월, CC0), RSP v3.0(2026년 2월), 헌법 분류기 2026년판 계산 부담 약 1%, SynthID 통합 검출기(2025년 11월), Llama Guard 초기 과잉 차단. 본문에 “원본은 … 적습니다”로 출처가 드러나 있어 그대로 두었습니다.</li>
+<li>과최적화 2차식 R = a·d − b·d²는 Gao 외의 best-of-n 꼴이고 RL 꼴은 d(α − β log d)입니다. 본문이 “원본 레슨이 적은 함수 꼴”로 밝히고 있어 고치지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>국가법령정보센터(law.go.kr)와 외교부 법령 PDF는 robots 정책·연결 시간 초과로 열지 못했습니다. 한국 AI 기본법의 번호·시행일은 CSET 번역본 머리와 법령 사본으로 확인했습니다.</li>
+<li>EUR-Lex의 (EU) 2026/1744 본문은 전문(recital)과 앞부분 조문까지만 읽혔고, 제113조 개정 조문 원문은 끝까지 읽지 못했습니다. 날짜는 전문 40항·38항과 집행위원회 공식 페이지, White &amp; Case 해설로 교차 확인했습니다.</li>
+<li>캘리포니아 의회 사이트(AB 2013), MSRC CVE 페이지, OWASP, OpenAI API 문서, GitHub 저장소(Garak, PyRIT), Data Provenance, Eleos, MATS, Redwood는 프록시가 막아 열지 못했습니다. AB 2013의 12개 항목과 2026-01-01 기한, EchoLeak CVSS 9.3은 원본 레슨과 기존 지식으로만 대조했습니다.</li>
+<li>잠복 요원·다회 예시 탈옥·InstructGPT·W2SG 등의 수치는 원본 레슨과 논문 초록 수준에서 대조했고, 모든 논문의 표 전체를 다시 읽지는 않았습니다.</li>
+<li>원문 복제 여부는 1·4·7·9·11장 본문을 원본 en.md와 표본 대조했고, 긴 직역 구간은 찾지 못했습니다.</li>
+</ul>
+</section>
+</main></body></html>

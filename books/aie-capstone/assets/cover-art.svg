@@ -1,0 +1,16 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="사내 개발 도우미 모루에서 출시 사양표로 선이 이어지고, 비용·지연·통과율·정상 차단·놓친 공격 다섯 줄의 막대가 점선 목표 안에 들어온 장면" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M20 135H300"/>
+<rect class="cv-node" x="20" y="40" width="74" height="58" rx="6"/>
+<text class="cv-matrix" x="57" y="66" text-anchor="middle">모루</text>
+<text class="cv-text cv-muted" x="57" y="84" text-anchor="middle">개발자 200명</text>
+<path class="cv-bus" d="M94 69H130"/>
+<circle class="cv-dot" cx="130" cy="69" r="4"/>
+<rect class="cv-node" x="134" y="18" width="166" height="112" rx="6"/>
+<text class="cv-text" x="144" y="32">출시 사양표 · 사용량 ×2</text>
+<text class="cv-text" x="144" y="52">비용</text><rect class="cv-bar" x="196" y="45" width="84" height="9"/><rect class="cv-fill" x="196" y="45" width="62" height="9"/>
+<text class="cv-text" x="144" y="70">p95</text><rect class="cv-bar" x="196" y="63" width="84" height="9"/><rect class="cv-fill" x="196" y="63" width="56" height="9"/>
+<text class="cv-text" x="144" y="88">통과율</text><rect class="cv-bar" x="196" y="81" width="84" height="9"/><rect class="cv-fill" x="196" y="81" width="60" height="9"/>
+<text class="cv-text" x="144" y="106">정상 차단</text><rect class="cv-bar" x="196" y="99" width="84" height="9"/><rect class="cv-fill" x="196" y="99" width="12" height="9"/>
+<text class="cv-text" x="144" y="124">놓친 공격</text><rect class="cv-bar" x="196" y="117" width="84" height="9"/><rect class="cv-fill" x="196" y="117" width="58" height="9"/>
+<path class="cv-line cv-dash" d="M264 40V128"/>
+</svg>

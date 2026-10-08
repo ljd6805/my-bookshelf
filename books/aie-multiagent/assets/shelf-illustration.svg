@@ -1,0 +1,39 @@
+<svg class="a17-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="반장이 하위 질문을 조사원 셋에게 나눠 보내고, 조사원이 요약을 돌려보내면 검증자가 원문과 대조해 확인 표시를 켜는 순환 그림. 실제 계산이 아니라 일의 흐름을 보여 주는 비유입니다.">
+<style>
+.a17-ill-bg{fill:#f5f0f7}
+.a17-ill-box{fill:#fffaf2;stroke:#5a3a6b;stroke-width:2}
+.a17-ill-lead{fill:#efe0f6;stroke:#5a3a6b;stroke-width:2}
+.a17-ill-label{font:700 13px sans-serif;fill:#3b2547;text-anchor:middle}
+.a17-ill-small{font:500 11px sans-serif;fill:#6d5a78;text-anchor:middle}
+.a17-ill-wire{stroke:#cdb8d8;stroke-width:2;fill:none}
+.a17-ill-down{fill:#9b4fbf;animation:a17-ill-down 3.6s ease-in-out infinite}
+.a17-ill-up{fill:#3f74b8;opacity:0;animation:a17-ill-up 3.6s ease-in-out infinite}
+.a17-ill-d2,.a17-ill-u2{animation-delay:.25s}.a17-ill-d3,.a17-ill-u3{animation-delay:.5s}
+.a17-ill-check{fill:none;stroke:#2f8a5f;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;animation:a17-ill-check 3.6s ease-in-out infinite}
+.a17-ill-ring{fill:none;stroke:#2f8a5f;stroke-width:2;opacity:0;animation:a17-ill-ring 3.6s ease-in-out infinite}
+@keyframes a17-ill-down{0%{transform:translate(0,0);opacity:0}8%{opacity:1}40%{transform:translate(var(--dx),58px);opacity:1}46%,100%{transform:translate(var(--dx),58px);opacity:0}}
+@keyframes a17-ill-up{0%,45%{transform:translate(var(--dx),58px);opacity:0}52%{opacity:1}80%{transform:translate(0,0);opacity:1}86%,100%{opacity:0}}
+@keyframes a17-ill-check{0%,78%{stroke-dashoffset:30}92%,100%{stroke-dashoffset:0}}
+@keyframes a17-ill-ring{0%,80%{opacity:0}90%{opacity:1}100%{opacity:0}}
+html[data-motion=reduce] .a17-ill-down,html[data-motion=reduce] .a17-ill-up,html[data-motion=reduce] .a17-ill-check,html[data-motion=reduce] .a17-ill-ring{animation:none}
+html[data-motion=reduce] .a17-ill-check{stroke-dashoffset:0}
+@media(prefers-reduced-motion:reduce){.a17-ill-down,.a17-ill-up,.a17-ill-check,.a17-ill-ring{animation:none}.a17-ill-check{stroke-dashoffset:0}}
+</style>
+<rect class="a17-ill-bg" width="340" height="180"/>
+<rect class="a17-ill-lead" x="95" y="18" width="110" height="40" rx="8"/><text class="a17-ill-label" x="150" y="43">반장</text>
+<path class="a17-ill-wire" d="M150 58L60 116M150 58V116M150 58L240 116"/>
+<rect class="a17-ill-box" x="20" y="116" width="80" height="40" rx="8"/><text class="a17-ill-label" x="60" y="141">조사원 1</text>
+<rect class="a17-ill-box" x="110" y="116" width="80" height="40" rx="8"/><text class="a17-ill-label" x="150" y="141">조사원 2</text>
+<rect class="a17-ill-box" x="200" y="116" width="80" height="40" rx="8"/><text class="a17-ill-label" x="240" y="141">조사원 3</text>
+<circle class="a17-ill-down" style="--dx:-90px" cx="150" cy="58" r="6"/>
+<circle class="a17-ill-down a17-ill-d2" style="--dx:0px" cx="150" cy="58" r="6"/>
+<circle class="a17-ill-down a17-ill-d3" style="--dx:90px" cx="150" cy="58" r="6"/>
+<rect class="a17-ill-up" style="--dx:-90px" x="144" y="52" width="12" height="12" rx="2"/>
+<rect class="a17-ill-up a17-ill-u2" style="--dx:0px" x="144" y="52" width="12" height="12" rx="2"/>
+<rect class="a17-ill-up a17-ill-u3" style="--dx:90px" x="144" y="52" width="12" height="12" rx="2"/>
+<path class="a17-ill-wire" d="M205 38H250"/>
+<rect class="a17-ill-box" x="250" y="18" width="76" height="40" rx="8"/><text class="a17-ill-small" x="288" y="34">검증자</text><text class="a17-ill-small" x="288" y="50">원문 대조</text>
+<circle class="a17-ill-ring" cx="306" cy="84" r="14"/>
+<path class="a17-ill-check" d="M298 84l6 6 11-12"/>
+<text class="a17-ill-small" x="306" y="116">확인</text>
+</svg>

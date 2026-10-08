@@ -1,0 +1,92 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>자율 시스템 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">자율 시스템 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>자율 시스템 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 16권 《자율 시스템 · 밤새 혼자 일하는 에이전트에 울타리 치기》의 기획, 원본 레슨 대응, 구현, 검증을 한곳에 모았습니다. 작성일은 2026-10-08입니다. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 15 · Autonomous Systems입니다. 원문과 코드를 옮기지 않았고, 개념과 순서만 참고해 새로 썼습니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: 도구를 부르고 계획을 세우는 에이전트는 만들어 봤지만, 그 에이전트를 사람 없이 몇 시간씩 돌려 본 적은 없는 개발자입니다. 자기 개선, 권한 모드, 비용 통제, 연구소 안전 정책이라는 말은 들었어도 무엇이 어떤 실패를 막는지 숫자로 설명하기는 어려워합니다.</li>
+<li><b>끝의 행동</b>: 자율 에이전트의 사고 보고를 받으면 피해가 지나간 길목을 짚습니다. 그다음 그 길목을 에이전트가 고칠 수 없는 장치로 끊는 통제를 고르고, 근거가 된 계산과 아직 부족한 증거를 한 줄씩 적습니다.</li>
+<li><b>공통 사례</b>: 온라인 서점 책마루의 야간 에이전트 누리입니다. 누리는 밤 10시부터 아침 6시까지 혼자 일합니다. 버그를 고쳐 변경 요청을 열고, 출판사 공급 페이지를 읽어 재고와 가격을 갱신하고, 환불을 처리하고, 스스로 나아지는 방법을 시도합니다. 표지 실험은 단계 신뢰도 p가 70단계짜리 하룻밤 일을 끝까지 해낼 확률을 바꾸는 모습을 계산합니다.</li>
+<li><b>이야기 방식</b>: 제품을 완성합니다. 장마다 누리의 “자율 운영 명세서”에 한 줄이 더해집니다. 1~5장은 스스로 일하고 나아지는 고리, 6~9장은 실행의 울타리, 10~12장은 원칙과 바깥의 눈을 다룹니다. 마지막 장에서는 주문 추적 도구를 붙인 첫 주의 사고 세 건에 열한 줄을 대어 보고 열두째 줄을 씁니다.</li>
+<li><b>범위</b>: 원본 Phase 15의 레슨 22개를 모두 다룹니다. 에이전트 고리의 기본은 앞 권 에이전트 엔지니어링과 AI Book이 맡으므로 짧게 줄였습니다. 확률·로지스틱 회귀·표준편차는 확률과 통계, 머신러닝 기초 책으로 cross 링크를 보냅니다. 대신 이 책은 운영 판단에 분량을 씁니다. 평가기를 어디에 둘지, 권한 모드를 무엇에 맞출지, 어떤 시간 단위의 상한이 무엇을 놓치는지, 바깥의 숫자를 어떻게 읽을지가 그 판단입니다.</li>
+<li><b>증거</b>: 실험 16개는 모두 브라우저에서 실제로 계산합니다. 계산하는 것은 단계 신뢰도의 곱, STaR 비율 갱신, 시드를 고정한 진화 고리, 연구 파이프라인 기댓값, 복리 경주, 관문 판정, 권한 모드 판정, 주입 경로 판정, 재생과 중복 부작용, 제안-확정 상태 기계, 비용 상한 모의, EWMA 경보, 네 층 우선순위 판정, 방어 겹의 곱, 로지스틱 지평 적합, 사고별 남은 피해입니다. 하룻밤 행동 목록, 공급 페이지, 금액, 통과 확률, 가상 모델의 참 지평 같은 입력값은 교육용 가정이며, 각 실험의 결과 문장에 그 구분을 적었습니다. 원본이 인용한 측정값(예: 이모지 숨기기의 공격 성공률 100%, METR 지평 약 14시간)은 “원본 커리큘럼 기준(확인일 2026-10-08)”으로 표시했습니다. 서가 삽화와 표지 그림은 시각적 비유입니다.</li>
+</ul>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<table>
+<tr><th>원본 레슨</th><th>들어간 장</th><th>장에서 다룬 핵심</th></tr>
+<tr><td>01 The Shift from Chatbots to Long-Horizon Agents</td><td>01 horizon</td><td>챗봇과 긴 지평 에이전트의 차이, METR 시간 지평과 두 배 시간, 단계 신뢰도의 누적, 평가 상황 알아채기</td></tr>
+<tr><td>02 STaR, V-STaR, Quiet-STaR</td><td>02 star</td><td>맞힌 풀이로 다시 배우는 고리, 합리화, 검증기, 토큰별 숨은 생각, 지름길 풀이와 과정 검사</td></tr>
+<tr><td>03 AlphaEvolve</td><td>03 evolve, 12 final</td><td>언어 모델과 진화 고리, 기계 검증 평가기, MAP-elites, 보상 해킹과 숨긴 평가기</td></tr>
+<tr><td>04 Darwin Gödel Machine</td><td>03 evolve</td><td>자기 뼈대 코드를 고치는 에이전트, 보관소, SWE-bench 향상, 평가기 변조 사례와 방화벽</td></tr>
+<tr><td>05 AI Scientist v2</td><td>04 research</td><td>아이디어에서 논문까지의 고리, 워크숍 통과, 독립 평가의 실패율, 격리 상자</td></tr>
+<tr><td>06 Automated Alignment Research</td><td>04 research</td><td>병렬 정렬 연구 에이전트, 상자 밖 공유 게시판, 처방된 작업 흐름의 대가</td></tr>
+<tr><td>07 Recursive Self-Improvement</td><td>05 bounded</td><td>재귀적 자기 개선의 정의와 닫힘 조건, 정렬 위장, 능력과 정렬의 복리 경주</td></tr>
+<tr><td>08 Bounded Self-Improvement Designs</td><td>05 bounded, 12 final</td><td>불변식, 정렬 닻, 다목적 제약, 회귀 감지, 정보 이론적 한계</td></tr>
+<tr><td>09 The Autonomous Coding Agent Landscape</td><td>06 permission</td><td>SWE-bench 곡선, 뼈대의 차이, CodeAct와 JSON 도구 호출, 벤치마크 포화</td></tr>
+<tr><td>10 Permission Modes for Autonomous Agents</td><td>06 permission</td><td>권한 모드 여섯 개, auto 모드의 분류기, 잡는 것과 놓치는 것</td></tr>
+<tr><td>11 Browser Agents and Long-Horizon Web Tasks</td><td>07 browser, 12 final</td><td>브라우저 에이전트 벤치마크, 간접 프롬프트 주입, 읽기-쓰기 경계</td></tr>
+<tr><td>12 Durable Execution</td><td>08 durable</td><td>워크플로와 활동, 사건 기록과 재생, 체크포인트</td></tr>
+<tr><td>13 Action Budgets, Iteration Caps, and Cost Governors</td><td>09 budget, 12 final</td><td>지갑 고갈, 여러 겹 비용 통제, 시간 단위가 다른 상한</td></tr>
+<tr><td>14 Kill Switches, Circuit Breakers, and Canary Tokens</td><td>09 budget</td><td>킬 스위치의 성질, 차단기 세 상태, 카나리 토큰, 통계 감지기와 고정 한도</td></tr>
+<tr><td>15 Human-in-the-Loop: Propose-Then-Commit</td><td>08 durable, 12 final</td><td>제안-확정 상태 기계, 멱등 키, 형식적 승인과 도전-응답, 사후 확인</td></tr>
+<tr><td>16 Checkpoints and Rollback</td><td>08 durable</td><td>모든 전이의 저장, 임대 회수, 사전 조건, 되돌리기 계획</td></tr>
+<tr><td>17 Constitutional AI and Rule Overrides</td><td>10 guard</td><td>네 층 우선순위, 하드코딩 금지와 소프트 기본값, 2022년 헌법 AI, 참여형 실험</td></tr>
+<tr><td>18 Llama Guard and Input/Output Classification</td><td>10 guard</td><td>Llama Guard 3·4, NeMo Guardrails, 분류기를 넘는 공격, 여러 겹 방어</td></tr>
+<tr><td>19 Anthropic Responsible Scaling Policy v3.0</td><td>11 policy</td><td>두 칸 완화 일정, AI R&amp;D-4 문턱, 멈춤 약속 삭제, 외부 평가 점수 하락</td></tr>
+<tr><td>20 OpenAI Preparedness Framework and DeepMind FSF</td><td>11 policy</td><td>추적 범주와 연구 범주, 임계 능력 수준, 의도적 저성과, 정책 읽는 네 질문</td></tr>
+<tr><td>21 METR Time Horizons and External Capability Evaluation</td><td>11 policy (01 horizon에서 예고)</td><td>과제 묶음, 로지스틱 적합, 지평이 상한인 이유, 외부 평가의 역할</td></tr>
+<tr><td>22 CAIS, CAISI, and Societal-Scale Risk</td><td>11 policy</td><td>네 위험 틀, 조직 위험의 손잡이, CAISI, 캘리포니아 SB-53(2025년 9월 29일 서명, Chapter 138)</td></tr>
+</table>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li><b>파일</b>: 장과 글은 <code>js/content.js</code>, 계산은 <code>js/math.js</code>(A16Math)에만 둡니다. 실험 화면은 장 묶음별로 <code>js/labs-loop.js</code>(1~5장), <code>js/labs-runtime.js</code>(6~9장), <code>js/labs-govern.js</code>(10~12장)에 나눴습니다. 장 그림은 <code>js/figures.js</code>, 실험 안내와 예제는 <code>js/lab-guides.js</code>, 표지 실험은 <code>js/home-lab.js</code>에 있습니다. 실험 함수는 모두 100줄 안쪽입니다.</li>
+<li><b>장과 실험</b>: 12장, 실험 16개입니다. horizon(chain), star(star), evolve(evolve), research(scientist), bounded(race, gates), permission(ladder), browser(inject), durable(replay, commit), budget(governor, breaker), guard(tiers, layers), policy(horizonfit), final(incident)으로 짝지었습니다.</li>
+<li><b>그림</b>: 장마다 고유한 움직이는 그림을 두었습니다. 숫자가 들어간 그림은 A16Math로 계산한 값을 그대로 씁니다. 움직임은 fig-* 클래스로 만들고, <code>prefers-reduced-motion</code>과 <code>html[data-motion=reduce]</code>에서 멈춥니다.</li>
+<li><b>자산</b>: 강조색은 어두운 화면 #ff8f8f, 밝은 화면 #a62626입니다. 서가 삽화 <code>assets/shelf-illustration.svg</code>는 비용 막대가 상한에 닿으면 울타리 밖 멈춤 단추가 켜지는 비유 애니메이션이며 클래스 접두어는 <code>a16-ill-</code>입니다. 표지 삽화 <code>assets/cover-art.svg</code>는 울타리 안의 누리가 세 가지 일로 흐름을 보내는 정지 그림입니다.</li>
+<li><b>진도 저장 키</b>: <code>bookshelf:aie-16-autonomy:v1:progress</code>입니다.</li>
+<li><b>서재 등록 제안</b>: <code>docs/registration.json</code>에 카탈로그 항목, 장 색인, 개념(control-loop, evaluation-uncertainty, base-rate-threshold, reward-feedback), 시리즈 정거장(9장 비용 실험), 들어오는 링크 두 개(AI Book 12장, 강화학습 08장)를 적었습니다.</li>
+</ul>
+</section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p>검증일은 2026-10-08입니다. 브라우저 안의 계산과 화면만 확인했습니다. 실제 에이전트 실행 환경, 권한 모드, 비용 청구, 분류기로 확인하지는 않았습니다.</p>
+<p><b>팩트·출처 검수</b>: 2026-10-08 집필하지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인하고 찾은 오류를 고쳤습니다. 결과는 <a href="fact-review.html">팩트·출처 검수 기록</a>에 있습니다.</p>
+<ul>
+<li><b>계산 검사</b>: <code>npm test --prefix books/aie-autonomy</code>를 통과했습니다(math 16개, routes 7개, 모두 23개). 확인한 값의 예는 다음과 같습니다. 0.99⁷⁰ ≈ 0.4948이고 n₅₀ = ln 0.5 ÷ ln p입니다. 정렬 성장률이 능력과 같으면 격차가 0입니다. 관문을 더할수록 나쁜 편집이 늘지 않습니다. 사건 기록 재생에서는 중복 부작용이 0건입니다. EWMA의 지연은 c(1−α)/α입니다. 방어 겹의 통과 확률은 층별 확률의 곱이고, 층을 더해도 커지지 않습니다. 지평 적합은 참 지평 240분 근처(242.9분)를 되찾습니다.</li>
+<li><b>브라우저 검사</b>: <code>tests/browser.cjs</code>로 1280·390·320px에서 다음을 확인했습니다. 결과는 <code>evidence/browser-results.json</code>에 있습니다.
+<ul><li>표지와 12장을 엽니다.</li><li>실험마다 예제 버튼, 입력 최솟값과 최댓값, 선택 상자의 모든 값, 초기화를 누릅니다.</li><li>확인 문제의 반응을 봅니다.</li><li>가로 넘침과 콘솔 오류가 없는지 확인합니다.</li></ul></li>
+<li><b>눈으로 확인</b>: 표지, 1장 그림, 320px 실험 스크린숏을 열어 글자 겹침과 잘림, 빈 그림이 없는지 봤습니다.</li>
+</ul>
+<h3>실험별 확인 수준</h3>
+<p>L1 접근은 라벨, 키보드, 상태 문장을 뜻합니다. L2 반응은 입력이 바뀌면 결과가 바뀌고 초기화로 돌아오는지입니다. L3 모형은 계산이 독립 계산이나 손계산과 맞는지입니다. L4 학습은 독자가 실제로 더 잘 설명하게 되는지입니다. L4는 모든 실험에서 독자 시험을 하지 않아 확인하지 못했습니다.</p>
+<table>
+<tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>확인 못 한 것</th></tr>
+<tr><td>chain</td><td>확인</td><td>확인</td><td>pⁿ, n₅₀ 손계산 대조</td><td>실제 실패가 몰리거나 고쳐지는 경우</td></tr>
+<tr><td>star</td><td>확인</td><td>확인</td><td>비율 합 1, 지름길 0에서 격차 0</td><td>실제 STaR 학습의 정답률</td></tr>
+<tr><td>evolve</td><td>확인</td><td>확인</td><td>시드 고정 재현, 0세대 = 시작값</td><td>실제 AlphaEvolve·DGM의 수치</td></tr>
+<tr><td>scientist</td><td>확인</td><td>확인</td><td>기댓값 재계산, 비율 0~1</td><td>원본 독립 평가의 세부 실패율 분포</td></tr>
+<tr><td>race</td><td>확인</td><td>확인</td><td>1.1²⁰ 대조, 같은 성장률에서 격차 0</td><td>실제 능력·정렬 성장률</td></tr>
+<tr><td>gates</td><td>확인</td><td>확인</td><td>관문 단조성, 표 판정 대조</td><td>실제 회귀 감지의 잡음</td></tr>
+<tr><td>ladder</td><td>확인</td><td>확인</td><td>행동 여덟 개 판정 손대조</td><td>실제 auto 분류기의 판정</td></tr>
+<tr><td>inject</td><td>확인</td><td>확인</td><td>네 페이지 경로 손대조</td><td>실제 브라우저 에이전트 공격</td></tr>
+<tr><td>replay</td><td>확인</td><td>확인</td><td>중복 부작용 수 경계값(0, 5, 6)</td><td>Temporal·LangGraph 실제 동작</td></tr>
+<tr><td>commit</td><td>확인</td><td>확인</td><td>상황 × 보호 수준 표 대조</td><td>실제 결제 API의 실패 양상</td></tr>
+<tr><td>governor</td><td>확인</td><td>확인</td><td>분당 지출 × 시간 손계산</td><td>실제 청구 지연</td></tr>
+<tr><td>breaker</td><td>확인</td><td>확인</td><td>EWMA 지연 식 대조</td><td>실제 호출 수의 잡음</td></tr>
+<tr><td>tiers</td><td>확인</td><td>확인</td><td>하드코딩·안전 거절이 운영자 설정과 무관</td><td>실제 모델의 원칙 해석</td></tr>
+<tr><td>layers</td><td>확인</td><td>확인</td><td>곱 대조, 단조성</td><td>층 사이 상관(독립 가정)</td></tr>
+<tr><td>horizonfit</td><td>확인</td><td>확인</td><td>참 지평 회복, 2^(a/b) 대조</td><td>METR 실제 과제 묶음과 신뢰구간</td></tr>
+<tr><td>incident</td><td>확인</td><td>확인</td><td>열린 사고 수 손대조</td><td>실제 사고 비용</td></tr>
+</table>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>원본이 인용한 외부 수치(SWE-bench 점수, METR 지평과 두 배 시간, SaferAI 점수, 가드 공격 성공률 등)는 집필 때 원본 커리큘럼 기준으로 옮겼고, 팩트 검수에서 1차 출처로 다시 확인했습니다. 결과는 <a href="fact-review.html">검수 기록</a>에 있습니다.</li>
+<li>캘리포니아 SB-53의 상태는 팩트 검수에서 주지사실 발표와 법안 기록으로 확인해 11장에 적었습니다(2025년 9월 29일 서명, Chapter 138, Statutes of 2025).</li>
+<li>스크린 리더로 실제로 읽어 보는 확인은 하지 않았습니다.</li>
+</ul>
+</section>
+</main></body></html>
