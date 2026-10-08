@@ -56,7 +56,7 @@
       <div class="path"><h3>결과를 믿어도 될지 판단하려면</h3><p>경보·검사·실험 결과를 기저율, 신뢰구간, p값으로 따져 봅니다.</p><a href="#bayes">05</a><a href="#interval">06</a><a href="#testing">07</a><a href="#final">끝</a></div>
       <div class="path"><h3>AI가 왜 틀리는지 궁금하다면</h3><p>우도와 손실을 익힌 뒤 AI Book에서 학습과 과적합을 이어 봅니다.</p><a href="#chance">01</a><a href="#bayes">05</a><a href="#likelihood">08</a><a href="../ai/#learning">AI 02</a><a href="../ai/#generalization">AI 03</a></div></div></section>
       <section class="section" id="sources"><h2>읽을거리와 실험의 경계</h2><p class="lead">공개 교과서와 원 논문을 바탕으로 개념을 설명했습니다. 본문과 실험은 이 책을 위해 새로 썼습니다.</p>${sourceLinks(B.sources)}
-      <div class="note">모든 실험은 브라우저 안에서 실행되고 외부로 아무것도 보내지 않습니다. 본문의 수치 예시는 실험과 같은 계산 모듈로 다시 계산해 맞췄습니다. 2026-10-08 집필 환경에서는 네트워크 제한으로 위 링크를 직접 열어 보지 못했으므로, 열리지 않으면 제목으로 찾아 주세요. 계산식과 검증 방법은 <a href="docs/index.html">책 개발 문서</a>에 있습니다.</div></section>`;
+      <div class="note">모든 실험은 브라우저 안에서 실행되고 외부로 아무것도 보내지 않습니다. 본문의 수치 예시는 실험과 같은 계산 모듈로 다시 계산해 맞췄습니다. 위 링크는 2026-10-08 독립 검수에서 모두 열리는 것을 확인했습니다. 열리지 않으면 제목으로 찾아 주세요. 계산식과 검증 방법은 <a href="docs/index.html">책 개발 문서</a>에 있습니다.</div></section>`;
   }
 
   function renderFinal() {

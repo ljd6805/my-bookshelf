@@ -27,7 +27,7 @@ const docs=[
  ['RAG의 근거','RAG는 질문과 관련된 문서를 검색하여 답변의 근거로 제공합니다. 검색 결과의 출처와 시점을 확인해야 합니다.'],
  ['에이전트의 실패 처리','에이전트는 도구 결과를 관찰합니다. 실패하면 제한된 재시도를 수행하고 종료 조건을 확인합니다.']
 ];
-function terms(s){return (s.toLowerCase().match(/[a-z]+|[가-힣]+/g)||[]).map(t=>t.replace(/(에서는|에는|으로|에서|이|가|은|는|을|를|의|와|과)$/,''));}
+function terms(s){return (s.toLowerCase().match(/[a-z]+|[가-힣]+/g)||[]).map(t=>{const r=t.replace(/(에서는|에는|으로|에서|이|가|은|는|을|를|의|와|과)$/,'');return r.length>=2?r:t;});}
 L.retrieval=el=>{
  U.setup(el,'<label class="control" for="query">검색 질문<input id="query" type="text" maxlength="160" value="문맥 길이 메모리 KV"></label>'+U.range('topn','가져올 문서 수',1,5,1,2)+'<p class="caption">시험해 보세요: “학습 가중치”, “도구 실패”, “검색 근거”. 단어 출현 여부만 사용하는 검색이므로 동의어에는 약합니다.</p>',false);
  U.bind(el,()=>{const q=new Set(terms(el.querySelector('#query').value)),results=docs.map(([title,body],i)=>{const d=new Set(terms(title+' '+body)),common=[...q].filter(t=>d.has(t)).length;return {title,body,i,score:q.size&&d.size?common/Math.sqrt(q.size*d.size):0};}).filter(d=>d.score>0).sort((a,b)=>b.score-a.score).slice(0,U.value(el,'topn'));el.querySelector('.viz').innerHTML=results.length?results.map(d=>`<div class="document-result"><small>문서 ${d.i+1} · 유사도 ${U.fmt(d.score,3)}</small><h3>${d.title}</h3><p>${d.body}</p></div>`).join(''):'<div class="note">관련 문서를 찾지 못했습니다. “KV 메모리”처럼 문서에 있는 핵심어로 다시 검색해 보세요.</div>';el.querySelector('.readout').innerHTML=results.length?`근거 문장 발췌: <b>${results[0].title}</b><br>${results[0].body}<br><span class="caption">LLM이 생성한 답변이 아닙니다. 최고 점수 문서를 그대로 발췌했습니다.</span>`:'<b>근거 부족: 답변 보류</b><br>검색 결과가 없으면 근거를 만들어 내지 않습니다.';});

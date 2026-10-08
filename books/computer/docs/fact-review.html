@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · 컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · 컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="Claude · 컴퓨터 책 집필·개편 스레드" data-date="2026-10-08" data-scope="9개 장 본문, 9개 실험 계산(게이트·가산기·CPU·캐시), 출처 5개, 교차 링크 9개" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: Claude · 컴퓨터 책 집필·개편 스레드. 범위: 9개 장 본문, 9개 실험 계산(게이트·가산기·CPU·캐시), 출처 5개, 교차 링크 9개. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 1건, medium 2건, low 5건. CPU 장이 화면에 7이 뜨는 단계를 12단계라고 썼지만 실험에서는 9단계였습니다. 이를 포함해 모두 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>인코딩·게이트·플립플롭·캐시 설명을 RFC 3629와 Drepper 문서로 대조. 과도한 일반화 2건 수정</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>2진·16진 변환, UTF-8 바이트(가 = EA B0 80), 4비트 가산기 256쌍, 곱셈 프로그램 8n+5 명령 수 등 약 60개 재계산. 단계 수·되돌아온 횟수 표현 수정</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>npm test 16개 통과, CPU 단계별 추적·캐시 4패턴×4줄 수×4블록 크기 재계산. CPU 실험 안내의 단계 수 수정</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>2의 보수·전가산기·리플 캐리·래치·플립플롭·적중/실패·직접 사상 용어 확인</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 5개 WebFetch 확인. 캐시 근거 링크를 Part 2로 교체, Ben Eater 설계와의 명령 번호 차이 명시</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>F1 high</td><td>#cpu desc·본문, js/lab-guides.js cpu</td><td>“12단계를 거쳐 화면에 7이 뜬다”</td><td>CompCPU.step 추적: OUT 실행인 9단계에서 7 출력, 12단계는 HLT</td><td>9단계에 7, 12단계에 멈춤으로 수정</td></tr><tr><td>F2 medium</td><td>9장 풀이</td><td>ADD 다음 명령을 LDA라고 씀</td><td>실제로는 STA·JMP 뒤에 LDA, 둘은 깃발을 바꾸지 않음</td><td>JC 확인을 다음 LDA보다 앞에 두라는 문장으로 수정</td></tr><tr><td>F3 medium</td><td>출처 Drepper(LWN)</td><td>링크가 Part 1(DRAM)</td><td>캐시 줄·지역성은 Part 2에 있음</td><td>lwn.net/Articles/252125(Part 2: CPU caches)로 교체</td></tr><tr><td>F4 low</td><td>6장 명령표</td><td>Ben Eater 설계와 JZ·JC 번호가 반대</td><td>Eater 설계 재구현 문서의 JC=7, JZ=8</td><td>표 설명에 차이 명시</td></tr><tr><td>F5 low</td><td>7장 본문</td><td>“다섯 번째로 0번에 돌아왔을 때”</td><td>0번 실행은 다섯 번, 되돌아옴은 네 번</td><td>표현 수정</td></tr><tr><td>F6 low</td><td>6장 주의</td><td>“수천 개의 명령”</td><td>명령 수는 설계마다 다름</td><td>“설계에 따라 수백에서 수천 개”</td></tr><tr><td>F7 low</td><td>2장 본문</td><td>키보드가 글자 번호 51을 보낸다는 표현</td><td>키보드는 키 코드를 보내고 운영체제가 변환</td><td>운영체제가 51로 바꿔 넘긴다고 수정</td></tr><tr><td>F8 low</td><td>8장 본문, docs/index.html</td><td>블록 크기가 모형값임을 표시하지 않음, “다섯 가지” 목록은 여섯</td><td>실제 캐시 줄은 흔히 64바이트</td><td>64바이트·실험값 명시, “여섯 가지”</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>README의 공개 주소와 개편 기록의 GitHub Actions 실행 링크는 검수 환경의 네트워크 제한으로 열지 못했습니다. 브라우저 실행과 학습 효과는 범위 밖입니다.</p>
+</section>
+</main></body></html>
