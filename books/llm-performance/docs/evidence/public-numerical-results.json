@@ -1,0 +1,24 @@
+{
+  "url": "https://ljd6805.github.io/my-bookshelf/books/llm-performance/",
+  "date": "2026-10-08",
+  "checks": [
+    {
+      "chapter": "metrics",
+      "readout": "전체 820 ms · 한 요청의 출력 처리율 39.02 tokens/s\nTTFT 200 ms, ITL 20 ms. 일정한 간격을 가정한 계산입니다."
+    },
+    {
+      "chapter": "tiling",
+      "readout": "1개 block 상주 · 50%\nblock당 1024 thread · 공유 메모리 8.0 KiB. 512×512 행렬곱의 입력 적재 모형은 8.39백만 원소입니다. 이 수치들로 실행 시간을 예측하지 않습니다."
+    },
+    {
+      "chapter": "review",
+      "readout": "연산 융합: 네 조건을 모두 만족합니다. 실제 반복 측정으로 확인하세요.\n미리 만든 가상 집계값을 조건과 비교한 결과입니다. 모델의 실제 성능이나 일반 품질을 보장하지 않습니다."
+    },
+    {
+      "chapter": "review",
+      "strongerGoal": "보류"
+    }
+  ],
+  "errors": [],
+  "success": true
+}

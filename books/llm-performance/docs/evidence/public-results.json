@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-08",
+  "url": "https://ljd6805.github.io/my-bookshelf/",
+  "widths": [
+    {
+      "width": 1280,
+      "spines": 7,
+      "animationCount": 4,
+      "reduceStops": true,
+      "routeAndConcept": true,
+      "shelfRoundTrip": true,
+      "standardBlocks": true,
+      "coverFits": true
+    },
+    {
+      "width": 390,
+      "spines": 7,
+      "animationCount": 4,
+      "reduceStops": true,
+      "routeAndConcept": true,
+      "shelfRoundTrip": true,
+      "standardBlocks": true,
+      "coverFits": true
+    },
+    {
+      "width": 320,
+      "spines": 7,
+      "animationCount": 4,
+      "reduceStops": true,
+      "routeAndConcept": true,
+      "shelfRoundTrip": true,
+      "standardBlocks": true,
+      "coverFits": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}
