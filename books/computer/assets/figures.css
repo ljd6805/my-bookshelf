@@ -2,7 +2,7 @@
 .figure-plate{margin:32px 0;border:1px solid var(--line);border-radius:var(--radius);background:var(--chart);min-width:0;overflow:hidden}
 .figure-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 24px;border-bottom:1px solid var(--line)}
 .figure-heading>div{min-width:0}
-.figure-heading span{display:block;font: .72rem/1.6 ui-monospace,sans-serif;color:var(--muted);margin-bottom:5px}
+.figure-heading span{display:block;font: .72rem/1.6 var(--font-mono);color:var(--muted);margin-bottom:5px}
 .figure-heading h3{margin:0;font-size:1rem;line-height:1.6}
 .figure-heading button{flex:none;background:transparent;font-size:.78rem;min-height:36px;padding:6px 12px}
 .figure-viewport{overflow-x:auto;padding:24px;overscroll-behavior-x:contain;scrollbar-color:var(--line) var(--chart)}
@@ -11,7 +11,7 @@
 .technical-diagram{display:block;width:100%;max-width:460px;height:auto;margin:0 auto;font-family:inherit}
 .technical-diagram text{fill:var(--text);font-size:20px}
 .technical-diagram .diagram-small{fill:var(--muted);font-size:19px}
-.technical-diagram .diagram-math{font-family:ui-monospace,monospace;font-size:26px;fill:var(--accent)}
+.technical-diagram .diagram-math{font-family:var(--font-mono);font-size:26px;fill:var(--accent)}
 .technical-diagram .diagram-label{font-size:20px;fill:var(--accent)}
 .diagram-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .diagram-pair h4{margin:0 0 8px;font-size:.92rem;color:var(--accent)}
@@ -30,16 +30,16 @@
 .diagram-bit-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
 .diagram-bit{text-align:center;border:1px solid var(--line);border-radius:6px;padding:12px 0;background:var(--panel)}
 .diagram-bit span,.diagram-bit small{display:block;color:var(--muted);font-size:.75rem}
-.diagram-bit span{font-family:ui-monospace,monospace}
-.diagram-bit b{display:block;font:1.8rem/1.8 ui-monospace,monospace}
+.diagram-bit span{font-family:var(--font-mono)}
+.diagram-bit b{display:block;font:1.8rem/1.8 var(--font-mono)}
 .diagram-bit.is-on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel));color:var(--accent)}
 .diagram-equation{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
-.diagram-equation span{color:var(--muted);font-size:.88rem}.diagram-equation strong{font:1.5rem ui-monospace,monospace;color:var(--accent)}
+.diagram-equation span{color:var(--muted);font-size:.88rem}.diagram-equation strong{font:1.5rem var(--font-mono);color:var(--accent)}
 .encoding-map{display:grid;gap:24px}.encoding-byte{text-align:center;padding:12px 0 24px;border-bottom:1px solid var(--line)}
 .encoding-byte span,.encoding-byte small{display:block;font-size:.84rem;color:var(--muted)}
-.encoding-byte strong{display:block;font:2.2rem/1.8 ui-monospace,monospace;letter-spacing:.12em;color:var(--accent)}
+.encoding-byte strong{display:block;font:2.2rem/1.8 var(--font-mono);letter-spacing:.12em;color:var(--accent)}
 .encoding-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
-.diagram-cell span{display:block;color:var(--muted);font-size:.78rem}.diagram-cell strong{display:block;font:1.7rem/1.8 ui-monospace,monospace;color:var(--text)}
+.diagram-cell span{display:block;color:var(--muted);font-size:.78rem}.diagram-cell strong{display:block;font:1.7rem/1.8 var(--font-mono);color:var(--text)}
 .diagram-cell small{font-size:.76rem;color:var(--muted);display:block;line-height:1.7}
 .cpu-map{display:grid;grid-template-columns:minmax(0,1fr) 105px minmax(0,1fr);gap:16px;align-items:center}
 .diagram-memory,.diagram-cpu{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:20px;align-self:stretch}
@@ -51,7 +51,7 @@
 .diagram-bus{display:grid;text-align:center;gap:8px;color:var(--muted);font-size:.68rem}
 .diagram-bus b{border-block:1px solid var(--accent);padding:6px 0;color:var(--accent);font-size:.84rem}
 .diagram-cpu dl{margin:0}.diagram-cpu dl>div{margin:0 0 12px;display:grid;grid-template-columns:48px 1fr;gap:6px}
-.diagram-cpu dt{font:600 .85rem/1.7 ui-monospace,monospace}.diagram-cpu dd{margin:0;color:var(--muted);font-size:.8rem;line-height:1.8}
+.diagram-cpu dt{font:600 .85rem/1.7 var(--font-mono)}.diagram-cpu dd{margin:0;color:var(--muted);font-size:.8rem;line-height:1.8}
 .diagram-cycle{grid-column:1/-1;display:flex;justify-content:center;gap:20px;align-items:center;border-top:1px solid var(--line);padding-top:22px;margin-top:8px;font-size:.88rem}
 .diagram-cycle span{color:var(--accent)}
 .hierarchy-map{display:grid;grid-template-columns:130px 1fr;gap:24px}
@@ -86,4 +86,4 @@
 .opcode-table{font-size:.86rem}
 .opcode-table caption{caption-side:top;text-align:left;color:var(--muted);font-size:.85rem;padding:0 0 10px}
 .opcode-table th,.opcode-table td{padding:8px 12px}
-.opcode-table td:nth-child(-n+2){font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
+.opcode-table td:nth-child(-n+2){font-family:var(--font-mono);white-space:nowrap}

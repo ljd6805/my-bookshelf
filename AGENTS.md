@@ -52,6 +52,7 @@
 ## 책 구성 표준
 - 모든 책의 화면 배치와 장 구조는 AI Book(books/ai/)을 기준으로 한다. 새 책을 만들거나 책 구조를 바꾸기 전에 docs/08-book-template.html을 읽는다.
 - 머리말 메뉴 순서, 표지·읽기 두 모드와 왼쪽 장 목차, 장 화면 일곱 블록(장 머리 → 먼저 개념 잡기 → 실험 → 혼동하지 마세요 → 확인 문제 → 더 읽어 보기 → 이전·다음), 실험 블록 형식, content.js 장 데이터 필드를 그대로 유지한다.
+- 글꼴은 assets/type.css의 공통 체계(본문 Pretendard, 제목 Noto Serif KR, 숫자·코드 JetBrains Mono)를 쓴다. 책 index.html은 `<html data-typeset="book">`과 `../../assets/type.css`를 연결하고, 책 CSS는 var(--font-sans|serif|mono)만 쓴다. 기준은 docs/08-book-template.html#typography, validate.py가 검사한다.
 - 색·표지 실험·장과 실험 내용은 책마다 새로 만든다. 고정 항목을 바꿔야 하면 docs/08을 먼저 고치고 모든 책에 반영할지 사용자에게 확인한다.
 
 ## 책등 제목 규칙

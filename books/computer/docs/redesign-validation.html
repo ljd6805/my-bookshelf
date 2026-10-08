@@ -21,7 +21,7 @@ python3 scripts/build_catalog.py --check
 # 저장소 루트에서 HTTP 서버 실행 후, Playwright가 있는 환경에서:
 node books/computer/tests/browser.cjs
 node books/computer/tests/reader-browser.cjs</code></pre><p>브라우저 경로는 BOOK_CHROMIUM, 추가 실행 옵션(JSON 배열)은 BOOK_BROWSER_ARGS, 대상 주소는 BOOK_TARGET, 화면 저장 폴더는 BOOK_SHOTS로 지정할 수 있습니다. 임시 브라우저 패키지는 책 실행 의존성이 아닙니다.</p>
-<p>1차 개편에서 넣은 자체 글꼴(Bookshelf Sans)은 2차 다듬기에서 AI Book과 같은 글꼴 순서(Inter, Pretendard, 시스템 한국어 글꼴)로 맞추며 제거했습니다.</p>
+<p>1차 개편에서 넣은 자체 글꼴(Bookshelf Sans)은 2차 다듬기에서 AI Book과 같은 글꼴 순서(Inter, Pretendard, 시스템 한국어 글꼴)로 맞추며 제거했습니다. 2026-10-08부터는 서가 공통 글꼴 체계 <code>../../assets/type.css</code>(Pretendard 본문, Noto Serif KR 제목, JetBrains Mono 숫자)를 씁니다. 기준은 <a href="../../../docs/08-book-template.html#typography">책 구성 표준의 글꼴 체계</a>를 따릅니다.</p>
 <h2>공개 반영 확인</h2><p><code>56125df</code>의 <a href="https://github.com/ljd6805/my-bookshelf/actions/runs/37729661814">저장소 자동 검사</a>와 <a href="https://github.com/ljd6805/my-bookshelf/actions/runs/37729660598">Pages 배포</a>가 모두 성공했습니다. 공개 주소에서 새 관계도, CPU의 출력 7, 확대 보기와 Esc 닫기, 390px 클럭 장을 실제 브라우저로 확인했습니다.</p><h2>확인 범위의 한계</h2><p>Safari·Firefox·실제 휴대폰·화면 낭독기·실제 독자의 학습 효과는 확인하지 않았습니다. 구조·조작·모형 검증과 학습 효과 검증을 구분합니다. 휴대폰에서도 그림 전체가 한 화면 폭에 들어오며, 더 크게 보려면 확대 보기나 브라우저 확대를 씁니다.</p>
 <div class="shots"><figure><img src="evidence/cpu-light.png" alt="같은 CPU 관계도의 밝은 테마"><figcaption>같은 구조를 유지하는 밝은 테마.</figcaption></figure><figure><img src="evidence/cpu-mobile.png" alt="320px 화면에서 표시되는 CPU 메모리" style="max-width:320px"><figcaption>320px에서도 메모리 주소와 값을 읽을 수 있습니다.</figcaption></figure></div>
 <p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#computer-redesign">공통 검증 기록</a></p></main></body></html>
