@@ -7,8 +7,19 @@
 .stop-kicker{font-size:11.5px;letter-spacing:.06em;color:#5d6b66;margin-bottom:4px}
 
 /* 질문 고르기 */
-.route-explorer{margin-top:30px}
-.route-picker{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.field-bar{display:none;flex-wrap:wrap;align-items:center;gap:7px;width:fit-content;max-width:100%;margin-top:22px;position:sticky;top:8px;z-index:5;padding:7px 10px 7px 16px;border:1px solid #71877c33;border-radius:26px;background:#f7f1e6e6;box-shadow:0 6px 18px #3f5e5a14;backdrop-filter:blur(6px)}
+.curation.is-enhanced .field-bar{display:flex}
+.field-bar-label{font-size:11.5px;letter-spacing:.12em;color:#5d7470;margin-right:4px}
+.field-bar button{background:#fbf6eb80;border:1px solid #78858248;border-radius:22px;padding:5px 14px;font-size:12px;white-space:nowrap}
+.field-bar button[aria-pressed=true]{background:#365f69;border-color:#365f69;color:#fffaf2}
+.route-explorer{margin-top:18px}
+.route-picker{display:grid;gap:12px}
+.route-group{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;align-items:start}
+.route-group-name{font:600 12.5px var(--sans);letter-spacing:.06em;color:#365f69;padding-top:12px;border-top:2px solid #365f69}
+.route-group-name small{display:block;margin:2px 0 0!important}
+.route-group-name small{font-weight:500;color:#5d7470;margin-left:4px}
+.route-group-picks{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.route-picker .is-filtered{display:none}
 .route-pick{display:flex;flex-direction:column;gap:6px;padding:14px 16px 15px;border:1px solid #71877c3d;border-radius:14px;background:#faf6ecb8;text-decoration:none;color:var(--ink);transition:background .25s var(--ease),border-color .25s,box-shadow .25s,transform .25s var(--ease)}
 .route-pick:hover{background:#fdfaf3;border-color:#5f7f7766}
 .route-pick[aria-selected=true]{background:#fffdf7;border-color:#365f69;box-shadow:0 10px 24px #3f5e5a1f,inset 0 -3px 0 #365f69;transform:translateY(-2px)}
@@ -61,10 +72,6 @@
 .atlas-head h3{font-family:var(--serif);font-size:24px;margin-bottom:8px}
 .atlas-head p:last-child{font-size:13.5px;color:var(--muted)}
 /* 지식 지도: 세로 칸은 책, 가로줄은 개념. 책과 개념이 늘어도 선이 엉키지 않고 칸과 줄만 늘어납니다. */
-.atlas-filter{display:none;flex-wrap:wrap;gap:7px;margin-top:18px}
-.concept-atlas.is-enhanced .atlas-filter{display:flex}
-.atlas-filter button{background:#fbf6eb80;border:1px solid #78858248;border-radius:22px;padding:5px 14px;font-size:12px;white-space:nowrap}
-.atlas-filter button[aria-pressed=true]{background:#365f69;border-color:#365f69;color:#fffaf2}
 .atlas-scroll{position:relative;container-type:inline-size;margin-top:14px;overflow-x:auto;border:1px solid #71877c38;border-radius:20px;background:linear-gradient(180deg,#fffdf6,#f6f0e3);scrollbar-width:thin;scrollbar-color:#78918a70 transparent}
 .atlas-scroll:focus-visible{outline:3px solid #315f70;outline-offset:3px}
 .atlas-map{--name:196px;--col:clamp(38px,calc((100cqi - var(--name) - 40px) / var(--books)),88px);border-collapse:separate;border-spacing:0;margin:0 auto 10px}
@@ -117,7 +124,9 @@
 }
 @media(max-width:720px){
   .curation{padding:36px 0 44px}.curation-intro h2{font-size:24px}
-  .route-picker{grid-template-columns:1fr 1fr}
+  .field-bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:auto}.field-bar button{flex:none}
+  .route-group{grid-template-columns:1fr;gap:6px}.route-group-name{padding-top:6px;border-top-width:1px}.route-group-name small{display:inline;margin-left:4px!important}
+  .route-group-picks{grid-template-columns:1fr 1fr}
   .route{padding:22px 18px}.route-head h3{font-size:21px}.route-question{font-size:15.5px}
   .route-line{grid-template-columns:1fr;margin-top:22px}
   .station:not(:last-child)::after{top:36px;left:20px;width:4px;height:calc(100% - 18px);background:linear-gradient(180deg,rgb(var(--edge)),#c9d4cd)}
@@ -132,5 +141,5 @@
   .atlas-node{flex-direction:column;align-items:flex-start;gap:0;font-size:13px;padding:5px 8px}
   .atlas-detail td{padding-left:10px!important}.atlas-detail .concept-card{left:10px;max-width:calc(100vw - 52px);padding:16px}
 }
-@media(max-width:420px){.route-picker{grid-template-columns:1fr}}
-@media print{.route-explorer.is-enhanced .route,.route-explorer.is-enhanced .route-stop{display:block!important}.concept-atlas.is-enhanced .atlas-detail{display:table-row!important}.atlas-filter{display:none!important}}
+@media(max-width:420px){.route-group-picks{grid-template-columns:1fr}}
+@media print{.route-explorer.is-enhanced .route,.route-explorer.is-enhanced .route-stop{display:block!important}.concept-atlas.is-enhanced .atlas-detail{display:table-row!important}.field-bar{display:none!important}}

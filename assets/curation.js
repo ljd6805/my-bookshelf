@@ -37,7 +37,7 @@ export function setupRoutes(explorer) {
       }
     }));
   });
-  tabs.forEach((tab, index) => {
+  tabs.forEach(tab => {
     tab.addEventListener('click', event => {
       event.preventDefault();
       selectRoute(explorer, tab.getAttribute('aria-controls'));
@@ -46,7 +46,9 @@ export function setupRoutes(explorer) {
       const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
       if (!step) return;
       event.preventDefault();
-      const next = tabs[(index + step + tabs.length) % tabs.length];
+      const shown = tabs.filter(t => !t.classList.contains('is-filtered'));
+      const at = shown.indexOf(tab);
+      const next = shown[(at + step + shown.length) % shown.length];
       selectRoute(explorer, next.getAttribute('aria-controls'), true);
     });
   });
@@ -58,8 +60,7 @@ function lightColumn(map, book) {
   map.querySelectorAll('[data-book]').forEach(el => el.classList.toggle('is-col', el.dataset.book === book));
 }
 
-function filterField(atlas, field) {
-  atlas.querySelectorAll('.atlas-filter button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.field === field)));
+function filterAtlas(atlas, field) {
   atlas.querySelectorAll('.atlas-group').forEach(group => {
     let shown = 0;
     group.querySelectorAll('.atlas-row').forEach(row => {
@@ -70,6 +71,32 @@ function filterField(atlas, field) {
     });
     group.classList.toggle('is-filtered', shown === 0);
   });
+}
+
+function filterRoutes(explorer, field) {
+  const tabs = [...explorer.querySelectorAll('[role=tab]')];
+  tabs.forEach(tab => tab.classList.toggle('is-filtered', Boolean(field) && !tab.dataset.fields.split(' ').includes(field)));
+  explorer.querySelectorAll('.route-group').forEach(group => {
+    group.classList.toggle('is-filtered', !group.querySelector('[role=tab]:not(.is-filtered)'));
+  });
+  const current = tabs.find(tab => tab.getAttribute('aria-selected') === 'true');
+  const first = tabs.find(tab => !tab.classList.contains('is-filtered'));
+  if (first && current?.classList.contains('is-filtered')) selectRoute(explorer, first.getAttribute('aria-controls'));
+}
+
+/* 분야 단추 하나가 읽기 노선과 지식 지도를 함께 거릅니다. 분야가 늘면 단추만 늘어납니다. */
+export function setupFieldBar(section) {
+  const bar = section?.querySelector('.field-bar');
+  if (!bar) return;
+  const explorer = section.querySelector('[data-route-explorer]');
+  const atlas = section.querySelector('[data-atlas]');
+  section.classList.add('is-enhanced');
+  bar.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
+    const field = button.dataset.field;
+    bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    if (explorer) filterRoutes(explorer, field);
+    if (atlas) filterAtlas(atlas, field);
+  }));
 }
 
 export function setupAtlas(atlas) {
@@ -100,7 +127,6 @@ export function setupAtlas(atlas) {
     a.addEventListener('focus', () => lightColumn(map, a.parentElement.dataset.book));
     a.addEventListener('blur', () => lightColumn(map, null));
   });
-  atlas.querySelectorAll('.atlas-filter button').forEach(b => b.addEventListener('click', () => filterField(atlas, b.dataset.field)));
   const fromHash = rows.find(row => `#concept-${row.dataset.concept}` === location.hash);
   if (fromHash) toggle(fromHash.dataset.concept, true);
 }

@@ -5,8 +5,8 @@ never draws crossing edges and grows by one column per book and one row per conc
 Columns follow the shelf order, so books of one field (spine_category) stand together under
 a field header. Rows are grouped by the field where a concept is taught most, which makes
 the bridges between fields visible as lines that leave their own group.
-Everything here is plain HTML that works without JavaScript; the script only filters by
-field, lights a column, and opens one concept at a time.
+Everything here is plain HTML that works without JavaScript; the script only lights a
+column and opens one concept at a time. The field bar above the curation filters rows.
 """
 if __package__:
     from .shelf_renderer import esc
@@ -117,18 +117,11 @@ def body(groups, cols, starts, card):
     return ''.join(parts)
 
 
-def field_filter(cols):
-    buttons = ''.join(f'<button type="button" data-field="{esc(f)}" aria-pressed="false">{esc(f)}</button>'
-                      for f in fields_in_order(cols))
-    return ('<div class="atlas-filter" role="group" aria-label="분야로 개념 거르기">'
-            '<button type="button" data-field="" aria-pressed="true">모든 분야</button>' + buttons + '</div>')
-
-
 def render_atlas_table(concepts, books, card):
     """card(concept) -> HTML of the concept's chapter card, shown under its row."""
     cols = columns(concepts, books)
     groups = grouped_rows(concepts, cols, books)
     thead, starts = head(cols)
-    return (f'{field_filter(cols)}<div class="atlas-scroll" tabindex="0" role="region" aria-labelledby="concept-title">'
+    return (f'<div class="atlas-scroll" tabindex="0" role="region" aria-labelledby="concept-title">'
             f'<table class="atlas-map" style="--books:{len(cols)}" aria-describedby="atlas-help">'
             f'{thead}{body(groups, cols, starts, card)}</table></div>')

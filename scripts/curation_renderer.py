@@ -6,10 +6,10 @@ moved chapter fails the build instead of leaving a dead link on the shelf.
 """
 if __package__:
     from .shelf_renderer import esc, safe_book_url
-    from .atlas_renderer import render_atlas_table, owner_of, short_name
+    from .atlas_renderer import render_atlas_table, owner_of, short_name, field_of
 else:
     from shelf_renderer import esc, safe_book_url
-    from atlas_renderer import render_atlas_table, owner_of, short_name
+    from atlas_renderer import render_atlas_table, owner_of, short_name, field_of
 
 
 def book_lookup(catalog):
@@ -63,19 +63,59 @@ def stop(path, n, step, catalog):
             f'<div><dt>남길 기록</dt><dd>{esc(step["record"])}</dd></div></dl></section>')
 
 
+def book_field(book_id, catalog):
+    return next(field_of(b) for b in catalog['books'] if b['id'] == book_id)
+
+
+def path_fields(path, catalog):
+    """Fields a path passes through, and its home: the field with most stops (later wins ties)."""
+    steps = [book_field(s['book_id'], catalog) for s in path['steps']]
+    home = path.get('category') or max(reversed(steps), key=steps.count)
+    return list(dict.fromkeys(steps)), home
+
+
+def shelf_fields(catalog):
+    """Fields in shelf order, only those that curation actually reaches."""
+    used = {s['book_id'] for p in catalog.get('learning_paths', []) for s in p['steps']}
+    for concept in catalog.get('concepts', []):
+        used.update(owner_of(url, catalog['books']) for url in concept['chapters'])
+    return list(dict.fromkeys(field_of(b) for b in catalog['books'] if b['id'] in used))
+
+
+def pick(path, first, catalog):
+    minutes = sum(int(s['minutes']) for s in path['steps'])
+    dots = ''.join(f'<i class="tone-{esc(tone_of(bid, catalog))}"></i>'
+                   for bid in dict.fromkeys(s['book_id'] for s in path['steps']))
+    fields = path_fields(path, catalog)[0]
+    return (f'<a class="route-pick" role="tab" id="tab-{esc(path["id"])}" href="#path-{esc(path["id"])}" '
+            f'aria-controls="path-{esc(path["id"])}" aria-selected="{str(first).lower()}" '
+            f'data-fields="{esc(" ".join(fields))}">'
+            f'<span class="pick-meta"><span class="pick-dots" aria-hidden="true">{dots}</span>'
+            f'{len(path["steps"])}개 장 · 약 {minutes}분</span>'
+            f'<span class="pick-title">{esc(path["title"])}</span></a>')
+
+
 def picker(paths, catalog):
-    tabs = []
-    for i, path in enumerate(paths):
-        minutes = sum(int(s['minutes']) for s in path['steps'])
-        dots = ''.join(f'<i class="tone-{esc(tone_of(bid, catalog))}"></i>'
-                       for bid in dict.fromkeys(s['book_id'] for s in path['steps']))
-        tabs.append(f'<a class="route-pick" role="tab" id="tab-{esc(path["id"])}" href="#path-{esc(path["id"])}" '
-                    f'aria-controls="path-{esc(path["id"])}" aria-selected="{str(i == 0).lower()}">'
-                    f'<span class="pick-meta"><span class="pick-dots" aria-hidden="true">{dots}</span>'
-                    f'{len(path["steps"])}개 장 · 약 {minutes}분</span>'
-                    f'<span class="pick-title">{esc(path["title"])}</span></a>')
+    """Question cards grouped under the field each path mostly stays in."""
+    groups, first = [], None
+    for field in shelf_fields(catalog):
+        members = [p for p in paths if path_fields(p, catalog)[1] == field]
+        if members:
+            first = first or members[0]
+            tabs = ''.join(pick(p, p is first, catalog) for p in members)
+            groups.append(f'<div class="route-group" role="presentation" data-field="{esc(field)}">'
+                          f'<p class="route-group-name" role="presentation">{esc(field)} <small>{len(members)}개 노선</small></p>'
+                          f'<div class="route-group-picks" role="presentation">{tabs}</div></div>')
     return ('<div class="route-picker" role="tablist" aria-label="질문으로 읽기 경로 고르기">'
-            + ''.join(tabs) + '</div>')
+            + ''.join(groups) + '</div>')
+
+
+def field_bar(catalog):
+    buttons = ''.join(f'<button type="button" data-field="{esc(f)}" aria-pressed="false">{esc(f)}</button>'
+                      for f in shelf_fields(catalog))
+    return ('<div class="field-bar" role="group" aria-label="분야로 노선과 개념 거르기">'
+            '<span class="field-bar-label">분야</span>'
+            '<button type="button" data-field="" aria-pressed="true">모든 분야</button>' + buttons + '</div>')
 
 
 def render_path(path, catalog):
@@ -140,8 +180,9 @@ def render_curation(catalog):
     return ('<div class="curation-intro"><p class="curation-eyebrow">서재의 큐레이션</p>'
             '<h2 id="curation-title">질문 하나로 여러 책을 건너는 읽기 노선</h2>'
             '<p>책 한 권을 처음부터 끝까지 읽지 않아도 됩니다. 궁금한 질문을 고르면 여러 책의 장을 '
-            '정거장처럼 이어 갑니다. 정거장마다 그 장으로 가는 이유와 남겨 둘 기록이 있습니다.</p></div>'
-            f'{explorer}{render_atlas(concepts, catalog)}')
+            '정거장처럼 이어 갑니다. 정거장마다 그 장으로 가는 이유와 남겨 둘 기록이 있습니다. '
+            '분야를 고르면 그 분야를 지나는 노선과 개념만 남습니다.</p></div>'
+            f'{field_bar(catalog)}{explorer}{render_atlas(concepts, catalog)}')
 
 
 def concept_terms(catalog):

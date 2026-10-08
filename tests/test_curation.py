@@ -28,6 +28,19 @@ class CurationTests(unittest.TestCase):
         self.assertIn('약 20분 · 2단계', html)
         self.assertIn('href="books/b/#two"', html)
 
+    def test_paths_group_under_the_field_with_most_stops_and_share_one_field_bar(self):
+        from scripts.curation_renderer import path_fields
+        books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='인공지능')]
+        catalog = {'books': books, 'chapter_index': dict(INDEX, **{'books/b/#three': '03 · 셋'}),
+                   'learning_paths': [path(('a', 'books/a/#one'), ('b', 'books/b/#two'), ('b', 'books/b/#three'))],
+                   'concepts': []}
+        self.assertEqual(path_fields(catalog['learning_paths'][0], catalog), (['수학', '인공지능'], '인공지능'))
+        html = render_curation(catalog)
+        self.assertIn('class="route-group" role="presentation" data-field="인공지능"', html)
+        self.assertNotIn('data-field="수학"><p', html)
+        self.assertIn('<button type="button" data-field="수학"', html)
+        self.assertEqual(html.count('class="field-bar"'), 1)
+
     def test_unknown_or_mismatched_chapter_fails_the_build(self):
         for steps in [[('a', 'books/a/#missing')], [('b', 'books/a/#one')]]:
             with self.subTest(steps=steps), self.assertRaises(ValueError):
