@@ -54,7 +54,8 @@
     "서가 펼침 삽화 규칙 강화: LLM 시스템 책이 움직임 없는 삽화(정지 SVG에 애니메이션 흔적만 있음)로 출간된 원인은 규칙이 운영 지침에만 있고 AGENTS.md·docs/08·검사기에는 없었기 때문. AGENTS.md 책 구성 표준과 docs/08#shelf-art에 명시하고 validate.py validate_illustrations가 출간 책 삽화의 존재·@keyframes/SMIL 움직임·동작 줄이기 규칙을 검사. LLM 책 삽화를 340×180 서가 규격으로 다시 그림, 5권 모두 Chromium에서 펼쳐 실행 중 애니메이션 확인(LLM 10개, 동작 줄이기 0개).",
     "서가 진열 규칙: 색·이웃 색·분류 길이·분류 묶음·삽화를 생성기에서 검사하고 AGENTS.md·docs/04#shelf-display-rule에 기록, 책 사이 간격 1px",
     "책 추가 시 지식 지도·큐레이션 갱신 규칙을 검사로 강화: scripts/curation_rules.py가 공개된 책마다 장 색인·공통 개념 2개 이상·읽기 노선·나가는/들어오는 링크를 확인하고 validate.py에서 실패 처리; AGENTS.md와 docs/08#knowledge-links에 절차 기록; 지식 지도 책 배치를 타원 자동 배치로, 개념 배치를 겹침 없는 나선 탐색으로 변경; 다섯 번째 책 LLM 시스템을 개념 4개·노선 1개·들어오는 링크 2개로 연결",
-    "펼친 책을 스크롤 없이 화면에 맞춤(데스크톱은 삽화가 남는 높이 흡수, 휴대폰은 한 면씩 넘기기)과 서재 이름을 Jdeok.Lee의 서재로 변경(docs/06#fit-spread)"
+    "펼친 책을 스크롤 없이 화면에 맞춤(데스크톱은 삽화가 남는 높이 흡수, 휴대폰은 한 면씩 넘기기)과 서재 이름을 Jdeok.Lee의 서재로 변경(docs/06#fit-spread)",
+    "닫힌 표지를 종이 커버와 책별 정지 가로 삽화(books/주제/assets/cover-art.svg)로 개편하고, 표지 규칙을 AGENTS.md·docs/08-book-template.html#cover·validate.py에 추가"
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": "AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",

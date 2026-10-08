@@ -53,13 +53,20 @@ function coverFor(book) {
   const cover = document.createElement('div');
   cover.className = 'book-cover';
   cover.setAttribute('aria-hidden', 'true');
-  const title = document.createElement('span');
-  title.className = 'book-cover-title';
-  title.textContent = book.querySelector('.reader-title')?.textContent || '';
-  const category = document.createElement('span');
-  category.className = 'book-cover-category';
-  category.textContent = book.querySelector('.reader-category')?.textContent || '';
-  cover.append(category, title);
+  // Books carry a paper jacket (scripts/cover_renderer.py); anything without one shows its title.
+  const jacket = book.querySelector('template.book-jacket');
+  if (jacket) {
+    cover.classList.add('has-jacket');
+    cover.append(jacket.content.cloneNode(true));
+  } else {
+    const title = document.createElement('span');
+    title.className = 'book-cover-title';
+    title.textContent = book.querySelector('.reader-title')?.textContent || '';
+    const category = document.createElement('span');
+    category.className = 'book-cover-category';
+    category.textContent = book.querySelector('.reader-category')?.textContent || '';
+    cover.append(category, title);
+  }
   if (isStacked(book)) cover.classList.add('is-stacked');
   book.append(cover);
   return cover;

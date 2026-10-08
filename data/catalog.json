@@ -13,6 +13,8 @@
       "description": "신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 18개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.",
       "illustration": "books/ai/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 입력 신호가 층을 건너며 출력 확률로 바뀝니다. 실제 계산 결과가 아닙니다.",
+      "cover_art": "books/ai/assets/cover-art.svg",
+      "cover_meta": "12장 · 18개 실험",
       "status": "published",
       "url": "books/ai/",
       "keywords": [
@@ -56,6 +58,8 @@
       "description": "모델의 B와 bit부터 GPU 안의 데이터 이동, prefill·decode, KV 캐시, 대역폭과 MoE까지. 12장·14개 실험으로 오픈웨이트 모델의 사양과 하드웨어 제약을 연결하고 실행 예산을 직접 만듭니다.",
       "illustration": "books/llm-gpu/assets/shelf-illustration.svg",
       "illustration_caption": "개념도: 가중치와 과거 토큰의 KV가 GPU로 흘러가 계산되고, 다음 토큰이 문장 끝에 하나씩 붙습니다. 크기·속도를 재현한 그림은 아닙니다.",
+      "cover_art": "books/llm-gpu/assets/cover-art.svg",
+      "cover_meta": "12장 · 14개 실험",
       "status": "published",
       "url": "books/llm-gpu/",
       "keywords": [
@@ -111,6 +115,8 @@
       "description": "3 + 4를 누르면 화면에 7이 뜨기까지. 비트와 게이트로 덧셈기와 메모리를 만들고, 작은 CPU에서 직접 프로그램을 실행하며 캐시까지 9개 장과 9개 실험으로 따라갑니다.",
       "illustration": "books/computer/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 비트로 저장된 3과 4가 덧셈기를 지나 0111이 되고 화면에 7로 나타납니다. 회로 동작을 단순화한 그림입니다.",
+      "cover_art": "books/computer/assets/cover-art.svg",
+      "cover_meta": "9장 · 9개 실험",
       "status": "published",
       "url": "books/computer/",
       "keywords": [
@@ -161,6 +167,8 @@
       "description": "노래 여덟 곡으로 작은 추천기를 만들며 벡터, 내적, 투영, 행렬 변환, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층까지. 11개 장과 11개 실험으로 공간이 움직이는 모습을 직접 조작합니다.",
       "illustration": "books/linear-algebra/assets/shelf-illustration.svg",
       "illustration_caption": "실제 계산: 행렬 [1.2, 0.5 ; −0.3, 0.9]가 노래 여덟 곡이 놓인 격자 전체를 기울이고 늘였다가 되돌립니다. 원점과 직선은 그대로 남습니다.",
+      "cover_art": "books/linear-algebra/assets/cover-art.svg",
+      "cover_meta": "11장 · 11개 실험",
       "status": "published",
       "url": "books/linear-algebra/",
       "keywords": [
@@ -211,6 +219,8 @@
       "description": "공장 진동 센서의 경보 하나를 따라가며 확률, 분포, 베이즈, 신뢰구간, 가설검정, 우도를 배웁니다. 8개 장과 8개 실험, 마지막 판단 과제로 불확실한 숫자를 믿을 만한 결론으로 바꾸는 법을 익힙니다.",
       "illustration": "books/probability/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 센서 20대가 각각 10% 확률로 경보를 울릴 때 하루 경보 개수를 모으면 2번 근처가 가장 높고, 5번 이상은 약 4%입니다.",
+      "cover_art": "books/probability/assets/cover-art.svg",
+      "cover_meta": "8장 · 8개 실험",
       "status": "published",
       "url": "books/probability/",
       "keywords": [

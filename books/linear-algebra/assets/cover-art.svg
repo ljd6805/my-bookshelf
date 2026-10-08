@@ -1,0 +1,12 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="행렬 [1.2, 0.5; −0.3, 0.9]가 노래 여덟 곡이 놓인 격자와 기저 벡터를 통째로 기울인 모습" xmlns="http://www.w3.org/2000/svg">
+<clipPath id="la-cover-clip"><rect x="8" y="8" width="206" height="134"/></clipPath>
+<g clip-path="url(#la-cover-clip)"><path class="cv-hair cv-dash" d="M14 160L14 -32M14 160L230 160M38 160L38 -32M14 136L230 136M62 160L62 -32M14 112L230 112M86 160L86 -32M14 88L230 88M110 160L110 -32M14 64L230 64M134 160L134 -32M14 40L230 40M158 160L158 -32M14 16L230 16M182 160L182 -32M206 160L206 -32"/>
+<path class="cv-grid" d="M-19.6 140.8L76.4 -32.0M-19.6 140.8L239.6 205.6M9.2 148.0L105.2 -24.8M-7.6 119.2L251.6 184.0M38.0 155.2L134.0 -17.6M4.4 97.6L263.6 162.4M66.8 162.4L162.8 -10.4M16.4 76.0L275.6 140.8M95.6 169.6L191.6 -3.2M28.4 54.4L287.6 119.2M124.4 176.8L220.4 4.0M40.4 32.8L299.6 97.6M153.2 184.0L249.2 11.2M52.4 11.2L311.6 76.0M182.0 191.2L278.0 18.4M64.4 -10.4L323.6 54.4M210.8 198.4L306.8 25.6"/>
+<circle class="cv-dot" cx="102.8" cy="97.6" r="3.6"/><circle class="cv-dot" cx="125.6" cy="115.6" r="3.6"/><circle class="cv-dot" cx="129.2" cy="79.6" r="3.6"/><circle class="cv-dot" cx="166.4" cy="101.2" r="3.6"/><circle class="cv-dot" cx="170" cy="65.2" r="3.6"/><circle class="cv-dot" cx="106.4" cy="61.6" r="3.6"/><circle class="cv-dot" cx="196.4" cy="76.7" r="3.6"/><circle class="cv-dot" cx="186.8" cy="123.5" r="3.6"/></g>
+<path class="cv-line cv-bold" d="M62 112L117 126"/><path class="cv-head" d="M118.0 126.3L111.4 128.0L113.0 121.6z"/><path class="cv-line cv-bold" d="M62 112L85 71"/><path class="cv-head" d="M85.5 70.0L85.4 76.8L79.7 73.6z"/>
+<circle class="cv-node" cx="62" cy="112" r="3"/>
+<path class="cv-stroke" d="M236 52h-6v48h6M306 52h6v48h-6"/>
+<text class="cv-matrix" x="252" y="71" text-anchor="middle">1.2</text><text class="cv-matrix" x="290" y="71" text-anchor="middle">0.5</text>
+<text class="cv-matrix" x="252" y="92" text-anchor="middle">−0.3</text><text class="cv-matrix" x="290" y="92" text-anchor="middle">0.9</text>
+<text class="cv-text cv-muted" x="271" y="122" text-anchor="middle">격자 전체를 옮기는 규칙</text>
+</svg>
