@@ -113,7 +113,7 @@
       function reset() { cancel(); random = S.rng(7); counts = new Array(nS.get() + 1).fill(0); days = 0; last = null; render(); }
       root.append(U.h('div', { class: 'controls' }, [nS.wrap, pS.wrap, kS.wrap, U.h('div', { class: 'buttons' }, [
         U.button('하루 지나기', () => run(1)), U.button('100일 지나기', () => run(100)), U.button('1,000일 지나기', () => run(1000)), U.button('초기화', () => { nS.set(20); pS.set(0.1); kS.input.max = 20; kS.set(5); reset(); }, 'ghost')])]),
-        chart, U.h('p', { class: 'legend' }, [U.h('span', { class: 'key exact-key', text: '테두리: 이항분포로 계산한 확률' }), U.h('span', { class: 'key sim-key', text: '채운 막대: 모의 실험 비율' }), U.h('span', { class: 'key hot-key', text: '빗금: 기준 이상인 날' })]),
+        chart, U.h('p', { class: 'legend' }, [U.h('span', { class: 'key exact-key', text: '테두리: 이항분포로 계산한 확률' }), U.h('span', { class: 'key sim-key', text: '채운 막대: 모의 실험 비율' }), U.h('span', { class: 'key hot-key', text: '기준선 오른쪽 주황 막대: 기준 이상인 날' })]),
         readout, note);
       reset();
       return () => cancel();

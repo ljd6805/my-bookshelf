@@ -23,6 +23,16 @@ test('every chapter carries the full learning flow and links forward', () => {
   }
 });
 
+test('every lab has a guide with purpose, reading and challenge', () => {
+  const ctx = { window: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'js/guides.js'), 'utf8'), ctx);
+  for (const c of book.chapters) {
+    const g = ctx.window.ProbGuides[c.lab];
+    assert.ok(g, `${c.lab} guide`);
+    for (const key of ['purpose', 'reading', 'challenge']) assert.ok(g[key] && g[key].length > 20, `${c.lab}.${key}`);
+  }
+});
+
 test('cross-book links point at declared AI Book routes', () => {
   const ai = fs.readFileSync(path.join(root, '../ai/index.html'), 'utf8');
   const aiRoutes = new Set(ai.match(/name="book-routes" content="([^"]+)"/)[1].split(','));
