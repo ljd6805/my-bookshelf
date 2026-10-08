@@ -1203,6 +1203,119 @@
       ]
     }
   ],
+  "series": [
+    {
+      "id": "aie-from-scratch",
+      "title": "AI 엔지니어링 처음부터",
+      "summary": "개발 환경 점검에서 에이전트와 운영까지, 공개 커리큘럼의 단계 하나를 한 권으로 다시 쓴 20권 시리즈입니다.",
+      "volumes": [
+        {
+          "number": 1,
+          "title": "AI 개발 작업대",
+          "book_id": "aie-01-workbench",
+          "next_why": "작업대가 갖춰졌으니, 모델이 배우는 데 쓰는 미분·텐서·확률을 직접 계산해 봅니다."
+        },
+        {
+          "number": 2,
+          "title": "모델을 움직이는 수학",
+          "book_id": "aie-02-math",
+          "next_why": "수학 도구를 손에 쥐었으니, 데이터에서 예측 규칙을 배우는 고전 머신러닝으로 넘어갑니다."
+        },
+        {
+          "number": 3,
+          "title": "머신러닝 기초",
+          "book_id": "aie-03-ml",
+          "next_why": "손으로 고른 특징의 한계를 보았으니, 특징까지 스스로 배우는 신경망을 쌓아 봅니다."
+        },
+        {
+          "number": 4,
+          "title": "딥러닝 핵심",
+          "book_id": "aie-04-deep",
+          "next_why": "작은 신경망을 학습시킬 수 있게 되었으니, 그 신경망을 사진과 영상에 적용합니다."
+        },
+        {
+          "number": 5,
+          "title": "컴퓨터 비전",
+          "book_id": "aie-05-vision"
+        },
+        {
+          "number": 6,
+          "title": "자연어 처리",
+          "status": "writing"
+        },
+        {
+          "number": 7,
+          "title": "음성과 오디오",
+          "status": "writing"
+        },
+        {
+          "number": 8,
+          "title": "트랜스포머 깊이 보기",
+          "status": "writing"
+        },
+        {
+          "number": 9,
+          "title": "생성 모델",
+          "status": "writing"
+        },
+        {
+          "number": 10,
+          "title": "강화학습",
+          "status": "writing"
+        },
+        {
+          "number": 11,
+          "title": "LLM 직접 만들기",
+          "status": "planned"
+        },
+        {
+          "number": 12,
+          "title": "LLM 엔지니어링",
+          "status": "planned"
+        },
+        {
+          "number": 13,
+          "title": "멀티모달 AI",
+          "status": "planned"
+        },
+        {
+          "number": 14,
+          "title": "도구와 프로토콜",
+          "status": "planned"
+        },
+        {
+          "number": 15,
+          "title": "에이전트 엔지니어링",
+          "status": "planned"
+        },
+        {
+          "number": 16,
+          "title": "자율 시스템",
+          "status": "planned"
+        },
+        {
+          "number": 17,
+          "title": "멀티 에이전트",
+          "status": "planned"
+        },
+        {
+          "number": 18,
+          "title": "AI 인프라와 운영",
+          "status": "planned"
+        },
+        {
+          "number": 19,
+          "title": "AI 안전과 윤리",
+          "status": "planned"
+        },
+        {
+          "number": 20,
+          "title": "캡스톤",
+          "status": "planned"
+        }
+      ]
+    }
+  ],
   "chapter_index": {
     "books/ai/#neuron": "01 · 신경망의 작은 부품",
     "books/ai/#learning": "02 · 오차를 줄이는 방향으로",

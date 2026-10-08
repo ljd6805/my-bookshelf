@@ -84,18 +84,57 @@ function filterRoutes(explorer, field) {
   if (first && current?.classList.contains('is-filtered')) selectRoute(explorer, first.getAttribute('aria-controls'));
 }
 
+const seriesKey = id => `bookshelf:shelf:v1:series:${id}`;
+
+function remember(id, number) {
+  try { localStorage.setItem(seriesKey(id), String(number)); } catch { /* 저장이 막혀도 링크는 그대로 열립니다. */ }
+}
+
+/* 시리즈마다 마지막으로 연 권을 기억해 '이어 읽기' 단추가 그 권을 가리키게 합니다. */
+export function setupSeries(corner) {
+  corner?.querySelectorAll('[data-series]').forEach(series => {
+    const id = series.dataset.series;
+    const go = series.querySelector('[data-series-go]');
+    let last = null;
+    try { last = localStorage.getItem(seriesKey(id)); } catch { /* 기억 없이 1권부터 */ }
+    const vol = last && series.querySelector(`.vol.is-live[data-volume="${last}"]`);
+    if (vol && go) {
+      vol.classList.add('is-last');
+      go.href = vol.querySelector('a').getAttribute('href');
+      go.querySelector('[data-go-label]').textContent = `${last}권부터 이어 읽기`;
+    }
+    series.querySelectorAll('.vol.is-live a').forEach(a => a.addEventListener('click', () => remember(id, a.parentElement.dataset.volume)));
+    go?.addEventListener('click', () => {
+      const n = (series.querySelector('.vol.is-last') || series.querySelector('.vol.is-live'))?.dataset.volume;
+      if (n) remember(id, n);
+    });
+  });
+}
+
+function filterSeries(corner, field) {
+  let shown = 0;
+  corner.querySelectorAll('[data-series]').forEach(series => {
+    const hide = Boolean(field) && !series.dataset.fields.split('|').includes(field);
+    series.classList.toggle('is-filtered', hide);
+    if (!hide) shown += 1;
+  });
+  corner.classList.toggle('is-filtered', shown === 0);
+}
+
 /* 분야 단추 하나가 읽기 노선과 지식 지도를 함께 거릅니다. 분야가 늘면 단추만 늘어납니다. */
 export function setupFieldBar(section) {
   const bar = section?.querySelector('.field-bar');
   if (!bar) return;
   const explorer = section.querySelector('[data-route-explorer]');
   const atlas = section.querySelector('[data-atlas]');
+  const corner = section.querySelector('[data-series-corner]');
   section.classList.add('is-enhanced');
   bar.querySelectorAll('button').forEach(button => button.addEventListener('click', () => {
     const field = button.dataset.field;
     bar.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
     if (explorer) filterRoutes(explorer, field);
     if (atlas) filterAtlas(atlas, field);
+    if (corner) filterSeries(corner, field);
   }));
 }
 
