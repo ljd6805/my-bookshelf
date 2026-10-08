@@ -12,8 +12,20 @@ async function checkLabs(page) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(target);
-  const lab = (n) => page.locator('[data-lab]').nth(n);
+  assert.equal(await page.locator('.chapter-card').count(), 9);
+  assert.equal(await page.locator('#home-bits .bit').count(), 8);
+  await page.locator('.chapter-card').first().click();
+  await page.locator('.chapter-head h1').waitFor();
+  assert.equal(await page.locator('.chapter-head h1').innerText(), '스위치로 수 세기');
+  assert.equal(await page.locator('.lab-guide').count(), 1);
+  await page.locator('[data-answer="1"]').click();
+  assert.match(await page.locator('.quiz-feedback').innerText(), /정답입니다/);
+  const ids = ['bits', 'encoding', 'gates', 'adder', 'memory', 'cpu', 'programs', 'cache', 'final'];
+  let current = null;
+  const lab = () => page.locator('.lab').first();
+  const open = async (n) => { if (current === n) return; current = n; await page.goto(target + '#' + ids[n]); await page.locator('[data-lab]').first().waitFor(); };
   // 1장: 스위치 두 개를 켜고 +1, 초기화
+  await open(0);
   await lab(0).locator('.bit').nth(6).click();
   await lab(0).locator('.bit').nth(7).click();
   assert.match(await lab(0).locator('.readout').innerText(), /= 십진수 3/);
@@ -21,20 +33,24 @@ async function checkLabs(page) {
   await lab(0).getByRole('button', { name: '+1 하기' }).click();
   assert.match(await lab(0).locator('.readout').innerText(), /= 십진수 0/);
   // 2장: 200은 −56, 범위 밖 입력은 오류
+  await open(1);
   await lab(1).getByRole('button', { name: '200' }).click();
   assert.match(await lab(1).locator('.readout').first().innerText(), /−56|-56/);
   await lab(1).locator('[data-k="num"]').fill('300');
   assert.match(await lab(1).locator('.readout').first().innerText(), /0부터 255/);
   assert.match(await lab(1).locator('[data-k="bytes"]').innerText(), /5글자 → 7바이트/);
   // 3장: XOR 1,1 → 0
+  await open(2);
   await lab(2).locator('select').selectOption('XOR');
   await lab(2).locator('[data-k="a"]').click();
   await lab(2).locator('[data-k="b"]').click();
   assert.match(await lab(2).locator('.readout').innerText(), /출력 0/);
   // 4장: 15 + 1 넘침
+  await open(3);
   await lab(3).getByRole('button', { name: '15 + 1' }).click();
   assert.match(await lab(3).locator('.readout').innerText(), /15를 넘었습니다/);
   // 5장: 쓰기 허용 없이 클럭 → 유지, 허용 후 클럭 → 저장
+  await open(4);
   await lab(4).locator('.bit').nth(3).click();
   await lab(4).getByRole('button', { name: '클럭 한 번 ↑' }).click();
   assert.match(await lab(4).locator('.readout').innerText(), /Q = 0000/);
@@ -42,11 +58,13 @@ async function checkLabs(page) {
   await lab(4).getByRole('button', { name: '클럭 한 번 ↑' }).click();
   assert.match(await lab(4).locator('.readout').innerText(), /Q = 0001/);
   // 6장: 다음 단계 3번 → ACC 3, 끝까지 → 출력 7
+  await open(5);
   for (let i = 0; i < 3; i += 1) await lab(5).getByRole('button', { name: '다음 단계' }).click();
   assert.match(await lab(5).locator('[data-k="regs"]').innerText(), /ACC \(계산 칸\)\s*3/);
   await lab(5).getByRole('button', { name: '멈출 때까지 실행' }).click();
   assert.equal(await lab(5).locator('[data-k="screen"]').innerText(), '7');
   // 7장: 곱셈 12, 남은 횟수 0이면 0
+  await open(6);
   await lab(6).getByRole('button', { name: '멈출 때까지 실행' }).click();
   assert.equal(await lab(6).locator('[data-k="screen"]').innerText(), '12');
   await lab(6).locator('input[data-addr="15"]').fill('0');
@@ -54,10 +72,12 @@ async function checkLabs(page) {
   await lab(6).getByRole('button', { name: '멈출 때까지 실행' }).click();
   assert.equal(await lab(6).locator('[data-k="screen"]').innerText(), '0');
   // 8장: 차례로 75%, 건너뛰기 0%
+  await open(7);
   assert.match(await lab(7).locator('[data-k="out"]').innerText(), /적중 48번 \(75%\)/);
   await lab(7).locator('[data-k="kind"]').selectOption('stride');
   assert.match(await lab(7).locator('[data-k="out"]').innerText(), /적중 0번/);
   // 9장: 44와 C 깃발 기록
+  await open(8);
   await lab(8).getByRole('button', { name: '멈출 때까지 실행' }).click();
   assert.equal(await lab(8).locator('[data-k="screen"]').innerText(), '44');
   assert.deepEqual(errors, []);
@@ -70,10 +90,11 @@ async function checkLabs(page) {
   await page.screenshot({ path: path.join(out, 'computer-desktop.png') });
   for (const width of [390, 320]) {
     const p = await browser.newPage({ viewport: { width, height: 800 } });
-    await p.goto(target);
+    await p.goto(target + '#cpu');
+    await p.locator('[data-lab]').first().waitFor();
     const overflow = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     assert.ok(overflow <= 0, `${width}px에서 가로 넘침 ${overflow}px`);
-    await p.locator('#cpu').scrollIntoViewIfNeeded();
+    await p.locator('.lab').first().scrollIntoViewIfNeeded();
     await p.screenshot({ path: path.join(out, `computer-${width}.png`), fullPage: false });
   }
   await browser.close();

@@ -12,7 +12,7 @@
         <button data-k="b" aria-pressed="false">입력 B: 0</button>
         <button data-k="reset">실험 초기화</button>
       </div>
-      <svg viewBox="0 0 360 120" role="img" aria-label="현재 게이트의 입력과 출력 전선"><g data-k="svg"></g></svg>
+      <svg class="gate-svg" viewBox="0 0 360 120" role="img" aria-label="현재 게이트의 입력과 출력 전선"><g data-k="svg"></g></svg>
       <div class="readout" aria-live="polite"></div>`;
     const svg = root.querySelector('[data-k="svg"]'), out = root.querySelector('.readout');
     const show = () => {
@@ -22,12 +22,12 @@
       const w = (on) => `wire${on ? ' on' : ''}`;
       svg.innerHTML = `
         <path class="${w(st.a)}" d="M20 ${unary ? 60 : 40} H140"/>${unary ? '' : `<path class="${w(st.b)}" d="M20 80 H140"/>`}
-        <rect x="140" y="20" width="90" height="80" rx="14" fill="#fff" stroke="#1d2430" stroke-width="2"/>
-        <text class="svg-text" x="185" y="66" text-anchor="middle">${st.name}</text>
+        <rect class="g-box" x="140" y="20" width="90" height="80" rx="14"/>
+        <text x="185" y="66" text-anchor="middle">${st.name}</text>
         <path class="${w(y)}" d="M230 60 H320"/>
-        <text class="svg-small" x="10" y="${unary ? 52 : 32}">A=${st.a}</text>${unary ? '' : `<text class="svg-small" x="10" y="98">B=${st.b}</text>`}
-        <circle cx="332" cy="60" r="12" fill="${y ? '#f4c542' : '#fff'}" stroke="#1d2430" stroke-width="2"/>
-        <text class="svg-small" x="300" y="92">출력=${y}</text>`;
+        <text x="10" y="${unary ? 52 : 32}">A=${st.a}</text>${unary ? '' : `<text x="10" y="98">B=${st.b}</text>`}
+        <circle class="g-lamp${y ? ' on' : ''}" cx="332" cy="60" r="12"/>
+        <text x="290" y="96">출력=${y}</text>`;
       const rows = M.truthTable(st.name).map((r) => {
         const now = r.inputs[0] === st.a && (unary || r.inputs[1] === st.b);
         return `<tr class="${now ? 'current' : ''}"><td>${r.inputs.join('</td><td>')}</td><td>${r.out}</td><td>${now ? '← 지금' : ''}</td></tr>`;
@@ -89,13 +89,14 @@
       if (k === 'reset') { stop(); inA.value = 3; inB.value = 4; shown = 4; show(); }
     });
     show();
+    return stop;
   };
 
   Labs.register = function (root) {
     const st = { d: [0, 0, 0, 0], q: [0, 0, 0, 0], we: 0, clocks: 0, log: '아직 클럭이 한 번도 오지 않았습니다.' };
     root.innerHTML = `
       <p class="legend">입력 D (왼쪽이 가장 높은 자리)</p>
-      <div class="bit-row" data-k="d" role="group" aria-label="입력 D 네 개"></div>
+      <div class="bit-row four" data-k="d" role="group" aria-label="입력 D 네 개"></div>
       <div class="controls"><button data-k="we" aria-pressed="false">쓰기 허용: 끔</button><button data-k="clock">클럭 한 번 ↑</button><button data-k="reset">실험 초기화</button></div>
       <div class="readout" aria-live="polite"></div>`;
     const out = root.querySelector('.readout');
