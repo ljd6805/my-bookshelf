@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 결과를 남기는 양식입니다."><title>팩트·출처 검수 기록 양식 · Jdeok.Lee의 서재</title><link rel="stylesheet" href="../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 양식</h1>
+<p>이 파일을 <code>books/주제/docs/fact-review.html</code>로 복사하고, 스타일 경로를 <code>../../../assets/project-docs.css</code>로 바꾼 뒤 아래 예시 회차를 실제 검수 내용으로 고칩니다. 책의 <code>docs/index.html</code>에서 이 기록으로 가는 링크를 둡니다. 규칙의 배경과 절차는 <a href="../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>에 있습니다.</p>
+
+<h2 id="format">기록 형식</h2>
+<ul>
+<li>검수 한 회차는 <code>&lt;section class="fact-review"&gt;</code> 하나입니다. 다시 검수하면 회차를 지우지 않고 새 회차를 위에 더합니다. 검사기는 날짜가 가장 늦은 회차를 봅니다.</li>
+<li><code>data-reviewer</code>: 검수한 에이전트(도구와 세션·스레드 이름). <code>data-author</code>: 책을 쓰거나 크게 고친 에이전트. 둘이 같으면 검사가 실패합니다.</li>
+<li><code>data-date</code>(YYYY-MM-DD), <code>data-scope</code>(본 장·실험·출처의 범위), <code>data-commit</code>(검수한 커밋, 선택).</li>
+<li><code>data-result</code>: <code>passed</code>(오류 없음), <code>fixed</code>(찾은 오류를 모두 고침), <code>open</code>(아직 고칠 것이 남음). 마지막 회차가 <code>open</code>이면 책을 공개하거나 병합할 수 없습니다.</li>
+<li>다섯 검사 항목마다 <code>data-check</code>(<code>facts</code>·<code>numbers</code>·<code>experiments</code>·<code>terms</code>·<code>sources</code>)와 <code>data-status</code>(<code>ok</code>·<code>fixed</code>·<code>open</code>·<code>n/a</code>)를 단 행을 둡니다. <code>n/a</code>에는 해당하지 않는 이유를 씁니다.</li>
+<li>발견한 문제는 위치(장 ID·파일:줄), 무엇이 틀렸는지, 근거, 고친 내용·커밋을 한 행씩 남깁니다. 확인하지 못한 것은 따로 적습니다.</li>
+</ul>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드" data-author="Claude · 책 집필 스레드" data-date="2026-10-08" data-scope="예시: 12개 장 본문, 18개 실험 계산, 출처 목록 24개" data-result="fixed" data-commit="abc1234">
+<h2>2026-10-08 검수 (예시)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드. 집필자: Claude · 책 집필 스레드. 범위: 12개 장 본문, 18개 실험 계산, 출처 목록 24개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>장마다 주장 문장을 출처와 대조</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>식을 다시 유도하고 예시 값을 손으로 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>대표값·경계값을 책 테스트와 별도로 계산해 대조</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>한영 용어와 정의를 표준 문헌과 대조</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>1건 수정</td><td>링크를 열어 인용 내용과 확인일 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#example-chapter</td><td>예시: 단위를 GB로 썼지만 계산은 GiB</td><td>식 재계산</td><td>단위를 GiB로 고침 (abc1234)</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>예시: 유료 논문 원문 두 편은 초록만 확인했습니다.</p>
+</section>
+</main></body></html>
