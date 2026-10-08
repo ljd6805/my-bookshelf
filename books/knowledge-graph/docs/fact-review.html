@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="지식 그래프와 온톨로지 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 지식 그래프와 온톨로지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>「지식 그래프와 온톨로지 · 의미를 구조로」를 쓰지 않은 에이전트가 검수한 결과입니다. 규칙은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">책 개발 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 지식 그래프 PR 검수 전용 하위 에이전트(새 세션)" data-author="Claude · 지식 그래프 책 집필 스레드" data-date="2026-10-08" data-scope="9개 장 본문·확인 문제·그림 캡션, 9개 실험과 표지 실험 계산, 실험 안내 수치, 표지·서가 삽화의 간선, 출처 11개" data-result="fixed" data-commit="a657449">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · 지식 그래프 PR 검수 전용 하위 에이전트(집필 맥락 없이 새로 시작, 파일 수정 권한 없이 보고만 함). 집필자: Claude · 지식 그래프 책 집필 스레드. 범위: 9개 장 본문·확인 문제·그림 캡션, 9개 실험과 표지 실험 계산, 실험 안내 수치, 표지·서가 삽화의 간선, 출처 11개. 지적 사항은 집필자가 고쳤습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>트리플 21개·추론용 사실 2개, 추출 후보 13개의 정답 표시, 퀴리 가족의 출생·결혼·발견·노벨상(1903 물리학 베크렐·피에르·마리, 1911 화학 마리 단독, 1935 화학 이렌·프레데리크)을 nobelprize.org와 대조</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>책 코드를 node로 따로 불러 덩어리 수, 도달 수, 자카드, 추론 라운드, 정밀도·재현율, TransE 평균 차이, 검색 k와 걸음 수를 다시 계산해 본문·안내와 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>대표값과 경계값(문턱 0.15·0.5·0.7, 추출 문턱 0.30·0.50·0.85, r=0과 틀린 방향의 r, 2·3걸음)을 계산해 화면 결과와 대조</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>5건 다듬음</td><td>RDF 1.1 Concepts·RDF Schema 1.1·SPARQL 1.1·SHACL·OWL 2 원문의 정의와 대조</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>1건 수정</td><td>출처 11개 중 10개를 직접 열어 제목·날짜·식별자와 인용 내용을 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#graphrag 부제, 출처 Edge 외(2024)</td><td>GraphRAG 전체를 개체 중심 걷기로 정의했고, Edge 외 논문을 그 방식의 제안으로 설명함. 실제 논문은 개체 그래프를 만들고 공동체 요약을 미리 생성해 전역 질문에 답하는 방법</td><td>arXiv 2404.16130 초록</td><td>부제를 “그래프 기반 RAG의 한 방식은 …”으로, 출처 제목을 정식 제목으로, 설명을 공동체 요약 방식과 이 장의 차이로 고침</td></tr>
+<tr><td>docs/index.html 실험표</td><td>r̂=(1.53, 1.21)로 적었으나 계산값은 (1.525, 1.2125), 화면 표시는 (1.52, 1.21)</td><td>meanOffset 재계산</td><td>두 값을 함께 적음</td></tr>
+<tr><td>#triples 수식 메모</td><td>“각 조각을 IRI로 적는다”: 목적어는 리터럴, 주어·목적어는 빈 노드일 수 있음</td><td>RDF 1.1 Concepts §3.1</td><td>“주로 IRI로 적지만(목적어는 리터럴일 수도)”</td></tr>
+<tr><td>#walk 주의</td><td>“점 열네 개 중 열세 개”가 하나는 닿지 않는다고 읽힘</td><td>도달 수 재계산(출발점 제외 13개 전부)</td><td>“출발점을 뺀 열세 개 모두에 닿습니다”</td></tr>
+<tr><td>#walk 더 읽어 보기</td><td>“행렬을 두 번 곱한 결과 … 길의 수”</td><td>인접 행렬의 거듭제곱은 보행(walk) 수를 셈</td><td>“행렬을 제곱(A²)한 값이 … 보행의 수”</td></tr>
+<tr><td>#reasoning 수식 메모·흐름</td><td>“OWL 추론기는 훨씬 많은 규칙”: OWL 2 DL 추론기는 대개 규칙 기반이 아님. 흐름의 고정점 시점이 모호함</td><td>OWL 2 Profiles(RL은 규칙 집합)</td><td>“OWL 2 RL 같은 규칙 집합”, “3라운드에서 고정점 확인”</td></tr>
+<tr><td>#embedding 주의</td><td>도시→나라 방향은 일대다가 아니라 다대일</td><td>관계 방향 확인</td><td>“다대일 관계나 그 반대의 일대다 관계”</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>Wikidata 소개 페이지는 검수 환경에서 열리지 않았습니다(주소 형식만 확인). Hogan 외 “Knowledge Graphs”는 초록만 열었고, 이 책이 근거로 든 장(임베딩·추출·동일성)이 본문에 있다는 것은 검수자의 지식에 기댄 판단입니다. 실제 독자의 학습 효과는 이 검수 범위가 아닙니다.</p>
+</section>
+</main></body></html>
