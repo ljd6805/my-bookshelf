@@ -55,7 +55,7 @@
       </div>
       <div class="controls"><button data-k="play">자리올림 한 칸씩 보기</button><button data-k="reset">실험 초기화</button></div>
       <p class="legend">오른쪽 상자가 가장 낮은 자리(1의 자리)입니다. 자리올림(C)은 오른쪽에서 왼쪽으로 넘어갑니다.</p>
-      <div class="adder-chain" aria-label="4개의 전가산기"></div>
+      <div class="adder-chain" tabindex="0" role="region" aria-label="4개의 전가산기. 오른쪽이 가장 낮은 자리이며 좌우로 이동할 수 있습니다."></div>
       <div class="readout" aria-live="polite"></div>`;
     const inA = root.querySelector('[data-k="a"]'), inB = root.querySelector('[data-k="b"]');
     const chain = root.querySelector('.adder-chain'), out = root.querySelector('.readout');

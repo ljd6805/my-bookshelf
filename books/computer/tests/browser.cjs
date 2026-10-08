@@ -84,7 +84,7 @@ async function checkLabs(page) {
 }
 
 (async () => {
-  const browser = await chromium.launch({ executablePath: process.env.BOOK_CHROMIUM || undefined });
+  const browser = await chromium.launch({ executablePath: process.env.BOOK_CHROMIUM || undefined, args: JSON.parse(process.env.BOOK_BROWSER_ARGS || '[]') });
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   await checkLabs(page);
   await page.screenshot({ path: path.join(out, 'computer-desktop.png') });

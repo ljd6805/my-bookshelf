@@ -1,0 +1,84 @@
+/* 정확한 개념도: 데이터 색은 주 강조색, 자리올림·입력은 보조색. */
+.figure-plate{margin:32px 0;border:1px solid var(--line);border-radius:var(--radius);background:var(--chart);min-width:0;overflow:hidden}
+.figure-heading{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:20px 24px;border-bottom:1px solid var(--line)}
+.figure-heading>div{min-width:0}
+.figure-heading span{display:block;font: .72rem/1.6 ui-monospace,sans-serif;color:var(--muted);margin-bottom:5px}
+.figure-heading h3{margin:0;font-size:1rem;line-height:1.6}
+.figure-heading button{flex:none;background:transparent;font-size:.78rem;min-height:36px;padding:6px 12px}
+.figure-viewport{overflow-x:auto;padding:24px;overscroll-behavior-x:contain;scrollbar-color:var(--line) var(--chart)}
+.figure-plate figcaption{padding:18px 24px;border-top:1px solid var(--line);margin:0;font-size:.85rem;color:var(--muted);line-height:1.8}
+.figure-hint{display:none}
+.technical-diagram{display:block;width:100%;min-width:760px;height:auto;font-family:inherit}
+.technical-diagram text{fill:var(--text);font-size:16px}
+.technical-diagram .diagram-small{fill:var(--muted);font-size:13px}
+.technical-diagram .diagram-heading{font-weight:650;font-size:16px}
+.technical-diagram .diagram-math{font-family:ui-monospace,monospace;font-size:22px;fill:var(--accent)}
+.technical-diagram .diagram-label{font-size:14px;fill:var(--accent)}
+.diagram-node{fill:var(--panel);stroke:var(--line);stroke-width:1.5}
+.diagram-node.active{fill:color-mix(in srgb,var(--accent) 10%,var(--panel));stroke:var(--accent)}
+.diagram-node.carry-node,.decision-node{fill:color-mix(in srgb,var(--orange) 9%,var(--panel));stroke:var(--orange);stroke-width:1.5}
+.diagram-line{stroke:var(--muted);stroke-width:1.7;fill:none;stroke-linejoin:round}
+.diagram-line.signal{stroke:var(--accent);stroke-width:2.4}
+.diagram-line.carry{stroke:var(--orange);stroke-width:2.2}
+.diagram-line.muted-line{stroke-dasharray:4 5}
+.diagram-line.edge-line{stroke:var(--line);stroke-dasharray:4 6;stroke-width:1}
+.signal-dot{fill:var(--accent)}.junction{fill:var(--muted)}
+.arrow-head{fill:none;stroke:var(--muted);stroke-width:1.5}
+.node-title{font-weight:600}
+.diagram-bit-grid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px}
+.diagram-bit{text-align:center;border:1px solid var(--line);border-radius:6px;padding:12px 0;background:var(--panel)}
+.diagram-bit span,.diagram-bit small{display:block;color:var(--muted);font-size:.75rem}
+.diagram-bit span{font-family:ui-monospace,monospace}
+.diagram-bit b{display:block;font:1.8rem/1.8 ui-monospace,monospace}
+.diagram-bit.is-on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel));color:var(--accent)}
+.diagram-equation{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.diagram-equation span{color:var(--muted);font-size:.88rem}.diagram-equation strong{font:1.5rem ui-monospace,monospace;color:var(--accent)}
+.encoding-map{display:grid;gap:24px}.encoding-byte{text-align:center;padding:12px 0 24px;border-bottom:1px solid var(--line)}
+.encoding-byte span,.encoding-byte small{display:block;font-size:.84rem;color:var(--muted)}
+.encoding-byte strong{display:block;font:2.2rem/1.8 ui-monospace,monospace;letter-spacing:.12em;color:var(--accent)}
+.encoding-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.diagram-cell span{display:block;color:var(--muted);font-size:.78rem}.diagram-cell strong{display:block;font:1.7rem/1.8 ui-monospace,monospace;color:var(--text)}
+.diagram-cell small{font-size:.76rem;color:var(--muted);display:block;line-height:1.7}
+.journey-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.journey-map .diagram-cell{border-top:2px solid var(--accent);padding-top:16px}
+.journey-map .diagram-cell strong{font-size:clamp(1rem,2vw,1.5rem)}
+.cpu-map{display:grid;grid-template-columns:minmax(0,1fr) 105px minmax(0,1fr);gap:16px;align-items:center}
+.diagram-memory,.diagram-cpu{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:20px;align-self:stretch}
+.cpu-map h4{font-size:1rem;margin:0 0 20px;color:var(--accent)}
+.diagram-memory>div{display:grid;grid-template-columns:24px 1fr;gap:2px 10px;margin-bottom:12px;font-size:.85rem}
+.diagram-memory>div code{color:var(--muted);font-size:.76rem;grid-row:span 2}
+.diagram-memory>div span{font-size:.75rem;color:var(--muted)}
+.diagram-memory p{border-top:1px solid var(--line);padding-top:12px;margin:18px 0 0;display:flex;gap:16px;font-size:.85rem}
+.diagram-bus{display:grid;text-align:center;gap:8px;color:var(--muted);font-size:.68rem}
+.diagram-bus b{border-block:1px solid var(--accent);padding:6px 0;color:var(--accent);font-size:.84rem}
+.diagram-cpu dl{margin:0}.diagram-cpu dl>div{margin:0 0 12px;display:grid;grid-template-columns:48px 1fr;gap:6px}
+.diagram-cpu dt{font:600 .85rem/1.7 ui-monospace,monospace}.diagram-cpu dd{margin:0;color:var(--muted);font-size:.8rem;line-height:1.8}
+.diagram-cycle{grid-column:1/-1;display:flex;justify-content:center;gap:20px;align-items:center;border-top:1px solid var(--line);padding-top:22px;margin-top:8px;font-size:.88rem}
+.diagram-cycle span{color:var(--accent)}
+.hierarchy-map{display:grid;grid-template-columns:130px 1fr;gap:24px}
+.hierarchy-label{display:flex;flex-direction:column;justify-content:space-between;color:var(--muted);font-size:.82rem;line-height:1.8;padding:12px 0}
+.hierarchy-label>span:nth-child(2){font-size:1.8rem;color:var(--accent)}
+.hierarchy-map ol{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.hierarchy-map li{margin-left:calc((3 - var(--tier)) * 24px);padding:16px 20px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;background:var(--panel)}
+.hierarchy-map li b{display:block;font-size:.98rem}.hierarchy-map li span{display:block;color:var(--muted);font-size:.82rem;line-height:1.7;margin-top:4px}
+.figure-dialog{width:min(1150px,96vw);max-width:none;max-height:90dvh;padding:0;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text)}
+.figure-dialog::backdrop{background:rgb(8 16 19 / .8)}
+.figure-dialog-toolbar{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 24px;background:var(--bg);border-bottom:1px solid var(--line)}
+.figure-dialog-toolbar h2{margin:0;font-size:1.05rem}
+.figure-dialog .figure-viewport{padding:28px;overflow:auto}
+.figure-dialog .caption{margin:0;padding:20px 28px;border-top:1px solid var(--line)}
+.figure-dialog .technical-diagram{min-width:850px}
+@media(max-width:1100px){.cpu-map{grid-template-columns:1fr}.diagram-bus{display:flex;align-items:center;justify-content:center;gap:16px}.diagram-bus b{padding:4px 20px}.diagram-cycle{gap:14px}.encoding-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+ .figure-plate{margin:28px 0}.figure-heading{padding:16px;gap:10px}.figure-heading h3{font-size:.95rem}
+ .figure-heading button{padding:7px 9px;font-size:.75rem}.figure-viewport{padding:20px 16px}
+ .figure-plate figcaption{padding:16px;font-size:.82rem}
+ .figure-hint{display:block;margin:0;padding:10px 16px 0;color:var(--muted);font-size:.74rem}
+ .diagram-bit-grid{gap:4px}.diagram-bit{padding:9px 0}.diagram-bit b{font-size:1.3rem}.diagram-bit span{font-size:.67rem}.diagram-bit small{font-size:.62rem}
+ .diagram-equation{display:block}.diagram-equation strong{display:block;margin-top:12px}
+ .journey-map{grid-template-columns:1fr;gap:20px}.journey-map .diagram-cell strong{font-size:1.6rem}
+ .diagram-memory,.diagram-cpu{padding:20px}.diagram-memory>div{grid-template-columns:24px 90px 1fr}.diagram-memory>div code{grid-row:auto}
+ .diagram-cycle{gap:10px;font-size:.77rem;flex-wrap:wrap}.encoding-byte strong{font-size:1.8rem}
+ .hierarchy-map{grid-template-columns:1fr;gap:16px}.hierarchy-label{flex-direction:row;align-items:center;padding:0;font-size:.73rem;gap:10px}.hierarchy-label>span:nth-child(2){font-size:1rem}
+ .hierarchy-map li{margin-left:calc((3 - var(--tier)) * 10px);padding:14px 16px}
+ .figure-dialog-toolbar{padding:16px}.figure-dialog-toolbar h2{font-size:.9rem}.figure-dialog .figure-viewport{padding:18px}
+}

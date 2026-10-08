@@ -1,39 +1,121 @@
-/* 장마다 핵심 관계를 보여 주는 삽화. 시각적 비유이며 계산 결과가 아니다. */
-window.CompFigures={
-"home": {
-"svg": "<svg viewBox=\"0 0 640 150\" role=\"img\" aria-labelledby=\"path-title\"> <title id=\"path-title\">책 전체의 길: 스위치에서 비트, 게이트, 가산기, 메모리, CPU, 캐시로 올라간다</title> <g class=\"svg-text\" text-anchor=\"middle\"> <rect x=\"6\" y=\"50\" width=\"80\" height=\"44\" rx=\"8\" fill=\"#f6e6d2\" stroke=\"#a4560f\"/><text x=\"46\" y=\"77\">스위치</text> <rect x=\"96\" y=\"50\" width=\"80\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"136\" y=\"77\">비트·바이트</text> <rect x=\"186\" y=\"50\" width=\"80\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"226\" y=\"77\">게이트</text> <rect x=\"276\" y=\"50\" width=\"80\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"316\" y=\"77\">가산기</text> <rect x=\"366\" y=\"50\" width=\"80\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"406\" y=\"77\">메모리</text> <rect x=\"456\" y=\"50\" width=\"80\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"496\" y=\"77\">CPU</text> <rect x=\"546\" y=\"50\" width=\"88\" height=\"44\" rx=\"8\" fill=\"#dcefe6\" stroke=\"#1f7a5a\"/><text x=\"590\" y=\"77\">캐시</text> </g> <path class=\"wire on cw-flow\" d=\"M46 120 H590\"/> <text class=\"svg-small\" x=\"46\" y=\"140\">1장</text><text class=\"svg-small\" x=\"560\" y=\"140\">8장</text> <text class=\"svg-small\" x=\"320\" y=\"30\" text-anchor=\"middle\">각 장에서 만든 부품이 다음 장의 재료가 됩니다</text> </svg>",
-"caption": "이 그림은 책의 순서를 보여 줍니다. 왼쪽 부품을 여러 개 묶으면 오른쪽 부품이 됩니다."
-},
-"bits": {
-"svg": "<svg viewBox=\"0 0 600 140\" role=\"img\" aria-labelledby=\"bits-fig\"> <title id=\"bits-fig\">스위치 8개에 128, 64, 32, 16, 8, 4, 2, 1의 자리값이 붙어 있고, 2와 1 자리만 켜져 3을 나타낸다</title> <g class=\"svg-text\" text-anchor=\"middle\"> <g><rect x=\"10\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#fff\" stroke=\"#8a8f98\"/><text x=\"40\" y=\"66\">0</text><text class=\"svg-small\" x=\"40\" y=\"112\">128</text></g> <g><rect x=\"83\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#fff\" stroke=\"#8a8f98\"/><text x=\"113\" y=\"66\">0</text><text class=\"svg-small\" x=\"113\" y=\"112\">64</text></g> <g><rect x=\"156\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#fff\" stroke=\"#8a8f98\"/><text x=\"186\" y=\"66\">0</text><text class=\"svg-small\" x=\"186\" y=\"112\">32</text></g> <g><rect x=\"229\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#fff\" stroke=\"#8a8f98\"/><text x=\"259\" y=\"66\">0</text><text class=\"svg-small\" x=\"259\" y=\"112\">16</text></g> <g><rect x=\"302\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#fff\" stroke=\"#8a8f98\"/><text x=\"332\" y=\"66\">0</text><text class=\"svg-small\" x=\"332\" y=\"112\">8</text></g> <g><rect x=\"375\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#fff\" stroke=\"#8a8f98\"/><text x=\"405\" y=\"66\">0</text><text class=\"svg-small\" x=\"405\" y=\"112\">4</text></g> <g><rect x=\"448\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1f7a5a\"/><text x=\"478\" y=\"66\" fill=\"#fff\">1</text><text class=\"svg-small\" x=\"478\" y=\"112\">2</text></g> <g><rect x=\"521\" y=\"30\" width=\"60\" height=\"60\" rx=\"8\" fill=\"#1f7a5a\"/><text x=\"551\" y=\"66\" fill=\"#fff\">1</text><text class=\"svg-small\" x=\"551\" y=\"112\">1</text></g> </g> <text class=\"svg-small\" x=\"300\" y=\"16\" text-anchor=\"middle\">00000011 = 2 + 1 = 3</text> </svg>",
-"caption": "이 그림은 3이 스위치 8개에 저장된 모습입니다. 켜진 자리의 값(2와 1)을 더하면 3이 됩니다."
-},
-"encoding": {
-"svg": "<svg viewBox=\"0 0 600 170\" role=\"img\" aria-labelledby=\"enc-fig\"> <title id=\"enc-fig\">한 바이트 01000001이 네 가지 해석으로 갈라진다: 정수 65, 부호 있는 정수 65, 글자 A, 회색 25퍼센트 밝기</title> <rect x=\"220\" y=\"10\" width=\"160\" height=\"40\" rx=\"8\" fill=\"#f6e6d2\" stroke=\"#a4560f\"/><text class=\"svg-text\" x=\"300\" y=\"36\" text-anchor=\"middle\">01000001</text> <g stroke=\"#1d2430\" fill=\"none\"><path d=\"M300 50 L75 110\"/><path d=\"M300 50 L225 110\"/><path d=\"M300 50 L375 110\"/><path d=\"M300 50 L525 110\"/></g> <g class=\"svg-text\" text-anchor=\"middle\"> <rect x=\"20\" y=\"110\" width=\"110\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"75\" y=\"137\">정수 65</text> <rect x=\"170\" y=\"110\" width=\"110\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"225\" y=\"137\">부호 있는 65</text> <rect x=\"320\" y=\"110\" width=\"110\" height=\"44\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"375\" y=\"137\">글자 “A”</text> <rect x=\"470\" y=\"110\" width=\"110\" height=\"44\" rx=\"8\" fill=\"rgb(65,65,65)\"/><text x=\"525\" y=\"137\" fill=\"#fff\">밝기 25%</text> </g> </svg>",
-"caption": "이 그림은 한 바이트가 어떤 약속으로 읽느냐에 따라 네 가지 다른 값이 되는 모습을 보여 줍니다."
-},
-"gates": {
-"svg": "<svg viewBox=\"0 0 600 170\" role=\"img\" aria-labelledby=\"gate-fig\"> <title id=\"gate-fig\">직렬 스위치는 AND, 병렬 스위치는 OR처럼 동작한다. 전류가 흐르는 길이 움직이는 점선으로 표시된다</title> <text class=\"svg-text\" x=\"20\" y=\"24\">직렬 연결 = AND</text> <path class=\"wire on cw-flow\" d=\"M20 70 H80\"/><rect x=\"80\" y=\"55\" width=\"50\" height=\"30\" rx=\"4\" fill=\"#dcefe6\" stroke=\"#1f7a5a\"/><text class=\"svg-small\" x=\"105\" y=\"75\" text-anchor=\"middle\">A=1</text> <path class=\"wire on cw-flow\" d=\"M130 70 H160\"/><rect x=\"160\" y=\"55\" width=\"50\" height=\"30\" rx=\"4\" fill=\"#dcefe6\" stroke=\"#1f7a5a\"/><text class=\"svg-small\" x=\"185\" y=\"75\" text-anchor=\"middle\">B=1</text> <path class=\"wire on cw-flow\" d=\"M210 70 H250\"/><circle cx=\"262\" cy=\"70\" r=\"12\" fill=\"#f4c542\" stroke=\"#1d2430\"/> <text class=\"svg-small\" x=\"20\" y=\"110\">A와 B가 모두 1일 때만 전구가 켜집니다</text> <text class=\"svg-text\" x=\"330\" y=\"24\">병렬 연결 = OR</text> <path class=\"wire on cw-flow\" d=\"M330 70 H370 V50 H400\"/><path class=\"wire\" d=\"M370 70 V100 H400\"/> <rect x=\"400\" y=\"35\" width=\"50\" height=\"30\" rx=\"4\" fill=\"#dcefe6\" stroke=\"#1f7a5a\"/><text class=\"svg-small\" x=\"425\" y=\"55\" text-anchor=\"middle\">A=1</text> <rect x=\"400\" y=\"85\" width=\"50\" height=\"30\" rx=\"4\" fill=\"#fff\" stroke=\"#8a8f98\"/><text class=\"svg-small\" x=\"425\" y=\"105\" text-anchor=\"middle\">B=0</text> <path class=\"wire on cw-flow\" d=\"M450 50 H480 V70 H520\"/><path class=\"wire\" d=\"M450 100 H480 V70\"/><circle cx=\"532\" cy=\"70\" r=\"12\" fill=\"#f4c542\" stroke=\"#1d2430\"/> <text class=\"svg-small\" x=\"330\" y=\"140\">둘 중 하나만 1이어도 전구가 켜집니다</text> </svg>",
-"caption": "이 그림은 스위치를 잇는 방식만 바꿔도 AND와 OR라는 서로 다른 판단이 생기는 모습을 보여 줍니다. 움직이는 점선이 전류가 흐르는 길입니다."
-},
-"adder": {
-"svg": "<svg viewBox=\"0 0 600 180\" role=\"img\" aria-labelledby=\"fa-fig\"> <title id=\"fa-fig\">전가산기 내부: A와 B가 첫 XOR로, 그 결과와 들어온 자리올림이 둘째 XOR로 가서 합이 된다. 두 AND의 결과를 OR로 묶어 나가는 자리올림을 만든다</title> <g class=\"svg-text\" text-anchor=\"middle\"> <text x=\"30\" y=\"40\">A</text><text x=\"30\" y=\"80\">B</text><text x=\"30\" y=\"150\">C in</text> <rect x=\"90\" y=\"35\" width=\"70\" height=\"40\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"125\" y=\"60\">XOR</text> <rect x=\"250\" y=\"70\" width=\"70\" height=\"40\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"285\" y=\"95\">XOR</text> <rect x=\"250\" y=\"125\" width=\"70\" height=\"40\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"285\" y=\"150\">AND</text> <rect x=\"90\" y=\"100\" width=\"70\" height=\"40\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"125\" y=\"125\">AND</text> <rect x=\"410\" y=\"110\" width=\"70\" height=\"40\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"445\" y=\"135\">OR</text> <text x=\"560\" y=\"95\">합</text><text x=\"560\" y=\"135\">C out</text> </g> <g class=\"wire\"><path d=\"M45 36 H90\"/><path d=\"M45 76 H70 V50 H90\"/><path d=\"M60 36 V115 H90\"/><path d=\"M70 76 V125 H90\"/> <path d=\"M160 55 H200 V85 H250\"/><path d=\"M200 85 V135 H250\"/><path d=\"M60 146 H230 V100 H250\"/><path d=\"M230 146 V155 H250\"/> <path d=\"M320 90 H540\"/><path d=\"M320 145 H380 V140 H410\"/><path d=\"M160 120 H200 V170 H390 V122 H410\"/><path d=\"M480 130 H520\"/></g> </svg>",
-"caption": "이 그림은 전가산기 하나가 게이트 다섯 개로 이루어져 있음을 보여 줍니다. 합은 XOR 두 번, 자리올림은 AND 두 개를 OR로 묶어 만듭니다."
-},
-"memory": {
-"svg": "<svg viewBox=\"0 0 600 190\" role=\"img\" aria-labelledby=\"clk-fig\"> <title id=\"clk-fig\">시간에 따른 클럭, 입력 D, 저장값 Q. D는 아무 때나 바뀌지만 Q는 클럭이 올라가는 순간에만 D를 따라 바뀐다</title> <text class=\"svg-small\" x=\"8\" y=\"40\">클럭</text><text class=\"svg-small\" x=\"8\" y=\"100\">입력 D</text><text class=\"svg-small\" x=\"8\" y=\"160\">저장값 Q</text> <path class=\"wire on\" d=\"M70 50 H130 V20 H190 V50 H250 V20 H310 V50 H370 V20 H430 V50 H490 V20 H550 V50 H590\"/> <path class=\"wire on\" d=\"M70 110 H160 V80 H340 V110 H400 V80 H460 V110 H590\"/> <path class=\"wire on\" d=\"M70 170 H190 V140 H370 V170 H590\"/> <g stroke=\"#a4560f\" stroke-dasharray=\"3 4\"><path d=\"M130 10 V180\"/><path d=\"M250 10 V180\"/><path d=\"M370 10 V180\"/><path d=\"M490 10 V180\"/></g> <text class=\"svg-small\" x=\"400\" y=\"132\">D가 잠깐 1이 되어도</text><text class=\"svg-small\" x=\"400\" y=\"146\">클럭 순간이 아니면 무시</text> </svg>",
-"caption": "이 그림은 저장값 Q가 클럭이 올라가는 순간(점선)에만 입력 D를 따라 바뀐다는 것을 보여 줍니다. 그 사이에 D가 바뀌어도 Q는 흔들리지 않습니다."
-},
-"cpu": {
-"svg": "<svg viewBox=\"0 0 600 240\" role=\"img\" aria-labelledby=\"cpu-fig\"> <title id=\"cpu-fig\">CPU와 메모리가 버스로 연결된 구조. CPU 안에 PC, IR, ACC, 덧셈기가 있고, 가져오기·해독·실행 세 단계가 원을 그리며 반복된다</title> <rect x=\"20\" y=\"30\" width=\"150\" height=\"190\" rx=\"10\" fill=\"#fff\" stroke=\"#1d2430\"/><text class=\"svg-text\" x=\"95\" y=\"55\" text-anchor=\"middle\">메모리</text> <g class=\"svg-small\"><text x=\"35\" y=\"85\">0: LDA 14</text><text x=\"35\" y=\"105\">1: ADD 15</text><text x=\"35\" y=\"125\">2: OUT</text><text x=\"35\" y=\"145\">3: HLT</text><text x=\"35\" y=\"185\">14: 3</text><text x=\"35\" y=\"205\">15: 4</text></g> <path class=\"wire on cw-flow\" d=\"M170 120 H240\"/><text class=\"svg-small\" x=\"180\" y=\"110\">버스</text> <circle cx=\"300\" cy=\"120\" r=\"56\" fill=\"none\" stroke=\"#ddd4c3\" stroke-width=\"2\"/> <g class=\"cw-orbit\"><circle cx=\"300\" cy=\"64\" r=\"8\" fill=\"#a4560f\"/></g> <g class=\"svg-small\" text-anchor=\"middle\"><text x=\"300\" y=\"56\">가져오기</text><text x=\"372\" y=\"160\">해독</text><text x=\"228\" y=\"160\">실행</text></g> <rect x=\"420\" y=\"30\" width=\"160\" height=\"190\" rx=\"10\" fill=\"#fff\" stroke=\"#1d2430\"/><text class=\"svg-text\" x=\"500\" y=\"55\" text-anchor=\"middle\">CPU 안쪽</text> <g class=\"svg-small\"><text x=\"435\" y=\"85\">PC: 다음 주소</text><text x=\"435\" y=\"110\">IR: 지금 명령</text><text x=\"435\" y=\"135\">ACC: 계산 칸</text><text x=\"435\" y=\"160\">Z·C: 깃발</text><text x=\"435\" y=\"185\">덧셈기(4장)</text></g> <path class=\"wire\" d=\"M356 120 H420\"/> </svg>",
-"caption": "이 그림은 CPU가 메모리에서 명령을 가져와 해독하고 실행하는 세 단계를 끝없이 반복하는 구조를 보여 줍니다. 움직이는 점이 지금 진행 중인 단계입니다."
-},
-"programs": {
-"svg": "<svg viewBox=\"0 0 600 220\" role=\"img\" aria-labelledby=\"loop-fig\"> <title id=\"loop-fig\">3 곱하기 4 프로그램의 흐름도. 남은 횟수가 0인지 묻고, 아니면 횟수를 1 줄이고 결과에 3을 더한 뒤 처음으로 돌아간다. 0이면 결과를 출력하고 멈춘다</title> <g class=\"svg-text\" text-anchor=\"middle\"> <rect x=\"200\" y=\"10\" width=\"200\" height=\"36\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"300\" y=\"33\">남은 횟수 가져오기</text> <path d=\"M300 60 L380 90 L300 120 L220 90 Z\" fill=\"#f6e6d2\" stroke=\"#a4560f\"/><text x=\"300\" y=\"95\">0인가?</text> <rect x=\"200\" y=\"140\" width=\"200\" height=\"36\" rx=\"8\" fill=\"#fff\" stroke=\"#1d2430\"/><text x=\"300\" y=\"163\">횟수 −1, 결과 +3</text> <rect x=\"440\" y=\"72\" width=\"140\" height=\"36\" rx=\"8\" fill=\"#dcefe6\" stroke=\"#1f7a5a\"/><text x=\"510\" y=\"95\">결과 출력·멈춤</text> </g> <g class=\"wire\"><path d=\"M300 46 V60\"/><path d=\"M300 120 V140\"/><path d=\"M380 90 H440\"/><path class=\"on cw-flow\" d=\"M200 158 H120 V28 H200\"/></g> <g class=\"svg-small\"><text x=\"390\" y=\"82\">예(JZ)</text><text x=\"306\" y=\"134\">아니오</text><text x=\"70\" y=\"96\">JMP 0</text></g> </svg>",
-"caption": "이 그림은 반복이 “조건을 확인하고, 아니면 처음으로 되돌아가는” 구조라는 것을 보여 줍니다. 움직이는 점선이 PC가 되돌아가는 길입니다."
-},
-"cache": {
-"svg": "<svg viewBox=\"0 0 600 200\" role=\"img\" aria-labelledby=\"hier-fig\"> <title id=\"hier-fig\">기억 장치의 층: 위로 갈수록 작고 빠르며 비싸고, 아래로 갈수록 크고 느리며 싸다. 레지스터, 캐시, 메인 메모리, 저장 장치 순서</title> <path d=\"M300 10 L360 50 H240 Z\" fill=\"#1d2430\"/><text class=\"svg-small\" x=\"300\" y=\"44\" text-anchor=\"middle\" fill=\"#fff\" style=\"fill:#fff\">레지스터</text> <path d=\"M240 54 H360 L420 94 H180 Z\" fill=\"#a4560f\"/><text class=\"svg-small\" x=\"300\" y=\"80\" text-anchor=\"middle\" style=\"fill:#fff\">캐시</text> <path d=\"M180 98 H420 L480 138 H120 Z\" fill=\"#f6e6d2\" stroke=\"#a4560f\"/><text class=\"svg-small\" x=\"300\" y=\"124\" text-anchor=\"middle\">메인 메모리(RAM)</text> <path d=\"M120 142 H480 L540 182 H60 Z\" fill=\"#fff\" stroke=\"#1d2430\"/><text class=\"svg-small\" x=\"300\" y=\"168\" text-anchor=\"middle\">저장 장치(SSD 등)</text> <g class=\"svg-small\"><text x=\"440\" y=\"30\">작고 빠름</text><text x=\"490\" y=\"196\">크고 느림</text></g> <path class=\"wire\" d=\"M560 20 V180\"/><path d=\"M554 172 L560 184 L566 172 Z\" fill=\"#8a8f98\"/> </svg>",
-"caption": "이 그림은 기억 장치가 속도와 크기를 맞바꾸며 층을 이룬다는 것을 보여 줍니다. 층 사이의 정확한 속도 차이는 기기마다 다르므로 그림에 수치를 넣지 않았습니다."
-}
-};
+/* 정확한 관계를 보여 주는 개념도. CSS 변수로 밝은/어두운 화면을 함께 지원한다. */
+window.CompFigures = (() => {
+  'use strict';
+  const text = (x, y, value, cls = '', anchor = 'start') =>
+    `<text x="${x}" y="${y}" class="${cls}" text-anchor="${anchor}">${value}</text>`;
+  const line = (d, cls = '', arrow = false) =>
+    `<path d="${d}" class="diagram-line ${cls}"${arrow ? ' marker-end="url(#arrow-diagram)"' : ''}/>`;
+  const box = (x, y, w, h, title, sub = '', cls = '') =>
+    `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" class="diagram-node ${cls}"/>`
+    + text(x + w / 2, y + (sub ? h / 2 - 2 : h / 2 + 5), title, 'node-title', 'middle')
+    + (sub ? text(x + w / 2, y + h / 2 + 22, sub, 'diagram-small', 'middle') : '');
+  const svg = (key, label, height, content) => `<svg class="technical-diagram" viewBox="0 0 760 ${height}" role="img" aria-labelledby="diagram-${key}">
+    <title id="diagram-${key}">${label}</title><defs><marker id="arrow-diagram" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" class="arrow-head"/></marker></defs>${content}</svg>`;
+  const cell = (label, value, note = '') => `<div class="diagram-cell"><span>${label}</span><strong>${value}</strong>${note ? `<small>${note}</small>` : ''}</div>`;
+
+  function bits() {
+    const values = [128, 64, 32, 16, 8, 4, 2, 1];
+    return `<div class="bit-explanation"><div class="diagram-bit-grid">${values.map((v) => `<div class="diagram-bit ${v <= 2 ? 'is-on' : ''}"><span>${v}</span><b>${v <= 2 ? 1 : 0}</b><small>${v <= 2 ? '켜짐' : '꺼짐'}</small></div>`).join('')}</div>
+      <div class="diagram-equation"><span>켜진 자리만 더하기</span><strong>2 + 1 = 3</strong></div></div>`;
+  }
+
+  function encoding() {
+    return `<div class="encoding-map"><div class="encoding-byte"><span>같은 8개 비트</span><strong>01000001</strong><small>비트는 그대로, 읽는 규칙은 네 가지</small></div><div class="encoding-results">${cell('부호 없는 정수','65')}${cell('부호 있는 정수','+65','2의 보수')}${cell('ASCII 글자','A')}${cell('회색 밝기','25%','65 ÷ 255 ≈ 0.255')}</div></div>`;
+  }
+
+  function gates() {
+    return svg('gates', 'AND는 직렬 경로의 두 스위치가 모두 닫혀야 1, OR는 병렬 경로 중 하나가 닫혀도 1입니다.', 310,
+      text(34, 36, 'AND · 두 조건을 모두 만족', 'diagram-heading')
+      + text(410, 36, 'OR · 한 조건만 만족해도', 'diagram-heading')
+      + line('M34 132 H84 M166 132 H210 M292 132 H340', 'signal')
+      + box(84, 104, 82, 56, 'A = 1', '', 'active') + box(210, 104, 82, 56, 'B = 1', '', 'active')
+      + `<circle cx="352" cy="132" r="11" class="signal-dot"/>`
+      + text(34, 207, '1 AND 1 = 1', 'diagram-math') + text(34, 244, '어느 하나라도 열리면 경로가 끊깁니다.', 'diagram-small')
+      + line('M410 132 H448 V88 H490 M572 88 H624 V132 H696', 'signal')
+      + line('M448 132 V172 H490 M572 172 H624 V132', 'muted-line')
+      + box(490, 60, 82, 56, 'A = 1', '', 'active') + box(490, 144, 82, 56, 'B = 0')
+      + `<circle cx="708" cy="132" r="11" class="signal-dot"/>`
+      + text(410, 244, '1 OR 0 = 1', 'diagram-math') + text(410, 279, '위쪽 경로 하나로 출력에 도달합니다.', 'diagram-small'));
+  }
+
+  function adder() {
+    const wires = line('M56 74 H155 M56 126 H112 V98 H155')
+      + line('M88 74 V202 H155 M112 126 V226 H155')
+      + line('M245 86 H292 V104 H350 M292 104 V204 H350')
+      + line('M56 292 H318 V130 H350 M318 224 H350')
+      + line('M245 214 H274 V266 H498 V204 H548')
+      + line('M440 216 H548 M440 116 H695', 'signal', true)
+      + line('M638 214 H695', 'carry', true);
+    const nodes = box(155, 60, 90, 52, 'XOR') + box(155, 188, 90, 52, 'AND')
+      + box(350, 90, 90, 52, 'XOR', '', 'active') + box(350, 190, 90, 52, 'AND')
+      + box(548, 188, 90, 52, 'OR', '', 'carry-node');
+    const junctions = [[88,74],[112,126],[292,104],[318,224]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="3.5" class="junction"/>`).join('');
+    return svg('adder', 'A와 B의 XOR를 Cin과 다시 XOR하여 합을 만듭니다. A AND B와 Cin AND (A XOR B)를 OR하여 Cout을 만듭니다.', 356,
+      text(30, 32, '전가산기 한 개 · 합과 자리올림은 서로 다른 출력', 'diagram-heading')
+      + wires + nodes + junctions + text(30,80,'A') + text(30,132,'B') + text(16,298,'C in')
+      + text(694,98,'합 S','diagram-label','end') + text(696,250,'C out','diagram-label','end')
+      + text(30,334,'● 연결점이 있는 교차만 연결됩니다. 화살표는 출력 방향입니다.','diagram-small'));
+  }
+
+  // 시각 자료의 시간축 데이터. Q는 t=3에서 1, t=5에서 0이 된다.
+  const timing = {
+    clock: [[0,0],[1,1],[2,0],[3,1],[4,0],[5,1],[6,0],[7,1],[8,0]],
+    input: [[0,0],[1.5,1],[4.5,0],[5.5,1],[6.5,0]],
+    stored: [[0,0],[3,1],[5,0]],
+    edges: [1,3,5,7]
+  };
+  function wave(points, y) {
+    const x = (t) => 126 + t * 68;
+    let d = `M${x(0)} ${y - points[0][1] * 30}`;
+    points.slice(1).forEach(([t,v]) => { d += ` H${x(t)} V${y - v * 30}`; });
+    return d + ` H${x(8.5)}`;
+  }
+  function memory() {
+    const edges = timing.edges.map((t) => line(`M${126+t*68} 54 V255`, 'edge-line')
+      + text(126+t*68, 282, `t${t}`, 'diagram-small', 'middle')).join('');
+    return svg('memory', '입력 D는 t1.5에서 1, t4.5에서 0. 저장값 Q는 상승 에지 t3에서 1, t5에서 0으로 바뀝니다. t5.5부터 t6.5까지의 짧은 입력은 저장되지 않습니다.', 330,
+      text(28,30,'클럭 상승 에지에서만 입력을 저장','diagram-heading') + edges
+      + text(28,93,'클럭') + text(28,164,'입력 D') + text(28,235,'저장 Q')
+      + line(wave(timing.clock,106)) + line(wave(timing.input,177),'carry') + line(wave(timing.stored,248),'signal')
+      + text(126,314,'점선 = 클럭 상승 에지 · 쓰기 허용이 켜진 경우 · 초기 Q = 0','diagram-small'));
+  }
+
+  function cpu() {
+    return `<div class="cpu-map"><div class="diagram-memory"><h4>메모리</h4><div><code>00</code><b>LDA 14</b><span>3을 가져오기</span></div><div><code>01</code><b>ADD 15</b><span>4를 더하기</span></div><div><code>02</code><b>OUT</b><span>7을 출력</span></div><div><code>03</code><b>HLT</b><span>멈추기</span></div><p><code>14: 3</code><code>15: 4</code></p></div>
+      <div class="diagram-bus"><span>주소 ←</span><b>버스</b><span>← 명령·데이터 →</span></div>
+      <div class="diagram-cpu"><h4>CPU</h4><dl><div><dt>PC</dt><dd>다음 명령의 주소</dd></div><div><dt>IR</dt><dd>지금 실행할 명령</dd></div><div><dt>ACC</dt><dd>계산 중인 값</dd></div><div><dt>ALU</dt><dd>덧셈·연산 회로</dd></div><div><dt>Z · C</dt><dd>0 여부 · 자리넘침</dd></div></dl></div>
+      <div class="diagram-cycle"><b>가져오기</b><span>→</span><b>해독</b><span>→</span><b>실행</b><span>↺</span></div></div>`;
+  }
+
+  function programs() {
+    return svg('programs', '남은 횟수를 가져오고 0이면 출력 후 멈춥니다. 아니면 횟수에서 1을 빼고 결과에 3을 더한 뒤 JMP 0으로 돌아갑니다.', 366,
+      box(190,25,250,60,'남은 횟수 가져오기','LDA')
+      + line('M315 85 V119','',true)
+      + `<path d="M315 120 L400 168 L315 216 L230 168 Z" class="decision-node"/>`
+      + text(315,174,'0인가?','node-title','middle')
+      + line('M400 168 H516','signal',true) + text(456,153,'예 · JZ','diagram-small','middle')
+      + box(518,138,206,60,'결과 출력 · 멈춤','OUT → HLT','','')
+      + line('M315 216 V263','',true) + text(334,242,'아니오','diagram-small')
+      + box(190,265,250,60,'횟수 −1, 결과 +3')
+      + line('M190 295 H108 V55 H188','carry',true) + text(70,183,'JMP 0','diagram-small','middle')
+      + text(190,354,'점프는 다음에 읽을 명령의 주소(PC)를 바꿉니다.','diagram-small'));
+  }
+
+  function cache() {
+    const tiers = [['레지스터','CPU가 지금 계산하는 값'],['캐시','곧 다시 쓸 데이터의 복사본'],['메인 메모리 · RAM','실행 중인 프로그램과 데이터'],['저장 장치 · SSD','전원이 꺼져도 보관할 데이터']];
+    return `<div class="hierarchy-map"><div class="hierarchy-label"><span>작은 용량 · 빠른 접근</span><span>↓</span><span>큰 용량 · 느린 접근</span></div><ol>${tiers.map(([title,desc],i)=>`<li style="--tier:${i}"><b>${title}</b><span>${desc}</span></li>`).join('')}</ol></div>`;
+  }
+
+  const figure = (title, html, caption, scroll = false) => ({title, html, caption, scroll});
+  return {
+    home: figure('3 + 4가 7이 되는 여정', `<div class="journey-map">${cell('01 · 표현','0011 + 0100','3과 4를 비트로 저장')}${cell('02 · 회로','0111','게이트를 연결해 더하기')}${cell('03 · 실행','7','CPU가 명령을 실행해 출력')}</div>`, '비트의 표현, 회로의 계산, CPU의 실행을 차례로 배웁니다. 각 층은 앞에서 만든 개념을 사용합니다.'),
+    bits: figure('자리값이 모여 하나의 수가 됩니다', bits(), '8개 비트 중 2와 1의 자리만 켜져 있습니다. 00000011₂ = 3₁₀입니다.'),
+    encoding: figure('비트가 아니라 해석의 약속이 달라집니다', encoding(), '01000001은 정수로는 65, ASCII로는 A입니다. 회색 밝기는 0~255를 검정~흰색에 대응한 예입니다.'),
+    gates: figure('연결 방식으로 만드는 두 가지 판단', gates(), '닫힌 스위치를 1로 나타낸 개념도입니다. AND는 모든 경로 조건을, OR는 적어도 하나의 경로를 요구합니다.', true),
+    adder: figure('게이트 다섯 개로 만드는 전가산기', adder(), 'S = A XOR B XOR Cin. Cout = (A AND B) OR (Cin AND (A XOR B)). 두 출력은 합의 낮은 자리와 다음 자리로 넘길 값을 맡습니다.', true),
+    memory: {...figure('입력은 바뀌어도 기억은 유지됩니다', memory(), 'Q는 t3에서 1, t5에서 0이 됩니다. t5.5~t6.5의 짧은 입력 변화는 상승 에지를 만나지 않아 Q에 저장되지 않습니다.', true), timing},
+    cpu: figure('명령을 읽고 실행하는 작은 컴퓨터', cpu(), '메모리에는 명령과 데이터가 함께 있습니다. CPU는 가져오기 → 해독 → 실행을 반복하고 HLT에서 멈춥니다. 이 그림은 고정된 구조 설명입니다.'),
+    programs: figure('반복은 다음 명령의 주소를 되돌리는 일입니다', programs(), '0이면 출력을 마치고 멈추고, 0이 아니면 결과에 3을 더한 뒤 처음으로 돌아갑니다. 화살표는 명령 실행 순서입니다.', true),
+    cache: figure('빠른 기억은 가까이, 큰 기억은 아래에', cache(), '일반적인 메모리 계층의 상대적인 경향입니다. 막대 길이는 실제 용량이나 지연 시간의 비율을 뜻하지 않습니다.')
+  };
+})();

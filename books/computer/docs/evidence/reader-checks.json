@@ -1,0 +1,1357 @@
+{
+  "results": [
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 13
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.539473684210526
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    }
+  ],
+  "errors": [],
+  "failures": [],
+  "interactionChecks": "passed"
+}
