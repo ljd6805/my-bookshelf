@@ -44,13 +44,15 @@ class IntegrityChecks(unittest.TestCase):
             (root / 'index.html').write_text('<section id="books"></section>')
             (root / 'books/demo').mkdir(parents=True)
             page = root / 'books/demo/index.html'
-            good = '<header><a data-shelf-return href="../../index.html#books">서가로</a></header>'
+            good = '<header><a class="brand shelf-return" data-shelf-return href="../../index.html#books">서가로</a></header>'
             page.write_text(good)
             self.assertEqual(validate_shelf_return(root), [])
-            for bad in ['<header></header><a data-shelf-return href="../../index.html#books">x</a>',
-                        '<header><a href="../../index.html#books">x</a></header>',
-                        '<header><a data-shelf-return href="../index.html#books">x</a></header>',
-                        '<header><a data-shelf-return href="../../index.html">x</a></header>']:
+            ok = 'class="shelf-return" data-shelf-return'
+            for bad in [f'<header></header><a {ok} href="../../index.html#books">x</a>',
+                        '<header><a data-shelf-return href="../../index.html#books">x</a></header>',
+                        '<header><a class="shelf-return" href="../../index.html#books">x</a></header>',
+                        f'<header><a {ok} href="../index.html#books">x</a></header>',
+                        f'<header><a {ok} href="../../index.html">x</a></header>']:
                 with self.subTest(bad=bad):
                     page.write_text(bad)
                     self.assertEqual(len(validate_shelf_return(root)), 1)

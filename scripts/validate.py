@@ -61,7 +61,7 @@ class ShelfReturn(HTMLParser):
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         self.depth += tag == 'header'
-        if tag == 'a' and 'data-shelf-return' in a:
+        if tag == 'a' and 'data-shelf-return' in a and 'shelf-return' in (a.get('class') or '').split():
             self.links.append((a.get('href', ''), self.depth > 0))
 
     def handle_endtag(self, tag):
@@ -78,8 +78,8 @@ def validate_shelf_return(root):
             target = (page.parent / unquote(u.path)).resolve()
             ok |= in_header and not u.scheme and target == home and u.fragment == 'books'
         if not ok:
-            errors.append(f'{page.relative_to(root)}: needs <a data-shelf-return '
-                          'href="../../index.html#books"> inside <header>')
+            errors.append(f'{page.relative_to(root)}: needs <a class="shelf-return" '
+                          'data-shelf-return href="../../index.html#books"> inside <header>')
     return errors
 
 
