@@ -1,0 +1,111 @@
+{
+ "book": {
+  "id": "aie-03-ml",
+  "title": "머신러닝 기초 · 데이터에서 믿을 만한 예측까지",
+  "short_title": "머신러닝 기초",
+  "spine_title": "머신러닝",
+  "spine_category": "AI공학",
+  "description": "가상의 작은 온라인 서점 결제 기록으로 사기 경보 모델을 직접 만들며 로지스틱 회귀, 결정트리, kNN·SVM, 군집, 나이브 베이즈를 조작합니다. 12장 16개 실험으로 문턱과 지표, 편향과 분산, 누설, 불균형, 분포 이동까지 숫자로 확인합니다.",
+  "illustration_caption": "정상 결제(원)와 사기 결제(사각형) 사이에서 경보 문턱 선이 오가며 잡는 사기와 오경보가 함께 바뀌는 모습을 보여 주는 비유 그림입니다.",
+  "keywords": [
+   "머신러닝",
+   "로지스틱 회귀",
+   "결정트리",
+   "kNN",
+   "SVM",
+   "k-평균",
+   "나이브 베이즈",
+   "혼동 행렬",
+   "ROC",
+   "편향-분산",
+   "앙상블",
+   "데이터 누설",
+   "불균형",
+   "이상 탐지",
+   "분포 이동",
+   "machine learning"
+  ],
+  "chapters_featured": [
+   "#lines",
+   "#trees",
+   "#metrics",
+   "#pipeline",
+   "#final"
+  ],
+  "cover_meta": "12장 · 16개 실험"
+ },
+ "chapter_index": {
+  "books/aie-ml/#framing": "01 · 규칙 대신 데이터로 경보 만들기",
+  "books/aie-ml/#lines": "02 · 점수를 확률로 바꾸는 선",
+  "books/aie-ml/#trees": "03 · 질문을 쌓아 나누기",
+  "books/aie-ml/#neighbors": "04 · 가까운 이웃과 가장 넓은 길",
+  "books/aie-ml/#clusters": "05 · 정답 없이 무리 찾기",
+  "books/aie-ml/#bayes": "06 · 단어를 세어 사기 문의 가리기",
+  "books/aie-ml/#features": "07 · 원재료를 특성으로 다듬기",
+  "books/aie-ml/#metrics": "08 · 정확도 97%의 함정",
+  "books/aie-ml/#tradeoff": "09 · 단순함과 예민함 사이",
+  "books/aie-ml/#pipeline": "10 · 검증을 속이지 않는 공정",
+  "books/aie-ml/#rare": "11 · 드문 사건을 놓치지 않기",
+  "books/aie-ml/#final": "마지막 · 새 결제 수단이 들어온 날"
+ },
+ "concepts": [
+  {
+   "id": "loss-likelihood",
+   "new": false,
+   "chapters": [
+    "books/aie-ml/#lines"
+   ]
+  },
+  {
+   "id": "base-rate-threshold",
+   "new": false,
+   "chapters": [
+    "books/aie-ml/#metrics",
+    "books/aie-ml/#rare"
+   ]
+  },
+  {
+   "id": "evaluation-uncertainty",
+   "new": false,
+   "chapters": [
+    "books/aie-ml/#pipeline",
+    "books/aie-ml/#final"
+   ]
+  },
+  {
+   "id": "variance",
+   "new": false,
+   "chapters": [
+    "books/aie-ml/#tradeoff"
+   ]
+  },
+  {
+   "id": "vector-space",
+   "new": false,
+   "chapters": [
+    "books/aie-ml/#neighbors"
+   ]
+  }
+ ],
+ "series_step": {
+  "url": "books/aie-ml/#metrics",
+  "task": "문턱 실험에서 0.3, 0.5, 0.7을 차례로 눌러 잡은 사기·오경보·놓친 사기를 적고, 재현율 90% 이상을 지키는 가장 높은 문턱을 찾습니다.",
+  "minutes": 15,
+  "why": "02권의 확률과 손실이 실제 모델의 판정으로 바뀌는 곳입니다. 정확도 하나로 모델을 믿으면 안 되는 이유를 여기서 확인하고 다음 권으로 넘어갑니다.",
+  "record": "문턱별 혼동 행렬 세 개와 고른 문턱, 그 문턱을 고른 비용 근거 한 문장"
+ },
+ "incoming": [
+  {
+   "from": "books/probability/#bayes",
+   "label": "머신러닝 기초 · 단어를 세어 사기 문의 가리기",
+   "url": "../aie-ml/#bayes",
+   "why": "베이즈 정리를 단어 수십 개에 한꺼번에 적용하면 나이브 베이즈 분류기가 됩니다. 처음 보는 단어 하나가 판정을 뒤집는 문제와 평활을 직접 조작해 봅니다."
+  },
+  {
+   "from": "books/ai/#generalization",
+   "label": "머신러닝 기초 · 단순함과 예민함 사이",
+   "url": "../aie-ml/#tradeoff",
+   "why": "외우는 것과 배우는 것의 차이를 편향²과 분산으로 쪼개 숫자로 계산하고, 앙상블이 왜 상관이 낮은 모델끼리 묶일 때만 강해지는지 확인합니다."
+  }
+ ]
+}

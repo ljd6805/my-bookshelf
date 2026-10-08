@@ -1,0 +1,24 @@
+{"book":{"id":"aie-05-vision","title":"컴퓨터 비전 · 픽셀에서 장면 이해까지","short_title":"컴퓨터 비전","spine_title":"컴퓨터 비전","spine_category":"AI공학","description":"역 앞 공공자전거 대여소 카메라 한 대를 따라가며 픽셀 전처리, 합성곱과 ViT 백본, 분류, 검출과 NMS, 분할 지표, 추적, 자기지도·CLIP, OCR, 깊이와 3D, 확산 생성, 엣지 지연 예산을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 phases/04-computer-vision의 레슨 28개를 모두 재구성했습니다.","illustration_caption":"대여소 카메라 화면에서 자전거마다 겹쳐 뜬 후보 상자 중 NMS가 중복을 지워 하나만 남기는 과정을 보여 주는 시각적 비유입니다(좌표는 예시).","keywords":["컴퓨터 비전","합성곱","CNN","ResNet","ViT","전이 학습","객체 검출","YOLO","IoU","NMS","분할","U-Net","Dice","추적","칼만 필터","CLIP","자기지도 학습","OCR","깊이 추정","NeRF","가우시안 스플래팅","확산 모델","CFG","정류 흐름","엣지 배포","computer vision","object detection"],"chapters_featured":["#pixels","#detect","#segment","#selfsup","#capstone"],"cover_meta":"12장 · 16개 실험"},
+ "chapter_index":{
+  "books/aie-vision/#pixels":"01 · 카메라가 넘겨준 숫자 배열",
+  "books/aie-vision/#backbone":"02 · 깊이 쌓아도 배우는 백본",
+  "books/aie-vision/#classify":"03 · 적은 사진으로 분류기 만들기",
+  "books/aie-vision/#detect":"04 · 장면 속 자전거를 상자로 찾기",
+  "books/aie-vision/#segment":"05 · 자전거 윤곽을 픽셀로 칠하기",
+  "books/aie-vision/#motion":"06 · 프레임을 이어 같은 사람 따라가기",
+  "books/aie-vision/#selfsup":"07 · 라벨 없이, 글과 함께 배우는 표현",
+  "books/aie-vision/#reading":"08 · 자전거 번호를 읽고 질문에 답하기",
+  "books/aie-vision/#depth":"09 · 한 장의 사진에서 거리와 3D 읽기",
+  "books/aie-vision/#generate":"10 · 드문 장면을 그려서 보태기",
+  "books/aie-vision/#world":"11 · 적은 단계로, 움직이는 세계까지",
+  "books/aie-vision/#capstone":"마지막 · 비 오는 밤, 새 카메라"},
+ "concepts":[
+  {"id":"dot-product","new":false,"chapters":["books/aie-vision/#pixels"]},
+  {"id":"vector-space","new":false,"chapters":["books/aie-vision/#selfsup"]},
+  {"id":"loss-likelihood","new":false,"chapters":["books/aie-vision/#classify"]},
+  {"id":"base-rate-threshold","new":false,"chapters":["books/aie-vision/#detect"]},
+  {"id":"number-representation","new":false,"chapters":["books/aie-vision/#capstone"]}],
+ "series_step":{"url":"books/aie-vision/#detect","task":"IoU와 NMS 실험에서 임계값을 0.05, 0.45, 0.8로 바꾸며 자전거 두 대와 사람 한 명에 상자가 몇 개 남는지 센다","minutes":15,"why":"앞 권에서 만든 신경망을 실제 장면에 쓰려면 모델 밖의 전처리와 후처리 판단이 필요하다는 것을 처음 겪는 권이다","record":"임계값마다 남은 상자 수와, 붙어 선 두 자전거가 하나로 지워지기 시작한 임계값"},
+ "incoming":[
+  {"from":"books/ai/#vision","label":"컴퓨터 비전 · 카메라가 넘겨준 숫자 배열","url":"../aie-vision/#pixels","why":"합성곱의 직관을 익힌 뒤, 실제 카메라 프레임에서 출력 크기와 전처리 계약을 직접 계산해 보고 싶을 때"},
+  {"from":"books/linear-algebra/#similarity","label":"컴퓨터 비전 · 라벨 없이, 글과 함께 배우는 표현","url":"../aie-vision/#selfsup","why":"코사인 유사도가 사진과 설명 글을 한 공간에 맞추는 CLIP 학습에서 어떻게 손실이 되는지 보려면"}]}

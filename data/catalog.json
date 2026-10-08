@@ -384,6 +384,323 @@
         }
       ],
       "short_title": "검색과 RAG"
+    },
+    {
+      "id": "aie-01-workbench",
+      "title": "AI 개발 작업대 · 환경 점검에서 디버깅까지",
+      "spine_title": "개발 작업대",
+      "spine_category": "AI공학",
+      "color": "aqua",
+      "description": "영화 리뷰 분류 프로젝트 하나를 노트북, 빌린 GPU 상자, 팀원의 컴퓨터에서 같은 결과로 다시 돌리며 사전 점검, 가상 환경, Git, GPU 비용, 원격 리눅스, 도커, API 키, 노트북, 데이터 분할, 프로파일링을 직접 계산합니다. 11장 16개 실험으로 원본 커리큘럼 Phase 0의 레슨 12개를 모두 재구성했습니다.",
+      "illustration": "books/aie-workbench/assets/shelf-illustration.svg",
+      "illustration_caption": "코드·라이브러리·CUDA 층을 담은 상자 하나가 노트북, GPU 상자, 팀원의 컴퓨터로 옮겨 가며 점검 표시가 켜지는 시각적 비유입니다.",
+      "cover_art": "books/aie-workbench/assets/cover-art.svg",
+      "cover_meta": "11장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-workbench/",
+      "keywords": [
+        "개발 환경",
+        "가상 환경",
+        "uv",
+        "Git",
+        "GPU",
+        "VRAM",
+        "클라우드 비용",
+        "tmux",
+        "리눅스 권한",
+        "Docker",
+        "API 키",
+        "Jupyter",
+        "데이터 분할",
+        "시드",
+        "프로파일링",
+        "디버깅",
+        "dev environment",
+        "reproducibility"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/aie-workbench/#chapters"
+        },
+        {
+          "title": "01 · 작업대는 아래층부터 쌓는다",
+          "url": "books/aie-workbench/#stack"
+        },
+        {
+          "title": "02 · 프로젝트마다 따로 사는 파이썬",
+          "url": "books/aie-workbench/#envs"
+        },
+        {
+          "title": "04 · GPU를 쓸지 빌릴지 정하기",
+          "url": "books/aie-workbench/#gpu"
+        },
+        {
+          "title": "06 · 같은 상자를 어디서나 다시 만들기",
+          "url": "books/aie-workbench/#docker"
+        },
+        {
+          "title": "10 · 조용히 틀리는 학습 잡기",
+          "url": "books/aie-workbench/#debug"
+        }
+      ],
+      "short_title": "AI 개발 작업대"
+    },
+    {
+      "id": "aie-02-math",
+      "title": "모델을 움직이는 수학 · 미분에서 푸리에까지",
+      "spine_title": "모델의 수학",
+      "spine_category": "AI공학",
+      "color": "violet",
+      "description": "음성 명령 인식기 ‘말귀’ 하나를 만들며 소리를 주파수로 나누고, 텐서 모양을 맞추고, 기울기를 계산해 학습시키고, 손실·숫자 안정성·샘플링·SVD·조건수·마르코프 연쇄를 브라우저에서 직접 계산합니다. 12장 15개 실험으로 원본 커리큘럼 Phase 1의 레슨 22개를 모두 재구성했으며, 선형대수·확률 책과 겹치는 내용은 짧게 요약하고 그 책으로 보냅니다.",
+      "illustration": "books/aie-math/assets/shelf-illustration.svg",
+      "illustration_caption": "소리 파동이 주파수 막대로 나뉘고, 공이 손실 그릇을 따라 흔들리며 바닥으로 내려가는 시각적 비유입니다. 실제 계산은 아닙니다.",
+      "cover_art": "books/aie-math/assets/cover-art.svg",
+      "cover_meta": "12장 · 15개 실험",
+      "status": "published",
+      "url": "books/aie-math/",
+      "keywords": [
+        "미분",
+        "기울기",
+        "연쇄법칙",
+        "자동 미분",
+        "역전파",
+        "경사하강",
+        "모멘텀",
+        "볼록 최적화",
+        "엔트로피",
+        "교차 엔트로피",
+        "KL 발산",
+        "부동소수점",
+        "softmax",
+        "온도",
+        "top-p",
+        "몬테카를로",
+        "SVD",
+        "조건수",
+        "텐서",
+        "브로드캐스팅",
+        "노름",
+        "푸리에 변환",
+        "마르코프 연쇄",
+        "gradient",
+        "backpropagation",
+        "numerical stability",
+        "Fourier transform"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-math/#chapters"
+        },
+        {
+          "title": "01 · 소리를 주파수로 나누기",
+          "url": "books/aie-math/#signal"
+        },
+        {
+          "title": "04 · 연쇄법칙으로 모든 기울기를 한 번에",
+          "url": "books/aie-math/#autodiff"
+        },
+        {
+          "title": "05 · 골짜기를 안정적으로 내려가기",
+          "url": "books/aie-math/#optimize"
+        },
+        {
+          "title": "07 · 숫자가 넘치지 않게 계산하기",
+          "url": "books/aie-math/#stability"
+        },
+        {
+          "title": "09 · 표를 몇 장의 층으로 줄이기",
+          "url": "books/aie-math/#svd"
+        }
+      ],
+      "short_title": "모델을 움직이는 수학"
+    },
+    {
+      "id": "aie-03-ml",
+      "title": "머신러닝 기초 · 데이터에서 믿을 만한 예측까지",
+      "spine_title": "머신러닝",
+      "spine_category": "AI공학",
+      "color": "amber",
+      "description": "가상의 작은 온라인 서점 결제 기록으로 사기 경보 모델을 직접 만들며 로지스틱 회귀, 결정트리, kNN·SVM, 군집, 나이브 베이즈를 조작합니다. 12장 16개 실험으로 문턱과 지표, 편향과 분산, 누설, 불균형, 분포 이동까지 숫자로 확인합니다.",
+      "illustration": "books/aie-ml/assets/shelf-illustration.svg",
+      "illustration_caption": "정상 결제(원)와 사기 결제(사각형) 사이에서 경보 문턱 선이 오가며 잡는 사기와 오경보가 함께 바뀌는 모습을 보여 주는 비유 그림입니다.",
+      "cover_art": "books/aie-ml/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-ml/",
+      "keywords": [
+        "머신러닝",
+        "로지스틱 회귀",
+        "결정트리",
+        "kNN",
+        "SVM",
+        "k-평균",
+        "나이브 베이즈",
+        "혼동 행렬",
+        "ROC",
+        "편향-분산",
+        "앙상블",
+        "데이터 누설",
+        "불균형",
+        "이상 탐지",
+        "분포 이동",
+        "machine learning"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-ml/#chapters"
+        },
+        {
+          "title": "02 · 점수를 확률로 바꾸는 선",
+          "url": "books/aie-ml/#lines"
+        },
+        {
+          "title": "03 · 질문을 쌓아 나누기",
+          "url": "books/aie-ml/#trees"
+        },
+        {
+          "title": "08 · 정확도 97%의 함정",
+          "url": "books/aie-ml/#metrics"
+        },
+        {
+          "title": "10 · 검증을 속이지 않는 공정",
+          "url": "books/aie-ml/#pipeline"
+        },
+        {
+          "title": "마지막 · 새 결제 수단이 들어온 날",
+          "url": "books/aie-ml/#final"
+        }
+      ],
+      "short_title": "머신러닝 기초"
+    },
+    {
+      "id": "aie-04-deep",
+      "title": "딥러닝 핵심 · 퍼셉트론에서 나만의 작은 프레임워크까지",
+      "spine_title": "딥러닝 핵심",
+      "spine_category": "AI공학",
+      "color": "blue",
+      "description": "평면 위 점이 원 안에 있는지 맞히는 작은 신경망 하나를 퍼셉트론에서 시작해 층, 역전파, 활성화, 손실, 옵티마이저, 학습률 일정, 초기화, 규제, 작은 프레임워크까지 키우며 브라우저 안에서 실제로 학습시킵니다. 12장 16개 실험으로 학습이 멈추는 이유를 손실 곡선과 층별 기울기로 진단하는 법까지 익힙니다.",
+      "illustration": "books/aie-deep/assets/shelf-illustration.svg",
+      "illustration_caption": "값이 신경망을 앞으로 지나간 뒤 기울기가 거꾸로 돌아오고, 그때마다 손실 곡선이 내려가는 학습 과정을 보여 주는 시각적 비유입니다.",
+      "cover_art": "books/aie-deep/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-deep/",
+      "keywords": [
+        "딥러닝",
+        "퍼셉트론",
+        "역전파",
+        "backpropagation",
+        "활성화 함수",
+        "교차 엔트로피",
+        "옵티마이저",
+        "Adam",
+        "학습률 일정",
+        "가중치 초기화",
+        "드롭아웃",
+        "PyTorch",
+        "JAX",
+        "신경망 디버깅"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-deep/#chapters"
+        },
+        {
+          "title": "01 · 직선 하나로 나눌 수 있을까",
+          "url": "books/aie-deep/#perceptron"
+        },
+        {
+          "title": "03 · 오차를 거꾸로 나누어 주기",
+          "url": "books/aie-deep/#backprop"
+        },
+        {
+          "title": "06 · 같은 기울기, 다른 걸음",
+          "url": "books/aie-deep/#optimizer"
+        },
+        {
+          "title": "08 · 첫 가중치가 신호를 살린다",
+          "url": "books/aie-deep/#init"
+        },
+        {
+          "title": "11 · 손실 곡선으로 고장 찾기",
+          "url": "books/aie-deep/#debug"
+        }
+      ],
+      "short_title": "딥러닝 핵심"
+    },
+    {
+      "id": "aie-05-vision",
+      "title": "컴퓨터 비전 · 픽셀에서 장면 이해까지",
+      "spine_title": "컴퓨터 비전",
+      "spine_category": "AI공학",
+      "color": "sage",
+      "description": "역 앞 공공자전거 대여소 카메라 한 대를 따라가며 픽셀 전처리, 합성곱과 ViT 백본, 분류, 검출과 NMS, 분할 지표, 추적, 자기지도·CLIP, OCR, 깊이와 3D, 확산 생성, 엣지 지연 예산을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 phases/04-computer-vision의 레슨 28개를 모두 재구성했습니다.",
+      "illustration": "books/aie-vision/assets/shelf-illustration.svg",
+      "illustration_caption": "대여소 카메라 화면에서 자전거마다 겹쳐 뜬 후보 상자 중 NMS가 중복을 지워 하나만 남기는 과정을 보여 주는 시각적 비유입니다(좌표는 예시).",
+      "cover_art": "books/aie-vision/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-vision/",
+      "keywords": [
+        "컴퓨터 비전",
+        "합성곱",
+        "CNN",
+        "ResNet",
+        "ViT",
+        "전이 학습",
+        "객체 검출",
+        "YOLO",
+        "IoU",
+        "NMS",
+        "분할",
+        "U-Net",
+        "Dice",
+        "추적",
+        "칼만 필터",
+        "CLIP",
+        "자기지도 학습",
+        "OCR",
+        "깊이 추정",
+        "NeRF",
+        "가우시안 스플래팅",
+        "확산 모델",
+        "CFG",
+        "정류 흐름",
+        "엣지 배포",
+        "computer vision",
+        "object detection"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-vision/#chapters"
+        },
+        {
+          "title": "01 · 카메라가 넘겨준 숫자 배열",
+          "url": "books/aie-vision/#pixels"
+        },
+        {
+          "title": "04 · 장면 속 자전거를 상자로 찾기",
+          "url": "books/aie-vision/#detect"
+        },
+        {
+          "title": "05 · 자전거 윤곽을 픽셀로 칠하기",
+          "url": "books/aie-vision/#segment"
+        },
+        {
+          "title": "07 · 라벨 없이, 글과 함께 배우는 표현",
+          "url": "books/aie-vision/#selfsup"
+        },
+        {
+          "title": "마지막 · 비 오는 밤, 새 카메라",
+          "url": "books/aie-vision/#capstone"
+        }
+      ],
+      "short_title": "컴퓨터 비전"
     }
   ],
   "learning_paths": [
@@ -826,6 +1143,64 @@
         "예측 모형·고정 가상 기록·실측을 구분할 수 있는가",
         "성능을 바꾼 뒤 메모리와 품질도 확인하는가"
       ]
+    },
+    {
+      "id": "aie-from-scratch-1",
+      "title": "모델이 배우기까지 직접 쌓기",
+      "question": "빈 노트북에서 사진 속 물체를 찾는 모델까지, 무엇을 어떤 순서로 갖춰야 할까?",
+      "audience": "파이썬을 조금 쓸 줄 알고 AI를 처음부터 직접 만들어 보려는 개발자",
+      "prerequisites": "파이썬 기초와 중학교 수준의 함수 그래프",
+      "start": "노트북에 새 프로젝트 폴더를 만들었다. 데이터와 모델 아이디어는 있지만 무엇부터 해야 학습이 제대로 도는지 모른다.",
+      "steps": [
+        {
+          "book_id": "aie-01-workbench",
+          "url": "books/aie-workbench/#stack",
+          "task": "사전 점검 실험에서 입문 경로와 에이전트 스킬 경로에 각각 ‘Node.js 없음’을 넣고, 종료 코드가 0과 1로 갈리는 이유를 필수·선택 검사로 설명한다.",
+          "minutes": 15,
+          "why": "시리즈의 모든 실습은 작업 환경이 준비되었다는 전제에서 출발하므로, 무엇이 지금 꼭 필요하고 무엇을 나중에 깔아도 되는지부터 가린다.",
+          "record": "고른 경로, 필수 검사 결과, 종료 코드, 나중에 설치할 선택 도구 목록"
+        },
+        {
+          "book_id": "aie-02-math",
+          "url": "books/aie-math/#optimize",
+          "task": "모멘텀 실험에서 학습률 0.05를 고정하고 β를 0, 0.8, 0.95로 바꿔 손실 0.01 아래까지 걸리는 걸음 수와 40걸음 뒤 손실을 비교합니다.",
+          "minutes": 15,
+          "why": "작업대에서 학습을 돌릴 수 있게 됐다면, 다음은 그 학습이 기울기와 학습률로 어떻게 움직이는지 계산으로 확인할 차례입니다. 이 권은 이후 권들이 쓰는 미분·손실·숫자 안정성의 바탕을 맡습니다.",
+          "record": "β별 도달 걸음 수 세 개와, β=0.95에서 손실이 다시 커진 이유 한 문장"
+        },
+        {
+          "book_id": "aie-03-ml",
+          "url": "books/aie-ml/#metrics",
+          "task": "문턱 실험에서 0.3, 0.5, 0.7을 차례로 눌러 잡은 사기·오경보·놓친 사기를 적고, 재현율 90% 이상을 지키는 가장 높은 문턱을 찾습니다.",
+          "minutes": 15,
+          "why": "02권의 확률과 손실이 실제 모델의 판정으로 바뀌는 곳입니다. 정확도 하나로 모델을 믿으면 안 되는 이유를 여기서 확인하고 다음 권으로 넘어갑니다.",
+          "record": "문턱별 혼동 행렬 세 개와 고른 문턱, 그 문턱을 고른 비용 근거 한 문장"
+        },
+        {
+          "book_id": "aie-04-deep",
+          "url": "books/aie-deep/#backprop",
+          "task": "XOR 학습 실험에서 학습률과 시작 시드를 바꾸어, 손실이 0 근처로 내려가는 경우와 0.35 근처에 멈추는 경우를 하나씩 찾는다",
+          "minutes": 15,
+          "why": "앞 권의 경사하강을 여러 층으로 넓혀, 기울기가 층을 거슬러 전달되는 방식과 학습이 멈추는 이유를 직접 확인하는 권이다",
+          "record": "성공한 설정과 멈춘 설정의 학습률·시드·최종 손실, 그리고 멈춘 이유에 대한 가설 한 문장"
+        },
+        {
+          "book_id": "aie-05-vision",
+          "url": "books/aie-vision/#detect",
+          "task": "IoU와 NMS 실험에서 임계값을 0.05, 0.45, 0.8로 바꾸며 자전거 두 대와 사람 한 명에 상자가 몇 개 남는지 센다",
+          "minutes": 15,
+          "why": "앞 권에서 만든 신경망을 실제 장면에 쓰려면 모델 밖의 전처리와 후처리 판단이 필요하다는 것을 처음 겪는 권이다",
+          "record": "임계값마다 남은 상자 수와, 붙어 선 두 자전거가 하나로 지워지기 시작한 임계값"
+        }
+      ],
+      "challenge": "같은 사진 데이터로 만든 검출 모델이 검증에서는 잘 맞는데 팀원 컴퓨터에서 결과가 다르다. 환경, 학습, 평가, 후처리 가운데 무엇부터 확인할지 순서를 정하고 각 단계에서 남길 증거를 설명한다.",
+      "checks": [
+        "작업 환경의 필수 조건과 선택 조건을 구분할 수 있는가",
+        "학습률과 모멘텀이 손실 곡선을 어떻게 바꾸는지 말할 수 있는가",
+        "정확도 대신 문턱별 재현율과 오경보로 판단할 수 있는가",
+        "기울기가 층을 거슬러 전달되는 과정과 학습이 멈추는 이유를 설명할 수 있는가",
+        "모델 출력 뒤의 후처리 임계값이 결과를 바꾼다는 것을 보일 수 있는가"
+      ]
     }
   ],
   "chapter_index": {
@@ -902,7 +1277,66 @@
     "books/llm-performance/#paging": "09 · KV를 필요한 만큼 할당하기",
     "books/llm-performance/#batching": "10 · 빈자리에 다음 요청 넣기",
     "books/llm-performance/#parallel": "11 · GPU를 더해도 남는 시간",
-    "books/llm-performance/#review": "12 · 개선안을 끝까지 검증하기"
+    "books/llm-performance/#review": "12 · 개선안을 끝까지 검증하기",
+    "books/aie-workbench/#stack": "01 · 작업대는 아래층부터 쌓는다",
+    "books/aie-workbench/#envs": "02 · 프로젝트마다 따로 사는 파이썬",
+    "books/aie-workbench/#git": "03 · 실험을 되돌릴 수 있게 남기기",
+    "books/aie-workbench/#gpu": "04 · GPU를 쓸지 빌릴지 정하기",
+    "books/aie-workbench/#remote": "05 · 빌린 리눅스 상자에서 일하기",
+    "books/aie-workbench/#docker": "06 · 같은 상자를 어디서나 다시 만들기",
+    "books/aie-workbench/#keys": "07 · API 키를 코드 밖에 두기",
+    "books/aie-workbench/#notebook": "08 · 노트북의 숨은 상태와 편집기",
+    "books/aie-workbench/#data": "09 · 데이터를 나누고 기록하기",
+    "books/aie-workbench/#debug": "10 · 조용히 틀리는 학습 잡기",
+    "books/aie-workbench/#final": "마지막 · 팀원의 상자에서 결과가 다르다",
+    "books/aie-math/#signal": "01 · 소리를 주파수로 나누기",
+    "books/aie-math/#tensor": "02 · 모양을 맞춰 한꺼번에 계산하기",
+    "books/aie-math/#derivative": "03 · 손실이 변하는 빠르기 재기",
+    "books/aie-math/#autodiff": "04 · 연쇄법칙으로 모든 기울기를 한 번에",
+    "books/aie-math/#optimize": "05 · 골짜기를 안정적으로 내려가기",
+    "books/aie-math/#entropy": "06 · 손실은 놀람을 잰다",
+    "books/aie-math/#stability": "07 · 숫자가 넘치지 않게 계산하기",
+    "books/aie-math/#sampling": "08 · 확률표에서 하나 고르기",
+    "books/aie-math/#svd": "09 · 표를 몇 장의 층으로 줄이기",
+    "books/aie-math/#linsys": "10 · 특징이 닮으면 해가 흔들린다",
+    "books/aie-math/#markov": "11 · 명령이 이어지는 흐름 읽기",
+    "books/aie-math/#final": "마지막 · 부엌에서 말귀가 틀린다",
+    "books/aie-ml/#framing": "01 · 규칙 대신 데이터로 경보 만들기",
+    "books/aie-ml/#lines": "02 · 점수를 확률로 바꾸는 선",
+    "books/aie-ml/#trees": "03 · 질문을 쌓아 나누기",
+    "books/aie-ml/#neighbors": "04 · 가까운 이웃과 가장 넓은 길",
+    "books/aie-ml/#clusters": "05 · 정답 없이 무리 찾기",
+    "books/aie-ml/#bayes": "06 · 단어를 세어 사기 문의 가리기",
+    "books/aie-ml/#features": "07 · 원재료를 특성으로 다듬기",
+    "books/aie-ml/#metrics": "08 · 정확도 97%의 함정",
+    "books/aie-ml/#tradeoff": "09 · 단순함과 예민함 사이",
+    "books/aie-ml/#pipeline": "10 · 검증을 속이지 않는 공정",
+    "books/aie-ml/#rare": "11 · 드문 사건을 놓치지 않기",
+    "books/aie-ml/#final": "마지막 · 새 결제 수단이 들어온 날",
+    "books/aie-deep/#perceptron": "01 · 직선 하나로 나눌 수 있을까",
+    "books/aie-deep/#forward": "02 · 층을 쌓으면 곡선이 된다",
+    "books/aie-deep/#backprop": "03 · 오차를 거꾸로 나누어 주기",
+    "books/aie-deep/#activation": "04 · 꺾는 함수가 기울기를 정한다",
+    "books/aie-deep/#loss": "05 · 틀린 정도를 재는 자",
+    "books/aie-deep/#optimizer": "06 · 같은 기울기, 다른 걸음",
+    "books/aie-deep/#schedule": "07 · 학습률을 시간에 따라 바꾸기",
+    "books/aie-deep/#init": "08 · 첫 가중치가 신호를 살린다",
+    "books/aie-deep/#regularize": "09 · 외우지 않고 배우게 하기",
+    "books/aie-deep/#framework": "10 · 부품을 묶어 나만의 프레임워크로",
+    "books/aie-deep/#debug": "11 · 손실 곡선으로 고장 찾기",
+    "books/aie-deep/#final": "마지막 · 깊어진 판별기가 멈춘 날",
+    "books/aie-vision/#pixels": "01 · 카메라가 넘겨준 숫자 배열",
+    "books/aie-vision/#backbone": "02 · 깊이 쌓아도 배우는 백본",
+    "books/aie-vision/#classify": "03 · 적은 사진으로 분류기 만들기",
+    "books/aie-vision/#detect": "04 · 장면 속 자전거를 상자로 찾기",
+    "books/aie-vision/#segment": "05 · 자전거 윤곽을 픽셀로 칠하기",
+    "books/aie-vision/#motion": "06 · 프레임을 이어 같은 사람 따라가기",
+    "books/aie-vision/#selfsup": "07 · 라벨 없이, 글과 함께 배우는 표현",
+    "books/aie-vision/#reading": "08 · 자전거 번호를 읽고 질문에 답하기",
+    "books/aie-vision/#depth": "09 · 한 장의 사진에서 거리와 3D 읽기",
+    "books/aie-vision/#generate": "10 · 드문 장면을 그려서 보태기",
+    "books/aie-vision/#world": "11 · 적은 단계로, 움직이는 세계까지",
+    "books/aie-vision/#capstone": "마지막 · 비 오는 밤, 새 카메라"
   },
   "concepts": [
     {
@@ -920,7 +1354,11 @@
         "books/computer/#encoding",
         "books/ai/#tokens",
         "books/ai/#inference",
-        "books/llm-gpu/#weights"
+        "books/llm-gpu/#weights",
+        "books/aie-workbench/#gpu",
+        "books/aie-workbench/#remote",
+        "books/aie-math/#stability",
+        "books/aie-vision/#capstone"
       ]
     },
     {
@@ -935,7 +1373,8 @@
       "chapters": [
         "books/computer/#gates",
         "books/ai/#neuron",
-        "books/linear-algebra/#layer"
+        "books/linear-algebra/#layer",
+        "books/aie-deep/#perceptron"
       ]
     },
     {
@@ -952,7 +1391,8 @@
         "books/ai/#neuron",
         "books/ai/#attention",
         "books/llm-gpu/#transformer",
-        "books/rag/#hybrid"
+        "books/rag/#hybrid",
+        "books/aie-vision/#pixels"
       ]
     },
     {
@@ -969,7 +1409,10 @@
         "books/linear-algebra/#similarity",
         "books/ai/#embeddings",
         "books/ai/#rag",
-        "books/rag/#embedding"
+        "books/rag/#embedding",
+        "books/aie-math/#tensor",
+        "books/aie-ml/#neighbors",
+        "books/aie-vision/#selfsup"
       ]
     },
     {
@@ -987,7 +1430,9 @@
         "books/linear-algebra/#layer",
         "books/ai/#neuron",
         "books/llm-gpu/#transformer",
-        "books/llm-gpu/#parameters"
+        "books/llm-gpu/#parameters",
+        "books/aie-math/#tensor",
+        "books/aie-deep/#forward"
       ]
     },
     {
@@ -1003,7 +1448,9 @@
         "books/probability/#chance",
         "books/probability/#spread",
         "books/probability/#clt",
-        "books/linear-algebra/#pca"
+        "books/linear-algebra/#pca",
+        "books/aie-ml/#tradeoff",
+        "books/aie-deep/#init"
       ]
     },
     {
@@ -1018,7 +1465,8 @@
       "chapters": [
         "books/linear-algebra/#eigen",
         "books/linear-algebra/#pca",
-        "books/ai/#embeddings"
+        "books/ai/#embeddings",
+        "books/aie-math/#svd"
       ]
     },
     {
@@ -1034,7 +1482,8 @@
         "books/probability/#chance",
         "books/probability/#binomial",
         "books/ai/#generation",
-        "books/llm-gpu/#phases"
+        "books/llm-gpu/#phases",
+        "books/aie-math/#sampling"
       ]
     },
     {
@@ -1050,7 +1499,14 @@
       "chapters": [
         "books/probability/#likelihood",
         "books/probability/#spread",
-        "books/ai/#learning"
+        "books/ai/#learning",
+        "books/aie-workbench/#debug",
+        "books/aie-math/#entropy",
+        "books/aie-math/#optimize",
+        "books/aie-ml/#lines",
+        "books/aie-deep/#loss",
+        "books/aie-deep/#optimizer",
+        "books/aie-vision/#classify"
       ]
     },
     {
@@ -1070,7 +1526,12 @@
         "books/llm-gpu/#design",
         "books/rag/#evaluation",
         "books/llm-performance/#timing",
-        "books/llm-performance/#review"
+        "books/llm-performance/#review",
+        "books/aie-workbench/#data",
+        "books/aie-math/#final",
+        "books/aie-ml/#pipeline",
+        "books/aie-ml/#final",
+        "books/aie-deep/#regularize"
       ]
     },
     {
@@ -1087,7 +1548,10 @@
         "books/probability/#binomial",
         "books/probability/#bayes",
         "books/ai/#agents",
-        "books/rag/#final"
+        "books/rag/#final",
+        "books/aie-ml/#metrics",
+        "books/aie-ml/#rare",
+        "books/aie-vision/#detect"
       ]
     },
     {
@@ -1123,7 +1587,8 @@
         "books/llm-gpu/#cache",
         "books/llm-gpu/#bottleneck",
         "books/llm-performance/#coalescing",
-        "books/llm-performance/#paging"
+        "books/llm-performance/#paging",
+        "books/aie-workbench/#docker"
       ]
     },
     {
@@ -1165,6 +1630,26 @@
         "books/rag/#keywords",
         "books/rag/#bm25",
         "books/rag/#rerank"
+      ]
+    },
+    {
+      "id": "gradient-backprop",
+      "name": "기울기와 역전파",
+      "aliases": [
+        "gradient",
+        "derivative",
+        "chain rule",
+        "backpropagation",
+        "autodiff"
+      ],
+      "summary": "출력이 입력에 얼마나 민감한지 재고, 연쇄법칙으로 그 값을 뒤에서부터 모아 학습 방향을 정한다",
+      "chapters": [
+        "books/aie-math/#derivative",
+        "books/aie-math/#autodiff",
+        "books/ai/#learning",
+        "books/aie-deep/#backprop",
+        "books/aie-deep/#activation",
+        "books/aie-deep/#debug"
       ]
     }
   ]

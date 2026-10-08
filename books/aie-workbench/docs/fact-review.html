@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI 개발 작업대(시리즈 01권)를 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · AI 개발 작업대</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>《AI 개발 작업대 · 환경 점검에서 디버깅까지》(「AI 엔지니어링 처음부터」 01권)의 사실과 출처를 집필하지 않은 별도 검수 에이전트가 확인한 기록입니다. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 0 · Setup &amp; Tooling 레슨 12개입니다. <a href="index.html">제작 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-workbench)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-workbench)" data-date="2026-10-08" data-scope="표지·용어집·읽기 경로, 11개 장 본문·식·세부·경고·확인 문제, 11개 개념 그림 캡션, 16개 실험 계산과 안내 상자 결과 읽기, 출처 31개와 장별 출처 번호, 다른 책으로 가는 교차 링크 12개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-workbench), 집필자와 다른 에이전트. 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-workbench). 범위: 위 data-scope와 같습니다. 원본 대조는 로컬 사본의 <code>phases/00-setup-and-tooling/*/docs/en.md</code>, <code>01-dev-environment/code/verify.py</code>, Phase 0 <code>README.md</code>, <code>04-apis-and-keys/outputs/prompt-api-troubleshooter.md</code>, <code>08-editor-setup/code/vscode/settings.json</code>으로 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>2건 수정, 1건 보류</td><td>장마다 주장 문장을 원본 레슨과 대조하고, 시점에 민감한 값은 공식 문서(Colab FAQ, PyTorch 설치 안내, Docker 빌드 캐시, chmod 매뉴얼)로 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>js/math.js를 node로 실행해 식·캡션·확인 문제·결과 읽기의 숫자를 다시 계산(7B fp16 14GB·16.8GB, 16GB→8B, 24GB 20% 여유→10B, 유휴 92%, 422초, 5·8줄, y=30/20/10, 700·100·200, 131/200, 100·60·40ms, η=1.2에서 7단계, 26분·10분)</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>16개 실험의 함수가 식대로 계산하는지 대표값·경계값으로 확인(verify.py 경로 표, |1 − 2η| 경계, 일꾼 수 겹침, 층 캐시 규칙). 실제 계산·가정값·시나리오 표시가 결과 문장과 맞음</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>가상 환경·잠금 파일·커밋·브랜치·빨리 감기·병합 커밋·커널·시드·프로파일링·조건부 중단점의 한영 대응과 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>1건 수정</td><td>원본 레슨 폴더 12개와 Phase 0 폴더는 로컬 사본 경로 존재로, 외부 문서는 WebFetch로 일부 확인. 장별 source 번호(0부터 셈)를 장 내용과 대조. 교차 링크 12개의 도착 장 ID와 제목을 각 책 content.js와 data/catalog.json에서 확인. MIT 크레딧이 표지 참고 자료와 꼬리말에 있음</td></tr>
+</tbody></table>
+
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#keys · js/content.js 장 source</td><td>출처 번호 <code>[5,19,1]</code>의 19번이 JupyterLab 문서를 가리켜, 이 장(API 키)에 맞지 않았습니다.</td><td>sources 배열은 0부터 셈(tests/routes.test.cjs). 20번이 “Anthropic API 문서 · 원본 레슨 04가 첫 호출에 쓴 API”</td><td><code>[5,20,1]</code>로 고침</td></tr>
+<tr><td>#notebook · 세부 “노트북 사용법 요약”</td><td>“무료 등급은 오래 쉬면 세션이 끊깁니다(원본 기준 90분)”가 정해진 공식 값처럼 읽혔습니다.</td><td>원본 05 레슨은 90분이라 적었지만, Google Colab FAQ는 유휴 시간 제한이 수시로 바뀌어 공개하지 않는다고 밝힘(확인일 2026-10-08)</td><td>원본 값과 공식 FAQ의 입장을 함께 적음</td></tr>
+<tr><td>#docker · 세부 “GPU·볼륨·Compose”</td><td>“CUDA용 PyTorch 휠이 x86_64 전용”이라는 일반 명제는 원본 주장보다 넓었습니다.</td><td>원본 07 레슨은 PyTorch가 <code>cu124</code> 휠을 x86_64용으로만 낸다고 한정해 말함</td><td>“원본이 고정한 PyTorch cu124 휠은 x86_64용만 있어”로 범위를 좁힘</td></tr>
+<tr><td>#envs 확인 문제·cuda 실험, #docker 경고</td><td>보류: “빌드 CUDA ≤ 드라이버 CUDA가 아니면 GPU를 못 쓴다”는 원본의 어림 규칙입니다. CUDA 12.x의 minor version compatibility 때문에 같은 주 버전 안에서는 더 낮은 드라이버에서도 제한적으로 돌 수 있습니다.</td><td>원본 06 레슨 “PyTorch CUDA version must be &lt;= driver CUDA version”, NVIDIA CUDA 호환성 문서(minor version compatibility, 세부 조건은 확인하지 못함)</td><td>고치지 않음. formulaNote와 실험 결과 문장이 이미 “원본의 어림 규칙이며 실제 호환 범위는 PyTorch 설치 안내에서 확인”이라고 밝힘</td></tr>
+</tbody></table>
+
+<h3>맞음으로 확인한 대표 항목</h3>
+<ul>
+<li>1장: 네 층 구성과 아래에서 위로 설치, verify.py 경로 표(beginner·ml-foundations·agents·agent-skills의 필수·선택), <code>--show-later</code>, 종료 코드, Python 3.11 이상, Phase 0 README의 기록 권고(명령·위치·종료 코드·Next:), 언어별 쓰임(Python 1~12, TypeScript 13~17, Julia 1단계).</li>
+<li>2장: uv·venv·conda의 쓰임, conda 안에서 pip은 마지막, .venv 200MB~2GB, 다섯 가지 실수, 단계별 환경 권고.</li>
+<li>3장: 다섯 명령, 포크 뒤 clone, 체크포인트 확장자 연습, Key Terms의 뜻. 빨리 감기·병합 커밋 설명은 Pro Git과 일치.</li>
+<li>4장: CPU 8시간→GPU 10분, 0.20~2.00달러(원본 기준 표시), fp16 파라미터당 2바이트, synchronize 필요, 로컬·Colab·클라우드 표.</li>
+<li>5장: 파일 시스템 위치, &amp;·nohup·tmux 비교표, tmux 단축키, rsync, macOS·Windows 차이(sed -i, 대소문자, \r\n, WSL2와 Windows 드라이버). 권한 숫자 4·2·1은 chmod 매뉴얼과 일치.</li>
+<li>6장: 원본의 세 환경 예(3.12·12.4·2.3 대 3.10·11.8·2.1), 기본 이미지 크기 4GB·1.5GB·6GB·150MB, 도커가 필요한 세 이유, Compose의 qdrant:6333, <code>down -v</code>. “바뀐 층 뒤의 층은 모두 다시 빌드”는 Docker 빌드 캐시 문서와 일치.</li>
+<li>7장: 요청 네 요소, x-api-key 머리글, 오류 코드 표(원본 outputs의 진단 프롬프트와 일치), LLM_MODEL 환경 변수.</li>
+<li>8장: 커널·셀·단축키·매직 명령, 세 함정과 처방, 편집기 다섯 층·확장 8개·핵심 설정, Cursor·Windsurf·Vim 비교.</li>
+<li>9장: 캐시 경로, 스트리밍, 형식 표, test 0.2 뒤 0.125로 70·10·20, LFS·DVC 표, 10GB 기준.</li>
+<li>10장: 세 수준(원본은 “80%가 아래 두 수준”), 로딩 60%와 num_workers, 손실 &gt; 100 또는 NaN 중단점, 네 가지 버그, OOM 다섯 단계, TensorBoard 읽기, 다섯 단계 작업 순서.</li>
+<li>교차 링크: 컴퓨터 원리 07 #programs·01 #bits, LLM 시스템 01 #files·03 #weights·04 #journey·05 #hierarchy·09 #bottleneck·12 #design, AI Book 02 #learning(학습률 실험 있음)·03 #generalization·12 #agents, 확률과 통계 06 #interval. 번호와 제목이 도착 장과 일치.</li>
+<li>원문 복제: 본문 문단을 원본 en.md와 표본 대조했으며 긴 직역 구간은 없음. 용어 표·오류 코드 표처럼 짧은 표는 원본 표의 뜻을 요약한 수준.</li>
+</ul>
+
+<h3>테스트</h3>
+<p><code>npm test --prefix books/aie-workbench</code> 23개 통과. <code>BOOK_URL=http://127.0.0.1:8765/books/aie-workbench/ node books/aie-workbench/tests/browser.cjs</code> 통과(views 39, labs 48, errors 0).</p>
+
+<h3>확인하지 못한 것</h3>
+<p>컨테이너에서 외부 HTTPS가 막혀 출처 31개 중 Docker 빌드 캐시, PyTorch 설치 안내, chmod 매뉴얼, Google Colab FAQ, NVIDIA CUDA 호환성 문서만 WebFetch로 열어 확인했습니다. GitHub 원본 저장소 URL은 열지 못해 로컬 사본의 경로 존재로 대신 확인했습니다. 나머지 공식 문서 URL(uv, venv, Pro Git, JupyterLab, Anthropic, NVIDIA Container Toolkit, VS Code Remote SSH, HF Datasets, DVC, tmux 위키, Python 프로파일러, TensorBoard, WSL)은 주소 형식과 설명만 확인했습니다. 클라우드 GPU 가격, 무료 API 크레딧, 이미지 크기, Colab 제한처럼 바뀌는 값은 원본 커리큘럼 기준 표시를 유지했으며 현재 값으로 다시 재지 않았습니다. CUDA minor version compatibility가 PyTorch 휠에 어떻게 적용되는지는 공식 문서의 세부 조건을 읽지 못해 보류했습니다.</p>
+</section>
+</main></body></html>

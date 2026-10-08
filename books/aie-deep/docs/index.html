@@ -1,0 +1,69 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>딥러닝 핵심 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">딥러닝 핵심 · 제작 문서</a><a href="../index.html">책 읽기</a></header>
+<main style="max-width:1050px;margin:auto;padding:32px">
+<h1>딥러닝 핵심 · 퍼셉트론에서 나만의 작은 프레임워크까지 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 4권의 기획, 원본 레슨 대응, 구현, 검증 기록입니다. 원본은 공개 저장소 rohitg00/ai-engineering-from-scratch(MIT, 2026 Rohit Ghumare)의 <code>phases/03-deep-learning-core</code> 13개 레슨이며, 개념·순서·실험 아이디어만 참고하고 문장과 코드는 새로 썼습니다. 작성·확인일 2026-10-08.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<table><tr><th>항목</th><th>결정</th></tr>
+<tr><td>독자</td><td>경사하강과 행렬 곱은 들어 보았지만, 여러 층의 기울기를 어떻게 구하고 학습이 왜 멈추는지는 설명하지 못하는 개발자와 학생. PyTorch 코드를 따라 써 본 사람도 포함합니다.</td></tr>
+<tr><td>끝의 행동</td><td>멈춘 학습의 손실 곡선과 층별 기울기를 보고, 활성화·초기화·옵티마이저·학습률·규제 중 무엇을 바꿀지와 그 이유, 아직 부족한 증거를 말할 수 있습니다.</td></tr>
+<tr><td>공통 사례</td><td>"원 판별기": 평면 [-1,1]² 위의 점이 반지름 0.8 원 안(1)인지 밖(0)인지 맞히는 작은 신경망. 1~3장은 그 가장 작은 판인 네 모서리 XOR로 시작하고, 4장 이후의 학습 실험은 모두 같은 판별기를 <code>js/math.js</code>의 <code>train()</code>으로 실제 학습시킵니다.</td></tr>
+<tr><td>이야기 방식</td><td>하나의 제품을 완성한다. 장마다 부품(퍼셉트론 → 층 → 역전파 → 활성화 → 손실 → 옵티마이저 → 일정 → 초기화 → 규제 → 프레임워크 → 디버깅)을 하나씩 붙이고, 마지막 장에서 깊게 만든 판별기가 멈춘 새 상황을 진단합니다.</td></tr>
+<tr><td>범위</td><td>완전연결 다층망, 전체 배치 경사하강, 이진 분류. 합성곱·순환망·트랜스포머 구조, GPU 실행, 대규모 데이터는 다루지 않습니다. 겹치는 AI Book의 뉴런(#neuron)·경사하강(#learning), 벡터와 행렬의 층(#layer)은 짧게 요약하고 링크로 보냅니다.</td></tr>
+<tr><td>증거</td><td>16개 실험 중 13개와 표지 실험은 브라우저 안의 실제 계산(학습 포함), 골짜기 옵티마이저는 실제 계산이지만 교육용 2차원 함수, 자동미분 단계·모델 크기는 공식 계산입니다. 미리 정한 시나리오나 비유만으로 된 실험은 없습니다. 장 그림 중 프레임워크 고리와 드롭아웃 X 표시는 비유이며 캡션에 밝혔습니다.</td></tr>
+<tr><td>마지막 과제</td><td>12장: 폭 8 × 6층 시그모이드·작은 초기화·SGD로 만든 판별기가 손실 0.693에 멈춤. 무엇을 바꿀지, 왜인지, 부족한 증거는 무엇인지 답합니다.</td></tr></table>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>13개 레슨을 모두 12장에 배치했습니다. 원본 순서(최적화 06 → 규제 07 → 초기화 08 → 일정 09)는 "학습 규칙을 먼저 묶고, 안정과 일반화를 다음에 묶는" 흐름에 맞춰 일정 → 초기화 → 규제로 바꾸었습니다.</p>
+<table><tr><th>원본 레슨</th><th>이 책의 장</th><th>"더 깊이 보기"로 옮긴 핵심</th></tr>
+<tr><td>03-01 The Perceptron</td><td>01 perceptron</td><td>학습 규칙, 선형 분리, XOR 실패, OR·NAND·AND로 XOR 만들기, 시그모이드 2층망 예고</td></tr>
+<tr><td>03-02 Multi-Layer Networks</td><td>02 forward</td><td>층의 종류, 순전파, 행렬 모양 추적, 보편 근사 정리, 조립 가능성</td></tr>
+<tr><td>03-03 Backpropagation</td><td>03 backprop (10장에서 자동미분 엔진으로 재사용)</td><td>계산 그래프, 덧셈·곱셈·시그모이드의 국소 기울기, Value 노드와 <code>+=</code> 누적, 위상 정렬, 기울기 소실</td></tr>
+<tr><td>03-04 Activation Functions</td><td>04 activation (선형층 붕괴는 02장)</td><td>시그모이드·tanh·ReLU·Leaky·GELU·Swish·softmax 비교표, 죽은 뉴런, 쓰는 곳</td></tr>
+<tr><td>03-05 Loss Functions</td><td>05 loss</td><td>MSE와 교차 엔트로피, 범주형 CE, 라벨 스무딩, focal, InfoNCE·삼중항, 수치 안정성</td></tr>
+<tr><td>03-06 Optimizers</td><td>06 optimizer</td><td>SGD·모멘텀·RMSProp·Adam·AdamW, 편향 보정, 기본값과 학습률 범위, 학습 루프 순서</td></tr>
+<tr><td>03-07 Regularization</td><td>09 regularize</td><td>드롭아웃(역드롭아웃), 가중치 감쇠, BatchNorm·LayerNorm·RMSNorm 표, 증강, 조기 종료, train/eval</td></tr>
+<tr><td>03-08 Weight Initialization</td><td>08 init</td><td>대칭 문제, 분산 전파, Xavier·He, 잔차 스케일링, 초기화 선택표</td></tr>
+<tr><td>03-09 Learning Rate Schedules</td><td>07 schedule</td><td>상수·계단·코사인·워밍업+코사인·1cycle 표, 공개 사례, 학습률 범위 시험</td></tr>
+<tr><td>03-10 Mini Framework</td><td>10 framework</td><td>Module·Sequential·train/eval·Optimizer·DataLoader, 작은 프레임워크 ↔ PyTorch ↔ JAX 대응표</td></tr>
+<tr><td>03-11 Intro to PyTorch</td><td>10 framework</td><td>텐서의 모양·자료형·장치, autograd 세 규칙, 로짓을 받는 손실, state_dict</td></tr>
+<tr><td>03-12 Intro to JAX</td><td>10 framework</td><td>순수 함수, grad·jit·vmap, 불변 배열, 명시적 난수 키, 언제 JAX를 쓰는가</td></tr>
+<tr><td>03-13 Debugging Neural Networks</td><td>11 debug, 12 final</td><td>증상별 첫 대응표, 기울기 검사, 활성값 통계, 한 배치 과적합, 학습률 찾기, 흔한 PyTorch 버그, 학습 전 일곱 단계</td></tr></table>
+<p>장 순서: 01 perceptron · 02 forward · 03 backprop · 04 activation · 05 loss · 06 optimizer · 07 schedule · 08 init · 09 regularize · 10 framework · 11 debug · 12 final(마지막 과제). 부: 뉴런과 층(1~4), 학습 규칙(5~7), 안정과 일반화(8~9), 도구와 진단(10~12).</p>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li><b>파일</b>: <code>js/math.js</code>(모든 계산, DOM 없음), <code>js/content.js</code>(모든 글), <code>js/visual.js</code>(공통 UI), <code>js/figures.js</code>(장마다 움직이는 개념 그림 12개), <code>js/labs-neuron.js</code>(1~4장), <code>js/labs-train.js</code>(5~9장), <code>js/labs-tools.js</code>(10~12장), <code>js/home-lab.js</code>(표지 실험), <code>js/lab-guides.js</code>, <code>js/app.js</code>. 전역 접두어는 A04입니다.</li>
+<li><b>학습 엔진 <code>train()</code></b>: 입력 2 → 은닉(폭·깊이·활성화 선택) → 시그모이드 출력, 이진 교차 엔트로피(또는 MSE), 전체 배치로 epoch마다 한 번 갱신, SGD·모멘텀·AdamW(분리된 감쇠), 역드롭아웃, 다섯 가지 학습률 일정, 디버깅용 의도적 고장(학습률 ×200, 기울기 누적, 라벨 뒤섞기, 입력 ×50). mulberry32 난수로 시드를 고정해 같은 입력은 같은 결과를 냅니다. 검증 손실은 실행당 최대 101번만 재서 한 번 갱신이 대체로 0.1~0.3초 안에 끝납니다.</li>
+<li><b>그 밖의 계산</b>: 퍼셉트론 학습 규칙, 손으로 정한 2-2-1 XOR 망, 뉴런 하나의 연쇄법칙과 중앙 차분, 깊은 망의 순방향 활성값·역방향 기울기 통계(<code>deepStats</code>), 손실·기울기 공식, 2차원 골짜기 옵티마이저 경로, 작은 자동미분 엔진(역위상 순서와 누적), MLP 파라미터 수와 메모리, 기울기 검사.</li>
+<li><b>가정과 한계</b>: 데이터는 수십~수백 점의 2차원 합성 데이터이며 결과는 한 시드의 한 번 실행입니다. 프레임워크 속도 비교, MNIST 정확도, 공개 모델의 학습률 수치는 원본 커리큘럼이 제시한 범위를 "원본 커리큘럼 기준(확인일 2026-10-08)"으로 옮겼고 직접 재현하지 않았습니다.</li>
+<li><b>서가 삽화</b>: <code>assets/shelf-illustration.svg</code>는 값이 앞으로, 기울기가 거꾸로 흐르고 손실 곡선이 그려지는 시각적 비유입니다. <code>@keyframes</code> 4개, <code>prefers-reduced-motion</code>과 <code>html[data-motion=reduce]</code>에서 멈춥니다. 표지 그림 <code>assets/cover-art.svg</code>는 신경망과 원 판별 지도의 정지 그림입니다(cv-* 클래스만).</li>
+<li><b>서재 등록 제안</b>: <a href="registration.json">registration.json</a>(장 색인, 개념, 읽기 노선 단계, 들어오는 링크).</li>
+</ul></section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p><b>구조</b>: <code>npm test --prefix books/aie-deep</code> 통과(경로·필드·실험 표·그림·출처 검사 7개, 계산 검사 16개). <b>동작</b>: <code>tests/browser.cjs</code>를 Chromium(동작 줄이기 모드)으로 1280·390·320px에서 실행해 표지와 12장, 16개 실험의 예제·최솟값·최댓값·초기화, 확인 문제, 가로 넘침, 서가로 버튼, 목차 서랍을 확인했고 콘솔 오류가 없었습니다(<a href="evidence/browser-results.json">browser-results.json</a>). 스크린샷 <a href="evidence/home-desktop.png">표지</a>, <a href="evidence/figure-desktop.png">그림</a>, <a href="evidence/lab-mobile.png">320px 실험</a>을 눈으로 확인했습니다.</p>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>perceptron</td><td>확인</td><td>확인</td><td>AND·OR·NAND 수렴, XOR 200회 비수렴</td><td>미확인</td></tr>
+<tr><td>xorforward</td><td>확인</td><td>확인</td><td>k=20 출력 0·1·1·0, 선형이면 네 출력 동일(370)</td><td>미확인</td></tr>
+<tr><td>chain</td><td>확인</td><td>확인</td><td>해석 기울기 = 수치 미분(오차 1e-7 이하), 포화 시 감소</td><td>미확인</td></tr>
+<tr><td>xortrain</td><td>확인</td><td>확인</td><td>시드 1 학습 성공, 시드 6 손실 0.35 정체</td><td>미확인</td></tr>
+<tr><td>actcurve</td><td>확인</td><td>확인</td><td>도함수 = 중앙 차분, 시그모이드 미분 ≤ 0.25</td><td>미확인</td></tr>
+<tr><td>depthgrad</td><td>확인</td><td>확인</td><td>시그모이드 20층 비율 &lt; 1e-8, ReLU+He &gt; 0.3</td><td>미확인</td></tr>
+<tr><td>lossgrad</td><td>확인</td><td>확인</td><td>p=0.01 대표값, log(0) 방지 경계값</td><td>미확인</td></tr>
+<tr><td>valley</td><td>확인</td><td>확인</td><td>SGD 0.07 수렴, 0.09 발산(2/25 경계)</td><td>미확인</td></tr>
+<tr><td>schedule</td><td>확인</td><td>확인</td><td>일정 양 끝 값, 모든 단계에서 0 &lt; η ≤ 최대</td><td>미확인</td></tr>
+<tr><td>depthsignal</td><td>확인</td><td>확인</td><td>He+ReLU 30층 유지, 작은 값 소실, Xavier·He 분산 공식</td><td>미확인</td></tr>
+<tr><td>dropout</td><td>확인</td><td>확인</td><td>규제 없음 학습 100%, 드롭아웃 0.3에서 격차 감소(시드 2)</td><td>미확인</td></tr>
+<tr><td>autodiff</td><td>확인</td><td>확인</td><td>두 경로 누적(∂f/∂a = b+1), 뉴런 식 = 3장 chain</td><td>미확인</td></tr>
+<tr><td>memory</td><td>확인</td><td>확인</td><td>784-256-128-10 = 235,146개</td><td>미확인</td></tr>
+<tr><td>symptoms</td><td>확인</td><td>확인</td><td>라벨 뒤섞임 검증 &lt; 50%, 기울기 누적·학습률 과다의 출렁임</td><td>미확인</td></tr>
+<tr><td>gradcheck</td><td>확인</td><td>확인</td><td>올바른 구현 &lt; 1e-7, 부호·계수 버그 검출</td><td>미확인</td></tr>
+<tr><td>rescue</td><td>확인</td><td>확인</td><td>출발 설정 정체(손실 &gt; 0.68), ReLU+He+AdamW 회복</td><td>미확인</td></tr></table>
+<p><b>팩트·출처 검수</b>: 책을 쓰지 않은 검수 에이전트가 2026-10-08에 사실·수치·실험·용어·출처를 확인했습니다. 결과와 수정 내역은 <a href="fact-review.html">팩트·출처 검수 기록</a>에 있습니다.</p>
+<p><b>확인하지 못한 것</b>: 대표 독자가 새 조건의 결과와 이유를 설명하는지(L4)는 시험하지 않았습니다. 학습 결과는 고정 시드 하나에서만 검사했고, 다른 시드에서 같은 경향이 나오는지는 확인하지 않았습니다. 실제 PyTorch·JAX 코드는 실행하지 않았고, 서가에서 책을 펼쳐 삽화가 움직이는지는 서재 등록 뒤 관리자가 확인해야 합니다. 느린 기기에서 학습 실험 한 번의 반응 시간은 재지 않았습니다(이 컨테이너의 Node에서 0.02~0.25초).</p>
+</section>
+<footer><a href="index.html">문서 허브</a> · <a href="../index.html">책 읽기</a> · <a href="../../../index.html">서가</a></footer>
+</main></body></html>

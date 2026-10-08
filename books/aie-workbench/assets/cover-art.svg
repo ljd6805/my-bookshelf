@@ -1,0 +1,9 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="리뷰 분류 프로젝트 review-lab이 내 노트북에서 빌린 GPU 상자를 거쳐 팀원의 컴퓨터로 같은 모습으로 옮겨 가는 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="12" y="46" width="78" height="52" rx="5"/><path class="cv-hair" d="M4 104H98"/><text class="cv-text cv-muted" x="51" y="77" text-anchor="middle">노트북</text>
+<path class="cv-bus" d="M90 72H121"/><path class="cv-bus" d="M199 72H230"/>
+<rect class="cv-node" x="121" y="30" width="78" height="84" rx="6"/><text class="cv-big" x="160" y="80" text-anchor="middle">GPU</text>
+<path class="cv-hair" d="M131 42H189M131 102H189"/>
+<rect class="cv-node" x="230" y="46" width="78" height="52" rx="5"/><path class="cv-hair" d="M222 104H316"/><text class="cv-text cv-muted" x="269" y="77" text-anchor="middle">팀원</text>
+<text class="cv-text" x="160" y="136" text-anchor="middle">review-lab · 같은 결과</text>
+<path class="cv-hair" d="M40 18h240M40 18v8M160 18v8M280 18v8"/>
+</svg>

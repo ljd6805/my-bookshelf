@@ -1,0 +1,22 @@
+{"book":{"id":"aie-01-workbench","title":"AI 개발 작업대 · 환경 점검에서 디버깅까지","short_title":"AI 개발 작업대","spine_title":"개발 작업대","spine_category":"AI공학","description":"영화 리뷰 분류 프로젝트 하나를 노트북, 빌린 GPU 상자, 팀원의 컴퓨터에서 같은 결과로 다시 돌리며 사전 점검, 가상 환경, Git, GPU 비용, 원격 리눅스, 도커, API 키, 노트북, 데이터 분할, 프로파일링을 직접 계산합니다. 11장 16개 실험으로 원본 커리큘럼 Phase 0의 레슨 12개를 모두 재구성했습니다.","illustration_caption":"코드·라이브러리·CUDA 층을 담은 상자 하나가 노트북, GPU 상자, 팀원의 컴퓨터로 옮겨 가며 점검 표시가 켜지는 시각적 비유입니다.","keywords":["개발 환경","가상 환경","uv","Git","GPU","VRAM","클라우드 비용","tmux","리눅스 권한","Docker","API 키","Jupyter","데이터 분할","시드","프로파일링","디버깅","dev environment","reproducibility"],"chapters_featured":["#stack","#envs","#gpu","#docker","#debug"],"cover_meta":"11장 · 16개 실험"},
+ "chapter_index":{
+  "books/aie-workbench/#stack":"01 · 작업대는 아래층부터 쌓는다",
+  "books/aie-workbench/#envs":"02 · 프로젝트마다 따로 사는 파이썬",
+  "books/aie-workbench/#git":"03 · 실험을 되돌릴 수 있게 남기기",
+  "books/aie-workbench/#gpu":"04 · GPU를 쓸지 빌릴지 정하기",
+  "books/aie-workbench/#remote":"05 · 빌린 리눅스 상자에서 일하기",
+  "books/aie-workbench/#docker":"06 · 같은 상자를 어디서나 다시 만들기",
+  "books/aie-workbench/#keys":"07 · API 키를 코드 밖에 두기",
+  "books/aie-workbench/#notebook":"08 · 노트북의 숨은 상태와 편집기",
+  "books/aie-workbench/#data":"09 · 데이터를 나누고 기록하기",
+  "books/aie-workbench/#debug":"10 · 조용히 틀리는 학습 잡기",
+  "books/aie-workbench/#final":"마지막 · 팀원의 상자에서 결과가 다르다"},
+ "concepts":[
+  {"id":"number-representation","new":false,"chapters":["books/aie-workbench/#gpu","books/aie-workbench/#remote"]},
+  {"id":"evaluation-uncertainty","new":false,"chapters":["books/aie-workbench/#data"]},
+  {"id":"loss-likelihood","new":false,"chapters":["books/aie-workbench/#debug"]},
+  {"id":"memory-hierarchy","new":false,"chapters":["books/aie-workbench/#docker"]}],
+ "series_step":{"url":"books/aie-workbench/#stack","task":"사전 점검 실험에서 입문 경로와 에이전트 스킬 경로에 각각 ‘Node.js 없음’을 넣고, 종료 코드가 0과 1로 갈리는 이유를 필수·선택 검사로 설명한다.","minutes":15,"why":"시리즈의 모든 실습은 작업 환경이 준비되었다는 전제에서 출발하므로, 무엇이 지금 꼭 필요하고 무엇을 나중에 깔아도 되는지부터 가린다.","record":"고른 경로, 필수 검사 결과, 종료 코드, 나중에 설치할 선택 도구 목록"},
+ "incoming":[
+  {"from":"books/llm-gpu/#design","label":"AI 개발 작업대 · GPU를 쓸지 빌릴지 정하기","url":"../aie-workbench/#gpu","why":"실행 예산을 세웠다면 실제로 GPU를 확인하거나 빌릴 차례입니다. VRAM 어림셈과 유휴 시간까지 넣은 클라우드 비용을 직접 계산해 봅니다."},
+  {"from":"books/ai/#learning","label":"AI 개발 작업대 · 조용히 틀리는 학습 잡기","url":"../aie-workbench/#debug","why":"학습률이 손실을 튀게 만드는 원리를 봤다면, 실제 학습 코드에서 그 순간을 조건부 중단점과 손실 곡선으로 잡는 방법을 익힙니다."}]}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="컴퓨터 비전 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 컴퓨터 비전</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>《컴퓨터 비전 · 픽셀에서 장면 이해까지》(「AI 엔지니어링 처음부터」 05권, books/aie-vision/)의 팩트·출처 검수 기록입니다. 검수 회차마다 섹션 하나를 두고, 새 회차는 위에 더합니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-vision)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-vision)" data-date="2026-10-08" data-scope="12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 표지·용어집, 출처 66개, 다른 책 링크 18개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-vision), 집필자와 다른 에이전트입니다. 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-vision). 범위: 12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 표지·용어집, 출처 66개, 다른 책 링크 18개.</p>
+<p>대조 기준: 원본 커리큘럼 로컬 사본(rohitg00/ai-engineering-from-scratch, MIT)의 phases/04-computer-vision 레슨 28개 docs/en.md, 그리고 웹에서 직접 연 arXiv 2511.16719(SAM 3), 2511.21631(Qwen3-VL), 2511.10647(Depth Anything 3) 초록과 depth-anything.github.io 페이지.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정, 2건 보류</td><td>장마다 모델 이름·연도·파라미터 수·벤치마크 수치 약 70개를 원본 레슨 en.md 문장과 대조(예: ResNet-18 1,170만·VGG-16 1.38억·top-1 69.8%/71.6%, ViT-B/16 8,600만, DeiT 81.8%, SAM 3 2025년 11월·400만 개념·SA-CO 27만·사람의 75~80%, SAM 3.1 2026년 3월, DINOv2 1.42억 장, CLIP 4억 쌍·τ 0.07, SD 잠재 48배·8.6억·0.18215, T5-XXL 47억, Z-Image 60억, INT8 정확도 손실 0.1~1%p)</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>3건 수정</td><td>본문 식·확인 문제·안내 상자 결과 읽기의 숫자를 js/math.js로 node에서 다시 계산(출력 크기 112, 파라미터 1,792, 토큰 50·197, Dice 0.667, 분할 어텐션 246만→32만 쌍, CER 1/6, 가중치 0.2, √ᾱ₅₀₀ ≈ 0.28, CFG 6.5배, 지연 97.5·34.5·20.1ms 등)</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>16개 실험의 math.js 함수를 식과 대조하고 대표값·경계값을 별도 스크립트로 계산. 실제 계산·예시 입력·가정한 시나리오 표시가 코드와 맞는지 확인</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>용어집 13개와 본문 번역어(합성곱, 잔차 연결, 비최대 억제, 정류 흐름, 분류기 없는 가이던스, 수용 영역 등)의 영어 대응과 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 28개 경로가 로컬 사본에 모두 있음, 외부 URL 37개가 모두 원본 레슨이 인용한 주소와 일치, arXiv 번호와 제목 대응 확인, 장별 source 번호가 그 장 내용과 맞음, 다른 책 링크 18개의 도착 장 ID·제목이 실제로 있음, 표지 참고 자료와 꼬리말에 MIT 크레딧 있음</td></tr>
+</tbody></table>
+
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#depth · 깊이 읽기 “가우시안 스플래팅의 부품” (js/content.js)</td><td>“가우시안 약 59~60개 실수 … 500만 개면 약 240MB”. 원본 레슨 22도 같은 문장이지만 계산이 맞지 않음</td><td>500만 × 60 × 4바이트(FP32) ≈ 1.2GB. 240MB는 100만 개일 때의 값</td><td>“32비트 실수로 저장하면 하나에 약 240바이트라 100만 개면 약 240MB, 500만 개면 약 1.2GB”로 고침</td></tr>
+<tr><td>nms 실험 안내 상자 결과 읽기 (js/lab-guides.js)</td><td>“0.05에서는 붙어 선 두 번째 자전거까지 지워지며”. 실제 계산에서는 b1만 지워지고 b2가 남아 두 번째 자전거에도 상자가 하나 남음(실험 결과 문장도 “상자 셋”)</td><td>A05Math.nms(후보 7개, 0.05, 0.3) → 남은 상자 a1·p1·b2, b1은 a1과 IoU 0.06으로 제거</td><td>“두 번째 자전거의 가장 좋은 상자 b1이 a1과 IoU 0.06만 겹쳐도 지워지고 점수가 낮은 b2(0.40)가 대신 남으며”로 고침</td></tr>
+<tr><td>dice 실험 안내 상자 결과 읽기 (js/lab-guides.js)</td><td>“전경 1%에서 아무것도 못 찾아도 정확도는 0.99를 넘지만”. 오탐 50픽셀이 고정이라 실제 값은 0.985</td><td>segMetrics(10000, 100, 0, 50).acc = 0.985, “모두 배경” 답의 정확도 = 0.99</td><td>“정확도는 0.985(“모두 배경”이라 답하면 0.99)이지만”으로 고침</td></tr>
+<tr><td>contrast 실험 안내 상자 결과 읽기 (js/lab-guides.js)</td><td>“τ=1이면 … 손실이 log 4 ≈ 1.39에 가까워집니다”. 실제로 화면에 나오는 손실은 1.084</td><td>infoNCE(유사도 표, 1).loss = 1.084, τ=0.3에서 0.623, τ=0.07에서 0.124</td><td>“손실이 약 1.08로 커지고, 네 칸이 완전히 같을 때의 값 log 4 ≈ 1.39 쪽으로 다가갑니다”로 고침</td></tr>
+</tbody></table>
+
+<h3>보류 (고치지 않고 남긴 판단)</h3>
+<table><thead><tr><th>위치</th><th>내용</th><th>판단과 근거</th></tr></thead><tbody>
+<tr><td>#selfsup · 자기지도 세 갈래</td><td>“원본 레슨 기준 SimCLR ResNet-50 약 71%”</td><td>원본 레슨 17 문장과 일치. SimCLR 논문의 ResNet-50(1×) 선형 평가는 69.3%로 알려져 있고 71%대는 SimCLRv2 수치에 가까움. 원본 기준임을 밝히고 있어 고치지 않음, 논문 본문 표는 직접 열지 못함</td></tr>
+<tr><td>#depth · 단안 깊이의 범위와 한계</td><td>“Depth Anything V3는 얼린 DINOv2 ViT-L/14 인코더와 DPT 디코더로”</td><td>원본 레슨 26 문장과 일치. arXiv 2511.10647 초록은 “plain transformer(vanilla DINO encoder)”만 말하고 인코더를 얼리는지는 밝히지 않음. 원본 커리큘럼 기준(확인일 2026-10-08)으로 표시되어 있어 보류</td></tr>
+<tr><td>#segment · SAM 3 수치</td><td>“SA-CO에서 사람 성능의 75~80%”</td><td>원본 레슨 24와 일치. arXiv 초록에는 이 수치가 없고 “기존 시스템의 두 배 정확도”만 있음. 원본 기준 표시가 있어 유지</td></tr>
+</tbody></table>
+
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>외부 URL은 원본 레슨 인용 주소와의 일치, 그리고 arXiv 3건·Depth Anything 페이지만 직접 열어 확인했습니다. 나머지 arXiv 번호는 널리 알려진 논문 번호와 제목 대응으로 확인했고 페이지를 하나씩 열지는 않았습니다.</li>
+<li>원본 커리큘럼 기준으로 표시한 2026년 시점 정보(SAM 3.1 Object Multiplex, KHR_gaussian_splatting·OpenUSD 26.03, Genie 3·GWM-1·Sora 2, Z-Image, Qwen3-VL OSWorld 순위 등)는 원본 문장과의 일치만 확인했고 공식 발표로 재확인하지 않았습니다.</li>
+<li>원문 복제 여부는 장마다 한두 문단을 원본 en.md와 나란히 읽는 표본 확인만 했으며 긴 직역 구간은 찾지 못했습니다.</li>
+<li>수정 뒤 npm test(통과)와 1280·390·320px 브라우저 검사(views 42, labs 48, 오류 0)를 다시 실행했습니다. 스크립트 자산 버전(?v=20261008-aie1)은 바꾸지 않았으므로 이전 판을 캐시한 브라우저에서는 수정된 문장이 늦게 보일 수 있습니다.</li>
+</ul>
+</section>
+</main></body></html>
