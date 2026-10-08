@@ -1,19 +1,19 @@
-@font-face{font-family:BookshelfSans;src:url("fonts/bookshelf-sans.woff") format("woff");font-weight:100 900;font-style:normal;font-display:swap}
 /* Computer Book: reading surfaces, controls and responsive layout.
    Layers: sidebar 20, header 30, skip link 40; dialog uses the browser top layer. */
 :root {
-  --bg:#141a1d; --panel:#1b2327; --panel2:#242f34; --chart:#182024;
-  --text:#edf2f1; --muted:#a6b5b9; --line:#354349;
-  --accent:#81cbb9; --orange:#e9b583; --blue:#99badd;
-  --active-ink:#132c25; --radius:12px;
+  /* 색 변수와 글꼴은 AI Book(books/ai/assets/style.css)과 같은 값을 쓴다. */
+  --bg:#10141b; --panel:#171d26; --panel2:#1d2632; --chart:#121922;
+  --text:#edf2f7; --muted:#a4b1c1; --line:#303b4b;
+  --accent:#75e2ce; --orange:#ffad66; --blue:#91adff;
+  --active-ink:#101b1d; --radius:12px;
   color-scheme:dark;
-  font-family:BookshelfSans,Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  font-family:Inter,Pretendard,-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
   font-size:16px;
 }
 [data-theme=light] {
-  --bg:#f7f9f8; --panel:#fdfefd; --panel2:#edf2f0; --chart:#f1f5f3;
-  --text:#202f32; --muted:#53666b; --line:#cfdbd7;
-  --accent:#246d5d; --orange:#99551c; --blue:#3f6695; --active-ink:#f7faf8;
+  --bg:#f5f7fa; --panel:#fff; --panel2:#e8eef4; --chart:#f8fbfe;
+  --text:#182431; --muted:#536273; --line:#c9d4df;
+  --accent:#087466; --orange:#a54d12; --blue:#3154b2; --active-ink:#fff;
   color-scheme:light;
 }
 *{box-sizing:border-box}
@@ -33,11 +33,11 @@ button[aria-pressed=true]{border-color:var(--accent);color:var(--accent)}
 .skip:focus{top:12px}
 header{height:78px;padding:0 4%;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg);z-index:30;gap:20px}
 .brand{display:flex;align-items:center;gap:12px;white-space:nowrap}
-.brand strong{font-size:.94rem;letter-spacing:.08em}
-.mark{font:600 1.3rem ui-monospace,monospace;color:var(--accent);border:1px solid var(--line);padding:5px 7px;border-radius:6px}
+.brand strong{font-size:1.1rem;letter-spacing:.1em}
+.mark{font:700 1.6rem ui-monospace,monospace;color:var(--accent);border:1px solid var(--accent);padding:0 5px;border-radius:6px;line-height:1.3}
 .brand-sub{font-size:.82rem;color:var(--muted);padding-left:16px;border-left:1px solid var(--line)}
 header nav{display:flex;align-items:center;gap:20px;font-size:.85rem;white-space:nowrap}
-header nav>a.shelf-return{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 13px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);font-weight:700}
+header nav>a.shelf-return{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border:1px solid var(--accent);border-radius:999px;color:var(--accent);font-weight:700}
 header nav>a.shelf-return:hover{background:var(--accent);color:var(--active-ink)}
 #menu{display:none}
 main{max-width:1320px;min-height:calc(100svh - 78px);padding:0 48px;margin:auto}
@@ -64,8 +64,9 @@ p{margin:0 0 22px}
 .hero-lab .lab-pad{padding:24px}
 .hero-lab>.caption{padding:0 24px 20px;margin:0}
 .section{padding:52px 0;border-top:1px solid var(--line)}
-.section-heading{margin-bottom:28px}
-.section-heading p{color:var(--muted);margin:0;max-width:720px}
+.section-heading{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:28px}
+.section-heading h2{margin:0}
+.section-heading p{color:var(--muted);margin:0;max-width:550px;font-size:.95rem}
 .chapter-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .chapter-card{display:block;border:1px solid var(--line);border-radius:var(--radius);padding:24px;background:var(--panel);transition:border-color .15s}
 .chapter-card:hover{border-color:var(--accent);color:var(--text)}
@@ -77,11 +78,11 @@ p{margin:0 0 22px}
 .path{padding-top:20px;border-top:2px solid var(--accent)}
 .path p{font-size:.9rem;color:var(--muted)}
 .path a{display:inline-block;margin-right:16px;color:var(--accent);font:1rem ui-monospace,monospace;text-decoration:underline;text-underline-offset:6px}
-.flow{display:grid;grid-template-columns:repeat(var(--flow-count,4),minmax(0,1fr));gap:24px}
-.flow>div{position:relative;padding:18px 0;border-top:2px solid var(--line)}
-.flow>div:not(:last-child)::after{content:'→';position:absolute;right:-18px;top:18px;color:var(--muted)}
-.flow b{display:block;color:var(--text);font-size:.95rem;margin-bottom:5px}
-.flow span{font-size:.84rem;color:var(--muted);line-height:1.7;display:block}
+/* 핵심 관계 상자: AI Book의 .flow와 같은 모양 */
+.flow{display:flex;gap:12px;flex-wrap:wrap}
+.flow>div{flex:1;min-width:130px;padding:20px;border:1px solid var(--line);border-radius:6px}
+.flow b{display:block;color:var(--accent);margin-bottom:4px}
+.flow span{font-size:.86rem;color:var(--muted);line-height:1.7;display:block}
 #sidebar{display:none;position:fixed;top:78px;bottom:0;width:246px;padding:32px 16px;border-right:1px solid var(--line);overflow:auto;background:var(--bg);z-index:20}
 body.reading #sidebar{display:block}
 body.reading main{max-width:1214px;margin-left:246px;padding:44px clamp(32px,5vw,80px) 80px}
@@ -167,9 +168,10 @@ th{color:var(--muted);font-weight:600;background:var(--panel2)}
 tr.current{background:var(--panel2);font-weight:700}
 .lab table{margin-top:10px}
 .lab th,.lab td{text-align:center;padding:10px}
-.adder-chain{display:flex;flex-direction:row-reverse;gap:16px;padding-bottom:8px;overflow-x:auto}
-.fa{flex:1;min-width:125px;padding:16px 12px;border:1px solid var(--line);border-radius:8px;font:.85rem/1.9 ui-monospace,sans-serif;background:var(--bg)}
+.adder-chain{display:flex;flex-direction:row-reverse;gap:12px}
+.fa{flex:1;min-width:0;padding:16px 12px;border:1px solid var(--line);border-radius:8px;font:.85rem/1.9 ui-monospace,sans-serif;background:var(--bg)}
 .fa strong{display:block;color:var(--accent);font-size:.85rem;margin-bottom:10px}
+.fa span{display:block}
 .fa.active{border-color:var(--orange)}
 .fa.pending{opacity:.5}
 .carry-on{color:var(--orange);font-weight:700}
@@ -228,13 +230,13 @@ tr.current{background:var(--panel2);font-weight:700}
  #sidebar{width:220px}body.reading main{margin-left:220px;padding:36px 32px 64px}
  .chapter-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
  .cpu{grid-template-columns:1fr}.memory{grid-template-columns:repeat(2,minmax(0,1fr))}
- .grid-2{grid-template-columns:1fr}.flow{gap:18px}.flow>div:not(:last-child)::after{right:-15px}
+ .grid-2{grid-template-columns:1fr}
 }
 @media(max-width:760px){
  header{height:66px;padding:0 14px;gap:8px}header nav{gap:7px}
  header nav>a:not(.shelf-return){display:none}header nav button{padding:7px 9px;font-size:.78rem;min-height:38px}
- header nav>a.shelf-return{font-size:.78rem;padding:0 10px}
- .brand{gap:7px}.brand strong{font-size:.75rem;letter-spacing:0}.mark{font-size:1rem;padding:4px 6px}
+ header nav>a.shelf-return{font-size:.8rem;padding:0 10px}
+ .brand{gap:7px}.brand strong{font-size:.8rem;letter-spacing:0}.mark{font-size:1.15rem;padding:0 4px}
  #menu{display:inline-flex}
  main{padding:0 20px}.hero{grid-template-columns:1fr;padding:36px 0;gap:32px}
  .hero h1{font-size:clamp(2rem,6.8vw,2.8rem)}.hero .lead{font-size:1rem}.hero-links{margin:24px 0}
@@ -245,9 +247,10 @@ tr.current{background:var(--panel2);font-weight:700}
  body.menu-open #sidebar{display:block}body.reading main{margin-left:0;padding:30px 20px 56px}
  .chapter-head{padding:0 0 28px}.chapter-head h1{font-size:2rem}.chapter-head .lead{font-size:1rem}
  .chapter-body>section{margin:34px 0}.chapter-body>section>p{font-size:1rem;line-height:1.95}
- .flow{grid-template-columns:1fr;gap:0}.flow>div{padding:12px 0 12px 22px;border:0;border-left:2px solid var(--line)}
- .flow>div:not(:last-child)::after{content:'↓';left:-7px;right:auto;top:auto;bottom:-9px;background:var(--bg);font-size:.82rem}
- .flow b{margin:0 0 2px}.flow span{font-size:.86rem}
+ .section-heading{display:block}.section-heading h2{margin-bottom:10px}
+ .flow div{padding:16px;min-width:110px}
+ .adder-chain{flex-direction:column;gap:8px}.fa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px;padding:10px 14px;line-height:1.8}
+ .fa strong{grid-column:1/-1;margin-bottom:2px}
  .formula,.note,.predict,.remaining{padding:20px}.formula code{font-size:.95rem}
  .lab-heading{padding:20px 18px 0;gap:6px 12px}.lab-heading h3{font-size:1.12rem}
  .lab-desc{padding:12px 18px 20px}.lab-guide{margin:0 18px;font-size:.88rem}
@@ -261,7 +264,9 @@ tr.current{background:var(--panel2);font-weight:700}
  .chapter-nav{grid-template-columns:1fr;gap:24px}.chapter-nav a:last-child{text-align:left}
  .stats{gap:20px}footer{padding:24px 20px;font-size:.78rem}
 }
-@media(max-width:430px){header .brand strong{display:none}}
+/* 책 이름은 머리말 한 줄에 서가로·테마·목차 버튼과 함께 들어갈 때만 보인다(420px 이하에서는 작게, 389px 이하에서는 숨김). */
+@media(max-width:420px){header .brand strong{font-size:.7rem}}
+@media(max-width:389px){header .brand strong{display:none}}
 @media(max-width:360px){
  body.reading main{padding-inline:16px}.lab-inner{padding-inline:12px}
  .memory{gap:5px}.memory .cell{grid-template-columns:18px minmax(0,1fr);gap:3px;padding:8px 4px}

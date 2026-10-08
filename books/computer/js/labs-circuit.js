@@ -54,8 +54,8 @@
         <button data-p="3,4">3 + 4</button><button data-p="7,1">7 + 1</button><button data-p="15,1">15 + 1</button>
       </div>
       <div class="controls"><button data-k="play">자리올림 한 칸씩 보기</button><button data-k="reset">실험 초기화</button></div>
-      <p class="legend">오른쪽 상자가 가장 낮은 자리(1의 자리)입니다. 자리올림(C)은 오른쪽에서 왼쪽으로 넘어갑니다.</p>
-      <div class="adder-chain" tabindex="0" role="region" aria-label="4개의 전가산기. 오른쪽이 가장 낮은 자리이며 좌우로 이동할 수 있습니다."></div>
+      <p class="legend">1의 자리가 가장 낮은 자리입니다. 자리올림(C)은 1의 자리에서 8의 자리 쪽으로 한 상자씩 넘어갑니다.</p>
+      <div class="adder-chain" role="group" aria-label="전가산기 4개. 1의 자리부터 8의 자리까지"></div>
       <div class="readout" aria-live="polite"></div>`;
     const inA = root.querySelector('[data-k="a"]'), inB = root.querySelector('[data-k="b"]');
     const chain = root.querySelector('.adder-chain'), out = root.querySelector('.readout');
@@ -67,7 +67,7 @@
       out.classList.remove('error');
       const r = M.rippleAdd(a, b, 4);
       chain.innerHTML = r.steps.map((s) => `<div class="fa ${s.position === shown - 1 && shown < 4 ? 'active' : ''} ${s.position >= shown ? 'pending' : ''}">
-        <strong>${2 ** s.position}의 자리</strong>A=${s.a} B=${s.b}<br>들어온 C=${s.carryIn}<br>합=${s.position < shown ? s.sum : '?'}<br>
+        <strong>${2 ** s.position}의 자리</strong><span>A=${s.a} B=${s.b}</span><span>들어온 C=${s.carryIn}</span><span>합=${s.position < shown ? s.sum : '?'}</span>
         <span class="${s.carryOut && s.position < shown ? 'carry-on' : ''}">나가는 C=${s.position < shown ? s.carryOut : '?'}</span></div>`).join('');
       const done = shown >= 4;
       const bitsOut = M.numberToBits(r.value, 4).join('');

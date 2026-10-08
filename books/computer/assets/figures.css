@@ -7,13 +7,15 @@
 .figure-heading button{flex:none;background:transparent;font-size:.78rem;min-height:36px;padding:6px 12px}
 .figure-viewport{overflow-x:auto;padding:24px;overscroll-behavior-x:contain;scrollbar-color:var(--line) var(--chart)}
 .figure-plate figcaption{padding:18px 24px;border-top:1px solid var(--line);margin:0;font-size:.85rem;color:var(--muted);line-height:1.8}
-.figure-hint{display:none}
-.technical-diagram{display:block;width:100%;min-width:760px;height:auto;font-family:inherit}
-.technical-diagram text{fill:var(--text);font-size:16px}
-.technical-diagram .diagram-small{fill:var(--muted);font-size:13px}
-.technical-diagram .diagram-heading{font-weight:650;font-size:16px}
-.technical-diagram .diagram-math{font-family:ui-monospace,monospace;font-size:22px;fill:var(--accent)}
-.technical-diagram .diagram-label{font-size:14px;fill:var(--accent)}
+/* SVG는 가로 380~400 단위로 그리고 화면 폭에 맞춰 줄인다. 320px 화면에서도 글자가 12.5px 이상이 되도록 글자 크기를 viewBox 단위로 크게 잡는다. */
+.technical-diagram{display:block;width:100%;max-width:460px;height:auto;margin:0 auto;font-family:inherit}
+.technical-diagram text{fill:var(--text);font-size:20px}
+.technical-diagram .diagram-small{fill:var(--muted);font-size:19px}
+.technical-diagram .diagram-math{font-family:ui-monospace,monospace;font-size:26px;fill:var(--accent)}
+.technical-diagram .diagram-label{font-size:20px;fill:var(--accent)}
+.diagram-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.diagram-pair h4{margin:0 0 8px;font-size:.92rem;color:var(--accent)}
+.diagram-note{max-width:460px;margin:16px auto 0;color:var(--muted);font-size:.84rem;line-height:1.8}
 .diagram-node{fill:var(--panel);stroke:var(--line);stroke-width:1.5}
 .diagram-node.active{fill:color-mix(in srgb,var(--accent) 10%,var(--panel));stroke:var(--accent)}
 .diagram-node.carry-node,.decision-node{fill:color-mix(in srgb,var(--orange) 9%,var(--panel));stroke:var(--orange);stroke-width:1.5}
@@ -39,8 +41,6 @@
 .encoding-results{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 .diagram-cell span{display:block;color:var(--muted);font-size:.78rem}.diagram-cell strong{display:block;font:1.7rem/1.8 ui-monospace,monospace;color:var(--text)}
 .diagram-cell small{font-size:.76rem;color:var(--muted);display:block;line-height:1.7}
-.journey-map{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.journey-map .diagram-cell{border-top:2px solid var(--accent);padding-top:16px}
-.journey-map .diagram-cell strong{font-size:clamp(1rem,2vw,1.5rem)}
 .cpu-map{display:grid;grid-template-columns:minmax(0,1fr) 105px minmax(0,1fr);gap:16px;align-items:center}
 .diagram-memory,.diagram-cpu{border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:20px;align-self:stretch}
 .cpu-map h4{font-size:1rem;margin:0 0 20px;color:var(--accent)}
@@ -66,19 +66,24 @@
 .figure-dialog-toolbar h2{margin:0;font-size:1.05rem}
 .figure-dialog .figure-viewport{padding:28px;overflow:auto}
 .figure-dialog .caption{margin:0;padding:20px 28px;border-top:1px solid var(--line)}
-.figure-dialog .technical-diagram{min-width:850px}
-@media(max-width:1100px){.cpu-map{grid-template-columns:1fr}.diagram-bus{display:flex;align-items:center;justify-content:center;gap:16px}.diagram-bus b{padding:4px 20px}.diagram-cycle{gap:14px}.encoding-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.figure-dialog .technical-diagram{max-width:760px}
+@media(max-width:1100px){.diagram-pair{grid-template-columns:1fr;gap:28px}.cpu-map{grid-template-columns:1fr}.diagram-bus{display:flex;align-items:center;justify-content:center;gap:16px}.diagram-bus b{padding:4px 20px}.diagram-cycle{gap:14px}.encoding-results{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){
  .figure-plate{margin:28px 0}.figure-heading{padding:16px;gap:10px}.figure-heading h3{font-size:.95rem}
- .figure-heading button{padding:7px 9px;font-size:.75rem}.figure-viewport{padding:20px 16px}
+ .figure-heading button{padding:7px 9px;font-size:.75rem}.figure-viewport{padding:20px 10px}
  .figure-plate figcaption{padding:16px;font-size:.82rem}
- .figure-hint{display:block;margin:0;padding:10px 16px 0;color:var(--muted);font-size:.74rem}
+ .diagram-pair{grid-template-columns:1fr;gap:28px}.diagram-note{padding:0 6px}
  .diagram-bit-grid{gap:4px}.diagram-bit{padding:9px 0}.diagram-bit b{font-size:1.3rem}.diagram-bit span{font-size:.67rem}.diagram-bit small{font-size:.62rem}
  .diagram-equation{display:block}.diagram-equation strong{display:block;margin-top:12px}
- .journey-map{grid-template-columns:1fr;gap:20px}.journey-map .diagram-cell strong{font-size:1.6rem}
  .diagram-memory,.diagram-cpu{padding:20px}.diagram-memory>div{grid-template-columns:24px 90px 1fr}.diagram-memory>div code{grid-row:auto}
  .diagram-cycle{gap:10px;font-size:.77rem;flex-wrap:wrap}.encoding-byte strong{font-size:1.8rem}
  .hierarchy-map{grid-template-columns:1fr;gap:16px}.hierarchy-label{flex-direction:row;align-items:center;padding:0;font-size:.73rem;gap:10px}.hierarchy-label>span:nth-child(2){font-size:1rem}
  .hierarchy-map li{margin-left:calc((3 - var(--tier)) * 10px);padding:14px 16px}
  .figure-dialog-toolbar{padding:16px}.figure-dialog-toolbar h2{font-size:.9rem}.figure-dialog .figure-viewport{padding:18px}
 }
+.diagram-pair .technical-diagram{max-width:340px;margin:0}
+/* 6장 명령표 */
+.opcode-table{font-size:.86rem}
+.opcode-table caption{caption-side:top;text-align:left;color:var(--muted);font-size:.85rem;padding:0 0 10px}
+.opcode-table th,.opcode-table td{padding:8px 12px}
+.opcode-table td:nth-child(-n+2){font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
