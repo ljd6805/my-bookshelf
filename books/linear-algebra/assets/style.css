@@ -19,7 +19,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.85 var(--sans); word-break: keep-all; overflow-wrap: anywhere; }
 a { color: var(--a); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
-.skip { position: fixed; left: 16px; top: -60px; background: var(--ink); color: var(--paper); padding: 8px 14px; z-index: 50; }
+.skip { position: fixed; left: 16px; top: -120px; background: var(--ink); color: var(--paper); padding: 8px 14px; z-index: 50; }
 .skip:focus { top: 8px; }
 
 .top { position: sticky; top: 0; z-index: 20; display: flex; gap: 16px; align-items: center; justify-content: space-between;
@@ -191,3 +191,4 @@ footer.foot a { color: var(--muted); }
   border-radius: 99px; color: var(--ink); text-decoration: none; font-size: .9rem; white-space: nowrap; background: var(--paper); }
 .shelf-return:hover { background: var(--ink); color: var(--paper); }
 @media (max-width: 420px) { .brand small { display: none; } .top nav { gap: 10px; } }
+.lab .stage.two-planes { grid-column: 1 / -1; }

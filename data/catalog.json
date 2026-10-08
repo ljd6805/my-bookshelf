@@ -94,6 +94,55 @@
           "url": "books/computer/#final"
         }
       ]
+    },
+    {
+      "id": "linear-algebra-world",
+      "title": "벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수",
+      "spine_title": "벡터와 행렬",
+      "spine_category": "수학",
+      "color": "violet",
+      "description": "노래 여덟 곡으로 작은 추천기를 만들며 벡터, 내적, 투영, 행렬 변환, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층까지. 11개 장과 11개 실험으로 공간이 움직이는 모습을 직접 조작합니다.",
+      "illustration": "books/linear-algebra/assets/shelf-illustration.svg",
+      "illustration_caption": "실제 계산: 행렬 [1.2, 0.5 ; −0.3, 0.9]가 노래 여덟 곡이 놓인 격자 전체를 기울이고 늘였다가 되돌립니다. 원점과 직선은 그대로 남습니다.",
+      "status": "published",
+      "url": "books/linear-algebra/",
+      "keywords": [
+        "선형대수",
+        "벡터",
+        "행렬",
+        "내적",
+        "코사인 유사도",
+        "투영",
+        "행렬식",
+        "역행렬",
+        "고유벡터",
+        "주성분 분석",
+        "PCA",
+        "신경망",
+        "linear algebra"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/linear-algebra/#contents"
+        },
+        {
+          "title": "01 · 노래를 화살표로 적기",
+          "url": "books/linear-algebra/vectors.html"
+        },
+        {
+          "title": "02 · 얼마나 닮았는지 재기",
+          "url": "books/linear-algebra/similarity.html"
+        },
+        {
+          "title": "04 · 행렬은 평면을 옮기는 규칙",
+          "url": "books/linear-algebra/matrix.html"
+        },
+        {
+          "title": "09 · 노래 구름의 가장 긴 방향",
+          "url": "books/linear-algebra/pca.html"
+        }
+      ]
     }
   ],
   "learning_paths": []

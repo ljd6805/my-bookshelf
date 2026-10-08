@@ -53,12 +53,12 @@
 
   // 5장: 두 변환을 서로 다른 순서로 합성하기
   UI.lab('compose', (root) => {
-    const planes = [...root.querySelectorAll('svg')].map((s) => new Plane(s, { range: 3 }));
+    const planes = [...root.querySelectorAll('svg')].map((s) => new Plane(s, { range: 4.5 }));
     const out = root.querySelector('.readout');
     const paint = (p, first, both, title) => {
       p.clear().grid().axes().poly(FLAG, 'unit').poly(FLAG.map((q) => LA.matVec(first, q)), 'mid')
         .poly(FLAG.map((q) => LA.matVec(both, q)), 'area').arrow(LA.matVec(both, [1, 2]), 'me', '나')
-        .text([-2.85, 2.6], title, 'axis-label').render();
+        .text([-4.3, 4.0], title, 'axis-label').render();
     };
     const draw = (v) => {
       const A = MOVES[v.first], B = MOVES[v.second];
