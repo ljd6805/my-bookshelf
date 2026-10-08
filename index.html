@@ -61,12 +61,42 @@ html[data-motion=reduce] .ai-ill-signal{opacity:.55;stroke-dasharray:none}
 <text class="ai-ill-text" x="252" y="152" text-anchor="middle">출력</text>
 <rect class="ai-ill-track" x="272" y="56" width="56" height="12" rx="6"/><rect class="ai-ill-bar" style="animation-delay:0s" x="272" y="56" width="50" height="12" rx="6"/>
 <rect class="ai-ill-track" x="272" y="112" width="56" height="12" rx="6"/><rect class="ai-ill-bar low" x="272" y="112" width="12" height="12" rx="6"/>
-</svg><figcaption>시각적 비유: 입력 신호가 층을 건너며 출력 확률로 바뀝니다. 실제 계산 결과가 아닙니다.</figcaption></figure><h2 class="reader-title">AI Book · 직접 실험하는 AI 교과서</h2></div><div class="reader-contents"><p class="reader-description">신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 18개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.</p><h3>이 책에서 만날 내용</h3><ol class="chapter-list"><li><a href="books/ai/#chapters">전체 12개 챕터</a></li><li><a href="books/ai/#neuron">01 · 신경망의 작은 부품</a></li><li><a href="books/ai/#attention">06 · 어떤 정보를 참고할까</a></li><li><a href="books/ai/#rag">11 · 답하기 전에 근거 찾기</a></li><li><a href="books/ai/#agents">12 · 도구를 쓰고 결과를 확인하기</a></li></ol><a class="button primary reader-action" href="books/ai/">책 읽기 <span aria-hidden="true">↗</span></a></div></template></div><div class="shelf-plank" aria-hidden="true"></div><div class="shelf-caption"><h3>학습 책</h3><span></span></div></section>
+</svg><figcaption>시각적 비유: 입력 신호가 층을 건너며 출력 확률로 바뀝니다. 실제 계산 결과가 아닙니다.</figcaption></figure><h2 class="reader-title">AI Book · 직접 실험하는 AI 교과서</h2></div><div class="reader-contents"><p class="reader-description">신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 18개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.</p><h3>이 책에서 만날 내용</h3><ol class="chapter-list"><li><a href="books/ai/#chapters">전체 12개 챕터</a></li><li><a href="books/ai/#neuron">01 · 신경망의 작은 부품</a></li><li><a href="books/ai/#attention">06 · 어떤 정보를 참고할까</a></li><li><a href="books/ai/#rag">11 · 답하기 전에 근거 찾기</a></li><li><a href="books/ai/#agents">12 · 도구를 쓰고 결과를 확인하기</a></li></ol><a class="button primary reader-action" href="books/ai/">책 읽기 <span aria-hidden="true">↗</span></a></div></template><a href="books/computer/" class="glass-book tone-amber" data-resource="how-computers-work" data-category="book" data-search="컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지 컴퓨터원리 컴퓨터 3 + 4를 누르면 화면에 7이 뜨기까지. 비트와 게이트로 덧셈기와 메모리를 만들고, 작은 CPU에서 직접 프로그램을 실행하며 캐시까지 9개 장과 9개 실험으로 따라갑니다. 컴퓨터 컴퓨터 구조 비트 이진수 논리 게이트 가산기 CPU 메모리 캐시" data-preview="preview-how-computers-work" aria-label="컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지 · 컴퓨터" title="컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지" style="--book-variation:1"><span class="glass-top" aria-hidden="true"></span><span class="spine-label"><span class="spine-title">컴퓨터원리</span><span class="list-title">컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</span><span class="spine-category">컴퓨터</span></span><span class="glass-foot" aria-hidden="true"></span></a><template id="preview-how-computers-work"><div class="reader-copy"><p class="reader-category">학습 책</p><figure class="reader-illustration"><svg class="cw-ill" viewBox="0 0 340 180" role="img" aria-label="비트로 저장된 3과 4가 덧셈기를 지나 0111, 곧 7이 되어 화면에 나타나는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.cw-ill-bit{fill:#fffaf0;stroke:#9a6a3a;stroke-width:1.2}
+.cw-ill-bit.on{fill:#f1b55b}
+.cw-ill-num{font:600 12px ui-monospace,monospace;fill:#4a3a2a;text-anchor:middle}
+.cw-ill-label{font:600 11px sans-serif;fill:#6b5540}
+.cw-ill-box{fill:#fff;stroke:#4a3a2a;stroke-width:1.6}
+.cw-ill-wire{stroke:#c9ab86;stroke-width:2;fill:none}
+.cw-ill-signal{stroke:#c06a12;stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:12 100;stroke-dashoffset:12;animation:cw-ill-flow 4s ease-in-out infinite}
+.cw-ill-late{animation-name:cw-ill-flow-late}
+.cw-ill-out,.cw-ill-outnum{animation:cw-ill-show 4s ease-out infinite}
+.cw-ill-screen{fill:#10261d}
+.cw-ill-seven{font:700 34px ui-monospace,monospace;fill:#8ff0bf;text-anchor:middle;animation:cw-ill-show 4s ease-out infinite;animation-delay:1.8s}
+@keyframes cw-ill-flow{0%{stroke-dashoffset:12}30%{stroke-dashoffset:-100}100%{stroke-dashoffset:-100}}
+@keyframes cw-ill-flow-late{0%,30%{stroke-dashoffset:12}55%{stroke-dashoffset:-100}100%{stroke-dashoffset:-100}}
+@keyframes cw-ill-show{0%{opacity:0}8%,70%{opacity:1}85%,100%{opacity:0}}
+html[data-motion=reduce] .cw-ill-signal{animation:none;stroke-dasharray:none;opacity:.5}
+html[data-motion=reduce] .cw-ill-out,html[data-motion=reduce] .cw-ill-outnum,html[data-motion=reduce] .cw-ill-seven{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.cw-ill-signal{animation:none;stroke-dasharray:none;opacity:.5}.cw-ill-out,.cw-ill-outnum,.cw-ill-seven{animation:none;opacity:1}}
+</style>
+<text class="cw-ill-label" x="10" y="54">3</text><rect class="cw-ill-bit" x="24" y="38" width="18" height="22" rx="3"/><text class="cw-ill-num" x="33" y="54">0</text><rect class="cw-ill-bit" x="46" y="38" width="18" height="22" rx="3"/><text class="cw-ill-num" x="55" y="54">0</text><rect class="cw-ill-bit on" x="68" y="38" width="18" height="22" rx="3"/><text class="cw-ill-num" x="77" y="54">1</text><rect class="cw-ill-bit on" x="90" y="38" width="18" height="22" rx="3"/><text class="cw-ill-num" x="99" y="54">1</text>
+<text class="cw-ill-label" x="10" y="132">4</text><rect class="cw-ill-bit" x="24" y="116" width="18" height="22" rx="3"/><text class="cw-ill-num" x="33" y="132">0</text><rect class="cw-ill-bit on" x="46" y="116" width="18" height="22" rx="3"/><text class="cw-ill-num" x="55" y="132">1</text><rect class="cw-ill-bit" x="68" y="116" width="18" height="22" rx="3"/><text class="cw-ill-num" x="77" y="132">0</text><rect class="cw-ill-bit" x="90" y="116" width="18" height="22" rx="3"/><text class="cw-ill-num" x="99" y="132">0</text>
+<path class="cw-ill-wire" d="M112 49 H128 V80 H146"/><path class="cw-ill-wire" d="M112 127 H128 V100 H146"/>
+<path class="cw-ill-signal" pathLength="100" d="M112 49 H128 V80 H146"/><path class="cw-ill-signal" pathLength="100" d="M112 127 H128 V100 H146"/>
+<rect class="cw-ill-box" x="146" y="66" width="50" height="48" rx="8"/><text class="cw-ill-label" x="171" y="94" text-anchor="middle">덧셈기</text>
+<path class="cw-ill-wire" d="M196 90 H212"/><path class="cw-ill-signal cw-ill-late" pathLength="100" d="M196 90 H212"/>
+<rect class="cw-ill-bit cw-ill-out" style="animation-delay:1.50s" x="214" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.50s" x="223" y="95">0</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:1.35s" x="236" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.35s" x="245" y="95">1</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:1.20s" x="258" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.20s" x="267" y="95">1</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:1.05s" x="280" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.05s" x="289" y="95">1</text>
+<path class="cw-ill-wire" d="M258 104 V128"/>
+<rect class="cw-ill-screen" x="226" y="128" width="64" height="44" rx="6"/><text class="cw-ill-seven" x="258" y="162">7</text>
+<text class="cw-ill-label" x="171" y="24" text-anchor="middle">3 + 4 = 0111(2) = 7</text>
+</svg><figcaption>시각적 비유: 비트로 저장된 3과 4가 덧셈기를 지나 0111이 되고 화면에 7로 나타납니다. 회로 동작을 단순화한 그림입니다.</figcaption></figure><h2 class="reader-title">컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</h2></div><div class="reader-contents"><p class="reader-description">3 + 4를 누르면 화면에 7이 뜨기까지. 비트와 게이트로 덧셈기와 메모리를 만들고, 작은 CPU에서 직접 프로그램을 실행하며 캐시까지 9개 장과 9개 실험으로 따라갑니다.</p><h3>이 책에서 만날 내용</h3><ol class="chapter-list"><li><a href="books/computer/#toc">전체 9개 장</a></li><li><a href="books/computer/#bits">01 · 스위치로 수 세기</a></li><li><a href="books/computer/#adder">04 · 게이트로 더하기</a></li><li><a href="books/computer/#cpu">06 · 명령을 하나씩 실행하기</a></li><li><a href="books/computer/#cache">08 · 기다리지 않는 법</a></li></ol><a class="button primary reader-action" href="books/computer/">책 읽기 <span aria-hidden="true">↗</span></a></div></template></div><div class="shelf-plank" aria-hidden="true"></div><div class="shelf-caption"><h3>학습 책</h3><span></span></div></section>
 <!-- BOOKS:END -->
     </div>
     <div class="no-results" id="no-results" hidden><h3>일치하는 자료가 없습니다.</h3><p>검색어를 줄이거나 다른 분류를 선택해 보세요.</p><button class="button secondary" id="reset-search" type="button">전체 자료 보기</button></div>
     <div class="library-bottom"><span id="result-count" role="status" aria-live="polite"><!-- COUNT:START -->
-전체 1개 자료
+전체 2개 자료
 <!-- COUNT:END --></span><span>한 권씩, 나의 이해를 쌓아갑니다.</span></div>
     <noscript><p>각 책등을 누르면 문서가 열립니다. 검색과 펼침 효과는 JavaScript를 켜면 사용할 수 있습니다.</p></noscript>
   </section>

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>컴퓨터는 어떻게 동작하는가 · 책 기획서와 검증 기록</title>
+<link rel="stylesheet" href="../assets/style.css?v=20261008-1">
+</head>
+<body>
+<main style="max-width:880px;margin:auto;padding:48px 20px">
+  <div class="eyebrow">Book brief · 2026-10-08</div>
+  <h1>책 기획서와 검증 기록</h1>
+  <p class="lead">“컴퓨터는 어떻게 동작하는가”를 쓰기 전에 정한 다섯 가지와 장 구성, 그리고 실제로 확인한 범위를 기록합니다.</p>
+
+  <h2 id="brief">쓰기 전에 정한 다섯 가지</h2>
+  <div class="box">
+    <p><strong>독자.</strong> 컴퓨터를 매일 쓰지만 안에서 무슨 일이 일어나는지 설명해 본 적 없는 고등학생 이상 일반 독자입니다. 프로그래밍 경험은 필요하지 않습니다.</p>
+    <p><strong>끝의 행동.</strong> 작은 CPU 메모리에 프로그램을 넣어 실행하고, 결과가 틀렸을 때 비트 폭·자리올림·깃발 중 무엇 때문인지 근거를 들어 설명하고 고칠 위치를 고릅니다.</p>
+    <p><strong>공통 사례.</strong> 계산기에서 3 + 4를 누르면 화면에 7이 뜨기까지. 모든 장이 이 과정의 한 구간을 맡습니다.</p>
+    <p><strong>범위.</strong> 비트·인코딩·논리 게이트·가산기·레지스터와 클럭·누산기 CPU·점프와 반복·캐시. 운영체제, 네트워크, 파이프라인, 트랜지스터 물리는 다루지 않습니다.</p>
+    <p><strong>증거.</strong> 9장 마지막 과제(100 × 3 = 44)에서 원인·수정 위치·부족한 증거를 스스로 적을 수 있는지로 확인합니다.</p>
+    <p><strong>이야기 방식.</strong> “제품을 완성한다”입니다. 장마다 만든 부품이 다음 장의 재료가 되어, 마지막에 프로그램을 실행하는 컴퓨터가 완성됩니다.</p>
+  </div>
+
+  <h2 id="chapters">장 구성과 실험</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>장 ID</th><th>질문</th><th>오늘 꼭 해 볼 실험</th><th>종류</th></tr></thead>
+    <tbody>
+      <tr><td>bits</td><td>스위치로 어떤 수까지 셀까</td><td>8개 스위치로 수 만들기·자동 세기</td><td>실제 계산</td></tr>
+      <tr><td>encoding</td><td>같은 비트가 왜 다른 뜻이 되나</td><td>한 바이트 네 가지 해석·UTF-8</td><td>실제 계산</td></tr>
+      <tr><td>gates</td><td>전기로 판단할 수 있나</td><td>게이트 진리표 채우기</td><td>실제 계산</td></tr>
+      <tr><td>adder</td><td>게이트로 어떻게 더하나</td><td>자리올림이 번지는 4비트 덧셈기</td><td>실제 계산</td></tr>
+      <tr><td>memory</td><td>회로가 값을 기억할 수 있나</td><td>클럭이 올 때만 기억하는 레지스터</td><td>교육용 모형</td></tr>
+      <tr><td>cpu</td><td>누가 순서를 지시하나</td><td>3 + 4를 단계별로 실행</td><td>교육용 모형</td></tr>
+      <tr><td>programs</td><td>곱셈 회로 없이 곱할 수 있나</td><td>반복 덧셈으로 곱하기·메모리 편집</td><td>교육용 모형</td></tr>
+      <tr><td>cache</td><td>느린 메모리를 어떻게 기다리지 않나</td><td>읽는 순서가 바꾸는 속도</td><td>교육용 모형·가정값</td></tr>
+      <tr><td>final</td><td>처음 보는 고장을 설명할 수 있나</td><td>100 × 3 = 44 조사</td><td>교육용 모형</td></tr>
+    </tbody>
+  </table></div>
+  <p>장 ID는 주소의 앵커로 쓰이므로 바꾸지 않습니다. 진도 표시는 <code>bookshelf:how-computers-work:v1:progress</code> 키로 브라우저에만 저장합니다.</p>
+
+  <h2 id="model">교육용 모형의 경계</h2>
+  <ul>
+    <li>CPU는 메모리 16칸·8비트 누산기 구조이며, 명령 1바이트를 위 4비트 명령·아래 4비트 주소로 나눕니다. 파이프라인·인터럽트·스택·부호 있는 넘침 깃발은 없습니다. 끝나지 않는 프로그램은 500개 명령에서 끊고 오류로 알립니다.</li>
+    <li>레지스터는 쓰기 허용과 클럭만 모형화합니다. 전기적 지연과 불안정 상태는 생략했습니다.</li>
+    <li>캐시는 직접 사상 한 단계이며, 적중 1사이클·실패 100사이클은 실측이 아닌 이 책의 가정값입니다. 무작위 패턴은 seed 42의 고정 순서입니다.</li>
+    <li>UTF-8 바이트는 브라우저의 <code>TextEncoder</code>로 실제 계산합니다.</li>
+  </ul>
+
+  <h2 id="links">다른 책과의 연결</h2>
+  <ul>
+    <li>2장 → <a href="../../ai/index.html#tokens">AI Book 4장</a>: 바이트가 된 글자를 토큰 조각으로 묶는 다음 단계를 보러 갑니다.</li>
+    <li>8장 → <a href="../../ai/index.html#inference">AI Book 10장</a>: 비트 수와 메모리 한계가 큰 모델 실행에서 어떻게 나타나는지 이어 봅니다.</li>
+    <li>9장 → <a href="../../ai/index.html#neuron">AI Book 1장</a>: 규칙을 사람이 정하는 게이트와 데이터로 배우는 뉴런을 비교하러 갑니다.</li>
+  </ul>
+
+  <h2 id="verification">검증 기록 (2026-10-08)</h2>
+  <p><strong>수치 정확성.</strong> <code>npm test --prefix books/computer</code>의 단위 테스트 11개가 통과했습니다. 0~255 비트 왕복, 2의 보수 경계(127, 128, 255), UTF-8(“A”, “가”), 다섯 게이트 진리표와 NAND로 만든 AND, 4비트 모든 쌍 256가지의 덧셈, 준비한 네 프로그램의 출력(7, 12, 5…0, 44), 넘침 깃발, 끝나지 않는 프로그램과 잘못된 명령의 오류, 캐시의 대표값(차례 읽기 75%, 반복 2번 실패, 충돌 0% 적중)을 확인합니다.</p>
+  <p><strong>동작 확인.</strong> <code>tests/browser.cjs</code>로 Chromium에서 9개 실험의 입력·출력·초기화와 범위 밖 입력 오류 표시를 확인했고, 페이지 오류는 0건이었습니다. 1280·390·320px 폭에서 가로 넘침이 없음을 확인했습니다.</p>
+  <p><strong>확인하지 못한 것.</strong> Safari·Firefox·실제 모바일 기기·화면 낭독기, 동작 줄이기 설정에서의 실제 체감, 학습 효과는 확인하지 않았습니다.</p>
+
+  <p style="margin-top:40px"><a href="../index.html">책으로 돌아가기</a> · <a href="../../../index.html#books">서가로 돌아가기</a></p>
+</main>
+</body>
+</html>
