@@ -28,7 +28,7 @@ meta:{
   ['조건수 (condition number)','가장 큰 특잇값 ÷ 가장 작은 특잇값. 클수록 입력 잡음이 해를 크게 흔듭니다.'],
   ['정상 분포 (stationary distribution)','마르코프 연쇄를 오래 돌렸을 때 모이는 분포. πP = π.']
  ],
- series:{name:'AI 엔지니어링 처음부터',no:2,total:20,prev:['../aie-workbench/','AI 개발 작업대'],next:null}
+ series:{name:'AI 엔지니어링 처음부터',no:2,total:20,prev:['../aie-workbench/','AI 개발 작업대'],next:['../aie-ml/','머신러닝 기초']}
 },
 sources:[
  ['AI Engineering from Scratch (원본 커리큘럼, MIT)','https://github.com/rohitg00/ai-engineering-from-scratch','이 시리즈가 단계와 레슨 순서를 참고한 공개 저장소. 문장과 코드는 옮기지 않고 새로 썼다.'],

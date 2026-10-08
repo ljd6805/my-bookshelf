@@ -54,3 +54,4 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 @media(prefers-reduced-motion:reduce){.a02-spin{animation:none!important}}
 html[data-motion=reduce] .a02-spin{animation:none!important}
 [data-theme=light] button.primary,[data-theme=light] .button.primary{color:#fff}
+.side-series{display:flex;flex-direction:column;gap:2px;margin:6px 0 10px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.85rem}.side-series span{color:var(--muted);font-size:.78rem;padding:0 12px}.side-series a{color:var(--accent)}
