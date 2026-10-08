@@ -8,3 +8,4 @@
 - 머리말의 서가로 돌아가기 버튼(`data-shelf-return`, `../../index.html#books`)을 유지한다. 기준은 `docs/07-book-integration.html#shelf-return`이다.
 - 루트에서 `npm test --prefix books/ai`, `node --test tests/test_shelf_model.mjs`, `python3 scripts/validate.py`를 실행한다.
 - 실험 코드를 바꾸면 해당 입력·출력·초기화를 실제 브라우저에서 검증한다. 기존 `docs/` 기록은 이전 시점의 검증 결과이며 현재 결과로 간주하지 않는다.
+- 이 책은 모든 책이 따르는 화면·장 구조의 기준 원본이다(`docs/08-book-template.html`). 머리말·장 블록 순서·실험 블록·장 데이터 필드를 바꾸면 그 문서를 함께 고친다.
