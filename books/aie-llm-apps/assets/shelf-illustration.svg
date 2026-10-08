@@ -1,0 +1,40 @@
+<svg class="a12-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="고객 질문이 캐시에 적중하면 곧바로 답으로 가고, 놓치면 지시·근거·도구를 붙여 모델을 거쳐 답으로 가는 다락 도우미의 요청 흐름을 보여 주는 시각적 비유입니다. 실제 계산이 아닙니다.">
+<style>
+.a12-ill-bg{fill:#f6f3ea}
+.a12-ill-box{fill:#fffdf6;stroke:#8a6a1c;stroke-width:2}
+.a12-ill-model{fill:#fff6dc;stroke:#8a6a1c;stroke-width:2.5}
+.a12-ill-part{fill:#fffdf6;stroke:#9b8f74;stroke-width:1.5}
+.a12-ill-label{font:700 12px sans-serif;fill:#3a2f14;text-anchor:middle}
+.a12-ill-title{text-anchor:start}
+.a12-ill-small{font:11px sans-serif;fill:#5e5440;text-anchor:middle}
+.a12-ill-path{fill:none;stroke:#c9bc98;stroke-width:2.5;stroke-dasharray:4 5}
+.a12-ill-hitpath{fill:none;stroke:#3f7d5a;stroke-width:2.5;stroke-dasharray:4 5}
+.a12-ill-feed{fill:none;stroke:#b5a87f;stroke-width:1.5}
+.a12-ill-hit{fill:#3f7d5a;animation:a12-ill-hitmove 6s ease-in-out infinite}
+.a12-ill-miss{fill:#c26a1d;opacity:0;animation:a12-ill-missmove 6s ease-in-out infinite}
+.a12-ill-cache{animation:a12-ill-glow 6s linear infinite}
+@keyframes a12-ill-hitmove{0%{transform:translate(0,0);opacity:1}10%{transform:translate(60px,0)}22%{transform:translate(60px,-56px)}38%{transform:translate(222px,-56px)}44%{transform:translate(222px,0);opacity:1}48%,100%{transform:translate(222px,0);opacity:0}}
+@keyframes a12-ill-missmove{0%,50%{transform:translate(0,0);opacity:0}52%{opacity:1}60%{transform:translate(60px,0)}75%{transform:translate(142px,0)}84%{transform:translate(142px,0)}96%{transform:translate(222px,0);opacity:1}100%{transform:translate(222px,0);opacity:0}}
+@keyframes a12-ill-glow{0%,8%{fill:#fffdf6}12%,30%{fill:#d8efe1}34%,58%{fill:#fffdf6}62%,72%{fill:#f6dcc4}76%,100%{fill:#fffdf6}}
+html[data-motion=reduce] .a12-ill-hit,html[data-motion=reduce] .a12-ill-miss,html[data-motion=reduce] .a12-ill-cache{animation:none}
+html[data-motion=reduce] .a12-ill-miss{opacity:1;transform:translate(142px,0)}
+@media(prefers-reduced-motion:reduce){.a12-ill-hit,.a12-ill-miss,.a12-ill-cache{animation:none}.a12-ill-miss{opacity:1;transform:translate(142px,0)}}
+</style>
+<rect class="a12-ill-bg" width="340" height="180"/>
+<text class="a12-ill-label a12-ill-title" x="12" y="18">다락 도우미의 요청 한 건</text>
+<path class="a12-ill-hitpath" d="M138 72V34H300V72"/>
+<text class="a12-ill-small" x="228" y="28">적중하면 바로 답</text>
+<path class="a12-ill-path" d="M88 90H272"/>
+<rect class="a12-ill-box" x="10" y="72" width="78" height="36" rx="16"/><text class="a12-ill-small" x="49" y="94">반품 기한?</text>
+<rect class="a12-ill-box a12-ill-cache" x="110" y="72" width="56" height="36" rx="5"/><text class="a12-ill-label" x="138" y="95">캐시</text>
+<rect class="a12-ill-model" x="190" y="68" width="62" height="44" rx="7"/><text class="a12-ill-label" x="221" y="95">모델</text>
+<rect class="a12-ill-box" x="272" y="72" width="60" height="36" rx="5"/><text class="a12-ill-small" x="302" y="94">14일 이내</text>
+<path class="a12-ill-feed" d="M171 132L205 112M221 132V112M271 132L237 112"/>
+<rect class="a12-ill-part" x="146" y="132" width="50" height="26" rx="4"/><text class="a12-ill-small" x="171" y="149">지시</text>
+<rect class="a12-ill-part" x="196" y="132" width="50" height="26" rx="4"/><text class="a12-ill-small" x="221" y="149">근거</text>
+<rect class="a12-ill-part" x="246" y="132" width="50" height="26" rx="4"/><text class="a12-ill-small" x="271" y="149">도구</text>
+<text class="a12-ill-small" x="80" y="148">놓치면 모델로</text>
+<circle class="a12-ill-hit" cx="78" cy="90" r="6"/>
+<circle class="a12-ill-miss" cx="78" cy="90" r="6"/>
+<text class="a12-ill-small" x="170" y="174">시각적 비유 · 실제 계산 아님</text>
+</svg>

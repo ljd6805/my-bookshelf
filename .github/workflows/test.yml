@@ -36,4 +36,9 @@ jobs:
       - run: npm test --prefix books/aie-transformer
       - run: npm test --prefix books/aie-generative
       - run: npm test --prefix books/aie-rl
+      - run: npm test --prefix books/aie-llm-build
+      - run: npm test --prefix books/aie-llm-apps
+      - run: npm test --prefix books/aie-multimodal
+      - run: npm test --prefix books/aie-tools
+      - run: npm test --prefix books/aie-agents
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v

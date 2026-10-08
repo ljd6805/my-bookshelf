@@ -1,0 +1,35 @@
+<svg class="a15-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="경보를 받은 당직 도우미가 생각, 행동, 관찰을 돌며 턴 칸을 하나씩 채우고, 검증 게이트를 통과한 뒤에야 완료 표시가 켜지는 그림. 실제 계산이 아닌 시각적 비유입니다.">
+<style>
+.a15-ill-bg{fill:#f2f4f1}
+.a15-ill-node{fill:#fffdf7;stroke:#2f6f86;stroke-width:2}
+.a15-ill-label{font:700 13px sans-serif;fill:#1f3d47;text-anchor:middle}
+.a15-ill-small{font:11px sans-serif;fill:#4f6066;text-anchor:middle}
+.a15-ill-ring{fill:none;stroke:#b9cdd3;stroke-width:3;stroke-dasharray:5 5}
+.a15-ill-dot{fill:#d0742c;animation:a15-ill-orbit 4.5s linear infinite}
+.a15-ill-turn{fill:#d7e3e6;stroke:#2f6f86;stroke-width:1;animation:a15-ill-fill 9s steps(1,end) infinite}
+.a15-ill-t2{animation-delay:1.5s}.a15-ill-t3{animation-delay:3s}.a15-ill-t4{animation-delay:4.5s}
+.a15-ill-gate{fill:#2f6f86}
+.a15-ill-pass{fill:#d0742c;opacity:0;animation:a15-ill-exit 9s ease-in-out infinite}
+.a15-ill-done{fill:none;stroke:#2e7d4f;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;opacity:.15;animation:a15-ill-ok 9s linear infinite}
+@keyframes a15-ill-orbit{0%{transform:translate(0,0)}33%{transform:translate(100px,0)}66%{transform:translate(50px,72px)}100%{transform:translate(0,0)}}
+@keyframes a15-ill-fill{0%{fill:#d7e3e6}6%,70%{fill:#2f6f86}76%,100%{fill:#d7e3e6}}
+@keyframes a15-ill-exit{0%,62%{opacity:0;transform:translate(0,0)}66%{opacity:1;transform:translate(0,0)}80%{opacity:1;transform:translate(76px,0)}86%,100%{opacity:0;transform:translate(76px,0)}}
+@keyframes a15-ill-ok{0%,78%{opacity:.15}82%,96%{opacity:1}100%{opacity:.15}}
+html[data-motion=reduce] .a15-ill-dot,html[data-motion=reduce] .a15-ill-turn,html[data-motion=reduce] .a15-ill-pass,html[data-motion=reduce] .a15-ill-done{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.a15-ill-dot,.a15-ill-turn,.a15-ill-pass,.a15-ill-done{animation:none;opacity:1}}
+</style>
+<rect class="a15-ill-bg" width="340" height="180"/>
+<text class="a15-ill-label" x="170" y="20">경보 하나, 루프 몇 바퀴, 게이트 하나</text>
+<path class="a15-ill-ring" d="M60 58H160L110 130Z"/>
+<rect class="a15-ill-node" x="22" y="40" width="76" height="34" rx="6"/><text class="a15-ill-label" x="60" y="62">생각</text>
+<rect class="a15-ill-node" x="122" y="40" width="76" height="34" rx="6"/><text class="a15-ill-label" x="160" y="62">행동</text>
+<rect class="a15-ill-node" x="72" y="114" width="76" height="34" rx="6"/><text class="a15-ill-label" x="110" y="136">관찰</text>
+<circle class="a15-ill-dot" cx="60" cy="58" r="7"/>
+<text class="a15-ill-small" x="250" y="44">턴 예산</text>
+<rect class="a15-ill-turn" x="214" y="52" width="16" height="16" rx="3"/><rect class="a15-ill-turn a15-ill-t2" x="234" y="52" width="16" height="16" rx="3"/><rect class="a15-ill-turn a15-ill-t3" x="254" y="52" width="16" height="16" rx="3"/><rect class="a15-ill-turn a15-ill-t4" x="274" y="52" width="16" height="16" rx="3"/>
+<path d="M200 112H316" stroke="#b9cdd3" stroke-width="3"/>
+<rect class="a15-ill-gate" x="244" y="96" width="8" height="32" rx="2"/><text class="a15-ill-small" x="248" y="146">게이트</text>
+<circle class="a15-ill-pass" cx="214" cy="112" r="7"/>
+<path class="a15-ill-done" d="M286 108l8 8 16-18"/><text class="a15-ill-small" x="298" y="146">완료</text>
+<text class="a15-ill-small" x="170" y="170">완료라는 말이 아니라 검사를 통과해야 끝납니다</text>
+</svg>

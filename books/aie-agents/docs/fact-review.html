@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="에이전트 엔지니어링 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 에이전트 엔지니어링</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · 에이전트 엔지니어링</h1>
+<p>「AI 엔지니어링 처음부터」 15권 《에이전트 엔지니어링》(<code>books/aie-agents/</code>)을 쓰지 않은 검수 에이전트가 원본 Phase 14 레슨 54개, 레슨이 인용한 논문 초록과 공식 문서에 비추어 확인한 결과입니다. 기록 형식은 서재 공통 양식(<code>templates/fact-review.html</code>)을 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-agents)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-agents)" data-date="2026-10-08" data-scope="12개 장 본문·공식·자세히 보기·확인 문제·더 읽어 보기, 실험 16개와 표지 pⁿ 실험의 계산, 안내 상자 결과 읽기, 그림 캡션 12개, 용어집, 출처 103개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-agents). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-agents). 범위: 12개 장 본문(문단·공식·공식 설명·자세히 보기·경고·확인 문제·다른 책 링크), 실험 16개와 표지 pⁿ 실험, 안내 상자, 그림 캡션, 용어집, 출처 103개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>5건 수정, 2건 보류</td><td>ReAct(ALFWorld +34%p, WebShop +10%p), ReWOO(약 5배·+4%p·175B→7B), ToT(4%→74%), LATS(92.7%·75.9), Reflexion, Self-Refine(+20%p), Du 토론(N=3·R=2), AlphaEvolve(48회 곱셈·0.7%·32%), SWE-bench(12개 저장소·2,294건·Verified 500문항 2024년 8월), GAIA(466문항·92% 대 15%·300문항 비공개), WebArena(812·14.41% 대 78.24%), OSWorld(369·12.24% 대 72.36%), OpenAI CUA(38.1·58.1·87), MASFT(14유형 3범주·κ 0.88), AutoGen v0.4(2025년 1월)·Agent Framework(2025년 10월 1일), Letta 전환(2024년 9월) 등을 원본 레슨 en.md와 논문 초록·공식 문서에 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>content.js의 UCT·Reflexion·Mem0 융합·음성 지연·위험 점수·조각 점수·파일럿 문턱·토론 비용 식과 lab-guides.js 결과 읽기의 숫자(250ms·590ms, 위험 호출 4→0, 엄격 모드 통과 9건 등)를 node로 js/math.js를 불러 다시 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>책 테스트와 따로 대표값·경계값 계산: ReAct·ReWOO n=8에서 10,800 대 2,640, n=20에서 44,100(그래프 상한 45천 안), UCT c=1에서 C 점수 0.4+√(ln14)=2.0245, Reflexion 외부 판정 3회 1−0.7·0.5·0.3=0.895, 융합 w_rec 0.2에서 r1 0.72, 지연 빠른 구성 LLM 350ms에서 600ms(최상급 경계 포함), 0.99⁴⁰=66.9%·0.99⁴⁰⁰=1.80%·0.95⁴⁰=12.85%. 실제 계산·시나리오·교육용 가정값 표시가 코드와 맞음</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>handoff를 본문은 “핸드오프”, 출처 설명은 “넘겨주기”로 달리 써서 “핸드오프”로 통일. ReAct·ReWOO·UCT·FAIL_TO_PASS·PVE(Prompt-Validator-Executor)·gen_ai 속성 이름을 원문 표기와 대조</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>3건 수정</td><td>외부 URL 47개가 모두 원본 레슨에서 인용된 것임을 확인하고, 덜 알려진 arXiv 번호·DOI는 WebFetch와 Crossref로 제목을 대조. 장별 source 번호 12개 묶음을 모두 출력해 장 내용과 맞춤. 다른 책 링크 15개의 도착 장 제목을 data/catalog.json chapter_index로 확인. 원본 커리큘럼 크레딧(MIT)이 출처 목록 첫 줄과 꼬리말에 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>출처 목록 · Lenarduzzi &amp; Taibi, MVP Explained (js/content.js)</td><td>링크 arXiv 1609.07592가 전혀 다른 논문(저작동 로봇 손 파지 연구)을 가리킴. 원본 레슨 50의 링크 오류가 옮겨 옴</td><td>arXiv 초록 페이지, Crossref 10.1109/SEAA.2016.56(SEAA 2016, Lenarduzzi·Taibi)</td><td>링크를 https://doi.org/10.1109/SEAA.2016.56으로 바꾸고 제목에 학회 표기</td></tr>
+<tr><td>출처 목록 · Fagerholm et al., Building Blocks for Continuous Experimentation</td><td>DOI 10.1145/2601248.2601276이 다른 논문(애자일과 사용자 중심 설계 문헌 검토)을 가리킴. 원본 레슨 53·54의 오류</td><td>Crossref 조회: 정확한 DOI는 10.1145/2593812.2593816(RCoSE 2014)</td><td>DOI 교체</td></tr>
+<tr><td>#workbench 첫 문단, 출처 목록 · Cloudflare</td><td>“Cloudflare 30일 기록에서 만료 있는 규칙 묶음은 30개 미만, 없는 묶음은 80개 넘게”를 사실로 서술했으나 Cloudflare 원문에는 규칙 만료·규칙 수 비교가 없음</td><td>blog.cloudflare.com/ai-code-review 본문(131,246회·48,095건·중앙값 3분 39초·최대 일곱 리뷰어는 확인됨, 규칙 수 비교는 없음)</td><td>원본 레슨의 주장으로 낮추고 원문에서 확인하지 못했다고 밝힘. 원문이 실제로 말하는 “지침 파일이 빨리 낡는다”를 함께 적고 출처 설명도 고침</td></tr>
+<tr><td>#memory 자세히 보기 · Mem0 벤치마크</td><td>“논문은 LoCoMo 91.6, LongMemEval 93.4, BEAM 64.1을 보고”. 2025년 arXiv 논문(v1뿐)에는 LongMemEval·BEAM이 없고 LoCoMo에서 OpenAI 기억 대비 LLM 판정 26% 상대 개선을 보고함. 세 수치는 Mem0이 나중에 자사 연구 페이지에 올린 값</td><td>arXiv 2504.19413 초록, mem0.ai/research(현재 92.5·94.4로 갱신됨)</td><td>원본 커리큘럼 기준 수치로 표시하고 논문 수치가 아니며 계속 갱신된다고 고침. 논문의 실제 결과를 함께 적음</td></tr>
+<tr><td>#runtime 자세히 보기 · LiveKit</td><td>MultimodalAgent·VoicePipelineAgent 두 클래스를 현재 구조처럼 서술. LiveKit Agents 1.0부터 AgentSession 하나로 통합됨</td><td>LiveKit 공식 v0→v1 이전 안내: “Agents 1.0 introduces AgentSession, a single, unified agent orchestrator”</td><td>두 클래스는 0.x 구조이고 1.0부터 AgentSession이 두 방식을 함께 맡는다고 고침</td></tr>
+<tr><td>#runtime 자세히 보기 · OpenAI Agents SDK 안전장치</td><td>입력·출력·도구 안전장치가 모두 기본으로 본 호출과 나란히 돈다고 읽힘. 병렬·차단 모드(run_in_parallel)는 입력 안전장치에만 있고 출력 안전장치는 언제나 답 뒤에 돈다</td><td>openai.github.io/openai-agents-python/guardrails</td><td>입력 안전장치에 한정하고 출력 안전장치의 실행 시점을 덧붙임</td></tr>
+<tr><td>#measure 첫 문단 · SWE-bench+</td><td>32.67%·31.08%의 분모가 빠져 데이터셋 전체 비율로 읽힘. 원문은 해결로 채점된 패치 가운데의 비율</td><td>원본 레슨 19(“of successful patches”), SWE-bench+ 논문</td><td>“해결로 채점된 패치 가운데”를 넣음</td></tr>
+<tr><td>#plan 첫 문단·자세히 보기 · Plan-and-Act</td><td>“30~50단계를 넘는 웹·모바일 작업”. 논문은 웹 탐색(WebArena-Lite 57.58%, WebVoyager 81.36%)만 평가하며 모바일·단계 수는 원본 레슨의 표현</td><td>arXiv 2503.09572 초록, ICML 2025 게재 확인</td><td>“긴 웹 탐색 작업”으로 고치고 논문 수치를 더하고 단계 수는 원본 레슨의 쓰임새로 표시</td></tr>
+<tr><td>#memory 둘째 문단 · Voyager</td><td>“고유 아이템 3.3배, 돌 도구 8.5배 빠른 획득”이 고유 아이템도 3.3배 빠르다는 뜻으로 읽힘. 원문은 고유 아이템 3.3배 더 많이</td><td>원본 레슨 10, Voyager 초록</td><td>“3.3배 더 많이 모으고 돌 도구를 8.5배 빨리”로 고침</td></tr>
+<tr><td>#runtime 공식 설명, 음성 실험 결과 문장(js/labs-memory.js)</td><td>원본에 없는 구간 이름 가운데 600~800ms만 책이 붙인 이름이라고 밝히고 1200~1500ms “느림”은 빠뜨림</td><td>원본 레슨 22의 체감 구간(450~600·800~1200·1500 초과)과 js/labs-memory.js BAND</td><td>두 빈 구간 모두 책이 붙인 이름이라고 밝힘</td></tr>
+<tr><td>출처 설명 · 원본 레슨 16, OpenAI Agents SDK 문서</td><td>handoff 번역어가 본문(핸드오프)과 다름</td><td>책 안 용어 일관성</td><td>“핸드오프”로 통일</td></tr>
+</tbody></table>
+<h3>보류 (고치지 않음)</h3>
+<ul>
+<li>#refine 첫 문단: Reflexion의 규칙 기반 판정을 “같은 행동이 두 번 반복되면 막힌 것”으로 설명합니다. 원본 레슨의 예시와 같지만, 논문의 ALFWorld 규칙은 같은 행동·관찰이 3회를 넘게 반복되거나 행동이 30회를 넘을 때입니다. 예시로 읽을 수 있어 보류했습니다.</li>
+<li>#plan: “탐색이 생각 사슬보다 토큰을 100~1000배 쓴다”는 원본 레슨의 경고입니다. ToT 논문 부록은 Game of 24에서 ToT가 생각 사슬 한 번의 약 100배 분량(CoT 100회와 비슷)을 쓴다고 적어 하한과는 맞지만 1000배의 근거는 찾지 못했습니다. 문단에서는 원본 레슨의 말로 밝혀 두어 보류했습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>프록시 제한으로 curl 일괄 접속은 대부분 막혀, 외부 URL은 원본 레슨 인용 여부를 모두 확인하고 그중 16곳만 WebFetch·Crossref로 열어 확인했습니다(ChatHTN, Plan-and-Act, 희소 토론, AlphaEvolve, Mem0, Greshake, MVP·Fagerholm·Boehm·Horvitz DOI, Cloudflare, LangChain, Pipecat, LiveKit, OpenAI 안전장치). Terminal Bench 순위 변화는 LangChain 원문으로 확인했지만 Vercel·Harvey·88% 기업 조사·WebAgent 붕괴·AMBIG-SWE·52%→21%·LLM 판정 편향 40%·15%·Langfuse 설치 수·Comet 비교·89%/32% 조사·Agno 2μs·Vapi/Retell 지연·Gemini 2.5 Computer Use의 13개 행동은 원본 레슨 수치와 일치함만 확인했고 2차 출처는 열지 못했습니다(책은 이들을 원본 커리큘럼 기준으로 표시함). 실제 언어 모델·프레임워크·벤치마크 실행은 하지 않았습니다.</p>
+</section>
+</main></body></html>

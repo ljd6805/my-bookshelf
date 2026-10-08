@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="《멀티모달 AI · 보고 듣고 말하는 모델》을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 멀티모달 AI</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · 멀티모달 AI</h1>
+<p>「AI 엔지니어링 처음부터」 13권의 사실, 수식·수치, 실험 계산, 용어, 출처를 책을 쓰지 않은 에이전트가 확인한 결과입니다. 기준과 절차는 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. 프로젝트 문서는 <a href="index.html">docs/index.html</a>에 있습니다.</p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-multimodal)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-multimodal)" data-date="2026-10-08" data-scope="12개 장 본문·세부·혼동 주의·확인 문제, 15개 실험과 안내 상자, 그림 12개 캡션, 표지 실험, 용어집 12개, 출처 83개(원본 커리큘럼 1개·원본 레슨 25개·arXiv 57건), 다른 책 링크 25개(도착 장 20곳)" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-multimodal). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-multimodal). 범위: 12개 장 본문·세부·혼동 주의·확인 문제, 15개 실험과 안내 상자, 그림 12개 캡션, 표지 실험, 용어집 12개, 출처 83개(원본 커리큘럼 1개·원본 레슨 25개·arXiv 57건), 다른 책 링크 25개(도착 장 20곳).</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>4건 수정</td><td>장마다 주장 문장을 원본 레슨 phases/12-multimodal-ai/*/docs/en.md와 대조하고, 어긋나거나 의심되는 곳은 논문 본문(BLIP-2 3.1절, SigLIP 2 2.1·2.4.2절, LLaVA-1.5 2·3절)으로 확인. 시점 민감 수치(SigLIP 2 기본 탑, AgentVista 30%, Emu3·Janus-Pro 점수, Qwen3-VL)는 “원본 커리큘럼 기준(확인일 2026-10-08)” 또는 “원본 레슨 기준” 표시를 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>3건 수정</td><td>ViT-B/16 파라미터 장부(590,592 + 152,064 + 12×7,087,872 + 1,536 = 85,798,656, 분류 머리 769,000을 더하면 공개값 86,567,656), 224²×3 = 150,528, 336/14 = 24 → 576, 8장×256 = 2,048 → 256, AnyRes (4+1)×576 = 2,880과 4×4 격자 (16+1)×576 = 9,792, NaViT 576+256+768 = 1,600, Qwen2-VL 1120×672 → 40×24 = 960, 90초×30 FPS×196 = 529,200, 60초×4 FPS×81 = 19,440(풀링 없으면 174,960), 30초 ÷ 10ms = 3,000, 4,096토큰 ÷ 30토큰/초 = 136.5초, 7×10Hz = 70 > 35 → 5Hz, 0.95²⁰ = 0.358, 0.9¹⁰ = 0.349, 48쪽 저장량 25.3MB 대 147kB(약 172배), 원본 예 50쪽 18.7MB 대 154kB를 손과 node로 다시 계산</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>계산 오류 없음, 설명 1건 수정(MaxSim 벡터 차원)</td><td>js/math.js를 책 테스트와 따로 node로 불러 안내 상자 예제 45개 입력을 모두 다시 계산하고 “결과 읽기” 문장과 대조(예: τ 0.03·0.07·0.5에서 InfoNCE 0.001·0.036·0.703, 게이트 첫 손실 0.36·첫 기울기 −1.2·η 2에서 0.984까지 넘침, AnyRes 3장 8,640 > 8,192, 0.3초 사건 4 FPS에서 1, MaskGIT 1,024·8단계 확정 20→199로 증가, MaxSim 1등 “필터 그림 쪽” 대 평균 1등 “설치 안내 본문”). 경계값(나누어떨어지지 않는 픽셀, 최소·최대 픽셀, 칸 끝값, 감지율 0)과 실제 계산·시나리오·비유 표시가 사실과 맞는지 확인</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>패치 토큰, 대조 학습, 게이트 교차 어텐션, 프로젝터, 시각 지시 튜닝, 정류 흐름, 흐름 정합, 후기 상호작용, GUI 그라운딩 등 한영 대응과 책 안 일관성을 원문 용어와 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 25개 폴더가 로컬 사본에 모두 있음. arXiv 57건은 Hugging Face Papers의 논문 본문(arxiv.org 직접 접속은 프록시가 막음)으로 번호와 제목·첫 저자·연도를 하나씩 대조해 57건 모두 일치. 장별 source 번호가 그 장 내용과 맞는지, 다른 책 링크 25개(도착 장 20곳)가 실제 route에 있고 이유와 맞는지 확인. MIT 크레딧이 출처 첫 항목과 꼬리말에 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#bridge 세부 “BLIP-2 두 단계와 그 후손” (js/content.js)</td><td>Q-Former의 쿼리 경로와 글 경로가 “자기 어텐션과 FFN 가중치를 공유”한다고 적음(원본 레슨의 서술을 따름)</td><td>BLIP-2 논문 3.1절: 두 하위 모듈은 같은 자기 어텐션 층만 공유하고, 교차 어텐션은 한 블록 걸러 끼움</td><td>“자기 어텐션 층을 공유”로 고치고 교차 어텐션이 한 블록 걸러 있음을 적음</td></tr>
+<tr><td>#patches 세부 “요약 방식과 사전학습 선택”</td><td>“평균 풀링: SigLIP·DINOv2가 씀”(원본 레슨의 서술)</td><td>SigLIP 2 논문 2.1절: 시각·글 표현을 MAP 머리(어텐션 풀링)로 모음. DINOv2는 [CLS] 출력을 씀</td><td>[CLS](ViT·CLIP·DINOv2), 평균 풀링, 어텐션 풀링(SigLIP·SigLIP 2의 MAP 머리)으로 나눠 적음</td></tr>
+<tr><td>#recipe 본문 첫 문단</td><td>LLaVA와 LLaVA-1.5의 설정을 한 모델처럼 섞음: 336 해상도·2층 MLP·55.8만 정렬 쌍(1.5)과 15.8만 지시 데이터(처음 LLaVA)</td><td>LLaVA-1.5 논문 2·3절: 처음 LLaVA는 약 60만 쌍과 선형 층 하나, 1.5는 336px·MLP·학술 과제를 섞은 지시 데이터(66.5만)</td><td>LLaVA-1.5 기준으로 문장을 세우고 처음 LLaVA의 224 해상도·선형 층·약 59.5만 쌍·15.8만 개를 괄호로 구분</td></tr>
+<tr><td>#anyres 본문 둘째 문단</td><td>SigLIP 2 NaFlex가 “256·729·1,024토큰” 예산을 고른다고 적음(원본 레슨). 729는 So400m/14 384 고정 해상도 판의 토큰 수</td><td>SigLIP 2 논문 2.4.2절: NaFlex는 패치 16으로 시퀀스 길이 {128, 256, 576, 784, 1024}를 학습</td><td>“256·576·1,024토큰”으로 고침</td></tr>
+<tr><td>#voice 세부 “Thinker–Talker와 지연 장부”</td><td>7B 합계를 원본 레슨대로 “320~510ms”로 적었지만, 같은 문장의 단계별 범위를 더하면 최대 80+200+40+20+40+30+80 = 490ms</td><td>식 재계산</td><td>“320~490ms(원본 레슨은 320~510ms로 적었지만 단계 범위를 더하면 490ms)”로 고침. 실험 시나리오 합계 405ms는 그대로 맞음</td></tr>
+<tr><td>#unified 혼동 주의</td><td>코사인 일정이 “가운데에서 많이 확정”한다고 적음. 같은 장의 실험이 보여 주듯 r(t) = cos(πt/2T)에서는 단계별 확정 수가 마지막 단계까지 계속 늘어남(1,024·8단계: 20, 58, 95, 127, 156, 177, 192, 199)</td><td>maskSchedule 재계산, MaskGIT 논문의 오목 일정 설명</td><td>“처음에 조금, 뒤로 갈수록 많이 확정”으로 고침</td></tr>
+<tr><td>#docs 본문 둘째 문단과 혼동 주의</td><td>쪽 이미지 색인이 텍스트 RAG의 “수백 배” 저장량이라고 적음. 벡터 수는 약 1,000배지만 저장량은 1,030×128 ÷ 768 ≈ 172배(float32, 실험과 같은 비교)</td><td>storage 재계산(48쪽 25.3MB 대 147kB)</td><td>본문은 “저장량이 170배쯤(float32 기준)”, 혼동 주의는 “백 배 넘게”로 고침</td></tr>
+<tr><td>#docs 식 설명(formulaNote)</td><td>MaxSim 실험 벡터를 “3차원 예시”라고 적었지만 labs-use.js의 질의·패치 벡터는 4차원(그림만 3차원)</td><td>코드 대조</td><td>“4차원 예시(그림은 3차원)”로 고침</td></tr>
+</tbody></table>
+<h3>보류(판단이 갈려 고치지 않음)</h3>
+<ul>
+<li>#anyres: AnyRes 격자 후보로 1×1을 듭니다. LLaVA-NeXT의 기본 grid_pinpoints(336×672, 672×336, 672×672, 1008×336, 336×1008)에는 1×1이 없지만, 후속 설정(LLaVA-OneVision의 anyres_max)에는 들어가고 문장에 “등”이 붙어 있어 고치지 않았습니다.</li>
+<li>#voice: SALMONN·Qwen-Audio·LTU·AF3를 “인코더 출력을 오디오 Q-Former로 줄여” 넣는 구조로 묶었습니다. 원본 레슨과 같은 일반화이며 Qwen-Audio는 Q-Former 없이 인코더 출력을 바로 넣는 구조라 엄밀하지 않지만, 문단의 요지(종단간 오디오 LLM)는 맞아 보류했습니다.</li>
+<li>#action: OpenVLA 4~5Hz(A100)는 원본 레슨 기준 수치이며 원본은 “양자화와 함께”라고 적었습니다. 논문 측정 환경과의 차이는 확인하지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>arxiv.org와 export.arxiv.org는 이 환경의 프록시가 막아 직접 열지 못했고, 같은 번호의 Hugging Face Papers 사본으로 제목과 본문을 확인했습니다.</li>
+<li>원본 레슨이 적은 벤치마크 점수(Emu3 대 SDXL·LLaVA-1.6, AgentVista 30%, ColPali 대 텍스트 RAG 차이, OpenVLA 속도)는 “원본 레슨 기준”으로 표시된 것을 확인했을 뿐 논문 표와 하나하나 대조하지 않았습니다. AgentVista(arXiv:2602.23166)는 책의 출처 목록에 없고 열어 보지 않았습니다.</li>
+<li>Gemini 1.5의 99% 넘는 재현율, Moshi 160ms, Janus-Pro GenEval 0.80 대 DALL-E 3 0.67은 원본 레슨과 일치를 확인했고, 논문 표는 초록 수준으로만 확인했습니다.</li>
+<li>원문 복제 여부는 01·03·05·20·23 레슨을 표본으로 대조했고, 긴 직역 구간은 찾지 못했습니다.</li>
+</ul>
+</section>
+</main></body></html>
