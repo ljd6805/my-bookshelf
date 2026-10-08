@@ -1,0 +1,117 @@
+{
+ "book": {
+  "id": "aie-04-deep",
+  "title": "딥러닝 핵심 · 퍼셉트론에서 나만의 작은 프레임워크까지",
+  "short_title": "딥러닝 핵심",
+  "spine_title": "딥러닝 핵심",
+  "spine_category": "AI공학",
+  "description": "평면 위 점이 원 안에 있는지 맞히는 작은 신경망 하나를 퍼셉트론에서 시작해 층, 역전파, 활성화, 손실, 옵티마이저, 학습률 일정, 초기화, 규제, 작은 프레임워크까지 키우며 브라우저 안에서 실제로 학습시킵니다. 12장 16개 실험으로 학습이 멈추는 이유를 손실 곡선과 층별 기울기로 진단하는 법까지 익힙니다.",
+  "illustration_caption": "값이 신경망을 앞으로 지나간 뒤 기울기가 거꾸로 돌아오고, 그때마다 손실 곡선이 내려가는 학습 과정을 보여 주는 시각적 비유입니다.",
+  "keywords": [
+   "딥러닝",
+   "퍼셉트론",
+   "역전파",
+   "backpropagation",
+   "활성화 함수",
+   "교차 엔트로피",
+   "옵티마이저",
+   "Adam",
+   "학습률 일정",
+   "가중치 초기화",
+   "드롭아웃",
+   "PyTorch",
+   "JAX",
+   "신경망 디버깅"
+  ],
+  "chapters_featured": [
+   "#perceptron",
+   "#backprop",
+   "#optimizer",
+   "#init",
+   "#debug"
+  ],
+  "cover_meta": "12장 · 16개 실험"
+ },
+ "chapter_index": {
+  "books/aie-deep/#perceptron": "01 · 직선 하나로 나눌 수 있을까",
+  "books/aie-deep/#forward": "02 · 층을 쌓으면 곡선이 된다",
+  "books/aie-deep/#backprop": "03 · 오차를 거꾸로 나누어 주기",
+  "books/aie-deep/#activation": "04 · 꺾는 함수가 기울기를 정한다",
+  "books/aie-deep/#loss": "05 · 틀린 정도를 재는 자",
+  "books/aie-deep/#optimizer": "06 · 같은 기울기, 다른 걸음",
+  "books/aie-deep/#schedule": "07 · 학습률을 시간에 따라 바꾸기",
+  "books/aie-deep/#init": "08 · 첫 가중치가 신호를 살린다",
+  "books/aie-deep/#regularize": "09 · 외우지 않고 배우게 하기",
+  "books/aie-deep/#framework": "10 · 부품을 묶어 나만의 프레임워크로",
+  "books/aie-deep/#debug": "11 · 손실 곡선으로 고장 찾기",
+  "books/aie-deep/#final": "마지막 · 깊어진 판별기가 멈춘 날"
+ },
+ "concepts": [
+  {
+   "id": "decision-unit",
+   "new": false,
+   "chapters": [
+    "books/aie-deep/#perceptron"
+   ]
+  },
+  {
+   "id": "linear-transform",
+   "new": false,
+   "chapters": [
+    "books/aie-deep/#forward"
+   ]
+  },
+  {
+   "id": "loss-likelihood",
+   "new": false,
+   "chapters": [
+    "books/aie-deep/#loss",
+    "books/aie-deep/#optimizer"
+   ]
+  },
+  {
+   "id": "variance",
+   "new": false,
+   "chapters": [
+    "books/aie-deep/#init"
+   ]
+  },
+  {
+   "id": "evaluation-uncertainty",
+   "new": false,
+   "chapters": [
+    "books/aie-deep/#regularize"
+   ]
+  },
+  {
+   "id": "gradient-backprop",
+   "new": false,
+   "chapters": [
+    "books/aie-deep/#backprop",
+    "books/aie-deep/#activation",
+    "books/aie-deep/#debug"
+   ]
+  }
+ ],
+ "series_step": {
+  "url": "books/aie-deep/#backprop",
+  "task": "XOR 학습 실험에서 학습률과 시작 시드를 바꾸어, 손실이 0 근처로 내려가는 경우와 0.35 근처에 멈추는 경우를 하나씩 찾는다",
+  "minutes": 15,
+  "why": "앞 권의 경사하강을 여러 층으로 넓혀, 기울기가 층을 거슬러 전달되는 방식과 학습이 멈추는 이유를 직접 확인하는 권이다",
+  "record": "성공한 설정과 멈춘 설정의 학습률·시드·최종 손실, 그리고 멈춘 이유에 대한 가설 한 문장"
+ },
+ "incoming": [
+  {
+   "from": "books/ai/#learning",
+   "label": "딥러닝 핵심 · 오차를 거꾸로 나누어 주기",
+   "url": "../aie-deep/#backprop",
+   "why": "한 변수 경사하강을 익힌 뒤, 여러 층의 가중치 기울기를 연쇄법칙으로 한 번에 구하는 방법과 기울기가 사라지는 이유를 이어서 볼 수 있습니다."
+  },
+  {
+   "from": "books/linear-algebra/#layer",
+   "label": "딥러닝 핵심 · 층을 쌓으면 곡선이 된다",
+   "url": "../aie-deep/#forward",
+   "why": "행렬 곱과 꺾기로 만든 층을 여러 개 쌓았을 때 XOR처럼 직선으로 못 나누는 문제가 어떻게 풀리는지 직접 조작해 볼 수 있습니다."
+  }
+ ]
+}

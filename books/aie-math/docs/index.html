@@ -1,0 +1,96 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>모델을 움직이는 수학 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">모델을 움직이는 수학 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>모델을 움직이는 수학 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 02권 《모델을 움직이는 수학 · 미분에서 푸리에까지》를 어떻게 기획하고 원본 레슨을 어디에 넣었는지, 무엇으로 구현하고 어디까지 검증했는지 정리한 문서입니다. 작성일은 2026-10-08입니다. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 1 · Math Foundations입니다. 원문과 코드는 옮기지 않았고, 개념과 순서만 참고해 새로 썼습니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: 01권에서 작업 환경을 갖춘 뒤 신경망 코드를 돌려 본 사람입니다. <code>loss.backward()</code>나 <code>softmax</code>를 쓸 줄은 알지만, 그 안에서 어떤 수가 계산되는지, 학습이 왜 갑자기 발산하거나 NaN이 되는지는 설명하기 어려워하는 독자를 생각했습니다.</li>
+<li><b>끝의 행동</b>: “새 모델이 더 낫다”거나 “학습이 깨졌다”는 보고를 받았을 때 직접 따져 볼 수 있게 하는 것이 목표입니다. 어느 계산(모양, 기울기, 학습률, 숫자 범위, 표본 수)을 먼저 확인할지 정하고, 그 판단을 숫자로 설명할 수 있어야 합니다.</li>
+<li><b>공통 사례</b>: 거실 조명을 움직이는 음성 명령 인식기 ‘말귀’를 책 전체에서 씁니다. 명령은 ‘켜’, ‘꺼’, ‘밝게’ 세 가지입니다. 1장에서 소리를 주파수로 나누는 것으로 시작해 텐서, 층, 손실, 역전파, 경사하강, 숫자 안정성, 샘플링, SVD 압축, 연립방정식, 명령 흐름까지 차례로 말귀에 붙입니다. 마지막 장에서는 시끄러운 부엌에서 새 버전이 정말 나아졌는지 판정합니다.</li>
+<li><b>이야기 방식</b>: 하나의 제품을 완성하는 이야기입니다. 장마다 말귀를 만드는 과정의 한 단계를 맡고, 그 단계에서 생길 수 있는 실패를 실험으로 계산해 봅니다. 그 실패는 발산, 넘침, 모양 오류, 흔들리는 해 같은 것입니다.</li>
+<li><b>범위</b>: 원본 Phase 1의 레슨 22개를 모두 다룹니다. 서재의 『벡터와 행렬로 보는 세상』과 『확률과 통계』가 이미 깊게 다룬 레슨(01·02·03·06·07·10·15)은 장 안에서 한 문단으로 요약하고, cross 링크로 해당 장에 보냅니다. 나머지 분량은 원본에만 있는 미분, 자동미분, 최적화와 볼록성, 정보이론, 수치 안정성, 샘플링, SVD, 텐서, 노름, 연립방정식, 복소수와 푸리에, 그래프, 확률 과정에 썼습니다.</li>
+<li><b>증거</b>: 실험 15개는 모두 브라우저에서 정의대로 실제 계산합니다. 계산 내용은 64점 DFT, 브로드캐스팅 규칙, 노름, 수치·해석 미분, 역전파, 이차 함수 경사하강, 엔트로피와 KL, float16 반올림, 온도와 top-p, 몬테카를로, Jacobi 고유값으로 구한 SVD, 2×2 조건수, 마르코프 연쇄 거듭제곱, 정규 근사 구간입니다. 입력값 일부는 교육용으로 정한 가상 값이며, 각 실험의 결과 문장에 그렇다고 적었습니다. 가상 값은 ‘켜’ 신호의 성분, 명령 기준 특징, 12×10 스펙트로그램, 전이 확률, 두 버전의 정확도입니다. 장마다 있는 움직이는 그림의 숫자도 같은 계산 함수로 구했습니다. 화살표 회전이나 움직이는 점 같은 움직임 자체는 시각적 비유입니다.</li>
+</ul>
+<p>책은 네 부분으로 나뉩니다. 입력을 숫자로(1~2장), 기울기로 배우기(3~5장), 확률과 정보(6~8장), 구조와 판단(9~11장과 마지막 장)입니다.</p>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>원본 Phase 1의 레슨 22개를 하나도 빠짐없이 어느 장에 넣었는지 적었습니다. 각 장의 “더 읽어 보기”에는 해당 레슨 폴더 링크가 있습니다. 표에서 “요약 + 링크”라고 적은 레슨은 서재의 다른 책이 깊게 다루므로 짧게만 썼습니다.</p>
+<table><tr><th>원본 레슨</th><th>들어간 장</th><th>장에서 다룬 핵심</th></tr>
+<tr><td>01 Linear Algebra Intuition</td><td>02 tensor</td><td>요약 + 링크(linear-algebra #matrix). 벡터를 특징의 목록으로, 행렬을 한꺼번에 옮기는 규칙으로 봅니다.</td></tr>
+<tr><td>02 Vectors, Matrices &amp; Operations</td><td>02 tensor</td><td>요약 + 링크(linear-algebra #similarity). 내적, 행렬 곱의 모양 규칙만 짧게 다룹니다.</td></tr>
+<tr><td>03 Matrix Transformations</td><td>09 svd</td><td>요약 + 링크(linear-algebra #eigen). 회전·늘이기·회전의 합성으로 SVD를 읽는 부분에만 씁니다.</td></tr>
+<tr><td>04 Calculus for ML</td><td>03 derivative</td><td>도함수, 편미분과 기울기 벡터, 앞·가운데 차분과 반올림 오차, 테일러 근사를 다룹니다. 실험: numdiff.</td></tr>
+<tr><td>05 Chain Rule &amp; Automatic Differentiation</td><td>04 autodiff</td><td>계산 그래프, 연쇄법칙, 역방향 모드가 한 번에 모든 기울기를 주는 이유, 기울기 검사를 다룹니다. 실험: backprop.</td></tr>
+<tr><td>06 Probability and Distributions</td><td>06 entropy</td><td>요약 + 링크(probability #likelihood). 확률 분포는 놀람을 재는 바탕으로만 씁니다.</td></tr>
+<tr><td>07 Bayes' Theorem</td><td>마지막 final</td><td>요약 + 링크(probability #bayes). 기저율이 낮은 오인식 경보를 해석하는 데만 씁니다.</td></tr>
+<tr><td>08 Optimization</td><td>05 optimize</td><td>경사하강, 학습률 한계 2/곡률, 모멘텀, 적응 학습률(Adam)의 생각을 다룹니다. 실험: descent, momentum.</td></tr>
+<tr><td>09 Information Theory</td><td>06 entropy</td><td>놀람, 엔트로피, 교차 엔트로피 = 엔트로피 + KL, 라벨 스무딩을 다룹니다. 실험: surprise.</td></tr>
+<tr><td>10 Dimensionality Reduction</td><td>09 svd</td><td>요약 + 링크(linear-algebra #pca). PCA를 SVD의 한 쓰임으로 연결합니다.</td></tr>
+<tr><td>11 Singular Value Decomposition</td><td>09 svd</td><td>특잇값, 낮은 계수 근사(Eckart–Young), 저장 숫자 수와 오차의 교환, LoRA와의 연결을 다룹니다. 실험: compress.</td></tr>
+<tr><td>12 Tensor Operations</td><td>02 tensor</td><td>축과 모양, 브로드캐스팅 규칙, 보폭(stride), 매개변수 수와 곱셈-덧셈 횟수를 다룹니다. 실험: shape.</td></tr>
+<tr><td>13 Numerical Stability</td><td>07 stability</td><td>부동소수점 범위와 자릿수, float16 넘침, 최댓값 빼기, log-sum-exp를 다룹니다. 실험: softmax.</td></tr>
+<tr><td>14 Norms and Distances</td><td>02 tensor</td><td>L1·L2·L∞ 노름과 코사인 거리, 크기에 민감한 거리와 둔한 거리를 다룹니다. 실험: distance.</td></tr>
+<tr><td>15 Statistics for ML</td><td>마지막 final</td><td>요약 + 링크(probability #interval, #testing). 정확도 차이의 구간과 표본 수만 다룹니다. 실험: verdict.</td></tr>
+<tr><td>16 Sampling Methods</td><td>08 sampling</td><td>온도, top-p, 몬테카를로와 1/√n 표준오차를 다룹니다. 실험: temperature, montecarlo.</td></tr>
+<tr><td>17 Linear Systems</td><td>10 linsys</td><td>Ax=b, 최소제곱과 정규방정식, 조건수, 릿지로 안정시키기를 다룹니다. 실험: condition.</td></tr>
+<tr><td>18 Convex Optimization</td><td>05 optimize</td><td>볼록 함수와 유일한 바닥, 이차 함수의 곡률, 비볼록 손실에서 달라지는 점을 다룹니다(장 본문과 details).</td></tr>
+<tr><td>19 Complex Numbers</td><td>01 signal</td><td>복소수를 회전으로 보고, 오일러 공식과 위상을 다룹니다(움직이는 그림과 본문).</td></tr>
+<tr><td>20 Fourier Transform</td><td>01 signal</td><td>DFT, 진폭 스펙트럼, 파스발 정리, 합성곱 정리를 다룹니다. 실험: spectrum.</td></tr>
+<tr><td>21 Graph Theory</td><td>11 markov</td><td>노드와 간선, 인접 행렬, 메시지 전달 H′=σ(ÂHW)를 다룹니다(본문과 details).</td></tr>
+<tr><td>22 Stochastic Processes</td><td>11 markov</td><td>마르코프 연쇄, 전이 행렬, 정상 분포, 섞임 시간, 제자리에 머무는 연쇄의 정상 분포를 다룹니다. 실험: chain.</td></tr>
+</table>
+<p>장마다 원본 레슨이 몇 개 들어갔는지 정리하면 다음과 같습니다. signal 2개(19, 20), tensor 4개(01, 02, 12, 14), derivative 1개(04), autodiff 1개(05), optimize 2개(08, 18), entropy 2개(06, 09), stability 1개(13), sampling 1개(16), svd 3개(03, 10, 11), linsys 1개(17), markov 2개(21, 22), final 2개(07, 15)입니다. 모두 더하면 22개입니다.</p>
+</section>
+
+<section id="build"><h2>3. 구현</h2>
+<ul>
+<li><code>index.html</code>: 책의 껍데기입니다. 머리말, 서가 복귀 버튼, 표지와 읽기 두 모드, 왼쪽 장 목차가 있습니다. 장 ID 12개는 <code>book-routes</code>에 있습니다.</li>
+<li><code>js/math.js</code>(A02Math): 모든 계산이 있는 곳입니다. DOM에 의존하지 않는 순수 함수이며 Node에서 바로 테스트합니다. 단위와 가정은 함수 주석과 실험 결과 문장에 적었습니다.</li>
+<li><code>js/content.js</code>(A02Book): 장 데이터(시작 질문, 본문, 공식, details, 혼동 주의, 확인 문제, cross), 출처 48개(저장소 1, 레슨 폴더 22, 논문·공식 문서 25), 실험 설명, 용어집이 있습니다.</li>
+<li><code>js/labs-input.js</code>, <code>labs-learn.js</code>, <code>labs-chance.js</code>, <code>labs-structure.js</code>: 실험 15개의 입력과 그림을 맡습니다. 계산은 A02Math를 부르기만 합니다. 결과 문장마다 실제 계산인지, 가상 값인지 적었습니다.</li>
+<li><code>js/figures.js</code>(A02Figures): 장마다 “먼저 개념 잡기”에 들어가는 움직이는 그림 12개입니다. 숫자는 A02Math로 계산하고, 움직임은 <code>prefers-reduced-motion</code>과 <code>html[data-motion=reduce]</code>에서 멈춥니다.</li>
+<li><code>js/home-lab.js</code>: 표지의 작은 실험입니다. 학습률을 바꾸면 1차원 경사하강이 수렴하거나 발산합니다.</li>
+<li><code>js/lab-guides.js</code>: 실험마다 바로 해 볼 수 있는 예제 값과 기대 결과 문장이 있습니다. 문장 속 숫자는 계산 결과와 대조했습니다.</li>
+<li><code>assets/style.css</code>: 공통 책 양식에 초록 강조색과 그림 회전 애니메이션(<code>a02-spin</code>)을 더했습니다. 글꼴은 <code>../../assets/type.css</code>의 공통 토큰만 씁니다.</li>
+<li><code>assets/shelf-illustration.svg</code>: 서가에서 펼칠 때 보이는 움직이는 삽화입니다. 소리가 주파수 막대로 나뉘고, 공이 손실 그릇을 따라 내려갑니다. 클래스 접두어는 <code>a02-ill-</code>이고, 두 가지 줄인 움직임 설정에서 멈춥니다. <code>assets/cover-art.svg</code>는 말귀가 ‘켜’를 듣고 세 명령의 확률을 내는 정지 그림입니다.</li>
+<li>진도는 <code>bookshelf:aie-02-math:v1:progress</code> 키에 저장합니다. 다른 책의 코드는 가져오지 않고, <code>../폴더/#장ID</code> 링크로만 잇습니다.</li>
+</ul>
+</section>
+
+<section id="verify"><h2>4. 검증</h2>
+<p>다음 검사를 실행했고 모두 통과했습니다(2026-10-08).</p>
+<p>팩트·출처 검수: 책을 쓰지 않은 별도 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 결과는 <a href="fact-review.html">팩트·출처 검수 기록</a>에 있습니다(2026-10-08, 5건 수정·1건 보류).</p>
+<ul>
+<li><code>npm test --prefix books/aie-math</code>: 계산 테스트 13개와 경로 테스트를 실행했습니다. 계산 테스트는 대표값, 경계값, 불변 조건을 확인합니다. 예를 들면 파스발 정리, H(P,Q)=H(P)+KL, 특잇값 제곱합과 프로베니우스 노름, Eckart–Young 오차, 조건수와 해의 이동 공식, πP=π, 구간 폭이 1/√n으로 줄어드는지입니다.</li>
+<li><code>BOOK_URL=http://127.0.0.1:8765/books/aie-math/ node books/aie-math/tests/browser.cjs</code>: 1280·390·320px에서 화면 42개와 실험 동작 45건을 확인했고 오류는 0건이었습니다. 확인한 항목은 모든 장, 실험, 예제, 초기화, 확인 문제, 가로 넘침, 콘솔 오류입니다. 결과는 <code>docs/evidence/browser-results.json</code>에 있습니다.</li>
+<li><code>check_cover.py assets/cover-art.svg</code>를 통과했습니다. 서가 삽화에는 <code>@keyframes</code> 4개와 줄인 움직임 규칙 두 곳이 있습니다.</li>
+<li>장 그림 12개, 실험 화면, 320px 화면을 캡처해 눈으로 확인했습니다. 글자가 잘리거나 겹친 그림 세 곳은 고쳤습니다. 수치 안정성 그림의 오른쪽 숫자, 엔트로피 그림의 p=0.9 표시, 신호 그림의 시작선입니다. 마르코프 그림에는 방향 화살표를 더했습니다.</li>
+</ul>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>spectrum (1장)</td><td>확인</td><td>확인</td><td>확인: 정수 주파수 진폭, 파스발, 같은 k의 합</td><td>미확인</td></tr>
+<tr><td>shape (2장)</td><td>확인</td><td>확인</td><td>확인: 브로드캐스트 결과·오류, 매개변수 707개</td><td>미확인</td></tr>
+<tr><td>distance (2장)</td><td>확인</td><td>확인</td><td>확인: 3-4-5, 코사인 배율 불변, 작은 소리의 L2 오인식</td><td>미확인</td></tr>
+<tr><td>numdiff (3장)</td><td>확인</td><td>확인</td><td>확인: 가운데 차분 오차와 너무 작은 h의 반올림 오차</td><td>미확인</td></tr>
+<tr><td>backprop (4장)</td><td>확인</td><td>확인</td><td>확인: 연쇄법칙 곱과 차분 검사 일치, 포화</td><td>미확인</td></tr>
+<tr><td>descent (5장)</td><td>확인</td><td>확인</td><td>확인: 학습률 한계 1/6 전후의 수렴과 발산</td><td>미확인</td></tr>
+<tr><td>momentum (5장)</td><td>확인</td><td>확인</td><td>확인: 같은 학습률에서 모멘텀이 더 빨리 내려감</td><td>미확인</td></tr>
+<tr><td>surprise (6장)</td><td>확인</td><td>확인</td><td>확인: KL≥0, 확률 절반이면 1비트 증가</td><td>미확인</td></tr>
+<tr><td>softmax (7장)</td><td>확인</td><td>확인</td><td>확인: float16 반올림·넘침, 최댓값 빼기 불변성</td><td>미확인</td></tr>
+<tr><td>temperature (8장)</td><td>확인</td><td>확인</td><td>확인: 합 1, 온도와 엔트로피, top-p 재정규화</td><td>미확인</td></tr>
+<tr><td>montecarlo (8장)</td><td>확인</td><td>확인</td><td>확인: 표본 4배에 표준오차 절반</td><td>미확인</td></tr>
+<tr><td>compress (9장)</td><td>확인</td><td>확인</td><td>확인: 전체 계수 복원, 오차 = 버린 특잇값</td><td>미확인</td></tr>
+<tr><td>condition (10장)</td><td>확인</td><td>확인</td><td>확인: 직교면 κ=1, 해 이동 공식, 릿지 효과</td><td>미확인</td></tr>
+<tr><td>chain (11장)</td><td>확인</td><td>확인</td><td>확인: 행 합 1, 정상 분포, 게으른 연쇄</td><td>미확인</td></tr>
+<tr><td>verdict (마지막)</td><td>확인</td><td>확인</td><td>확인: n=200은 0 포함, 2,000은 넘음, 베이즈 기저율</td><td>미확인</td></tr>
+</table>
+<p>표의 L1은 라벨, 키보드 조작, 초기화, 320px에서 누를 수 있는지를 자동 브라우저 검사로 확인한 것입니다. L2는 입력을 바꾸면 결과와 그림이 바뀌고 NaN·undefined가 없는지를 확인한 것입니다. L3은 계산 결과가 독립 공식이나 손계산과 맞는지를 단위 테스트로 확인한 것입니다.</p>
+<p><b>확인하지 못한 것</b></p>
+<ul>
+<li>L4 학습 효과는 실제 독자를 대상으로 확인하지 않았습니다.</li>
+<li>서재 전체 검사인 <code>python3 scripts/validate.py</code>는 실행하지 않았습니다. 이 책이 아직 <code>data/catalog.json</code>에 등록되지 않았기 때문이며, 서재 관리자가 <code>docs/registration.json</code>을 옮긴 뒤 실행해야 합니다. 같은 이유로 서가에서 이 책을 펼쳐 삽화가 움직이는지, 320px에서 책등 제목이 잘리지 않는지도 확인하지 못했습니다.</li>
+<li>화면 낭독기를 직접 사용해 보는 검사와 실제 기기의 터치 조작은 하지 못했습니다.</li>
+<li>cross 링크의 대상 장 ID는 REFERENCE 목록과 대조했지만, 서재 전체 링크 검사기로는 아직 확인하지 않았습니다.</li>
+</ul>
+</section>
+</main></body></html>

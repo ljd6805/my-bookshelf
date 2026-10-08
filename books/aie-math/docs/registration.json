@@ -1,0 +1,27 @@
+{"book":{"id":"aie-02-math","title":"모델을 움직이는 수학 · 미분에서 푸리에까지","short_title":"모델을 움직이는 수학","spine_title":"모델의 수학","spine_category":"AI공학","description":"음성 명령 인식기 ‘말귀’ 하나를 만들며 소리를 주파수로 나누고, 텐서 모양을 맞추고, 기울기를 계산해 학습시키고, 손실·숫자 안정성·샘플링·SVD·조건수·마르코프 연쇄를 브라우저에서 직접 계산합니다. 12장 15개 실험으로 원본 커리큘럼 Phase 1의 레슨 22개를 모두 재구성했으며, 선형대수·확률 책과 겹치는 내용은 짧게 요약하고 그 책으로 보냅니다.","illustration_caption":"소리 파동이 주파수 막대로 나뉘고, 공이 손실 그릇을 따라 흔들리며 바닥으로 내려가는 시각적 비유입니다. 실제 계산은 아닙니다.","keywords":["미분","기울기","연쇄법칙","자동 미분","역전파","경사하강","모멘텀","볼록 최적화","엔트로피","교차 엔트로피","KL 발산","부동소수점","softmax","온도","top-p","몬테카를로","SVD","조건수","텐서","브로드캐스팅","노름","푸리에 변환","마르코프 연쇄","gradient","backpropagation","numerical stability","Fourier transform"],"chapters_featured":["#signal","#autodiff","#optimize","#stability","#svd"],"cover_meta":"12장 · 15개 실험"},
+ "chapter_index":{
+  "books/aie-math/#signal":"01 · 소리를 주파수로 나누기",
+  "books/aie-math/#tensor":"02 · 모양을 맞춰 한꺼번에 계산하기",
+  "books/aie-math/#derivative":"03 · 손실이 변하는 빠르기 재기",
+  "books/aie-math/#autodiff":"04 · 연쇄법칙으로 모든 기울기를 한 번에",
+  "books/aie-math/#optimize":"05 · 골짜기를 안정적으로 내려가기",
+  "books/aie-math/#entropy":"06 · 손실은 놀람을 잰다",
+  "books/aie-math/#stability":"07 · 숫자가 넘치지 않게 계산하기",
+  "books/aie-math/#sampling":"08 · 확률표에서 하나 고르기",
+  "books/aie-math/#svd":"09 · 표를 몇 장의 층으로 줄이기",
+  "books/aie-math/#linsys":"10 · 특징이 닮으면 해가 흔들린다",
+  "books/aie-math/#markov":"11 · 명령이 이어지는 흐름 읽기",
+  "books/aie-math/#final":"마지막 · 부엌에서 말귀가 틀린다"},
+ "concepts":[
+  {"id":"loss-likelihood","new":false,"chapters":["books/aie-math/#entropy","books/aie-math/#optimize"]},
+  {"id":"number-representation","new":false,"chapters":["books/aie-math/#stability"]},
+  {"id":"sampling","new":false,"chapters":["books/aie-math/#sampling"]},
+  {"id":"dimension-reduction","new":false,"chapters":["books/aie-math/#svd"]},
+  {"id":"linear-transform","new":false,"chapters":["books/aie-math/#tensor"]},
+  {"id":"vector-space","new":false,"chapters":["books/aie-math/#tensor"]},
+  {"id":"evaluation-uncertainty","new":false,"chapters":["books/aie-math/#final"]},
+  {"id":"gradient-backprop","new":true,"name":"기울기와 역전파","aliases":["gradient","derivative","chain rule","backpropagation","autodiff"],"summary":"출력이 입력에 얼마나 민감한지 재고, 연쇄법칙으로 그 값을 뒤에서부터 모아 학습 방향을 정한다","chapters":["books/aie-math/#derivative","books/aie-math/#autodiff","books/ai/#learning"]}],
+ "series_step":{"url":"books/aie-math/#optimize","task":"모멘텀 실험에서 학습률 0.05를 고정하고 β를 0, 0.8, 0.95로 바꿔 손실 0.01 아래까지 걸리는 걸음 수와 40걸음 뒤 손실을 비교합니다.","minutes":15,"why":"작업대에서 학습을 돌릴 수 있게 됐다면, 다음은 그 학습이 기울기와 학습률로 어떻게 움직이는지 계산으로 확인할 차례입니다. 이 권은 이후 권들이 쓰는 미분·손실·숫자 안정성의 바탕을 맡습니다.","record":"β별 도달 걸음 수 세 개와, β=0.95에서 손실이 다시 커진 이유 한 문장"},
+ "incoming":[
+  {"from":"books/ai/#learning","label":"모델의 수학 · 연쇄법칙으로 모든 기울기를 한 번에","url":"../aie-math/#autodiff","why":"오차를 줄이는 방향이 실제로 어떻게 계산되는지, 뉴런 하나의 계산 그래프에서 기울기를 손으로 곱해 확인할 수 있습니다."},
+  {"from":"books/linear-algebra/#pca","label":"모델의 수학 · 표를 몇 장의 층으로 줄이기","url":"../aie-math/#svd","why":"PCA의 주성분을 SVD로 구하면 어떤 행렬이든 몇 장의 층으로 압축할 수 있고, 남길 층 수에 따른 오차를 직접 계산해 볼 수 있습니다."}]}

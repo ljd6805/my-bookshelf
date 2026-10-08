@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="《머신러닝 기초》를 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 머신러닝 기초</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>「AI 엔지니어링 처음부터」 03권 《머신러닝 기초 · 데이터에서 믿을 만한 예측까지》(books/aie-ml/)의 팩트·출처 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 에이전트가 검수했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-ml)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml)" data-date="2026-10-08" data-scope="12개 장 본문·식·심화 읽기·혼동 경고·확인 문제, 실험 16개의 계산과 안내 상자 결과 읽기, 장 그림 캡션, 표지 소개·용어집 10개, 참고 자료 50개, 다른 책 연결 링크 16개, 원본 Phase 2 레슨 18개 대조" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-ml). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml). 둘은 서로 다른 에이전트입니다. 범위: 12개 장 본문, 실험 16개, 참고 자료 50개, 다른 책 연결 16개, 원본 레슨 18개(로컬 사본 phases/02-ml-fundamentals/*/docs/en.md).</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>장마다 정의·역사·수치 주장을 원본 en.md와 대조(60~80% 시간, kNN 20~50 특성, KD-트리 20차원, 볼 트리 약 50차원, 1만 행 미만 표 데이터, TF-IDF+다항 NB 1만 건, 예산 60%, 무작위 60회·95%, 하이퍼밴드 81개·1/3, 학습률 0.01~0.3, 15차 릿지 0.001~100, 격리 숲 256·100, 부트스트랩 63%, √p·p/3, 클래스 가중치 0.526·10.0, 차분 예시, 이중 하강 2019년 이후). 격리 숲 기본값과 0.5 해석은 Liu et al. 원 논문으로, 이중 하강 연도는 arXiv 1812.11118(2018-12 제출, PNAS 2019)로 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>2건 수정</td><td>content.js의 formula·formulaNote·details와 lab-guides.js 결과 읽기의 숫자 약 90개를 js/math.js로 node에서 다시 계산(별도 스크립트). ln 2=0.693, 5⁶=15,625, 5×5×27=675, 1−0.95⁶⁰≈0.954, 1000/(2·950)≈0.526 손계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>16개 실험 함수가 설명한 식대로 계산하는지 코드 대조(BCE·경사하강, 지니·엔트로피·이득, 쌍대 좌표 하강 SVM, k-평균·실루엣, 다항 NB 평활, 편향-분산 분해, 다수결 이항 합, 겹별 목표 인코딩, 이동 평균, z·IQR, SMOTE 보간, 비용 문턱). 실제 계산·시나리오(재학습 75%)·비유 그림(파이프라인, SMOTE) 표시가 코드와 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>용어집 10개와 본문 한영 대응(정밀도·재현율, 편향·분산, 누설, 교차 검증, 데이터 이동, 불순도, 결정경계 등)이 표준 번역과 맞고 책 안에서 일관됨</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 링크 18개는 로컬 사본의 폴더 이름과 일치. 외부 자료 31개는 모두 해당 원본 레슨이 같은 URL로 인용함을 확인. Belkin(arXiv), Sculley(NeurIPS), Liu(격리 숲 PDF), Ester(DBSCAN, cdn.aaai.org로 리디렉션)는 웹에서 제목·저자 확인. 장별 source 번호(0부터 셈)가 장 내용과 맞음. 다른 책 링크 도착 장(ai #learning·#generalization·#neuron·#rag·#agents, probability #spread·#bayes·#interval·#binomial·#testing, linear-algebra #similarity·#pca)이 존재하고 이동 이유와 내용이 맞음. MIT 크레딧(2026 Rohit Ghumare, LICENSE와 일치)이 표지 참고 자료와 꼬리말에 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#rare formulaNote (js/content.js)</td><td>시험 이상 결제 범위를 “10.5만~16만 원”으로 적었으나 실제 값은 10.5+0.6i(i=0…9)라 최댓값 15.9만 원</td><td>js/math.js outlierLab 재계산</td><td>“10.5만~15.9만 원”으로 고침</td></tr>
+<tr><td>#neighbors knn 결과 읽기 (js/lab-guides.js)</td><td>“k=7이 시험 95.5%로 가장 좋다”고 했으나 슬라이더 범위(1~29 홀수)에서는 k=3·13이 96.5%로 더 높음</td><td>knnLab을 k=1…29 전부 재계산</td><td>“세 예제 가운데 가장 좋습니다(전체에서는 k=3과 k=13이 96.5%)”로 고침</td></tr>
+<tr><td>#rare 심화 읽기 LOF (js/content.js)</td><td>“밀도를 이웃 밀도와 비교해 1보다 크게 낮으면(예: 2 이상)”은 비율의 방향이 뒤섞여, LOF 값이 1보다 커질수록 이상이라는 정의와 어긋남</td><td>원본 16 en.md(LOF ≈1 정상, ≫1 예: 2.0+ 이상), Breunig et al. 2000 정의</td><td>“이웃 국소 밀도 ÷ 그 점의 국소 밀도. 1 근처면 정상, 1보다 훨씬 크면(예: 2 이상) 이상”으로 고침</td></tr>
+<tr><td>판정 “맞음” 대표 예</td><td>결과 읽기 16개(46.5%/53.0%, 0.368·82.5%, 이득 0.156·0.242비트, 4.704·27개, 309.0→61.7→60.2, 97.9%·87.6%, 40.9%, 25.5%·AUC 0.977, 편향² 0.466·분산 1.540, 92.6%·76.3%·79.0%, 76.5% 대 52.0%, MAE 12.6, σ 1.15→2.53→8.58, 재현율 85.0%·정밀도 23.0%, 비용 183.0·575.0·589.8·274.4), 층화 겹 6건과 무작위 7·6·4·5·8건, 문턱 0.5에서 19/30</td><td>math.js 재계산</td><td>변경 없음</td></tr>
+<tr><td>보류</td><td>격리 숲 “0.5 근처면 정상”은 원본 표현이며, 원 논문은 “모든 점이 0.5 근처면 뚜렷한 이상이 없다, 정상은 0.5보다 훨씬 작다”고 씀. 단순화로 볼 수 있어 고치지 않음</td><td>원본 16 en.md, Liu et al. 2008</td><td>보류</td></tr>
+</tbody></table>
+<h3>원문 복제 여부</h3>
+<p>02-01, 02-14(“Why It Still Works” 세 이유), 02-16, 02-17 단락을 표본으로 대조했습니다. 개념과 숫자 예시(클래스 가중치 0.526·10.0, 차분 예시, 60회·95%)는 원본에서 가져왔지만 문장은 서점 사례로 새로 썼고 긴 직역 구간은 없었습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>검수 컨테이너의 셸에서는 외부 사이트 접속이 막혀(GitHub 403, 그 밖은 연결 불가) 외부 URL 대부분은 응답 상태를 직접 확인하지 못했고, 원본 레슨이 같은 URL을 인용한다는 사실로 대신했습니다. IEEE(Cover &amp; Hart)와 Ng &amp; Jordan PDF는 웹 도구로 열었지만 내용이 비어 있거나 글꼴이 깨져 제목을 읽지 못했습니다. McCallum &amp; Nigam PDF 주소는 저자 개인 홈페이지로 리디렉션되어 PDF가 더 이상 그 주소에 없을 수 있습니다(보류, 원본 인용 그대로 둠).</li>
+<li>유료 논문(Breiman, Cortes &amp; Vapnik, Friedman)은 원문을 열지 않고 서지 정보만 확인했습니다.</li>
+<li>바꾼 문장 세 곳은 <code>npm test</code>와 브라우저 검사로 화면 동작만 다시 확인했고, 학습 효과(L4)는 확인하지 않았습니다.</li>
+</ul>
+</section>
+</main></body></html>

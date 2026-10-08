@@ -26,4 +26,9 @@ jobs:
       - run: npm test --prefix books/llm-gpu
       - run: npm test --prefix books/rag
       - run: npm test --prefix books/llm-performance
+      - run: npm test --prefix books/aie-workbench
+      - run: npm test --prefix books/aie-math
+      - run: npm test --prefix books/aie-ml
+      - run: npm test --prefix books/aie-deep
+      - run: npm test --prefix books/aie-vision
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v

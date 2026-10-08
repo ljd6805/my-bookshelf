@@ -1,0 +1,67 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>머신러닝 기초 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">머신러닝 기초 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>머신러닝 기초 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 03권 《머신러닝 기초 · 데이터에서 믿을 만한 예측까지》를 어떻게 기획했는지, 원본 레슨을 어느 장에 넣었는지, 무엇으로 구현하고 어디까지 검증했는지 정리했습니다. 작성일은 2026-10-08입니다. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 2 · ML Fundamentals(레슨 18개)입니다. 원문과 코드는 옮기지 않았고, 다루는 주제와 순서만 참고해 새로 썼습니다. 원본 커리큘럼 기준이며 확인일은 2026-10-08입니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: 02권까지 읽고 손실, 기울기, 확률을 계산할 수 있는 사람입니다. scikit-learn의 <code>fit</code>과 <code>predict</code>는 불러 봤지만, 점수가 왜 좋게 나왔는지 또는 왜 운영에서 무너졌는지는 설명하기 어려운 독자를 생각했습니다.</li>
+<li><b>끝의 행동</b>: 분류 모델 하나를 받았을 때 기준선과 비교하고, 문턱과 지표를 비용에 맞게 고르고, 누설과 불균형을 점검하고, 데이터가 바뀐 날에 문턱만 고칠지 다시 학습할지를 증거로 판단하는 것이 목표입니다.</li>
+<li><b>공통 사례</b>: 가상의 작은 온라인 서점 결제 기록(결제 1,000건 중 사기 약 3%)과 일별 주문 수입니다. 고객 무리(5장), 고객 문의 단어(6장)도 같은 서점의 기록으로 둡니다.</li>
+<li><b>이야기 방식</b>: 하나의 제품을 완성하는 이야기입니다. 1장에서 “규칙 대신 데이터로 경보를 만든다”는 결정을 내리고, 모델(2~6장), 평가(7~9장), 실전 공정(10~11장)을 거쳐 마지막 장에서 새 결제 수단이 들어온 날의 판단으로 끝납니다.</li>
+<li><b>범위</b>: 원본 18개 레슨을 12장으로 묶었습니다. 서재의 다른 책이 깊게 다룬 내용(AI Book의 학습·일반화, 확률 책의 베이즈 정리, 선형대수 책의 유사도·PCA)은 한 문단으로 줄이고 cross 링크로 보냈습니다.</li>
+<li><b>증거의 종류</b>: 16개 실험 중 15개는 시드를 고정한 가상 데이터로 실제 계산합니다. 12장 drift 실험의 “재학습” 대응만 “이동의 75%를 되찾는다”는 가정을 둔 시나리오이며 화면에 그렇게 밝힙니다. 10장 그림과 11장 SMOTE 그림은 원리를 보여 주는 비유입니다.</li>
+</ul></section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<table><thead><tr><th>원본 레슨</th><th>장</th><th>이 책에서 다루는 방식</th></tr></thead><tbody>
+<tr><td>02-01 What Is Machine Learning</td><td>01 framing</td><td>규칙 대 학습, 지도·비지도·강화, 학습·시험 분할, 기준선 실험</td></tr>
+<tr><td>02-02 Linear Regression</td><td>02 lines</td><td>최소제곱, 정규방정식과 경사하강 비교를 “더 깊이 보기”로</td></tr>
+<tr><td>02-03 Logistic Regression</td><td>02 lines</td><td>시그모이드, 교차 엔트로피, 결정경계 실험</td></tr>
+<tr><td>02-04 Decision Trees and Random Forests</td><td>03 trees</td><td>지니·엔트로피·정보 이득 실험, 가지치기, 랜덤 포레스트와 특성 중요도</td></tr>
+<tr><td>02-05 Support Vector Machines</td><td>04 neighbors</td><td>마진, 힌지 손실, C, 커널 개념, SVM 실험</td></tr>
+<tr><td>02-06 KNN and Distances</td><td>04 neighbors</td><td>거리 척도, k 선택, 차원의 저주, kNN 실험</td></tr>
+<tr><td>02-07 Unsupervised Learning</td><td>05 clusters</td><td>k-평균, 실루엣, 계층·밀도 군집 비교, PCA는 요약 후 cross</td></tr>
+<tr><td>02-08 Feature Engineering</td><td>07 features</td><td>척도, 범주 부호화, 결측 처리, 척도 실험</td></tr>
+<tr><td>02-09 Model Evaluation</td><td>08 metrics</td><td>혼동 행렬, 정밀도·재현율·F1·MCC, ROC·AUC, 층화 교차 검증, 문턱 실험</td></tr>
+<tr><td>02-10 Bias-Variance Tradeoff</td><td>09 tradeoff</td><td>오차 분해, 과소·과대적합, L1·L2 규제, 편향-분산 실험</td></tr>
+<tr><td>02-11 Ensemble Methods</td><td>09 tradeoff</td><td>배깅·부스팅·스태킹, 다수결과 상관 실험</td></tr>
+<tr><td>02-12 Hyperparameter Tuning</td><td>10 pipeline</td><td>격자·무작위·베이즈 탐색, 중첩 교차 검증</td></tr>
+<tr><td>02-13 ML Pipelines</td><td>10 pipeline</td><td>변환을 학습 겹에서만 맞추기, 목표 인코딩 누설 실험, 재현성 기록</td></tr>
+<tr><td>02-14 Naive Bayes</td><td>06 bayes</td><td>독립 가정, 로그 합, 라플라스 평활 실험. 베이즈 정리는 확률 책으로 cross</td></tr>
+<tr><td>02-15 Time Series</td><td>10 pipeline, 12 final</td><td>시간 순서 검증, 이동 평균 누설 실험, 계절 기준선, 분포 이동</td></tr>
+<tr><td>02-16 Anomaly Detection</td><td>11 rare, 12 final</td><td>z-점수·IQR·Isolation Forest·LOF 개념, 오염된 기준 실험</td></tr>
+<tr><td>02-17 Imbalanced Data</td><td>11 rare</td><td>과대·과소표본, SMOTE, 클래스 가중치, 처방 비교 실험</td></tr>
+<tr><td>02-18 Feature Selection</td><td>07 features</td><td>필터(상관·상호정보)·래퍼·내장 방법, 상호정보 비교</td></tr>
+</tbody></table>
+<p>18개 레슨이 모두 한 장 이상에 들어갔습니다. 12장(final)은 레슨 01·09·15·16을 다시 불러 쓰는 마지막 과제 장입니다.</p></section>
+
+<section id="build"><h2>3. 구현</h2>
+<ul>
+<li>정적 HTML과 해시 라우팅입니다. 장 ID: framing, lines, trees, neighbors, clusters, bayes, features, metrics, tradeoff, pipeline, rare, final.</li>
+<li><code>js/math.js</code>: 모든 계산(난수, 로지스틱 회귀 경사하강, 지니·엔트로피, kNN, 쌍대 좌표 하강 SVM, k-평균·실루엣, 나이브 베이즈, 척도 변환, 혼동 행렬·ROC·AUC·MCC, 다항식 맞춤과 편향-분산 분해, 다수결, 목표 인코딩, 이동 평균 예측, z-점수·IQR, SMOTE·재표본, 비용 기준 문턱, 분포 이동). DOM을 쓰지 않으며 시드를 고정해 매번 같은 값이 나옵니다.</li>
+<li><code>js/labs-models.js</code>(1~6장), <code>js/labs-eval.js</code>(7~9장), <code>js/labs-practice.js</code>(10~12장): 입력을 읽고 SVG와 결과 문장만 만듭니다. 산점도에서 정상은 원, 사기는 사각형으로 그려 색 없이도 구분됩니다.</li>
+<li><code>js/figures.js</code>: 장마다 고유한 움직이는 그림 12개. 숫자는 A03Math로 계산합니다.</li>
+<li><code>js/home-lab.js</code>: 표지의 사기 경보 문턱 실험(슬라이더 1개, 버튼 2개).</li>
+<li>삽화: <code>assets/shelf-illustration.svg</code>(문턱 선이 움직이는 비유 그림, 움직임 줄이기 설정 두 곳에서 멈춤), <code>assets/cover-art.svg</code>(정지 그림, cv-* 클래스만).</li>
+<li>강조색: 어두운 화면 #c3b1ff, 밝은 화면 #5a3fb5. 밝은 화면에서는 주 버튼 글자를 흰색으로 바꿔 대비를 지킵니다.</li>
+</ul></section>
+
+<section id="verify"><h2>4. 검증</h2>
+<p>수준 구분: L1 접근(라벨·키보드·결과 알림), L2 반응(예제·경계값·초기화가 오류 없이 동작), L3 모형(계산이 대표값·경계값·불변 조건을 만족), L4 학습(독자가 실제로 이해했는지). 실행한 명령과 결과는 아래와 같습니다(2026-10-08).</p>
+<ul>
+<li><code>npm test --prefix books/aie-ml</code>: 계산 테스트 26개와 구조 테스트 7개, 모두 통과.</li>
+<li><code>BOOK_URL=http://127.0.0.1:8765/books/aie-ml/ node books/aie-ml/tests/browser.cjs</code>: 1280·390·320px에서 표지와 12장, 실험 16개(화면 폭마다 48회), 예제·최솟값·최댓값·초기화·확인 문제, 가로 넘침 없음, 콘솔 오류 없음. 결과는 <code>docs/evidence/browser-results.json</code>.</li>
+<li>스크린샷(<code>docs/evidence/*.png</code>)과 장별 그림·실험 화면을 직접 열어 글자 겹침과 잘림을 확인하고 고쳤습니다.</li>
+<li>팩트·출처 검수: 책을 쓰지 않은 별도 검수 에이전트가 사실·수치·실험·용어·출처를 확인하고 3건을 고쳤습니다. 기록은 <a href="fact-review.html">팩트·출처 검수 기록</a>에 있습니다(2026-10-08).</li>
+<li>표지 삽화 검사 <code>check_cover.py</code> 통과, 서가 삽화의 @keyframes와 움직임 멈춤 규칙 두 곳 확인.</li>
+</ul>
+<div class="table-wrap"><table><thead><tr><th>실험</th><th>장</th><th>조작</th><th>L1</th><th>L2</th><th>L3(테스트 내용)</th><th>L4</th></tr></thead><tbody><tr><td>centroid</td><td>#framing</td><td>중심 거리</td><td>확인</td><td>확인</td><td>확인 · centroidLab: 거리 0이면 정확도≈50%, 3이면 85% 초과</td><td>확인하지 못함</td></tr><tr><td>logistic</td><td>#lines</td><td>반복 횟수</td><td>확인</td><td>확인</td><td>확인 · logisticLab: 0번 손실 = ln 2, 학습 뒤 손실 감소</td><td>확인하지 못함</td></tr><tr><td>split</td><td>#trees</td><td>분할 기준값</td><td>확인</td><td>확인</td><td>확인 · gini·entropy 경계값, splitScores 이득 ≥ 0, 최선 5.5</td><td>확인하지 못함</td></tr><tr><td>knn</td><td>#neighbors</td><td>이웃 수 k</td><td>확인</td><td>확인</td><td>확인 · k=1 학습 정확도 1, k=N이면 다수 클래스</td><td>확인하지 못함</td></tr><tr><td>svm</td><td>#neighbors</td><td>log₁₀C</td><td>확인</td><td>확인</td><td>확인 · C가 작을수록 마진 폭·서포트 벡터 증가</td><td>확인하지 못함</td></tr><tr><td>kmeans</td><td>#clusters</td><td>K, 단계</td><td>확인</td><td>확인</td><td>확인 · 관성 단조 감소, 실루엣이 K=3 선호</td><td>확인하지 못함</td></tr><tr><td>smoothing</td><td>#bayes</td><td>α</td><td>확인</td><td>확인</td><td>확인 · α=0이면 −∞와 100%, 평활 시 합 1, 사전확률 쪽 수렴</td><td>확인하지 못함</td></tr><tr><td>scaling</td><td>#features</td><td>척도 선택</td><td>확인</td><td>확인</td><td>확인 · 원 단위 금액 몫 > 99%, 표준화 뒤 정확도 상승</td><td>확인하지 못함</td></tr><tr><td>threshold</td><td>#metrics</td><td>문턱</td><td>확인</td><td>확인</td><td>확인 · 혼동 행렬 합 1,000, 극단 문턱, AUC 범위, MCC, 층화 겹</td><td>확인하지 못함</td></tr><tr><td>biasvar</td><td>#tradeoff</td><td>차수</td><td>확인</td><td>확인</td><td>확인 · total = 편향²+분산+잡음, U자, 3차 다항식 복원</td><td>확인하지 못함</td></tr><tr><td>vote</td><td>#tradeoff</td><td>N, ρ</td><td>확인</td><td>확인</td><td>확인 · N=1이면 p, ρ=1이면 p, p=0.5 불변</td><td>확인하지 못함</td></tr><tr><td>leak</td><td>#pipeline</td><td>범주 수</td><td>확인</td><td>확인</td><td>확인 · 무작위 라벨에서 누설 > 70%, 정직 ≈ 50%</td><td>확인하지 못함</td></tr><tr><td>timeseries</td><td>#pipeline</td><td>창 길이</td><td>확인</td><td>확인</td><td>확인 · 창 1의 누설 MAE = 0, 과거 1일 = 어제 값</td><td>확인하지 못함</td></tr><tr><td>outlier</td><td>#rare</td><td>섞인 이상값 수</td><td>확인</td><td>확인</td><td>확인 · 오염 0/20에서 z 적중 10/0, IQR 10</td><td>확인하지 못함</td></tr><tr><td>resample</td><td>#rare</td><td>처방</td><td>확인</td><td>확인</td><td>확인 · 과대표본·가중치 혼동 행렬 동일, SMOTE 점이 선분 위</td><td>확인하지 못함</td></tr><tr><td>drift</td><td>#final</td><td>이동량, 대응</td><td>확인</td><td>확인</td><td>확인 · 유지 시 재현율 하락, 재학습 비용 최소, 이동 0이면 재조정 = 유지</td><td>확인하지 못함</td></tr></tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>L4 학습 효과: 실제 독자에게 시험해 보지 않았습니다.</li>
+<li>스크린 리더(VoiceOver, NVDA)로 직접 읽어 보지 않았습니다. role과 aria-label, role=status의 존재만 확인했습니다.</li>
+<li>서가(루트 index.html)에서 책을 펼쳤을 때 삽화가 움직이는지는 카탈로그 등록 전이라 확인하지 못했습니다. 등록 제안은 <code>docs/registration.json</code>에 있습니다.</li>
+<li>외부 참고 자료 링크의 현재 응답 상태는 다시 열어 보지 않았습니다.</li>
+<li>모든 수치는 교육용 가상 데이터의 값이며 실제 결제 서비스의 사기율이나 비용이 아닙니다.</li>
+</ul></section>
+</main></body></html>

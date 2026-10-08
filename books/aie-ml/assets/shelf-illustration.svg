@@ -1,0 +1,32 @@
+<svg class="a03-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="정상 결제(원)와 사기 결제(사각형)가 흩어진 평면에서 경보 문턱 선이 좌우로 움직이고, 선을 넘은 사기 결제에 경보 표시가 켜졌다 꺼지는 비유 그림">
+<style>
+.a03-ill-bg{fill:#f4f2fb}
+.a03-ill-frame{fill:#fffdf7;stroke:#8a7cc4;stroke-width:2}
+.a03-ill-ok{fill:#5a7fbf}
+.a03-ill-bad{fill:#c06a2b}
+.a03-ill-text{font:700 12px sans-serif;fill:#352d5c}
+.a03-ill-small{font:11px sans-serif;fill:#5c567a}
+.a03-ill-line{stroke:#5a3fb5;stroke-width:3;animation:a03-ill-sweep 5s ease-in-out infinite}
+.a03-ill-ring{fill:none;stroke:#c06a2b;stroke-width:2.5;transform-box:fill-box;transform-origin:center;animation:a03-ill-alarm 5s ease-in-out infinite}
+.a03-ill-bar{fill:#5a3fb5;transform-box:fill-box;transform-origin:left center;animation:a03-ill-grow 5s ease-in-out infinite}
+@keyframes a03-ill-sweep{0%,100%{transform:translateX(0)}50%{transform:translateX(-60px)}}
+@keyframes a03-ill-alarm{0%,30%,100%{opacity:.15;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes a03-ill-grow{0%,100%{transform:scaleX(.45)}50%{transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){.a03-ill-line,.a03-ill-ring,.a03-ill-bar{animation:none}.a03-ill-ring{opacity:1}}
+html[data-motion=reduce] .a03-ill-line,html[data-motion=reduce] .a03-ill-ring,html[data-motion=reduce] .a03-ill-bar{animation:none}
+html[data-motion=reduce] .a03-ill-ring{opacity:1}
+</style>
+<rect class="a03-ill-bg" width="340" height="180"/>
+<rect class="a03-ill-frame" x="14" y="14" width="210" height="152" rx="8"/>
+<circle class="a03-ill-ok" cx="40" cy="120" r="5"/><circle class="a03-ill-ok" cx="58" cy="96" r="5"/><circle class="a03-ill-ok" cx="74" cy="130" r="5"/><circle class="a03-ill-ok" cx="50" cy="60" r="5"/><circle class="a03-ill-ok" cx="88" cy="104" r="5"/><circle class="a03-ill-ok" cx="96" cy="72" r="5"/><circle class="a03-ill-ok" cx="110" cy="138" r="5"/><circle class="a03-ill-ok" cx="120" cy="92" r="5"/><circle class="a03-ill-ok" cx="70" cy="40" r="5"/><circle class="a03-ill-ok" cx="134" cy="120" r="5"/><circle class="a03-ill-ok" cx="150" cy="54" r="5"/><circle class="a03-ill-ok" cx="168" cy="132" r="5"/>
+<rect class="a03-ill-bad" x="140" y="82" width="10" height="10"/><rect class="a03-ill-bad" x="182" y="44" width="10" height="10"/><rect class="a03-ill-bad" x="196" y="96" width="10" height="10"/><rect class="a03-ill-bad" x="176" y="120" width="10" height="10"/>
+<circle class="a03-ill-ring" cx="145" cy="87" r="10"/><circle class="a03-ill-ring" cx="187" cy="49" r="10"/><circle class="a03-ill-ring" cx="201" cy="101" r="10"/><circle class="a03-ill-ring" cx="181" cy="125" r="10"/>
+<path class="a03-ill-line" d="M172 18V162"/>
+<text class="a03-ill-text" x="236" y="34">경보 문턱</text>
+<text class="a03-ill-small" x="236" y="58">왼쪽으로 내리면</text>
+<text class="a03-ill-small" x="236" y="74">더 많이 잡고</text>
+<rect class="a03-ill-bar" x="236" y="84" width="88" height="12" rx="3"/>
+<text class="a03-ill-small" x="236" y="116">오경보도 는다</text>
+<rect class="a03-ill-bad" x="236" y="132" width="10" height="10"/><text class="a03-ill-small" x="252" y="141">사기</text>
+<circle class="a03-ill-ok" cx="291" cy="137" r="5"/><text class="a03-ill-small" x="300" y="141">정상</text>
+</svg>

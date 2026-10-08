@@ -1,0 +1,12 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="좌표 두 개를 받는 작은 신경망이 평면의 점을 원 안과 원 밖으로 가르는 원 판별기 장면" xmlns="http://www.w3.org/2000/svg">
+<circle class="cv-node" cx="28" cy="52" r="9"/><circle class="cv-node" cx="28" cy="98" r="9"/>
+<circle class="cv-node" cx="84" cy="34" r="9"/><circle class="cv-node" cx="84" cy="75" r="9"/><circle class="cv-node" cx="84" cy="116" r="9"/>
+<circle class="cv-node" cx="138" cy="75" r="10"/>
+<path class="cv-hair" d="M37 52L75 34M37 52L75 75M37 52L75 116M37 98L75 34M37 98L75 75M37 98L75 116M93 34L128 75M93 75L128 75M93 116L128 75"/>
+<path class="cv-bus" d="M150 75H176"/>
+<rect class="cv-node" x="180" y="10" width="130" height="130" rx="6"/>
+<circle class="cv-hair" cx="245" cy="75" r="52"/>
+<circle class="cv-node" cx="232" cy="60" r="4"/><circle class="cv-node" cx="258" cy="88" r="4"/><circle class="cv-node" cx="250" cy="52" r="4"/><circle class="cv-node" cx="226" cy="94" r="4"/>
+<circle class="cv-hair" cx="196" cy="24" r="4"/><circle class="cv-hair" cx="296" cy="30" r="4"/><circle class="cv-hair" cx="292" cy="126" r="4"/><circle class="cv-hair" cx="194" cy="124" r="4"/>
+<text class="cv-text cv-muted" x="28" y="142" text-anchor="middle">x, y</text><text class="cv-big" x="245" y="82" text-anchor="middle">1</text><text class="cv-text cv-muted" x="300" y="146" text-anchor="end">0</text>
+</svg>

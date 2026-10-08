@@ -1,0 +1,1 @@
+{"name":"aie-03-ml","private":true,"scripts":{"test":"node --test tests/*.test.cjs"}}

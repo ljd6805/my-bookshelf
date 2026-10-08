@@ -1,0 +1,32 @@
+<svg class="a05-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="대여소 카메라 화면에서 자전거마다 후보 상자가 여러 개 떴다가, NMS가 겹치는 상자를 지워 자전거 하나에 상자 하나만 남는 과정을 보여 주는 비유 그림입니다(좌표는 예시).">
+<style>
+.a05-ill-bg{fill:#f7f2ec}
+.a05-ill-frame{fill:#fffaf3;stroke:#6b4a5c;stroke-width:2}
+.a05-ill-ground{stroke:#c9b8b0;stroke-width:2}
+.a05-ill-bike{fill:none;stroke:#3d3440;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.a05-ill-keep{fill:none;stroke:#a2336b;stroke-width:2.6}
+.a05-ill-dup{fill:none;stroke:#c76f2e;stroke-width:2;stroke-dasharray:5 3;animation:a05-ill-drop 4s ease-in-out infinite}
+.a05-ill-scan{stroke:#a2336b;stroke-width:2;opacity:.55;animation:a05-ill-scan 4s linear infinite}
+.a05-ill-tag{font:700 11px sans-serif;fill:#a2336b}
+.a05-ill-note{font:600 11px sans-serif;fill:#5b4a52}
+.a05-ill-rec{fill:#c0392b;animation:a05-ill-blink 1.2s steps(2,end) infinite}
+@keyframes a05-ill-drop{0%,30%{opacity:1}55%,100%{opacity:0}}
+@keyframes a05-ill-scan{0%{transform:translateX(0)}100%{transform:translateX(250px)}}
+@keyframes a05-ill-blink{0%{opacity:1}100%{opacity:.2}}
+html[data-motion=reduce] .a05-ill-dup,html[data-motion=reduce] .a05-ill-scan,html[data-motion=reduce] .a05-ill-rec{animation:none}
+html[data-motion=reduce] .a05-ill-dup{opacity:.35}
+@media(prefers-reduced-motion:reduce){.a05-ill-dup,.a05-ill-scan,.a05-ill-rec{animation:none}.a05-ill-dup{opacity:.35}}
+</style>
+<rect class="a05-ill-bg" width="340" height="180"/>
+<rect class="a05-ill-frame" x="30" y="16" width="280" height="132" rx="6"/>
+<circle class="a05-ill-rec" cx="46" cy="30" r="4"/><text class="a05-ill-note" x="56" y="34">CAM 640×480 · 30fps</text>
+<path class="a05-ill-ground" d="M40 128H300"/>
+<g class="a05-ill-bike"><circle cx="82" cy="114" r="13"/><circle cx="126" cy="114" r="13"/><path d="M82 114l16-24h20l8 24M98 90l-4-8M112 90l2-10h8"/></g>
+<g class="a05-ill-bike"><circle cx="196" cy="114" r="13"/><circle cx="240" cy="114" r="13"/><path d="M196 114l16-24h20l8 24M212 90l-4-8M226 90l2-10h8"/></g>
+<rect class="a05-ill-keep" x="64" y="72" width="80" height="58"/><text class="a05-ill-tag" x="66" y="67">자전거 0.91</text>
+<rect class="a05-ill-dup" x="72" y="78" width="80" height="56"/>
+<rect class="a05-ill-keep" x="178" y="72" width="80" height="58"/><text class="a05-ill-tag" x="180" y="67">자전거 0.88</text>
+<rect class="a05-ill-dup" x="170" y="80" width="84" height="54"/>
+<path class="a05-ill-scan" d="M40 44V140"/>
+<text class="a05-ill-note" x="170" y="168" text-anchor="middle">겹친 후보(점선)는 지우고 상자 하나만 남긴다</text>
+</svg>

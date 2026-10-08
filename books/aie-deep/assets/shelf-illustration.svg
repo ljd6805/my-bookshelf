@@ -1,0 +1,33 @@
+<svg class="a04-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="작은 신경망에서 값이 앞으로 흐른 뒤 기울기가 거꾸로 돌아오고, 그때마다 오른쪽 손실 곡선이 내려가는 학습 과정을 보여 주는 시각적 비유">
+<style>
+.a04-ill-bg{fill:#f4f6ee}
+.a04-ill-node{fill:#fffdf6;stroke:#4f7a2a;stroke-width:2}
+.a04-ill-wire{stroke:#c3d0b4;stroke-width:1.6;fill:none}
+.a04-ill-label{font:600 11px sans-serif;fill:#2f4a1c;text-anchor:middle}
+.a04-ill-small{font:500 10px sans-serif;fill:#5d6b52}
+.a04-ill-fwd{fill:#3c6fb0;animation:a04-ill-fwd 4s ease-in-out infinite}
+.a04-ill-bwd{fill:#c26a1d;animation:a04-ill-bwd 4s ease-in-out infinite}
+.a04-ill-axis{stroke:#9aa88c;stroke-width:1.2;fill:none}
+.a04-ill-loss{stroke:#4f7a2a;stroke-width:2.6;fill:none;stroke-dasharray:220;animation:a04-ill-draw 4s ease-out infinite}
+.a04-ill-pulse{fill:none;stroke:#c26a1d;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:a04-ill-pulse 4s ease-in-out infinite}
+@keyframes a04-ill-fwd{0%{transform:translate(0,0);opacity:0}6%{opacity:1}45%{transform:translate(150px,0);opacity:1}50%,100%{transform:translate(150px,0);opacity:0}}
+@keyframes a04-ill-bwd{0%,50%{transform:translate(0,0);opacity:0}56%{opacity:1}92%{transform:translate(-150px,0);opacity:1}100%{transform:translate(-150px,0);opacity:0}}
+@keyframes a04-ill-draw{0%{stroke-dashoffset:220}85%,100%{stroke-dashoffset:0}}
+@keyframes a04-ill-pulse{0%,45%{transform:scale(1);opacity:0}50%{opacity:1}60%{transform:scale(1.5);opacity:0}100%{opacity:0}}
+html[data-motion=reduce] .a04-ill-fwd,html[data-motion=reduce] .a04-ill-bwd,html[data-motion=reduce] .a04-ill-loss,html[data-motion=reduce] .a04-ill-pulse{animation:none;opacity:1;stroke-dashoffset:0}
+@media(prefers-reduced-motion:reduce){.a04-ill-fwd,.a04-ill-bwd,.a04-ill-loss,.a04-ill-pulse{animation:none;opacity:1;stroke-dashoffset:0}}
+</style>
+<rect class="a04-ill-bg" width="340" height="180"/>
+<path class="a04-ill-wire" d="M32 60L104 50M32 60L104 130M32 120L104 50M32 120L104 130M104 50L176 90M104 130L176 90"/>
+<circle class="a04-ill-node" cx="32" cy="60" r="13"/><circle class="a04-ill-node" cx="32" cy="120" r="13"/>
+<circle class="a04-ill-node" cx="104" cy="50" r="13"/><circle class="a04-ill-node" cx="104" cy="130" r="13"/>
+<circle class="a04-ill-node" cx="176" cy="90" r="14"/>
+<text class="a04-ill-label" x="32" y="64">x</text><text class="a04-ill-label" x="32" y="124">y</text><text class="a04-ill-label" x="176" y="94">ŷ</text>
+<circle class="a04-ill-pulse" cx="176" cy="90" r="18"/>
+<circle class="a04-ill-fwd" cx="26" cy="90" r="5"/>
+<circle class="a04-ill-bwd" cx="182" cy="104" r="5"/>
+<text class="a04-ill-small" x="22" y="24">값은 앞으로 →</text><text class="a04-ill-small" x="22" y="166">← 기울기는 거꾸로</text>
+<path class="a04-ill-axis" d="M220 30V140H322"/>
+<path class="a04-ill-loss" d="M224 40C240 44 246 78 258 96S290 128 320 132"/>
+<text class="a04-ill-small" x="226" y="24">손실</text><text class="a04-ill-small" x="322" y="156" text-anchor="end">학습 단계</text>
+</svg>
