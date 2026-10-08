@@ -109,7 +109,7 @@ def body(groups, cols, starts, card):
         for row in rows:
             c = row['concept']
             cells = ''.join(cell(row, i, b, starts) for i, b in enumerate(cols))
-            parts.append(f'<tr class="atlas-row" data-concept="{esc(c["id"])}" data-fields="{esc(" ".join(row["fields"]))}">'
+            parts.append(f'<tr class="atlas-row" data-concept="{esc(c["id"])}" data-fields="{esc("|".join(row["fields"]))}">'
                          f'<th scope="row"><a class="atlas-node" href="#concept-{esc(c["id"])}" data-concept="{esc(c["id"])}" '
                          f'aria-expanded="false">{esc(c["name"])}<small>{len(row["counts"])}권</small></a></th>{cells}</tr>'
                          f'<tr class="atlas-detail" data-concept="{esc(c["id"])}"><td colspan="{width}">{card(c)}</td></tr>')

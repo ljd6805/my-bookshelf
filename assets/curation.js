@@ -64,7 +64,7 @@ function filterAtlas(atlas, field) {
   atlas.querySelectorAll('.atlas-group').forEach(group => {
     let shown = 0;
     group.querySelectorAll('.atlas-row').forEach(row => {
-      const hide = Boolean(field) && !row.dataset.fields.split(' ').includes(field);
+      const hide = Boolean(field) && !row.dataset.fields.split('|').includes(field);
       row.classList.toggle('is-filtered', hide);
       row.nextElementSibling.classList.toggle('is-filtered', hide);
       if (!hide) shown += 1;
@@ -75,7 +75,7 @@ function filterAtlas(atlas, field) {
 
 function filterRoutes(explorer, field) {
   const tabs = [...explorer.querySelectorAll('[role=tab]')];
-  tabs.forEach(tab => tab.classList.toggle('is-filtered', Boolean(field) && !tab.dataset.fields.split(' ').includes(field)));
+  tabs.forEach(tab => tab.classList.toggle('is-filtered', Boolean(field) && !tab.dataset.fields.split('|').includes(field)));
   explorer.querySelectorAll('.route-group').forEach(group => {
     group.classList.toggle('is-filtered', !group.querySelector('[role=tab]:not(.is-filtered)'));
   });

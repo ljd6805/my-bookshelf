@@ -30,13 +30,14 @@ class CurationTests(unittest.TestCase):
 
     def test_paths_group_under_the_field_with_most_stops_and_share_one_field_bar(self):
         from scripts.curation_renderer import path_fields
-        books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='인공지능')]
+        books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='AI 공학')]
         catalog = {'books': books, 'chapter_index': dict(INDEX, **{'books/b/#three': '03 · 셋'}),
                    'learning_paths': [path(('a', 'books/a/#one'), ('b', 'books/b/#two'), ('b', 'books/b/#three'))],
                    'concepts': []}
-        self.assertEqual(path_fields(catalog['learning_paths'][0], catalog), (['수학', '인공지능'], '인공지능'))
+        self.assertEqual(path_fields(catalog['learning_paths'][0], catalog), (['수학', 'AI 공학'], 'AI 공학'))
         html = render_curation(catalog)
-        self.assertIn('class="route-group" role="presentation" data-field="인공지능"', html)
+        self.assertIn('class="route-group" role="presentation" data-field="AI 공학"', html)
+        self.assertIn('data-fields="수학|AI 공학"', html)  # spaces stay inside one field name
         self.assertNotIn('data-field="수학"><p', html)
         self.assertIn('<button type="button" data-field="수학"', html)
         self.assertEqual(html.count('class="field-bar"'), 1)

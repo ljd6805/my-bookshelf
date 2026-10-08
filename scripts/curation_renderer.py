@@ -89,7 +89,7 @@ def pick(path, first, catalog):
     fields = path_fields(path, catalog)[0]
     return (f'<a class="route-pick" role="tab" id="tab-{esc(path["id"])}" href="#path-{esc(path["id"])}" '
             f'aria-controls="path-{esc(path["id"])}" aria-selected="{str(first).lower()}" '
-            f'data-fields="{esc(" ".join(fields))}">'
+            f'data-fields="{esc("|".join(fields))}">'
             f'<span class="pick-meta"><span class="pick-dots" aria-hidden="true">{dots}</span>'
             f'{len(path["steps"])}개 장 · 약 {minutes}분</span>'
             f'<span class="pick-title">{esc(path["title"])}</span></a>')
