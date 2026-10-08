@@ -84,6 +84,23 @@ def validate_shelf_return(root):
     return errors
 
 
+def validate_typography(root):
+    """Shelf and every book load the shared type system (assets/type.css) instead of their own fonts."""
+    errors = []
+    if 'href="assets/type.css' not in (root / 'index.html').read_text():
+        errors.append('index.html: needs <link rel="stylesheet" href="assets/type.css?v=...">')
+    for page in sorted(root.glob('books/*/index.html')):
+        text, name = page.read_text(), page.relative_to(root)
+        if not re.search(r'<html[^>]*\bdata-typeset="book"', text):
+            errors.append(f'{name}: <html> needs data-typeset="book"')
+        if 'href="../../assets/type.css' not in text:
+            errors.append(f'{name}: needs <link rel="stylesheet" href="../../assets/type.css?v=...">')
+    for css in sorted(root.glob('books/*/assets/*.css')):
+        if '@font-face' in css.read_text():
+            errors.append(f'{css.relative_to(root)}: fonts come from assets/type.css; remove @font-face')
+    return errors
+
+
 def validate_cross_links(root):
     """Links from one book's scripts to another book (../topic/#chapter) must hit a known route."""
     routes, errors = {}, []
@@ -148,6 +165,7 @@ def main():
     catalog = json.loads((ROOT / 'data/catalog.json').read_text())
     errors += validate_catalog(catalog)
     errors += validate_shelf_return(ROOT)
+    errors += validate_typography(ROOT)
     errors += validate_cross_links(ROOT)
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:

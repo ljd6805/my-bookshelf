@@ -46,7 +46,8 @@
     "서가 큐레이션을 목록에서 그림으로 개편: 질문으로 고르는 읽기 노선도(책 색 정거장·단계 패널)와 네 권 사이 지식 지도(SVG, 개념 선택 시 연결 강조); 720px 이하는 개념 카드, JavaScript 없이도 전체 내용 표시; 1280·390·320px Chromium 조작 확인",
     "LLM 시스템 이해편을 books/llm-gpu/에 추가: 4부 12장·14개 실험·12개 확인 문제·공식 Qwen 두 모델 사례. 계산/경로 31개, 공통 Python 29개·JS 4개, Chromium 3폭 42개 실험 화면 조작 통과; 세 폭 모든 장의 문서 가로 넘침 없음.",
     "LLM 시스템 책 원격 반영·자동 CI·Pages 배포 성공. 공개 서가↔책 왕복, KV 2 GiB 예제, Qwen MoE KV 0.750 GiB, 종합 예산 22.10 GiB와 320px 모바일 화면을 Chromium에서 확인.",
-    "서가 정돈: 책등 높이·각도·폭을 통일하고 기울임 규칙 제거(docs/06#tidy-shelf)"
+    "서가 정돈: 책등 높이·각도·폭을 통일하고 기울임 규칙 제거(docs/06#tidy-shelf)",
+    "서가와 다섯 권의 책에 공통 글꼴 체계 적용: assets/type.css 하나에서 Pretendard(본문)·Noto Serif KR(제목·책등, Nanum Myeongjo 대체)·JetBrains Mono(숫자·코드)를 유니코드 조각으로 제공, 책별 글꼴 파일 제거, docs/08#typography 기준과 validate.py 검사 추가; Chromium 1280·390·320px 가로 넘침 없음·책등 18px 유지 확인"
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": "AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
@@ -93,5 +94,16 @@
     "public_url": "https://ljd6805.github.io/my-bookshelf/books/llm-gpu/",
     "ci": "success",
     "pages": "success"
+  },
+  "typography": {
+    "source": "assets/type.css",
+    "standard": "docs/08-book-template.html#typography",
+    "fonts": [
+      "Pretendard 1.3.9 variable",
+      "Noto Serif KR variable (@fontsource-variable 5.3.0)",
+      "JetBrains Mono variable (@fontsource-variable 5.3.0)"
+    ],
+    "license": "SIL OFL 1.1",
+    "not_verified": "macOS·Windows·iOS 실제 렌더링"
   }
 }
