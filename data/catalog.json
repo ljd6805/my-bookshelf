@@ -55,7 +55,7 @@
       "color": "blue",
       "description": "모델의 B와 bit부터 GPU 안의 데이터 이동, prefill·decode, KV 캐시, 대역폭과 MoE까지. 12장·14개 실험으로 오픈웨이트 모델의 사양과 하드웨어 제약을 연결하고 실행 예산을 직접 만듭니다.",
       "illustration": "books/llm-gpu/assets/shelf-illustration.svg",
-      "illustration_caption": "개념도: 가중치와 과거 토큰의 KV를 읽어 계산하고 다음 토큰을 만듭니다. 크기·속도를 재현한 그림은 아닙니다.",
+      "illustration_caption": "개념도: 가중치와 과거 토큰의 KV가 GPU로 흘러가 계산되고, 다음 토큰이 문장 끝에 하나씩 붙습니다. 크기·속도를 재현한 그림은 아닙니다.",
       "status": "published",
       "url": "books/llm-gpu/",
       "keywords": [
@@ -99,7 +99,8 @@
           "title": "12 · 내 장비의 실행 예산 만들기",
           "url": "books/llm-gpu/#design"
         }
-      ]
+      ],
+      "short_title": "LLM 시스템"
     },
     {
       "id": "how-computers-work",
@@ -504,6 +505,70 @@
         "비트를 줄이면 무엇을 잃는지 숫자 예로 말할 수 있는가",
         "같은 계산도 읽는 순서에 따라 빨라지거나 느려지는 이유를 설명할 수 있는가"
       ]
+    },
+    {
+      "id": "why-answers-stream",
+      "title": "답은 왜 한 글자씩 나올까",
+      "question": "챗봇의 첫 글자는 왜 늦게 나오고, 그다음은 왜 일정한 속도로 이어질까?",
+      "audience": "LLM 서비스를 쓰거나 직접 띄워 보려는 개발자와 학생",
+      "prerequisites": "행렬 곱이 무엇인지 들어 본 정도",
+      "start": "긴 회의록을 붙여 넣고 요약을 요청하자 몇 초 동안 아무것도 나오지 않다가, 그 뒤로는 글자가 일정한 속도로 흘러나온다.",
+      "steps": [
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#matrix",
+          "task": "2×2 행렬 곱을 손으로 계산하고 한 칸이 행과 열의 내적임을 확인한다",
+          "minutes": 12,
+          "why": "언어 모델의 한 층은 거대한 행렬 곱이고, 계산 비용은 곱하는 칸의 수로 정해진다",
+          "record": "행렬 곱 한 칸에 들어간 곱셈과 덧셈 횟수"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#attention",
+          "task": "Query를 바꾸며 어떤 과거 토큰에 주의가 쏠리는지 본다",
+          "minutes": 15,
+          "why": "새 토큰은 과거 토큰의 Key와 Value를 모두 다시 참고한다",
+          "record": "가장 큰 가중치를 받은 토큰과 그 이유"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#generation",
+          "task": "온도를 바꾸며 다음 토큰 확률과 뽑힌 결과를 비교한다",
+          "minutes": 12,
+          "why": "답은 다음 토큰 하나를 고르는 일을 반복해 만들어진다",
+          "record": "T=0.1과 T=2.5에서 1위 토큰의 확률"
+        },
+        {
+          "book_id": "llm-systems",
+          "url": "books/llm-gpu/#phases",
+          "task": "생성 길이를 늘리며 KV를 쓸 때와 안 쓸 때 새로 계산하는 위치 수를 비교한다",
+          "minutes": 15,
+          "why": "첫 토큰 전에는 프롬프트 전체를 처리(prefill)하고, 그 뒤에는 한 토큰씩(decode) 이어 간다",
+          "record": "프롬프트 길이와 첫 토큰 대기의 관계, decode 한 번에 새로 계산하는 위치 수"
+        },
+        {
+          "book_id": "llm-systems",
+          "url": "books/llm-gpu/#bottleneck",
+          "task": "배치를 바꾸며 대역폭과 연산 중 무엇이 시간 하한을 정하는지 확인한다",
+          "minutes": 18,
+          "why": "decode의 일정한 속도는 매 토큰 가중치와 KV를 읽는 대역폭에 묶여 있다",
+          "record": "배치 1과 배치 32의 병목, 토큰당 시간 하한"
+        },
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#cache",
+          "task": "읽는 순서를 바꾸며 캐시 적중률과 시간을 비교한다",
+          "minutes": 15,
+          "why": "데이터를 옮기는 시간이 계산 시간보다 길어지는 현상은 CPU에서도 똑같이 일어난다",
+          "record": "차례로 읽기와 건너뛰며 읽기의 적중률"
+        }
+      ],
+      "challenge": "프롬프트를 두 배로 늘리면 첫 글자까지의 시간과 이후 글자 속도가 각각 어떻게 달라질지 예측하고, 동시 사용자가 늘 때 무엇이 먼저 부족해지는지 근거와 함께 설명한다.",
+      "checks": [
+        "prefill과 decode가 각각 무엇을 계산하는지 말할 수 있는가",
+        "KV 캐시가 계산을 아끼는 대신 무엇을 쓰는지 설명할 수 있는가",
+        "배치 1 decode가 대역폭에 묶이는 이유를 byte와 FLOP로 말할 수 있는가"
+      ]
     }
   ],
   "chapter_index": {
@@ -640,7 +705,8 @@
         "books/linear-algebra/#compose",
         "books/linear-algebra/#layer",
         "books/ai/#neuron",
-        "books/llm-gpu/#transformer"
+        "books/llm-gpu/#transformer",
+        "books/llm-gpu/#parameters"
       ]
     },
     {
@@ -686,7 +752,8 @@
       "chapters": [
         "books/probability/#chance",
         "books/probability/#binomial",
-        "books/ai/#generation"
+        "books/ai/#generation",
+        "books/llm-gpu/#phases"
       ]
     },
     {
@@ -718,7 +785,8 @@
         "books/probability/#interval",
         "books/probability/#testing",
         "books/ai/#generalization",
-        "books/ai/#agents"
+        "books/ai/#agents",
+        "books/llm-gpu/#design"
       ]
     },
     {
@@ -769,6 +837,26 @@
         "books/llm-gpu/#hierarchy",
         "books/llm-gpu/#cache",
         "books/llm-gpu/#bottleneck"
+      ]
+    },
+    {
+      "id": "attention-kv",
+      "name": "어텐션과 KV 캐시",
+      "aliases": [
+        "attention",
+        "KV cache",
+        "Query",
+        "Key",
+        "Value",
+        "decode"
+      ],
+      "summary": "새 토큰이 과거 토큰의 Key와 Value를 다시 읽으며 생기는 계산과 메모리",
+      "chapters": [
+        "books/ai/#attention",
+        "books/ai/#generation",
+        "books/llm-gpu/#phases",
+        "books/llm-gpu/#cache",
+        "books/llm-gpu/#modelcards"
       ]
     }
   ]

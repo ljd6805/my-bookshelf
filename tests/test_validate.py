@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from validate import (validate_html, validate_catalog, validate_shelf_return, validate_asset_versions,
-                      validate_cross_links, validate_typography)
+                      validate_cross_links, validate_typography, validate_illustrations)
 
 
 class IntegrityChecks(unittest.TestCase):
@@ -19,6 +19,19 @@ class IntegrityChecks(unittest.TestCase):
             self.assertEqual(validate_asset_versions(root), [])
             (root / 'assets/reader.js').write_text("import { b } from './motion.js';")
             self.assertEqual(len(validate_asset_versions(root)), 1)
+
+    def test_published_books_need_a_moving_illustration(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            catalog = {'books': [{'id': 'b', 'status': 'published', 'illustration': 'b.svg'}]}
+            self.assertEqual(len(validate_illustrations(root, catalog)), 1)
+            (root / 'b.svg').write_text('<svg><circle/><style>@media(prefers-reduced-motion:reduce){animate{display:none}}</style></svg>')
+            self.assertEqual(len(validate_illustrations(root, catalog)), 1)
+            (root / 'b.svg').write_text('<svg><style>.x{animation:k 2s infinite}@keyframes k{to{opacity:0}}</style></svg>')
+            self.assertEqual(len(validate_illustrations(root, catalog)), 1)
+            (root / 'b.svg').write_text('<svg><style>.x{animation:k 2s infinite}@keyframes k{to{opacity:0}}'
+                                        '@media(prefers-reduced-motion:reduce){.x{animation:none}}</style></svg>')
+            self.assertEqual(validate_illustrations(root, catalog), [])
 
     def test_cross_book_links_need_a_known_route(self):
         with tempfile.TemporaryDirectory() as name:

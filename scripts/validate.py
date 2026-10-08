@@ -140,6 +140,31 @@ def validate_catalog(catalog):
     return errors
 
 
+ANIMATION = re.compile(r'@keyframes|<animate|<animateTransform|<animateMotion')
+REDUCED = re.compile(r'prefers-reduced-motion|data-motion=reduce')
+
+
+def validate_illustrations(root, catalog):
+    """Every published book opens on the shelf with a moving illustration that also respects
+    reduced motion (AGENTS.md 책 구성 표준, docs/08-book-template.html#visual)."""
+    errors = []
+    for book in catalog.get('books', []):
+        if book.get('status') != 'published':
+            continue
+        bid, rel = book.get('id'), book.get('illustration')
+        path = root / rel if rel else None
+        if not path or not path.is_file():
+            errors.append(f'catalog: published book {bid} needs illustration (assets/shelf-illustration.svg)')
+            continue
+        svg = path.read_text()
+        if not ANIMATION.search(svg) or not re.search(r'animation(-name)?\s*:', svg + ('animation:' if '<animate' in svg else '')):
+            errors.append(f'{rel}: shelf illustration must animate (@keyframes + animation, or SMIL)')
+        if not REDUCED.search(svg):
+            errors.append(f'{rel}: shelf illustration needs a reduced-motion rule '
+                          '(prefers-reduced-motion and html[data-motion=reduce])')
+    return errors
+
+
 def validate_asset_versions(root):
     """Every asset URL shares index.html's release version, including transitive JS imports."""
     match = re.search(r'assets/home\.js\?v=([\w-]+)', (root / 'index.html').read_text())
@@ -174,6 +199,7 @@ def main():
     errors += validate_shelf_return(ROOT)
     errors += validate_typography(ROOT)
     errors += validate_cross_links(ROOT)
+    errors += validate_illustrations(ROOT, catalog)
     errors += validate_knowledge_links(ROOT, catalog)
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:
