@@ -14,3 +14,5 @@
 
 /* Keep the shelf return available on narrow screens. */
 @media(max-width:760px){header nav>a.shelf-return{display:inline-flex;white-space:nowrap;font-size:.8rem}header{gap:8px;padding-inline:12px}header nav{gap:7px}header .brand{gap:7px}header nav button{padding:7px 9px;font-size:.8rem}header .brand strong{font-size:.82rem;letter-spacing:0}}
+/* 서가로 돌아가기 버튼: 모든 책의 머리말에 두는 공통 규칙(docs/07-book-integration.html#shelf-return) */
+header nav>a.shelf-return{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border:1px solid var(--accent);border-radius:999px;color:var(--accent);font-weight:700;white-space:nowrap;text-decoration:none}header nav>a.shelf-return:hover{background:var(--accent);color:var(--bg)}header nav>a.shelf-return:focus-visible{outline:3px solid var(--accent);outline-offset:3px}@media(max-width:760px){header nav>a.shelf-return{display:inline-flex;min-height:36px;padding:0 10px;font-size:.8rem}}@media(max-width:360px){header nav>a.shelf-return{padding:0 8px;gap:3px}header nav button{white-space:nowrap}header .brand strong{display:none}}

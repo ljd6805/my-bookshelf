@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
-from validate import validate_html, validate_catalog
+from validate import validate_html, validate_catalog, validate_shelf_return
 
 
 class IntegrityChecks(unittest.TestCase):
@@ -37,6 +37,23 @@ class IntegrityChecks(unittest.TestCase):
             with self.subTest(url=url):
                 self.assertTrue(validate_catalog({'books': [
                     {'id': 'ai', 'status': 'published', 'url': url}]}))
+
+    def test_every_book_has_shelf_return_button(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / 'index.html').write_text('<section id="books"></section>')
+            (root / 'books/demo').mkdir(parents=True)
+            page = root / 'books/demo/index.html'
+            good = '<header><a data-shelf-return href="../../index.html#books">서가로</a></header>'
+            page.write_text(good)
+            self.assertEqual(validate_shelf_return(root), [])
+            for bad in ['<header></header><a data-shelf-return href="../../index.html#books">x</a>',
+                        '<header><a href="../../index.html#books">x</a></header>',
+                        '<header><a data-shelf-return href="../index.html#books">x</a></header>',
+                        '<header><a data-shelf-return href="../../index.html">x</a></header>']:
+                with self.subTest(bad=bad):
+                    page.write_text(bad)
+                    self.assertEqual(len(validate_shelf_return(root)), 1)
 
     def test_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as name:
