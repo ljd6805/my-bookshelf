@@ -27,6 +27,9 @@ h1[tabindex]:focus,h1[tabindex]:focus-visible{outline:none}
 .home-chart svg{display:block;width:100%;height:auto}
 .hero-lab .buttons{padding:0 22px;margin:0 0 6px}
 .hero-lab>.caption{min-height:3.2em}
+.hero-lab>.legend{padding:0 22px}
+.hero-lab>.lab-meta{min-height:0;border-top:1px solid var(--line);padding-top:12px}
+.lab-meta b{color:var(--text);margin-right:6px}
 .sensor{fill:var(--panel2);stroke:var(--muted);stroke-width:1.4;transition:fill .2s}
 .sensor.on{fill:var(--orange);stroke:var(--orange)}
 .sensor-mark{fill:#1b1306;font:800 16px sans-serif}
@@ -147,7 +150,7 @@ textarea{width:100%;font:inherit;padding:10px;border:1px solid var(--line);borde
 @keyframes roll{from{transform:translateX(-120px)}to{transform:translateX(0)}}
 
 @media(max-width:760px){.stage{grid-template-columns:1fr;justify-items:center}
-.hero-lab .buttons{padding:0 18px}
+.hero-lab .buttons,.hero-lab>.legend{padding:0 18px}
 .chart svg text.tick,.chart svg text.axis-label{font-size:15px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}

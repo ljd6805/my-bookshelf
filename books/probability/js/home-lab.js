@@ -2,7 +2,7 @@
    막대는 모의 실험 비율, 테두리는 이항분포 계산값이다. */
 (function () {
   'use strict';
-  const S = window.ProbStats, U = window.ProbUI;
+  const S = window.ProbStats, I = window.ProbInference, U = window.ProbUI;
   const N = 20, MAX_BIN = 10, SEED = 11;
 
   function sensorsSvg(today) {
@@ -17,8 +17,7 @@
 
   function histogramSvg(counts, days, p) {
     const exact = S.binomialDistribution(N, p);
-    const tail = (arr) => [...arr.slice(0, MAX_BIN), arr.slice(MAX_BIN).reduce((a, b) => a + b, 0)];
-    const ex = tail(exact), sim = tail(counts).map((c) => (days ? c / days : 0));
+    const ex = I.capTail(exact, MAX_BIN), sim = I.frequencies(I.capTail(counts, MAX_BIN), days);
     const top = 120, bottom = 268, bw = 46, maxY = Math.max(0.3, ...ex, ...sim) * 1.05;
     const y = (v) => bottom - (v / maxY) * (bottom - top);
     let s = `<line class="axis" x1="24" x2="540" y1="${bottom}" y2="${bottom}"/>`;
@@ -60,7 +59,9 @@
       U.h('div', { class: 'lab-top' }, [U.h('span', { text: 'ALARM SIMULATOR' }), U.h('span', { text: '센서 20대 · 1장과 2장의 실험' })]),
       chart, pS.wrap,
       U.h('div', { class: 'buttons' }, [U.button('하루 지나기', () => run(1)), U.button('30일 지나기', () => run(30)), U.button('초기화', () => { pS.set(0.1); reset(); }, 'ghost')]),
-      readout);
+      U.h('p', { class: 'legend' }, [U.h('span', { text: '테두리: 이항분포로 계산한 확률' }), U.h('span', { text: '채운 막대: 모의 실험 비율' }), U.h('span', { text: '점선 오른쪽 주황 막대: 5번 이상인 날' })]),
+      readout,
+      U.h('p', { class: 'caption lab-meta' }, [U.h('b', { text: '시뮬레이션 · 씨앗 고정 난수' }), ' 경보 확률 0.02~0.30, 0.01 간격. 센서 20대는 서로 독립이고 모두 같은 확률로 울린다고 가정합니다.']));
     render();
     return () => cancel();
   }
