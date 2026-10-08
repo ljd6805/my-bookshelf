@@ -5,9 +5,11 @@ its chapters. Every link here must be a chapter listed in chapter_index so a ren
 moved chapter fails the build instead of leaving a dead link on the shelf.
 """
 if __package__:
+    from .series_renderer import render_series
     from .shelf_renderer import esc, safe_book_url
     from .atlas_renderer import render_atlas_table, owner_of, short_name, field_of
 else:
+    from series_renderer import render_series
     from shelf_renderer import esc, safe_book_url
     from atlas_renderer import render_atlas_table, owner_of, short_name, field_of
 
@@ -182,7 +184,7 @@ def render_curation(catalog):
             '<p>책 한 권을 처음부터 끝까지 읽지 않아도 됩니다. 궁금한 질문을 고르면 여러 책의 장을 '
             '정거장처럼 이어 갑니다. 정거장마다 그 장으로 가는 이유와 남겨 둘 기록이 있습니다. '
             '분야를 고르면 그 분야를 지나는 노선과 개념만 남습니다.</p></div>'
-            f'{field_bar(catalog)}{explorer}{render_atlas(concepts, catalog)}')
+            f'{field_bar(catalog)}{explorer}{render_series(catalog)}{render_atlas(concepts, catalog)}')
 
 
 def concept_terms(catalog):

@@ -64,6 +64,33 @@ class CurationTests(unittest.TestCase):
 
 
 
+class SeriesTests(unittest.TestCase):
+    def catalog(self, volumes):
+        books = [dict(BOOKS[0], status='published', color='aqua', cover_meta='3장 · 2개 실험', spine_category='수학'),
+                 dict(BOOKS[1], status='published', color='rose', spine_category='AI 공학')]
+        return {'books': books, 'chapter_index': INDEX, 'learning_paths': [path(('a', 'books/a/#one'))],
+                'concepts': [], 'series': [{'id': 's', 'title': '시리즈', 'summary': '요약', 'volumes': volumes}]}
+
+    def test_series_links_published_volumes_in_order_and_shows_later_ones(self):
+        html = render_curation(self.catalog([
+            {'number': 1, 'title': '첫 권', 'book_id': 'a', 'next_why': '다음으로'},
+            {'number': 2, 'title': '둘째 권', 'book_id': 'b'},
+            {'number': 3, 'title': '셋째 권', 'status': 'writing'}]))
+        self.assertIn('출간 2 / 3권', html)
+        self.assertLess(html.index('href="books/a/"'), html.index('href="books/b/"'))
+        self.assertIn('data-fields="수학|AI 공학"', html)
+        self.assertIn('class="vol is-later"', html)
+        self.assertIn('집필 중', html)
+        self.assertIn('1권부터 읽기', html)
+
+    def test_unknown_book_or_out_of_order_volumes_fail_the_build(self):
+        for volumes in [[{'number': 1, 'title': 'x', 'book_id': 'nope'}],
+                        [{'number': 2, 'title': 'x', 'book_id': 'a'}, {'number': 1, 'title': 'y', 'book_id': 'b'}],
+                        [{'number': 1, 'title': 'x', 'status': 'someday'}]]:
+            with self.subTest(volumes=volumes), self.assertRaises(ValueError):
+                render_curation(self.catalog(volumes))
+
+
 class AtlasLayoutTests(unittest.TestCase):
     def test_every_real_concept_is_one_row_with_a_stop_at_each_of_its_books(self):
         from scripts.atlas_renderer import columns, grouped_rows, owner_of

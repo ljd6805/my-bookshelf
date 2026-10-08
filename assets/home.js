@@ -1,7 +1,7 @@
-import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-atlas3';
-import { createReader, connectSpines } from './reader.js?v=20261008-atlas3';
-import { setupRoutes, setupAtlas, setupFieldBar } from './curation.js?v=20261008-atlas3';
-import { setupShelves } from './shelves.js?v=20261008-atlas3';
+import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-series1';
+import { createReader, connectSpines } from './reader.js?v=20261008-series1';
+import { setupRoutes, setupAtlas, setupFieldBar, setupSeries } from './curation.js?v=20261008-series1';
+import { setupShelves } from './shelves.js?v=20261008-series1';
 
 const storageKey = 'bookshelf:hub:v1:motion';
 const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -87,3 +87,4 @@ if (typeof dialog.showModal === 'function') connectSpines(reader);
 setupRoutes(document.querySelector('[data-route-explorer]'));
 setupAtlas(document.querySelector('[data-atlas]'));
 setupFieldBar(document.getElementById('curation'));
+setupSeries(document.querySelector('[data-series-corner]'));
