@@ -4,14 +4,17 @@ Layout is computed here, deterministically, so the map is plain SVG that works w
 JavaScript. Each concept starts at the weighted centre of the books it appears in and is
 then nudged until no two labels overlap. Script only adds highlighting and the side panel.
 """
+import math
+
 if __package__:
     from .shelf_renderer import esc
 else:
     from shelf_renderer import esc
 
 WIDTH, HEIGHT = 960, 600
-# Book anchors: left, top, right, bottom. AI Book sits at the bottom as the shared destination.
-SLOTS = [(80, 290), (480, 62), (880, 290), (480, 500)]
+# Books stand evenly on an ellipse, AI Book at the bottom as the shared destination, so a new
+# book in the catalog gets its own place on the map without hand-placed coordinates.
+CENTER, RADIUS = (480, 290), (400, 222)
 TONES = {'aqua': '#1e737b', 'blue': '#345d95', 'violet': '#6e508e', 'sage': '#517353',
          'amber': '#a66f26', 'rose': '#a15a50'}
 
@@ -20,53 +23,57 @@ def owner_of(url, books):
     return next(b['id'] for b in books if url.startswith(b['url']))
 
 
+def short_name(book):
+    return book.get('short_title') or book.get('spine_title') or book['title']
+
+
 def book_slots(books):
-    order = sorted(books, key=lambda b: b['id'] == 'ai-book-interactive')
-    return {b['id']: SLOTS[i % len(SLOTS)] for i, b in enumerate(order)}
+    order = sorted(books, key=lambda b: b['id'] != 'ai-book-interactive')
+    slots = {}
+    for i, book in enumerate(order):
+        angle = math.pi / 2 + 2 * math.pi * i / len(order)
+        slots[book['id']] = (round(CENTER[0] + RADIUS[0] * math.cos(angle)),
+                             round(CENTER[1] + RADIUS[1] * math.sin(angle)))
+    return slots
 
 
 def label_width(text):
     return 32 + 17.5 * len(text)
 
 
-def separate(nodes, fixed, gap=12):
-    """Push overlapping label boxes apart along the axis that needs the smaller move."""
-    moved = False
-    for i, a in enumerate(nodes):
-        for b in nodes[i + 1:] + fixed:
-            dx = (a['w'] + b['w']) / 2 + gap - abs(a['x'] - b['x'])
-            dy = (a['h'] + b['h']) / 2 + gap - abs(a['y'] - b['y'])
-            if dx <= 0 or dy <= 0:
-                continue
-            moved = True
-            share = 1 if b.get('fixed') else 0.5
-            if dx < dy * 2.2:
-                step = dx * share * (1 if a['x'] >= b['x'] else -1)
-                a['x'] += step
-                b['x'] -= 0 if b.get('fixed') else step
-            else:
-                step = dy * share * (1 if a['y'] >= b['y'] else -1)
-                a['y'] += step
-                b['y'] -= 0 if b.get('fixed') else step
-    return moved
+def overlaps(a, b, gap=12):
+    return (abs(a['x'] - b['x']) < (a['w'] + b['w']) / 2 + gap
+            and abs(a['y'] - b['y']) < (a['h'] + b['h']) / 2 + gap)
+
+
+def inside(n):
+    return n['w'] / 2 + 8 <= n['x'] <= WIDTH - n['w'] / 2 - 8 and 24 <= n['y'] <= HEIGHT - 24
+
+
+def place(node, taken):
+    """Walk a widening spiral from the concept's anchor to the first free spot."""
+    ax, ay = node['x'], node['y']
+    for step in range(4000):
+        radius, angle = 3 * math.sqrt(step), step * 2.39996  # golden-angle spiral
+        node['x'], node['y'] = ax + radius * math.cos(angle) * 1.8, ay + radius * math.sin(angle)
+        if inside(node) and not any(overlaps(node, other) for other in taken):
+            return node
+    raise ValueError(f"No room on the concept map for {node['id']}; enlarge the map")
 
 
 def layout(concepts, books):
     slots = book_slots(books)
-    fixed = [{'x': x, 'y': y + 12, 'w': 130, 'h': 140, 'fixed': True} for x, y in slots.values()]
+    taken = [{'x': x, 'y': y + 12, 'w': 130, 'h': 140} for x, y in slots.values()]
     nodes = []
-    for index, concept in enumerate(concepts):
+    for concept in concepts:
         owners = [owner_of(url, books) for url in concept['chapters']]
         x = sum(slots[o][0] for o in owners) / len(owners)
         y = sum(slots[o][1] for o in owners) / len(owners)
-        nodes.append({'id': concept['id'], 'x': x + (index % 3 - 1) * 9, 'y': y + (index % 2) * 7,
-                      'w': label_width(concept['name']), 'h': 40, 'owners': owners, 'ax': x, 'ay': y})
-    for _ in range(400):
-        if not separate(nodes, fixed):
-            break
-        for n in nodes:
-            n['x'] = min(max(n['x'], n['w'] / 2 + 8), WIDTH - n['w'] / 2 - 8)
-            n['y'] = min(max(n['y'], 24), HEIGHT - 24)
+        nodes.append({'id': concept['id'], 'x': x, 'y': y, 'w': label_width(concept['name']),
+                      'h': 40, 'owners': owners})
+    # Concepts tied to many chapters claim their spot first; the rest settle around them.
+    for node in sorted(nodes, key=lambda n: (-len(n['owners']), n['id'])):
+        taken.append(place(node, taken))
     return nodes, slots
 
 
@@ -91,7 +98,7 @@ def book_node(book, slot):
             f'<rect class="atlas-spine" x="{x - 30}" y="{y - 52}" width="60" height="104" rx="8" '
             f'fill="{TONES[tone]}"/><rect class="atlas-spine-label" x="{x - 21}" y="{y - 34}" '
             f'width="42" height="68" rx="4"/>'
-            f'<text class="atlas-book-name" x="{x}" y="{y + 76}">{esc(book.get("short_title", book["title"]))}</text></a>')
+            f'<text class="atlas-book-name" x="{x}" y="{y + 76}">{esc(short_name(book))}</text></a>')
 
 
 def concept_node(node, concept):
