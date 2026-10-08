@@ -264,7 +264,9 @@ tr.current{background:var(--panel2);font-weight:700}
  .chapter-nav{grid-template-columns:1fr;gap:24px}.chapter-nav a:last-child{text-align:left}
  .stats{gap:20px}footer{padding:24px 20px;font-size:.78rem}
 }
-@media(max-width:374px){header .brand strong{display:none}}
+/* 책 이름은 머리말 한 줄에 서가로·테마·목차 버튼과 함께 들어갈 때만 보인다(420px 이하에서는 작게, 389px 이하에서는 숨김). */
+@media(max-width:420px){header .brand strong{font-size:.7rem}}
+@media(max-width:389px){header .brand strong{display:none}}
 @media(max-width:360px){
  body.reading main{padding-inline:16px}.lab-inner{padding-inline:12px}
  .memory{gap:5px}.memory .cell{grid-template-columns:18px minmax(0,1fr);gap:3px;padding:8px 4px}

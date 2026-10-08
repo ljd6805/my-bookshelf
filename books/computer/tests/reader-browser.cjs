@@ -89,7 +89,7 @@ async function screenshots(page) {
     page.on('pageerror',e=>errors.push(e.message));
     page.on('response',r=>{if(r.status()>=400) failures.push(`${r.status()} ${r.url()}`)});
     const results=[];
-    for(const width of [320,390,768,1024,1440]) for(const theme of ['dark','light']) for(const id of chapters) results.push(await checkLayout(page,width,theme,id));
+    for(const width of [320,375,390,412,768,1024,1440]) for(const theme of ['dark','light']) for(const id of chapters) results.push(await checkLayout(page,width,theme,id));
     await checkReader(page); await screenshots(page);
     assert.deepEqual(errors,[]); assert.deepEqual(failures,[]);
     fs.writeFileSync(path.join(out,'computer-reader-checks.json'),JSON.stringify({results,errors,failures,interactionChecks:'passed'},null,2));

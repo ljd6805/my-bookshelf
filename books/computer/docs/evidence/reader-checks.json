@@ -261,6 +261,266 @@
       "figures": []
     },
     {
+      "width": 375,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 15.65
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 14.8675
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 375,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
       "width": 390,
       "theme": "dark",
       "id": "home",
@@ -513,6 +773,266 @@
     },
     {
       "width": 390,
+      "theme": "light",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17.5
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "dark",
+      "id": "final",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "home",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": []
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "bits",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "encoding",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "gates",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "adder",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 17.5
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "memory",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "cpu",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "programs",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16.625
+        }
+      ]
+    },
+    {
+      "width": 412,
+      "theme": "light",
+      "id": "cache",
+      "overflow": 0,
+      "returnVisible": true,
+      "headerOverlap": false,
+      "figures": [
+        {
+          "contained": true,
+          "minText": 16
+        }
+      ]
+    },
+    {
+      "width": 412,
       "theme": "light",
       "id": "final",
       "overflow": 0,
