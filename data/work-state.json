@@ -66,9 +66,13 @@
   },
   "computer_redesign": {
     "date": "2026-10-08",
-    "status": "implemented_and_locally_verified",
+    "status": "published_and_verified",
     "verification": "books/computer/docs/redesign-validation.html",
     "preserved": "chapter IDs, body content, numerical models, cross-book links",
-    "next_action": "publish and verify deployed assets"
+    "next_action": "Use the book; retain stable routes and run reader-browser.cjs after visual changes",
+    "verified_content_commit": "56125dfb58b4bc51c622ecf6efd288de3fd47c40",
+    "ci_run": "https://github.com/ljd6805/my-bookshelf/actions/runs/37729661814",
+    "pages_run": "https://github.com/ljd6805/my-bookshelf/actions/runs/37729660598",
+    "public_verification": "New diagram, CPU output 7, zoom/Escape and 390px memory chapter verified on public Pages"
   }
 }
