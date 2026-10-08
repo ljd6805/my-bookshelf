@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="「LLM 직접 만들기」의 사실·수치·실험·용어·출처를 책을 쓰지 않은 검수 에이전트가 확인한 기록입니다."><title>팩트·출처 검수 기록 · LLM 직접 만들기</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · LLM 직접 만들기</h1>
+<p>「AI 엔지니어링 처음부터」 11권(books/aie-llm-build)을 쓴 에이전트가 아닌 별도 검수 에이전트가 원본 레슨(phases/10-llms-from-scratch, MIT)과 인용 논문에 비추어 확인한 결과입니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-build)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build)" data-date="2026-10-08" data-scope="12개 장 본문·식·세부·확인 문제, 16개 실험과 안내 상자, 표지 실험, 그림 캡션, 용어집, 출처 49개, 다른 책 링크 19개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-build). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build). 범위: 12개 장 본문·식·세부·확인 문제, 16개 실험과 안내 상자, 표지 실험, 그림 캡션, 용어집, 출처 49개, 다른 책 링크 19개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>3건 수정</td><td>장마다 주장을 원본 en.md 24개와 대조하고, 원본이 인용한 논문(Llama 3 보고서, ZeRO, Chinchilla, InstructGPT, DeepSeek-V3, NSA, Jamba 등)으로 확인. Llama 3 데이터 구성·병렬 구성은 arXiv 2407.21783 본문으로 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>3건 수정</td><td>본문·formulaNote·세부·확인 문제·안내 상자의 숫자를 js/math.js를 node로 직접 실행해 재계산(BPE 276·187·149토큰, 53 대 20토큰, Jaccard 0.881, LSH 94.7%·6.1%, 패딩 51%·패킹 92%, ln 57 = 4.04, 0.925·0.914·1.12, Chinchilla 1.937·1.993·32.4B·93.6토큰/파라미터, 16Ψ = 128GB, ZeRO 7.5B·64장 120·31.4·16.6·1.9GB, 70B 최소 14장, 활성값 380·36.5·14GB와 8.3%·33%, 거품 15.8%·18.75%·75%·43%, SFT 2.47·1.15·0.33, DPO 0.693·0.598·0.313, GRPO 43%·18.5%, ELO 0.909, SNR 11.3·21.4dB, 추측 디코딩 3.36, Hogwild 5,550·0.63배, GPT-2 124.44M, Llama 3 8B 8.03B·17.2GB, Mixtral 46.7B·12.9B, DeepSeek-V3 671.0B·37.55B·9.2GB·1.34TB, Jamba 4층 KV, 되돌리기 246·6시간)</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>4건 수정</td><td>math.js 함수가 설명한 식(BPE, MinHash/LSH, 패킹, 바이그램 경사하강, Chinchilla 접근 3, ZeRO 16Ψ, Korthikanti 활성값, GPipe 일정, DPO, GRPO, ELO, 대칭 양자화, Leviathan 기대 토큰, config 파라미터·KV 셈, 의존 그래프)대로 계산하는지 코드로 읽고, 대표값·경계값을 따로 계산해 대조. 안내 상자의 결과 읽기와 실험 질문이 실험 범위에서 확인 가능한지 점검</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>BPE, MinHash, 교차 엔트로피, ZeRO, 활성값 재계산, 파이프라인 거품, SFT, DPO, GRPO, 양자화, 추측 디코딩, 전문가 혼합의 번역어와 원어 대응, 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 24개 폴더가 로컬 사본에 있음을 확인, 논문 24편의 arXiv 번호·저자·연도·제목 대조, 장별 source 번호(0부터)가 장 내용과 맞음을 확인, 다른 책 링크 19개의 도착 장 ID와 제목 확인, MIT 크레딧이 참고 자료·꼬리말·문서에 있음 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#data 세부 "패킹과 주의 마스크" (js/content.js)</td><td>Llama 3 데이터 구성을 "웹 50%, 코드 25%, 책·논문 13%, 수학 8%, 다국어 4%"로 적음(원본 3강의 오류를 옮김)</td><td>Llama 3 보고서(arXiv 2407.21783) 3.1.2절: 일반 지식 약 50%, 수학·추론 25%, 코드 17%, 다국어 8%</td><td>보고서 값으로 고치고 출처를 보고서로 바꿈</td></tr>
+<tr><td>#data 본문 첫 문단</td><td>"Llama 팀이 웹 데이터의 약 38%를 중복 제거로 걸러 냈다"</td><td>원본 3강만의 주장이며, Llama 3 보고서는 URL·문서·줄 단위 중복 제거를 설명할 뿐 제거 비율을 밝히지 않음</td><td>근거 없는 수치를 삭제</td></tr>
+<tr><td>#data 세부 "정제 파이프라인 다섯 단계"</td><td>위키백과 언어 모델 혼란도 필터를 RefinedWeb의 방식으로 적음</td><td>위키백과로 학습한 n-gram 모델의 혼란도 필터는 CCNet(Wenzek et al. 2019)의 방식이며, RefinedWeb(Penedo et al. 2023)은 모델 기반 필터 없이 규칙 필터와 중복 제거를 씀</td><td>CCNet으로 고치고 원본과 다른 점을 한 문장으로 밝힘</td></tr>
+<tr><td>#serving 본문 첫 문단</td><td>4비트 텐서별 양자화에서 "나머지 행들의 상대 오차가 96%"</td><td>실험이 화면에 보이는 보통 행 평균 상대 오차는 91.2%(행별 0.79~0.99)</td><td>"평균 91%"로 고침</td></tr>
+<tr><td>#serving 세부 "디코드를 빠르게 하는 장치"</td><td>Llama 3 70B KV 캐시 "320KB, 128K면 40GB"는 이진 단위(KiB·GiB)인데, 같은 책의 Llama 3 8B 17.2GB는 십진 GB라 단위가 섞임</td><td>2 × 80 × 8 × 128 × 2 = 327,680바이트, × 131,072 = 42.9 × 10⁹바이트 = 40GiB</td><td>"327,680바이트(320KiB) … 약 43GB(40GiB)"로 고침</td></tr>
+<tr><td>#memory 세부 "혼합 정밀도와 BF16"</td><td>원본의 "혼합 정밀도면 84GB로 25% 감소"를 그대로 전해, 같은 장의 16바이트 셈과 충돌</td><td>ZeRO 논문: 혼합 정밀도 Adam은 마스터 가중치 포함 16Ψ로 FP32 Adam(4+4+8 = 16Ψ)과 같음. 원본 84GB는 마스터 가중치를 뺀 값</td><td>84GB가 마스터 가중치를 뺀 값이며 포함하면 112GB로 같다는 설명을 더함</td></tr>
+<tr><td>info.bubble 실험 질문</td><td>"P = 8에서 거품을 10% 아래로 낮추려면 M이 얼마나 필요한가" — 답은 M = 64인데 실험 막대의 최댓값이 32라 실험으로 찾을 수 없음</td><td>7/(M+7) &lt; 0.1 ⇔ M ≥ 64. M = 32에서 17.9%</td><td>"20% 아래"로 바꿈(답 M = 29, 실험 범위 안)</td></tr>
+<tr><td>js/lab-guides.js dpo 결과 읽기</td><td>"같은 m이라도 β가 크면 … 기울기도 빨리 사라진다" — m = 2 예제에서 기울기 크기는 β = 0.1일 때 0.0475, β = 0.5일 때 0.134로 오히려 큼</td><td>기울기 크기 β·σ(−β·m) 재계산</td><td>무게 σ(−β·m)가 m에 따라 빨리 0으로 가지만 작은 m에서는 β 때문에 크기가 크다고 고침</td></tr>
+<tr><td>js/lab-guides.js packing 결과 읽기</td><td>"패킹은 거의 꽉 찬다" — L = 4,096 예제에서 패킹 활용률은 77%</td><td>packing() 재계산: L 512·1,024·4,096에서 97%·92%·77%</td><td>"마지막 시퀀스의 빈칸만 남아 훨씬 높게 유지된다"로 고침</td></tr>
+<tr><td>js/labs-serve.js 되돌리기 결과 문장</td><td>보상 모델 단계를 "원본의 비용 분류로 일 단위"라고 표시</td><td>원본 13강의 일 단위 묶음은 SFT·DPO·CAI뿐이고 보상 모델은 분류하지 않음</td><td>"따로 분류되지 않았습니다"가 나오도록 고침</td></tr>
+<tr><td>#architecture 본문 둘째 문단</td><td>NSA "64K에서 키 2,560개"의 조건이 없어 논문 기본 설정(압축 블록 32, 보폭 16; 약 5,600개)으로 오해될 수 있음</td><td>원본 17강의 예(l = 64, k = 16, b = 64, w = 512)로 65,536/64 + 1,024 + 512 = 2,560</td><td>계산 조건을 괄호로 밝힘</td></tr>
+</tbody></table>
+<h3>보류(원본 기준으로 남긴 것)</h3>
+<ul>
+<li>DeepSeek-V3 학습의 "GPU 활용률 95% 이상"(#parallel)은 원본 19강의 주장이며 DeepSeek-V3 보고서에서 같은 문장을 찾지 못했습니다. 본문이 이미 "원본 커리큘럼 기준"으로 표시하므로 남겼습니다.</li>
+<li>MTP 초안의 "수락률 80% 이상"(#serving)은 원본 표현이며, DeepSeek-V3 보고서는 둘째 토큰 수락률 85~90%로 적습니다. 서로 모순되지 않아 남겼습니다.</li>
+<li>Chinchilla 실험 안내의 "70B는 최솟값 근처"는 이 적합식의 최솟값이 32B여서 해석이 갈립니다. 손실 차이는 0.007로 작아 남겼습니다.</li>
+<li>선택적 재계산 추가 계산 8%는 4s/(72h + 12s) 식으로 맞지만 Korthikanti 논문의 GPT-3 사례 값(2.7%)과 식의 정의가 달라 직접 비교하지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>외부 URL은 Llama 3 보고서만 WebFetch로 열었고, 나머지 논문은 arXiv 번호·저자·연도를 검수자 지식으로 대조했습니다. 차등 어텐션 V2(2026년 1월), Hogwild! 추론 수치, Constitutional AI 원칙 16개, LLM 심판 80% 일치, InstructGPT 3만 3천 쌍 등은 원본 레슨과 일치함을 확인했지만 1차 출처 원문은 열지 않았습니다. 원문 복제는 장 6곳을 표본으로 원본 en.md와 비교해 긴 번역 구간이 없음을 확인했습니다. 학습 효과는 독자로 시험하지 않았습니다.</p>
+</section>
+</main></body></html>

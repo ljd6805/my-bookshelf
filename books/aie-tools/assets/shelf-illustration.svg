@@ -1,0 +1,31 @@
+<svg class="a14-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="노트 비서의 요청 봉투가 버전, 헤더, 기능, 토큰 검사 관문을 차례로 지나며 통과 표시를 켜고 노트 도구 상자에 닿는 그림. 실제 계산이 아닌 시각적 비유입니다.">
+<style>
+.a14-ill-bg{fill:#f2f4f6}
+.a14-ill-title{font:700 12px sans-serif;fill:#1f3346;text-anchor:middle}
+.a14-ill-small{font:10px sans-serif;fill:#41586d;text-anchor:middle}
+.a14-ill-rail{stroke:#bccad6;stroke-width:3;fill:none;stroke-dasharray:4 5}
+.a14-ill-gate{fill:#fdfefe;stroke:#1d5f99;stroke-width:2}
+.a14-ill-host{fill:#fdfefe;stroke:#41586d;stroke-width:2}
+.a14-ill-tool{fill:#e3eef8;stroke:#1d5f99;stroke-width:2}
+.a14-ill-env{animation:a14-ill-move 6s ease-in-out infinite}
+.a14-ill-check{fill:none;stroke:#1d7a4a;stroke-width:3;stroke-linecap:round;opacity:.15;animation:a14-ill-ok 6s linear infinite}
+.a14-ill-c2{animation-delay:.9s}.a14-ill-c3{animation-delay:1.8s}.a14-ill-c4{animation-delay:2.7s}
+@keyframes a14-ill-move{0%,8%{transform:translate(0,0)}20%{transform:translate(62px,0)}35%{transform:translate(122px,0)}50%{transform:translate(182px,0)}65%,85%{transform:translate(236px,0)}100%{transform:translate(0,0)}}
+@keyframes a14-ill-ok{0%,14%{opacity:.15}20%,70%{opacity:1}80%,100%{opacity:.15}}
+html[data-motion=reduce] .a14-ill-env,html[data-motion=reduce] .a14-ill-check{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.a14-ill-env,.a14-ill-check{animation:none;opacity:1}}
+</style>
+<rect class="a14-ill-bg" width="340" height="180"/>
+<text class="a14-ill-title" x="170" y="22">요청 한 통이 검사를 차례로 지나간다</text>
+<rect class="a14-ill-host" x="10" y="64" width="56" height="44" rx="6"/><text class="a14-ill-small" x="38" y="83">노트</text><text class="a14-ill-small" x="38" y="97">비서</text>
+<path class="a14-ill-rail" d="M66 86H282"/>
+<rect class="a14-ill-gate" x="84" y="58" width="36" height="56" rx="4"/><text class="a14-ill-small" x="102" y="128">버전</text>
+<rect class="a14-ill-gate" x="144" y="58" width="36" height="56" rx="4"/><text class="a14-ill-small" x="162" y="128">헤더</text>
+<rect class="a14-ill-gate" x="204" y="58" width="36" height="56" rx="4"/><text class="a14-ill-small" x="222" y="128">기능</text>
+<rect class="a14-ill-tool" x="282" y="56" width="50" height="60" rx="6"/><text class="a14-ill-small" x="307" y="82">notes</text><text class="a14-ill-small" x="307" y="96">도구</text><text class="a14-ill-small" x="307" y="128">토큰</text>
+<path class="a14-ill-check" d="M94 146l6 6 11-11"/><path class="a14-ill-check a14-ill-c2" d="M154 146l6 6 11-11"/><path class="a14-ill-check a14-ill-c3" d="M214 146l6 6 11-11"/><path class="a14-ill-check a14-ill-c4" d="M299 146l6 6 11-11"/>
+<g class="a14-ill-env">
+<rect x="48" y="76" width="34" height="22" rx="2" fill="#d98b3a" stroke="#fdfefe" stroke-width="1"/><path d="M48 76l17 12 17-12" fill="none" stroke="#fdfefe" stroke-width="1.5"/>
+</g>
+<text class="a14-ill-small" x="170" y="170">_meta에 버전과 기능을 싣고, 막히면 거기서 멈춥니다</text>
+</svg>

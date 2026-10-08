@@ -1,0 +1,79 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LLM 직접 만들기 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">LLM 직접 만들기 · 제작 문서</a><a href="../index.html">책 읽기</a></header>
+<main style="max-width:1050px;margin:auto;padding:32px">
+<h1>LLM 직접 만들기 · 토크나이저에서 정렬과 서빙까지 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 11권의 기획, 원본 레슨 대응, 구현, 검증 기록입니다. 원본은 공개 저장소 rohitg00/ai-engineering-from-scratch(MIT, 2026 Rohit Ghumare)의 <code>phases/10-llms-from-scratch</code> 가운데 24개 레슨(01~22, 25, 34)입니다. 개념·순서·실험 아이디어만 참고하고 문장과 코드는 새로 썼습니다. 작성·확인일 2026-10-08.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<table><tr><th>항목</th><th>결정</th></tr>
+<tr><td>독자</td><td>트랜스포머와 경사하강은 알지만, LLM 하나를 처음부터 끝까지 만들 때 어떤 단계가 어떤 순서로 있고 단계마다 무엇이 비용과 품질을 정하는지는 설명하지 못하는 개발자와 학생.</td></tr>
+<tr><td>끝의 행동</td><td>출시 직전 한 단계가 실패했을 때, 의존 그래프에서 다시 해야 할 단계와 재사용할 체크포인트를 고르고, 그 판단의 근거(메모리·계산량·평가 결과)를 숫자로 말할 수 있습니다.</td></tr>
+<tr><td>공통 사례</td><td>"서재봇": 서재의 책과 실험을 추천하는 작은 LLM. 1장의 병합표 학습과 3장의 바이그램 학습은 서재봇 소개문으로 실제 계산하고, 4~11장은 8B 크기의 서재봇을 가정해 메모리·정렬·평가·서빙 결정을 계산합니다.</td></tr>
+<tr><td>이야기 방식</td><td>하나의 제품을 완성한다. 토큰과 데이터 → 사전학습과 규모 → 정렬 → 평가와 서빙의 네 묶음으로 단계를 하나씩 붙이고, 12장에서 열한 단계를 출시 매니페스트로 묶어 되돌리기 범위를 계산합니다.</td></tr>
+<tr><td>겹침 처리</td><td>AI Book의 토큰·생성·어텐션·정렬, LLM GPU 책의 가중치 메모리·KV 캐시·모델 카드, LLM 성능 책의 병렬화·배칭은 짧게 요약하고 cross 링크로 보냅니다. 분량은 원본에만 있는 바이트 BPE 학습, MinHash 중복 제거, Chinchilla 배분, ZeRO·재계산·GPipe, 손실 마스크, DPO·GRPO, ELO, 추측 디코딩, 오픈 모델 config 읽기, 파이프라인 매니페스트에 씁니다.</td></tr>
+<tr><td>증거</td><td>BPE, MinHash·LSH, 패킹, 바이그램 학습, 양자화, GRPO 집단, ELO는 브라우저 안의 실제 계산입니다(작은 말뭉치·작은 행렬·고정 시드). Chinchilla, ZeRO 메모리, 활성값 재계산, GPipe 거품, DPO 손실, 추측 디코딩, 모델 파라미터·KV 캐시는 원본 레슨과 인용 논문의 공식을 계산한 값입니다. SFT 토큰 손실값과 12장의 단계별 시간은 비교용 가정값이며 화면에 밝혔습니다.</td></tr>
+<tr><td>마지막 과제</td><td>12장: 평가 게이트에서 SFT·DPO·양자화 중 하나가 실패했을 때 다시 할 단계와 시간을 의존 그래프로 계산하고, 사전학습처럼 비싼 단계는 체크포인트로 재사용하는 판단을 설명합니다.</td></tr></table>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>24개 레슨을 모두 12장에 배치했습니다. 19강(DualPipe)은 5장 병렬화, 34강(활성값 재계산)은 4장 메모리, 15·22·25강(추측 디코딩·Hogwild)은 10장 서빙, 14·16~18·20·21강(오픈 모델 구조)은 11장으로 묶었습니다.</p>
+<table><tr><th>원본 레슨</th><th>이 책의 장</th><th>다룬 핵심</th></tr>
+<tr><td>10-01 Tokenizers: BPE, WordPiece, SentencePiece</td><td>01 tokenizer</td><td>세 방식의 차이, 어휘 크기의 맞바꿈, 다국어 토큰 비용</td></tr>
+<tr><td>10-02 Building a Tokenizer from Scratch</td><td>01 tokenizer</td><td>바이트 단위 BPE 학습·인코딩, 앞 공백 조각 나누기(실험 bpe)</td></tr>
+<tr><td>10-03 Data Pipelines for Pre-Training</td><td>02 data</td><td>품질 필터, MinHash·LSH 중복 제거, 패킹과 EOS(실험 minhash, packing)</td></tr>
+<tr><td>10-04 Pre-Training a Mini GPT (124M)</td><td>03 pretrain</td><td>다음 토큰 손실 ln V 출발, 학습률, Chinchilla 배분(실험 nextchar, chinchilla)</td></tr>
+<tr><td>10-05 Scaling: Distributed Training, FSDP, DeepSpeed</td><td>04 memory, 05 parallel</td><td>파라미터당 16바이트, ZeRO 1~3단계, 데이터·텐서·파이프라인 병렬(실험 trainmem, bubble)</td></tr>
+<tr><td>10-06 Instruction Tuning (SFT)</td><td>06 sft</td><td>채팅 템플릿, 응답 토큰 손실 마스크(실험 lossmask)</td></tr>
+<tr><td>10-07 RLHF: Reward Model + PPO</td><td>07 preference</td><td>Bradley-Terry 보상 모델, KL 제약 PPO</td></tr>
+<tr><td>10-08 DPO</td><td>07 preference</td><td>보상 모델 없는 선호 학습, β의 역할(실험 dpo)</td></tr>
+<tr><td>10-09 Constitutional AI and Self-Improvement</td><td>08 selfimprove</td><td>원칙 기반 비평·수정, GRPO 집단 상대 이점(실험 grpo)</td></tr>
+<tr><td>10-10 Evaluation</td><td>09 eval</td><td>벤치마크 오염, 과제 맞춤 평가, LLM 판정자, ELO(실험 elo)</td></tr>
+<tr><td>10-11 Quantization</td><td>10 serving</td><td>대칭 양자화, 배율 단위, 이상치(실험 quant)</td></tr>
+<tr><td>10-12 Inference Optimization</td><td>10 serving</td><td>KV 캐시, 페이지 단위 관리, 연속 배칭</td></tr>
+<tr><td>10-13 Building a Complete LLM Pipeline</td><td>12 final</td><td>단계 매니페스트, 의존 그래프, 평가 게이트와 되돌리기(실험 rollback)</td></tr>
+<tr><td>10-14 Open Models: Architecture Walkthroughs</td><td>11 architecture</td><td>GPT-2에서 오늘의 오픈 모델로 바뀐 설정들(실험 config)</td></tr>
+<tr><td>10-15 Speculative Decoding and EAGLE-3</td><td>10 serving</td><td>초안·검증, 기대 토큰 식, 분포 보존(실험 specdec)</td></tr>
+<tr><td>10-16 Differential Attention (V2)</td><td>11 architecture</td><td>두 소프트맥스의 차로 잡음 상쇄</td></tr>
+<tr><td>10-17 Native Sparse Attention</td><td>11 architecture</td><td>압축·선택·창 세 갈래로 보는 키 수 줄이기</td></tr>
+<tr><td>10-18 Multi-Token Prediction</td><td>11 architecture</td><td>여러 토큰 예측 모듈과 추측 디코딩 재사용</td></tr>
+<tr><td>10-19 DualPipe Parallelism</td><td>05 parallel</td><td>양방향 파이프라인과 통신 겹치기</td></tr>
+<tr><td>10-20 DeepSeek-V3 Architecture Walkthrough</td><td>11 architecture</td><td>MLA, 공유·라우팅 전문가, 전체 대비 활성 파라미터</td></tr>
+<tr><td>10-21 Jamba: Hybrid SSM-Transformer</td><td>11 architecture</td><td>Mamba 층과 어텐션 층 섞기, KV 캐시 절감</td></tr>
+<tr><td>10-22 Async and Hogwild! Inference</td><td>10 serving</td><td>병렬 작업자와 공유 캐시의 속도 식</td></tr>
+<tr><td>10-25 Speculative Decoding and EAGLE</td><td>10 serving</td><td>특징 수준 초안 모델, 수락률</td></tr>
+<tr><td>10-34 Gradient Checkpointing and Activation Recomputation</td><td>04 memory</td><td>층당 활성값 식, 선택적·전체 재계산(실험 ckpt)</td></tr></table>
+<p>원본 레슨의 다음 수치는 인용 논문·공식과 맞지 않아 옮기지 않고 math.js에서 다시 계산했습니다: 파라미터당 12바이트 메모리 표(FP32 사본 누락, 이 책은 16바이트), GPT-2 Small 파라미터 수, 15강의 수락률·속도 수치, 16강의 12% 수치, 20강의 활성 파라미터 셈, 21강 Jamba KV 수치, 34강의 층당 800MB, 달러 비용.</p>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li><b>파일</b>: <code>js/math.js</code>(모든 계산, DOM 없음), <code>js/content.js</code>(모든 글), <code>js/visual.js</code>(공통 UI), <code>js/figures.js</code>(장마다 움직이는 개념 그림 12개), <code>js/labs-data.js</code>(1~2장), <code>js/labs-train.js</code>(3~5장), <code>js/labs-align.js</code>(6~9장), <code>js/labs-serve.js</code>(10~12장), <code>js/home-lab.js</code>(표지 실험), <code>js/lab-guides.js</code>, <code>js/app.js</code>. 전역 접두어는 A11입니다.</li>
+<li><b>실제 계산</b>: 바이트 단위 BPE 학습(동률은 먼저 나온 쌍), 낱말 3-gram MinHash와 LSH 확률, 패딩·패킹 활용률, 글자 바이그램 로짓 표의 전체 배치 경사하강, 16×64 가중치의 대칭 양자화(텐서·채널 배율), GRPO 집단 이점과 신호 없음 확률(식과 500회 표본), 고정 시드 ELO 시뮬레이션. UTF-8 인코딩·디코딩은 직접 구현해 실행 환경과 무관하게 같은 결과를 냅니다.</li>
+<li><b>공식 계산</b>: Chinchilla 적합식(E 1.69, A 406.4, B 410.7, α 0.34, β 0.28)과 6ND, ZeRO의 16Ψ 셈, Korthikanti 등의 층당 활성값 s·b·h·(34 + 5·a·s/h), GPipe 거품 (P−1)/(M+P−1), DPO 손실 −log σ(β·m), 추측 디코딩 기대 토큰 (1 − α<sup>N+1</sup>)/(1 − α), 공개 config로 계산한 전체·활성 파라미터와 토큰당 KV 바이트, NSA 키 수.</li>
+<li><b>가정과 한계</b>: 말뭉치는 수백 바이트, 모델은 글자 바이그램 수준이며 결과는 한 시드의 한 번 실행입니다. 메모리·속도는 실제 장비에서 재지 않았습니다. 모델 이름과 공개 수치는 원본 커리큘럼 기준(확인일 2026-10-08)입니다.</li>
+<li><b>서가 삽화</b>: <code>assets/shelf-illustration.svg</code>는 바이트가 토큰으로 합쳐지고, 손실 곡선이 그려지고, 정렬·서빙을 거쳐 답이 나가는 시각적 비유입니다. <code>@keyframes</code> 7개, <code>prefers-reduced-motion</code>과 <code>html[data-motion=reduce]</code>에서 멈춥니다. 표지 그림 <code>assets/cover-art.svg</code>는 출시 매니페스트의 단계 그래프를 그린 정지 그림입니다(cv-* 클래스만).</li>
+<li><b>서재 등록 제안</b>: <a href="registration.json">registration.json</a>(장 색인, 개념, 읽기 노선 단계, 들어오는 링크).</li>
+</ul></section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p><b>구조</b>: <code>npm test --prefix books/aie-llm-build</code>(경로·필드·실험 표·그림·출처 검사, 계산 검사 19개). <b>동작</b>: <code>tests/browser.cjs</code>를 Chromium으로 1280·390·320px에서 실행해 표지와 12장, 16개 실험의 예제·최솟값·최댓값·초기화, 확인 문제, 가로 넘침, 서가로 버튼을 확인합니다(<a href="evidence/browser-results.json">browser-results.json</a>). 스크린샷 <a href="evidence/home-desktop.png">표지</a>, <a href="evidence/figure-desktop.png">그림</a>, <a href="evidence/lab-mobile.png">320px 실험</a>.</p>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>bpe</td><td>확인</td><td>확인</td><td>병합 후 디코딩이 원문 바이트와 같음, 한국어 398바이트 → 병합 49회 뒤 149토큰, 영어 표로 한국어 문장 53토큰</td><td>미확인</td></tr>
+<tr><td>minhash</td><td>확인</td><td>확인</td><td>같은 집합 Jaccard 1, k가 클수록 추정 오차 감소, LSH 확률 단조 증가</td><td>미확인</td></tr>
+<tr><td>packing</td><td>확인</td><td>확인</td><td>L 1,024에서 패딩 51%·패킹 92%, 패킹 활용률 ≥ 패딩</td><td>미확인</td></tr>
+<tr><td>nextchar</td><td>확인</td><td>확인</td><td>시작 손실 ln 57, 학습률 20에서 400회 뒤 0.925, 바닥 0.914 아래로 내려가지 않음</td><td>미확인</td></tr>
+<tr><td>chinchilla</td><td>확인</td><td>확인</td><td>5.88×10²³에서 최솟값 N ≈ 32.4B, 6ND = C 불변</td><td>미확인</td></tr>
+<tr><td>trainmem</td><td>확인</td><td>확인</td><td>16Ψ, ZeRO 3단계 1/N, 70B 최소 14장</td><td>미확인</td></tr>
+<tr><td>ckpt</td><td>확인</td><td>확인</td><td>층당 활성값 식, 선택적 재계산이 5as/h 항만 제거</td><td>미확인</td></tr>
+<tr><td>bubble</td><td>확인</td><td>확인</td><td>일정표에서 센 거품 = (P−1)/(M+P−1)</td><td>미확인</td></tr>
+<tr><td>lossmask</td><td>확인</td><td>확인</td><td>응답만 세는 손실이 지시문 길이와 무관(1.15)</td><td>미확인</td></tr>
+<tr><td>dpo</td><td>확인</td><td>확인</td><td>m = 0에서 ln 2, 손실이 m에 대해 감소</td><td>미확인</td></tr>
+<tr><td>grpo</td><td>확인</td><td>확인</td><td>이점 평균 0, 신호 없음 확률 식과 표본 비율 근접</td><td>미확인</td></tr>
+<tr><td>elo</td><td>확인</td><td>확인</td><td>점수 합 보존, 기대 승률 식</td><td>미확인</td></tr>
+<tr><td>quant</td><td>확인</td><td>확인</td><td>4비트 SNR 텐서 11.3dB·채널 21.4dB, 비트가 늘수록 오차 감소</td><td>미확인</td></tr>
+<tr><td>specdec</td><td>확인</td><td>확인</td><td>α → 0이면 기대 토큰 1, N = 1 식</td><td>미확인</td></tr>
+<tr><td>config</td><td>확인</td><td>확인</td><td>Mixtral 46.70B·12.88B, DeepSeek-V3 671.03B·37.55B, Llama 3 8B 128K KV 17.2GB</td><td>미확인</td></tr>
+<tr><td>rollback</td><td>확인</td><td>확인</td><td>SFT 실패 7단계 246시간, 양자화 2단계 6시간</td><td>미확인</td></tr></table>
+<p><b>확인하지 못한 것</b>: 학습 효과(L4)는 실제 독자로 시험하지 않았습니다. 메모리·속도 수치는 실제 GPU에서 재지 않았고, 공개 모델 수치는 config 공식 계산이며 모델 제작사의 발표값과 작은 항목(편향, 정규화 등)에서 다를 수 있습니다. 화면 낭독기로 읽는 경험과 실제 모바일 기기는 확인하지 않았습니다. 사실·수치는 별도 검수자가 원본과 인용 논문에 대조했습니다.</p>
+<p><b>팩트·출처 검수</b>: <a href="fact-review.html">팩트·출처 검수 기록</a>(2026-10-08, 별도 검수 에이전트, 결과 fixed).</p>
+</section>
+</main></body></html>

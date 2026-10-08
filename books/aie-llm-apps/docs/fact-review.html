@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="《LLM 엔지니어링 · 프롬프트에서 서비스까지》를 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · LLM 엔지니어링</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · LLM 엔지니어링</h1>
+<p>「AI 엔지니어링 처음부터」 12권 《LLM 엔지니어링 · 프롬프트에서 서비스까지》(books/aie-llm-apps)의 팩트·출처 검수 기록입니다. 이 책을 쓰지 않은 에이전트가 검수했습니다. 검수 절차는 <a href="../../../docs/03-verification.html#fact-review">서재 검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-apps)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-apps)" data-date="2026-10-08" data-scope="12개 장 본문·식·자세히 보기·혼동 상자·확인 문제, 16개 실험의 계산(js/math.js)과 안내 상자 결과 읽기, 개념 그림 캡션, 표지 실험, 용어집, 참고 자료 64개와 장별 출처 번호, 다른 책으로 가는 링크 18개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-apps). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-apps). 범위: 12개 장 본문, 16개 실험 계산과 결과 읽기, 그림 캡션, 용어집, 참고 자료 64개. 원본 근거는 rohitg00/ai-engineering-from-scratch의 phases/11-llm-engineering 17개 레슨(로컬 사본의 docs/en.md)입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>3건 수정</td><td>17개 원본 레슨의 en.md에서 장마다 수치·정의를 찾아 대조했습니다(자기 일관성 56.5→74.4%, 24 게임 7.3·4.0·74%, 창 예산 22,700토큰, LoRA 표, 평가 사례 수, 캐시 절감표, 비용 예시 22,500·7,556·11,625달러 등). 시점에 민감한 제품 정보는 공식 문서로 다시 확인했습니다. MCP 2026-07-28 변경 요약과 Streamable HTTP 명세, Anthropic·OpenAI·Google 캐시 문서를 확인했습니다.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>Wilson 구간, 카파, 이항 다수결, 소프트맥스, 정밀도, LoRA 파라미터, 캐시 배수 식을 유도식과 대조하고, 결과 읽기·캡션·확인 문제의 숫자를 node와 별도 Python 계산으로 다시 냈습니다. Llama 2 7B 모양의 총 파라미터 6,738,415,616개, q·v 랭크 16의 8,388,608개(0.124%), q만 랭크 16 또는 q·v 랭크 8의 4,194,304개를 확인했습니다.</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>2건 수정</td><td>math.js 함수를 책 테스트와 따로 Python으로 계산해 대표값과 경계값을 대조했습니다(T 1.5에서 45.5%·5.4%, top-p 0.5에서 67.6%·32.4%, p 0.4·N 15의 0.213, Wilson 50·200·1,000개 폭 17.0·8.4·3.7%p, 카파 0·0.590·0.8, 정밀도 3.5%, LoRA 하한 13.54·3.44·53.91GB, 월 비용 7,556·10,695·7,679달러). 실제 계산·시나리오·교육용 값 표시가 사실과 맞는지 확인했습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>용어집 10개와 본문의 한영 대응(온도, 퓨샷, 사고 사슬, 자기 일관성, 제약 디코딩, 저랭크 적응, 함수 호출, 의미 캐시, 코헨의 카파, 민감도·특이도, 정밀도, 리듀서·체크포인트)이 표준적이고 책 안에서 일관된지 확인했습니다.</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>3건 수정</td><td>원본 레슨 17개 폴더가 로컬 사본에 있는지, 장별 source 번호가 그 장 내용과 맞는지 확인했습니다. 외부 문서는 WebFetch로 열어 제목과 내용을 확인했고, arXiv 22편은 ID와 제목·저자의 대응을 대조했습니다. 다른 책으로 가는 링크의 도착 장 ID가 이유와 맞는지, MIT 크레딧이 참고 자료 첫 줄과 꼬리말에 있는지 확인했습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#cache 본문 둘째 문단, js/math.js PROVIDERS.a1h, promptcache 실험</td><td>1시간 수명 명시적 캐시의 쓰기 배수를 1.5배로 계산했습니다. 원본 레슨 11-15가 "할증 2배 = 기준보다 50%"로 잘못 적은 것을 따른 값입니다.</td><td>Anthropic 공식 Prompt caching 문서(확인일 2026-10-08): 5분 쓰기 1.25배, 1시간 쓰기 2배, 읽기 0.1배</td><td>쓰기 배수를 2.0으로 고치고 본문·자세히 보기 문장을 "쓰기 단가가 입력의 2배"로 바꿈. 그래프 세로축 상한을 1.6에서 2.1로 올리고, math.test.cjs에 1시간 쓰기 배수 검사를 더함</td></tr>
+<tr><td>#cache 자세히 보기 "제공자별 프롬프트 캐시"</td><td>최소 1,024토큰(Haiku 2,048), OpenAI 자동 캐시 50% 할인을 현재 사실처럼 읽을 수 있었습니다.</td><td>Anthropic 문서: 최소 길이가 모델에 따라 512~4,096토큰, 일부 최신 모델은 읽기 0.05·0.025배. OpenAI 문서: 최신 모델은 읽기 0.1배, 쓰기 1.25배(확인일 2026-10-08)</td><td>원본 커리큘럼 시점 값임을 밝히고 공식 문서의 현재 범위를 덧붙임. 실험은 원본 기준 값을 그대로 씀</td></tr>
+<tr><td>#tools MCP 판정기, js/math.js mcpCheck, labs-quality.js</td><td>Streamable HTTP에서 지원하지 않는 버전(−32022)에 HTTP 200을 표시했습니다.</td><td>MCP 2026-07-28 Streamable HTTP 명세: 지원하지 않는 버전은 400 Bad Request와 UnsupportedProtocolVersionError로 응답해야 함</td><td>−32022도 HTTP 400을 내도록 고치고 본문과 오류 설명에 "HTTP에서는 400"을 더함. 테스트 추가</td></tr>
+<tr><td>#eval 그림 캡션(js/figures.js)</td><td>"50개일 때 80%와 96%를 가르지 못한다"고 했지만 책의 Wilson 계산은 [78.6%, 95.7%]여서 96%는 구간 밖입니다(원본 레슨은 [78%, 97%]로 적음).</td><td>Wilson 공식 재계산</td><td>캡션을 계산값 [78.6%, 95.7%]와 "80%짜리 시스템과 가르지 못한다"로 고침</td></tr>
+<tr><td>참고 자료 · Simon Willison, Context engineering</td><td>이 글이 "컨텍스트 엔지니어링이라는 이름을 널리 쓰게 했다"고 설명했습니다.</td><td>원문(2025-06-27): 토비 뤼트케가 먼저 쓰고 안드레이 카르파시가 퍼뜨린 용어를 소개함</td><td>설명을 사실대로 고침</td></tr>
+<tr><td>참고 자료 · LangGraph documentation</td><td>langchain-ai.github.io/langgraph는 "Documentation has moved" 안내 페이지입니다.</td><td>WebFetch 확인</td><td>https://docs.langchain.com/oss/python/langgraph/overview 로 바꿈</td></tr>
+<tr><td>참고 자료 · Google Context caching</td><td>설명이 "명시적 캐시 객체와 저장 요금"이었지만 현재 페이지는 암묵적 캐시를 중심으로 다룹니다.</td><td>WebFetch 확인(확인일 2026-10-08)</td><td>설명을 현재 내용에 맞춤</td></tr>
+<tr><td>index.html</td><td>바뀐 스크립트의 캐시 무효화</td><td>저장소 규칙</td><td>math·content·figures·labs-quality·labs-ops의 ?v=를 20261008-aie2로 올림</td></tr>
+</tbody></table>
+<h3>보류(고치지 않음)</h3>
+<ul>
+<li>#lora 메모리 하한은 학습 파라미터당 8바이트(fp16 가중치·기울기 + Adam 4바이트)로 셉니다. 혼합 정밀도 Adam의 흔한 회계(fp32 사본과 상태 포함 약 16바이트)보다 작지만, 원본 레슨의 회계를 따르고 "하한"이라고 밝혔으므로 그대로 두었습니다.</li>
+<li>#prompt 미리 채운 답(prefill)과 Gemini의 시스템 지시 필드 설명은 원본 커리큘럼 기준 표시가 붙어 있습니다. 최신 모델별 지원 여부는 확인하지 않았습니다.</li>
+<li>#eval 본문의 "50개 사례로는 80%와 96%를 구별할 수 없다"는 원본 레슨의 문장으로 밝혀 인용했으므로 본문은 두고 캡션만 고쳤습니다.</li>
+<li>원본 레슨 11-13의 가정표는 출력 단가를 15달러로 적고 계산은 10달러로 합니다. 책은 계산과 같은 10달러를 쓰므로 고치지 않았습니다.</li>
+</ul>
+<h3>원문 복제 표본 확인</h3>
+<p>1·5·7·10·12장 본문을 원본 en.md와 나란히 읽었습니다. 책은 "책다락" 고객 지원 사례로 새로 썼고, 수치와 목록을 옮긴 곳 외에 원문 문장을 그대로 번역한 긴 구간은 찾지 못했습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>프록시가 curl을 막아 외부 링크의 HTTP 상태를 한꺼번에 재지 못했습니다. WebFetch로 Anthropic·OpenAI 캐시 문서, MCP 변경 요약·Streamable HTTP, Willison, Hamel, Agno, Google, LangGraph, arXiv 2211.09527를 열었고, 나머지 arXiv 논문과 OpenAI 가이드·OWASP·CrewAI·GPTCache·Eugene Yan은 ID·제목 대응만 확인했습니다.</li>
+<li>MCP server/discover 명세 페이지는 따로 열지 않았습니다(변경 요약에서 내용 확인).</li>
+<li>실제 LLM API나 MCP 서버, LangGraph를 실행해 대조하지 않았습니다.</li>
+</ul>
+</section>
+</main></body></html>

@@ -1,0 +1,8 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="노트 비서가 가운데에서 notes 서버와 tasks 서버의 도구 가운데 하나를 골라 부르는 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="118" y="44" width="84" height="62" rx="6"/><text class="cv-text" x="160" y="72" text-anchor="middle">노트 비서</text><text class="cv-text cv-muted" x="160" y="92" text-anchor="middle">호스트</text>
+<path class="cv-bus" d="M118 62H86"/><path class="cv-bus" d="M202 62H234"/>
+<rect class="cv-node" x="14" y="30" width="72" height="80" rx="5"/><text class="cv-text" x="50" y="54" text-anchor="middle">notes</text><path class="cv-hair" d="M24 64H76"/><text class="cv-text cv-muted" x="50" y="82" text-anchor="middle">search</text><text class="cv-text cv-muted" x="50" y="100" text-anchor="middle">export</text>
+<rect class="cv-node" x="234" y="30" width="72" height="80" rx="5"/><text class="cv-text" x="270" y="54" text-anchor="middle">tasks</text><path class="cv-hair" d="M244 64H296"/><text class="cv-text cv-muted" x="270" y="82" text-anchor="middle">search</text><text class="cv-text cv-muted" x="270" y="100" text-anchor="middle">create</text>
+<text class="cv-text" x="160" y="136" text-anchor="middle">notes.search · 이름공간으로 구분</text>
+<path class="cv-hair" d="M40 16h240M40 16v8M160 16v22M280 16v8"/>
+</svg>

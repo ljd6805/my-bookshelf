@@ -1,0 +1,12 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="서재봇의 출시 매니페스트: 토크나이저부터 서빙까지 단계가 이어지고, SFT 단계에서 바뀐 뒤 아래 단계만 다시 실행하는 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="10" y="55" width="40" height="40" rx="5"/><rect class="cv-node" x="62" y="55" width="40" height="40" rx="5"/><rect class="cv-node" x="114" y="55" width="40" height="40" rx="5"/>
+<path class="cv-bus" d="M50 75H62M102 75H114M154 75H170"/>
+<rect class="cv-node" x="170" y="50" width="50" height="50" rx="5"/>
+<path class="cv-hair" d="M220 75L240 40M220 75L240 110M280 40L300 75M280 110L300 75"/>
+<rect class="cv-node" x="240" y="22" width="40" height="36" rx="5"/><rect class="cv-node" x="240" y="92" width="40" height="36" rx="5"/>
+<circle class="cv-node" cx="304" cy="75" r="8"/>
+<text class="cv-text cv-muted" x="30" y="80" text-anchor="middle">tok</text><text class="cv-text cv-muted" x="82" y="80" text-anchor="middle">data</text><text class="cv-text cv-muted" x="134" y="80" text-anchor="middle">pre</text>
+<text class="cv-big" x="195" y="84" text-anchor="middle">SFT</text>
+<text class="cv-text cv-muted" x="260" y="45" text-anchor="middle">RM</text><text class="cv-text cv-muted" x="260" y="115" text-anchor="middle">DPO</text>
+<text class="cv-text cv-muted" x="160" y="140" text-anchor="middle">11 stages</text>
+</svg>

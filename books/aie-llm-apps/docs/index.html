@@ -1,0 +1,122 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LLM 엔지니어링 · 제작 문서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">LLM 엔지니어링 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>LLM 엔지니어링 · 제작 문서</h1>
+<p>「AI 엔지니어링 처음부터」 시리즈 12권 《LLM 엔지니어링 · 프롬프트에서 서비스까지》의 기획, 원본 레슨 대응, 구현, 검증을 한곳에 모았습니다. 작성일은 2026-10-08입니다. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 11 · LLM Engineering입니다. 원문과 코드를 옮기지 않고 개념과 순서만 참고해 새로 썼습니다.</p>
+
+<section id="plan"><h2>1. 기획</h2>
+<ul>
+<li><b>독자</b>: LLM API를 한두 번 불러 본 개발자입니다. 데모는 만들 수 있지만, 출시 뒤 답이 흔들리거나 청구서가 불어날 때 어디를 고쳐야 할지 설명하기는 어려워합니다.</li>
+<li><b>끝의 행동</b>: 예산을 넘은 LLM 서비스의 청구서와 민원을 받으면 캐시 임계값과 모델 분배 같은 손잡이를 고릅니다. 그 선택이 정확도와 안전을 해치지 않는다는 증거(평가 구간, 잘못된 적중 수, 막은 비율)를 무엇으로 모을지도 말할 수 있습니다.</li>
+<li><b>공통 사례</b>: 가상의 온라인 서점 "책다락"의 고객 지원 도우미 "다락 도우미"입니다. 반품 기한 질문 하나에서 출발해 장마다 부품을 하나씩 붙입니다. 지시문, 예시, JSON, 컨텍스트 예산, 정책 문서 검색, 말투 어댑터, 주문 조회 도구, 평가 세트, 입출력 검사, 캐시, 환불 승인 그래프 순서입니다. 모든 장의 첫 문단은 앞 장에서 붙인 부품으로 시작합니다.</li>
+<li><b>이야기 방식</b>: 제품을 완성한다. 마지막 장은 출시 2주 차의 새 상황입니다. 캐시 임계값을 올린 뒤 예산을 넘은 청구서를 받고, 앞 장들의 도구로 대응합니다.</li>
+<li><b>범위</b>: 원본 Phase 11의 레슨 17개를 모두 다룹니다. 임베딩·RAG·고급 RAG(레슨 04·06·07)는 서재의 "검색과 RAG" 책과 AI Book #rag가 깊게 다루므로 5장에서 한 문단으로 요약하고 링크로 보냅니다. 대신 원본에만 있는 저장 용량과 검색 비용 계산에 분량을 씁니다. KV 캐시의 GPU 쪽 원리는 LLM 시스템 책 #cache에, 에이전트 반복의 개념은 AI Book #agents에 맡깁니다.</li>
+<li><b>증거</b>: 16개 실험 가운데 12개는 원본 레슨의 식이나 규칙을 브라우저에서 실제로 계산합니다. 소프트맥스와 top-p, 퓨샷 토큰, 이항 다수결, 컨텍스트 예산, 벡터 용량, LoRA 파라미터와 메모리, 도구 지연, Wilson 구간, 카파, 탐지 임계값과 기저율, 프롬프트 캐시 배수, 한 달 비용이 여기에 속합니다. 로짓·유사도·탐지 점수는 교육용 가정값입니다. 제약 디코딩 마스크, MCP 요청 판정, 의미 캐시 판정, 상태 그래프 실행은 규칙을 그대로 따르는 미리 정한 시나리오입니다. 각 실험의 결과 문장에 어느 쪽인지 적었습니다. 시점에 따라 바뀌는 사실(단가 배수, MCP 개정판, 모델 가격)은 "원본 커리큘럼 기준(확인일 2026-10-08)"으로 표시했습니다.</li>
+</ul>
+<p>부 구성은 네 묶음입니다. 지시와 형식(1~3장), 맥락과 적응(4~6장), 도구와 검증(7~9장), 서비스 운영(10~12장).</p>
+</section>
+
+<section id="mapping"><h2>2. 원본 레슨 대응표</h2>
+<p>원본 Phase 11의 레슨 17개가 각각 어느 장에 들어갔는지 적었습니다. 각 장의 "더 읽어 보기"에 해당 레슨 폴더 링크가 있습니다.</p>
+<table><tr><th>원본 레슨</th><th>들어간 장</th><th>장에서 다룬 핵심</th></tr>
+<tr><td>01 Prompt Engineering</td><td>01 prompt (04 context에서 다시 인용)</td><td>시스템·사용자 메시지 역할, 지시문 구성, 온도와 top-p 설정</td></tr>
+<tr><td>02 Few-Shot, CoT, ToT</td><td>02 reasoning</td><td>퓨샷 예시 수와 토큰 비용, 사고 사슬, 자기 일관성 다수결, 생각의 나무</td></tr>
+<tr><td>03 Structured Outputs</td><td>03 structured</td><td>JSON 모드와 스키마, 검증과 재시도, 제약 디코딩, 스키마가 막지 못하는 값</td></tr>
+<tr><td>04 Embeddings</td><td>05 retrieval (요약)</td><td>임베딩 차원, Matryoshka 절단, 이진 양자화, 저장 용량 계산</td></tr>
+<tr><td>05 Context Engineering</td><td>04 context</td><td>창 예산, 도구 가지치기, 대화 요약, 가운데 위치의 주의 저하</td></tr>
+<tr><td>06 RAG</td><td>05 retrieval (요약 · 검색과 RAG 책으로 연결)</td><td>검색-보강-생성 흐름, 청크와 근거 인용</td></tr>
+<tr><td>07 Advanced RAG</td><td>05 retrieval (요약 · 검색과 RAG 책으로 연결)</td><td>하이브리드 검색과 역순위 융합, 재순위, HyDE, 부모·자식 청크</td></tr>
+<tr><td>08 Fine-Tuning with LoRA &amp; QLoRA</td><td>06 lora</td><td>저랭크 분해, 대상 층과 랭크, 학습 파라미터 비율, 메모리 하한, 4비트 기본 모델</td></tr>
+<tr><td>09 Function Calling &amp; Tool Use</td><td>07 tools</td><td>도구 정의와 호출 루프, 인자 검증, 병렬 호출과 지연, 호출 상한</td></tr>
+<tr><td>10 Evaluation &amp; Testing</td><td>08 eval (12 final에서 다시 사용)</td><td>평가 세트 크기와 Wilson 구간, LLM 판정자와 사람 일치도(카파), 회귀 검사</td></tr>
+<tr><td>11 Caching, Rate Limiting &amp; Cost</td><td>10 cache, 12 final</td><td>의미 캐시와 임계값, 잘못된 적중, 토큰 버킷과 예산 경보, 모델 분배, 요청당 비용</td></tr>
+<tr><td>12 Guardrails</td><td>09 guardrails</td><td>입력·출력 검사의 층, 프롬프트 주입 탐지, 임계값과 기저율, 개인정보 걸러 내기</td></tr>
+<tr><td>13 Production App</td><td>12 final</td><td>게이트웨이부터 비용 기록까지의 경로, 서비스 목표(P50 지연, 막은 비율, 요청당 비용)</td></tr>
+<tr><td>14 Model Context Protocol</td><td>07 tools</td><td>호스트·서버 연결 수, 요청마다 _meta에 버전과 기능을 싣는 규칙, 오류 코드, Streamable HTTP 헤더</td></tr>
+<tr><td>15 Prompt Caching</td><td>10 cache, 12 final</td><td>접두부 일치, 쓰기·읽기 배수, 최소 길이, 바뀌지 않는 부분을 앞에 두는 배치</td></tr>
+<tr><td>16 LangGraph State Machines</td><td>11 graph</td><td>노드·간선·상태, 리듀서, 체크포인트, 중단 위치, 시간 여행</td></tr>
+<tr><td>17 Agent Framework Tradeoffs</td><td>11 graph (07 tools에서 인용)</td><td>그래프·역할·대화·단일 에이전트 프레임워크의 선택 기준, 프레임워크 없이 쓰는 경우</td></tr>
+</table>
+<p>원본 숫자와 계산값이 다를 때는 계산값을 썼습니다. LoRA 대상 층 표(4.7M·9.4M)는 Llama 2 7B 모양으로 직접 센 4.19M·8.39M으로 바꿨습니다. Wilson 표는 공식으로 다시 계산했습니다. 레슨 11의 단가 표(입력 5달러·출력 15달러)와 계산 예시 단가(2.50달러·10.00달러)가 서로 달라서, 계산 예시 단가만 쓰고 "계산 예시"라고 밝혔습니다. 데이터셋별 정확도 표(GSM8K, HotpotQA)처럼 모델과 시점에 따라 달라지는 수치는 옮기지 않았습니다.</p>
+</section>
+
+<section id="implementation"><h2>3. 구현</h2>
+<ul>
+<li>파일 구성은 다음과 같습니다.<ul>
+<li><code>js/math.js</code>: 순수 계산</li>
+<li><code>js/content.js</code>: 모든 글, 출처 64개</li>
+<li><code>js/visual.js</code>: 공통 UI</li>
+<li><code>js/figures.js</code>: 장마다 움직이는 개념 그림 12개</li>
+<li><code>js/labs-prompt.js</code>·<code>labs-context.js</code>·<code>labs-quality.js</code>·<code>labs-ops.js</code>: 실험 16개</li>
+<li><code>js/home-lab.js</code>: 표지 대표 실험, 의미 캐시 적중률과 한 달 비용</li>
+<li><code>js/lab-guides.js</code>, <code>js/app.js</code></li></ul></li>
+<li>전역 접두어는 <code>A12</code>, 서가 삽화 접두어는 <code>a12-ill-</code>, 진도 키는 <code>bookshelf:aie-12-llm-apps:v1:progress</code>입니다.</li>
+<li>상태가 많은 실험은 HTML 목록으로 그렸습니다. 제약 디코딩 어휘판(<code>.a12-vocab</code>)은 허용 토큰을 체크 표시로, 막힌 토큰을 취소선으로 구분합니다. 의미 캐시 질문 쌍(<code>.a12-pairs</code>)은 "적중·잘못된 적중·놓침·새로 답함"을 글자로 적습니다. 색은 보조 신호로만 씁니다. MCP 요청과 응답은 JSON 원문 패널로 보여 줍니다.</li>
+<li>강조색은 호박색입니다(어두운 화면 #ecc76a, 밝은 화면 #7d5a00). 밝은 화면에서는 주 버튼의 글자를 흰색으로 바꿔 대비를 지켰습니다.</li>
+<li>서가 삽화 <code>assets/shelf-illustration.svg</code>는 시각적 비유입니다. 질문 점 하나는 캐시에 적중해 곧바로 답으로 가고, 다른 점은 놓친 뒤 모델을 거쳐 답으로 갑니다. 동작 줄이기 두 규칙에서 멈춥니다. 표지 그림 <code>assets/cover-art.svg</code>는 질문이 지시·근거·도구를 거쳐 LLM에 들어가고, 검사를 지나 답으로 나가는 정지 그림이며 cv-* 클래스만 씁니다.</li>
+<li>나가는 링크는 다음과 같습니다.<ul>
+<li>1장 → AI Book #generation</li>
+<li>2장 → 확률과 통계 #binomial</li>
+<li>3장 → AI Book #tokens</li>
+<li>4장 → LLM 시스템 #cache, 검색과 RAG #context</li>
+<li>5장 → 검색과 RAG #embedding·#hybrid, AI Book #rag</li>
+<li>6장 → LLM 시스템 #weights, AI Book #alignment</li>
+<li>7장 → AI Book #agents</li>
+<li>8장 → 확률과 통계 #interval, 검색과 RAG #evaluation</li>
+<li>9장 → 확률과 통계 #bayes</li>
+<li>10장 → LLM 시스템 #phases·#cache</li>
+<li>11장 → 컴퓨터 원리 #programs, AI Book #agents</li>
+<li>12장 → LLM 성능 #metrics</li></ul>
+모든 대상 장 ID가 해당 책의 book-routes에 있는지 확인했습니다. 서재 등록 제안은 <code>docs/registration.json</code>에 있습니다. 들어오는 링크로는 AI Book #agents → 7장, LLM 시스템 #cache → 10장을 제안합니다.</li>
+</ul>
+</section>
+
+<section id="verification"><h2>4. 검증</h2>
+<p>검증일은 2026-10-08입니다. 실제 LLM API, MCP 서버, LangGraph를 실행하거나 GPU 메모리를 잰 검증은 아닙니다.</p>
+<ul>
+<li><b>계산 검사</b>: <code>npm test --prefix books/aie-llm-apps</code>가 통과했습니다. 계산 함수마다 대표값, 경계값, 불변 조건을 확인합니다. 예시는 다음과 같습니다.<ul>
+<li>소프트맥스 합 1, 온도 0은 탐욕 선택</li>
+<li>다수결 p 0.7에서 N 5는 0.837, p 0.4에서는 N이 늘수록 낮아짐</li>
+<li>제약 디코딩의 모든 단계에서 목표 토큰이 허용 집합에 들어감</li>
+<li>컨텍스트 압축은 사용량을 늘리지 않음</li>
+<li>Llama 2 7B 파라미터 6,738,415,616개</li>
+<li>도구 병렬 지연 ≤ 순차 지연</li>
+<li>MCP 오류 코드 −32602·−32022·−32020</li>
+<li>Wilson 구간 폭이 n에 따라 줄어듦</li>
+<li>카파 0과 1의 경계</li>
+<li>의미 캐시 적중 + 놓침 = 같은 답을 원하는 쌍 수</li>
+<li>한 달 비용 11,625·10,695·7,556·7,679달러</li></ul></li>
+<li><b>문법과 예제 키</b>: <code>node --check</code>로 content.js·figures.js 문법을 확인했습니다. 16개 실험의 예제 48개에 쓰인 입력 id가 모두 실제 input·select id인지도 대조했습니다.</li>
+<li><b>브라우저 검사</b>: <code>tests/browser.cjs</code>로 1280·390·320px에서 표지와 12장을 열었습니다. 실험 16개마다 예제 버튼, 입력의 최솟값과 최댓값, 선택 상자의 모든 값, 초기화를 눌러 결과 문장에 NaN이나 undefined가 없는지 확인했습니다. 확인 문제의 정답·오답 반응, 가로 넘침, 서가로 버튼, 콘솔 오류 없음도 확인했습니다. 결과는 <code>docs/evidence/browser-results.json</code>에 있습니다(화면 42개, 실험 확인 48회, 오류 0).</li>
+<li><b>눈으로 확인</b>: 표지, 1장 그림, 320px 마지막 장 실험의 스크린숏과 나머지 개념 그림 11개, 서가 삽화의 네 순간을 열어 보았습니다. 고친 것은 네 가지입니다.<ul>
+<li>표지 막대 아래 빈 공간: 비교 막대를 넷으로 늘림</li>
+<li>3장 어휘 칩의 따옴표 중복</li>
+<li>12장 비용 숫자가 예산선과 겹침</li>
+<li>서가 삽화 제목과 적중 경로 글자가 겹침</li></ul></li>
+</ul>
+<table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
+<tr><td>sampling 온도와 top-p</td><td>확인</td><td>확인</td><td>확인: 합 1, T 1.5에서 45.5%·5.4%, top-p 0.5에서 두 후보</td><td>미확인</td></tr>
+<tr><td>fewshot 예시 토큰</td><td>확인</td><td>확인</td><td>확인: 350 + k × 길이, k 0 경계</td><td>미확인</td></tr>
+<tr><td>vote 자기 일관성</td><td>확인</td><td>확인</td><td>확인: 이항 합 손계산(N 3에서 0.784), 독립 가정의 모형</td><td>미확인</td></tr>
+<tr><td>jsonmask 제약 디코딩</td><td>확인</td><td>확인</td><td>시나리오: 0~13단계 허용 집합 확인, 모델 확률은 없음</td><td>미확인</td></tr>
+<tr><td>budget 컨텍스트 예산</td><td>확인</td><td>확인</td><td>확인: 기본 20,200, 32K 넘침 5,700, 압축 후 15,650. 단위 가정값</td><td>미확인</td></tr>
+<tr><td>embedstore 벡터 용량</td><td>확인</td><td>확인</td><td>확인: 61.44·10.24·1.92GB. 정확도 손실은 인용값</td><td>미확인</td></tr>
+<tr><td>lora 어댑터 메모리</td><td>확인</td><td>확인</td><td>확인: q·v 랭크 16에서 8,388,608개(0.124%), 하한 13.54·3.44·53.91GB</td><td>미확인</td></tr>
+<tr><td>toolloop 도구 지연</td><td>확인</td><td>확인</td><td>확인: 5개 × 500ms에서 7,300 대 2,100ms. 모델 800ms 가정</td><td>미확인</td></tr>
+<tr><td>mcp 요청 판정</td><td>확인</td><td>확인</td><td>시나리오: 원본이 설명한 규칙의 여섯 요청 × 두 전송. 실제 서버와 대조하지 않음</td><td>미확인</td></tr>
+<tr><td>wilson 평가 구간</td><td>확인</td><td>확인</td><td>확인: 90%에서 폭 17.0~3.7%p</td><td>미확인</td></tr>
+<tr><td>judge 판정자 카파</td><td>확인</td><td>확인</td><td>확인: 기대 표의 합 200, 카파 0·0.578·0.8</td><td>미확인</td></tr>
+<tr><td>guard 탐지 임계값</td><td>확인</td><td>확인</td><td>확인: 공격 1%·임계값 0.5에서 정밀도 3.5%. 점수는 교육용</td><td>미확인</td></tr>
+<tr><td>semcache 의미 캐시</td><td>확인</td><td>확인</td><td>시나리오: 0.92에서 적중 9(잘못 3), 0.96에서 적중 3(잘못 0)·놓침 4</td><td>미확인</td></tr>
+<tr><td>promptcache 프롬프트 캐시</td><td>확인</td><td>확인</td><td>확인: 0.675·0.2045·1.25배, 최소 길이 경계</td><td>미확인</td></tr>
+<tr><td>graph 상태 그래프</td><td>확인</td><td>확인</td><td>시나리오: 멈춤 위치 셋 × 리듀서 둘의 체크포인트 순서</td><td>미확인</td></tr>
+<tr><td>capstone 출시 청구서</td><td>확인</td><td>확인</td><td>확인: 7,556·10,695·7,679달러, 적중 100%에서 0</td><td>미확인</td></tr>
+</table>
+<p><b>팩트·출처 검수</b>: 이 책을 쓰지 않은 에이전트가 2026-10-08에 사실·수치·실험·용어·출처를 검수했고, 찾은 오류(1시간 캐시 쓰기 배수, MCP 버전 오류의 HTTP 상태, Wilson 캡션, 출처 설명·링크)를 고쳤습니다. 기록은 <a href="fact-review.html">팩트·출처 검수 기록</a>에 있습니다.</p>
+<p><b>확인하지 못한 것</b>:</p>
+<ul>
+<li>L4(대표 독자가 새 조건에서 설명하는지)는 사람 검토가 필요해 확인하지 못했습니다.</li>
+<li>서가에서 책을 펼쳐 삽화가 움직이는지는 서재 등록 뒤 서재 관리자가 확인해야 합니다. 이 작업에서는 catalog.json을 고치지 않았고, 삽화는 SVG 파일을 브라우저로 직접 열어 움직임만 확인했습니다.</li>
+<li>루트 <code>validate.py</code>와 <code>build_catalog.py --check</code>는 등록 전이라 이 책을 대상으로 돌리지 않았습니다.</li>
+<li>원본 레슨의 모델 단가는 원본 커리큘럼 기준입니다. 캐시 배수·최소 접두부 길이·MCP 2026-07-28 규칙은 팩트·출처 검수에서 공식 문서로 다시 확인했습니다.</li>
+</ul>
+</section>
+<footer><a href="index.html">문서 허브</a> · <a href="../index.html">책 읽기</a> · <a href="../../../index.html">서가</a></footer></main></body></html>
