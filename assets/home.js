@@ -1,6 +1,7 @@
-import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-hover1';
-import { createReader, connectSpines } from './reader.js?v=20261008-hover1';
-import { setupRoutes, setupAtlas } from './curation.js?v=20261008-hover1';
+import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-rows1';
+import { createReader, connectSpines } from './reader.js?v=20261008-rows1';
+import { setupRoutes, setupAtlas } from './curation.js?v=20261008-rows1';
+import { setupShelves } from './shelves.js?v=20261008-rows1';
 
 const storageKey = 'bookshelf:hub:v1:motion';
 const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -26,12 +27,12 @@ function setupPreferences(reader) {
   reflect();
 }
 
-function setupSearch() {
+function setupSearch(stack) {
   const search = document.getElementById('resource-search');
   const filters = [...document.querySelectorAll('[data-filter]')];
   const list = document.getElementById('resource-list');
   const cards = [...list.querySelectorAll('[data-resource]')];
-  const shelves = [...list.querySelectorAll('[data-shelf]')];
+  const shelves = [...list.querySelectorAll('[data-shelf]:not([data-shelf=book])')];
   const count = document.getElementById('result-count');
   const empty = document.getElementById('no-results');
   let category = 'all';
@@ -39,6 +40,7 @@ function setupSearch() {
 
   function updateResults() {
     cards.forEach(card => { card.hidden = !matchesItem(card.dataset, search.value, category); });
+    stack.layout();
     shelves.forEach(shelf => {
       shelf.hidden = ![...shelf.querySelectorAll('[data-resource]')].some(card => !card.hidden);
     });
@@ -68,6 +70,7 @@ function setupSearch() {
     const isList = list.classList.toggle('is-list');
     viewButton.setAttribute('aria-pressed', String(isList));
     viewButton.textContent = isList ? '서가로 보기' : '목록으로 보기';
+    stack.layout();
     document.getElementById('shelf-hint').textContent = isList
       ? '제목을 골라 내용을 살펴보세요.' : '책등을 골라 한 권을 펼쳐보세요.';
   });
@@ -79,7 +82,7 @@ function setupSearch() {
 const dialog = document.getElementById('book-dialog');
 const reader = createReader(dialog, reduced);
 setupPreferences(reader);
-setupSearch();
+setupSearch(setupShelves(document.getElementById('resource-list')));
 if (typeof dialog.showModal === 'function') connectSpines(reader);
 setupRoutes(document.querySelector('[data-route-explorer]'));
 setupAtlas(document.querySelector('[data-atlas]'));
