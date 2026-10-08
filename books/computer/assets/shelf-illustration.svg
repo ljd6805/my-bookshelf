@@ -6,11 +6,11 @@
 .cw-ill-label{font:600 11px sans-serif;fill:#6b5540}
 .cw-ill-box{fill:#fff;stroke:#4a3a2a;stroke-width:1.6}
 .cw-ill-wire{stroke:#c9ab86;stroke-width:2;fill:none}
-.cw-ill-signal{stroke:#c06a12;stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:12 100;stroke-dashoffset:12;animation:cw-ill-flow 4s ease-in-out infinite}
+.cw-ill-signal{stroke:#c06a12;stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:12 100;stroke-dashoffset:12;animation:cw-ill-flow 3.2s ease-in-out infinite}
 .cw-ill-late{animation-name:cw-ill-flow-late}
-.cw-ill-out,.cw-ill-outnum{animation:cw-ill-show 4s ease-out infinite}
+.cw-ill-out,.cw-ill-outnum{animation:cw-ill-show 3.2s ease-out infinite}
 .cw-ill-screen{fill:#10261d}
-.cw-ill-seven{font:700 34px ui-monospace,monospace;fill:#8ff0bf;text-anchor:middle;animation:cw-ill-show 4s ease-out infinite;animation-delay:1.8s}
+.cw-ill-seven{font:700 34px ui-monospace,monospace;fill:#8ff0bf;text-anchor:middle;animation:cw-ill-show 3.2s ease-out infinite;animation-delay:1.44s}
 @keyframes cw-ill-flow{0%{stroke-dashoffset:12}30%{stroke-dashoffset:-100}100%{stroke-dashoffset:-100}}
 @keyframes cw-ill-flow-late{0%,30%{stroke-dashoffset:12}55%{stroke-dashoffset:-100}100%{stroke-dashoffset:-100}}
 @keyframes cw-ill-show{0%{opacity:0}8%,70%{opacity:1}85%,100%{opacity:0}}
@@ -24,7 +24,7 @@ html[data-motion=reduce] .cw-ill-out,html[data-motion=reduce] .cw-ill-outnum,htm
 <path class="cw-ill-signal" pathLength="100" d="M112 49 H128 V80 H146"/><path class="cw-ill-signal" pathLength="100" d="M112 127 H128 V100 H146"/>
 <rect class="cw-ill-box" x="146" y="66" width="50" height="48" rx="8"/><text class="cw-ill-label" x="171" y="94" text-anchor="middle">덧셈기</text>
 <path class="cw-ill-wire" d="M196 90 H212"/><path class="cw-ill-signal cw-ill-late" pathLength="100" d="M196 90 H212"/>
-<rect class="cw-ill-bit cw-ill-out" style="animation-delay:1.50s" x="214" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.50s" x="223" y="95">0</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:1.35s" x="236" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.35s" x="245" y="95">1</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:1.20s" x="258" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.20s" x="267" y="95">1</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:1.05s" x="280" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.05s" x="289" y="95">1</text>
+<rect class="cw-ill-bit cw-ill-out" style="animation-delay:1.2s" x="214" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.2s" x="223" y="95">0</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:1.08s" x="236" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:1.08s" x="245" y="95">1</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:0.96s" x="258" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:0.96s" x="267" y="95">1</text><rect class="cw-ill-bit cw-ill-out on" style="animation-delay:0.84s" x="280" y="79" width="18" height="22" rx="3"/><text class="cw-ill-num cw-ill-outnum" style="animation-delay:0.84s" x="289" y="95">1</text>
 <path class="cw-ill-wire" d="M258 104 V128"/>
 <rect class="cw-ill-screen" x="226" y="128" width="64" height="44" rx="6"/><text class="cw-ill-seven" x="258" y="162">7</text>
 <text class="cw-ill-label" x="171" y="24" text-anchor="middle">3 + 4 = 0111(2) = 7</text>

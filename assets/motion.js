@@ -7,6 +7,8 @@
 const EASE_OUT = 'cubic-bezier(.22,1,.36,1)';
 const EASE_IN = 'cubic-bezier(.55,0,.8,.4)';
 const SETTLE = 'cubic-bezier(.3,1.45,.55,1)';
+/** Timings below are written at the original pace; 0.8 plays every beat 20% faster. */
+const PACE = .8;
 
 export function cancelMotion(dialog) {
   // Only script-driven motion; CSS animations (the book illustration) keep playing.
@@ -17,7 +19,7 @@ export function cancelMotion(dialog) {
 }
 
 function animate(element, frames, duration, delay = 0, easing = EASE_OUT) {
-  return element.animate(frames, { duration, delay, easing, fill: 'both' });
+  return element.animate(frames, { duration: duration * PACE, delay: delay * PACE, easing, fill: 'both' });
 }
 
 async function finish(animation) {
@@ -93,7 +95,7 @@ function nudgeNeighbours(source, direction) {
       { transform: 'translateY(0) rotateY(-5deg)' },
       { transform: `translateX(${side * 4}px) rotateZ(${side * 2.5 * direction}deg) rotateY(-5deg)` },
       { transform: 'translateY(0) rotateY(-5deg)' }
-    ], { duration: 620, easing: SETTLE });
+    ], { duration: 620 * PACE, easing: SETTLE });
   });
 }
 
@@ -156,7 +158,7 @@ export async function closeMotion(dialog, source, reduced) {
     ...frame, offset: 1 - frame.offset
   }));
   motions.push(animate(flight, frames, 640, stacked ? 380 : 640, 'cubic-bezier(.45,.05,.3,1)'));
-  setTimeout(() => nudgeNeighbours(source, -1), stacked ? 900 : 1160);
+  setTimeout(() => nudgeNeighbours(source, -1), (stacked ? 900 : 1160) * PACE);
   await Promise.all(motions.map(finish));
   flight.remove();
   cover.remove();
