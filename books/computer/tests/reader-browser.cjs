@@ -28,14 +28,14 @@ async function checkLayout(page, width, theme, id) {
   assert.ok(facts.overflow<=0,`${id} ${width} ${theme}: overflow ${facts.overflow}`);
   assert.ok(facts.returnVisible,`${id} ${width}: shelf return`);
   assert.ok(!facts.headerOverlap,`${id} ${width}: header overlap`);
-  for (const f of facts.figures) { assert.ok(f.contained); assert.ok(f.minText>=12.5); }
+  for (const f of facts.figures) { assert.ok(f.contained,`${id} ${width}: figure overflow`); assert.ok(f.minText>=12.5,`${id} ${width}: figure text ${f.minText.toFixed(1)}px`); }
   return {width,theme,id,...facts};
 }
 
 async function checkReader(page) {
   await page.setViewportSize({width:390,height:844});
   await page.goto(target+'#memory');
-  const expand=page.getByRole('button',{name:'입력은 바뀌어도 기억은 유지됩니다 확대 보기'});
+  const expand=page.getByRole('button',{name:'입력이 바뀌어도 기억은 유지됩니다 확대 보기'});
   await expand.click();
   await page.getByRole('dialog').waitFor();
   assert.ok(await page.getByRole('dialog').isVisible());

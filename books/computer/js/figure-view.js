@@ -8,8 +8,7 @@ window.CompFigureView = (() => {
     const f = window.CompFigures[key];
     if (!f) return '';
     return `<figure class="figure-plate"><div class="figure-heading"><div><span>${label}</span><h3>${f.title}</h3></div><button type="button" data-figure="${key}" aria-label="${f.title} 확대 보기">확대 보기</button></div>
-      ${f.scroll ? '<p class="figure-hint">그림을 좌우로 이동하거나 확대해서 읽으세요.</p>' : ''}
-      <div class="figure-viewport"${f.scroll ? ' tabindex="0" role="region" aria-label="좌우로 이동할 수 있는 개념도"' : ''}>${f.html}</div>
+      <div class="figure-viewport">${f.html}</div>
       <figcaption>${f.caption}</figcaption></figure>`;
   }
 

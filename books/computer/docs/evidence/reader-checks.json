@@ -7,12 +7,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 320,
@@ -52,7 +47,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -66,7 +61,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -80,7 +75,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -108,7 +103,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -142,12 +137,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 320,
@@ -187,7 +177,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -201,7 +191,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 13.3
         }
       ]
     },
@@ -215,7 +205,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -243,7 +233,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 12.635
         }
       ]
     },
@@ -277,12 +267,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 390,
@@ -322,7 +307,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -336,7 +321,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -350,7 +335,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -378,7 +363,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -412,12 +397,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 390,
@@ -457,7 +437,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -471,7 +451,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 16.4
         }
       ]
     },
@@ -485,7 +465,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -513,7 +493,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 15.58
         }
       ]
     },
@@ -547,12 +527,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 768,
@@ -592,7 +567,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -606,7 +581,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.7
         }
       ]
     },
@@ -620,7 +595,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -648,7 +623,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -682,12 +657,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 768,
@@ -727,7 +697,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -741,7 +711,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.7
         }
       ]
     },
@@ -755,7 +725,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -783,7 +753,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 20.615
         }
       ]
     },
@@ -817,12 +787,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1024,
@@ -862,7 +827,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -876,7 +841,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 23
         }
       ]
     },
@@ -890,7 +855,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -918,7 +883,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -952,12 +917,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1024,
@@ -997,7 +957,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 17
         }
       ]
     },
@@ -1011,7 +971,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 23
         }
       ]
     },
@@ -1025,7 +985,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -1053,7 +1013,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 13
+          "minText": 21.85
         }
       ]
     },
@@ -1087,12 +1047,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1440,
@@ -1132,7 +1087,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 17
         }
       ]
     },
@@ -1146,7 +1101,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 23
         }
       ]
     },
@@ -1160,7 +1115,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
@@ -1188,7 +1143,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
@@ -1222,12 +1177,7 @@
       "overflow": 0,
       "returnVisible": true,
       "headerOverlap": false,
-      "figures": [
-        {
-          "contained": true,
-          "minText": 16
-        }
-      ]
+      "figures": []
     },
     {
       "width": 1440,
@@ -1267,7 +1217,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 17
         }
       ]
     },
@@ -1281,7 +1231,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 23
         }
       ]
     },
@@ -1295,7 +1245,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
@@ -1323,7 +1273,7 @@
       "figures": [
         {
           "contained": true,
-          "minText": 14.539473684210526
+          "minText": 21.85
         }
       ]
     },
