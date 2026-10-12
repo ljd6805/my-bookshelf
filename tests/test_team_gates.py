@@ -82,7 +82,11 @@ class TeamGates(unittest.TestCase):
         self.assertTrue(self.run_check(doc.replace('<section id="log">', '<section id="notlog">')))
         dup = doc.replace('<tr data-gate="G7"', '<tr data-gate="G6" data-approved="정민"><td>G6</td><td></td><td></td></tr><tr data-gate="G7"')
         self.assertTrue(any('twice' in e for e in self.run_check(dup)))
-        self.assertTrue(self.run_check(doc.replace('data-date="2026-10-12"', 'data-date="2026-99-99"')))
+        for bad in ('2026-99-99', '2026-W41-1'):
+            self.assertTrue(self.run_check(doc.replace('data-date="2026-10-12"', f'data-date="{bad}"')))
+        week = SECTIONS + STYLE + TEMPLATE.replace('data-kind="new" data-date="2026-10-12"',
+                                                   'data-kind="revision" data-date="2026-W41-1"')
+        self.assertTrue(any('newer than' in e for e in self.run_check(week, bid=sorted(LEGACY)[0], review='2026-11-01')))
 
     def test_new_book_cannot_hide_behind_a_revision_round(self):
         doc = SECTIONS + STYLE + TEMPLATE.replace('data-kind="new"', 'data-kind="revision"')

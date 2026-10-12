@@ -7,6 +7,7 @@ round decides. Each row names the leads who signed it off in data-approved; the 
 come from data/agent-team.json. Format: templates/gate-log.html.
 """
 import json
+import re
 from datetime import date
 from html.parser import HTMLParser
 
@@ -98,15 +99,21 @@ class ProductionDocument(HTMLParser):
 
 
 def valid_date(text):
+    """A real calendar day written YYYY-MM-DD (fromisoformat alone also takes 2026-W41-1)."""
     try:
-        return len(text) == 10 and bool(date.fromisoformat(text))
+        return bool(re.fullmatch(r'\d{4}-\d{2}-\d{2}', text)) and bool(date.fromisoformat(text))
     except ValueError:
         return False
 
 
+def round_date(record):
+    text = record['attrs'].get('data-date', '')
+    return text if valid_date(text) else ''
+
+
 def latest(rounds):
     """The round with the latest date; on a tie, the one written later in the document."""
-    return max(enumerate(rounds), key=lambda p: (p[1]['attrs'].get('data-date', ''), p[0]))
+    return max(enumerate(rounds), key=lambda p: (round_date(p[1]), p[0]))
 
 
 def team_leads(root):
@@ -208,9 +215,10 @@ def book_gate_errors(root, entry, anchors, leads):
         if not news:
             errors.append('a book made under the team rule needs a data-kind="new" round')
         else:
-            j, first = max(news, key=lambda p: (p[1]['attrs'].get('data-date', ''), p[0]))
+            j, first = latest([r for _, r in news])
+            j = news[j][0]
             errors += [f'new round: {e}' for e in round_errors(book, first, leads, exempt(j))]
-    if revised > RULE_DATE and last['attrs'].get('data-date', '') < revised:
+    if revised > RULE_DATE and round_date(last) < revised:
         errors.append(f'fact review of {revised} is newer than the latest gate round')
     return [f'{folder}/{DOC_FILE}: {e}' for e in errors]
 
