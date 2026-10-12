@@ -37,7 +37,7 @@ L.quantize=el=>{
  U.setup(el,U.select('qorder','확률표',[['0','글자 빈도 표(1줄 × 180칸)'],['1','앞 글자 표(줄마다 180칸)']],'1')+U.range('qb','표 한 칸의 비트 수 b',2,12,1,8));
  U.bind(el,()=>{
   const o=Number(el.querySelector('#qorder').value),b=U.value(el,'qb'),m=M.model(o,M.corpus.train(),0.1),te=M.corpus.test(),base=M.codeLength(m,te).perChar,bs=[2,3,4,5,6,8,10,12],vals=bs.map(x=>M.codeLength(M.quantized(m,x),te).perChar),cur=M.codeLength(M.quantized(m,b),te).perChar,size=M.tableBits(m,b);
-  U.result(el,U.bars(bs.map(x=>`${x}비트`),vals,{unit:'비트',digits:3,max:Math.max(...vals,base)*1.02,mark:i=>bs[i]===b}),`표 한 칸을 ${b}비트로 적으면 시험 자료(윤슬 뒤 20개)를 <b>${U.fmt(cur,3)}</b>비트/글자로 적습니다. 원래 표(배정밀도)는 ${U.fmt(base,3)}비트라 <b>${U.fmt(cur-base,3)}비트</b> 늘었습니다.<br>표 크기: ${m.rows}줄 × ${m.V}칸 × ${b}비트 = ${size.toLocaleString('en-US')}비트. 막대는 b마다 같은 계산을 한 결과입니다(✓ 표시가 지금 값).`);
+  U.result(el,U.bars(bs.map(x=>`${x}비트`),vals,{unit:'비트',digits:3,max:Math.max(...vals,base)*1.02,mark:i=>bs[i]===b}),`표 한 칸을 ${b}비트로 적으면 시험 자료(윤슬 뒤 20개)를 <b>${U.fmt(cur,3)}</b>비트/글자로 적습니다. 원래 표(배정밀도)는 ${U.fmt(base,3)}비트라 ${Math.abs(cur-base)<5e-4?'차이가 0.001비트보다 작습니다':`<b>${U.fmt(Math.abs(cur-base),3)}비트</b> ${cur>base?'늘었습니다':'줄었습니다'}`}.<br>표 크기: ${m.rows}줄 × ${m.V}칸 × ${b}비트 = ${size.toLocaleString('en-US')}비트. 막대는 b마다 같은 계산을 한 결과입니다(✓ 표시가 지금 값).`);
  });
 };
 const FSRC={yunseul:['윤슬 70개',()=>M.corpus.yunseul()],doyoonA:['도윤 앞 15개',()=>M.corpus.doyoonA()],both:['둘 다',()=>M.corpus.yunseul()+'\n'+M.corpus.doyoonA()]};
@@ -45,7 +45,7 @@ L.final=el=>{
  U.setup(el,U.select('fsrc','모델을 셀 자료',Object.entries(FSRC).map(([k,v])=>[k,v[0]]),'yunseul')+U.select('falpha','못 본 경우에 나눠 줄 몫 α',ALPHAS.slice(0,5),'0.05')+U.check('fcost','모델 표도 함께 보낸다')+U.range('fb','표 한 칸의 비트 수 b',2,12,1,8));
  U.bind(el,()=>{
   const src=el.querySelector('#fsrc').value,a=Number(el.querySelector('#falpha').value),cost=el.querySelector('#fcost').checked,b=U.value(el,'fb'),t=M.corpus.doyoonB(),n=M.chars(t).length;
-  const ms=[-1,0,1].map(o=>M.model(o,FSRC[src][1](),a)),len=ms.map(m=>M.codeLength(m,t).bits),size=ms.map(m=>M.tableBits(m,b)),tab=size.map(x=>cost?x:0),tot=len.map((x,i)=>x+tab[i]),win=tot.indexOf(Math.min(...tot)),names=['A 고정 길이','B 글자 빈도','C 앞 글자'];
+  const ms=[-1,0,1].map(o=>M.model(o,FSRC[src][1](),a)),len=ms.map(m=>M.codeLength(m,t).bits),size=ms.map(m=>M.tableBits(m,b)),tab=size.map(x=>cost?x:0),tot=len.map((x,i)=>x+tab[i]),win=tot.indexOf(Math.min(...tot)),names=['A 균등 모델','B 글자 빈도','C 앞 글자'];
   const e=M.arithEncode(ms[win],t),check=e.error?'산술 부호로 확인할 수 없음':`산술 부호로 실제로 압축하면 ${e.k}비트(이상적 ${U.fmt(e.bitsIdeal,1)}비트)이고 풀어 읽으면 원문과 ${M.arithDecode(ms[win],e.bits,n)===t?'같습니다 ✓':'다릅니다 ✗'}`;
   U.result(el,U.bars(names,tot.map(x=>x/n),{unit:'비트',digits:2,mark:i=>i===win}),`도윤 뒤 15개(${n}글자)를 ${FSRC[src][0]}로 센 모델로 적은 길이: ${names.map((x,i)=>`${x} ${U.fmt(len[i]/n,2)}`).join(', ')}비트/글자.${cost?` 표까지 보내므로 표 크기 ${size.map(x=>x.toLocaleString('en-US')).join(' / ')}비트(칸당 ${b}비트)를 더했습니다.`:` 표를 함께 보낸다면 칸당 ${b}비트로 ${size.map(x=>x.toLocaleString('en-US')).join(' / ')}비트가 더 듭니다(지금은 빼고 비교).`}<br>가장 짧은 모델: <b>${names[win]}</b> ✓ (${U.fmt(tot[win]/n,2)}비트/글자). ${check}.<br>어림 확인: 표까지 보낼 때 C가 A를 이기려면 메시지가 약 ${len[0]>len[2]?Math.ceil((size[2]-size[0])/((len[0]-len[2])/n)).toLocaleString('en-US')+'글자':'(C가 A보다 길어 이길 수 없음)'} 이상이어야 합니다(표 크기 차 ÷ 글자당 아낀 비트). 지금 메시지는 ${n}글자입니다.`);
  });
