@@ -210,6 +210,8 @@ def book_gate_errors(root, entry, anchors, leads):
     exempt = lambda i: i == 0 and entry['id'] in APPROVAL_EXEMPT
     i, last = latest(doc.rounds)
     errors = round_errors(book, last, leads, exempt(i))
+    errors += [f'gate round {k + 1} data-date must be a real YYYY-MM-DD' for k, r in enumerate(doc.rounds)
+               if k != i and not round_date(r)]
     if not legacy and last['attrs'].get('data-kind') != 'new':
         news = [(j, r) for j, r in enumerate(doc.rounds) if r['attrs'].get('data-kind') == 'new']
         if not news:
