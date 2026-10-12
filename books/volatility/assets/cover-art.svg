@@ -1,0 +1,17 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="하루 5% 오르고 다음 날 제자리로 돌아오는 지수는 같은 높이에서 지그재그로 머물고, 날마다 그 두 배로 다시 맞춘 선은 더 크게 출렁이며 점점 아래로 내려가는 그림" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-tint" x="18" y="34" width="270" height="96"/>
+<path class="cv-grid cv-dash" d="M18 78.3H288"/>
+<path class="cv-grid cv-dash" d="M18 102.2H288"/>
+<path class="cv-hair" d="M18 136H288"/>
+<path class="cv-line cv-bold" d="M24.0 78.3 L33.2 41.4 L42.4 80.1 L51.6 43.3 L60.9 81.8 L70.1 45.2 L79.3 83.6 L88.5 47.2 L97.7 85.3 L106.9 49.1 L116.1 87.0 L125.4 51.0 L134.6 88.7 L143.8 52.9 L153.0 90.4 L162.2 54.7 L171.4 92.1 L180.6 56.6 L189.9 93.8 L199.1 58.5 L208.3 95.5 L217.5 60.3 L226.7 97.2 L235.9 62.2 L245.1 98.9 L254.4 64.0 L263.6 100.5 L272.8 65.8 L282.0 102.2"/>
+<path class="cv-stroke" d="M24.0 78.3 L33.2 59.8 L42.4 78.3 L51.6 59.8 L60.9 78.3 L70.1 59.8 L79.3 78.3 L88.5 59.8 L97.7 78.3 L106.9 59.8 L116.1 78.3 L125.4 59.8 L134.6 78.3 L143.8 59.8 L153.0 78.3 L162.2 59.8 L171.4 78.3 L180.6 59.8 L189.9 78.3 L199.1 59.8 L208.3 78.3 L217.5 59.8 L226.7 78.3 L235.9 59.8 L245.1 78.3 L254.4 59.8 L263.6 78.3 L272.8 59.8 L282.0 78.3"/>
+<circle class="cv-node" cx="282" cy="78.3" r="3.2"/>
+<circle class="cv-dot" cx="282" cy="102.2" r="3.6"/>
+<path class="cv-stroke" d="M24 18H40"/>
+<text class="cv-text" x="44" y="21">지수 · 제자리</text>
+<path class="cv-line cv-bold" d="M134 18H150"/>
+<text class="cv-text" x="154" y="21">날마다 2배 · 재조정</text>
+<text class="cv-text cv-muted" x="292" y="81">100</text>
+<text class="cv-text cv-muted" x="292" y="105">93.5</text>
+<text class="cv-text cv-muted" x="18" y="147">+5% 다음 날 제자리 · 14쌍</text>
+</svg>
