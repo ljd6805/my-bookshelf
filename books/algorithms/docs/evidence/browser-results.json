@@ -1,0 +1,562 @@
+{
+  "url": "http://127.0.0.1:8782/books/algorithms/",
+  "date": "2026-10-12",
+  "views": [
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "steps",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "lists",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "sorting",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "search",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "hash",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "heap",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "graph",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "shortest",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "edit",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "index",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "home",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "steps",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "lists",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "sorting",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "search",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "hash",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "heap",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "graph",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "shortest",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "edit",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "index",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "steps",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "lists",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "sorting",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "search",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "hash",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "heap",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "graph",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "shortest",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "edit",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "index",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "hash",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "shortest",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "edit",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "lists",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "search",
+      "scroll": 320,
+      "returnVisible": true
+    }
+  ],
+  "labs": [
+    {
+      "width": 1280,
+      "id": "count",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "ops",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "cart",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "sort",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "bsearch",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "tree",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "hash",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "heap",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "graph",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "route",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "edit",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "invert",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "ann",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "design",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "count",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "ops",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "cart",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "sort",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "bsearch",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "tree",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "hash",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "heap",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "graph",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "route",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "edit",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "invert",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "ann",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "design",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "count",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "ops",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "cart",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "sort",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "bsearch",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "tree",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "hash",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "heap",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "graph",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "route",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "edit",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "invert",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "ann",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "design",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}

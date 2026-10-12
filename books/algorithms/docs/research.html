@@ -1,0 +1,82 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="찾고 정렬하고 잇기의 조사 노트: 출처와 확인일, 장별 사실 주장 표, 실험 식의 단위·가정·범위·기준값, 오해 목록."><title>찾고 정렬하고 잇기 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">찾고 정렬하고 잇기 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>조사 노트 (G3 · 지식조사팀 은재·지호·수아·태오)</h1>
+<p>작성일 2026-10-12. 이 책의 내용은 알고리즘 교과서에서 오래 검증된 사실(정렬 하한, 이진 탐색의 비교 횟수, 해시의 평균 비용, 다익스트라의 정당성, 편집 거리의 점화식)에 기대며, 시점에 따라 바뀌는 수치는 거의 없습니다. 바뀔 수 있는 것은 두 가지로, Python 위키의 시간 복잡도 표와 근사 최근접 이웃 연구의 현황입니다. 둘 다 확인일을 붙였습니다. 참고 자료는 구조와 사실 확인에만 쓰고, 설명·예시·실험·자료는 이 책을 위해 새로 썼습니다(교과서 문장과 그림을 옮기지 않음).</p>
+
+<section id="sources"><h2>1. 출처와 확인 상태</h2>
+<p>확인 방법: 2026-10-12 이 세션에서 웹 검색과 페이지 열기로 확인했습니다. “열어 확인”은 페이지를 직접 열어 해당 내용을 읽은 것, “목록 확인”은 검색 결과의 서지 정보(제목·저자·학술지·연도)만 확인하고 본문은 열지 못한 것입니다. URL은 모두 검색 결과에 나온 주소이며 지어내지 않았습니다.</p>
+<table><tr><th>#</th><th>자료</th><th>쓰는 곳</th><th>확인</th></tr>
+<tr><td>0</td><td>Cormen, Leiserson, Rivest, Stein, <i>Introduction to Algorithms</i>, 4th ed., MIT Press 2022 · <a href="https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/">mitpress.mit.edu</a></td><td>책 전체 구성 비교, 비교 정렬 하한(8장), 해시 체이닝의 평균 비용, 분할 상환, 이진 힙, BFS·DFS, 다익스트라</td><td>목록 확인(출판사 페이지가 자동 열람을 막아 본문 미열람). 사실 주장은 아래 다른 출처로도 대조했습니다.</td></tr>
+<tr><td>1</td><td>Pat Morin, <i>Open Data Structures</i> · <a href="https://opendatastructures.org/">opendatastructures.org</a></td><td>배열 기반 리스트와 연결 리스트의 연산 비용, 두 배 늘리기와 분할 상환, 해시 체이닝, 이진 힙</td><td>열어 확인 (CC BY 공개 교과서임을 확인)</td></tr>
+<tr><td>2</td><td>C. A. R. Hoare, “Quicksort”, <i>The Computer Journal</i> 5(1), 1962 · <a href="https://academic.oup.com/comjnl/issue/5/1">academic.oup.com</a></td><td>3장 퀵 정렬의 출처</td><td>목록 확인</td></tr>
+<tr><td>3</td><td>NIST Dictionary of Algorithms and Data Structures, “heapsort” · <a href="https://xlinux.nist.gov/dads/HTML/heapSort.html">xlinux.nist.gov</a></td><td>6장 힙: Williams(1964, CACM 7(6) Algorithm 232)가 힙 정렬을 제안했다는 서지, O(n log n)</td><td>열어 확인</td></tr>
+<tr><td>4</td><td>G. M. Adelson-Velsky, E. M. Landis, 1962, Doklady Akademii Nauk SSSR · <a href="https://mathnet.ru/eng/dan26964">mathnet.ru</a></td><td>4장 AVL 트리의 출처</td><td>목록 확인</td></tr>
+<tr><td>5</td><td>E. W. Dijkstra, “A note on two problems in connexion with graphs”, <i>Numerische Mathematik</i> 1, 1959 · <a href="https://link.springer.com/doi/10.1007/BF01386390">link.springer.com</a></td><td>8장 최단 경로</td><td>목록 확인 (doi.org 열기는 요청 제한으로 실패)</td></tr>
+<tr><td>6</td><td>NIST DADS, “Levenshtein distance” · <a href="https://xlinux.nist.gov/dads/HTML/Levenshtein.html">xlinux.nist.gov</a></td><td>9장 편집 거리의 정의(삽입·삭제·바꾸기의 최소 횟수), Levenshtein 1965(러시아어)·1966(영어 번역)</td><td>열어 확인</td></tr>
+<tr><td>7</td><td>R. A. Wagner, M. J. Fischer, “The String-to-String Correction Problem”, <i>Journal of the ACM</i> 21(1), 1974 · <a href="https://projects.csail.mit.edu/jacm/References/wagnerf1974:168.html">JACM 서지</a></td><td>9장 동적 계획법 표 채우기</td><td>목록 확인</td></tr>
+<tr><td>8</td><td>Manning, Raghavan, Schütze, <i>Introduction to Information Retrieval</i>, Cambridge University Press 2008, “A first take at building an inverted index” · <a href="https://nlp.stanford.edu/IR-book/html/htmledition/a-first-take-at-building-an-inverted-index-1.html">nlp.stanford.edu</a></td><td>10장 역색인: 사전과 포스팅 목록, 포스팅을 문서 번호 순으로 정렬해 두는 이유(교집합을 빠르게)</td><td>열어 확인</td></tr>
+<tr><td>9</td><td>Yu. A. Malkov, D. A. Yashunin, “Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs”, arXiv:1603.09320 · <a href="https://arxiv.org/abs/1603.09320">arxiv.org</a></td><td>10장 근사 최근접 이웃이 실제로 쓰는 그래프 색인, “로그 규모의 검색 비용” 주장</td><td>열어 확인 (2016, v4 2018). 연구 현황은 빠르게 바뀌므로 본문은 원리만 쓰고 성능 수치를 인용하지 않음</td></tr>
+<tr><td>10</td><td>Python Wiki, “TimeComplexity” · <a href="https://wiki.python.org/moin/TimeComplexity">wiki.python.org</a></td><td>2·5장: 리스트 append는 분할 상환 O(1), insert는 O(n), dict 찾기는 평균 O(1)·최악 O(n)</td><td>열어 확인 (위키라 바뀔 수 있음, 확인일 2026-10-12, 시점 민감)</td></tr>
+<tr><td>11</td><td>Wikipedia, “Word error rate” · <a href="https://en.wikipedia.org/wiki/Word_error_rate">en.wikipedia.org</a></td><td>9장 전이 문항과 연결 링크: 단어 오류율이 낱말 단위 Levenshtein 거리에서 나온다는 설명</td><td>열어 확인 (백과사전이라 2차 자료, 시점 민감)</td></tr>
+</table>
+<p><b>확인하지 못한 것</b>: CLRS 본문(출판사 페이지 자동 열람 차단), Hoare·Dijkstra·Wagner–Fischer·AVL 원문 본문(서지만 확인). 이 다섯은 고전 결과라 교과서 서술과 다른 공개 자료(NIST DADS, Open Data Structures)로 사실을 대조했고, 원문을 직접 인용하지 않았습니다. 팩트·출처 검수(G6)에서 원문 대조를 요청합니다.</p>
+</section>
+
+<section id="claims"><h2>2. 장별 사실 주장 표</h2>
+<p>“확인일”은 근거를 이 세션에서 마지막으로 대조한 날입니다. “변화 빈도”는 그 사실이 바뀔 수 있는 정도로, <b>고정</b>(수학적 결과나 정의), <b>느림</b>(서지·교과서 판), <b>시점 민감</b>(위키·연구 현황처럼 수정될 수 있음)으로 나눴습니다. 목록만 확인한 출처(0·2·4)에 기대는 주장은 열어 확인한 공개 교과서(출처 1 Open Data Structures)의 해당 절로 함께 대조했습니다. 출처 5(다익스트라)와 7(Wagner–Fischer)은 ODS에 해당 절이 없어, 정의(출처 6)와 책 계산으로만 대조했고 원문 대조를 G6에 요청합니다.</p>
+<div class="table-wrap"><table><tr><th>장</th><th>주장</th><th>근거</th><th>상태</th><th>확인일</th><th>변화 빈도</th></tr>
+<tr><td>01</td><td>앞에서부터 훑는 찾기는 최악에 n번, 모든 쌍 비교는 n(n−1)/2번, 이진 탐색은 최악 ⌊log₂ n⌋+1번 비교한다</td><td>정의에서 바로 나옴 · 출처 1 · 책 계산(tests/math.test.cjs)으로 n=1000에서 1000·499,500·10</td><td>확인</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>01</td><td>빅오는 상수 배와 작은 n의 차이를 버린 성장의 꼴이다</td><td>출처 1(1장 점근 표기) · 출처 0(목록 확인)</td><td>확인</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>02</td><td>배열의 맨 앞에 넣으면 n칸을 옮긴다(위치 i에 넣기 O(n−i)), 연결 리스트는 k번째까지 k번 따라간다</td><td>출처 1 2.1절 ArrayStack, 3장 연결 리스트 · 출처 10(Python list insert O(n))</td><td>확인</td><td>2026-10-12</td><td>고정 (출처 10은 시점 민감)</td></tr>
+<tr><td>02</td><td>큐는 먼저 들어온 것을, 스택은 나중에 들어온 것을 먼저 꺼낸다</td><td>정의 · 출처 1</td><td>확인</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>03</td><td>병합 정렬은 최악 n log₂ n번 이하로 비교하고, 비교 정렬은 최악에 적어도 ⌈log₂ n!⌉번 비교해야 한다</td><td>출처 1 11.1절(병합 정렬 비교 수, 정리 11.5 하한 log(n!)) · 출처 0(목록 확인) · 책 계산 n=128 하한 717</td><td>확인(본문은 결정 트리 논증을 직관으로만)</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>03</td><td>맨 앞 기준 퀵 정렬은 이미 정렬된 입력에서 n(n−1)/2번 비교한다</td><td>정의에서 바로 나옴 · 출처 2(목록 확인) · 책 계산 n=128에서 8,128</td><td>확인</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>04</td><td>정렬된 순서로 넣은 이진 탐색 트리는 높이가 n이 되고, AVL은 넣을 때마다 회전해 높이를 log n 꼴로 지킨다</td><td>출처 1 6.2절(균형을 잡지 않은 트리는 노드 n개의 긴 사슬이 될 수 있음, 열어 확인. 정렬 순서로 넣으면 사슬이 된다는 것은 책 계산으로 보임) · 출처 4(목록 확인) · 책 계산 255권 높이 255 대 8</td><td>확인(AVL 상수 1.44는 본문에 쓰지 않음, 원문 대조는 G6)</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>05</td><td>체이닝 해시에서 키가 고르게 퍼지면 찾기의 기대 비용은 상수이고, 성공한 찾기의 평균 확인 횟수는 약 1+α/2다</td><td>상수 기대 비용·불변식 n ≤ 칸 수·두 배 늘리기: 출처 1 5.1절(열어 확인) · 1+α/2 식: 출처 0(목록 확인, 본문 미열람) · 책 계산 α≈0.49에서 실측 1.27, 이론 1.24</td><td>확인(1+α/2는 G6 원문 대조 요청)</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>05</td><td>꽉 차면 두 배로 늘리는 정책은 넣기 한 번의 평균(분할 상환) 비용을 상수로 지킨다</td><td>출처 1 2.1절(resize 전체 비용 O(m)) · 출처 10(append 분할 상환 O(1)) · 책 계산 500권 평균 2.52단계</td><td>확인</td><td>2026-10-12</td><td>고정 (출처 10은 시점 민감)</td></tr>
+<tr><td>06</td><td>이진 힙은 배열에 담고 i번 칸의 자식을 2i+1·2i+2번에 두며, 넣기·빼기가 log n이다. 크기 k 힙으로 상위 k개를 고르면 비교가 n(1+2 log₂ k) 이하다</td><td>출처 1 10.1절 · 출처 3 · 한계식은 책의 유도(본문 식 상자)</td><td>확인(본문은 “한계”라고 밝힘)</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>07</td><td>BFS는 큐, DFS는 스택으로 차례를 정하며 둘 다 O(V+E)이고, 가중치 없는 그래프에서 BFS의 단계는 건너간 간선의 최소 수다</td><td>출처 1 12.3절(열어 확인) · 출처 0(목록 확인)</td><td>확인</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>08</td><td>다익스트라는 간선 가중치가 음수가 아닐 때 출발점에서 가까운 곳부터 확정해 최단 거리를 준다</td><td>출처 5(원 논문 서지, 목록 확인) · 표준 결과. 책 계산으로 8×8 모든 쌍에서 다른 두 방법보다 길지 않음을 검사</td><td>확인(원문 대조는 G6)</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>09</td><td>편집 거리는 넣기·지우기·바꾸기의 최소 횟수이며 길이 m·n 표를 채워 m·n칸에 구한다</td><td>출처 6(정의, 열어 확인) · 출처 7(표 채우기 방법 서지, 목록 확인)</td><td>확인</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>09</td><td>음성 인식의 단어 오류율(WER)은 낱말 단위 편집 거리를 정답 낱말 수로 나눈 값이다</td><td>출처 11(백과사전, 2차 자료) · 연결 장 aie-audio #asr</td><td>확인(2차 자료)</td><td>2026-10-12</td><td>시점 민감(백과사전)</td></tr>
+<tr><td>10</td><td>역색인은 사전과 문서 번호 순 포스팅 목록으로 이루어지며, 정렬된 목록 둘의 교집합은 두 길이의 합에 비례하는 시간에 구한다</td><td>출처 8(열어 확인)</td><td>확인</td><td>2026-10-12</td><td>고정</td></tr>
+<tr><td>10</td><td>실제 근사 최근접 이웃 검색은 그래프(HNSW)나 군집 색인을 쓰고, 정확도와 속도를 맞바꾼다</td><td>출처 9(열어 확인)</td><td>확인(수치 인용 안 함)</td><td>2026-10-12</td><td>시점 민감</td></tr>
+<tr><td>11</td><td>노트북 한 코어가 1초에 단순 비교를 약 1억 번 한다</td><td>어림 가정(자릿수만 맞추는 값)</td><td>가정으로 표시, 사실 주장으로 쓰지 않음</td><td>2026-10-12</td><td>시점 민감(하드웨어)</td></tr>
+</table></div>
+</section>
+
+<section id="formulas"><h2>3. 실험 식의 단위·가정·범위·기준값 (계산 검산가 수아)</h2>
+<p>단위 ‘단계’는 원소 두 개를 비교하거나, 배열 칸 하나를 옮기거나, 연결 하나를 따라가는 일 한 번입니다. 기준값은 js/math.js를 Node로 실행해 얻었고 tests/math.test.cjs가 같은 값을 검사합니다.</p>
+<table><tr><th>실험</th><th>식과 가정</th><th>범위</th><th>기준값</th></tr>
+<tr><td>count</td><td>훑기 n, 쌍 n(n−1)/2, 이진 ⌊log₂n⌋+1. 찾는 번호는 서가에 없는 번호(최악)</td><td>n 100~2,000</td><td>n=1,000: 1,000 / 499,500 / 10 · n=2,000: 2,000 / 1,999,000 / 11</td></tr>
+<tr><td>ops</td><td>배열 끼우기·빼기는 뒤 칸 이동, 연결 리스트는 꼬리 표시 없는 한 줄 연결</td><td>n 10~1,000</td><td>n=1,000 합계: 맨 앞 1,001 대 1, 맨 뒤 1 대 1,000, 가운데 읽기 1 대 501, 가운데 빼기 499 대 500</td></tr>
+<tr><td>cart</td><td>12차례, 차례마다 들어옴 a권 후 처리 s권</td><td>a, s 1~3</td><td>a=2, s=1: 큐 평균 대기 3.0·최대 6, 스택은 1번 책이 끝까지 처리되지 않고 최대 11</td></tr>
+<tr><td>sort</td><td>삽입·병합·퀵(맨 앞 기준) 비교 횟수, 하한 ⌈log₂ n!⌉</td><td>n 8~512</td><td>n=128 뒤섞임: 4,338 / 733 / 771, 하한 717 · 정렬됨: 127 / 448 / 8,128</td></tr>
+<tr><td>bsearch</td><td>청구기호 1000+3i, 가운데 (lo+hi)/2 내림</td><td>1천~100만 권</td><td>1만 권 37% 자리: 13번(훑기 3,701번) · 최악 1만 14번, 100만 20번</td></tr>
+<tr><td>tree</td><td>넣는 순서(뒤섞임은 시드 5), AVL 회전 수</td><td>7~255권</td><td>31권 뒤섞임 높이 9 · 정렬 순서 31 · AVL 5 · 255권 정렬 순서 255 대 AVL 8</td></tr>
+<tr><td>hash</td><td>체이닝, 처음 칸 8개, (넣을 책 수)/칸 수 &gt; α면 두 배, 키 ‘SN-청구기호’ FNV-1a</td><td>10~2,000권, α 0.5~3</td><td>500권 α 0.75: 칸 1,024, 평균 확인 1.274, 넣기 평균 2.524 · 2,000권 늘리기 없음: 평균 확인 126.7, 최장 사슬 289</td></tr>
+<tr><td>heap</td><td>대출 횟수 합성(시드 3), 같으면 번호 작은 책 우선</td><td>n 100~5,000, k 1~50</td><td>n=2,000, k=10: 정렬 19,055 / 힙 2,235 / k번 찾기 19,945</td></tr>
+<tr><td>graph</td><td>본관과 분관 7곳(점 8개), 도로 12개(가상), 이웃은 번호 순</td><td>출발 8곳</td><td>본관 BFS: 본관 강변 시장 학교 공원 역앞 언덕 호수 · DFS: 본관 강변 학교 언덕 호수 역앞 공원 시장</td></tr>
+<tr><td>route</td><td>다익스트라(배열에서 최소 찾기), 눈앞 탐욕, BFS 최소 도로</td><td>출발·도착 8×8</td><td>본관→호수: 다익스트라 26분(본관-강변-학교-언덕-호수), BFS 27분(본관-시장-역앞-호수), 눈앞 탐욕 31분 · 본관→학교: 다익스트라 14분, 눈앞 탐욕 43분. 수아 메모: 실험은 분관 8곳이라 최소 dist를 배열에서 훑는 V² 판이고, 규모 장부 줄은 6장 힙을 쓰는 (V+E)·log V 판입니다. 8장 식 설명과 11장 식 설명에 이 차이를 적었습니다.</td></tr>
+<tr><td>edit</td><td>Levenshtein(바꾸기 1), 목록 20권</td><td>입력 제목</td><td>“별을 새는 고양이” → 별을 세는 고양이 1, 표 칸 1,404</td></tr>
+<tr><td>invert</td><td>합성 제목(낱말 40개, 제목마다 셋, k번째 낱말 ∝ 1/(k+1)), 시드 17</td><td>1천~10만 권</td><td>1만 권 ‘등대’: 훑기 10,000 대 역색인 551(찾은 550) · ‘고양이’: 10,000 대 5,733 · 10만 권 ‘등대 탐정’: 105,482 대 9,156(찾은 132권, 두 목록 5,482+3,808)</td></tr>
+<tr><td>ann</td><td>2차원 점 2,000개(무리 다섯, 시드 23), 격자 c×c, 질문 60개(시드 29)</td><td>c 1~32, 둘레 0·1</td><td>c=8 질문 칸만: 평균 거리 계산 31, 재현율 83% · c=16 둘레 포함: 74, 100%</td></tr>
+<tr><td>design</td><td>장부의 식 × 하루 질문 수(가정), 1초에 1억 단계(가정)</td><td>1만·100만 권</td><td>100만 권 모두 훑기: 하루 약 320억 단계(약 320초) · 권하는 조합 약 2.7억 단계(약 2.7초), 그중 가장 큰 몫은 인기 10권 힙 1회 약 332만 단계 × 50 ≈ 1.66억, 다음은 후보 줄인 오타 찾기 약 1.0억</td></tr>
+</table>
+</section>
+
+<section id="misconceptions"><h2>4. 오해 목록 (오해 수집가 태오)</h2>
+<ol>
+<li>빅오는 실행 시간(초)을 알려 준다 → 성장의 꼴만 알려 주며 상수와 작은 n에서는 순위가 뒤집힐 수 있다(1장).</li>
+<li>연결 리스트는 끼우기가 늘 싸다 → 그 자리까지 걸어가는 비용이 n이다(2장).</li>
+<li>n log n보다 빠른 정렬은 없다 → 비교만 쓸 때 최악 입력에 대한 하한이다. 쉬운 입력이나 값의 범위를 쓰는 정렬은 다르다(3장).</li>
+<li>이진 탐색 트리면 늘 log n이다 → 넣는 순서에 따라 줄이 된다(4장).</li>
+<li>해시는 언제나 한 번에 찾는다 → 평균이며 부하율과 해시 함수에 달렸다. 순서 질문은 못 한다(5장).</li>
+<li>힙은 정렬된 배열이다 → 부모가 자식보다 앞선다는 약속만 지킨다(6장).</li>
+<li>DFS가 깊이 보니 더 좋은 길을 찾는다 → DFS의 길은 짧다는 보장이 없다(7장).</li>
+<li>탐욕법은 늘 틀린다(또는 늘 맞는다) → 무엇을 탐욕스럽게 고르느냐에 달렸다(8장).</li>
+<li>편집 거리는 다른 글자 수다 → 글자가 밀리면(넣기·지우기) 자리마다 비교한 수와 다르다(9장).</li>
+<li>색인은 공짜다 / 근사 검색은 틀린 검색이다 → 색인은 만들고 갱신하는 비용과 공간이 들고, 근사 검색은 재현율을 재며 쓰는 도구다(10장).</li>
+<li>가장 빠른 구조 하나를 고르면 모든 질문이 빨라진다 → 해시는 번호에는 한 번이지만 낱말·오타·순위 질문에는 쓸 수 없다. 질문 종류마다 구조를 고르고 여러 색인을 함께 두는 공간과 갱신 비용을 받아들인다(11장).</li>
+</ol>
+</section>
+</main></body></html>
