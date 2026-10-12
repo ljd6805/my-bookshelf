@@ -28,9 +28,8 @@
   }
 
   function chapterGrid() {
-    const read = UI.readState();
     return `<section class="section" id="chapters"><div class="section-heading"><div class="eyebrow">EXPLORE THE BOOK</div><p>각 장의 마지막에는 아직 풀지 못한 질문이 남고, 그 질문이 다음 장의 출발점입니다. 개념을 읽고, 예측하고, 직접 실험한 뒤 확인 문제로 마무리하세요.</p></div><h2>전체 챕터</h2>` +
-      `<div class="chapter-grid">${B.chapters.map((c, i) => `<a class="chapter-card" href="#${c.id}"><span class="num">CHAPTER ${pad(i + 1)} / ${c.group}</span>${H.thumbnail(i)}<h3>${c.title}</h3><p>${c.desc}</p><span class="tag">실험 ${c.labs.length}개</span>${read[c.id] ? '<span class="tag read">읽음</span>' : ''}<span class="caption">약 ${c.time}</span></a>`).join('')}</div></section>`;
+      `<div class="chapter-grid">${B.chapters.map((c, i) => `<a class="chapter-card" href="#${c.id}"><span class="num">CHAPTER ${pad(i + 1)} / ${c.group}</span>${H.thumbnail(i)}<h3>${c.title}</h3><p>${c.desc}</p><span class="tag">실험 ${c.labs.length}개</span><span class="caption">약 ${c.time}</span></a>`).join('')}</div></section>`;
   }
 
   function paths() {
