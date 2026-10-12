@@ -1850,6 +1850,86 @@
         }
       ],
       "short_title": "캡스톤"
+    },
+    {
+      "id": "securities-market",
+      "title": "주문 한 장이 체결되기까지 · 한국 증권시장의 구조와 규칙",
+      "spine_title": "증권시장",
+      "spine_category": "금융",
+      "color": "amber",
+      "description": "가상의 투자자 하린이 낸 새벽전자 매수 주문 한 장을 따라가며 증권의 종류, 주문 경로와 넥스트레이드, 호가창과 미끄러짐, 가격·시간 우선, 단일가 매매, 호가단위, 가격제한폭·VI·서킷브레이커, 권리락 기준가, T+2 결제와 미수, 수수료·거래세, 시간외 시장, 시장경보와 투자자 보호를 13개 장과 14개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/market/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 주문표가 19,950원 줄에 서고, 체결된 뒤 T+2에 주식이 들어옵니다.",
+      "cover_art": "books/market/assets/cover-art.svg",
+      "cover_meta": "13장 · 14개 실험",
+      "status": "published",
+      "url": "books/market/",
+      "keywords": [
+        "주식",
+        "증권",
+        "증권시장",
+        "한국거래소",
+        "KRX",
+        "넥스트레이드",
+        "NXT",
+        "호가창",
+        "호가",
+        "스프레드",
+        "슬리피지",
+        "시장가",
+        "지정가",
+        "가격 우선",
+        "시간 우선",
+        "단일가",
+        "동시호가",
+        "호가단위",
+        "가격제한폭",
+        "상한가",
+        "하한가",
+        "VI",
+        "변동성완화장치",
+        "서킷브레이커",
+        "사이드카",
+        "권리락",
+        "배당락",
+        "액면분할",
+        "T+2",
+        "결제",
+        "미수",
+        "반대매매",
+        "수수료",
+        "증권거래세",
+        "시간외",
+        "애프터마켓",
+        "시장경보",
+        "공매도",
+        "투자 사기",
+        "그리드 매매",
+        "grid trading"
+      ],
+      "chapters": [
+        {
+          "title": "전체 13개 장",
+          "url": "books/market/#chapters"
+        },
+        {
+          "title": "04 · 줄을 서는 규칙: 가격 우선, 시간 우선",
+          "url": "books/market/#queue"
+        },
+        {
+          "title": "06 · 가격의 눈금: 호가단위",
+          "url": "books/market/#tick"
+        },
+        {
+          "title": "10 · 한 번 왕복의 값: 수수료와 거래세",
+          "url": "books/market/#cost"
+        },
+        {
+          "title": "마지막 과제 · 하린의 격자 주문표 진단",
+          "url": "books/market/#final"
+        }
+      ],
+      "short_title": "증권시장"
     }
   ],
   "learning_paths": [
@@ -2628,6 +2708,54 @@
         "유도 헤드가 혼자서는 이어 쓰지 못하는 이유를 이전 칸 헤드와 함께 설명할 수 있는가",
         "지우기와 바꿔 끼우기가 각각 무엇을 알려 주는지 구분할 수 있는가"
       ]
+    },
+    {
+      "id": "when-systems-stop",
+      "title": "시장과 봇은 언제 스스로 멈출까",
+      "question": "거래소는 왜 가격이 튀면 거래 방식을 바꾸거나 시장을 멈추고, 밤새 도는 프로그램에는 어떤 멈춤 단추가 필요할까?",
+      "audience": "주식 주문을 내 봤고, 언젠가 매매나 업무를 프로그램에 맡겨 보고 싶은 독자",
+      "prerequisites": "조건문과 반복문의 뜻, 백분율 계산",
+      "start": "새벽전자가 몇 분 만에 10% 오르자 2분 동안 바로 체결되지 않고 주문을 모아 한 번에 체결하는 방식으로 바뀌었고, 같은 날 밤 자동 주문 프로그램은 같은 주문을 세 번 냈다.",
+      "steps": [
+        {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#programs",
+          "task": "조건 분기와 반복으로 같은 일을 정해진 횟수만큼 되풀이하는 프로그램을 따라간다",
+          "minutes": 12,
+          "why": "체결 엔진과 자동 매매 모두 조건을 확인하고 되풀이하는 프로그램이다",
+          "record": "반복이 멈추는 조건 한 줄"
+        },
+        {
+          "book_id": "securities-market",
+          "url": "books/market/#queue",
+          "task": "내 앞 수량과 들어온 매도 수량을 바꾸며 내 지정가 주문이 언제 체결되는지 본다",
+          "minutes": 14,
+          "why": "가격 우선·시간 우선은 줄을 차례로 훑는 반복과 분기 규칙이다",
+          "record": "앞에 800주가 있을 때 내 10주가 다 체결되는 데 필요한 매도 수량"
+        },
+        {
+          "book_id": "securities-market",
+          "url": "books/market/#limits",
+          "task": "가격 경로를 바꾸며 정적·동적 VI가 처음 걸리는 지점과 상한가·하한가를 찾는다",
+          "minutes": 16,
+          "why": "거래소는 미리 정한 문턱에서 종목을 단일가 매매로 바꾸거나 시장 전체를 멈춰 생각할 시간을 번다",
+          "record": "동적 VI 문턱 3%(코스피200 종목의 접속매매 시간 기준)에서 처음 걸린 가격과 종류"
+        },
+        {
+          "book_id": "aie-16-autonomy",
+          "url": "books/aie-autonomy/#budget",
+          "task": "분당 지출과 켠 상한을 바꾸며 어느 상한이 반복을 몇 분 만에 끊는지 계산한다",
+          "minutes": 15,
+          "why": "자동 프로그램도 피해가 번지기 전에 스스로 멈출 문턱이 필요하다",
+          "record": "분당 지출 6달러에서 10분 속도 제한이 반복을 멈춘 때(시작 후 몇 분)와 그때까지 쓴 금액"
+        }
+      ],
+      "challenge": "밤새 격자 주문을 내는 프로그램을 설계한다고 하고, 거래소의 VI·서킷브레이커처럼 스스로 멈출 조건 세 가지와 멈춘 뒤 사람이 확인할 항목을 정한다.",
+      "checks": [
+        "가격 우선과 시간 우선으로 내 주문의 체결 순서를 설명할 수 있는가",
+        "정적 VI·동적 VI·서킷브레이커가 각각 무엇을 기준으로 멈추는지 구분할 수 있는가",
+        "자동 프로그램의 멈춤 조건이 왜 미리 정해져 있어야 하는지 말할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -2754,6 +2882,90 @@
           "number": 20,
           "title": "캡스톤",
           "book_id": "aie-20-capstone"
+        }
+      ]
+    },
+    {
+      "id": "finance-from-scratch",
+      "title": "금융과 투자 처음부터",
+      "summary": "돈의 시간 가치와 금리에서 시작해 증권시장의 규칙, 재무제표와 가치 평가, 변동성과 자산배분, 세금, 그리드 매매와 검증까지 이어지는 13권 시리즈입니다. 학습용이며 투자 권유가 아닙니다.",
+      "volumes": [
+        {
+          "number": 1,
+          "title": "돈의 시간 가치",
+          "status": "planned",
+          "next_why": "돈을 시간으로 비교하는 법을 알았으니, 그 돈의 가치를 흔드는 물가·경기·환율로 시야를 넓힙니다."
+        },
+        {
+          "number": 2,
+          "title": "경제는 어떻게 움직이는가",
+          "status": "planned",
+          "next_why": "경기와 통화정책을 보았으니, 정책 금리가 시장 금리와 채권 가격으로 전해지는 길을 계산합니다."
+        },
+        {
+          "number": 3,
+          "title": "금리와 채권",
+          "status": "planned",
+          "next_why": "금리가 자산 가격의 기준선임을 보았으니, 실제로 증권을 사고파는 시장의 규칙으로 들어갑니다."
+        },
+        {
+          "number": 4,
+          "title": "주문 한 장이 체결되기까지",
+          "book_id": "securities-market",
+          "next_why": "주문이 체결되는 규칙을 알았으니, 그 주문으로 사는 회사의 건강을 숫자로 진단합니다."
+        },
+        {
+          "number": 5,
+          "title": "재무제표 읽기",
+          "status": "planned",
+          "next_why": "재무제표를 읽을 수 있게 되었으니, 그 숫자로 회사의 값을 매겨 봅니다."
+        },
+        {
+          "number": 6,
+          "title": "기업의 값 매기기",
+          "status": "planned",
+          "next_why": "한 회사의 값을 매겨 보았으니, 여러 회사를 한 번에 담는 지수와 ETF로 넘어갑니다."
+        },
+        {
+          "number": 7,
+          "title": "지수와 ETF",
+          "status": "planned",
+          "next_why": "상품의 구조를 알았으니, 그 가격이 얼마나 흔들리는지 수로 잽니다."
+        },
+        {
+          "number": 8,
+          "title": "가격은 어떻게 흔들리는가",
+          "status": "planned",
+          "next_why": "한 자산의 흔들림을 쟀으니, 여러 자산을 섞어 위험을 나누는 법을 배웁니다."
+        },
+        {
+          "number": 9,
+          "title": "위험을 나누는 법",
+          "status": "planned",
+          "next_why": "계좌 전체를 설계했으니, 그 규칙을 깨는 나 자신의 마음을 들여다봅니다."
+        },
+        {
+          "number": 10,
+          "title": "투자자의 마음",
+          "status": "planned",
+          "next_why": "판단의 함정을 알았으니, 같은 수익을 세후로 지키는 세금과 계좌를 정리합니다."
+        },
+        {
+          "number": 11,
+          "title": "세금과 계좌",
+          "status": "planned",
+          "next_why": "시장 규칙과 비용, 변동성, 세금을 모두 갖췄으니, 지금 하는 그리드 매매를 직접 설계합니다."
+        },
+        {
+          "number": 12,
+          "title": "격자 하나에서 손익이 갈리기까지",
+          "status": "planned",
+          "next_why": "격자를 설계했으니, 그 설계가 운이었는지 검증하고 프로그램에 맡기는 법을 배웁니다."
+        },
+        {
+          "number": 13,
+          "title": "전략을 믿어도 될까",
+          "status": "planned"
         }
       ]
     }
@@ -3096,7 +3308,20 @@
     "books/transformer/#patch": "11 · 지우고 바꿔 끼워 원인 찾기",
     "books/transformer/#training": "12 · 학습하는 동안 회로가 생기는 순간",
     "books/transformer/#limits": "13 · 뉴런 하나에 뜻 하나가 아니다: 중첩",
-    "books/transformer/#final": "마지막 · 토리는 어떻게 세는가"
+    "books/transformer/#final": "마지막 · 토리는 어떻게 세는가",
+    "books/market/#map": "01 · 증권은 무엇에 대한 권리인가",
+    "books/market/#route": "02 · 주문은 어디로 가는가",
+    "books/market/#book": "03 · 호가창 읽기: 스프레드와 미끄러짐",
+    "books/market/#queue": "04 · 줄을 서는 규칙: 가격 우선, 시간 우선",
+    "books/market/#auction": "05 · 장 시작과 마감의 한 번 체결: 단일가 매매",
+    "books/market/#tick": "06 · 가격의 눈금: 호가단위",
+    "books/market/#limits": "07 · 시장의 멈춤 단추: 가격제한폭·VI·서킷브레이커",
+    "books/market/#events": "08 · 기준가가 바뀌는 날: 배당락·권리락·액면분할",
+    "books/market/#settle": "09 · 체결 뒤의 이틀: 결제와 미수",
+    "books/market/#cost": "10 · 한 번 왕복의 값: 수수료와 거래세",
+    "books/market/#hours": "11 · 시간 밖의 시장: 시간외·넥스트레이드·애프터마켓",
+    "books/market/#protect": "12 · 경고 딱지와 투자자 보호",
+    "books/market/#final": "마지막 과제 · 하린의 격자 주문표 진단"
   },
   "concepts": [
     {
@@ -3419,7 +3644,8 @@
         "books/aie-multiagent/#turn",
         "books/aie-multiagent/#supervisor",
         "books/aie-capstone/#harness",
-        "books/aie-capstone/#research"
+        "books/aie-capstone/#research",
+        "books/market/#queue"
       ]
     },
     {
@@ -3631,6 +3857,23 @@
         "books/transformer/#limits",
         "books/aie-deep/#debug",
         "books/aie-safety/#deception"
+      ]
+    },
+    {
+      "id": "stop-limits",
+      "name": "멈춤과 한도",
+      "aliases": [
+        "circuit breaker",
+        "kill switch",
+        "volatility interruption",
+        "budget limit",
+        "guardrail"
+      ],
+      "summary": "피해가 번지기 전에 미리 정한 문턱에서 멈추고 확인할 시간을 번다",
+      "chapters": [
+        "books/market/#limits",
+        "books/aie-autonomy/#budget",
+        "books/aie-autonomy/#durable"
       ]
     }
   ]
