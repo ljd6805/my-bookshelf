@@ -1,0 +1,86 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="정보는 몇 비트인가의 조사 노트: 출처, 장별 사실 주장, 실험 식의 단위와 기준값, 오해 목록."><title>정보는 몇 비트인가 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">정보는 몇 비트인가 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>조사 노트 (G3 · 지식조사팀 은재·지호·수아·태오)</h1>
+<p>작성일 2026-10-12. 이 노트는 글작성팀과 시각·실험팀이 그대로 믿고 쓸 사실과, 검수팀이 검수를 시작할 출발점입니다. 공식 문서·원 논문을 먼저 썼고, 2차 자료는 그렇게 표시했습니다. 이 책의 사실 주장은 대부분 1948~1987년의 고전 결과라 시점에 따라 바뀌는 수치가 거의 없습니다. 시점에 민감한 것은 표에 “변화 잦음”으로 표시했습니다. 원안의 교과 비교 근거(Cover &amp; Thomas, MacKay)는 구조만 참고하고, 본문과 실험은 새로 씁니다.</p>
+
+<section id="sources"><h2>1. 출처 (지호)</h2>
+<table><tr><th>#</th><th>출처</th><th>위치·등급</th><th>확인</th></tr>
+<tr><td>S1</td><td>C. E. Shannon (1948), A Mathematical Theory of Communication, Bell System Technical Journal 27(3) 379–423, 27(4) 623–656. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x">doi:10.1002/j.1538-7305.1948.tb01338.x</a></td><td>원 논문. 정보량과 엔트로피 H = −Σ p log p, 무잡음 부호화 정리, 채널 용량. 서지(권·호·쪽·DOI)는 위키백과 문서로 대조</td><td>2026-10-12 서지 확인. 본문 PDF는 열지 못함</td></tr>
+<tr><td>S2</td><td>D. A. Huffman (1952), A Method for the Construction of Minimum-Redundancy Codes, Proceedings of the IRE 40(9). <a href="https://ieeexplore.ieee.org/document/4051119">IEEE Xplore 4051119</a></td><td>원 논문. 가장 작은 두 확률을 합치는 절차, 최소 평균 길이</td><td>2026-10-12 검색 결과로 서지 확인</td></tr>
+<tr><td>S3</td><td>J. Ziv, A. Lempel (1978), Compression of Individual Sequences via Variable-Rate Coding, IEEE Transactions on Information Theory 24(5). doi:10.1109/TIT.1978.1055934. <a href="https://www.icst.pku.edu.cn/mipl/docs/ziv_lempel_1978_variable-rate.pdf">공개 PDF(북경대 연구실 사본)</a>(서지 확인에 연 곳, 본문 링크는 DOI)</td><td>원 논문(LZ78). 이미 본 구절에 한 글자를 붙여 사전을 키움</td><td>2026-10-12 검색 결과로 서지 확인</td></tr>
+<tr><td>S4</td><td>I. H. Witten, R. M. Neal, J. G. Cleary (1987), Arithmetic Coding for Data Compression, Communications of the ACM 30(6) 520–540. doi:10.1145/214762.214771. <a href="https://www.cs.utoronto.ca/~radford/ac-cacm.abstract.html">저자(Neal) 페이지</a>(서지 확인에 연 곳, 본문 링크는 DOI)</td><td>원 논문. 구간 좁히기 구현, 모델과 부호기의 분리</td><td>2026-10-12 검색 결과로 서지 확인</td></tr>
+<tr><td>S5</td><td>R. W. Hamming (1950), Error Detecting and Error Correcting Codes, Bell System Technical Journal 29(2) 147–160. <a href="https://archive.org/details/bstj29-2-147">Internet Archive</a></td><td>원 논문. 검사 비트를 2의 거듭제곱 자리에 두고 증후가 틀린 자리를 가리키는 부호</td><td>2026-10-12 페이지 열어 서지 확인</td></tr>
+<tr><td>S6</td><td>R. Sennrich, B. Haddow, A. Birch (2015/2016), Neural Machine Translation of Rare Words with Subword Units. <a href="https://arxiv.org/abs/1508.07909">arXiv:1508.07909</a></td><td>원 논문. 압축 알고리즘인 바이트 쌍 부호화(BPE)를 낱말 분할에 씀</td><td>2026-10-12 초록 페이지 열어 확인</td></tr>
+<tr><td>S7</td><td>G. Delétang 외 (2023), Language Modeling Is Compression. <a href="https://arxiv.org/abs/2309.10668">arXiv:2309.10668</a></td><td>원 논문. 예측과 무손실 압축은 동전의 양면이며, 예측기를 산술 부호와 묶으면 압축기가 됨</td><td>2026-10-12 초록 페이지 열어 확인</td></tr>
+<tr><td>S8</td><td>F. Yergeau (2003), RFC 3629 UTF-8, a transformation format of ISO 10646. <a href="https://www.rfc-editor.org/rfc/rfc3629">RFC Editor</a></td><td>표준. U+0800~U+FFFF(한글 음절 포함)는 3바이트</td><td>2026-10-12 본문 표 확인</td></tr>
+<tr><td>S9</td><td>T. M. Cover, J. A. Thomas (2006), Elements of Information Theory, 2판, Wiley. <a href="https://search.worldcat.org/oclc/59879802">WorldCat</a></td><td>교재(2차). 범위 표의 비교 기준. 목차 구조만 참고</td><td>2026-10-12 서지 확인. 목차 페이지는 열지 못해 장 번호는 일반 지식으로 적음(검수 때 확인 필요)</td></tr>
+<tr><td>S10</td><td>D. J. C. MacKay (2003), Information Theory, Inference, and Learning Algorithms, Cambridge University Press. <a href="https://www.cambridge.org/universitypress/subjects/computer-science/pattern-recognition-and-machine-learning/information-theory-inference-and-learning-algorithms">출판사 페이지</a></td><td>교재(2차). 1장이 반복 부호와 해밍(7,4)으로 시작한다는 구조를 참고</td><td>2026-10-12 출판사 페이지 검색으로 서지 확인. 저자 공개판 페이지(inference.org.uk)는 열리지 않음</td></tr>
+<tr><td>S11</td><td>D. Jurafsky, J. H. Martin, Speech and Language Processing 3판 초고, 3장 N-gram Language Models. <a href="https://web.stanford.edu/~jurafsky/slp3/">저자 페이지</a></td><td>교재(2차). n-그램 모델, 보정(스무딩), 퍼플렉서티. 초고라 장 구성이 바뀔 수 있음(변화 잦음)</td><td>2026-10-12 페이지 열어 3장 제목 확인</td></tr>
+<tr><td>S12</td><td>S. Robertson (2004), Understanding Inverse Document Frequency: On Theoretical Arguments for IDF, Journal of Documentation 60(5). <a href="https://www.doi.org/10.1108/00220410410560582">doi:10.1108/00220410410560582</a></td><td>논문(2차 해설). IDF를 정보 이론으로 정당화하는 논의와 그 한계</td><td>2026-10-12 검색 결과로 서지 확인</td></tr>
+<tr><td>S13</td><td>L. Paninski (2003), Estimation of Entropy and Mutual Information, Neural Computation 15, 1191–1254. <a href="https://sites.stat.columbia.edu/liam/research/abstracts/info_est-nc-abs.html">저자 초록 페이지</a></td><td>논문(1차). 흔한 이산 엔트로피 추정이 적은 표본에서 편향되고, 편향 근사가 Miller–Madow 보정보다 넓은 범위에서 정확함</td><td>2026-10-12 초록 페이지 열람(G3 은재 지적으로 추가). 하방 편향을 직접 진술한 본문 쪽수는 열지 못함. DOI 페이지는 요청 제한으로 열지 못함</td></tr>
+</table>
+<p>본문 출처 목록(js/content.js)은 S3·S4를 DOI로 연결합니다. 위 표의 공개 PDF와 저자 페이지는 서지를 확인할 때 연 곳입니다.</p>
+<p>확인하지 못한 것: Kraft(1949, MIT 석사 논문)와 McMillan(1956)의 원문 위치, Gage(1994)의 BPE 원 기사 링크는 찾지 못해 본문 출처 목록에 넣지 않았습니다. 크래프트 부등식은 교재 S9·S10의 표준 결과로 인용합니다.</p>
+</section>
+
+<section id="facts"><h2>2. 장별 사실 주장 표 (은재)</h2>
+<table><tr><th>장</th><th>주장</th><th>출처</th><th>변화 잦음</th></tr>
+<tr><td>01</td><td>확률 p인 사건의 정보량은 −log₂p 비트이고, 독립 사건의 정보량은 더해진다.</td><td>S1</td><td>아니요</td></tr>
+<tr><td>01</td><td>UTF-8은 한글 완성형 음절(U+AC00~U+D7A3)을 3바이트(24비트)로, 공백·줄바꿈·물음표 같은 ASCII를 1바이트로 적는다.</td><td>S8</td><td>아니요</td></tr>
+<tr><td>02</td><td>n가지 결과의 엔트로피는 0 이상 log₂n 이하이고, 모두 같은 확률일 때 최대이다.</td><td>S1, S9</td><td>아니요</td></tr>
+<tr><td>03</td><td>H(X,Y) = H(X) + H(Y|X) (연쇄 법칙), 조건을 더하면 엔트로피는 늘지 않는다(평균적으로).</td><td>S9</td><td>아니요</td></tr>
+<tr><td>03</td><td>적은 표본에서 센 엔트로피(플러그인 추정)는 실제보다 작게 나오는 쪽으로 치우친다.</td><td>S13(초록 수준 확인), 이 책은 시험 자료의 부호 길이로 직접 보임(실험)</td><td>아니요</td></tr>
+<tr><td>04</td><td>접두어 부호의 길이는 크래프트 부등식 Σ2^(−l) ≤ 1을 만족하고, 만족하는 길이로는 접두어 부호를 만들 수 있다.</td><td>S9, S10</td><td>아니요</td></tr>
+<tr><td>04</td><td>허프만 부호는 글자마다 부호를 주는 접두어 부호 가운데 평균 길이가 가장 짧고, H ≤ L &lt; H + 1.</td><td>S2, S9</td><td>아니요</td></tr>
+<tr><td>05</td><td>분포 P를 Q로 지은 부호로 적으면 평균 길이는 H(P,Q) = H(P) + D(P‖Q)이고, 늘어난 몫 D는 0 이상이며 P=Q일 때만 0이다.</td><td>S9 (계산 세부는 aie-math #entropy)</td><td>아니요</td></tr>
+<tr><td>06</td><td>산술 부호의 길이는 메시지 확률 q(x₁…xₙ)에 대해 −log₂q + 2비트를 넘지 않는다(정확한 산술 가정).</td><td>S4, S9</td><td>아니요</td></tr>
+<tr><td>06</td><td>좋은 예측 모델은 산술 부호와 묶으면 좋은 압축기가 된다.</td><td>S7</td><td>아니요</td></tr>
+<tr><td>07</td><td>LZ78은 확률 모델 없이 구절 사전을 키우며, 충분히 긴 정상 원천에서 엔트로피율에 다가간다(점근 결과).</td><td>S3(개별 수열 결과), S9(정상 에르고딕 원천에 대한 교재 설명)</td><td>아니요</td></tr>
+<tr><td>07</td><td>BPE는 원래 압축 알고리즘이고, 신경망 번역에서 드문 낱말을 하위 낱말 조각으로 나누는 데 쓰였다.</td><td>S6</td><td>아니요</td></tr>
+<tr><td>08</td><td>퍼플렉서티는 2^(교차 엔트로피, 비트/토큰)이고, 시험 자료에서 재야 모델 비교에 쓸 수 있다.</td><td>S9(정의), S11(장 제목 수준으로만 확인)</td><td>장 번호만 변화 잦음</td></tr>
+<tr><td>08</td><td>상호 정보량 I(X;Y) = H(X) − H(X|Y) ≥ 0, 독립일 때만 0.</td><td>S9</td><td>아니요</td></tr>
+<tr><td>08</td><td>IDF를 정보량(−log 문서 비율)으로 해석하는 논의가 있으나 이론적 정당화는 단순하지 않다.</td><td>S12</td><td>아니요</td></tr>
+<tr><td>09</td><td>뒤집힘 확률 p인 이진 대칭 채널의 용량은 1 − H₂(p) 비트/사용. 용량보다 낮은 전송률에서는 오류를 원하는 만큼 줄이는 부호가 있다(채널 부호화 정리, 결과만 인용).</td><td>S1, S9</td><td>아니요</td></tr>
+<tr><td>09</td><td>해밍(7,4)은 데이터 4비트에 검사 3비트를 붙여 한 블록의 비트 하나 오류를 고친다. 증후는 틀린 자리 번호와 같다.</td><td>S5, S10</td><td>아니요</td></tr>
+<tr><td>10</td><td>확률을 근삿값 q̂로 적으면 늘어나는 길이는 Σp log(q/q̂) 꼴로, 늘어남은 표의 비트 수와 맞바꾼다. 가중치 형식(FP16·INT8 등)은 다른 책의 몫.</td><td>S9, 실험으로 보임</td><td>형식 이야기는 변화 잦음(링크로 보냄)</td></tr>
+<tr><td>11</td><td>모델 자체를 적는 비트와 그 모델로 적은 메시지 비트의 합이 가장 짧은 모델을 고른다(최소 기술 길이 생각). 짧은 메시지에서는 모델 표 비용 때문에 단순한 모델이 이길 수 있다.</td><td>S9, S10(교재의 두 부분 부호 설명), 실험으로 보임. MDL 원 문헌은 열지 않음</td><td>아니요</td></tr>
+</table>
+</section>
+
+<section id="numbers"><h2>3. 실험 식의 단위·가정·범위와 기준값 (수아)</h2>
+<p>기준값은 책 코드와 따로 <code>tests/reference.py</code>(Python 표준 라이브러리)로 계산해 <code>tests/reference.json</code>에 두었고, <code>tests/math.test.cjs</code>가 브라우저 계산(js/math.js)과 대조합니다. 모든 길이 단위는 비트, 글자는 유니코드 코드 포인트 하나(줄바꿈 포함)입니다. 모든 실험은 실제 계산이며, 9장 잡음은 씨앗을 정한 의사 난수입니다.</p>
+<table><tr><th>값</th><th>기준값</th><th>가정·범위</th></tr>
+<tr><td>윤슬 묶음</td><td>메시지 70개, 618글자, 서로 다른 글자 143개</td><td>알파벳 V = 두 사람 묶음의 글자 합집합 180개</td></tr>
+<tr><td>UTF-8 평균</td><td>18.59비트/글자</td><td>공백·줄바꿈·물음표·ASCII 1바이트, 한글 3바이트</td></tr>
+<tr><td>고정 길이</td><td>⌈log₂143⌉ = 8비트(묶음 안), ⌈log₂180⌉ = 8비트(알파벳)</td><td>모델 계산의 고정 길이는 log₂180 = 7.49비트(정수로 올리지 않은 값)</td></tr>
+<tr><td>H₀ (글자 빈도)</td><td>5.683비트/글자</td><td>묶음 전체에서 센 값(플러그인)</td></tr>
+<tr><td>H(지금|앞 1글자), H(지금|앞 2글자)</td><td>2.215, 0.711</td><td>같은 묶음에서 센 값. 자료가 적어 실제보다 작게 치우침(오해 목록 3)</td></tr>
+<tr><td>허프만 평균 길이</td><td>묶음 전체 5.733, 상위 6글자만 2.097 (그 6글자의 H 2.072)</td><td>무게가 같을 때의 처리 방식이 달라도 평균 길이는 같음</td></tr>
+<tr><td>LZ78</td><td>구절 305개, 4,666비트(7.55비트/글자)</td><td>i번째 구절 번호 ⌈log₂i⌉비트 + 글자 ⌈log₂180⌉ = 8비트</td></tr>
+<tr><td>시험 자료 길이(앞 50개로 세고 뒤 20개로 잼)</td><td>α=0.01: 고정 7.49, 글자 빈도 6.59, 앞 1글자 5.14, 앞 2글자 5.40. α=1: 7.49, 5.99, 6.48, 6.92</td><td>add-α 보정 q = (c+α)/(n+αV)</td></tr>
+<tr><td>도윤 뒤 15개(185글자)</td><td>윤슬로 센 α=0.05: 고정 7.49, 글자 빈도 8.08, 앞 글자 6.32. 도윤 앞 15개로 센 α=0.05: 7.49, 6.04, 4.55</td><td>마지막 과제의 기준값</td></tr>
+<tr><td>채널 용량</td><td>p=0.01: 0.919, 0.05: 0.714, 0.1: 0.531, 0.11: 0.500, 0.5: 0</td><td>이진 대칭 채널</td></tr>
+<tr><td>산술 부호</td><td>“응 지금 가는 중”(9글자, 공백 포함), 앞 글자 모델(라플라스 α=1, 앞 50개로 셈): 이상적 50.40비트, 실제 52비트</td><td>BigInt 정확 계산, 글자 수는 따로 안다고 가정. 풀어 읽으면 원문이 그대로 나옴(테스트)</td></tr>
+<tr><td>BPE 토큰 수</td><td>병합 0·10·40·80번: 618, 549, 449, 369</td><td>줄바꿈을 넘어 합치지 않음, 같은 횟수면 먼저 나온 쌍</td></tr>
+<tr><td>해밍(7,4)</td><td>16개 데이터 × 7자리 한 비트 오류 112가지 모두 고침. 1011에서 자리 3·5가 뒤집히면 0101로 틀림</td><td>reference.py는 검사 행렬로 따로 구현</td></tr>
+<tr><td>잡음 채널</td><td>메시지 10개의 허프만 비트 534개, p=0.05·씨앗 7: 보호 없음 25, 3번 반복 4, 해밍 13비트 오류. p=0.1 해밍 35</td><td>같은 의사 난수 알고리즘(mulberry32)을 Python으로 다시 구현해 같은 잡음을 만듦</td></tr>
+<tr><td>양자화</td><td>앞 글자 표(α=0.1) b=2·3·4·8: 5.917, 5.580, 5.464, 5.460. 원래 5.463. 표 크기 b=4에서 91,440비트</td><td>−log₂q를 b비트 눈금에 반올림 후 행마다 합 1로 맞춤</td></tr>
+</table>
+<p><b>검산 범위(G3 은재 지적 반영)</b> 1차 검산은 통계·허프만·LZ78·n-그램 부호 길이·채널 용량만 독립 계산이었고, 산술 부호·BPE·해밍·잡음·양자화는 책 코드의 출력을 테스트에 옮겨 적은 회귀 값이었습니다. 지적을 받고 reference.py에 다섯 계산을 따로 구현해(산술 부호는 분수 Fraction으로 정확히) 모두 같은 값이 나오는 것을 확인했습니다. 두 계산은 같은 <code>js/messages.js</code>를 정규식으로 읽어 같은 자료를 쓰며, 자료가 합성 데이터라 책 밖의 외부 기준값은 없습니다. 독립 검산이 확인하는 것은 계산 방법이 맞는지이지 자료가 현실적인지가 아닙니다.</p>
+</section>
+
+<section id="myths"><h2>4. 오해 목록 (태오, 교수법팀 연우에게 먼저 건넴)</h2>
+<ol>
+<li>(1장) “정보가 많다 = 뜻이 중요하다.” 정보량은 뜻이 아니라 놀람의 크기입니다. “응”은 중요한 답이어도 자주 나오면 비트가 적습니다.</li>
+<li>(2장) “엔트로피는 글자 종류 수로 정해진다.” 종류 수는 최댓값 log₂n만 정하고, 실제 값은 빈도의 치우침이 정합니다.</li>
+<li>(3장) “세어 보니 앞 글자를 알면 2.2비트만 남는다, 그러니 2.2비트로 압축할 수 있다.” 같은 자료로 센 조건부 엔트로피는 외운 몫까지 포함해 낙관적입니다. 새 자료에서 재면 5비트가 넘습니다(8장).</li>
+<li>(4장) “허프만이면 엔트로피만큼 줄어든다.” 글자마다 정수 비트를 쓰므로 한 글자가 몰리면 1비트 가까이 남습니다. 그 몫을 줄이는 것이 6장 산술 부호입니다.</li>
+<li>(5장) “KL은 두 분포 사이의 거리다.” 순서를 바꾸면 값이 다르고, 남의 부호를 쓸 때 늘어나는 비트로 읽어야 합니다. 확률 0을 준 글자가 나오면 길이가 끝없이 늘어납니다.</li>
+<li>(6장) “산술 부호는 허프만보다 늘 짧다.” 짧은 메시지에서는 끝맺음 비트(최대 2비트) 때문에 비슷하거나 길 수 있고, 모델이 같으면 이점은 정수 비트의 손실을 없애는 것입니다.</li>
+<li>(7장) “LZ는 언제나 잘 줄인다.” 사전이 자랄 만큼 긴 글이 필요합니다. 618글자에서는 허프만보다 깁니다.</li>
+<li>(7장) “BPE 조각이 많을수록 좋다.” 조각 수는 줄지만 사전이 커져 조각 하나의 비트가 늡니다.</li>
+<li>(8장) “퍼플렉서티가 낮으면 무조건 좋은 모델이다.” 학습 자료에서 잰 퍼플렉서티는 외우기로 얼마든지 낮아집니다.</li>
+<li>(9장) “압축한 비트에 검사 비트를 붙이면 압축이 헛수고가 된다.” 압축은 원천의 중복을 빼고, 채널 부호는 잡음에 맞춰 필요한 만큼만 중복을 다시 넣습니다. 두 일은 따로 설계할 수 있습니다.</li>
+<li>(10장) “비트를 줄이면 길이가 고르게 조금씩 늘어난다.” 눈금이 거칠어지면 몇 비트 아래에서 갑자기 나빠지고, 아주 적은 비트에서는 순서가 뒤바뀌기도 합니다.</li>
+</ol>
+</section>
+</main></body></html>

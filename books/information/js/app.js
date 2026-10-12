@@ -1,0 +1,65 @@
+(()=>{
+'use strict';
+const U=ITUI,B=ITBook,main=document.querySelector('main');let cleanup=()=>{};
+/* 실험 제목·설명·먼저 예측하기·직접 해 보기. 예측 질문은 조작 전에 읽도록 실험 위에 둔다. */
+const info={
+ surprise:['메시지 한 줄의 정보량 재기','윤슬 묶음의 글자 빈도로 메시지의 글자마다 −log₂p를 더합니다.','“떡볶이 먹자”(6글자)와 “응 지금 가는 중”(9글자) 가운데 한 글자당 비트가 더 큰 쪽은 어느 것일까요? 글자 수가 아니라 글자가 얼마나 드문지로 짐작해 보세요.','윤슬 묶음에 없는 글자를 넣어 보고, 확률이 0인 글자의 정보량을 왜 잴 수 없는지 설명해 보세요. 잴 수 있게 하려면 어떻게 하면 될지 한 가지 방법을 적어 두면, 5장에서 책이 쓰는 방법과 비교할 수 있습니다.'],
+ entropy:['답장 비율과 엔트로피','답장 네 가지의 횟수를 바꾸며 평균 놀라움을 봅니다.','네 답장 가운데 셋만 33번씩 나오고 하나는 한 번도 나오지 않으면 엔트로피는 몇 비트일까요? 넷이 같을 때(2비트)와 둘만 반반일 때(1비트) 사이 어디쯤일지 적어 보세요.','엔트로피가 정확히 1.5비트가 되는 횟수 조합을 하나 찾아보세요. 힌트: 둘이 반반인 경우에서 시작해 한쪽을 둘로 나눠 보세요.'],
+ chain:['앞 글자를 보면 얼마나 줄어드나','앞에서 보는 글자 수와 쓰는 메시지 수를 바꾸며 조건부 엔트로피를 잽니다.','메시지를 10개만 써서 앞 2글자를 보면, 그 값은 70개 전부를 쓸 때보다 커질까요, 작아질까요? 자료가 적으면 예측이 더 어려워질 것 같은지 먼저 판단해 보세요.','메시지 수를 10개로 줄였을 때 앞 2글자 값이 왜 더 작아지는지, 맥락 하나에 남은 예시 수로 설명해 보세요.'],
+ huffman:['허프만 트리 짓기','여섯 글자의 횟수로 트리를 짓고 평균 길이를 엔트로피와 비교합니다.','여섯 글자 가운데 가장 드문 “아”(13번)는 몇 비트 부호를 받을까요? 공백(124번)의 부호보다 몇 배 길지도 짐작해 보세요.','여섯 글자의 횟수를 바꿔 평균 길이와 엔트로피가 정확히 같아지는 경우를 하나 더 만들어 보세요.'],
+ kraft:['부호 길이로 접두 부호 만들기','다섯 글자의 부호 길이를 고르고 크래프트 합으로 가능 여부를 봅니다.','길이를 1·2·2·3·3으로 정하면 접두 부호를 만들 수 있을까요?','합이 1보다 작은 길이 조합을 하나 고르고, 어느 부호를 한 비트 줄일 수 있는지 찾아보세요.'],
+ mismatch:['남의 빈도로 지은 부호','부호를 지은 빈도와 보낼 메시지를 바꾸며 길이 차이(KL)를 봅니다.','같은 윤슬의 빈도로 윤슬 자신의 뒤 20개 메시지를 보내면, 더 드는 비트(KL)는 도윤에게 보낼 때(2.61비트)보다 클까요, 작을까요? 대략 몇 비트일지 적어 보세요.','부호를 지은 빈도를 “도윤 앞 15개”로 바꾸고 α를 0.05씩 올리며 길이가 가장 짧아지는 α를 찾아보세요. α가 너무 크면 왜 다시 길어지는지도 설명해 보세요.'],
+ arithmetic:['산술 부호로 실제로 압축하기','예측 모델을 바꾸며 메시지 하나를 비트열로 만들고 풀어 읽어 봅니다.','“ㅋㅋㅋ 알겠어”(7글자)를 균등 모델로 적으면 54비트입니다. 앞 글자 모델로는 몇 비트쯤 될까요? 절반 아래로 줄어들지 짐작해 보세요.','앞 글자 모델이 균등 모델보다 길어지는 메시지를 하나 만들어 보고, 그 메시지가 윤슬의 말투와 어떻게 다른지 적어 보세요.'],
+ lz:['LZ78 사전 압축','메시지 수와 반복 여부를 바꾸며 구절 수와 길이를 잽니다.','메시지를 5개만 쓰면 LZ78의 한 글자당 비트는 70개 전부일 때(7.55비트)보다 클까요, 작을까요?','메시지 수를 5개에서 70개까지 올리며 한 글자당 비트가 어떻게 변하는지 기록하고, 사전이 자라는 것과 연결해 설명해 보세요.'],
+ bpe:['BPE로 토큰 만들기','병합 횟수를 바꾸며 토큰 수·어휘·처음 병합된 조각을 봅니다.','병합을 80번 하면 토큰 수가 618개의 절반(309개) 아래로 줄까요?','병합 횟수를 하나씩 늘리며 최근 병합 목록에 “알겠어”가 처음 나타나는 횟수를 찾고, 그 바로 앞 병합이 무엇이었는지 적어 보세요.'],
+ perplexity:['학습 자료와 시험 자료의 퍼플렉서티','모델과 α를 바꾸며 학습·시험의 비트 수와 퍼플렉서티를 비교합니다.','α를 0.01에서 1로 키우면 앞 2글자 모델이 학습 자료를 적는 비트(1.58비트)는 어떻게 될까요? 시험 자료 쪽은요?','α를 0.01부터 3까지 바꾸며 시험 자료에서 가장 짧은 모델이 바뀌는 α를 찾아보세요. 바뀐 까닭을 “못 본 경우에 나눠 준 몫”으로 설명해 보세요.'],
+ hamming:['해밍(7,4)로 한 비트 고치기','데이터 4비트와 뒤집힐 자리를 고르고 증후로 고치는 과정을 봅니다.','자리 1과 2가 함께 뒤집히면 증후는 몇을 가리킬까요? 고친 뒤 꺼낸 데이터는 보낸 것과 같을까요?','“자리 1과 2” 결과를 화면에서 확인하고(힌트: 1 = 001, 2 = 010을 자리마다 1이 홀수 개인지 세어 보세요), 자리 3·5를 뒤집은 결과와 같은 이유로 틀리는지 설명해 보세요. 한 자리만 뒤집을 때는 어느 자리든 고쳐지는지도 확인해 보세요.'],
+ noisy:['잡음 채널로 메시지 보내기','뒤집힐 확률·보호 방식·씨앗을 바꾸며 남는 오류와 전송률을 봅니다.','p = 0.05에서 해밍(7,4)과 3번 반복 중 오류가 더 적게 남는 쪽은 어느 것일까요? 대신 무엇을 더 쓰나요?','p를 올리며 해밍(7,4)의 전송률 0.569가 용량보다 커지는 p를 찾아보세요.'],
+ quantize:['확률표 양자화','표 종류와 한 칸의 비트 수를 바꾸며 시험 자료의 길이와 표 크기를 봅니다.','글자 빈도 표(1줄)를 4비트로 줄이면, 늘어나는 길이는 앞 글자 표를 4비트로 줄일 때보다 클까요, 작을까요?','앞 글자 표에서 원래 표(배정밀도)보다 길이가 0.01비트 넘게 늘지 않는 가장 작은 b를 찾고, 그때 표 크기가 8비트 표의 몇 분의 1인지 적어 보세요.'],
+ final:['압축 길이로 모델 고르기','모델을 셀 자료·α·표 비용을 바꾸며 도윤의 새 메시지를 가장 짧게 보내는 모델을 고릅니다.','도윤의 새 메시지에는 윤슬 70개로 센 모델과 도윤 앞 15개로 센 모델 가운데 어느 쪽이 더 짧을까요?','다음 네 칸을 채워 보세요: ① C의 메시지 비트 ② C의 표 비트 ③ 표 비용을 넣었을 때 순위가 바뀌는지 ④ C가 다시 이기는 메시지 길이(표 크기 차 ÷ 글자당 아낀 비트). ④는 결과 아래 “어림 확인”과 맞춰 볼 수 있습니다.']
+};
+function sourceLinks(ids){return `<ul class="source-list">${ids.map(i=>`<li><a href="${B.sources[i][1]}" target="_blank" rel="noreferrer">${B.sources[i][0]}</a><br><span class="caption">${B.sources[i][2]}</span></li>`).join('')}</ul>`;}
+function flow(items){return `<div class="flow">${items.map(x=>{const [a,b]=x.split('|');return `<div><b>${U.esc(a)}</b><span>${U.esc(b)}</span></div>`;}).join('')}</div>`;}
+function side(){document.querySelector('#sidebar').innerHTML='<div class="sidebar-title">CONTENTS / 전체 목차</div><a href="#home">정보는 몇 비트인가 처음으로</a>'+B.chapters.map((c,i)=>`<a href="#${c.id}" data-chapter="${c.id}"><span>${String(i+1).padStart(2,'0')}</span>${c.title}</a>`).join('');}
+function home(){
+ document.body.classList.remove('reading');document.title='정보는 몇 비트인가 · 엔트로피에서 압축과 토큰까지';
+ const labs=B.chapters.flatMap(c=>c.labs).length;
+ main.innerHTML=`<section class="hero"><div><div class="eyebrow">HOW MANY BITS IS A MESSAGE</div><h1>정보는<br><em>몇 비트인가.</em></h1><p class="lead">윤슬이 보낸 문자 메시지 70개를 한 글자에 몇 비트로 적을 수 있을까요? 놀라움을 숫자로 재는 데서 시작해 허프만 부호, 산술 부호, 사전 압축과 BPE, 잡음을 견디는 부호까지 브라우저에서 직접 계산합니다. 마지막에는 처음 보는 사람의 메시지를 가장 짧게 보내는 모델을 압축 길이로 고릅니다.</p><div class="hero-links"><a class="button primary" href="#surprise">01장부터 읽기</a><a class="button" href="#arithmetic">산술 부호 실험</a></div><div class="stats"><span><b>${B.chapters.length}</b>장</span><span><b>${labs}</b>인터랙티브 실험</span><span><b>618</b>윤슬 묶음의 글자 수</span></div><p class="caption">정보량 → 엔트로피 → 부호 → 예측과 압축 → 잡음 → 모델 고르기<br>모든 계산은 브라우저 안에서 하며 외부 서버를 부르지 않습니다.</p></div><div class="hero-lab" id="home-lab"></div></section>
+ <section class="section"><div class="section-heading"><h2>메시지 묶음 하나를 끝까지 줄여 봅니다</h2><p>윤슬의 메시지(지어낸 합성 데이터)가 모든 장에 이어지고, 마지막 과제에서 새 사람 도윤의 메시지가 들어옵니다.</p></div>${flow(['정보량|놀라움·엔트로피·앞 글자의 정보 (1~3장)','압축|허프만·교차 엔트로피·산술 부호·사전과 BPE (4~7장)','모델과 잡음|퍼플렉서티·잡음 채널·양자화 (8~10장)','마지막 과제|압축 길이로 모델 고르기 (11장)'])}</section>
+ <section class="section" id="chapters"><div class="section-heading"><div class="eyebrow">EXPLORE THE BOOK</div><p>먼저 예측하고, 바꾸어 보고, 비트 수로 이유를 확인합니다.</p></div><h2>전체 장</h2><div class="chapter-grid">${B.chapters.map((c,i)=>`<a class="chapter-card" href="#${c.id}"><span class="num">CHAPTER ${String(i+1).padStart(2,'0')} / ${c.group}</span>${U.thumbnail(i)}<h3>${c.title}</h3><p>${c.desc}</p><span class="tag">실험 ${c.labs.length}개</span><span class="caption">약 ${c.time}</span></a>`).join('')}</div></section>
+ <section class="section"><div class="section-heading"><h2>나에게 맞는 학습 경로</h2><p>처음 읽을 때는 순서대로, 다시 읽을 때는 질문 하나를 골라 그 장들만 돌아보세요.</p></div><div class="path-grid"><div class="path"><h3>압축은 어떻게 작동하나</h3><p>빈도로 부호를 짓는 법에서 예측으로 압축하는 법, 사전으로 압축하는 법까지 비교합니다.</p><a href="#huffman">04</a><a href="#arithmetic">06</a><a href="#dictionary">07</a><a href="#final">11</a></div><div class="path"><h3>언어 모델의 손실을 비트로 읽기</h3><p>교차 엔트로피·퍼플렉서티를 “메시지를 몇 비트로 적나”로 다시 읽습니다.</p><a href="#mismatch">05</a><a href="#arithmetic">06</a><a href="#perplexity">08</a><a href="../aie-math/#entropy">수학 깊이</a></div><div class="path"><h3>토큰과 숫자의 비용</h3><p>BPE가 토큰을 만드는 법과, 확률표를 몇 비트로 적어도 되는지를 봅니다.</p><a href="#dictionary">07</a><a href="#quantize">10</a><a href="../aie-llm-build/#tokenizer">토크나이저</a><a href="../llm-gpu/#weights">가중치 메모리</a></div></div></section>
+ <section class="section" id="sources"><h2>참고 자료와 실험의 경계</h2><p class="lead">섀넌의 원 논문과 허프만·LZ·산술 부호·해밍 부호·BPE의 원문, 정보 이론 교과서를 확인했습니다. 확인일: 2026-10-12.</p><div class="note">윤슬과 도윤, 그리고 두 사람의 메시지 100개는 이 책을 위해 지어낸 합성 데이터이며 실제 사람의 대화가 아닙니다. 모든 실험의 숫자는 이 메시지로 브라우저에서 실제로 계산한 값입니다. 허프만 부호, 크래프트 합, 산술 부호(정수 구간 계산과 복원 확인), LZ78, BPE, 해밍(7,4), 확률표 양자화가 모두 그렇습니다. 9장의 잡음만 씨앗을 정한 의사 난수로 흉내 냈으므로 같은 씨앗이면 매번 같은 오류가 납니다. 메시지가 618글자뿐이라 엔트로피와 퍼플렉서티 값은 이 자료에서만 성립하며, 실제 언어나 큰 언어 모델의 값이 아닙니다. 압축 길이에는 따로 적지 않는 한 부호표나 모델을 함께 보내는 비용을 넣지 않았습니다.</div>${sourceLinks(B.sources.map((_,i)=>i))}<h3>처음 보는 용어 빠르게 찾기</h3><div class="glossary"><p><b>정보량</b> 확률 p인 일이 일어났을 때의 놀라움 −log₂p, 단위는 비트.</p><p><b>엔트로피</b> 정보량의 평균. 그 분포로 지은 최선의 부호가 쓰는 평균 길이의 하한.</p><p><b>조건부 엔트로피</b> 앞 글자를 알고 난 뒤 남은 평균 놀라움.</p><p><b>접두 부호</b> 어떤 부호도 다른 부호의 앞부분이 아니어서 구분자 없이 읽을 수 있는 부호.</p><p><b>크래프트 부등식</b> 접두 부호의 길이 l마다 2^−l을 더한 합이 1 이하라는 조건.</p><p><b>교차 엔트로피</b> 다른 분포로 지은 부호로 보냈을 때의 평균 길이.</p><p><b>KL 발산</b> 교차 엔트로피에서 엔트로피를 뺀 값, 틀린 부호로 더 쓰는 비트.</p><p><b>산술 부호</b> 메시지 전체를 [0, 1) 안의 구간 하나로 좁혀 그 구간을 가리키는 비트열로 적는 방법.</p><p><b>퍼플렉서티</b> 2^(글자당 비트). 모델이 매번 고르게 망설이는 후보 수로 읽는다.</p><p><b>채널 용량</b> 잡음이 있는 채널로 오류를 원하는 만큼 줄이며 보낼 수 있는 전송률의 상한.</p></div></section>`;
+ cleanup=ITHome.mount(document.querySelector('#home-lab'));
+}
+const KIND={noisy:'씨앗을 정한 모의 잡음 · 부호화와 복원은 실제 계산',entropy:'손으로 정한 답장 횟수 · 엔트로피는 실제 계산',kraft:'손으로 정한 부호 길이 · 실제 계산'};
+function renderLab(id,index){const [title,desc,predict,task]=info[id];return `<article class="lab" id="lab-${id}"><div class="lab-heading"><span>EXPERIMENT ${String(index+1).padStart(2,'0')}</span><h3>${title}</h3><small class="lab-kind">${KIND[id]||'실제 계산 · 지어낸 메시지 묶음(윤슬·도윤)'}</small></div><p class="lab-desc">${desc}</p><div class="predict"><b>먼저 예측하기</b>${predict}</div><div class="lab-inner" data-lab="${id}"></div><div class="challenge"><b>직접 해 보기</b>${task}</div></article>`;}
+function cross(c){if(!c.cross)return '';return `<h3>다른 책으로 이어 읽기</h3><ul class="source-list">${c.cross.map(([name,url,why])=>`<li><a href="${url}">${name}</a><p>${why}</p></li>`).join('')}</ul>`;}
+function figure(c,index){
+ const art=ITFigures.render(c.id),caption=art?art.caption:`${c.subtitle}`;
+ return `<figure class="concept-diagram">${art?`<div class="figure-art" tabindex="0" role="group" aria-label="그림 ${index+1}-1. 좁은 화면에서는 방향키로 옆으로 밀어 볼 수 있습니다">${art.svg}</div>`:''}${flow(c.flow)}<figcaption class="caption">그림 ${index+1}-1. ${caption} 아래 상자는 같은 흐름을 글로 적은 것입니다.</figcaption></figure>`;
+}
+/* 보기 순서: 데이터의 정답 번호는 그대로 두고 화면에서만 돌려 정답 자리가 장마다 1·2·3번에 고르게 오게 한다. data-* 값은 원래 번호다. */
+function choices(q,target,attr){return ITMath.choiceOrder(q[1].length,q[2],target).map((i,k)=>`<button type="button" data-${attr}="${i}">${k+1}. ${q[1][i]}</button>`).join('');}
+function transferQuiz(c,index){if(!c.transfer)return '';return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer,(index+1)%3,'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;}
+function chapter(c,index){
+ document.body.classList.add('reading');document.title=`${String(index+1).padStart(2,'0')}. ${c.title} · 정보는 몇 비트인가`;
+ const previous=index?`<a href="#${B.chapters[index-1].id}">이전 · ${B.chapters[index-1].title}</a>`:'<a href="#home">이전 · 표지</a>';
+ const next=index<B.chapters.length-1?`<a href="#${B.chapters[index+1].id}">다음 · ${B.chapters[index+1].title}<small>이동 이유: ${B.chapters[index+1].desc}</small></a>`:'<a href="../aie-nlp/#sequence">다른 책 · 자연어 처리 · 다음 낱말을 얼마나 잘 맞히나<small>이동 이유: 글자 단위 표 모델로 압축 길이를 재 보았으니, 같은 평가를 낱말 단위로 옮겨 n-gram과 RNN이 다음 낱말을 얼마나 잘 맞히는지 비교해 봅니다.</small></a>';
+ main.innerHTML=`<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${String(index+1).padStart(2,'0')} / ${c.group}</div><h1>${c.title}</h1><p class="lead subtitle">${c.subtitle}</p><span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 확인 문제 ${c.transfer?2:1}개</span></div><div class="recall"><b>앞 장 떠올리기</b>${c.recall}</div><section><h2>먼저 개념 잡기</h2>${c.paragraphs.map(p=>`<p>${p}</p>`).join('')}${figure(c,index)}<div class="formula"><code>${c.formula}</code><p>${c.formulaNote}</p></div>${(c.details||[]).map(([title,body])=>`<div class="deep-reading"><h3>${title}</h3>${body}</div>`).join('')}</section>${c.labs.map(renderLab).join('')}<div class="note"><strong>혼동하지 마세요</strong><br>${c.warning}</div><section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>${choices(c.quiz,index%3,'answer')}<div class="quiz-feedback" role="status" aria-live="polite"></div>${transferQuiz(c,index)}</section><section><h2>더 읽어 보기</h2>${sourceLinks(c.source)}${cross(c)}</section><nav class="chapter-nav" aria-label="이전·다음 장">${previous}${next}</nav></div>`;
+ c.labs.forEach(id=>{const el=main.querySelector(`[data-lab="${id}"]`);ITLabs[id](el);ITGuides.mount(id,el);});
+ main.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{const ok=+b.dataset.answer===c.quiz[2];main.querySelector('.quiz-feedback').textContent=`${ok?'정답입니다.':'다시 생각해 보세요.'} ${c.quiz[3]}`;});
+ main.querySelectorAll('[data-transfer]').forEach(b=>b.onclick=()=>{const ok=+b.dataset.transfer===c.transfer[2];main.querySelector('.transfer-feedback').textContent=`${ok?'정답입니다.':'다시 생각해 보세요.'} ${c.transfer[3]}`;});
+}
+function route(){
+ cleanup();cleanup=()=>{};const hash=location.hash.slice(1)||'home',i=B.chapters.findIndex(c=>c.id===hash);
+ document.body.classList.remove('menu-open');document.querySelector('#menu').setAttribute('aria-expanded','false');
+ if(i>=0)chapter(B.chapters[i],i);else home();
+ document.querySelectorAll('[data-chapter]').forEach(a=>{const on=a.dataset.chapter===hash;a.classList.toggle('active',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+ if(['chapters','sources'].includes(hash))document.getElementById(hash).scrollIntoView();else window.scrollTo(0,0);
+}
+side();window.addEventListener('hashchange',route);
+document.querySelector('#theme').onclick=()=>{const dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';};
+document.querySelector('#menu').onclick=()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('#menu').setAttribute('aria-expanded',String(open));};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.remove('menu-open');document.querySelector('#menu').setAttribute('aria-expanded','false');}});
+route();
+})();
