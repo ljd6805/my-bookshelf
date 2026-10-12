@@ -108,6 +108,10 @@
 <tr data-gate="G2" data-approved="해원"><td>G2 교과과정</td><td>2절 목차·선수 관계·범위 표·사례 성장 계획·기존 장과 다른 점</td><td>해원 1차 보류(조사 노트 없음, UTF-8 18.6비트 위치) → research.html 작성, 사례 표 1·2장 수정, 9장 선수 이유와 11장 겹침 이름 추가 → 2차 승인. 권고(교재 장 번호는 목차로 확인) 반영.</td></tr>
 <tr data-gate="G3" data-approved="은재 지안"><td>G3 조사·교수 설계</td><td>research.html(#sources S1~S13, #facts, #numbers, #myths), tests/reference.py 독립 검산, 3절 장 학습 설계표 11행</td><td>은재 1차 조건부 → 산술 부호·BPE·해밍·잡음·양자화 독립 구현, S13 추가, 출처 번호 정리 → 2차 보류(출처 배열 쉼표 누락으로 S12·S13이 사라지는 오류 발견) → 수정과 회귀 테스트 → 3차 승인. 지안 1차 조건부(2장 해설 1.5비트 오류, 9장 과제를 화면에서 확인할 수 없음) → 수정 → 2차 승인.</td></tr>
 <tr data-gate="G4" data-approved="나래 리안 지안"><td>G4 원고</td><td>js/content.js 11장, 4절 문체 비평 메모(다온)와 반영, 실험 14개, 그림 11개, 서가 삽화·표지, 5절 학습 리허설, review.json 22문항</td><td>다온 비평 1차 보류 → 11장 메모 반영(“되풀다” 통일, 다른 책 id 노출 6건, 장 끝 여는 말). 나래 승인(필수: 10장 recall 숫자 출처 → 수정). 리안 승인(필수: 계산 방식 표시 배지, 해밍 실험 라벨 겹침 → 수정). 지안 리허설 1차 보류(예측의 답이 본문에 있음, 11장 관찰 방법 없음 등) → 예측 질문 교체·11장 기록 틀과 어림 확인 → 2차 보류(3장 한 문장) → 3차 승인. 책 테스트 35개, 브라우저 1280·390·320px 통과.</td></tr>
+<tr data-gate="G5" data-approved="서윤"><td>G5 연결</td><td>data/catalog.json 장 색인 11개, 새 개념 '정보량과 압축'과 기존 개념 3개에 장 추가, 노선 두 개에 정거장(#dictionary·#mismatch), 들어오는 링크 4개(computer #bits·#encoding, probability #likelihood, aie-math #entropy)</td><td>2026-10-12 서윤(별도 세션) 1차 조건부 승인 → 들어오는 링크 라벨에 장 번호, computer #bits 링크 추가, 약한 연결(평가 숫자의 불확실성 ← #final) 제거 → 재확인 승인. build_catalog.py와 validate.py 통과. 지도·노선 화면 1280·390·320px 확인(/mnt/project-files/new-books-g5/).</td></tr>
+<tr data-gate="G6" data-approved="정민"><td>G6 검수</td><td><a href="fact-review.html">fact-review.html</a></td><td>집필하지 않은 새 세션이 독립 코드로 검수. 1회차 open(필수 2건: 7장 6.81비트 대상, 5장 AI Book 02 소개; 사소 다수) → 담당 팀 수정 → 2회차 fixed. 남은 권고(보기 길이 4문항, 10장 반올림 표기)는 공개를 막지 않음.</td></tr>
+<tr data-gate="G7" data-approved="한결"><td>G7 공개</td><td>상태 published, PR과 CI</td><td>2026-10-12 같은 커밋에서 published로 바꾸고 PR을 올림. CI 통과 후 병합.</td></tr>
+
 </table>
 <h3>검토 방식</h3>
 <p>팀장 점검은 모두 이 책을 쓰지 않은 별도 Claude 세션이 맡았습니다. 세션마다 data/agent-team.json의 페르소나(점검 목록·멈추는 때)와 산출물 파일 경로만 받고 읽기 권한만 가졌습니다. 판정이 보류이거나 조건부이면 고친 뒤 같은 인물로 다시 점검받았고, data-approved에는 마지막 판정이 승인인 사람만 적었습니다. G5~G7은 통합 담당이 채웁니다.</p>

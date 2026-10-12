@@ -297,7 +297,7 @@
       "illustration_caption": "같은 서가에서 한 권을 찾을 때, 위 줄은 한 권씩 훑고 아래 줄은 가운데와 견주어 범위를 반씩 좁히는 모습을 보여 주는 시각적 비유입니다. 실제 계산은 책 안의 실험에서 합니다.",
       "cover_art": "books/algorithms/assets/cover-art.svg",
       "cover_meta": "11장 · 14개 실험",
-      "status": "writing",
+      "status": "published",
       "url": "books/algorithms/",
       "keywords": [
         "알고리즘",
@@ -491,7 +491,7 @@
       "illustration_caption": "시각적 비유: 메시지의 공백과 줄바꿈이 허프만 트리를 따라 내려가 00과 100이라는 짧은 비트가 되고, “응 지금 가는 중” 한 줄이 UTF-8 168비트에서 허프만 48비트로 줄어듭니다(48비트는 실제 계산값).",
       "cover_art": "books/information/assets/cover-art.svg",
       "cover_meta": "11장 · 14개 실험",
-      "status": "writing",
+      "status": "published",
       "url": "books/information/",
       "keywords": [
         "정보 이론",

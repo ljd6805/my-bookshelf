@@ -5,6 +5,41 @@
 <h1>팩트·출처 검수 기록 · 정보는 몇 비트인가 · 엔트로피에서 압축과 토큰까지</h1>
 <p>이 책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-g6-r2" data-reviewer="Claude · G6 검수 세션(information)" data-author="Claude · information 집필 세션" data-date="2026-10-12" data-scope="1회차 반려 수정 커밋 0964efd의 books/information 변경 전부(content.js·review.json·labs-codes.js·labs-models.js·lab-guides.js·figures.js·app.js·math.js 주석·docs/index.html·tests), 본문 확인·전이 문제 22문항과 복습 퀴즈 22문항의 정답 번호 전수 재확인, 바뀐 문장의 수치 재계산, 1280·390·320px 브라우저 재확인" data-result="fixed" data-commit="8aba268">
+<h2>2026-10-12 G6 검수 (2회차)</h2>
+<p>검수자: Claude · G6 검수 세션(information). 1회차와 같은 검수 세션이고, 집필이나 수정에는 참여하지 않았습니다. 집필자: Claude · information 집필 세션(수정 커밋 0964efd). 검수한 트리: HEAD 8aba268(0964efd 이후 books/information 변경은 fact-review.html뿐). 바뀐 수치는 1회차의 독립 Python 스크립트(책 코드와 tests/reference.py 미사용)로 다시 계산했고, 정답 번호는 content.js와 review.json을 읽어 44문항 모두 정답 보기의 내용을 직접 확인했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1회차 필수 1건과 권고 3건 수정 확인</td><td>5장 AI Book 02 링크가 “손실을 줄이는 쪽으로 가중치를 고치는 경사하강(그 장의 손실은 제곱 오차)”으로 바뀌었고, 교차 엔트로피 계산은 aie-math #entropy에 맡김(books/ai learning 장 내용과 일치). 1장은 섀넌이 정식화한 것이 엔트로피 식이고 −log₂p는 그 한 항이라고 고침. 2장은 원천 부호화 정리와 크래프트 부등식(맥밀런의 확장)으로 출처를 나눔. 7장 본문과 출처 설명에 정상·에르고딕 조건을 더함.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1회차 필수 1건 수정 확인, 새 오류 없음</td><td>7장 “둘째 묶음 619글자 (8,427 − 4,666) ÷ 619 ≈ 6.08비트, 합친 1,237글자 평균 6.81비트”를 독립 LZ78로 재계산(8,427·4,666·6.076·6.812). review.json dictionary 해설의 3,761비트, 6장 퀴즈 새 오답 “399,988비트”(400,000 − 12), “100,000비트·4분의 1”, “200,000비트·절반”도 확인.</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>LZ78 실험의 새 둘째 묶음 문장(화면: 6.08비트/글자)과 초기화, 양자화 결과 문장의 증감 표시(8비트 “0.002비트 줄었습니다”, 4비트 “늘었습니다”, 10비트 “0.001비트보다 작습니다”)를 Chromium에서 확인하고 독립 값(5.4604·5.4642·5.4627)과 대조. 책 테스트 35개 통과(새 6.08 단언 포함).</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>통일 반영, 남은 표기 2곳은 권고</td><td>“균등 모델”(A, log₂180 ≈ 7.49비트)과 “고정 길이 부호”(⌈log₂n⌉ 정수 비트)가 구분되어 쓰임을 전체 grep으로 확인. 홈 실험의 “고정 길이”는 ⌈log₂(종류 수)⌉라 올바른 용법. BPE는 본문·실험·퀴즈가 “토큰·어휘”로 통일됨.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>출처 목록은 LZ78 설명 문장만 바뀜(조건 추가). URL 변경 없음. 1회차에 직접 열지 못한 5곳의 상태는 1회차 기록과 같습니다.</td></tr>
+</tbody></table>
+
+<h3>정답 번호 전수 확인 (건우)</h3>
+<p>본문 확인 문제·전이 문제 22문항과 복습 퀴즈 22문항 모두, answer가 가리키는 보기가 해설과 같은 내용의 정답입니다. 보기 문구가 바뀐 문항(본문 #mismatch 확인, #dictionary 확인, #quantize 확인, 복습 context·huffman·mismatch·arithmetic·dictionary·channel·quantize·final)은 오답이 여전히 틀린 진술이고 정답이 하나뿐인지 따로 읽었습니다. 정답 번호가 바뀐 문항은 없습니다.</p>
+
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>1회차 지적</th><th>2회차 확인</th><th>상태</th></tr></thead><tbody>
+<tr><td>#dictionary js/content.js:108, review.json dictionary 1번, lab-guides.js lz, labs-codes.js lz</td><td>6.81비트를 둘째 묶음 값으로 씀(필수)</td><td>본문·복습 해설·결과 읽기·실험 결과 문장이 둘째 묶음 6.08비트와 전체 평균 6.81비트를 나눠 씀. 0964efd</td><td>수정됨</td></tr>
+<tr><td>#mismatch js/content.js:89</td><td>AI Book 02를 교차 엔트로피 장으로 소개(필수)</td><td>제곱 오차 경사하강으로 바로잡고 이동 이유도 고침. 0964efd</td><td>수정됨</td></tr>
+<tr><td>docs/index.html</td><td>“fact-review.html은 아직 없습니다”</td><td>fact-review.html 링크로 바뀜</td><td>수정됨</td></tr>
+<tr><td>#surprise :24, #entropy :37, #dictionary :108, 출처 Ziv·Lempel</td><td>섀넌 범위, 크래프트–맥밀런, 정상·에르고딕 조건(권고)</td><td>모두 반영, 새 문장 내용이 표준 결과와 맞음</td><td>수정됨</td></tr>
+<tr><td>labs-models.js:40</td><td>음수에 “늘었습니다”(권고)</td><td>부호에 따라 늘었다·줄었다, 0.0005 미만은 “차이가 0.001비트보다 작습니다”</td><td>수정됨</td></tr>
+<tr><td>용어 (권고)</td><td>접두어/접두, 고정 길이/균등, 조각·사전/토큰·어휘</td><td>대부분 통일. 남은 곳: lab-guides.js:8 kraft 안내 “접두 부호”, content.js:111 #dictionary 공식 줄 “BPE: 조각 수 ↓, 사전 크기 ↑”.</td><td>권고로 남김(뜻 오류 아님)</td></tr>
+<tr><td>보기 길이 (권고)</td><td>정답 보기가 가장 긴 문항 몰림</td><td>복습 퀴즈와 #mismatch·#quantize 확인 문제는 길이를 맞춤. 1회차에 짚은 본문 전이 문제 #huffman(정답 36자, 오답 18·3자), #quantize(49자, 24·19자), #final(61자, 19·28자)과 #mismatch 전이(35자, 21·17자)는 그대로임.</td><td>권고로 남김(교수법팀)</td></tr>
+<tr><td>#quantize 본문 js/content.js:150 (새로 봄, 권고)</td><td>-</td><td>본문은 4비트에서 “0.001비트 늘 뿐”, 실험 화면은 “0.002비트 늘었습니다”. 실제 차이 0.0015비트의 반올림 차이라 오류는 아니지만, 독자가 숫자를 맞춰 볼 때 어긋남. “약 0.002비트” 또는 “0.0015비트”로 맞추기 권고.</td><td>권고</td></tr>
+<tr><td>review.json context 1번 정답 보기 (새로 봄, 권고)</td><td>-</td><td>“함께 적는 비용 = 앞 글자 비용 + 안 뒤 남은 놀라움”에서 “안 뒤”의 주어가 빠져 어색함. “앞 글자를 안 뒤”로 다듬기 권고(글작성팀). 뜻과 정답은 맞음.</td><td>권고</td></tr>
+</tbody></table>
+
+<h3>브라우저와 자동 검사 (채원·현석)</h3>
+<p>헤드리스 Chromium, 127.0.0.1:8791. 1280·390·320px에서 home·surprise·entropy·mismatch·dictionary·quantize·final 가로 넘침 0px, “서가로” 단추 보임, 페이지 오류 없음. books/information 테스트 35개 통과. python3 scripts/validate.py는 오류 23개: 22개는 1회차와 같은 공개 전 chapter_index 오류(information·algorithms), 1개는 다른 에이전트의 작업 트리 사본 .claude/worktrees/agent-a1c74a8dffb5a16cd/books/information/docs/index.html의 fact-review 누락으로, 통합 트리의 이 책 내용 오류는 아닙니다. 둘 다 공개·병합 커밋에서 기획·연결팀이 정리해야 CI가 통과합니다.</p>
+
+<h3>확인하지 못한 것</h3>
+<p>1회차의 미확인 항목(직접 열지 못한 출처 5곳, Paninski 본문 쪽수, Delétang 본문)은 그대로입니다. 화면 낭독기와 실제 기기 확인은 하지 않았습니다.</p>
+<p>판정(정민): facts fixed, numbers fixed, experiments ok, terms ok, sources ok. 필수 지적은 모두 고쳐졌고 새 오류는 없습니다. 남은 권고는 공개를 막지 않습니다. 결과 fixed.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-g6" data-reviewer="Claude · G6 검수 세션(information)" data-author="Claude · information 집필 세션" data-date="2026-10-12" data-scope="11개 장 본문(js/content.js)·공식·주의·확인 문제·전이 문제·더 읽어 보기 링크 34개, 14개 실험 계산(js/math.js와 labs-*.js, lab-guides.js 결과 읽기), 복습 퀴즈 22문항(review.json), 출처 13개, 조사 노트(docs/research.html), 서가 표지·펼침 삽화 문구" data-result="open" data-commit="0601ea7">
 <h2>2026-10-12 G6 검수 (1회차)</h2>
 <p>검수자: Claude · G6 검수 세션(information). 검수팀 다섯 역할(정민 판정, 유진 사실·용어·출처, 건우 수치·실험, 채원 브라우저, 현석 자동 검사)을 이 세션이 나눠 맡았습니다. 집필자: Claude · information 집필 세션(커밋 fccdda7, G5 연결 커밋 0601ea7). 이 세션은 이 원고를 쓰지 않았습니다. 0601ea7과 fccdda7 사이에 books/information 변경은 없습니다.</p>
