@@ -255,7 +255,7 @@ test('content ch7 trend',()=>{
  const g=M.logReturns(SC().slice(0,120));
  assert.deepEqual([2,5,8].map(q=>M.varianceRatio(g,q).vr.toFixed(3)),['1.453','1.041','0.141']);
  const z=M.monteCarlo({n:250,seed:11},4000,p=>M.varianceRatio(M.logReturns(p),5).z);assert.equal(f(z.filter(v=>Math.abs(v)>1.96).length/4000,1),'5.6');
- near(M.mean(M.monteCarlo({n:250,vol:.01,kappa:.2},300,p=>M.varianceRatio(M.logReturns(p),5).vr)),.68,.01,'κ = 0.2: VR(5) about 0.68 (research V-9: 0.675 · 0.689)');
+ assert.equal(M.mean(M.monteCarlo({n:250,vol:.01,seed:11,kappa:.2},300,p=>M.varianceRatio(M.logReturns(p),5).vr)).toFixed(3),'0.685','κ = 0.2, seed 11, 300 paths: VR(5) 0.685 as in the prose and the lab preset (research V-9 seed 1: 0.675)');
  /* VR(2) ≈ 1 + ρ₁ (exact for the population; the overlapping estimator is close) */
  assert.ok(Math.abs(M.varianceRatio(g,2).vr-(1+M.autocorr(g,1)))<.03);
 });
