@@ -48,8 +48,9 @@ function apCurve(r){
 A05Labs.ap=el=>{
  U.setup(el,S('apm','맞음으로 셀 IoU 문턱 (판정)',[['0.5','0.5 · AP50'],['0.75','0.75 · AP75 (엄격)']],'0.5')+R('aps','점수 문턱 (이상만 셈)',0.1,0.95,0.05,0.3)+S('apn','판정 전 NMS',[['none','끄기 · 후보 7개 그대로'],['0.45','켜기 · NMS 임계값 0.45']],'none'));
  U.bind(el,()=>{const m=V(el,'apm'),s=V(el,'aps'),nm=U.text(el,'apn'),on=nm!=='none',r=M.detEval(CANDS,GTS.map(g=>g.box),{match:m,minScore:s,nmsThr:on?0.45:null});
-  const id=i=>CANDS[i].id,list=r.rows.map((x,k)=>`<li>${k+1}. ${id(x.i)} 점수 ${F(x.score,2)} · ${x.tp?`정답 ${GTS[x.gt].id}와 IoU ${F(x.iou,2)} → <b>TP</b>`:`가장 가까운 남은 정답과 IoU ${F(x.iou,2)} → FP`} · 정밀도 ${F(x.precision,2)}, 재현율 ${F(x.recall,2)}</li>`).join('');
-  const dup=r.rows.map((x,k)=>k).filter(k=>{const x=r.rows[k];return !x.tp&&r.rows.slice(0,k).some(y=>y.tp&&M.iou(CANDS[x.i].box,GTS[y.gt].box)>=m);});
+  const id=i=>CANDS[i].id,twin=k=>r.rows.slice(0,k).find(y=>y.tp&&M.iou(CANDS[r.rows[k].i].box,GTS[y.gt].box)>=m);
+  const list=r.rows.map((x,k)=>{const y=x.tp?null:twin(k);return `<li>${k+1}. ${id(x.i)} 점수 ${F(x.score,2)} · ${x.tp?`정답 ${GTS[x.gt].id}와 IoU ${F(x.iou,2)} → <b>TP</b>`:`${y?`정답 ${GTS[y.gt].id}는 이미 짝(${id(y.i)})이 있고, `:''}가장 가까운 남은 정답과 IoU ${F(x.iou,2)} → FP`} · 정밀도 ${F(x.precision,2)}, 재현율 ${F(x.recall,2)}</li>`;}).join('');
+  const dup=r.rows.map((x,k)=>k).filter(k=>!r.rows[k].tp&&twin(k));
   const missed=GTS.filter((g,k)=>!r.rows.some(x=>x.tp&&x.gt===k)).map(g=>g.id);
   let verdict;
   if(!r.rows.length)verdict=`점수 ${F(s,2)} 이상인 예측이 하나도 없습니다. 정밀도는 나눌 예측이 없어 정의되지 않고, 재현율과 AP는 0입니다. 점수 문턱을 내려 보세요.`;

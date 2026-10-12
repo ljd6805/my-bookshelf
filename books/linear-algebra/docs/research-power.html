@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>조사 노트 · 8장 거듭제곱법 실험 · 벡터와 행렬로 보는 세상</title>
+<meta name="description" content="벡터와 행렬로 보는 세상 8장 eigen의 새 실험 power(같은 변환을 여러 번)를 위한 조사 노트: 사실 표, 식, 기준값, 가정과 범위, 오해, 출처.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css?v=20261008-ailayout1">
+</head>
+<body>
+<a class="skip" href="#main">본문으로 이동</a>
+<header class="top">
+  <a class="brand" href="index.html">벡터와 행렬로 보는 세상<small>조사 노트 · 8장 거듭제곱법</small></a>
+  <nav aria-label="문서 메뉴"><a href="index.html">기획과 검증 기록</a><a href="#facts">사실 표</a><a href="#values">기준값</a><a href="#sources">출처</a></nav>
+</header>
+<main id="main" class="docs" tabindex="-1">
+<p class="kicker">조사 노트 · 2026-10-12 · 지식조사팀(은재)</p>
+<h1>8장 거듭제곱법 실험 조사 노트</h1>
+<p class="lead">8장 eigen에 더한 실험 <code>power</code> “같은 변환을 여러 번”(실험 8-2)이 기대는 사실과 숫자를 모았습니다. 집필·실험·검수가 같은 숫자를 보도록 만든 노트이며, 독자가 읽는 본문은 <code>js/content.js</code>와 <code>js/lab-views.js</code>에 있습니다. 문장과 그림은 참고 자료의 구조만 참고했고 내용은 새로 썼습니다.</p>
+
+<h2 id="facts">사실 주장 표</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">주장(책의 위치)</th><th scope="col">근거·출처</th><th scope="col">확인일</th><th scope="col">변화가 잦은가</th></tr></thead>
+  <tbody>
+    <tr><td>같은 행렬을 거듭 곱하면 방향이 절댓값이 가장 큰 고윳값의 고유벡터 쪽으로 끌려간다(관찰 글, 실험 안내). 단 시작 벡터에 그 방향 성분이 있고, 가장 큰 |λ|가 하나일 때.</td><td>표준 선형대수 서술. 아래 식으로 직접 유도(MIT 18.06 해당 회차 대조는 확인하지 못함)</td><td>2026-10-12 (유도·계산)</td><td>아니오</td></tr>
+    <tr><td>둘째 방향 성분은 첫째에 비해 매번 |λ₂/λ₁|배가 된다. 비율이 1에 가까우면 늦게 수렴한다(확인 문제).</td><td>같은 유도. Python으로 따로 계산해 대조</td><td>2026-10-12</td><td>아니오</td></tr>
+    <tr><td>작은 고윳값의 고유벡터에서 시작하면 큰 쪽 성분이 0이라 방향이 바뀌지 않는다((1, −1) 예제).</td><td>유도: (1, −1)은 λ = 1의 고유벡터</td><td>2026-10-12</td><td>아니오</td></tr>
+    <tr><td>45° 회전에는 실수 고유벡터가 없어 거듭 곱해도 매번 45°씩 돌 뿐 멈추지 않는다.</td><td>특성방정식 λ² − √2λ + 1 = 0의 판별식이 음수(8장 숫자 예와 같음)</td><td>2026-10-12</td><td>아니오</td></tr>
+    <tr><td>초기 검색 엔진의 웹 페이지 중요도(PageRank)가 가장 큰 고윳값의 고유벡터이며 반복 계산으로 구한다(전이 글).</td><td>Brin &amp; Page(1998) 2.1.1절: PageRank는 “simple iterative algorithm”으로 계산되고 “principal eigenvector of the normalized link matrix of the web”에 해당한다</td><td>2026-10-12 (Stanford 공개본에서 해당 문장 확인)</td><td>아니오(역사적 사실)</td></tr>
+    <tr><td>인구 이동 모형의 장기 비율도 가장 큰 고윳값의 고유벡터로 구한다(전이 글).</td><td>마르코프 연쇄의 정상 분포(고윳값 1의 고유벡터). 원리 수준의 예시이고 수치는 인용하지 않음</td><td>2026-10-12 (원리 확인, 특정 문헌 인용 없음)</td><td>아니오</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="formulas">식</h2>
+<ul>
+  <li>v = c₁u₁ + c₂u₂ (u₁, u₂는 고유벡터)이면 Mⁿv = c₁λ₁ⁿu₁ + c₂λ₂ⁿu₂ = λ₁ⁿ(c₁u₁ + c₂(λ₂/λ₁)ⁿu₂).</li>
+  <li>[2, 1 ; 1, 2]에서 (1, 0) = ½(1, 1) + ½(1, −1)이므로 Mⁿ(1, 0) = ½(3ⁿ + 1, 3ⁿ − 1). 테스트 불변 조건과 같습니다.</li>
+  <li>둘째 성분이 처음 비율의 1% 아래로 줄어드는 횟수: n ≥ ln 0.01 / ln|λ₂/λ₁|.</li>
+  <li>[2.95, 0.05 ; 0.05, 2.95]에서 (1, 0)으로 시작한 방향 각도의 닫힌 식: atan((1 − rⁿ)/(1 + rⁿ)), r = 2.9/3.</li>
+  <li>실험 표의 배율: |Mᵏv| / |Mᵏ⁻¹v|. 돈 각도: 앞 단계 방향과의 차이를 (−180°, 180°]로 맞춘 값.</li>
+</ul>
+
+<h2 id="values">기준값 (Python으로 따로 계산, 2026-10-12)</h2>
+<div class="table-scroll">
+<table class="data">
+  <thead><tr><th scope="col">경우</th><th scope="col">값</th><th scope="col">쓰인 곳</th></tr></thead>
+  <tbody>
+    <tr><td>[2, 1 ; 1, 2], (1, 0), n = 1~4</td><td>(2, 1) → (5, 4) → (14, 13) → (41, 40); 26.57° → 38.66° → 42.88° → 44.29°; 배율 2.24 → 2.86 → 2.98</td><td>관찰 글, 예제 1, 테스트</td></tr>
+    <tr><td>같은 행렬, (1, 2), n = 3</td><td>63.43° → 45.71°, M³v = (40, 41)</td><td>실험 과제(내 취향)</td></tr>
+    <tr><td>같은 행렬, (1, −1)</td><td>−45°, 배율 1 그대로</td><td>예제 2(경계)</td></tr>
+    <tr><td>[2.95, 0.05 ; 0.05, 2.95], (1, 0)</td><td>n = 10: 9.53°, n = 30: 25.12°</td><td>예제 3, 확인 문제 해설</td></tr>
+    <tr><td>같은 행렬, (1, 2), n = 30</td><td>51.87° (45°까지 6.9° 남음)</td><td>실험 과제의 둘째 물음</td></tr>
+    <tr><td>(1/3)¹⁰, (2.9/3)¹⁰</td><td>1.69×10⁻⁵, 0.712</td><td>확인 문제 해설</td></tr>
+    <tr><td>1% 아래까지</td><td>λ₂/λ₁ = 1/3: 4.19 → 5번, 2.9/3: 135.8 → 136번</td><td>확인 문제 해설</td></tr>
+    <tr><td>45° 회전, (1, 0)</td><td>매번 45° 돎, 배율 1</td><td>예제 4(경계)</td></tr>
+    <tr><td>시작 벡터 (0, 0)</td><td>계산하지 않음(방향 없음)</td><td>오류 상태</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="assumptions">가정·단위·유효 범위</h2>
+<ul>
+  <li>시작 벡터 v₁, v₂는 −3~3(0.5 간격)의 단위 없는 점수입니다. n은 0~30번입니다.</li>
+  <li>정규화하지 않고 실제로 곱합니다. n = 30이면 성분이 약 2×10¹⁴에 이르지만 배정밀도 범위 안이라 오차는 표시 자리수에 나타나지 않습니다.</li>
+  <li>‘자리를 잡았다’는 판정은 가장 큰 |λ|의 고유벡터 직선에서 0.5° 안입니다. 이 문턱은 설명용으로 정한 값이며 수학적 정의가 아닙니다.</li>
+  <li>행렬은 세 가지로 고정했습니다. 가장 큰 |λ|가 둘인 경우(예: λ = 3, −3)는 실험에 넣지 않았고 본문에서도 다루지 않습니다.</li>
+</ul>
+
+<h2 id="kinds">실제 계산 · 미리 정한 시나리오 · 시각적 비유</h2>
+<ul>
+  <li><strong>실제 계산.</strong> 표와 결과 문장의 모든 숫자는 <code>js/linalg.js</code>의 <code>powerSteps</code>와 <code>eigen2</code>가 입력마다 계산합니다.</li>
+  <li><strong>미리 정한 시나리오.</strong> 없습니다. 예제 버튼은 입력값을 채울 뿐입니다.</li>
+  <li><strong>시각적 비유·연출.</strong> 그림의 화살표 길이는 모두 2.2로 맞춘 것이라 실제 길이가 아닙니다. ‘n을 0부터 30까지 늘리기’ 재생은 계산 결과 사이를 이어 보이는 연출입니다. 과제 문장의 “처음 어떤 취향이었는지는 흐려진다”는 방향에 대한 사실을 쉽게 풀어 쓴 표현입니다.</li>
+</ul>
+
+<h2 id="misconceptions">예상되는 오해</h2>
+<ul>
+  <li>“고윳값이 크면 빨리 수렴한다.” 빠르기를 정하는 것은 크기가 아니라 비율 λ₂/λ₁입니다. 확인 문제의 오답 보기로 겨냥합니다.</li>
+  <li>“어떤 시작 벡터든 반드시 끌려간다.” 큰 쪽 성분이 0이면 움직이지 않습니다((1, −1) 예제).</li>
+  <li>“오래 곱하면 언젠가 멈춘다.” 실수 고유벡터가 없으면(회전) 멈추지 않습니다.</li>
+  <li>“계산 오차 때문에 느려진다.” 느린 수렴은 오차가 아니라 비율 때문입니다(확인 문제 첫 보기).</li>
+</ul>
+
+<section id="sources">
+<h2>출처</h2>
+<table class="data">
+  <thead><tr><th scope="col">출처(책 sources 번호)</th><th scope="col">무엇에 썼나</th><th scope="col">확인</th></tr></thead>
+  <tbody>
+    <tr><td>Brin &amp; Page (1998), The Anatomy of a Large-Scale Hypertextual Web Search Engine (6) · <a href="https://doi.org/10.1016/S0169-7552(98)00110-X">DOI</a> · <a href="http://infolab.stanford.edu/~backrub/google.html">Stanford 공개본</a></td><td>전이 글의 검색 엔진 예시</td><td>2026-10-12 Stanford 공개본 2.1.1절에서 반복 계산·주 고유벡터 문장 확인. DOI 연결은 앞 회차(2026-10-12 편집팀 검수)에서 확인했고 이번에는 셸에서 열리지 않음</td></tr>
+    <tr><td>MIT OpenCourseWare 18.06 Linear Algebra, Spring 2010, Gilbert Strang (1) · <a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/">강의 페이지</a></td><td>고윳값·고유벡터, 거듭 곱의 표준 서술</td><td>2026-10-12 강의 페이지가 열리고 과목·강사가 맞음을 확인. 거듭제곱 서술이 있는 강의 회차의 내용은 <strong>확인하지 못함</strong></td></tr>
+    <tr><td>3Blue1Brown, Essence of linear algebra (0) · <a href="https://www.3blue1brown.com/topics/linear-algebra">주제 페이지</a></td><td>고유벡터를 그림으로 이해하는 배경 자료</td><td>2026-10-12 페이지는 열렸으나 강의 목록을 읽지 못해 고유벡터 강의 존재는 <strong>확인하지 못함</strong>(이번 실험의 숫자는 이 자료에 기대지 않음)</td></tr>
+  </tbody>
+</table>
+<p>새 외부 수치는 없습니다. 이 실험의 숫자는 모두 책 안의 가상 행렬로 계산한 값입니다.</p>
+</section>
+<p><a href="index.html">← 기획과 검증 기록으로</a> · <a href="fact-review.html#review-2026-10-12-lab-power">이 실험의 팩트·출처 검수</a></p>
+</main>
+</body>
+</html>

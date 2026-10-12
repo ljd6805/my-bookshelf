@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="10장 실험 abpower(A/B 표본 크기와 검정력)의 사실 표, 식, 기준값, 가정과 유효 범위, 오해 목록, 출처를 모은 조사 노트입니다."><title>AI 인프라와 운영 · 조사 노트 abpower</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body>
+<header class="top"><a class="brand" href="index.html">AI 인프라와 운영 · 제작 문서</a><a href="../index.html">책 읽기</a></header>
+<main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">제작 문서로 돌아가기</a></p>
+<h1>조사 노트 · 10장 실험 abpower</h1>
+<p>지식조사팀(은재·지호·수아·태오)이 10장 <a href="../index.html#rollout">바꾸는 날의 안전장치</a>에 더한 실험 “A/B는 며칠 돌려야 하나”(<code>abpower</code>)를 위해 남긴 기록입니다. 작성일 2026-10-12. 책 문장과 계산은 <code>js/content.js</code>, <code>js/math.js</code>(<code>normInv</code>, <code>abSample</code>), <code>js/labs-ops.js</code>에 있고, 아래 기준값은 책 코드와 따로 Python <code>statistics.NormalDist</code>로 다시 계산했습니다(수아). 팩트·출처 검수 결과는 <a href="fact-review.html#review-2026-10-12-lab-abpower">fact-review.html의 2026-10-12 abpower 회차</a>에 있습니다. 원본 커리큘럼은 구조와 순서만 참고했고 문장과 코드는 새로 썼습니다.</p>
+
+<h2 id="facts">사실 주장 표</h2>
+<table><thead><tr><th>주장</th><th>출처 (등급)</th><th>확인일</th><th>변화가 잦은가</th></tr></thead><tbody>
+<tr><td>두 비율을 비교하는 양측 검정에서 집단당 표본은 n = (z₁₋α/₂ + z₁₋β)²·(p₁q₁ + p₂q₂)/δ²로 어림한다(합동 분산을 쓰지 않는 정규 근사).</td><td>통계 교과서의 표준 식 (일반 지식, 검수 회차에서 대조)</td><td>2026-10-12</td><td>아니요</td></tr>
+<tr><td>실험 전 값과 결과의 상관이 ρ이고 최적 계수를 쓰면 CUPED 뒤 분산은 (1 − ρ²)배가 된다.</td><td>Deng 외 2013, WSDM ’13 (1차, 논문)</td><td>2026-10-12 서지 대조, 본문 접속은 확인하지 못함</td><td>아니요</td></tr>
+<tr><td>CUPED가 분산을 30~70% 줄인다.</td><td>원본 레슨 21 (2차, 커리큘럼)</td><td>2026-10-08 (원본 기준)</td><td>서비스마다 다름. 책은 “원본 기준”으로만 씀</td></tr>
+<tr><td>고정 표본 검정을 여러 번 들여다보면 거짓 양성이 늘고, 항상 유효한 순차 절차는 일찍 멈춰도 오류율을 지킨다.</td><td>Howard 외 (1차, 논문), 원본 레슨 21</td><td>2026-10-08 (접속 확인 기록), 2026-10-12 접속은 확인하지 못함</td><td>아니요</td></tr>
+<tr><td>비결정성 때문에 필요한 표본을 1.3~1.5배로 잡으라.</td><td>원본 레슨 21 (2차, 권고)</td><td>2026-10-08 (원본 기준)</td><td>권고값. 책은 원본의 권고로만 소개하고 실험 계산에는 넣지 않음</td></tr>
+<tr><td>표준정규 분위수 Φ⁻¹(p)를 Acklam의 유리 근사로 상대 오차 약 1.15×10⁻⁹ 안에서 구한다.</td><td>Peter J. Acklam의 공개 알고리즘 (저자 공개 글)</td><td>원 페이지 접속은 확인하지 못함. 계수 24개와 오차는 검수 회차에서 Python inv_cdf와 대조</td><td>아니요</td></tr>
+</tbody></table>
+
+<h2 id="formulas">식과 기준값</h2>
+<ul>
+<li>p₂ = p + δ, q = 1 − p. n<sub>raw</sub> = (z₁₋α/₂ + z₁₋β)²·(p(1 − p) + p₂(1 − p₂))/δ², n = ⌈n<sub>raw</sub>⌉.</li>
+<li>하루 집단당 표본 = 하루 요청 × 피드백 비율 ÷ 2 (50:50 배정). 기간(일) = n ÷ 하루 집단당 표본, 날짜 수 = 올림.</li>
+<li>CUPED 뒤 표본 = ⌈n<sub>raw</sub>·(1 − ρ²)⌉.</li>
+</ul>
+<table><thead><tr><th>입력</th><th>집단당 표본</th><th>기간</th></tr></thead><tbody>
+<tr><td>z₀.₉₇₅, z₀.₈, z₀.₉₉₅, z₀.₉</td><td colspan="2">1.959964, 0.841621, 2.575829, 1.281552</td></tr>
+<tr><td>p 0.60 · δ 3%p · α 0.05 · 80% · 하루 5만 · 피드백 5% (누리봇 기본)</td><td>4,126명 (원값 4,125.89)</td><td>3.30일 (날짜 4일)</td></tr>
+<tr><td>위 + CUPED ρ 0.5</td><td>3,095명</td><td>2.48일</td></tr>
+<tr><td>δ 1.5%p</td><td>16,632명 (4.03배)</td><td>13.31일</td></tr>
+<tr><td>α 0.01 · 검정력 90%</td><td>7,822명</td><td>6.26일</td></tr>
+<tr><td>검정력 90%만</td><td>5,524명</td><td>4.42일</td></tr>
+<tr><td>피드백 10%</td><td>4,126명</td><td>1.65일 (절반)</td></tr>
+<tr><td>p 0.95 · δ 6%p (p₂ 101%)</td><td colspan="2">계산하지 않음 (경계)</td></tr>
+</tbody></table>
+
+<h2 id="assumptions">단위·가정·유효 범위</h2>
+<ul>
+<li>단위: p와 δ는 비율(화면에서는 %와 %p), 표본은 “피드백을 남긴 대화” 수, 기간은 일.</li>
+<li>교육용 가정: 기준 만족률 60%, 피드백 비율 5%, CUPED 상관 ρ. 하루 5만 건은 책 전체의 누리봇 사례(<code>NURI.daily</code>)와 같습니다.</li>
+<li>유효 범위: 0 &lt; p &lt; 1, δ &gt; 0, p + δ &lt; 1. 정규 근사라 표본이 작거나 p가 0.05·0.95 근처면 정확 검정과 어긋날 수 있습니다(크기는 확인하지 못함). 표본을 다 모은 뒤 한 번만 본다고 가정합니다.</li>
+<li>넣지 않은 것: 원본이 권한 비결정성 여유(1.3~1.5배), 순차 검정 보정, 요일 효과, 다중 비교 보정.</li>
+<li>공통 사례와의 이음매: 같은 장의 카나리 실험은 “싫어요 비율 5%”를 요청 기준 교육용 가정으로 씁니다. abpower의 가정(피드백 5% × 싫어요 40%)으로 환산하면 요청 기준 싫어요는 2%라 두 가정이 맞지 않습니다. 두 실험은 서로 다른 질문(관문 잡음, A/B 기간)을 다루어 결론은 바뀌지 않지만, 다음 개정에서 한쪽 가정을 맞추거나 본문에 “다른 가정”이라고 밝힐 일로 남깁니다(교과과정팀 해원에게 넘김).</li>
+</ul>
+
+<h2 id="kinds">실제 계산·시나리오·비유</h2>
+<ul>
+<li>실제 계산: 표본 크기, 기간, CUPED 뒤 표본, z 값. 결과 문장이 “실제 계산입니다(두 비율 양측 검정의 정규 근사)”라고 밝힙니다.</li>
+<li>미리 정한 시나리오: 누리봇의 만족률 60%와 새 프롬프트의 +3%p는 이야기를 위한 가정이며 측정값이 아닙니다.</li>
+<li>비유: 없음. 막대그래프와 7일 점선은 계산 결과를 그대로 그린 것입니다.</li>
+</ul>
+
+<h2 id="misconceptions">오해 목록 (태오 → 교수법팀 연우)</h2>
+<ul>
+<li>“δ가 절반이면 기간도 두 배” → n은 δ²에 반비례해 약 네 배(확인 문제의 오답 보기).</li>
+<li>“표본 크기는 하루 요청 수로 정해진다” → 하루 요청은 기간만 바꾸고 필요한 표본은 p·δ·α·검정력이 정합니다.</li>
+<li>“3.3일이면 사흘 돌리고 끝” → 날짜로는 4일이고, 요일 효과를 보려면 한 주를 채우는 편이 안전합니다(본문의 남는 문제).</li>
+<li>“결과가 좋아 보이는 날 멈춰도 된다” → 고정 표본 식은 한 번만 보는 가정입니다. 중간에 볼 계획이면 순차 검정.</li>
+<li>“CUPED는 공짜로 표본을 줄인다” → 실험 전 값과의 상관이 있어야 하며 ρ = 0이면 그대로입니다.</li>
+</ul>
+
+<section id="sources">
+<h2>출처</h2>
+<table><thead><tr><th>출처</th><th>책에서 쓴 곳</th><th>확인</th></tr></thead><tbody>
+<tr><td>원본 레슨 21 · A/B Testing LLM Features, <a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/17-infrastructure-and-production/21-ab-testing-llm-features">rohitg00/ai-engineering-from-scratch</a> (MIT)</td><td>10장 A/B 상자, CUPED 30~70%, 비결정성 여유 1.3~1.5배</td><td>2026-10-08 원본 기준으로 읽음. 2026-10-12에는 작업 환경 프록시가 막아(403) 다시 열지 못함</td></tr>
+<tr><td>원본 레슨 20 · Shadow, Canary, Progressive Deployment (같은 저장소)</td><td>10장 카나리 본문, A/B로 넘어가는 조건</td><td>2026-10-08. 2026-10-12에는 확인하지 못함</td></tr>
+<tr><td>Deng, Xu, Kohavi, Walker. “Improving the Sensitivity of Online Controlled Experiments by Utilizing Pre-Experiment Data.” WSDM ’13. DOI 10.1145/2433396.2433413. <a href="https://www.exp-platform.com/Documents/2013-02-CUPED-ImprovingSensitivityOfControlledExperiments.pdf">PDF</a></td><td>CUPED의 (1 − ρ²) 관계, abpower의 ρ 손잡이</td><td>2026-10-12 서지(제목·저자·학회·DOI)를 대조함. PDF·DOI 접속은 프록시가 막아 확인하지 못함. 2026-10-08 회차에 같은 주소를 연 기록이 있음</td></tr>
+<tr><td>Howard, Ramdas, McAuliffe, Sekhon. “Time-uniform, nonparametric, nonasymptotic confidence sequences.” <a href="https://arxiv.org/abs/1810.08240">arXiv:1810.08240</a></td><td>본문의 “중간에 들여다볼 계획이면 순차 검정”</td><td>2026-10-12 접속은 확인하지 못함(프록시 차단)</td></tr>
+<tr><td>Peter J. Acklam, 표준정규 분포 역함수의 유리 근사 (저자 공개 글)</td><td><code>js/math.js normInv</code> 주석</td><td>원 페이지 주소와 접속은 확인하지 못함. 계수와 오차 범위는 검수 회차에서 Python <code>inv_cdf</code>와 대조함</td></tr>
+<tr><td>확률과 통계 07 · <a href="../../probability/#testing">새 센서가 정말 나아졌나</a> (이 서재)</td><td>선수 개념: α, 검정력, 들여다보기의 함정</td><td>2026-10-12 책 파일에서 확인</td></tr>
+</tbody></table>
+</section>
+</main>
+</body></html>
