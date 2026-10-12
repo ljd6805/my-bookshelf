@@ -121,17 +121,57 @@ export function layoutIslands(graph, { stretch = 1.3, portrait = false } = {}) {
 }
 
 /* 가운데 섬과 잇는 다리, 고리에서 이웃한 섬끼리 잇는 다리는 늘 그립니다. 고리 건너편 섬끼리의
-   다리는 지도를 가로지르므로 둘 중 한 섬을 고를 때만 보입니다(shown: false). */
+   다리는 가운데 섬을 둘러 가는 바닷길이라 둘 중 한 섬을 고를 때만 보입니다(shown: false). */
 function connect(placed, graph, k) {
   const byName = new Map(placed.map(p => [p.field.name, p]));
   const bridges = graph.bridges.map(b => {
     const p = byName.get(b.a), q = byName.get(b.b);
     const gap = Math.abs(p.slot - q.slot);
     const shown = p.hub || q.hub || gap === 1 || gap === k - 1;
-    return { ...bridgeCurve(b, p, q, placed[0], !shown), shown };
+    return shown ? { ...bridgeCurve(b, p, q, placed[0]), shown } : { ...seaRoute(b, p, q, placed), shown };
   });
   separateBadges(bridges.filter(b => b.shown));
+  const near = bridges.filter(b => b.shown).map(b => b.badge);
+  bridges.filter(b => !b.shown).forEach(b => {
+    b.badge = b.stops.reduce((best, pt) => (room(pt, near) > room(best, near) ? pt : best), b.stops[0]);
+    near.push(b.badge);
+    delete b.stops;
+  });
   return bridges;
+}
+
+const room = (pt, others) => Math.min(Infinity, ...others.map(o => Math.hypot((pt.x - o.x) / 1.6, pt.y - o.y)));
+
+/* 고리 건너편 두 섬을 잇는 바닷길. 곧게 그으면 가운데 섬과 다른 다리를 가로지르므로, 가운데 섬과
+   고리 섬 사이 바다를 따라 짧은 쪽으로 돌아갑니다. 섬을 떠날 때는 가운데 섬으로 가는 다리와 겹치지
+   않게 진행 방향으로 비스듬히 나갑니다. stops는 이름표를 둘 수 있는 바닷길 위 후보 자리입니다. */
+export function seaRoute(bridge, p, q, placed) {
+  const hub = placed[0];
+  const angle = o => Math.atan2(o.y - hub.y, o.x - hub.x);
+  const a0 = angle(p);
+  let sweep = angle(q) - a0;
+  while (sweep <= -Math.PI) sweep += 2 * Math.PI;
+  while (sweep > Math.PI) sweep -= 2 * Math.PI;
+  if (Math.abs(Math.abs(sweep) - Math.PI) < 1e-6) sweep = p.slot < q.slot ? Math.PI : -Math.PI;
+  const dir = Math.sign(sweep), lead = Math.min(0.42, Math.abs(sweep) / 4);
+  const edge = o => Math.hypot(o.x - hub.x, o.y - hub.y) - o.r;
+  const inner = Math.min(...placed.slice(1).map(edge)) - 12;
+  const seaAt = f => Math.min(inner, (hub.r + edge(p) + f * (edge(q) - edge(p))) / 2);
+  const pts = [];
+  const steps = Math.max(6, Math.ceil(Math.abs(sweep) / 0.1));
+  for (let i = 0; i <= steps; i += 1) {
+    const a = a0 + dir * lead + (sweep - 2 * dir * lead) * (i / steps);
+    const m = seaAt(i / steps);
+    pts.push({ x: hub.x + m * Math.cos(a), y: hub.y + m * Math.sin(a) });
+  }
+  const all = [p, ...pts, q];
+  let d = `M${r1(p.x)} ${r1(p.y)}`;
+  for (let i = 1; i < all.length - 1; i += 1) {
+    const end = i === all.length - 2 ? q : { x: (all[i].x + all[i + 1].x) / 2, y: (all[i].y + all[i + 1].y) / 2 };
+    d += ` Q${r1(all[i].x)} ${r1(all[i].y)} ${r1(end.x)} ${r1(end.y)}`;
+  }
+  const stops = pts.slice(Math.floor(steps * 0.2), Math.ceil(steps * 0.8) + 1).map(t => ({ x: r1(t.x), y: r1(t.y) }));
+  return { ...bridge, d, stops, badge: stops[Math.floor(stops.length / 2)], width: Math.min(16, 2 + 3 * Math.sqrt(bridge.concepts.length)) };
 }
 
 function islandShape(p, graph) {
@@ -166,29 +206,20 @@ export function blob(cx, cy, r, seed) {
 }
 
 /* 다리는 두 섬 중심을 잇는 2차 곡선입니다. 가운데 섬과 잇는 다리는 살짝 휘고, 고리 위 이웃끼리는
-   가운데 섬을 피해 바깥으로 휩니다. 고리 건너편끼리는 곧은 점선으로 가운데 섬 위를 지나고,
-   이름표는 고른 섬과 가운데 섬 사이 바다에 둡니다. */
-export function bridgeCurve(bridge, p, q, hub, far = false) {
+   가운데 섬을 피해 바깥으로 휩니다. 고리 건너편끼리는 seaRoute가 따로 그립니다. */
+export function bridgeCurve(bridge, p, q, hub) {
   const span = Math.hypot(q.x - p.x, q.y - p.y) || 1;
   const ux = (q.x - p.x) / span, uy = (q.y - p.y) / span;
   const mid = { x: (p.x + q.x) / 2, y: (p.y + q.y) / 2 };
-  let c, at;
-  if (far) {
-    c = mid;
-    const s0 = (hub.x - p.x) * ux + (hub.y - p.y) * uy;
-    const off = Math.abs((hub.x - p.x) * uy - (hub.y - p.y) * ux);
-    const entry = off < hub.r ? s0 - Math.sqrt(hub.r * hub.r - off * off) : span - q.r;
-    at = Math.min(0.45, Math.max(0.1, (p.r + (entry - p.r) / 2) / span));
-  } else {
-    if (p.hub || q.hub) c = { x: mid.x - uy * 18, y: mid.y + ux * 18 };
-    else {
-      let dx = mid.x - hub.x, dy = mid.y - hub.y, d = Math.hypot(dx, dy);
-      if (d < 1) { dx = -uy; dy = ux; d = 1; }
-      const t = Math.max(2 * (hub.r + 34) - Math.hypot(mid.x - hub.x, mid.y - hub.y), Math.hypot(mid.x - hub.x, mid.y - hub.y) * 1.15);
-      c = { x: hub.x + (dx / d) * t, y: hub.y + (dy / d) * t };
-    }
-    at = Math.min(0.8, Math.max(0.2, (p.r + (span - p.r - q.r) / 2) / span));
+  let c;
+  if (p.hub || q.hub) c = { x: mid.x - uy * 18, y: mid.y + ux * 18 };
+  else {
+    let dx = mid.x - hub.x, dy = mid.y - hub.y, d = Math.hypot(dx, dy);
+    if (d < 1) { dx = -uy; dy = ux; d = 1; }
+    const t = Math.max(2 * (hub.r + 34) - Math.hypot(mid.x - hub.x, mid.y - hub.y), Math.hypot(mid.x - hub.x, mid.y - hub.y) * 1.15);
+    c = { x: hub.x + (dx / d) * t, y: hub.y + (dy / d) * t };
   }
+  const at = Math.min(0.8, Math.max(0.2, (p.r + (span - p.r - q.r) / 2) / span));
   const point = quad(p, c, q, at);
   return { ...bridge, d: `M${r1(p.x)} ${r1(p.y)} Q${r1(c.x)} ${r1(c.y)} ${r1(q.x)} ${r1(q.y)}`,
     badge: { x: point.x, y: point.y }, width: Math.min(16, 2 + 3 * Math.sqrt(bridge.concepts.length)) };
