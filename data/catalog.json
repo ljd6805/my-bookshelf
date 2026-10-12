@@ -2226,6 +2226,71 @@
         }
       ],
       "short_title": "그리드 매매"
+    },
+    {
+      "id": "price-volatility",
+      "title": "가격은 어떻게 흔들리는가 · 수익률과 변동성의 수학",
+      "spine_title": "가격 변동",
+      "spine_category": "금융",
+      "color": "violet",
+      "description": "가상의 인물 하린이 새벽전자의 1년 가격 기록과 가상의 ETF 누리200·누리200 2배를 놓고 단순·로그 수익률, 변동성 손실과 레버리지 상품의 일일 재조정, 표준편차·연율화·ATR, 무작위 보행, 두꺼운 꼬리, 자기상관과 평균 회귀, 분산비, 구간 통과 횟수, 최대 낙폭과 회복 기간을 10개 장과 10개 실험으로 계산합니다. 같은 생성기의 무작위 경로를 기준선으로 삼아 숫자가 우연인지 따집니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/volatility/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 지수는 제자리를 오가는데 2배 상품의 선은 조금씩 내려앉습니다.",
+      "cover_art": "books/volatility/assets/cover-art.svg",
+      "cover_meta": "10장 · 10개 실험",
+      "status": "published",
+      "url": "books/volatility/",
+      "keywords": [
+        "변동성",
+        "수익률",
+        "로그 수익률",
+        "단순 수익률",
+        "변동성 손실",
+        "레버리지 ETF",
+        "인버스 ETF",
+        "일일 재조정",
+        "표준편차",
+        "연율화",
+        "ATR",
+        "무작위 보행",
+        "몬테카를로",
+        "두꺼운 꼬리",
+        "첨도",
+        "t분포",
+        "자기상관",
+        "평균 회귀",
+        "분산비",
+        "variance ratio",
+        "구간 통과",
+        "최대 낙폭",
+        "MDD",
+        "회복 기간",
+        "박스권",
+        "추세"
+      ],
+      "chapters": [
+        {
+          "title": "전체 10개 장",
+          "url": "books/volatility/#chapters"
+        },
+        {
+          "title": "02 · −50% 다음 +50%: 변동성 손실과 레버리지 ETF의 일일 재조정",
+          "url": "books/volatility/#drag"
+        },
+        {
+          "title": "04 · 동전으로 만든 가격: 무작위 보행",
+          "url": "books/volatility/#walk"
+        },
+        {
+          "title": "08 · 가격은 한 선을 몇 번 건너나: 구간 통과 횟수",
+          "url": "books/volatility/#cross"
+        },
+        {
+          "title": "마지막 과제 · 하린의 1년 기록 두 장",
+          "url": "books/volatility/#final"
+        }
+      ],
+      "short_title": "가격 변동"
     }
   ],
   "learning_paths": [
@@ -3198,6 +3263,14 @@
           "record": "값 하나를 바꾸기 전후의 표준편차"
         },
         {
+          "book_id": "price-volatility",
+          "url": "books/volatility/#cross",
+          "task": "통과 횟수 실험에서 같은 변동성의 생성기에 평균 회귀 세기 κ만 0 → 0.05 → 0.2로 바꾸며 시작가 선을 지나간 횟수의 평균을 견준다",
+          "minutes": 16,
+          "why": "격자가 버는 것은 칸을 오가는 횟수이고, 같은 흔들림이라도 가격이 제자리로 끌려가는지에 따라 그 횟수가 몇 배 달라진다",
+          "record": "세 설정의 평균 통과 횟수(○회, ○회, ○회)"
+        },
+        {
           "book_id": "securities-market",
           "url": "books/market/#cost",
           "task": "한 칸 판정 실험에서 19,970원에 사서 30원 위에 파는 칸이 눈금과 비용을 넘는지 판정한다",
@@ -3415,8 +3488,8 @@
         {
           "number": 8,
           "title": "가격은 어떻게 흔들리는가",
-          "status": "planned",
-          "next_why": "한 자산의 흔들림을 쟀으니, 여러 자산을 섞어 위험을 나누는 법을 배웁니다."
+          "next_why": "한 자산의 흔들림을 쟀으니, 여러 자산을 섞어 위험을 나누는 법을 배웁니다.",
+          "book_id": "price-volatility"
         },
         {
           "number": 9,
@@ -3846,7 +3919,17 @@
     "books/grid/#capital": "10 · 얼마를 맡길까: 자금 배분과 최대 손실 한도",
     "books/grid/#compare": "11 · 다른 방법과 견주기: 보유·적립식·리밸런싱",
     "books/grid/#exit": "12 · 범위를 벗어났을 때 내가 정하는 규칙",
-    "books/grid/#final": "마지막 과제 · 하린의 6개월 격자 장부"
+    "books/grid/#final": "마지막 과제 · 하린의 6개월 격자 장부",
+    "books/volatility/#returns": "01 · 더하는 수익률과 곱하는 수익률: 단순 수익률과 로그 수익률",
+    "books/volatility/#drag": "02 · −50% 다음 +50%: 변동성 손실과 레버리지 ETF의 일일 재조정",
+    "books/volatility/#measure": "03 · 흔들림을 재는 세 자: 표준편차·연율화·ATR",
+    "books/volatility/#walk": "04 · 동전으로 만든 가격: 무작위 보행",
+    "books/volatility/#tails": "05 · 3σ 밖의 날은 얼마나 자주 오나: 두꺼운 꼬리",
+    "books/volatility/#revert": "06 · 어제의 수익률은 오늘을 말해 주나: 자기상관과 평균 회귀",
+    "books/volatility/#trend": "07 · 추세와 박스권: 분산비로 흔들림의 모양 재기",
+    "books/volatility/#cross": "08 · 가격은 한 선을 몇 번 건너나: 구간 통과 횟수",
+    "books/volatility/#drawdown": "09 · 가장 아팠던 때와 돌아오는 데 걸린 날: 최대 낙폭과 회복 기간",
+    "books/volatility/#final": "마지막 과제 · 하린의 1년 기록 두 장"
   },
   "concepts": [
     {
@@ -3991,7 +4074,9 @@
         "books/probability/#correlation",
         "books/money/#cagr",
         "books/grid/#box",
-        "books/grid/#range"
+        "books/grid/#range",
+        "books/volatility/#measure",
+        "books/volatility/#drag"
       ]
     },
     {
@@ -4036,7 +4121,9 @@
         "books/aie-llm-build/#selfimprove",
         "books/aie-llm-apps/#prompt",
         "books/transformer/#predict",
-        "books/information/#entropy"
+        "books/information/#entropy",
+        "books/volatility/#walk",
+        "books/volatility/#tails"
       ]
     },
     {

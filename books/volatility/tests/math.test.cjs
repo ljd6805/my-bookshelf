@@ -248,7 +248,7 @@ test('content ch6 revert',()=>{
  assert.equal(M.mean(ph).toFixed(3),'0.283');assert.equal(f(out(ph),1),'99.7');assert.equal(M.mean(kp).toFixed(3),'-0.109');assert.equal(f(out(kp),0),'40');
  const g=M.logReturns(SC().slice(0,120)),a=M.acf(g,8);
  assert.deepEqual([g.length,a[0].toFixed(3),a[3].toFixed(2),a[7].toFixed(2)],[119,'0.435','-0.79','0.81']);
- assert.equal(M.mean(mc({},100,q=>M.autocorr(q,1))).toFixed(2),'0.97');assert.equal(M.autocorr(SC(),1).toFixed(2),'0.95');
+ assert.equal(M.mean(mc({},100,q=>M.autocorr(q,1))).toFixed(2),'0.97');assert.equal(M.autocorr(SC(),1).toFixed(2),'0.95');assert.equal(M.autocorr(SC().slice(0,120),1).toFixed(2),'0.92');
 });
 
 test('content ch7 trend',()=>{
