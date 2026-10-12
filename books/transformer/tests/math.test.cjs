@@ -1,0 +1,31 @@
+/* 계산 검증: JS 순전파가 numpy 기준값과 같은지, 본문·안내문에 쓴 대표 숫자가 지금 가중치에서 그대로 나오는지 본다. */
+const test=require('node:test'),assert=require('node:assert'),path=require('path');
+globalThis.window=globalThis;require('../js/weights.js');const M=require('../js/math.js');
+const ref=require('./reference.json');
+const near=(a,b,eps,msg)=>assert.ok(Math.abs(a-b)<=eps,`${msg}: ${a} vs ${b}`);
+test('JS forward pass matches the numpy reference',()=>{for(const c of ref.cases){const ids=M.tokenize(c.prompt).ids,r=M.run(ids),lg=r.logits.at(-1);c.last_logits.forEach((v,i)=>near(lg[i],v,1e-3,`${c.prompt} logit ${i}`));assert.equal(M.top(r.probs.at(-1),1)[0].token,c.argmax);c.attn_l0h2_last.forEach((v,i)=>near(r.attn[0][2].at(-1)[i],v,1e-4,'L0H2'));c.attn_l1h1_last.forEach((v,i)=>near(r.attn[1][1].at(-1)[i],v,1e-4,'L1H1'));}});
+test('probabilities sum to one and the causal mask hides the future',()=>{const r=M.run(M.tokenize('목록 곰 꿀 숲 곰 꿀').ids);r.probs.forEach(p=>near(p.reduce((a,b)=>a+b,0),1,1e-9,'sum'));r.attn.forEach(L=>L.forEach(A=>A.forEach((row,t)=>row.forEach((a,s)=>{if(s>t)assert.equal(a,0);}))));});
+test('chapter 1 numbers: next-word predictions',()=>{
+ near(M.predict('곰 먹이').top[0].p,1,0.002,'곰 먹이');assert.equal(M.predict('곰 먹이').top[0].token,'꿀');
+ const g=M.predict('곰').top;assert.equal(g[0].token,'집');near(g[0].p,.526,.002,'곰 → 집');
+ near(M.predict('곰 먹이',3).top[0].p,.682,.002,'temperature 3');
+ const n=M.predict('<s> 9').top[0];assert.equal(n.token,'3');near(n.p,.399,.002,'<s> 9');});
+test('chapter 9 induction: repeat list loss and ablations',()=>{const items=['곰','꿀','숲','토끼','포도','고양이','빙하'];
+ const base=M.repeatLoss(items);near(base.first,2.76,.01,'first');near(base.second,.08,.01,'second');assert.equal(base.correct,15);
+ const a02=M.repeatLoss(items,['0.2']);near(a02.second,4.36,.02,'ablate 0.2');assert.equal(a02.correct,6);
+ const a11=M.repeatLoss(items,['1.1']);near(a11.second,.79,.02,'ablate 1.1');assert.equal(a11.correct,11);
+ const all=M.repeatLoss(items,['1.0','1.1','1.3']);near(all.second,6.39,.02,'ablate 1.0+1.1+1.3');assert.equal(all.correct,0);});
+test('chapter 8 OV rows',()=>{const a=M.ovRow(1,1,'곰');assert.equal(a.rank,1);near(a.self,3.60,.01,'L1H1 곰');assert.equal(M.ovRow(1,1,'꿀').rank,15);assert.equal(M.ovRow(1,3,'꿀').rank,1);assert.equal(M.ovRow(1,2,'곰').rank,32);});
+test('chapter 10 neurons and knockouts',()=>{const n=M.neurons('곰 먹이','꿀',1,3);assert.deepEqual(n.map(x=>x.n),[113,29,107]);
+ const all=M.neurons('곰 먹이','꿀',1,10).map(x=>`n1.${x.n}`),kill=k=>M.ablate('곰 먹이','꿀',all.slice(0,k)).after;
+ near(kill(1),.998,.002,'kill 1');near(kill(3),.881,.002,'kill 3');near(kill(5),.163,.002,'kill 5');near(kill(10),0,.002,'kill 10');});
+test('chapter 11 activation patching',()=>{const p=M.patching('곰 먹이','토끼 먹이','꿀','당근'),rate=k=>p.rows.find(r=>r.part===k).rate;
+ near(p.clean,13.8,.1,'clean');near(p.corrupt,-13.9,.1,'corrupt');near(rate('mlp1'),.87,.01,'mlp1');near(rate('mlp0'),.68,.01,'mlp0');near(rate('0.0'),.63,.01,'L0H0');near(rate('1.1'),.52,.01,'L1H1');});
+test('chapter 14 counting investigation',()=>{const heads=[];for(let l=0;l<2;l++)for(let h=0;h<4;h++)heads.push(`${l}.${h}`);
+ near(M.ablate('3 4 5','6',heads).after,.978,.002,'all heads');near(M.ablate('3 4 5','6',['mlp0']).after,.023,.002,'mlp0');near(M.ablate('3 4 5','6',['mlp1']).after,.031,.002,'mlp1');});
+test('chapter 13 superposition toy model stays deterministic',()=>{const a=M.superposition(0,{steps:8000}),b=M.superposition(.95,{steps:8000});assert.equal(a.represented,2);assert.equal(b.represented,4);});
+test('chapter 3 soft lookup: representative and boundary values',()=>{const w=(a,s)=>M.softLookup(a,s).map(e=>e.weight).sort((x,y)=>y-x);
+ const a=w(30,2);near(a[0],.63,.01,'30° len 2');near(a[1],.30,.01,'30° second');near(w(0,8)[0],1,.005,'0° len 8');
+ const c=w(45,.5);near(c[0],.33,.01,'45°');near(c[3],.17,.01,'45° last');M.softLookup(0,0).forEach(e=>near(e.weight,.25,1e-9,'zero length is uniform'));});
+test('chapter 4 QK trace: dividing by sqrt(dh) softens but keeps the winner',()=>{const s='목록 곰 꿀 숲 토끼 포도 곰 꿀 숲 토끼';const d=M.attentionTrace(s,1,1,7,true),n=M.attentionTrace(s,1,1,7,false);
+ near(d.weights[3],.94,.01,'divided');near(n.weights[3],1,.005,'not divided');});
