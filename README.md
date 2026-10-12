@@ -28,7 +28,7 @@ node --test tests/test_shelf_model.mjs
 
 `books`의 상태는 `planned`, `writing`, `published`입니다. 책은 `books/주제/`에서 관리하고 공개된 책은 `books/ai/`처럼 저장소 루트 기준 상대 경로를 등록합니다. 모든 책에서 이 서재로 돌아오는 링크를 제공합니다. 첫 학습 책은 [AI Book · 직접 실험하는 AI 교과서](https://ljd6805.github.io/my-bookshelf/books/ai/)입니다. 구축·운영 문서는 지식자료 카탈로그에 등록하지 않습니다.
 
-책등에는 선택 항목 `spine_title`(권장 4~6글자), `spine_category`, `color`를 사용할 수 있습니다. 색은 aqua, blue, violet, sage, amber, rose입니다. JavaScript 없이도 모든 자료 링크가 정적 HTML에 들어 있습니다. 카탈로그가 메인페이지와 다르면 검증 명령이 실패합니다.
+책등에는 선택 항목 `spine_title`(권장 4~6글자), `spine_category`, `color`를 사용할 수 있습니다. 색은 aqua, blue, violet, sage, amber, rose, plum입니다. JavaScript 없이도 모든 자료 링크가 정적 HTML에 들어 있습니다. 카탈로그가 메인페이지와 다르면 검증 명령이 실패합니다.
 
 ## 협업
 

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="지식 그래프와 온톨로지 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 지식 그래프와 온톨로지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>「지식 그래프와 온톨로지 · 의미를 구조로」를 쓰지 않은 에이전트가 검수한 결과입니다. 규칙은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">책 개발 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 지식 그래프 PR 검수 전용 하위 에이전트(새 세션)" data-author="Claude · 지식 그래프 책 집필 스레드" data-date="2026-10-08" data-scope="9개 장 본문·확인 문제·그림 캡션, 9개 실험과 표지 실험 계산, 실험 안내 수치, 표지·서가 삽화의 간선, 출처 11개" data-result="fixed" data-commit="a657449">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · 지식 그래프 PR 검수 전용 하위 에이전트(집필 맥락 없이 새로 시작, 파일 수정 권한 없이 보고만 함). 집필자: Claude · 지식 그래프 책 집필 스레드. 범위: 9개 장 본문·확인 문제·그림 캡션, 9개 실험과 표지 실험 계산, 실험 안내 수치, 표지·서가 삽화의 간선, 출처 11개. 지적 사항은 집필자가 고쳤습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>트리플 21개·추론용 사실 2개, 추출 후보 13개의 정답 표시, 퀴리 가족의 출생·결혼·발견·노벨상(1903 물리학 베크렐·피에르·마리, 1911 화학 마리 단독, 1935 화학 이렌·프레데리크)을 nobelprize.org와 대조</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>책 코드를 node로 따로 불러 덩어리 수, 도달 수, 자카드, 추론 라운드, 정밀도·재현율, TransE 평균 차이, 검색 k와 걸음 수를 다시 계산해 본문·안내와 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>대표값과 경계값(문턱 0.15·0.5·0.7, 추출 문턱 0.30·0.50·0.85, r=0과 틀린 방향의 r, 2·3걸음)을 계산해 화면 결과와 대조</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>5건 다듬음</td><td>RDF 1.1 Concepts·RDF Schema 1.1·SPARQL 1.1·SHACL·OWL 2 원문의 정의와 대조</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>1건 수정</td><td>출처 11개 중 10개를 직접 열어 제목·날짜·식별자와 인용 내용을 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#graphrag 부제, 출처 Edge 외(2024)</td><td>GraphRAG 전체를 개체 중심 걷기로 정의했고, Edge 외 논문을 그 방식의 제안으로 설명함. 실제 논문은 개체 그래프를 만들고 공동체 요약을 미리 생성해 전역 질문에 답하는 방법</td><td>arXiv 2404.16130 초록</td><td>부제를 “그래프 기반 RAG의 한 방식은 …”으로, 출처 제목을 정식 제목으로, 설명을 공동체 요약 방식과 이 장의 차이로 고침</td></tr>
+<tr><td>docs/index.html 실험표</td><td>r̂=(1.53, 1.21)로 적었으나 계산값은 (1.525, 1.2125), 화면 표시는 (1.52, 1.21)</td><td>meanOffset 재계산</td><td>두 값을 함께 적음</td></tr>
+<tr><td>#triples 수식 메모</td><td>“각 조각을 IRI로 적는다”: 목적어는 리터럴, 주어·목적어는 빈 노드일 수 있음</td><td>RDF 1.1 Concepts §3.1</td><td>“주로 IRI로 적지만(목적어는 리터럴일 수도)”</td></tr>
+<tr><td>#walk 주의</td><td>“점 열네 개 중 열세 개”가 하나는 닿지 않는다고 읽힘</td><td>도달 수 재계산(출발점 제외 13개 전부)</td><td>“출발점을 뺀 열세 개 모두에 닿습니다”</td></tr>
+<tr><td>#walk 더 읽어 보기</td><td>“행렬을 두 번 곱한 결과 … 길의 수”</td><td>인접 행렬의 거듭제곱은 보행(walk) 수를 셈</td><td>“행렬을 제곱(A²)한 값이 … 보행의 수”</td></tr>
+<tr><td>#reasoning 수식 메모·흐름</td><td>“OWL 추론기는 훨씬 많은 규칙”: OWL 2 DL 추론기는 대개 규칙 기반이 아님. 흐름의 고정점 시점이 모호함</td><td>OWL 2 Profiles(RL은 규칙 집합)</td><td>“OWL 2 RL 같은 규칙 집합”, “3라운드에서 고정점 확인”</td></tr>
+<tr><td>#embedding 주의</td><td>도시→나라 방향은 일대다가 아니라 다대일</td><td>관계 방향 확인</td><td>“다대일 관계나 그 반대의 일대다 관계”</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>Wikidata 소개 페이지는 검수 환경에서 열리지 않았습니다(주소 형식만 확인). Hogan 외 “Knowledge Graphs”는 초록만 열었고, 이 책이 근거로 든 장(임베딩·추출·동일성)이 본문에 있다는 것은 검수자의 지식에 기댄 판단입니다. 실제 독자의 학습 효과는 이 검수 범위가 아닙니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12" data-reviewer="Claude · 검수팀 새 세션(유진 사실·용어·출처, 건우 수치·실험, 채원 첫 독자 브라우저, 현석 규칙 감사)" data-author="Claude · 지식 그래프 책 집필 스레드" data-date="2026-10-12" data-scope="9개 장 본문·확인 문제·새 전이 문제 9개, 9개 실험과 표지 실험 계산, 출처 15개, 1280·390·320px 브라우저 읽기, docs/08·AGENTS.md 규칙 대조" data-result="fixed" data-commit="95d8ba4">
+<h2>2026-10-12 검수 (2회차, 검수팀)</h2>
+<p>검수자: <a href="../../../docs/10-agent-team.html">docs/10 에이전트 팀</a>의 검수팀. 네 사람 몫을 집필 맥락 없이 새로 시작한 세션이 나눠 맡았고, 파일은 고치지 않고 보고만 했습니다. 유진은 사실·용어·출처, 건우는 수치와 실험 계산(책 코드와 따로 계산), 채원은 처음 읽는 독자로서 서가에서 마지막 과제까지 브라우저 확인(L1~L3), 현석은 공통 규칙 대조를 맡았습니다. 집필자: Claude · 지식 그래프 책 집필 스레드. 지적 사항은 집필자가 고쳤고, 고친 뒤 책 테스트 19개·<code>validate.py</code>·브라우저 시험을 다시 통과했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>퀴리 가족의 출생·결혼·발견·노벨상, 바르샤바의 1867년 맥락, 전이 문제의 상황 설정을 nobelprize.org와 표준 문서로 다시 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>9개 실험의 안내 수치를 책 함수와 별개인 Python 계산으로 다시 구해 “책에 적힌 값·독립 계산·책 코드” 세 값이 일치함을 확인. 새 전이 문제 9개(점·간선 수, 도달 걸음, 자카드 0.2, 추론 라운드와 고정점, SPARQL 2줄, 정밀도 80%·재현율 66.7%, 베이징+r 거리 0.2와 √2, 3걸음 사슬)도 독립 계산과 일치</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>대표값·경계값과 초기화 후 값이 화면 결과와 일치. 채원이 9개 실험 모두 L3(결과 글이 책에 적힌 값과 맞음)까지 확인. 화면 표시 문제는 아래 표에 따로 적음</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>RDF·RDFS 정의역/치역·SPARQL 변수·TransE·GraphRAG 용어를 장 본문·수식·그림과 맞춰 봄</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>보강</td><td>출처를 2026-10-12에 다시 열어 확인하고, 주장에 맞는 1차 자료 5개를 더해 장마다 연결</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>참고 자료</td><td>TransE·GraphRAG 지역 검색·GraphRAG 개관·RDF 의미론·OWL 2 RL의 1차 자료가 없어 해당 장이 2차 자료에 기댐</td><td>유진의 출처 대조</td><td>Bordes 외(2013, NeurIPS), Microsoft GraphRAG Local Search, Peng 외(arXiv 2408.08921), W3C RDF 1.1 Semantics, OWL 2 Profiles를 더하고 장별 출처를 다시 묶음. 참고 자료 머리글에 재확인 날짜와 RDF·SPARQL 1.2 작업 중임을 적음</td></tr>
+<tr><td>표지 참고 링크 안내</td><td>“2026-10-12에 다시 열어 확인”과 “2026-10-08 환경에서 열지 못함”이 함께 있어 서로 어긋남</td><td>건우가 발견</td><td>“집필 때는 열지 못했고, 이후 검수에서 다시 열어 확인”으로 맞춤</td></tr>
+<tr><td>6장 실험</td><td>두 번째 변수를 <code>?z</code>로 써서 수식·그림 6-1·확인 문제의 <code>?y</code>와 다름. 결과가 “답 1개: 마리 퀴리·피에르 퀴리”로 두 답처럼 읽힘</td><td>채원의 첫 독자 읽기</td><td>변수를 <code>?y</code>로, 패턴 1 빈칸을 <code>?o</code>로 바꾸고 결과를 “답 1줄: (?x=마리 퀴리, ?y=피에르 퀴리)”로 씀</td></tr>
+<tr><td>5장 실험</td><td>“적힌 사실 23개”가 책 곳곳의 21개와 달라 보임. 세 규칙을 모두 켜면 간선 이름이 겹쳐 읽을 수 없음</td><td>채원</td><td>“(책의 사실 21개 + 나라가 속한 대륙 2개)”를 덧붙이고, 간선 이름은 마지막 라운드에 생긴 사실만 보이며 겹치면 아래로 내림</td></tr>
+<tr><td>1·2·5장 그래프, 표지 실험</td><td>390·320px에서 바르샤바·프레데리크·1935 화학상 이름이 잘리고 글자가 작음</td><td>채원</td><td>그림 좌우 여백을 넓히고, 좁은 화면에서 이름 글자를 키우며 흐린 점의 이름은 숨김</td></tr>
+<tr><td>8장 실험</td><td>바르샤바·이탈리아, 베를린·스페인 이름이 겹치고 축 숫자가 모서리에서 부딪침</td><td>채원</td><td>점마다 이름 놓을 쪽을 정하고 점 위에 이름을 얹음. 축 범위를 −1.6~3.2, −1~3으로 바꿔 눈금을 고르게 함</td></tr>
+<tr><td>장마다 “먼저 개념 잡기” 그림</td><td>간선마다 5초 반복이 따로 돌아 그림 전체가 한꺼번에 보이는 때가 없음. 320px에서 글자가 약 7px</td><td>채원</td><td>한 번 그린 뒤 그대로 머물게 바꿈. 좁은 화면에서 글자를 키우고 7-1의 문턱 선을 숫자 아래로 내림</td></tr>
+<tr><td>닫힌 표지 삽화</td><td>간선 이름(영문 식별자)이 선에 겹침</td><td>채원</td><td>한국어 관계 이름(발견·자녀·수상)과 사람 이름으로 바꾸고 선과 떨어진 자리에 둠</td></tr>
+<tr><td>장 구조(규칙 감사)</td><td>2026-10-12 보강 기준의 “다른 상황에 써 보기”가 없고, 확인 문제의 정답이 모든 장에서 같은 자리. 예제 버튼이 4개인 실험 3개</td><td>현석, docs/08</td><td>9개 장에 전이 문제를 더하고, 확인 문제와 전이 문제의 정답 자리를 장마다 돌림. 예제 버튼을 3개로 줄임</td></tr>
+<tr><td>개발 문서·디자인 문서</td><td>docs/10 팀 기준 이전 책이라는 사실과 G1~G4 인계 메모가 없다는 점이 기록되지 않음. plum 색이 docs/05에 없음</td><td>현석</td><td>책 개발 문서 07절에 적고, docs/05에 일곱 색과 plum을 기록</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>라듐 발견 연도(1898)는 널리 알려진 값이지만 이 책의 참고 자료 목록에 직접 근거가 없습니다. Wikidata 소개 페이지는 이번에도 검수 환경에서 열리지 않아 다른 자료로 대조했습니다. 브라우저 확인은 헤드리스 Chromium에서만 했고 Safari·Firefox·실기기·화면 읽기 프로그램은 보지 못했습니다. 실제 독자의 학습 효과(L4)는 이 검수 범위가 아닙니다.</p>
+</section>
+</main></body></html>
