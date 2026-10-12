@@ -26,6 +26,8 @@ test('fanout: parallel time beats serial, then spawn overhead wins; tokens rise 
  const one=M.fanout(1,1);assert.equal(one.time,109);assert.equal(one.serial,108);
  assert.equal(M.fanout(5,1).time,38);assert.equal(M.bestFanout(1).k,5);assert.equal(M.bestFanout(0).k,8);assert.equal(M.bestFanout(3).k,5);
  assert.ok(M.fanout(10,3).time>M.fanout(5,3).time);assert.ok(M.fanout(10,1).tokens>M.fanout(1,1).tokens);
+ /* 동점: 띄우기 1분에서 K = 6도 38분(LPT 최대 부하 18분)이므로 bestFanout은 같은 시간이면 적은 K(토큰이 덜 드는 쪽)를 고른다. */
+ assert.equal(M.fanout(6,1).makespan,18);assert.equal(M.fanout(6,1).time,38);assert.ok(M.fanout(6,1).tokens>M.fanout(5,1).tokens);assert.equal(M.fanout(7,1).time,39);
  const s=M.lpt(M.SUBQ,3);assert.equal(s.load.reduce((a,b)=>a+b,0),99);assert.equal(s.makespan,Math.max(...s.load));
 });
 test('drift: fidelity is (1-e)^(2d) and a canary catches 80% of drift',()=>{

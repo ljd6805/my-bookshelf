@@ -65,6 +65,7 @@ test('mcpCheck: 오류 코드와 전송 방식별 차이',()=>{
  const old=M.mcpCheck('oldversion','http');assert.equal(old.code,-32022);assert.deepEqual(old.data.supported,[M.MCP_VERSION]);assert.equal(old.http,400);assert.equal(M.mcpCheck('oldversion','stdio').http,null);
  const h=M.mcpCheck('header','http');assert.equal(h.code,-32020);assert.equal(h.http,400);assert.equal(M.mcpCheck('header','stdio').ok,true);
  assert.equal(M.mcpCheck('nometa','stdio').http,null);
+ assert.equal(M.mcpCheck('nometa','http').http,400);assert.equal(M.mcpCheck('noversion','http').http,400);
 });
 test('wilson과 kappa',()=>{
  const widths=[50,100,200,500,1000].map(n=>M.wilson(Math.round(n*0.9),n).width*100);

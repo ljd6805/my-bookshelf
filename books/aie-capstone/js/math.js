@@ -86,7 +86,7 @@ function gptParams(L,d,V=50257,ctx=1024,tied=true){
  const block=12*d*d+13*d,tok=V*d,pos=ctx*d,lnf=2*d,head=tied?0:V*d,total=L*block+tok+pos+lnf+head;
  return {block,blocks:L*block,tok,pos,lnf,head,total,bf16GB:total*2/1e9,trainGB:total*16/1e9};
 }
-/* 3장 슬라이딩 창 개수(원본 레슨 31): 길이 T+1 창을 보폭 S로 자른다. */
+/* 5장 · 슬라이딩 창 개수(원본 레슨 31): 길이 T+1 창을 보폭 S로 자른다. */
 const windowCount=(N,T,S)=>Math.max(0,1+Math.floor((N-(T+1))/S));
 /* 6장 · DPO. 두 응답(선호 w, 비선호 l)과 기준 정책 확률 refP. 보상 차 dr일 때 KL 규제 최적 정책은 π ∝ π_ref·exp(r/β). */
 function dpoPolicy(beta,dr,refP=0.5){

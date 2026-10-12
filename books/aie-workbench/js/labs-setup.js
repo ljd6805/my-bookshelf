@@ -31,8 +31,8 @@ const CU=[['none','드라이버 없음 (Mac·GPU 없음)'],['11.8','드라이버
 A01Labs.cuda=el=>{
  U.setup(el,S('driver','nvidia-smi가 보여 주는 드라이버 CUDA',CU,'12.1')+S('wheel','설치한 PyTorch 빌드',[['cpu','CPU 빌드'],['11.8','cu118 빌드'],['12.1','cu121 빌드'],['12.4','cu124 빌드']],'12.4'));
  U.bind(el,()=>{const d=U.text(el,'driver'),w=U.text(el,'wheel'),r=M.cudaCheck(d,w);
-  const items=[['드라이버 지원 CUDA',d==='none'?'없음':d,'nvidia-smi',d!=='none'],['PyTorch 빌드 CUDA',w==='cpu'?'CPU':w,'torch.version.cuda',w!=='cpu'],['import torch',r.runs?'성공':'실패','실행',r.runs],['cuda.is_available()',r.gpu?'True':'False','GPU 사용',r.gpu]];
-  U.result(el,U.rows(items,'드라이버와 빌드 비교 결과','드라이버와 빌드 비교'),`판정: <strong>${r.gpu?'GPU 사용 가능':'GPU 사용 불가'}</strong><br>${r.reason}<br>원본 레슨의 어림 규칙(빌드 CUDA ≤ 드라이버 CUDA)을 그대로 적용한 실제 비교입니다. 세부 호환 범위는 PyTorch 설치 안내에서 확인합니다.`);});
+  const items=[['드라이버 지원 CUDA',d==='none'?'없음':d,'nvidia-smi',d!=='none'],['PyTorch 빌드 CUDA',w==='cpu'?'CPU':w,'torch.version.cuda',w!=='cpu'],['import torch',r.runs?'성공':'실패','실행',r.runs],['cuda.is_available()',r.gpu?'True':d!=='none'&&w!=='cpu'&&r.sameMajor?'보장 안 됨':'False','GPU 사용',r.gpu]];
+  U.result(el,U.rows(items,'드라이버와 빌드 비교 결과','드라이버와 빌드 비교'),`판정: <strong>${r.gpu?'GPU 사용 가능':d!=='none'&&w!=='cpu'&&r.sameMajor?'규칙 위반 · GPU 사용 보장 안 됨':'GPU 사용 불가'}</strong><br>${r.reason}<br>원본 레슨의 어림 규칙(빌드 CUDA ≤ 드라이버 CUDA)을 그대로 적용한 실제 비교입니다. 세부 호환 범위는 PyTorch 설치 안내에서 확인합니다.`);});
 };
 function dag(base,m,e,r){
  const X=i=>40+i*62,yM=90,yE=190;let b='',prev=null;

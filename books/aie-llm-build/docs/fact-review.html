@@ -4,6 +4,38 @@
 <h1>팩트·출처 검수 기록 · LLM 직접 만들기</h1>
 <p>「AI 엔지니어링 처음부터」 11권(books/aie-llm-build)을 쓴 에이전트가 아닌 별도 검수 에이전트가 원본 레슨(phases/10-llms-from-scratch, MIT)과 인용 논문에 비추어 확인한 결과입니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build)" data-date="2026-10-12" data-scope="12개 장 본문·식·상세·혼동 상자·확인 문제, 16개 실험과 표지 실험, 출처 49개(InstructGPT는 원문 확인), 다른 책 링크 19개와 들어오는 링크 5개, 카탈로그의 장 색인·개념 6개·읽기 노선 1곳·시리즈, 브라우저 1280·390·320px" data-result="fixed">
+<h2>2026-10-12 편집팀 전체 도서 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build). 범위: 12개 장 본문·식·상세·혼동 상자·확인 문제, 16개 실험과 표지 실험, 출처 49개(InstructGPT는 원문 확인), 다른 책 링크 19개와 들어오는 링크 5개, 카탈로그의 장 색인·개념 6개·읽기 노선 1곳·시리즈, 브라우저 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다. 실험 대표값은 책 코드와 따로 Python으로 다시 구현해 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>InstructGPT 보상 모델 데이터 규모를 논문 원문으로 확인해 바로잡음. Llama 2·3 어휘, Llama 3 405B 병렬(8×16×128=16,384), Llama 2 SFT 설정, rope_theta 500,000, DeepSeek-V3 2,048장, Jamba 52B·12B를 알려진 값과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Korthikanti 활성값 380·36.5·14GB와 8.3%, ZeRO 120·31.4·16.6·1.9GB, 거품 15.8·18.75·43%, SFT 2.47·1.15·0.33, DPO 0.693·0.598·0.313, GRPO 43·18.5%, ELO 0.909, 추측 디코딩 3.36, Hogwild 5,550·0.63배, GPT-2 124,439,808, Llama 3 8B 8,030,261,248, Mixtral 46.70B·12.88B, KV 17.2GB·327,680바이트·9.2GB, 1.34TB, 되돌리기 246·6시간을 손계산으로 재확인</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>BPE를 Python으로 따로 구현: 398바이트 → 10회 276, 30회 187, 49회 뒤 149, 시험 문장 53바이트가 영어 병합표로 53, 한국어로 20토큰. 바이그램 V=57·ln V=4.043·바닥 0.914, Chinchilla 1.937·1.993과 최적 32.4B·93.6토큰/파라미터, 양자화(책의 가중치를 받아 numpy로) 4비트 텐서별 SNR 11.29dB·보통 행 평균 상대 오차 91.2%, 채널별 21.41dB가 모두 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>BPE·MinHash·ZeRO·활성값 재계산·거품·SFT·DPO·GRPO·양자화·추측 디코딩·MoE가 책 안에서 일관됨</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>arXiv 번호 23개 서지 대조, InstructGPT(arXiv 2203.02155)는 원문을 열어 RM 데이터 문장 확인. 나가는 링크 19개와 들어오는 링크 5개(ai·llm-gpu·aie-llm-apps·aie-capstone)의 도착 장 ID를 스크립트로 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#preference 상세 “RLHF 세 단계” (js/content.js)</td><td>원본을 따라 InstructGPT가 “비교 쌍 약 3만 3천 개”를 썼다고 적음</td><td>Ouyang et al. (2022): “the RM dataset has 33k training prompts”, 프롬프트마다 K = 4~9개 답에 순위를 매겨 모든 쌍(C(K,2))을 비교로 씀(2026-10-12 원문 확인)</td><td>3만 3천은 프롬프트 수이고 비교 쌍은 그보다 훨씬 많다고 밝힘(원본 문장은 출처 표시와 함께 남김)</td></tr>
+<tr><td>index.html</td><td>자산 버전</td><td>책 파일 수정</td><td>js·css ?v=를 20261012-edit로 통일</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul>
+<li>기획·연결 (서윤·하람·도현·민재): 마지막 장은 되돌릴 범위를 계산하고 먼저 확인할 원인과 증거를 쓰는 과제입니다. 장 색인 12개, 공통 개념 6개, 노선 “LLM을 만들고 제품의 도구로 엮기”의 #preference 정거장(m −2·0·2, β 0.1·0.5는 실험 범위 안), 시리즈 11권 항목이 있습니다.</li>
+<li>조사 (은재·지호·유진): 원본 오류를 옮기지 않는다는 책 규칙(16바이트, Llama 3 데이터 구성, CCNet 필터)이 지켜지고 있습니다.</li>
+<li>글작성 (나래·준서·다온·예린): 장 연결과 일곱 블록, 이어 읽기의 이동 이유가 모두 있습니다.</li>
+<li>시각·실험 (리안·하늘·소율·채원): tests/browser.cjs를 포트 8106의 로컬 서버로 실행해 1280·390·320px에서 화면 42개·실험 확인 48회, 콘솔 오류 0, 가로 넘침 없음, 서가 복귀 버튼 표시를 확인했습니다(증거 파일은 저장소의 docs/evidence를 덮어쓰지 않도록 임시 폴더에 남김).</li>
+<li>규칙 감사 (현석): npm test 26개 통과, python3 scripts/validate.py 오류 0.</li>
+</ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul>
+<li>Differential Transformer 출처의 연도 “(2025)”는 arXiv 게재(2024년 10월)가 아니라 ICLR 2025 기준입니다. 표기 방침을 정해 주시면 맞추겠습니다.</li>
+<li>카탈로그 노선 할 일의 “기울기가 거의 사라지는 지점”은 실험 범위(m ≤ 6)에서 β=0.1이면 기울기가 0.035까지만 내려갑니다. “기울기가 가장 작아지는 쪽”으로 다듬는 것을 제안합니다(data/catalog.json, 서가 담당).</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>InstructGPT 외의 논문은 이번 회차에서 열지 않았습니다. 차등 어텐션 V2(2026년 1월), Constitutional AI 원칙 16개, LLM 심판 80% 일치, MTP 수락률 80%, A100 교차점 156, DeepSeek-V3 활용률 95%는 원본 기준 표시를 그대로 두었습니다. MinHash 추정값과 ELO 곡선은 시드 의존이라 경향만 확인했습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-build)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build)" data-date="2026-10-08" data-scope="12개 장 본문·식·세부·확인 문제, 16개 실험과 안내 상자, 표지 실험, 그림 캡션, 용어집, 출처 49개, 다른 책 링크 19개" data-result="fixed">
 <h2>2026-10-08 검수</h2>
 <p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-build). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build). 범위: 12개 장 본문·식·세부·확인 문제, 16개 실험과 안내 상자, 표지 실험, 그림 캡션, 용어집, 출처 49개, 다른 책 링크 19개.</p>

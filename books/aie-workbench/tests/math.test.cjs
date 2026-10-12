@@ -16,7 +16,7 @@ test('resolveEnv: global install overwrites, separate envs both work',()=>{
 });
 test('cudaCheck: wheel CUDA must not exceed driver CUDA',()=>{
  assert.equal(M.cudaCheck('12.4','12.1').gpu,true);assert.equal(M.cudaCheck('12.4','12.4').gpu,true);
- assert.equal(M.cudaCheck('12.1','12.4').gpu,false);assert.equal(M.cudaCheck('none','12.1').gpu,false);
+ assert.equal(M.cudaCheck('12.1','12.4').gpu,false);assert.equal(M.cudaCheck('12.1','12.4').sameMajor,true);assert.equal(M.cudaCheck('11.8','12.1').sameMajor,false);assert.equal(M.cudaCheck('11.8','12.1').gpu,false);assert.equal(M.cudaCheck('none','12.1').gpu,false);
  assert.equal(M.cudaCheck('12.4','cpu').gpu,false);assert.equal(M.cudaCheck('11.8','cpu').runs,true);
 });
 test('gitMerge: fast-forward only when main did not move',()=>{

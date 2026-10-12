@@ -83,6 +83,15 @@ test('GRPO group advantages have zero mean, unit spread, and vanish when all rew
 test('home: discount decides near charger or far exit, switching near gamma = 0.2^(1/4)',()=>{
  assert.equal(M.homeGamma(0.6).target,'near');assert.equal(M.homeGamma(0.7).target,'far');near(M.homeGamma(0.5).threshold,Math.pow(0.2,0.25));
 });
+test('final task: the wet-floor fix keeps the robot working on a dry floor',()=>{
+ const r=M.finalCase('slip','dr');near(r.before,-201.44,0.05);near(r.after,-43.4,0.05);
+ near(r.dry.before,-12.25,0.05);near(r.dry.after,-14.0,0.05);assert.ok(r.dry.after>-20,'not the over-cautious policy');
+ const x=M.finalCase('slip','beta');assert.equal(x.dry.after,x.dry.before);assert.equal(M.finalCase('hack','beta').dry,null);
+});
+test('GAE bias counts only the bootstrapped later states: c(1-λ^(T-1))',()=>{
+ near(M.gaeStats(0,1).bias,1,1e-12);near(M.gaeStats(1,1).bias,0,1e-12);near(M.gaeStats(0.95,3).bias,3*(1-Math.pow(0.95,19)),1e-12);
+ near(M.gaeStats(0,1).variance,1,1e-12);near(M.gaeStats(1,1).variance,20,1e-12);
+});
 test('final task: only the matching fix moves the failing metric',()=>{
  for(const [rep,fix] of [['slip','dr'],['hack','beta'],['stuck','eps']]){const ok=M.finalCase(rep,fix);assert.ok(ok.matched&&ok.after>ok.before,rep);
   for(const f of ['dr','beta','eps','gamma'])if(f!==fix){const x=M.finalCase(rep,f);assert.equal(x.after,x.before);assert.equal(x.matched,false);}}

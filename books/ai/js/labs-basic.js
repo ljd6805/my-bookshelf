@@ -29,7 +29,7 @@ L.descent=el=>{
 L.overfit=el=>{
  const xs=[-1,-.72,-.43,-.14,.14,.43,.72,1],ys=xs.map((x,i)=>Math.sin(x*3)+[.2,-.13,.18,-.15,.12,-.17,.14,-.23][i]);
  const mean=M.sum(ys)/8,slope=M.dot(xs,ys)/M.dot(xs,xs);
- U.setup(el,U.range('complexity','補간 곡선의 반영 비율',0,1,.02,0).replace('補간','보간'));
+ U.setup(el,U.range('complexity','보간 곡선의 반영 비율',0,1,.02,0));
  U.bind(el,()=>{const a=U.value(el,'complexity'),fn=x=>(1-a)*(slope*x+mean)+a*M.lagrange(xs,ys,x),train=M.sum(xs.map((x,i)=>(fn(x)-ys[i])**2))/8,val=M.sum(U.series(x=>(fn(x)-Math.sin(3*x))**2,-1,1,100).map(p=>p[1]))/101;
  el.querySelector('.chart').innerHTML=U.plot({lines:[{data:U.series(fn,-1,1,160)},{data:U.series(x=>Math.sin(3*x),-1,1),color:'var(--blue)',dashed:true}],points:xs.map((x,i)=>[x,ys[i]]),xmin:-1.1,xmax:1.1,ymin:-1.8,ymax:1.8,xlabel:'입력 x',ylabel:'출력 y'});
  el.querySelector('.readout').innerHTML=`훈련 MSE <b>${U.fmt(train,4)}</b> · 검증 MSE <b>${U.fmt(val,4)}</b><br>청록: 직선과 7차 보간 다항식의 혼합 · 파란 점선: 실제 기저 함수. 비율 1에서는 훈련 점을 모두 통과합니다.`;});

@@ -22,14 +22,14 @@ function breakeven(u,price,o={}){
 }
 function nuriUtil(){const perDay=NURI.daily*(NURI.prefix+NURI.dynamic+NURI.output);return {tokensPerDay:perDay,tokPerSec:perDay/86400,util:perDay/86400/NURI.tput};}
 
-/* 2장: 청크 프리필. 긴 프롬프트 하나가 들어올 때 이웃 디코드가 겪는 토큰 간격 */
+/* 3장: 청크 프리필. 긴 프롬프트 하나가 들어올 때 이웃 디코드가 겪는 토큰 간격 */
 function chunkedPrefill(len,chunk,o={}){
  const rate=o.rate||NURI.prefillRate,d0=o.d0||NURI.decodeMs,c=chunk>0?Math.min(chunk,len):len,n=Math.ceil(len/c);
  const iter=d0+c/rate,ttft=n*d0+len/rate;
  return {chunk:c,chunks:n,iter,ttft,stall:iter,neighborTokens:n,prefillOnly:len/rate};
 }
 
-/* 3장: HBM 예산. 가중치 형식, KV 정밀도, 동시 요청 수 */
+/* 2장: HBM 예산. 가중치 형식, KV 정밀도, 동시 요청 수 */
 const FORMATS={bf16:['BF16',2],fp8:['FP8',1],int4:['INT4 (AWQ·GPTQ)',0.5],nvfp4:['NVFP4 (16개마다 FP8 배율)',0.5625]};
 function kvBytesPerToken(bytes,cfg=NURI){return 2*cfg.layers*cfg.kvHeads*cfg.headDim*bytes;}
 function hbmBudget(fmt,kvB,conc,o={}){
@@ -37,7 +37,7 @@ function hbmBudget(fmt,kvB,conc,o={}){
  const room=cfg.hbm-w-cfg.act;
  return {weights:w,act:cfg.act,kvSeq,kv,total,fits:total<=cfg.hbm,maxConc:room<0?-1:Math.floor(room/kvSeq),hbm:cfg.hbm};
 }
-/* 3장: 대역폭이 정하는 디코드 상한. 토큰 하나마다 가중치를 한 번 다 읽는다고 가정 */
+/* 2장: 대역폭이 정하는 디코드 상한. 토큰 하나마다 가중치를 한 번 다 읽는다고 가정 */
 function edgeCeiling(bw,paramsB,bits=4){const gb=paramsB*bits/8;return {modelGB:gb,tokS:bw/gb,msPerTok:gb/bw*1000};}
 
 /* 4장: 합성 지연 분포에서 goodput 계산 */

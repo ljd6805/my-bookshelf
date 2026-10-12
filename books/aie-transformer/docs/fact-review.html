@@ -4,6 +4,38 @@
 <h1>팩트·출처 검수 기록 · 트랜스포머 깊이 보기</h1>
 <p>「AI 엔지니어링 처음부터」 08권(books/aie-transformer/)을 쓰지 않은 검수 에이전트가 원본 Phase 7 레슨 16개, 원본이 인용한 논문 초록, 책의 계산 코드에 비추어 확인한 결과입니다. 규칙은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer)" data-date="2026-10-12" data-scope="12개 장 본문·식·깊이 읽기·확인 문제·다른 책 연결, 16개 실험(js/math.js·lab-guides.js 결과 읽기), 출처 57개의 장별 번호, 카탈로그 장 색인·개념·읽기 노선 항목, 브라우저 1280·390·320px" data-result="passed">
+<h2>2026-10-12 편집팀 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer). 범위: 12개 장 본문·식·깊이 읽기·확인 문제·다른 책 연결, 16개 실험(js/math.js·lab-guides.js 결과 읽기), 출처 57개의 장별 번호, 카탈로그 장 색인·개념·읽기 노선 항목, 브라우저 1280·390·320px.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>GPT-3 175B·300B, Chinchilla 70B·1.4T, Llama 3 8B 15T(1,875), Llama 3 70B 헤드 64·KV 8, Mixtral 8×22B 39B/141B, DeepSeek-V3 37B/671B·공유 1+라우팅 256 중 8, Kimi K2, ModernBERT(지역 128·8,192·GeGLU·사전 LayerNorm), ViT-Base 86M·Large 307M, Whisper turbo 809M, ALiBi 기울기, Gemma 3 창 1,024·5:1, PyTorch 2.5 enable_gqa를 알려진 공식 문헌과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>본문·확인 문제 수치(세 칸 앞, 1,024토큰 10단계, √256 = 16, 0.11·0.87·6.57B, 10,000토큰 중 [MASK] 기대 1,200, 257토큰, 671B fp16 ≈ 1.3TB, KV 10.7GB, 5×3 + 30 = 45 ms 대 150 ms, 3.29토큰, 800K 파라미터·ln 65 ≈ 4.2)를 Python으로 다시 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>js/math.js를 쓰지 않는 Python으로 재계산: KV 10.74·343.6·7.44GB, Chinchilla 최적 비율 10¹⁹ 32·10²³ 78(손실 2.005)·10²⁶ 153과 비율 1.7(+0.055, 6.78배)·1,875(+0.040, 0.2배), 추측 디코딩 2.19·1.11·1.46·3.40배, 설계 GQA 10.13GB·추측 1.821배, 패치 197·785·729(가장자리 6), 마스크 49·6·21칸. √d_k 실험은 독립 몬테카를로(2,000회)로 89%·40%·97%와 같은 경향을 확인(책은 시드 고정 200회)</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>셀프 어텐션·잔차·인과 마스크·교차 어텐션·전문가 혼합·추측 디코딩·과잉 학습·퍼플렉서티의 한영 대응과 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>장별 source 번호 범위와 장 내용 대응, 나가는 링크 18개(+1개 추가)의 도착 앵커를 각 책 book-routes로 검사, 들어오는 링크 6개 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#encdec 더 읽어 보기 (편집 보강, 오류 아님)</td><td>Whisper 흐름을 다루면서 같은 시리즈 07권의 Whisper 장으로 가는 길이 없음</td><td>책 사이 연결 규칙(양방향 링크)</td><td>../aie-audio/#whisper 링크를 이동 이유와 함께 추가</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul>
+<li><b>기획·연결팀 (서윤·하람·도현·민재)</b>: 마지막 과제(새 요구 세 가지에 설계표의 칸 고르기)와 답을 쓰는 틀이 있어 끝의 행동이 관찰 가능합니다. 장 색인 12장, 공통 개념 6개, 읽기 노선 정거장 #selfattn의 과제(d_k 16~512, 나눔·나누지 않음, 기울기 합)가 scale 실험의 선택지와 출력에 맞습니다. KV 캐시는 llm-gpu, 어텐션 직관은 AI Book으로 넘기고 짧게 요약해 겹침을 관리합니다.</li>
+<li><b>지식조사팀 (은재·지호·유진)</b>: 시점 민감 정보(Flash 4, MoE 비중, 2026 요인)에 원본 기준·확인일이 붙어 있습니다. 새 사실 오류는 찾지 못했습니다.</li>
+<li><b>수치·실험 (수아·건우·시우)</b>: 16개 실험과 본문 수치가 독립 재계산과 일치합니다. 실제 계산/교육용 가정(시드 고정 벡터, 라우터 치우침, 대역폭 어림)이 결과 문장에 밝혀져 있습니다.</li>
+<li><b>글작성팀 (나래·준서·다온·예린)</b>: 12장 모두 앞 장 결과로 시작해 다음 장 질문으로 끝나고 일곱 블록 필드가 채워져 있습니다. 확인 문제는 계산·적용형이 대부분입니다.</li>
+<li><b>시각·실험팀 (리안·하늘·소율·채원)</b>: 브라우저(Playwright·Chromium, 포트 8105): 책의 tests/browser.cjs로 1280·390·320px에서 표지·전체 목차·참고 자료와 12개 장(화면 42개)을 열어 가로 넘침 없음, 머리말 서가 복귀 버튼 보임, 장마다 그림 1개, 실험 16개의 예제·입력 최솟값·최댓값·초기화(48회)에서 NaN·undefined 없음과 초기화 후 원래 결과 복귀를 확인했습니다. 별도 스크립트로 320px의 15개 경로에서 이름 없는 SVG·입력 0개, 서가 복귀 버튼 66×36px로 화면 안, 콘솔 오류 0건, Tab 키로 실험 단추까지 초점 이동을 확인했습니다. 수정 뒤 다시 돌려 같은 결과를 얻었습니다.</li>
+<li><b>규칙 감사관 (현석)</b>: npm test(node --test tests/*.test.cjs) 25개 통과, python3 scripts/validate.py “116 HTML files checked; 0 errors”, build_catalog.py --check “Catalog HTML is current”. 고친 파일이 있어 index.html의 책 js/css ?v=를 모두 20261012-edit로 올렸습니다(공통 type.css 버전은 그대로).</li>
+</ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul>
+<li>#memory 깊이 읽기의 FlashAttention 배수(“A100에서 2배”, “3배”)는 무엇과 비교한 배수인지 밝히지 않았습니다. 원본 기준 표기지만 비교 대상을 적을지 판단이 필요합니다.</li>
+<li>책 폴더 밖 변경은 필요하지 않습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>외부 URL은 열지 않았고 논문은 알려진 서지로만 대조했습니다. Medusa·EAGLE·Lookahead 배수, FlashAttention 버전별 배수, SwiGLU 퍼플렉서티 0.5 같은 원본 성능 수치는 독립 측정과 대조하지 않았습니다. 학습 효과는 사람 검토가 필요해 확인하지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-transformer)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer)" data-date="2026-10-08" data-scope="12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 그림 캡션, 용어집, 출처 56개(검수 때 1개 추가)와 다른 책 링크 15개" data-result="fixed">
 <h2>2026-10-08 검수</h2>
 <p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-transformer). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer). 범위: 12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 그림 캡션, 용어집, 출처 56개와 다른 책 링크 15개.</p>
