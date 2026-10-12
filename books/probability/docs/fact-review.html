@@ -5,6 +5,22 @@
 <h1>팩트·출처 검수 기록 · 확률과 통계 · 경보가 울렸다, 정말 고장일까</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-review-quiz" data-reviewer="Claude (복습 퀴즈 검수 세션)" data-author="Claude (복습 퀴즈 집필 세션)" data-date="2026-10-12" data-scope="review.json 복습 퀴즈 20문항(장 10개)" data-result="passed">
+<h2>2026-10-12 검수 (복습 퀴즈)</h2>
+<p>검수자: Claude (복습 퀴즈 검수 세션). 집필자: Claude (복습 퀴즈 집필 세션). 범위: review.json 복습 퀴즈 20문항(장 10개). 문항마다 정답 번호, 다른 보기가 함께 정답이 될 여지, 장 본문·실험과의 일치, 해설의 참·거짓, 한국어 문장을 확인했습니다. 수치는 해설을 믿지 않고 Python과 책의 계산 모듈(Node)로 따로 다시 계산했습니다.</p>
+<p>정답 20개는 모두 맞고 다른 보기가 함께 정답이 되는 문항은 없었습니다. 수치와 해설, 장 본문 용어가 일치해 고친 문항이 없습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>큰 수의 법칙 해석, 이항분포의 독립 가정, 신뢰수준과 포함률, p값과 “효과 없음”의 구분, 우도와 사후확률의 구분, 교란 변수 설명을 각 장 본문·경고 문장과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 다시 계산: B(10, 0.2) P(X ≤ 3) = 0.8791·P(X = 4) = 0.0881·P(X ≥ 4) = 0.1209, 0.9·0.001 ÷ (0.9·0.001 + 0.05·0.999) = 0.0177, 0.99·0.01 ÷ (0.0099 + 0.0495) = 0.1667, B(40, 0.1) P(X = 0) = 0.0148·P(X ≤ 1) = 0.0805, Wilson n = 20·k = 0 위 끝 1.96² ÷ (20 + 1.96²) = 0.1611, 손실(4/50) q = 0.04·0.08·0.20 → 0.2951·0.2788·0.3340, U자 자료 Σx(y − ȳ) = 0, 고장률 5%에서 0.0475 ÷ 0.0855 = 0.5556(2%에서는 0.3265), 표준오차 0.4 → 0.1은 n × 16 = 400</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>문항의 기준값(감지율 90%·오경보율 5%·고장률 1% → 15.4%, 마지막 과제 새 센서 95%·4%, 고장률 2% → 32.6%, 손실 식 −[k ln q + (n − k) ln(1 − q)] ÷ n)이 content.js 본문·예시와 js/inference.js 계산과 같음을 확인</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>p̂·표준편차 s·표준오차 σ/√n·Wilson 구간·검정력·교차 엔트로피·교란 변수가 책 본문 표기와 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>복습 퀴즈는 외부 출처를 인용하지 않습니다. 사실 근거는 책 본문과 실험 코드입니다.</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<p>고칠 오류를 찾지 못했습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul><li>문항의 학습 효과(L4)는 독자 시험 없이 판단하지 않았습니다.</li><li>assets/book-study.js가 review.json을 화면에 그리는 동작(보기 순서·정답 표시)은 브라우저에서 확인하지 않았습니다. 이 회차는 문항 내용만 봅니다.</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="7장 testing 본문 “여러 번 검정하기” 문단·실험 아래 “센서 여러 대” 칸(labs-b.js multiPanel)·explain·guides 결과 읽기, inference.js familywiseError·bonferroni·exactTestSize·anyRejectionRate, 1~8장 warning(혼동하지 마세요) 8개, 새 출처 NIST/SEMATECH e-Handbook 7.4.7.3" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할, 문체는 다온 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 7장 testing 본문 “여러 번 검정하기” 문단·실험 아래 “센서 여러 대” 칸(labs-b.js multiPanel)·explain·guides 결과 읽기, inference.js familywiseError·bonferroni·exactTestSize·anyRejectionRate, 1~8장 warning(혼동하지 마세요) 8개, 새 출처 NIST/SEMATECH e-Handbook 7.4.7.3.</p>

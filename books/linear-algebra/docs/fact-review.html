@@ -5,6 +5,22 @@
 <h1>팩트·출처 검수 기록 · 벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-review-quiz" data-reviewer="Claude (복습 퀴즈 검수 세션)" data-author="Claude (복습 퀴즈 집필 세션)" data-date="2026-10-12" data-scope="review.json 복습 퀴즈 22문항(장 11개)" data-result="passed">
+<h2>2026-10-12 검수 (복습 퀴즈)</h2>
+<p>검수자: Claude (복습 퀴즈 검수 세션). 집필자: Claude (복습 퀴즈 집필 세션). 범위: review.json 복습 퀴즈 22문항(장 11개). 문항마다 정답 번호, 다른 보기가 함께 정답이 될 여지, 장 본문·실험과의 일치, 해설의 참·거짓, 한국어 문장을 확인했습니다. 수치는 해설을 믿지 않고 Python과 책의 계산 모듈(Node)로 따로 다시 계산했습니다.</p>
+<p>정답 22개는 모두 맞고 다른 보기가 함께 정답이 되는 문항은 없었습니다. 오답 보기마다 해설이 밝힌 실수(행·열 바꿈, 순서 바꿈, 1/det 누락 등)가 실제로 그 값을 내는지도 확인했습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>코사인 0의 뜻, 대각행렬끼리의 교환, 행렬식의 곱셈 성질, 비정사각 행렬에 행렬식이 없음, 주성분이 단위에 따라 바뀜을 각 장 본문과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>NumPy로 다시 계산: 평균 (0.25, 0.25)에서 여덟 곡까지 거리(출근 지하철 1.061 최소, 새벽 산책·아침 달리기 2.151), 거리 √2.5 = 1.581, 225° 투영 1위 자장가 3.889·2위 비 오는 창가 3.182, 5/√5 = 2.236, [2, 0 ; 1, 1]·(1, 2) = (2, 3), 밀기 후 뒤집기 (3, −2)·반대 순서 (−1, −2), det 5, (4, 2)의 역변환 (3, 1), 고윳값 5·2, 네 점 공분산 [2, 0 ; 0, 0.5](n으로 나눔, 책 9장과 같은 약속) → 80%, 빠르기 10배 시 분산 433.98·첫째 주성분 4.6°, 3차원 코사인 −1 ÷ (3 × 1.2247) = −0.272</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>js/songs.js의 노래 좌표·나의 취향 (1, 2)·가사 비중, lab-views.js의 민의 취향 (1, 2, −2)와 문항 값이 같음. 10장 취향 점수 3.578·3.354·2.236으로 b₁ = −2에서 세 곡, −3에서 두 곡이 양수임을 확인</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>기저 벡터 e₁·e₂, 열로 읽는 행렬, 행렬식, 역행렬, 고윳값·고유벡터, 주성분, 편향·ReLU가 책 표기와 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>복습 퀴즈는 외부 출처를 인용하지 않습니다. 사실 근거는 책 본문과 실험 코드입니다.</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<p>고칠 오류를 찾지 못했습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul><li>문항의 학습 효과(L4)는 독자 시험 없이 판단하지 않았습니다.</li><li>assets/book-study.js가 review.json을 화면에 그리는 동작(보기 순서·정답 표시)은 브라우저에서 확인하지 않았습니다. 이 회차는 문항 내용만 봅니다.</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="6장 determinant 절 “두 열이 만드는 범위: 생성·일차독립·랭크”·이해 확인 [1, 2 ; 2, 4]·실험 결과 칸의 랭크(labs-2.js, lab-views.js), 7장 inverse 절 “길이를 지키는 변환: 회전 행렬과 직교행렬”·이해 확인 30° 되돌리기, 마지막 과제 이해 확인 “넷째 특징 빠르기 + 에너지”, linalg.js rank2·transpose. 새 출처 없음" data-result="passed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할, 문체는 다온 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 6장 determinant 절 “두 열이 만드는 범위: 생성·일차독립·랭크”·이해 확인 [1, 2 ; 2, 4]·실험 결과 칸의 랭크(labs-2.js, lab-views.js), 7장 inverse 절 “길이를 지키는 변환: 회전 행렬과 직교행렬”·이해 확인 30° 되돌리기, 마지막 과제 이해 확인 “넷째 특징 빠르기 + 에너지”, linalg.js rank2·transpose. 새 출처 없음.</p>

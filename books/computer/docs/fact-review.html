@@ -5,6 +5,24 @@
 <h1>팩트·출처 검수 기록 · 컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-review-quiz" data-reviewer="Claude (복습 퀴즈 검수 세션)" data-author="Claude (복습 퀴즈 집필 세션)" data-date="2026-10-12" data-scope="review.json 복습 퀴즈 18문항(장 9개)" data-result="fixed">
+<h2>2026-10-12 검수 (복습 퀴즈)</h2>
+<p>검수자: Claude (복습 퀴즈 검수 세션). 집필자: Claude (복습 퀴즈 집필 세션). 범위: review.json 복습 퀴즈 18문항(장 9개). 문항마다 정답 번호, 다른 보기가 함께 정답이 될 여지, 장 본문·실험과의 일치, 해설의 참·거짓, 한국어 문장을 확인했습니다. 수치는 해설을 믿지 않고 Python과 책의 계산 모듈(Node)로 따로 다시 계산했습니다.</p>
+<p>정답 18개는 모두 맞고 다른 보기가 함께 정답이 되는 문항은 없었습니다. 문항 하나의 낱말이 두 가지로 읽혀 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>클럭 가장자리 저장(memory), GHz는 박자 수(memory), 인코딩 오독(encoding)이 본문 경고 문장과 맞는지 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>2⁹ = 512, 자리값 4 비트는 네 번에 한 번 바뀜, FP16 4097 → 4096(4096~8192 간격 4, Python struct "e"로도 4096), 6 + 13 + 1 = 20 → 0100·자리올림 1, 1110 + 0011 → 0001(−2 + 3), 0.9 × 1 + 0.1 × 100 = 10.9, 70 × 4 = 280 → 24 를 따로 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>js/cpu.js·cache.js·model.js를 Node로 실행: 1번 칸 63(SUB 15) → 출력 255·C=1, NOP 삽입 시 OUT 실행이 12단계째(명령마다 가져오기·해독·실행), 7번 칸 JMP 4 → 500단계 초과 오류, 15번 칸 0 → 명령 5개·출력 0(8n + 5), 14번 칸 70·15번 칸 4 → 24, 100 × 3 → 44이고 끝난 뒤 C=0(마지막 LDA 15가 C를 0으로 되돌림), 반복 8바이트·4줄·1바이트 줄 → 적중률 0</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>책 본문 용어(ACC, PC, C 깃발, 쓰기 허용, 적중·실패, 2의 보수)와 대조하고 문장을 다시 읽음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>복습 퀴즈는 외부 출처를 인용하지 않습니다. 사실 근거는 책 본문과 실험 코드입니다.</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>encoding #0</td><td>“한글 파일”은 한글 워드프로세서 문서(.hwp)로도 읽혀, 파일 형식 문제로 오해할 여지가 있음</td><td>이 장은 텍스트 바이트의 인코딩만 다룸</td><td>“한글 텍스트 파일”로 고침</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<ul><li>문항의 학습 효과(L4)는 독자 시험 없이 판단하지 않았습니다.</li><li>assets/book-study.js가 review.json을 화면에 그리는 동작(보기 순서·정답 표시)은 브라우저에서 확인하지 않았습니다. 이 회차는 문항 내용만 봅니다.</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="4장 adder “같은 덧셈기로 빼기” 문단 2개·실험 연산 단추(SUB=0/1)·예제 7 − 3, 3 − 7·결과 문장(labs-circuit.js adderSummary)·안내 문장, model.js rippleSub와 rippleAdd carry-in 인자, 7장 programs “코드 한 줄이 명령 여러 개가 되기” 문단 2개와 대응표(aside). 새 출처 없음" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할, 문체는 다온 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 4장 adder “같은 덧셈기로 빼기” 문단 2개·실험 연산 단추(SUB=0/1)·예제 7 − 3, 3 − 7·결과 문장(labs-circuit.js adderSummary)·안내 문장, model.js rippleSub와 rippleAdd carry-in 인자, 7장 programs “코드 한 줄이 명령 여러 개가 되기” 문단 2개와 대응표(aside). 새 출처 없음.</p>
