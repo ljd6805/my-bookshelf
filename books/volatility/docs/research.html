@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="가격은 어떻게 흔들리는가 · 수익률과 변동성의 수학의 사실 표, 오해 목록, 계산기 기준값, 교과과정 비교 자료, 확인하지 못한 것, 출처 목록.">
+<title>조사 노트 · 가격은 어떻게 흔들리는가</title>
+<link rel="stylesheet" href="../../../assets/project-docs.css">
+<style>
+  table{border-collapse:collapse;width:100%;margin:12px 0 24px}
+  th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}
+  .ok{font-weight:600}
+  .num{font-family:var(--font-mono,monospace)}
+  .wrap{overflow-x:auto}
+  code{font-family:var(--font-mono,monospace)}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">가격은 어떻게 흔들리는가 · 제작 문서</a><a href="../index.html">책 읽기</a></header>
+<main style="max-width:1100px;margin:auto;padding:32px 16px">
+<p><a href="index.html">제작 문서로 돌아가기</a></p>
+<h1>조사 노트 · 가격은 어떻게 흔들리는가</h1>
+
+<section id="intro">
+<h2>이 노트에 대하여</h2>
+<p>지식조사팀장 은재가 G2 목차(<a href="index.html#curriculum">제작 문서 2절</a>)를 받아 정리했습니다. 확인일은 모두 <b>2026-10-12</b>입니다. 범위는 이 책의 본문과 <code>js/math.js</code>가 기대는 수학(단순·로그 수익률, 표준편차와 연율화, ATR, 무작위 보행, AR(1), 자기상관의 띠, 분산비, 통과 횟수, 최대 낙폭), 레버리지·인버스 상품의 일일 재조정에 관한 공식 자료와 국내 거래 요건, 실제 수익률의 두꺼운 꼬리·자기상관·평균 회귀에 관한 연구입니다.</p>
+<p>출처 등급은 4·12권 조사 노트와 같습니다. <b>공식 원문 확인</b>은 감독기관·연구기관·운용사 공시처럼 제도나 상품을 책임지는 기관의 글, 또는 교재·논문 원문(저자 페이지나 학술지의 초록 포함)을 직접 읽은 경우, <b>보도로 확인</b>은 기사·증권사 블로그·위키백과처럼 2차 자료로만 확인한 경우, <b>확인 못함</b>은 원문을 읽지 못했거나 자료끼리 어긋나 판단을 미룬 경우입니다. 교재에 흔히 나오는 공식을 이번에 원문으로 열지 못하고 계산으로만 확인한 행은 <b>계산으로 확인</b>이라고 따로 적었습니다.</p>
+<p>이번 환경에서 금융위원회 누리집(robots 제한), SIAM 학술지 페이지(robots 제한), 공개 시세 데이터(stooq.com, 프록시가 연결 거부), 포스텍 저장소(자바스크립트 필요), Zivot 강의 계획서 페이지(오류)는 열리지 않았습니다. 그래서 <b>실제 지수의 첨도·자기상관을 직접 계산하지 못했고</b>, 책에는 연구에 보고된 수치만 씁니다.</p>
+<p><b>시점에 민감한 항목</b>에는 ⏱를 붙였습니다. 특히 레버리지 상품의 기본예탁금·사전교육·거래 단위는 2026년에 여러 번 바뀌었고 자료끼리 날짜가 어긋나므로, 책을 고칠 때마다 공식 출처로 다시 확인해야 합니다.</p>
+<p>사실 표의 “장” 칸은 그 행을 쓰는 장의 ID(returns, drag, measure, walk, tails, revert, trend, cross, drawdown, final)입니다. 참고한 교재·논문·공지는 사실 확인에만 썼고, 책의 문장과 예시는 구조만 참고해 새로 씁니다. 이 책은 특정 상품·운용사·증권사를 권하지 않습니다.</p>
+</section>
+
+<section id="facts">
+<h2>사실 표</h2>
+<h3 id="facts-math">수익률과 흔들림의 수학</h3>
+<div class="wrap">
+<table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>내용</th><th>출처</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>1-1</td><td>returns</td><td>단순 수익률과 연속 복리(로그) 수익률</td><td>단순 수익률 R<sub>t</sub> = (P<sub>t</sub> − P<sub>t−1</sub>)/P<sub>t−1</sub>, 연속 복리 수익률 r<sub>t</sub> = ln(1 + R<sub>t</sub>) = ln P<sub>t</sub> − ln P<sub>t−1</sub>. 두 기간의 단순 총수익은 두 기간 총수익(1 + R)의 곱. 교재는 로그 수익률을 “로그 가격의 1차 차분”으로 계산할 수 있다고 씀. 여러 기간의 로그 수익률이 더해진다는 것은 이 정의에서 바로 나오며(로그 가격 차분의 합), 교재 문장으로는 확인하지 않음.</td><td>[S1]</td><td class="ok">공식 원문 확인 (교재). 합산 성질은 계산으로 확인(V-1)</td></tr>
+<tr><td>1-2</td><td>returns</td><td>어느 수익률을 언제 쓰나</td><td>교재 1장 머리말: 실무의 돈·포트폴리오 계산에는 보통 단순 수익률을 쓰지만 수학·통계 모형에는 성질이 좋은 연속 복리 수익률을 씀. 포트폴리오 수익률이 단순 수익률의 가중 평균이라는 문장(1.3절)은 이번에 열지 못함.</td><td>[S1] [S2]</td><td>공식 원문 확인 (앞 문장). 포트폴리오 절은 확인 못함</td></tr>
+<tr><td>1-3</td><td>returns · drag</td><td>산술 평균과 기하 평균, σ²/2 어림</td><td>+50%·−50%의 산술 평균 0%, 실제 −25%(1권 8장). 기하 평균 ≈ 산술 평균 − σ²/2는 로그의 2차 근사에서 나오는 어림. 이번에 이 어림을 쓴 교재 원문은 열지 못함. 레버리지 쪽 연속 시간식(2-4)이 같은 σ² 항을 가짐.</td><td>1권 #cagr, [S16]</td><td>계산으로 확인</td></tr>
+<tr><td>1-4</td><td>measure</td><td>연율화와 거래일 관례</td><td>한 기간 표준편차 × √(1년의 기간 수). “1년 252거래일”이 흔한 가정. √시간 연율화는 분산이 유한한 독립 증분(무작위 보행)에서 맞는 외삽이고, 실제 자산은 음의 왜도와 두꺼운 꼬리 때문에 이 공식이 낙관적이 되기 쉽다는 단서.</td><td>[S10]</td><td>보도로 확인 (위키백과)</td></tr>
+<tr><td>1-5 ⏱</td><td>measure</td><td>국내 문서의 √250</td><td>국내 공모펀드 투자설명서 정정 공시: 투자위험등급의 변동성을 “최근 결산일 기준 과거 3년간 일간 수익률에서 2.5퍼센타일에 해당하는 손실률의 절대값에 연환산보정계수(√250)를 곱해 산출”(97.5% VaR, 등급 문턱 50%·30%·20%·10%·1%). 정정 전 방식은 “과거 3년(156주)간 주간 수익률의 연환산 표준편차”(문턱 25%·15%·10%·5%·0.5%). 정정 후 방식 적용 예정일 2025-01-22. 책은 이 √250을 기본 연율화 계수로 쓰고 252를 견줌.</td><td>[S11]</td><td class="ok">공식 원문 확인 (운용사 공시 문서, 은행 누리집 게시본). 협회 규정 원문은 읽지 못함</td></tr>
+<tr><td>1-6</td><td>measure</td><td>국내 증시의 1년 거래일 수</td><td>연말 휴장 보도만 확인(2025-12-31 휴장, 2026-01-02 10시 개장). 연간 거래일 수의 공식 집계는 찾지 못함. 책은 “1년 약 250거래일”을 가정으로 적고 실제 일수를 단정하지 않음.</td><td>[S35]</td><td>확인 못함 (일수)</td></tr>
+<tr><td>1-7</td><td>measure</td><td>참범위와 ATR</td><td>참범위 = max(고가 − 저가, |고가 − 전일 종가|, |저가 − 전일 종가|). 14일 ATR: 첫 값은 처음 14개 참범위의 평균, 이후 ATR = (전일 ATR × 13 + 오늘 참범위) / 14. J. Welles Wilder가 『New Concepts in Technical Trading Systems』(1978)에서 소개. <code>atrWilder(bars, n)</code>와 같음(첫 봉은 전일 종가가 없어 고가 − 저가).</td><td>[S9]</td><td>보도로 확인 (차트 교육 사이트. Wilder 원저는 읽지 못함)</td></tr>
+<tr><td>1-8</td><td>walk · cross</td><td>무작위 보행의 원점 복귀 횟수</td><td>±1 걸음의 단순 대칭 무작위 보행에서 n걸음까지 원점으로 돌아온 횟수의 기댓값은 n → ∞에서 √(2n/π)와 같아짐(비가 1로 수렴). n = 250이면 약 12.6. 곧 횟수는 n이 아니라 √n으로 자람. 연속 분포 잡음의 생성기에서 “선을 건넌 횟수”는 이 공식과 정의가 달라 상수가 다름(V-9: 약 9회). √n 성장은 생성기로 확인(n = 1000에서 약 2배).</td><td>[S6]</td><td class="ok">공식 원문 확인 (대학 강의 노트, 작성자 이름은 페이지에 없음)</td></tr>
+<tr><td>1-9</td><td>revert</td><td>AR(1)</td><td>AR(p): y<sub>t</sub> = c + φ<sub>1</sub>y<sub>t−1</sub> + … + ε<sub>t</sub>. AR(1)은 −1 &lt; φ<sub>1</sub> &lt; 1이면 정상. φ<sub>1</sub> &lt; 0이면 평균 주위에서 진동, c = 0·φ<sub>1</sub> = 1이면 무작위 보행. <code>randomWalk</code>의 phi(수익률의 AR(1))와 kappa(로그 가격을 기준점으로 끌어당기는 이산 OU, 가격 쪽에서 보면 AR(1) 계수 1 − kappa)는 이 정의를 따름.</td><td>[S5]</td><td class="ok">공식 원문 확인 (교재)</td></tr>
+<tr><td>1-10</td><td>revert</td><td>자기상관의 띠</td><td>백색잡음이면 자기상관 막대의 95%가 ±1.96/√T 안에 있다고 기대. T = 250이면 ±0.124. 띠 밖 막대 하나가 곧 의미 있는 상관이라는 뜻은 아님(여러 시차를 보면 5%는 우연히 밖으로 나감).</td><td>[S4]</td><td class="ok">공식 원문 확인 (교재)</td></tr>
+<tr><td>1-11</td><td>trend</td><td>분산비</td><td>VR(q) = Var(q기간 수익률)/(q × Var(한 기간 수익률)). 정상성 아래 VR(q) = 1 + 2Σ<sub>k=1</sub><sup>q−1</sup>(1 − k/q)ρ<sub>k</sub>, 특히 VR(2) = 1 + ρ<sub>1</sub>. 독립 무작위 보행이면 1, ρ<sub>1</sub> &gt; 0이면 1보다 큼(강의는 “mean aversion”), ρ<sub>1</sub> &lt; 0이면 작음(“mean reversion”). 독립·동분산 가정의 표준오차 √(2(q−1)/(Tq))는 겹치지 않는 q기간 합에 대한 식. <code>varianceRatio</code>는 겹치는 합과 분산 2(2q−1)(q−1)/(3qT)를 쓰며, 이 식은 Lo·MacKinlay 원문에서 확인하지 못함(아래 V-8로 z의 표준편차가 1 근처임을 시뮬레이션으로 확인).</td><td>[S3]</td><td class="ok">공식 원문 확인 (강의 슬라이드). 겹치는 합의 분산식은 확인 못함</td></tr>
+<tr><td>1-12</td><td>drawdown</td><td>브라운 운동의 기대 최대 낙폭</td><td>추세가 있는 브라운 운동에서 기대 최대 낙폭은 기간 T가 길어질 때 추세가 양이면 로그, 0이면 √T, 음이면 선형으로 자람. MATLAB <code>emaxdrawdown</code>은 이 논문을 근거로 기대 최대 낙폭을 계산하고 “손실의 상한이 아니라 평균의 추정”이라고 씀.</td><td>[S7] [S8]</td><td class="ok">공식 원문 확인 (학술지 초록, 소프트웨어 문서)</td></tr>
+<tr><td>1-13</td><td>drawdown</td><td>회복에 필요한 상승률</td><td>낙폭 d를 되찾는 데 필요한 상승률 = 1/(1 + d) − 1. −20% → +25%, −50% → +100%, −38.5% → +62.5%. 정의에서 바로 나오는 산수.</td><td>—</td><td>계산으로 확인 (V-6)</td></tr>
+<tr><td>1-14</td><td>tails</td><td>Student-t 잡음</td><td>자유도 ν인 t분포의 분산은 ν/(ν − 2)(ν &gt; 2), 초과 첨도는 6/(ν − 4)(ν &gt; 4). 그래서 ν = 6이면 분산을 1로 맞춰도 초과 첨도 3. 정규분포에서 |z| &gt; 3인 비율은 0.27%. 이번에 t분포 공식을 쓴 교재를 열지 못했고, 시뮬레이션(20만 개)으로 분산 0.995, 표본 초과 첨도 2.6(꼬리가 두꺼워 표본 값이 천천히 수렴), 3σ 밖 비율 1.05%를 얻음.</td><td>—</td><td>계산으로 확인</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="facts-leverage">레버리지·인버스 상품</h3>
+<div class="wrap">
+<table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>내용</th><th>시점</th><th>출처</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>2-1</td><td>drag · final</td><td>미국 감독기관의 투자자 공지</td><td>가상의 2배 ETF: 첫날 지수 −10%(1,000 → 900), ETF −20%(→ 800), 둘째 날 지수 +10%(→ 990), ETF +20%(→ 960). 이틀 동안 지수 −1%, 2배 ETF −4%. 실제 사례: 넉 달 동안 지수 +2%인데 하루 2배 ETF −6%, 인버스 2배 −25%. 다른 사례: 지수 약 +8%인데 3배 −53%, 인버스 3배 −90%. “일반적으로 사서 오래 들고 있는 투자자에게 맞지 않는 특수 상품”이고 “지수의 장기 성과가 이익이어도 큰 손실을 볼 수 있다”고 씀.</td><td>2023-08-29 갱신</td><td>[S12] [S13]</td><td class="ok">공식 원문 확인 (SEC 투자자 교육 사이트)</td></tr>
+<tr><td>2-2</td><td>drag</td><td>국내 연구: 레버리지·인버스 ETF의 복리 효과</td><td>자본시장연구원 이슈 보고서 24-03(권민경, 2024-01-18): 지수가 +10% 뒤 −9%면 +0.1%인데 +2X는 약 −1.6%, −2X는 약 −5.6%. 코스피200 선물 22거래일 표본 4,133개에서 +2X 복리 효과가 음수인 경우 약 66%, 평균 −3.5bp·중앙값 −7.9bp. 누적 지수 수익률이 ±5% 안(표본의 68%)이면 86%가 음수, 밖이면 79%가 양수. 분산 기반 추정치가 실제 복리 효과 변동의 99.95%를 설명. 연구 기간 세 상품에서 복리 효과의 영향(약 −1,689억 ~ +514억 원)은 투자자 매매 행태로 생긴 손실 약 0.9조 원보다 작았다는 결론. 저자는 개인 견해라고 밝힘.</td><td>2024-01-18</td><td>[S14]</td><td class="ok">공식 원문 확인 (연구기관 보고서 PDF. 연구원 누리집이 아니라 외부 블로그에 올라온 사본으로 읽음)</td></tr>
+<tr><td>2-3</td><td>drag</td><td>운용사 유의 공지</td><td>국내 운용사가 코스피200 선물 레버리지·인버스2X ETF에 대해: 기초지수 <i>일간</i> 수익률의 2배(또는 −2배)를 목표로 하며, 하루보다 오래 들고 있으면 기간 수익률의 단순 배수와 다를 수 있고, 시장 변동성이 클수록 그 차이가 커지는 경향이 있다고 안내. 단기 매매용으로 설계되었다고 씀.</td><td>2016-09-07</td><td>[S15]</td><td class="ok">공식 원문 확인 (운용사 공지). 상품명은 책에 쓰지 않음</td></tr>
+<tr><td>2-4</td><td>drag</td><td>연속 시간 어림식</td><td>Avellaneda·Zhang: L<sub>t</sub>/L<sub>0</sub> = (S<sub>t</sub>/S<sub>0</sub>)<sup>β</sup> × exp[((1 − β)r − f)t + β∫λ ds − ((β² − β)/2)∫σ² ds]. 기초자산이 이토 과정이면 정확하다고 씀. 금리·보수·차입 비용을 0으로 두면 <code>leveragedApprox</code>. 제자리 경로(V-3)에서 이산 일일 재조정 값과 0.05%p 안에서 맞음.</td><td>2009-05-19 원고</td><td>[S16]</td><td class="ok">공식 원문 확인 (저자 원고 PDF. 학술지 게재본 페이지는 robots로 열리지 않음)</td></tr>
+<tr><td>2-5</td><td>drag</td><td>레버리지 ETF의 가격제한폭</td><td>가격제한폭 ±30%, 레버리지 ETF는 배율만큼 확대(2배면 ±60%).</td><td>2015-06-15</td><td>4권 조사 노트 4-1</td><td class="ok">공식 원문 확인 (4권에서)</td></tr>
+<tr><td>2-6 ⏱</td><td>drag</td><td>레버리지 ETP 거래 요건 (지수형, 2020년 도입)</td><td>레버리지 ETF·ETN을 거래하려면 기본예탁금 1,000만 원 이상(현금 + 보유 주식 평가액, 증권사가 투자 경험·신용 등에 따라 달리 정할 수 있음)과 금융투자교육원 온라인 “레버리지 ETF·ETN 사전교육”(약 1시간, 수강료 3,000원) 이수가 필요. 2020-09-07 시행, 그 전에 등록한 투자자는 2021-01-03까지 유예. 금융위원회가 마련한 제도라고 씀.</td><td>2020-09-07</td><td>[S17]</td><td>보도로 확인 (증권사 블로그. 금융위원회 보도자료는 robots로 열리지 않음)</td></tr>
+<tr><td>2-7 ⏱</td><td>drag</td><td>단일종목 레버리지 상품과 해외 레버리지 ETP (2026년 5월)</td><td>자본시장법 시행령 개정안이 2026-04-21 국무회의를 통과해 국내외 단일종목 레버리지·인버스 ETP가 허용됨. 기존 1시간 사전교육에 단일종목 상품용 심화교육 1시간을 더해(경험이 없으면 총 2시간), 2026-05-22부터 시행. 해외 상장 레버리지 ETF·ETN을 처음 거래하는 투자자에게 기본예탁금 1,000만 원(외화 포함). 근거는 금융투자협회 규정 개정. 국내 단일종목 레버리지 ETF 상장은 5월 22일에서 27일로 미뤄졌다고 보도.</td><td>2026-05-22</td><td>[S18] [S19] [S20]</td><td>보도로 확인 (기사 세 건, 규정 원문 읽지 못함)</td></tr>
+<tr><td>2-8 ⏱</td><td>drag</td><td>단일종목 레버리지 상품 규제 강화 (2026년 7월)</td><td>2026-07-16 금융위원회 발표 보도: 국내외 단일종목 레버리지 ETF·ETN 신규·추가 매수에 기본예탁금 3,000만 원(대용증권 불인정, 현금), 사전교육 2시간 → 3시간·60점 미만 재학습, 거래 단위 1주 → 20주(11월 예정, 잠정), 신규 상장·광고 중단, LP 괴리율 기준 강화. 시행일은 기사마다 다름: 한 기사는 8월 5일께(대용증권 불인정은 8월 19일께), 다른 기사(7-28)는 7월 31일로 앞당긴다고 씀. 7-28 금융위원장은 개인별 투자한도(총투자액의 20% 이내)·모의거래 의무를 추가로 검토한다고 말함.</td><td>2026-07~08</td><td>[S21] [S22] [S23]</td><td>확인 못함 (보도끼리 시행일이 어긋남. 책은 “2026년 하반기에 단일종목 상품의 요건이 크게 강화되었다”까지만 쓰고 수치는 확인일과 함께 상자에)</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="facts-evidence">실제 수익률에 관한 연구</h3>
+<div class="wrap">
+<table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>내용</th><th>출처</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>3-1</td><td>tails · revert</td><td>정형화된 사실(Cont 2001)</td><td>R. Cont, “Empirical properties of asset returns: stylized facts and statistical issues”, <i>Quantitative Finance</i> 1(2): 223–236 (2001). 초록: 여러 시장의 가격 변동에서 공통으로 관찰되는 성질(분포·꼬리, 경로의 규칙성, 시간과 종목에 걸친 선형·비선형 의존)을 정리하고, 이 성질이 금융 자료에 흔히 쓰는 통계 방법을 흔든다고 씀. 사실 목록 자체는 초록에서 확인하지 못함(본문 구독 전용).</td><td>[S24]</td><td class="ok">공식 원문 확인 (초록)</td></tr>
+<tr><td>3-2</td><td>tails · revert</td><td>교재의 정형화된 사실</td><td>Palomar 『Portfolio Optimization』 2.1절: 금융 자료에서 가우스 분포는 대개 맞지 않고 꼬리가 두꺼움, 큰 변동 뒤에 큰 변동이 이어지는 변동성 몰림, 수익률 자기상관은 대개 유의하지 않음, 비정상성, 이익·손실 비대칭, 자산 사이 양의 상관. 낮은 빈도에서는 변동성 몰림을 보정하면 가우스가 꽤 맞을 수 있다고 씀. 첨도 수치는 없음.</td><td>[S25]</td><td class="ok">공식 원문 확인 (교재 공개판)</td></tr>
+<tr><td>3-3</td><td>tails</td><td>S&amp;P 500 수익률의 첨도와 기간</td><td>1950년~2011-10-17 S&amp;P 500 로그 수익률의 첨도(정규 = 3 기준): 1일 31.1(15,548개), 5일 7.8, 20일 5.9, 252일 3.8. 하루 수익률을 부트스트랩한 첨도 1만 개 중 가장 작은 값도 8.6. 기간을 길게 묶을수록 정규에 가까워짐. 1987년 10월 같은 극단일이 하루 첨도를 크게 끌어올린다는 점에 주의.</td><td>[S26]</td><td>보도로 확인 (분석 블로그. 원자료 직접 계산 못함)</td></tr>
+<tr><td>3-4</td><td>tails</td><td>KOSPI 수익률의 분포</td><td>장경천·김현석(2004), 「주식 수익률의 비선형 결정론적 특성에 관한 연구」, 『재무관리연구』 21(1): 149–181. 1980-01~2002-05 KOSPI 일별·주별 수익률이 정규분포가 아니라 첨예(leptokurtic)하다고 초록에 씀. 첨도 수치는 초록에 없음.</td><td>[S27]</td><td class="ok">공식 원문 확인 (학술지 초록)</td></tr>
+<tr><td>3-5</td><td>trend</td><td>Lo·MacKinlay(1988)</td><td>“Stock Market Prices Do Not Follow Random Walks: Evidence from a Simple Specification Test”, <i>Review of Financial Studies</i> 1(1): 41–66. 서로 다른 빈도로 계산한 분산 추정량을 견주는 검정으로 주간 수익률(1962~1985)의 무작위 보행 가설을 전체 기간과 모든 하위 기간에서 강하게 기각. 기각은 주로 소형주에서 나오고, 드문 거래나 시간에 따라 변하는 변동성으로 다 설명되지 않음. 동시에 주간 수익률의 무작위 보행 기각이 평균 회귀 모형을 지지하지는 않는다고 씀.</td><td>[S28]</td><td class="ok">공식 원문 확인 (저자 페이지 초록)</td></tr>
+<tr><td>3-6</td><td>revert · trend</td><td>Poterba·Summers</td><td>NBER Working Paper 2343(1987-08), 「Mean Reversion in Stock Prices: Evidence and Implications」. 분산비가 평균 회귀를 찾는 가장 강한 검정 축에 들지만 무작위 보행의 주요 대안에 대해 힘이 약하다고 씀. 미국(1871~1986)·17개국(1957~1985)·개별 기업(1926~1985)에서 수익률이 짧은 기간에는 양의, 긴 기간에는 음의 자기상관. 일시적 성분이 월간 수익률 분산의 절반 넘게 차지한다고 추정.</td><td>[S29]</td><td class="ok">공식 원문 확인 (NBER 초록)</td></tr>
+<tr><td>3-7</td><td>revert · trend</td><td>Kim·Nelson·Startz의 재검토</td><td>NBER Working Paper 2795(1988-12, 이후 <i>Review of Economic Studies</i> 1991). 평균 회귀는 1926~1946년에서만 보이고 1946년 이후에는 오히려 지속성이 보임. 미국 주식 수익률의 평균 회귀 증거는 앞선 연구가 말한 것보다 훨씬 약하다는 결론.</td><td>[S30]</td><td class="ok">공식 원문 확인 (NBER 초록)</td></tr>
+<tr><td>3-8</td><td>tails</td><td>최근 시장에서의 재검토</td><td>Ratliff-Crain 외, arXiv:2311.07738(2023-11, v2 2024-05): 2018-10~2019-03 다우 30 종목 분 단위 수익률에서 Cont의 11개 사실 중 8개에 결정적 증거, 3개는 지지하지 않음. 어떤 사실이 빠졌는지는 초록에 없음.</td><td>[S31]</td><td class="ok">공식 원문 확인 (초록)</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="misconceptions">
+<h2>오해 목록</h2>
+<p>오해 수집가 태오가 장마다 처음 배우는 사람이 잘못 믿기 쉬운 것을 골랐습니다. 바른 설명은 사실 표의 행이나 아래 기준값에 기댑니다. 교수법팀은 예측 질문의 오답 보기로, 글작성팀은 “혼동하지 마세요” 블록의 재료로 쓸 수 있습니다.</p>
+<div class="wrap">
+<table>
+<thead><tr><th>장</th><th>흔한 오해</th><th>바른 설명</th><th>근거</th></tr></thead>
+<tbody>
+<tr><td>returns</td><td>수익률 −50%와 +50%를 더하면 0이니 본전이다.</td><td>단순 수익률은 곱해야 한다. 100 → 50 → 75로 −25%. 로그 수익률(ln 0.5 + ln 1.5)이라면 더해도 되고, 합 −0.288을 되돌리면 −25%.</td><td>V-1, 1-1</td></tr>
+<tr><td>returns</td><td>로그 수익률이 더 정확한 수익률이다.</td><td>둘은 같은 가격 변화를 다르게 적은 것이다. 계좌의 돈과 여러 자산의 묶음은 단순 수익률로, 여러 기간을 이어 더할 때는 로그 수익률로 계산한다. 작은 변화에서는 두 값이 거의 같다.</td><td>1-1, 1-2</td></tr>
+<tr><td>drag</td><td>지수가 1년 뒤 제자리면 2배 상품도 제자리다.</td><td>2배 상품은 날마다 그날 수익률의 2배를 맞추므로 1년 동안의 결과는 경로에 달렸다. 하루 ±1.5%로 오르내리다 제자리인 250일에서 2배는 −5.39%, 인버스 2배는 −15.33%.</td><td>V-3, 2-1, 2-3</td></tr>
+<tr><td>drag</td><td>레버리지 상품은 오래 들면 언제나 잃는다.</td><td>흔들림이 작고 한쪽으로 꾸준히 가면 일일 재조정이 오히려 “기간 수익률 × 2”보다 많이 벌 수도 있다. 국내 22거래일 표본에서도 누적 수익률이 ±5% 밖이면 79%가 양의 복리 효과였다. 박스권과 큰 흔들림에서 깎인다.</td><td>2-2, 2-4</td></tr>
+<tr><td>drag</td><td>인버스 상품을 들고 있으면 지수가 내린 만큼 번다.</td><td>인버스도 날마다 재조정한다. 같은 제자리 경로에서 인버스 2배의 손실이 2배보다 크다(−15.33% 대 −5.39%). SEC 사례에서는 지수가 +2%일 때 인버스 2배가 −25%였다.</td><td>V-3, 2-1</td></tr>
+<tr><td>measure</td><td>연율 변동성 20%면 1년에 20%보다 많이 움직이는 일은 거의 없다.</td><td>연율 변동성은 하루 표준편차에 √250을 곱한 값이고, 하루하루가 독립이고 꼬리가 정규라는 가정에서만 “1년 흔들림의 표준편차”가 된다. 실제 수익률은 꼬리가 두꺼워 이 숫자가 낙관적이기 쉽다.</td><td>1-4, 3-3</td></tr>
+<tr><td>measure</td><td>√250과 √252 가운데 하나는 틀렸다.</td><td>둘 다 관례다. 차이는 √(252/250) − 1 ≈ 0.4%. 국내 펀드 공시에 √250이 쓰인 예가 있다. 숫자를 견줄 때 같은 관례인지 확인하면 된다.</td><td>V-4, 1-4, 1-5</td></tr>
+<tr><td>measure</td><td>ATR은 하루 고가와 저가의 차이다.</td><td>전날 종가에서 건너뛴 폭까지 넣은 참범위를 평균한 것이다. 시가가 크게 건너뛴 날은 고가 − 저가보다 참범위가 크다. V-5의 마지막 봉은 고가 − 저가가 2인데 전날 종가 10.5에서 위로 건너뛰어 참범위가 3.5다.</td><td>V-5, 1-7</td></tr>
+<tr><td>walk</td><td>오래 오른 경로는 추세가 있는 경로다.</td><td>추세가 0인 무작위 보행에서도 몇 달씩 한쪽으로 가는 경로가 흔하다. 생성기에서 시드만 바꿔 보면 바로 보인다.</td><td>4장 실험, 1-8</td></tr>
+<tr><td>walk</td><td>무작위 보행이면 가격이 시작가 근처를 자주 오간다.</td><td>시작선으로 돌아오는 횟수는 날 수가 아니라 √(날 수)로 자란다. 1% 변동성 250일 생성기에서 시작선을 건넌 횟수는 평균 약 9회.</td><td>V-9, 1-8</td></tr>
+<tr><td>tails</td><td>3σ 밖의 날은 1년에 한 번도 오지 않는다.</td><td>정규라면 0.27%라 250일에 0.7번 정도이지만, 꼬리가 두꺼우면 몇 배 잦다. 분산을 1로 맞춘 t(6) 잡음에서는 약 1%로, 250일에 2~3번.</td><td>1-14, 3-2, 3-3</td></tr>
+<tr><td>tails</td><td>꼬리가 두꺼우면 변동성(표준편차)도 크다.</td><td>같은 표준편차에서도 꼬리 모양은 다를 수 있다. 생성기에서 정규와 t를 같은 표준편차로 맞추면 평소 날은 t 쪽이 더 잔잔하고 드문 날이 더 크다.</td><td>V-8 생성기 검사, 1-14</td></tr>
+<tr><td>revert</td><td>가격의 자기상관이 0.99니 어제 가격이 오늘을 알려 준다.</td><td>무작위 보행의 가격은 어제 가격에 잡음을 더한 것이라 가격 자기상관은 늘 1 가까이 나온다. 예측 가능성을 보려면 수익률의 자기상관을 봐야 한다.</td><td>1-9</td></tr>
+<tr><td>revert</td><td>자기상관 막대 하나가 띠를 넘었으니 패턴이 있다.</td><td>띠는 95% 범위라 시차 20개를 보면 하나쯤은 우연히 넘는다. 넘은 막대가 여러 기간에서 되풀이되는지 봐야 한다.</td><td>1-10</td></tr>
+<tr><td>trend</td><td>VR이 1이 아니면 무작위 보행이 아니다.</td><td>VR은 표본마다 흔들린다. 무작위 보행 생성기에서도 |z| &gt; 1.96이 약 5% 나온다. 반대로 기각하지 못했다고 무작위 보행이라는 증명도 아니다(검정의 힘이 약함).</td><td>V-8, 1-11, 3-6</td></tr>
+<tr><td>trend</td><td>연구가 평균 회귀를 찾았으니 시장은 결국 되돌아온다.</td><td>같은 미국 자료로 다시 보니 평균 회귀는 1926~1946년에만 보였다는 재검토가 있고, 주간 수익률의 무작위 보행을 기각한 연구도 그것이 평균 회귀를 지지하지 않는다고 썼다. 결론은 기간과 자료에 따라 바뀐다.</td><td>3-5, 3-7</td></tr>
+<tr><td>cross</td><td>선에 닿은 횟수가 곧 격자가 왕복한 횟수다.</td><td>닿고 돌아가면 건너지 않은 것이다. 이 책은 선의 한쪽에서 반대쪽으로 넘어간 경우만 센다. V-7의 경로는 값이 정확히 100인 날이 네 번이지만 100을 건넌 것은 세 번.</td><td>V-7</td></tr>
+<tr><td>cross</td><td>변동성이 같으면 통과 횟수도 같다.</td><td>같은 1% 변동성이라도 평균 회귀 세기 0, 0.05, 0.2에서 평균 통과 횟수가 약 9, 25, 51회로 몇 배 다르다.</td><td>V-9</td></tr>
+<tr><td>drawdown</td><td>30% 떨어졌다 30% 오르면 회복이다.</td><td>−30%를 되찾으려면 약 +42.9%가 필요하다. −50%면 +100%.</td><td>V-6, 1-13</td></tr>
+<tr><td>drawdown</td><td>최대 낙폭은 앞으로 잃을 수 있는 최대치다.</td><td>지나간 기록의 가장 나쁜 구간일 뿐이다. 기간을 길게 잡으면 무작위 보행에서도 기대 최대 낙폭이 √T로 자라고, 추세가 음이면 선형으로 자란다.</td><td>1-12</td></tr>
+<tr><td>final</td><td>이 숫자들로 다음 해가 박스권일지 맞힐 수 있다.</td><td>숫자는 지난 기록이 무작위 보행과 얼마나 다른지를 말할 뿐이다. 같은 설정의 생성기가 그 숫자를 우연히 만드는 비율과, 연구마다 결론이 기간에 따라 바뀐 사례를 함께 적어야 한다.</td><td>제작 문서 1절, 3-5~3-7</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<section id="values">
+<h2>계산기 기준값</h2>
+<p>계산 검산가 수아가 <code>js/math.js</code>를 보지 않고 파이썬(분수 연산과 <code>math</code>, 무작위 실험은 파이썬 내장 난수. 세션 임시 폴더의 스크립트, 책에는 넣지 않음)으로 따로 계산한 뒤, 같은 입력을 node로 <code>math.js</code>에 넣어 대조했습니다. 결정적인 값(V-1~V-7)은 <b>모두 일치</b>했고, 몬테카를로 값(V-8·V-9)은 난수 생성기가 달라 시행 오차 안에서 맞는지 보았습니다. 수익률은 소수, 가격은 임의 단위입니다. V-1~V-7은 <b>실제 계산</b>, V-8·V-9는 <b>가정한 생성기에서 뽑은 가상 경로의 분포</b>입니다.</p>
+
+<h3 id="values-returns">V-1 단순·로그 수익률</h3>
+<table>
+<thead><tr><th>입력</th><th>파이썬</th><th>math.js</th></tr></thead>
+<tbody>
+<tr><td>100 → 50 → 75, 단순 수익률 곱</td><td class="num">−1/4 (분수)</td><td>일치 (<code>compound</code>)</td></tr>
+<tr><td>같은 경로, 로그 수익률 합</td><td class="num">−0.2876820724517809</td><td>일치, 되돌리면 −0.25</td></tr>
+<tr><td>두 단순 수익률의 산술 평균</td><td class="num">0</td><td>일치</td></tr>
+</tbody>
+</table>
+
+<h3 id="values-two-day">V-2 두 날 예시 (일일 재조정)</h3>
+<table>
+<thead><tr><th>지수 경로</th><th>지수</th><th>2배</th><th>인버스 2배</th><th>출처 값</th><th>math.js</th></tr></thead>
+<tbody>
+<tr><td>−10% → +10%</td><td class="num">−1.0%</td><td class="num">−4.0% (1,000 → 960)</td><td>—</td><td>SEC·FINRA −1%, −4% (2-1)</td><td>일치</td></tr>
+<tr><td>+10% → −9%</td><td class="num">+0.1%</td><td class="num">−1.6%</td><td class="num">−5.6%</td><td>자본시장연구원 +0.1%, −1.6%, −5.6% (2-2)</td><td>일치</td></tr>
+</tbody>
+</table>
+
+<h3 id="values-flat">V-3 제자리 경로 250일 (오를 때 +a, 내릴 때 1/(1+a) − 1, 125쌍)</h3>
+<table>
+<thead><tr><th>a</th><th>지수</th><th>2배</th><th>인버스 2배</th><th>3배</th><th>연속 어림(2배)</th><th>math.js</th></tr></thead>
+<tbody>
+<tr><td>1.0%</td><td class="num">0</td><td class="num">−2.445%</td><td class="num">−7.159%</td><td class="num">−7.159%</td><td class="num">−2.445%</td><td>일치</td></tr>
+<tr><td>1.5%</td><td class="num">0</td><td class="num">−5.392%</td><td class="num">−15.326%</td><td class="num">−15.326%</td><td class="num">−5.391%</td><td>일치</td></tr>
+<tr><td>2.0%</td><td class="num">0</td><td class="num">−9.342%</td><td class="num">−25.507%</td><td class="num">−25.507%</td><td class="num">−9.338%</td><td>일치</td></tr>
+</tbody>
+</table>
+<p>흔들림 폭이 1% → 2%로 두 배가 되면 2배 상품의 손실이 2.445% → 9.342%로 약 3.8배가 됩니다(σ² 비례의 근사). 이 두 걸음 경로에서는 3배와 인버스 2배의 값이 대수적으로 같습니다((1 + 3a)(1 − 3a/(1+a)) = (1 − 2a)(1 + 2a/(1+a)) = (1 + 3a)(1 − 2a)/(1 + a)). 일반 경로에서는 같지 않으니 본문에서 규칙처럼 쓰지 않습니다. 연속 어림은 두 값 경로의 모집단 분산(한 기간 로그 수익률)을 넣은 값입니다.</p>
+
+<h3 id="values-sd">V-4 표준편차와 연율화</h3>
+<table>
+<thead><tr><th>입력</th><th>파이썬</th><th>math.js</th></tr></thead>
+<tbody>
+<tr><td>[2, 4, 4, 4, 5, 5, 7, 9] 모집단 표준편차</td><td class="num">2</td><td>일치 (<code>sd(x, 0)</code>)</td></tr>
+<tr><td>같은 자료 표본 표준편차(n − 1)</td><td class="num">2.138089935… = √(32/7)</td><td>일치</td></tr>
+<tr><td>하루 1% × √250 / × √252</td><td class="num">15.811% / 15.875%</td><td>일치</td></tr>
+<tr><td>하루 1.5% × √250</td><td class="num">23.717%</td><td>일치</td></tr>
+<tr><td>√(252/250)</td><td class="num">1.00399</td><td>—</td></tr>
+</tbody>
+</table>
+
+<h3 id="values-atr">V-5 참범위와 ATR (n = 3)</h3>
+<table>
+<thead><tr><th>봉 (고가, 저가, 종가)</th><th>참범위</th><th>ATR(3)</th></tr></thead>
+<tbody>
+<tr><td>(11, 9, 10)</td><td class="num">2</td><td>—</td></tr>
+<tr><td>(12, 10, 11.5)</td><td class="num">2</td><td>—</td></tr>
+<tr><td>(13, 11, 12)</td><td class="num">2</td><td class="num">2</td></tr>
+<tr><td>(12.5, 9.5, 10)</td><td class="num">3</td><td class="num">2.3333</td></tr>
+<tr><td>(11, 10, 10.5)</td><td class="num">1</td><td class="num">1.8889</td></tr>
+<tr><td>(14, 12, 13)</td><td class="num">3.5 (|14 − 10.5|)</td><td class="num">2.4259</td></tr>
+</tbody>
+</table>
+<p>마지막 봉은 고가 − 저가가 2지만 전날 종가 10.5에서 위로 건너뛰어 참범위가 3.5입니다. 파이썬과 <code>atrWilder</code> 모두 같은 값.</p>
+
+<h3 id="values-mdd">V-6 최대 낙폭과 회복</h3>
+<table>
+<thead><tr><th>경로</th><th>최대 낙폭</th><th>고점·저점 칸</th><th>회복 칸</th><th>회복에 필요한 상승률</th><th>math.js</th></tr></thead>
+<tbody>
+<tr><td>100, 120, 90, 95, 130, 80, 100</td><td class="num">−38.46% (130 → 80)</td><td>4 · 5</td><td>없음</td><td class="num">+62.5%</td><td>일치</td></tr>
+<tr><td>100, 110, 88, 99, 110, 115</td><td class="num">−20%</td><td>1 · 2</td><td>4 (회복 기간 2)</td><td class="num">+25%</td><td>일치</td></tr>
+<tr><td>−50% 낙폭</td><td>—</td><td>—</td><td>—</td><td class="num">+100%</td><td>일치</td></tr>
+</tbody>
+</table>
+<p>첫 경로에서 120 → 90(−25%)은 더 작은 낙폭이라 최대가 아닙니다. 고점 값과 같아지는 날을 회복으로 칩니다(<code>&gt;=</code>).</p>
+
+<h3 id="values-cross">V-7 가격선 통과 횟수</h3>
+<table>
+<thead><tr><th>경로 100, 102, 99, 100, 101, 98, 100, 100, 97</th><th>파이썬</th><th>math.js</th></tr></thead>
+<tbody>
+<tr><td>선 100 (닿은 날은 직전 쪽 유지)</td><td class="num">3 (위로 1, 아래로 2)</td><td>일치</td></tr>
+<tr><td>선 99.5</td><td class="num">5</td><td>일치</td></tr>
+<tr><td>선 101.5 / 103</td><td class="num">2 / 0</td><td>일치</td></tr>
+</tbody>
+</table>
+
+<h3 id="values-vr">V-8 무작위 보행에서 분산비 z의 분포 (q = 5, 250일)</h3>
+<table>
+<thead><tr><th>계산</th><th>시행</th><th>z의 표준편차</th><th>|z| &gt; 1.96 비율</th></tr></thead>
+<tbody>
+<tr><td>파이썬(내장 난수, 정규 잡음, 1% 변동성)</td><td class="num">2,000</td><td class="num">0.993</td><td class="num">4.9%</td></tr>
+<tr><td>math.js(mulberry32, 시드 11부터)</td><td class="num">400</td><td class="num">1.085</td><td class="num">7.5%</td></tr>
+</tbody>
+</table>
+<p>두 계산 모두 이론값(표준편차 1, 오판 5%)에 가깝습니다. math.js 쪽 7.5%는 시행 400번의 오차(표준오차 약 1.1%p) 범위를 조금 넘는 정도라, G3에서 시행 수를 늘려 다시 봅니다. 겹치는 합의 분산식(1-11)을 원문으로 확인하지 못했으므로, 이 시뮬레이션이 현재로서는 식에 대한 유일한 점검입니다.</p>
+
+<h3 id="values-mc">V-9 생성기 설정별 통과 횟수·최대 낙폭·분산비 (하루 변동성 1%, 250일, 추세 0)</h3>
+<table>
+<thead><tr><th>설정</th><th>시작선 통과 평균 (파이썬 · math.js)</th><th>최대 낙폭 중앙값</th><th>VR(5) 평균</th></tr></thead>
+<tbody>
+<tr><td>무작위 보행</td><td class="num">9.25 · 8.92</td><td class="num">−15.8% · −16.3%</td><td class="num">1.004 · 0.990</td></tr>
+<tr><td>평균 회귀 kappa 0.05</td><td class="num">26.27 · 24.70</td><td class="num">−11.7% · −11.8%</td><td class="num">0.918 · 0.906</td></tr>
+<tr><td>평균 회귀 kappa 0.2</td><td class="num">51.09 · 51.61</td><td class="num">−8.0% · −7.9%</td><td class="num">0.689 · 0.675</td></tr>
+<tr><td>수익률 자기상관 phi 0.2</td><td class="num">7.76 · 7.33</td><td class="num">−18.9% · −19.3%</td><td class="num">1.370 · 1.363</td></tr>
+<tr><td>수익률 자기상관 phi −0.2</td><td class="num">11.55 · 10.72</td><td class="num">−13.5% · −14.1%</td><td class="num">0.722 · 0.715</td></tr>
+</tbody>
+</table>
+<p>파이썬은 설정마다 2,000번, math.js는 300번 시행했습니다. 무작위 보행 경로를 1,000일로 늘리면 math.js에서 평균 통과 횟수가 20.26회로 250일의 약 2.3배라, √4 = 2배라는 √n 성장과 시행 오차 안에서 맞습니다. 테스트는 이 표의 파이썬 값을 넓은 허용 범위로 대조합니다. 하린의 1년 기록 하나에 대한 연속 어림 점검: 시드 21, 하루 변동성 1.5%인 경로에서 지수 총수익 1.0967배일 때 이산 일일 재조정 2배는 1.14159, 연속 어림은 1.14150.</p>
+</section>
+
+<section id="curriculum-sources">
+<h2>교과과정 비교에 쓴 자료</h2>
+<p>제작 문서의 비교 표(해원·가온)가 말한 두 갈래 자료 가운데 실제로 열어 본 것만 적습니다. 모두 2026-10-12에 열었습니다.</p>
+<ul>
+<li><b>Zivot, 『Introduction to Computational Finance and Financial Econometrics with R』 목차 [S2]와 1장 [S1]</b>: 1장 수익률 계산(돈의 시간 가치·자산 수익률·포트폴리오 수익률)으로 시작해, 5장 기술 통계에 “일별·월별 수익률의 정형화된 사실” 절, 6장 가우스 백색잡음 모형과 몬테카를로, 9장 가설 검정, 10장 GARCH, 11장부터 포트폴리오 이론. 비교 표의 “수익률 계산 첫 장”, “표준편차·연율화(기술 통계)”, “무작위 보행과 시뮬레이션(6장)”, “두꺼운 꼬리(5.5절)”, “GARCH 한 장”, “포트폴리오 후반” 행을 뒷받침. 변동성 손실·통과 횟수·최대 낙폭은 목차에 없음.</li>
+<li><b>Zivot, Return Predictability 강의 슬라이드 [S3]</b> (2011-03-30, Financial Econometrics): 분산비의 정의와 자기상관과의 관계, 동분산 z. “무작위 보행 검정” 행을 뒷받침.</li>
+<li><b>MIT OpenCourseWare 18.S096 Topics in Mathematics with Applications in Finance [S32]</b> (2013 가을): 확률 과정 I, VaR, 시계열 분석 I~III, 변동성 모형, 포트폴리오 이론 등 26강. “무작위 보행(확률 과정)”, “자기상관(시계열 세 강의)”, “변동성 모형(9강)” 행을 뒷받침. 최대 낙폭·레버리지 상품을 다루는 강은 목록에 없음.</li>
+<li><b>국립정치대학 「金融時間序列分析」 강의 계획서 [S33]</b> (2024 가을, 林信助, 교재 Enders 『Applied Econometric Time Series』): 3주차 수익률 계산, 4주차 수익률의 성질, 7~8주차 정상성과 ARMA, 10~11주차 자기상관 함수, 14주차 단위근, 15주차 GARCH. “수익률 계산”, “자기상관·AR 모형(여러 주의 중심 단원)”, “GARCH 한 주” 행을 뒷받침.</li>
+<li><b>Palomar 『Portfolio Optimization』 2.1절 [S25]</b>: 정형화된 사실. “두꺼운 꼬리” 행.</li>
+<li><b>『Forecasting: Principles and Practice』 3판 백색잡음 절 [S4]·AR 절 [S5]</b>: 자기상관 띠와 AR(1). 6장 설계의 근거(교재 쪽 자료).</li>
+<li><b>SEC 투자자 공지 [S12] [S13], 자본시장연구원 이슈 보고서 24-03 [S14], 운용사 유의 공지 [S15]</b>: “변동성 손실·일일 재조정” 행의 투자자 교육 칸. 경고와 두 날 예시는 있으나 손실 크기를 흔들림의 제곱으로 어림하게 하는 자료는 보고서(분산 기반 추정)뿐이었음.</li>
+<li><b>신영자산운용 투자설명서 정정 공시 [S11]</b>: “표준편차·연율화” 행의 국내 문서 칸(√250).</li>
+</ul>
+<p>요약하면, 교재·강의 쪽은 수익률 계산과 시계열(자기상관·ARMA·GARCH)에 무게가 있고, 레버리지 상품의 일일 재조정과 통과 횟수·최대 낙폭은 열어 본 목차에 없었습니다. 투자자 교육 쪽은 일일 재조정 경고가 중심이지만 계산은 짧았습니다. 이 책이 2장·8장·9장을 따로 두는 근거입니다. 대학 투자론 교재의 위험 측정 장 본문과 국내 대학의 금융 시계열 강의 계획서(한국어)는 이번에 열지 못했습니다(검색에서 찾은 국내 강의 계획서 하나는 금융 데이터와 기계학습 과목이라 비교에서 뺐습니다).</p>
+</section>
+
+<section id="unverified">
+<h2>확인하지 못한 것</h2>
+<ul>
+<li>실제 지수(KOSPI·KOSPI200·S&amp;P 500)의 일별 수익률로 첨도·자기상관·분산비·최대 낙폭을 직접 계산한 값. 공개 시세(stooq.com)가 프록시에서 막혔고, 거래소 정보데이터시스템은 시도하지 않았습니다. 책은 연구에 보고된 수치(3-3, 3-4)만 씁니다.</li>
+<li>국내 증시의 연간 거래일 수 공식 집계(1-6). 금융투자협회 투자위험등급 산정 규정 원문(1-5는 운용사 공시로만 확인).</li>
+<li>Lo·MacKinlay(1988) 본문의 겹치는 합 분산비와 그 점근 분산 2(2q−1)(q−1)/(3qT), 이분산에 강한 통계량(1-11). 저자 페이지 초록과 강의 슬라이드만 읽었습니다. 강의 슬라이드에서 확인한 식은 겹치지 않는 합의 표준오차입니다.</li>
+<li>Lo·MacKinlay의 주간 수익률 1차 자기상관 크기(초록에 수치 없음). Poterba·Summers, Kim·Nelson·Startz 본문.</li>
+<li>Cont(2001)의 정형화된 사실 목록 원문(본문 구독 전용, 3-1). Ratliff-Crain 외에서 지지되지 않은 세 사실이 무엇인지(3-8).</li>
+<li>Wilder(1978) 원저의 ATR 정의(1-7, 차트 교육 사이트로만 확인).</li>
+<li>기하 평균 ≈ 산술 평균 − σ²/2와 t분포의 분산·첨도 공식을 쓴 교재 원문(1-3, 1-14). 계산과 시뮬레이션으로만 확인했습니다.</li>
+<li>연속 분포 잡음의 무작위 보행에서 “선을 건넌 횟수”의 기댓값 공식. ±1 걸음의 원점 복귀 공식(1-8)만 확인했고, 생성기 값(약 9회)은 시뮬레이션입니다.</li>
+<li>⏱ 레버리지 ETP 거래 요건의 공식 원문(금융위원회 보도자료·금융투자협회 규정). 2020년 제도(2-6)는 증권사 블로그, 2026년 변경(2-7, 2-8)은 기사로만 확인했고, 2026년 7월 강화의 시행일이 기사마다 다릅니다(8월 5일께 대 7월 31일). 지수형 레버리지 ETF의 기본예탁금이 2026년 변경 뒤에도 1,000만 원인지, 거래 단위 20주가 실제로 시행되었는지도 확인하지 못했습니다.</li>
+<li>자본시장연구원 보고서(2-2)를 연구원 누리집 원본으로 열지 못하고 외부 사본으로 읽었습니다.</li>
+<li>“누리200 2배”를 거래소 상품 목록에서 직접 조회하지 못했습니다(웹 검색으로만 같은 이름이 없음을 확인). “누리200”·“새벽전자”도 12·4권과 같이 검색으로만 확인했습니다.</li>
+</ul>
+</section>
+
+<section id="sources">
+<h2>출처 목록</h2>
+<p>모든 출처의 확인일은 2026-10-12입니다. 기사와 글은 게재일을 함께 적었습니다. 4권 조사 노트의 행을 인용한 경우는 사실 표에 “4권 조사 노트 n-m”으로 적었고 그 출처는 <a href="../../market/docs/research.html#sources">4권 출처 목록</a>에 있습니다.</p>
+<ol style="list-style:none;padding-left:0">
+<li>[S1] Eric Zivot, <i>Introduction to Computational Finance and Financial Econometrics with R</i>, 1장 Return Calculations와 1.2절 Asset Return Calculations — <a href="https://bookdown.org/compfinezbook/introcompfinr/AssetReturnCalculations.html">bookdown.org/compfinezbook/introcompfinr/AssetReturnCalculations.html</a>, <a href="https://bookdown.org/compfinezbook/introcompfinr/Return-Calculations.html">…/Return-Calculations.html</a> (공개 교재)</li>
+<li>[S2] 같은 책 목차 — <a href="https://bookdown.org/compfinezbook/introcompfinr/">bookdown.org/compfinezbook/introcompfinr/</a> (공개 교재)</li>
+<li>[S3] Eric Zivot, Return Predictability, Financial Econometrics 강의 슬라이드 (2011-03-30) — <a href="https://faculty.washington.edu/ezivot/econ589/returnpredictabilitySlides.pdf">faculty.washington.edu/ezivot/econ589/returnpredictabilitySlides.pdf</a> (대학 강의 자료)</li>
+<li>[S4] <i>Forecasting: Principles and Practice</i> 3판, White noise — <a href="https://otexts.com/fpp3/wn.html">otexts.com/fpp3/wn.html</a> (공개 교재)</li>
+<li>[S5] 같은 책, Autoregressive models — <a href="https://otexts.com/fpp3/AR.html">otexts.com/fpp3/AR.html</a> (공개 교재)</li>
+<li>[S6] University of Utah REU 2002 강의 노트, Lecture 2: The Simple Walk in Dimension One — <a href="https://www2.math.utah.edu/~davar/REU-2002/notes/lec2.pdf">www2.math.utah.edu/~davar/REU-2002/notes/lec2.pdf</a> (대학 강의 노트, 작성자 표기 없음)</li>
+<li>[S7] Malik Magdon-Ismail, Amir F. Atiya, Amrit Pratap, Yaser S. Abu-Mostafa, “On the maximum drawdown of a Brownian motion”, <i>Journal of Applied Probability</i> 41(1): 147–161 (2004) — <a href="https://www.cambridge.org/core/journals/journal-of-applied-probability/article/on-the-maximum-drawdown-of-a-brownian-motion/F9E3B8A454B020DDEBF0AC3390EF7807">cambridge.org</a> (학술지 초록)</li>
+<li>[S8] MathWorks, emaxdrawdown 문서 — <a href="https://www.mathworks.com/help/finance/emaxdrawdown.html">mathworks.com/help/finance/emaxdrawdown.html</a> (소프트웨어 문서, 권호·쪽은 여기서 확인)</li>
+<li>[S9] StockCharts ChartSchool, Average True Range (ATR) — <a href="https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-indicators/average-true-range-atr.md">chartschool.stockcharts.com</a> (차트 교육 사이트)</li>
+<li>[S10] Wikipedia, Volatility (finance) — <a href="https://en.wikipedia.org/wiki/Volatility_(finance)">en.wikipedia.org/wiki/Volatility_(finance)</a> (2차 자료)</li>
+<li>[S11] 신영자산운용 펀드 투자설명서 정정 공시(2025-01-22 적용 예정 투자위험등급 산정 방식 변경), 하나은행 누리집 게시 — <a href="https://image.kebhana.com/cont/download/disclosure/daebi_sinyoung_20250122.pdf">image.kebhana.com/…/daebi_sinyoung_20250122.pdf</a> (운용사 공시 문서)</li>
+<li>[S12] Investor.gov, Updated Investor Bulletin: Leveraged and Inverse ETFs (2023-08-29) — <a href="https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/sec-finra">investor.gov/…/investor-alerts/sec-finra</a> (SEC 공식)</li>
+<li>[S13] 같은 공지의 다른 주소 — <a href="https://www.investor.gov/news-alerts/investor-alerts/sec-finra-investor-alert-leveraged-inverse-etfs">investor.gov/news-alerts/investor-alerts/sec-finra-investor-alert-leveraged-inverse-etfs</a> (SEC 공식)</li>
+<li>[S14] 권민경, 「레버리지·인버스 ETF 투자성과 요인 분석」, 자본시장연구원 이슈 보고서 24-03 (2024-01-18), 외부 게시 사본 — <a href="https://www.smallake.kr/wp-content/uploads/2024/01/이슈-24-03-레버리지ㆍ인버스-ETF-투자성과-요인-분석.pdf">smallake.kr/…/이슈-24-03-….pdf</a> (연구기관 보고서, 사본)</li>
+<li>[S15] 운용사 ETF 누리집 공지, 코스피200 선물 레버리지·인버스2X ETF 투자 관련 주의 사항 (2016-09-07) — <a href="https://www.plusetf.co.kr/customer/notice/detail?n=18708">plusetf.co.kr/customer/notice/detail?n=18708</a> (운용사 공지)</li>
+<li>[S16] Marco Avellaneda, Stanley Zhang, “Path-dependence of Leveraged ETF returns” (원고, 2009-05-19) — <a href="https://math.nyu.edu/~avellane/LeveragedETF20090515.pdf">math.nyu.edu/~avellane/LeveragedETF20090515.pdf</a> (저자 원고. 게재본 SIAM J. Financial Math. doi:10.1137/090760805 페이지는 열리지 않음)</li>
+<li>[S17] 미래에셋증권 블로그, 레버리지 ETP 기본예탁금과 사전교육 안내 (2020-09-16 게시) — <a href="https://securities.miraeasset.com/public/mw/blog/html/20200916195431.html">securities.miraeasset.com/…/20200916195431.html</a> (증권사 블로그)</li>
+<li>[S18] 한국경제, ‘단일종목 레버리지’ 교육…벌써 2000명 넘게 신청 (2026-04-29) — <a href="https://www.hankyung.com/article/2026042963621">hankyung.com/article/2026042963621</a> (보도)</li>
+<li>[S19] CBS 노컷뉴스, 삼성전자·SK하이닉스 레버리지 ETF, 다음달부터 매매 (2026-04-21) — <a href="https://www.nocutnews.co.kr/news/6505613">nocutnews.co.kr/news/6505613</a> (보도)</li>
+<li>[S20] 헤럴드경제, 1000만원 없으면 레버리지 ETF 아예 못 산다…22일부터 적용 (2026-05-20) — <a href="https://www.heraldk.com/article/2026052005390064971">heraldk.com/article/2026052005390064971</a> (보도)</li>
+<li>[S21] 파이낸셜뉴스, 단일종목 레버리지 예탁금 3천만원으로 강화… 신규상장 금지 (2026-07-16) — <a href="https://www.fnnews.com/news/202607161824498605">fnnews.com/news/202607161824498605</a> (보도)</li>
+<li>[S22] 한국경제, 단일 레버리지 ETF 투자한도 제한 (2026-07-28) — <a href="https://www.hankyung.com/article/2026072812861">hankyung.com/article/2026072812861</a> (보도)</li>
+<li>[S23] 이코노미스트, 이억원 “레버리지 ETF 진정 안되면 개인별 투자한도 도입” (2026-07-28) — <a href="https://economist.co.kr/article/view/ecn202607280014">economist.co.kr/article/view/ecn202607280014</a> (보도)</li>
+<li>[S24] Rama Cont, “Empirical properties of asset returns: stylized facts and statistical issues”, <i>Quantitative Finance</i> 1(2): 223–236 (2001), doi:10.1080/713665670 — <a href="https://ideas.repec.org/a/taf/quantf/v1y2001i2p223-236.html">ideas.repec.org</a> (서지·초록)</li>
+<li>[S25] Daniel P. Palomar, <i>Portfolio Optimization</i>, 2.1 Stylized facts — <a href="https://portfoliooptimizationbook.com/book/2.1-stylized-facts-1.html">portfoliooptimizationbook.com/book/2.1-stylized-facts-1.html</a> (공개 교재)</li>
+<li>[S26] Portfolio Probe(Pat), A slice of S&amp;P 500 kurtosis history (2012-02-13), R-bloggers 게시 — <a href="https://www.r-bloggers.com/2012/02/a-slice-of-sp-500-kurtosis-history/">r-bloggers.com</a> (분석 블로그)</li>
+<li>[S27] 장경천·김현석, 「주식 수익률의 비선형 결정론적 특성에 관한 연구」, 『재무관리연구』 21(1): 149–181 (2004) — <a href="https://koreascience.or.kr/article/JAKO200408508070199.page">koreascience.or.kr</a> (학술지 초록)</li>
+<li>[S28] Andrew W. Lo, A. Craig MacKinlay, “Stock Market Prices Do Not Follow Random Walks: Evidence from a Simple Specification Test”, <i>Review of Financial Studies</i> 1(1): 41–66 (1988) — <a href="https://web.mit.edu/~alo/www/Papers/lo-mackinlay-88.html">web.mit.edu/~alo/www/Papers/lo-mackinlay-88.html</a> (저자 페이지 초록)</li>
+<li>[S29] James M. Poterba, Lawrence H. Summers, “Mean Reversion in Stock Prices: Evidence and Implications”, NBER Working Paper 2343 (1987) — <a href="https://nber.org/papers/w2343">nber.org/papers/w2343</a> (초록)</li>
+<li>[S30] Myung Jig Kim, Charles R. Nelson, Richard Startz, “Mean Reversion in Stock Prices? A Reappraisal of the Empirical Evidence”, NBER Working Paper 2795 (1988) — <a href="https://www.nber.org/papers/w2795">nber.org/papers/w2795</a> (초록)</li>
+<li>[S31] Ethan Ratliff-Crain 외, “Revisiting Cont's Stylized Facts for Modern Stock Markets”, arXiv:2311.07738v2 (2024-05-20) — <a href="https://arxiv.org/abs/2311.07738v2">arxiv.org/abs/2311.07738v2</a> (사전 공개 논문 초록)</li>
+<li>[S32] MIT OpenCourseWare, 18.S096 Topics in Mathematics with Applications in Finance (Fall 2013), Lecture Notes — <a href="https://ocw.mit.edu/courses/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/pages/lecture-notes/">ocw.mit.edu</a> (대학 강의)</li>
+<li>[S33] 國立政治大學, 金融時間序列分析 강의 계획서 (113-1, 林信助) — <a href="https://newdoc.nccu.edu.tw/teaschm/1131/schmPrv.jsp-yy=113&amp;smt=1&amp;num=351733&amp;gop=00&amp;s=1.html">newdoc.nccu.edu.tw</a> (대학 강의 계획서)</li>
+<li>[S34] 4권 조사 노트 — <a href="../../market/docs/research.html">books/market/docs/research.html</a> (이 서재)</li>
+<li>[S35] 한국경제, 거래소 “31일 휴장…내달 2일 10시 개장” (2025-12-18) — <a href="https://www.hankyung.com/article/2025121825891">hankyung.com/article/2025121825891</a> (보도)</li>
+</ol>
+</section>
+</main>
+</body>
+</html>
