@@ -239,9 +239,10 @@ function gridSixMonths(){
   ...wave({start:20000,days:20,perDay:8,amp:2,period:16,drift:-.5,gaps:{0:-8}}),
   ...wave({start:16700,days:20,perDay:8,amp:2,period:16})];
 }
-/* 생성한 날들의 하루 점들. 시드가 같으면 같은 점이 나온다. */
+/* 생성한 날들의 하루 점들. 시드가 같으면 같은 점이 나온다. 기본 시드 20은 G3에서 정했다(250일째 종가 19,090원,
+   생성한 날의 종가 범위 15,810~19,810원, 81일째가 1년 가운데 유일한 3σ 밖의 날, 1년 초과 첨도 −0.63). */
 function generatedDays(start,o={}){
- const days=o.days??130,perDay=o.perDay??8,vol=o.vol??.015,kappa=o.kappa??0,g=rng(o.seed??8);
+ const days=o.days??130,perDay=o.perDay??8,vol=o.vol??.015,kappa=o.kappa??0,g=rng(o.seed??20);
  if(!(start>0)||!(vol>=0)||!(kappa>=0&&kappa<1))throw new RangeError('start > 0, vol >= 0, 0 <= kappa < 1');
  const sp=vol/Math.sqrt(perDay),kp=kappa/perDay,anchor=Math.log(start),out=[];let x=anchor;
  for(let d=0;d<days;d++){
