@@ -163,6 +163,34 @@ function canary(metric,ratio,N=3000){
  return {stages,reachFull:survive,haltBy:1-survive,gate:m.gate};
 }
 
+/* 10장 보충: 표준정규분포의 역함수 Φ⁻¹(p). Acklam의 유리 근사(상대 오차 약 1.15×10⁻⁹), 0<p<1 밖은 NaN */
+function normInv(p){
+ if(!(p>0&&p<1))return NaN;
+ const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.3577518672690,-30.66479806614716,2.506628277459239],
+  b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+  c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+  d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416],lo=0.02425;
+ const tail=q=>(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+ if(p<lo)return tail(Math.sqrt(-2*Math.log(p)));
+ if(p>1-lo)return -tail(Math.sqrt(-2*Math.log(1-p)));
+ const q=p-0.5,r=q*q;
+ return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+}
+/* 10장 보충: A/B 표본 크기. 두 비율의 양측 검정(정규 근사), 새 버전이 δ만큼 나아진다고 보아 p₂ = p + δ.
+   집단당 n = (z₁₋α/₂ + z₁₋β)²·(p₁q₁ + p₂q₂) ÷ δ², 50:50 배정이므로 하루 집단당 표본 = 하루 요청 × 피드백 비율 ÷ 2.
+   CUPED는 실험 전 값과의 상관 ρ만큼 분산이 (1 − ρ²)배가 된다고 보아 n도 (1 − ρ²)배. 피드백 비율 5%는 교육용 가정. */
+function abSample(o){
+ const p=o.p,delta=o.delta,p2=p+delta,alpha=o.alpha??0.05,power=o.power??0.8,rho=o.rho||0;
+ const daily=o.daily??NURI.daily,fb=o.feedback??0.05,perDay=daily*fb/2;
+ if(!(p>0&&p<1))return {valid:false,reason:'base'};
+ if(!(delta>0))return {valid:false,reason:'delta'};
+ if(!(p2<1))return {valid:false,reason:'over',p2};
+ if(!(alpha>0&&alpha<1&&power>0&&power<1&&rho>=0&&rho<1&&perDay>0))return {valid:false,reason:'input'};
+ const zA=normInv(1-alpha/2),zB=normInv(power),raw=(zA+zB)**2*(p*(1-p)+p2*(1-p2))/(delta*delta);
+ const n=Math.ceil(raw),nCuped=Math.ceil(raw*(1-rho*rho));
+ return {valid:true,p2,zA,zB,raw,n,nCuped,perDay,days:n/perDay,daysCuped:nCuped/perDay,wholeDays:Math.ceil(n/perDay),wholeDaysCuped:Math.ceil(nCuped/perDay),saved:1-rho*rho};
+}
+
 /* 11장: 카오스 실험의 오류 예산 소진 속도 */
 function burnRate(blast,injected,o={}){
  const slo=o.slo||0.995,base=o.base||0.001,budget=1-slo,overall=base+blast*injected,burn=overall/budget;
@@ -193,6 +221,6 @@ function homeDecode(conc){
  return {...h,tpot,tput:conc/tpot*1000,slo:25,meets:tpot<=25&&h.fits};
 }
 
-const A18Math={NURI,rng,gauss,percentile,mean,phi,breakeven,nuriUtil,chunkedPrefill,FORMATS,kvBytesPerToken,hbmBudget,edgeCeiling,latencySample,goodput,itlByTool,erlangC,capacity,SPEC_LOAD,specTokens,specSpeedup,LINKS,kvTransfer,routeSim,crossRegion,coldStart,scaleSignals,PRICE,dailyBill,parallelWrites,cascade,gatewayFallback,CANARY,STAGES,canary,burnRate,traceSampling,finalCase,homeDecode};
+const A18Math={NURI,rng,gauss,percentile,mean,phi,breakeven,nuriUtil,chunkedPrefill,FORMATS,kvBytesPerToken,hbmBudget,edgeCeiling,latencySample,goodput,itlByTool,erlangC,capacity,SPEC_LOAD,specTokens,specSpeedup,LINKS,kvTransfer,routeSim,crossRegion,coldStart,scaleSignals,PRICE,dailyBill,parallelWrites,cascade,gatewayFallback,CANARY,STAGES,canary,normInv,abSample,burnRate,traceSampling,finalCase,homeDecode};
 if(typeof module!=='undefined')module.exports=A18Math;else root.A18Math=A18Math;
 })(typeof window!=='undefined'?window:globalThis);

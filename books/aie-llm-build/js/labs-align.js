@@ -1,4 +1,4 @@
-/* 6~9장 실험: SFT 손실 마스크, DPO, GRPO 집단 이점, ELO.
+/* 6~9장 실험: SFT 손실 마스크, DPO, GRPO 집단 이점, ELO, 평가 문항 오염 검사.
    계산은 모두 A11Math가 하고, 여기서는 입력을 읽어 그림과 결과 문장을 그린다. */
 (()=>{
 'use strict';
@@ -51,6 +51,32 @@ A11Labs.elo=el=>{
   const chart=U.plot({lines,xmin:0,xmax:n,ymin:Math.floor(lo/50)*50-50,ymax:Math.ceil(hi/50)*50+50,xlabel:'경기 수',ylabel:'ELO 점수',label:`K = ${K}, 경기 ${n}번 동안 서재봇 네 버전의 ELO 점수 변화`});
   const order=r.R.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]),ok=order.every((o,i)=>o[1]===i);
   U.result(el,chart,`최종 점수: ${order.map(([v,i])=>`<span style="color:${COLORS[i]}">■</span> ${NAMES[i]} <b>${F(v,0)}</b>`).join(' · ')}<br>실제 실력 순서(v4 > v3 > v2 > v1)와 ${ok?'<b>같습니다</b>':'<b>다릅니다</b>'}. 점수 합은 ${F(r.R.reduce((a,b)=>a+b,0),0)}로 보존됩니다.<br>v4가 v1을 이길 기대 확률: 실제 실력으로 ${F(M.eloExpected(TRUE[0],TRUE[3])*100,1)}%, 지금 점수로 ${F(M.eloExpected(r.R[0],r.R[3])*100,1)}%<br>승패는 실제 실력에서 고정 시드로 뽑은 시뮬레이션입니다.`);
+ });
+};
+/* 9장 둘째 실험: 평가 문항 6개를 학습 조각 묶음과 어절 n-gram으로 대조한다. 계산은 A11Math.contamination. */
+const CT=M.DATA.contam,CT_SETS={all:'전체 6개 (복사 2 · 바꿔 씀 2 · 무관 2)',nocopy:'복사본 2개를 지운 4개',clean:'무관한 글 2개만'};
+const ctMark=r=>r.flag===null?'– 검사 불가':r.flag?'✕ 오염 의심':'✓ 겹침 없음';
+function ctReading(r,n,set){
+ if(r.missed&&r.pass)return `게이트는 통과했지만 학습 데이터에 들어간 문항 ${r.missed}개를 놓쳤습니다. 말을 바꿔 쓴 오염은 ${n}어절 이어진 똑같은 구간이 없어 걸리지 않습니다.`;
+ if(r.missed)return `게이트는 실패했고, 그 가운데서도 문항 ${r.missed}개는 학습 데이터에 들어 있는데 걸리지 않았습니다. n을 낮추면 바꿔 쓴 문항도 잡히는지 보세요.`;
+ if(r.falseAlarm)return `학습 데이터에 없는 문항 ${r.falseAlarm}개가 흔한 끝맺음 때문에 걸렸습니다. n이 작으면 놓치는 것은 줄지만 이런 헛경보가 늘어납니다.`;
+ if(r.unchecked&&set!=='clean')return `놓친 문항은 없지만, 짧은 문항 ${r.unchecked}개는 ${n}어절이 안 되어 아예 검사하지 못했습니다.`;
+ return r.pass?'걸린 문항도 놓친 문항도 없습니다. 이 묶음에는 평가 문항이 들어 있지 않습니다.':`걸린 문항은 모두 실제로 학습 데이터에 들어간 문항입니다.`;
+}
+A11Labs.contam=el=>{
+ U.setup(el,R('ct-n','n-gram 길이 n (어절, 8~13)',8,13,1,13)+S('ct-train','학습 조각 묶음',[['all','전체 6개'],['nocopy','복사본 지운 4개'],['clean','무관한 글 2개']],'all')+S('ct-item','자세히 볼 문항',CT.items.map((it,i)=>[i,`문항 ${i+1} · ${it.kind}`]),0));
+ U.bind(el,()=>{
+  const n=U.value(el,'ct-n'),set=U.text(el,'ct-train'),pick=U.value(el,'ct-item'),train=CT.train.filter(t=>CT.sets[set].includes(t.id)),r=M.contamination(CT.items,train,n);
+  if(r.error){U.result(el,'',`<b>입력 오류</b>: ${r.error}`);return;}
+  const labels=r.rows.map((x,i)=>`문항 ${i+1} ${x.flag===null?'–':x.flag?'✕':'✓'}`),vals=r.rows.map(x=>x.rate===null?0:x.rate*100);
+  const it=CT.items[pick],row=r.rows[pick],w=M.words(it.text);
+  const chips=row.flag===null?`<p class="caption">문항 ${pick+1}은 ${row.words}어절이라 ${n}어절짜리 조각을 만들 수 없습니다. 검사 불가로 남깁니다.</p>`:
+   `<div class="a11-chips" aria-label="문항 ${pick+1}의 어절 ${row.words}개 가운데 학습 조각과 겹친 n-gram에 든 어절 ${row.cover.filter(Boolean).length}개">${w.map((x,k)=>`<span class="${row.cover[k]?'on':'off'}">${row.cover[k]?'▲':''}${U.esc(x)}</span>`).join('')}</div>`;
+  const chart=`<p class="caption">문항별 겹침률 (%) · ✕ 오염 의심 · ✓ 겹침 없음 · – 검사 불가</p>`+U.bars(labels,vals,'%',null,1)+chips;
+  const list=r.rows.map((x,i)=>`문항 ${i+1} ${ctMark(x)} ${x.flag===null?`(${x.words}어절)`:`${F(x.rate*100,0)}% (${x.hits}/${x.grams})`}`).join(' · ');
+  const sweep=[8,9,10,11,12,13].map(k=>{const s=M.contamination(CT.items,train,k);return `${k} → ${F(s.overall*100,1)}%${s.missed?` (놓침 ${s.missed})`:''}${s.falseAlarm?` (헛경보 ${s.falseAlarm})`:''}`;}).join(' · ');
+  U.result(el,chart,`n = ${n}어절, 학습 조각: ${CT_SETS[set]}<br>${list}<br>전체 겹침률 <b>${F(r.overall*100,2)}%</b> (${r.hits}/${r.grams}) → 게이트 기준 0.1% ${r.pass?'이하: <b>통과</b>':'초과: <b>실패</b>'}`+
+   `<br>n별 전체 겹침률: ${sweep}<br>${ctReading(r,n,set)}${row.flag===null?'':`<br>문항 ${pick+1}(${it.kind}): ▲ 표시 어절이 학습 조각과 겹친 구간입니다.`}<br>겹침은 실제로 세어 계산하고, 문항과 학습 조각은 미리 정한 교육용 예시입니다. 문항이 여섯 개뿐이라 n-gram 하나만 겹쳐도 0.1%를 넘습니다.`);
  });
 };
 })();

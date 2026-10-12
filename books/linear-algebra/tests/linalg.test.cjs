@@ -114,3 +114,25 @@ test('rank of 2×2: plane 2, line 1, origin 0; rotation is orthogonal', () => {
   near(back[0], 1); near(back[1], 2);
   near(LA.det(LA.scaling(1, -1)), -1);
 });
+
+test('power iteration: repeated M·v turns toward the largest eigenvalue direction', () => {
+  const M = [[2, 1], [1, 2]];
+  // 손계산: (1, 0) → (2, 1) → (5, 4) → (14, 13). 각도 26.57° → 38.66° → 42.88°, 배율 √5 → √41/√5 → √365/√41.
+  const s = LA.powerSteps(M, [1, 0], 12);
+  assert.equal(s.length, 13);
+  [[1, 0], [2, 1], [5, 4], [14, 13]].forEach((v, k) => nearVec(s[k].v, v));
+  near(s[1].angle, 26.5651, 1e-4); near(s[2].angle, 38.6598, 1e-4); near(s[3].angle, 42.8789, 1e-4);
+  near(s[1].ratio, Math.sqrt(5)); near(s[2].ratio, Math.sqrt(41 / 5)); near(s[3].ratio, Math.sqrt(365 / 41));
+  // 불변 조건: (1, 0) = ½(1, 1) + ½(1, −1)이므로 Mⁿv = ½(3ⁿ + 1, 3ⁿ − 1).
+  for (const k of [5, 12]) nearVec(s[k].v, [(3 ** k + 1) / 2, (3 ** k - 1) / 2]);
+  near(s[12].angle, 45, 2e-4); near(s[12].ratio, 3, 1e-5);
+  // 경계값: λ = 1 방향 (1, −1)에서 시작하면 방향과 길이가 그대로입니다.
+  for (const st of LA.powerSteps(M, [1, -1], 8)) { near(st.angle, -45); if (st.k) { near(st.turn, 0); near(st.ratio, 1); } }
+  // 회전은 매번 45°씩 돌 뿐 멈추지 않고, 길이도 바뀌지 않습니다.
+  for (const st of LA.powerSteps(LA.rotation(45), [1, 0], 8).slice(1)) { near(st.turn, 45, 1e-9); near(st.ratio, 1); }
+  // 고윳값 3과 2.9: 10번 곱해도 9.53°, 둘째 성분 비율 (2.9/3)¹⁰ ≈ 0.712가 남습니다.
+  near(LA.powerSteps([[2.95, 0.05], [0.05, 2.95]], [1, 0], 10)[10].angle, 9.531, 1e-3);
+  // 길이 0인 시작 벡터는 방향이 없습니다. 0 벡터로 납작해지면 그 단계에서 멈춥니다.
+  assert.equal(LA.powerSteps(M, [0, 0], 3), null);
+  assert.equal(LA.powerSteps([[1, 1], [1, 1]], [1, -1], 3).length, 1);
+});

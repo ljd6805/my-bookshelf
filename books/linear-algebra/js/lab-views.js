@@ -312,6 +312,54 @@ window.LAViews = {
    "대칭행렬 [2, 1 ; 1, 2]는 45°에서 고윳값 3, 135°에서 고윳값 1인 고유벡터를 가집니다. 45° 회전은 모든 방향을 돌리므로 어느 φ에서도 ‘방향 그대로’가 나오지 않습니다."
   ]
  },
+ "power": {
+  "title": "같은 변환을 여러 번",
+  "desc": "같은 행렬 M을 시작 벡터 v에 n번 거듭 곱합니다. 파란 화살표가 처음 v, 청록 화살표가 Mⁿv의 방향입니다. 곱하기 전에 짐작해 보세요. (1, 0)에서 시작해 열 번 곱하면 화살표는 어느 쪽을 향할까요?",
+  "html": "<div class=\"lab-columns\"><div class=\"controls\"><label>행렬 고르기 <select name=\"preset\" id=\"pw-preset\"><option value=\"sym\" selected>대칭으로 섞기 [2, 1 ; 1, 2] (λ = 3, 1)</option><option value=\"close\">고윳값이 가까운 [2.95, 0.05 ; 0.05, 2.95] (λ = 3, 2.9)</option><option value=\"rotate\">45° 회전 (실수 고윳값 없음)</option></select></label>\n<div class=\"field\"><label for=\"pw-v1\">시작 벡터 v₁</label><input type=\"range\" id=\"pw-v1\" name=\"v1\" min=\"-3\" max=\"3\" step=\"0.5\" value=\"1\" data-digits=\"1\"><output for=\"pw-v1\">1.0</output></div>\n<div class=\"field\"><label for=\"pw-v2\">시작 벡터 v₂</label><input type=\"range\" id=\"pw-v2\" name=\"v2\" min=\"-3\" max=\"3\" step=\"0.5\" value=\"0\" data-digits=\"1\"><output for=\"pw-v2\">0.0</output></div>\n<div class=\"field\"><label for=\"pw-n\">곱하는 횟수 n</label><input type=\"range\" id=\"pw-n\" name=\"n\" min=\"0\" max=\"30\" step=\"1\" value=\"3\" data-digits=\"0\" data-unit=\"번\"><output for=\"pw-n\">3번</output></div>\n<div class=\"buttons\"><button type=\"button\" data-play>n을 0부터 30까지 늘리기</button></div></div><div class=\"stage\"><svg role=\"img\" aria-labelledby=\"lab-pw-svg\"><title id=\"lab-pw-svg\">시작 벡터 v와 n번 곱한 Mⁿv의 방향, 중간 단계의 방향(흐린 점), 계산한 고유벡터 직선(보라 선). 길이는 모두 2.2로 맞췄고, 단계별 수치는 아래 표와 결과 문장에 있습니다.</title></svg></div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>시작 v = (1, 0)에서 세 번 곱하면 M³v = (14, 13), 방향 42.9°, 마지막 배율 2.98입니다.</p></div><div class=\"ranking table-scroll power-trace\"></div><p class=\"caption lab-note\"><b>계산 조건</b> 시작 벡터 v = (v₁, v₂)는 −3~3(0.5 간격, 단위 없는 점수), n은 0~30번입니다. Mᵏv를 정규화하지 않고 그대로 곱해 실제로 계산하고, 방향은 x축에서 잰 각도(−180°~180°), 표의 ‘돈 각도’는 앞 단계에서 돌아간 각도, ‘배율’은 한 번 곱할 때 길이가 몇 배가 되었는지(|Mᵏv| / |Mᵏ⁻¹v|)입니다. 그림은 방향만 보이도록 모든 화살표의 길이를 2.2로 맞췄습니다. 가장 큰 고윳값의 고유벡터 직선에서 0.5° 안에 들면 ‘자리를 잡았다’고 판정합니다. 표가 길어지면 처음 세 단계와 마지막 네 단계만 보입니다. 시작 벡터가 (0, 0)이면 방향이 없어 계산하지 않습니다.</p>",
+  "task": "기본 행렬에서 시작 벡터를 2장의 내 취향 (1, 2)로 바꿔 보세요. 63.4°에서 출발한 방향이 세 번 만에 45.7°로 다가갑니다. 같은 변환을 되풀이할수록 처음 어떤 취향이었는지는 흐려지고 행렬이 정한 방향만 남습니다. 이어서 행렬을 ‘고윳값이 가까운’으로 바꾸고 n을 30까지 밀어 보세요. 방향이 45°에 닿을까요?",
+  "guide": [
+   "같은 행렬을 거듭 곱하면 시작 벡터와 상관없이 방향이 가장 큰 고윳값의 고유벡터로 끌려가는지, 그 빠르기를 무엇이 정하는지 확인합니다.",
+   [
+    [
+     "(1, 0)에서 세 번",
+     {
+      "preset": "sym",
+      "v1": 1,
+      "v2": 0,
+      "n": 3
+     }
+    ],
+    [
+     "(1, −1)에서 시작",
+     {
+      "preset": "sym",
+      "v1": 1,
+      "v2": -1,
+      "n": 8
+     }
+    ],
+    [
+     "고윳값 3과 2.9, 열 번",
+     {
+      "preset": "close",
+      "v1": 1,
+      "v2": 0,
+      "n": 10
+     }
+    ],
+    [
+     "45° 회전",
+     {
+      "preset": "rotate",
+      "v1": 1,
+      "v2": 0,
+      "n": 3
+     }
+    ]
+   ],
+   "(1, 0)에서 시작하면 (2, 1) → (5, 4) → (14, 13)으로 가며 방향은 26.6° → 38.7° → 42.9°, 배율은 2.24 → 2.86 → 2.98로 각각 45°와 λ₁ = 3에 다가갑니다. (1, −1)은 λ = 1인 고유벡터라 몇 번을 곱해도 −45°, 배율 1에 머뭅니다. 고윳값이 3과 2.9이면 열 번 곱해도 9.5°에 그칩니다. 둘째 성분이 매번 2.9/3 ≈ 0.97배로만 줄어들기 때문입니다. 45° 회전은 매번 45°씩 돌 뿐 어디에도 멈추지 않습니다."
+  ]
+ },
  "pca": {
   "title": "가장 많이 퍼지는 방향 찾기",
   "desc": "방향 θ를 바꾸면 붉은 점선이 평균을 지나며 돌고, 노래들의 그림자(붉은 작은 점)가 그 위에 맺힙니다. 아래 곡선은 θ마다의 분산입니다. 곡선의 꼭대기를 찾아보세요.",

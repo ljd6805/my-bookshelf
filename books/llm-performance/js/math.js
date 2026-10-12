@@ -47,6 +47,40 @@ function speculative(alpha,gamma,cost){
  const curve=Array.from({length:8},(_,i)=>at(i+1)),best=curve.reduce((a,b)=>b.speedup>a.speedup?b:a);
  return {...at(gamma),curve,best};
 }
-const api={choiceOrder,speculative,metrics,timing,pipeline,mapping,sectors,occupancy,roofline,fusion,attention,paging,schedule,parallel,percentile,trials,decision};
+/* 10장 꼬리 지연 실험: 고정 시드로 만든 미리 정한 시나리오의 시뮬레이션(실측 아님).
+   요청은 평균 간격 1/rate초의 무작위(지수) 간격으로 도착하고, 먼저 온 순서대로 가장 먼저 비는 슬롯에 들어간다(FIFO, 슬롯 slots개).
+   처리 시간은 spread 0 = 모두 service ms, 1 = service의 0.5~1.5배 균등, 2 = 평균 service ms의 지수 분포.
+   같은 seed면 결과가 같고, 요청마다 난수를 두 개씩 쓰므로 rate·spread를 바꿔도 같은 난수열을 다시 쓴다. */
+function seeded(seed){let a=seed>>>0;return ()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return ((t^(t>>>14))>>>0)/4294967296;};}
+function timeAverage(points,horizon){/* 계단 함수(+1 도착, −1 떠남)를 시간으로 적분해 평균 개수를 얻는다. */
+ points.sort((a,b)=>a[0]-b[0]||a[1]-b[1]);let level=0,last=0,area=0;
+ for(const [t,d] of points){area+=level*(t-last);level+=d;last=t;}
+ return area/horizon;
+}
+function queue(rate,service,slots,spread=0,options={}){
+ valid(rate,.001);valid(service,.001);valid(slots,1);if(!Number.isInteger(slots)||![0,1,2].includes(spread))throw new RangeError('입력 범위를 확인하세요');
+ const count=options.count||4000,prefill=options.prefill??100,next=seeded(options.seed??20261012),free=Array(slots).fill(0),rows=[];let clock=0;
+ for(let i=0;i<count;i++){
+  clock+=-Math.log(1-next())/rate*1000;const u=next(),s=spread===0?service:spread===1?service*(.5+u):-Math.log(1-u)*service;
+  let k=0;for(let j=1;j<slots;j++)if(free[j]<free[k])k=j;
+  const start=Math.max(clock,free[k]);free[k]=start+s;rows.push({arrival:clock,start,end:start+s});
+ }
+ const waits=rows.map(r=>r.start-r.arrival),horizon=rows.reduce((m,r)=>Math.max(m,r.end),0),mean=waits.reduce((a,b)=>a+b,0)/count;
+ const rho=rate*service/1000/slots,observed=count/horizon*1000,quarter=Math.floor(count/4),avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+ const queued=timeAverage(rows.flatMap(r=>[[r.arrival,1],[r.start,-1]]),horizon),inSystem=timeAverage(rows.flatMap(r=>[[r.arrival,1],[r.end,-1]]),horizon);
+ const sojourn=avg(rows.map(r=>r.end-r.arrival));
+ return {rho,stable:rho<1,count,prefill,waits,mean,p50:percentile(waits,.5),p95:percentile(waits,.95),max:waits.reduce((m,w)=>Math.max(m,w),0),waited:waits.filter(w=>w>1e-9).length/count,
+  horizon,observed,queued,inSystem,littleQueued:observed*mean/1000,littleSystem:observed*sojourn/1000,nominalQueued:rate*mean/1000,
+  early:avg(waits.slice(0,quarter)),late:avg(waits.slice(count-quarter))};
+}
+/* 대기 시간 막대: 기다리지 않은 요청(0 ms)을 첫 칸에 따로 두고, 나머지를 0~top ms의 bins칸에 나눈다. top을 넘는 값은 마지막 칸에 넣는다. */
+function histogram(waits,bins=8,top=null){
+ valid(bins,1);const positive=waits.filter(w=>w>1e-9),upper=top??Math.max(1,percentile(positive.length?positive:[1],.99)),width=upper/bins,counts=Array(bins).fill(0);
+ for(const w of positive)counts[Math.min(bins-1,Math.floor(w/width))]++;
+ return {zero:waits.length-positive.length,counts,width,upper};
+}
+/* 같은 S·슬롯·흔들림에서 사용률 0.5·0.7·0.9가 되도록 도착률만 바꾼 비교표. */
+function tailSweep(service,slots,spread=0,levels=[.5,.7,.9]){return levels.map(r=>{const q=queue(r*slots*1000/service,service,slots,spread);return {rho:r,rate:q.rho*slots*1000/service,mean:q.mean,p50:q.p50,p95:q.p95};});}
+const api={seeded,queue,histogram,tailSweep,choiceOrder,speculative,metrics,timing,pipeline,mapping,sectors,occupancy,roofline,fusion,attention,paging,schedule,parallel,percentile,trials,decision};
 if(typeof module==='object'&&module.exports)module.exports=api;else root.PMath=api;
 })(typeof window==='object'?window:globalThis);

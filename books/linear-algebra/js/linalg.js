@@ -133,9 +133,28 @@
   }
   const transpose = (M) => [[M[0][0], M[1][0]], [M[0][1], M[1][1]]];
 
+  // 거듭제곱법: v, Mv, M²v, …, Mⁿv를 차례로 곱합니다(정규화하지 않은 값).
+  // angle은 방향 각도(−180° 초과 180° 이하), turn은 앞 단계에서 돌아간 각도, ratio는 |Mᵏv| / |Mᵏ⁻¹v|입니다.
+  // 시작 벡터의 길이가 0이면 방향이 없으므로 null, 중간에 0 벡터가 되면 그 단계에서 멈춥니다.
+  function powerSteps(M, v, n) {
+    if (norm(v) < EPS) return null;
+    const deg = (w) => (Math.atan2(w[1], w[0]) * 180) / Math.PI;
+    const steps = [{ k: 0, v: v.slice(), angle: deg(v), turn: null, ratio: null }];
+    for (let k = 1; k <= n; k++) {
+      const prev = steps[k - 1], w = matVec(M, prev.v), len = norm(w);
+      if (len < EPS) break;
+      const angle = deg(w);
+      let turn = (angle - prev.angle) % 360;
+      if (turn > 180) turn -= 360;
+      if (turn <= -180) turn += 360;
+      steps.push({ k, v: w, angle, turn, ratio: len / norm(prev.v) });
+    }
+    return steps;
+  }
+
   const relu = (v) => v.map((x) => Math.max(0, x));
   const layer = (W, b, x) => add(W.map((row) => dot(row, x)), b);
 
   return { EPS, add, sub, scale, dot, norm, cosine, angleDeg, project, fromDeg, identity, matVec, matMul,
-    det, rank2, transpose, inverse, solve, leastSquares, rotation, scaling, shear, lerpMatrix, eigen2, mean, covariance, pca, relu, layer };
+    det, rank2, transpose, inverse, solve, leastSquares, rotation, scaling, shear, lerpMatrix, eigen2, powerSteps, mean, covariance, pca, relu, layer };
 });

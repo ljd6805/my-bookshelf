@@ -1,0 +1,60 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="LLM 직접 만들기 9장 평가 문항 오염 검사 실험(contam)의 조사 노트입니다."><title>오염 검사 조사 노트 · LLM 직접 만들기</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><header class="top"><a class="brand" href="index.html">LLM 직접 만들기 · 제작 문서</a><a href="../index.html#eval">9장 읽기</a></header>
+<main style="max-width:1050px;margin:auto;padding:32px">
+<h1>조사 노트 · 9장 평가 문항 오염 검사(contam)</h1>
+<p>2026-10-12 개정에서 #eval에 더한 둘째 실험의 사실 주장, 식, 기준값, 가정과 오해를 지식조사팀장 은재의 관점으로 한곳에 모았습니다. 사실 대조의 근거는 같은 날 별도 세션이 한 <a href="fact-review.html#review-2026-10-12-lab-contam">팩트·출처 검수 회차</a>이고, 기준값은 이 노트를 쓰며 책 코드와 따로 python3으로 다시 세어 맞췄습니다. 원본 커리큘럼(MIT)은 구조와 연습 문제 아이디어만 참고했고 문항·학습 조각·문장은 새로 썼습니다. <a href="index.html">제작 문서로 돌아가기</a></p>
+
+<section id="facts"><h2>1. 사실 주장 표</h2>
+<table><tr><th>주장 (책의 위치)</th><th>출처와 등급</th><th>확인일</th><th>변화가 잦은가</th></tr>
+<tr><td>GPT-3 논문은 학습 데이터에서 벤치마크와 겹치는 부분을 지우려 했지만 필터 버그로 일부가 남았다고 밝힌다 (출처 52 설명)</td><td>Brown 등 2020, 2.2절. 1차 자료(논문 본문)</td><td>2026-10-12, 검수 회차가 원문 대조</td><td>아님</td></tr>
+<tr><td>GPT-3 논문은 사전학습 데이터와 13-gram이 겹치는 문항을 오염 의심으로 보고, 이를 뺀 "깨끗한" 세트로 점수를 다시 쟀다 (#eval 상세 절 첫 문장)</td><td>Brown 등 2020, 4절. 1차 자료</td><td><b>확인하지 못함</b>: 검수 세션에서 4절 원문을 열지 못함</td><td>아님</td></tr>
+<tr><td>13-gram보다 짧은 문항은 문항 전체가 겹치는지로 따로 봤다 (#eval 상세 절 둘째 문단 괄호)</td><td>Brown 등 2020, 4절. 1차 자료</td><td><b>확인하지 못함</b>: 위와 같음</td><td>아님</td></tr>
+<tr><td>원본 13강 연습 문제는 13-gram 겹침이 0.1%를 넘으면 실패하는 오염 게이트를 만들게 한다 (#eval 상세 절, #final plan·run·gate)</td><td>원본 레슨 10-13 en.md 연습 문제 2. 교재(2차 자료)</td><td>2026-10-12, 검수 회차가 원문 대조</td><td>저장소가 갱신되면 바뀔 수 있음</td></tr>
+<tr><td>널리 쓰는 벤치마크는 오염·형식 맞춤 학습·포화로 무너진다 (#eval 첫 문단)</td><td>원본 레슨 10-10. 교재</td><td>2026-10-08 (첫 집필 때)</td><td>아님</td></tr>
+<tr><td>어절은 띄어쓰기 단위이고 조사가 붙어 있어, 조사 하나만 바꿔도 그 어절을 지나는 조각이 모두 달라진다 (#eval 상세 절)</td><td>한국어 문법의 정의. 이 책의 서술</td><td>2026-10-12 (검수 terms 항목)</td><td>아님</td></tr>
+<tr><td>번역하거나 뜻만 살려 새로 쓴 글은 n-gram 겹침 검사로 잡기 어렵고, 평가 세트 일부를 비공개로 두거나 수집 날짜 뒤에 쓴 문항으로 다시 재는 방법을 함께 쓴다 (#eval 상세 절 셋째 문단)</td><td>n-gram 일치 정의에서 바로 나오는 한계와 일반적인 관행. 특정 논문을 인용하지 않음</td><td>2026-10-12</td><td>아님</td></tr>
+</table></section>
+
+<section id="formulas"><h2>2. 식, 단위, 가정, 유효 범위</h2>
+<ul>
+<li><b>정규화</b>: 소문자로 바꾸고 문장부호(유니코드 글자·숫자·공백이 아닌 것)를 공백으로 바꾼 뒤 공백으로 나눕니다. 2장 MinHash의 <code>shingles</code>와 같은 함수 <code>words</code>를 씁니다.</li>
+<li><b>문항 겹침률</b> = (학습 조각 어디든 있는 문항의 n-gram 자리 수) ÷ (어절 수 − n + 1). 단위는 비율(화면은 %). 공식 칸은 집합 크기로 썼고 코드는 자리 수를 셉니다. 한 문항 안에 같은 n-gram이 되풀이될 때만 다르며, 이 실험의 문항(n ≥ 8)에는 되풀이가 없습니다.</li>
+<li><b>전체 겹침률</b> = 겹친 자리 합 ÷ 검사한 문항의 자리 합. 어절 수가 n보다 적은 문항은 검사 불가로 빼고 셉니다.</li>
+<li><b>게이트</b>: 전체 겹침률 ≤ 0.001이면 통과(같으면 통과).</li>
+<li><b>판정</b>: 자리 하나라도 겹치면 오염 의심. 정답은 그 문항을 담은 학습 조각이 지금 고른 묶음에 있는지입니다. 놓침 = 정답이 오염인데 겹침 0, 헛경보 = 정답이 깨끗한데 겹침 있음.</li>
+<li><b>유효 범위</b>: n은 정수 8~13(슬라이더). 함수는 1 이상 정수만 받고 나머지는 오류를 냅니다. 문항 6개·조각 6개라 n-gram 하나만 겹쳐도 0.1%를 넘으므로, 게이트 판정은 실제 규모의 평가 세트를 대신하지 않습니다.</li>
+</ul></section>
+
+<section id="reference"><h2>3. 기준값 (python3으로 따로 계산, 2026-10-12)</h2>
+<table><tr><th>묶음 · n</th><th>문항별 겹친 자리/전체</th><th>전체 겹침률</th><th>게이트</th></tr>
+<tr><td>전체 6개 · 13</td><td>5/5, 0/9, 0/7, 0/2, 0/8, 검사 불가</td><td>5/31 = 16.13%</td><td>실패, 놓침 2</td></tr>
+<tr><td>전체 6개 · 8</td><td>10/10, 5/14, 3/12, 0/7, 1/13, 3/3</td><td>22/59 = 37.29%</td><td>실패, 헛경보 1</td></tr>
+<tr><td>복사본 지운 4개 · 13</td><td>모두 0, 문항 6 검사 불가</td><td>0/31 = 0%</td><td>통과, 놓침 2</td></tr>
+<tr><td>복사본 지운 4개 · 11</td><td>0, 2/11, 0, 0, 0, 검사 불가</td><td>2/41 = 4.88%</td><td>실패, 놓침 1</td></tr>
+<tr><td>복사본 지운 4개 · 8</td><td>0/10, 5/14, 3/12, 0/7, 1/13, 0/3</td><td>9/59 = 15.25%</td><td>실패, 헛경보 1</td></tr>
+<tr><td>무관한 글 2개 · 8</td><td>문항 5만 1/13</td><td>1/59 = 1.69%</td><td>실패, 헛경보 1</td></tr>
+<tr><td>무관한 글 2개 · 9</td><td>모두 0</td><td>0/53</td><td>통과</td></tr>
+</table>
+<p>어절 수는 17·21·19·14·20·10입니다. 문항 2의 겹친 자리는 n = 8~13에서 5·4·3·2·1·0, 문항 3은 3·2·1·0·0·0이라 문항 3이 먼저(n = 11) 빠져나갑니다. 경계: 문항 6은 n = 10에서 자리 1개, n = 11부터 검사 불가. 불변 조건: n이 커지면 문항별 겹친 자리 수가 늘지 않고(n-gram이 겹치면 같은 자리의 (n−1)-gram도 겹침), 학습 조각이 늘면 겹침이 줄지 않습니다. 책 화면과 <code>tests/math.test.cjs</code>의 값이 모두 같았습니다.</p></section>
+
+<section id="kinds"><h2>4. 실제 계산, 미리 정한 시나리오, 비유</h2>
+<ul><li><b>실제 계산</b>: 어절 분리, n-gram 대조, 겹침률, 게이트, 놓침·헛경보 셈. 브라우저에서 매번 셉니다.</li>
+<li><b>미리 정한 시나리오</b>: 서재봇 평가 문항 6개와 SFT 학습 조각 6개(그대로 복사 2, 조금·많이 바꿔 씀 2, 무관 2). 교육용으로 만든 예시이며 실제 학습 데이터가 아닙니다. 화면 결과 문장 끝에 이를 밝힙니다.</li>
+<li><b>비유</b>: 쓰지 않았습니다. ▲ 표시 어절은 실제로 겹친 구간을 그대로 보여 줍니다.</li></ul></section>
+
+<section id="misconceptions"><h2>5. 오해 목록</h2>
+<ul><li>"13-gram 게이트를 통과했으니 평가 세트는 깨끗하다." 복사본을 지운 묶음은 13-gram 0%로 통과하지만 바꿔 쓴 문항 2·3은 학습 데이터에 들어 있습니다.</li>
+<li>"n을 작게 할수록 좋다." n = 8에서 놓침은 0이 되지만 흔한 끝맺음만 같은 문항 5가 헛경보로 걸립니다.</li>
+<li>"짧은 문항은 겹침 0%이니 안전하다." 10어절 문항 6은 n ≥ 11에서 아예 검사되지 않습니다. 0%가 아니라 검사 불가입니다.</li>
+<li>"겹침 검사로 모든 오염을 잡는다." 번역이나 뜻 바꿈은 같은 어절이 이어지지 않아 남습니다.</li>
+<li>"영어 논문의 13-gram을 한국어에 그대로 쓰면 된다." 어절에는 조사가 붙어 같은 n이라도 영어 낱말보다 일치가 더 쉽게 깨집니다. 한국어에 맞는 n은 이 책에서 정하지 않았습니다.</li></ul></section>
+
+<section id="sources"><h2>6. 출처</h2>
+<p>장의 <code>source</code> 번호 [10, 36, 13, 52]가 가리키는 자료입니다. 9장의 다른 실험(ELO)용 출처도 함께 적습니다.</p>
+<table><tr><th>번호</th><th>자료</th><th>이 실험에서 쓴 곳</th><th>확인</th></tr>
+<tr><td>52</td><td><a href="https://arxiv.org/abs/2005.14165">Brown et al. (2020) · Language Models are Few-Shot Learners (arXiv 2005.14165)</a></td><td>2.2절 겹침 제거와 필터 버그, 4절 13-gram 기준과 짧은 문항 처리</td><td>2.2절: 2026-10-12 원문 대조(Hugging Face 논문 본문). 4절과 부록 C: <b>확인하지 못함</b>(arxiv.org·ar5iv 사본이 검수 환경에서 막혔고, 받은 본문은 3.9절에서 끝남). 원문을 열 수 있는 환경에서 다음 회차에 다시 봅니다.</td></tr>
+<tr><td>13</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/10-llms-from-scratch/13-building-complete-llm-pipeline">원본 레슨 10-13 · Building a Complete LLM Pipeline</a></td><td>연습 문제 2의 0.1% 오염 게이트</td><td>2026-10-12 en.md 원문 대조</td></tr>
+<tr><td>10</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/10-llms-from-scratch/10-evaluation">원본 레슨 10-10 · Evaluation</a></td><td>벤치마크 오염·포화, 사용자 평가 세트 권장 크기</td><td>2026-10-08 첫 집필 검수</td></tr>
+<tr><td>36</td><td><a href="https://arxiv.org/abs/2306.05685">Zheng et al. (2023) · Judging LLM-as-a-Judge</a></td><td>이 실험에는 쓰지 않음(같은 장의 LLM 심판 편향)</td><td>2026-10-08 첫 집필 검수</td></tr>
+</table>
+<p><b>확인하지 못한 것</b>: 위 GPT-3 4절 인용, 실험의 n 범위 8~13이 GPT-3 부록 C의 데이터셋별 N 선택과 관련 있는지(본문은 이를 주장하지 않음), 한국어 평가에 맞는 n.</p></section>
+</main></body></html>

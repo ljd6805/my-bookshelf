@@ -37,6 +37,34 @@ test('4장 IoU와 NMS',()=>{
  const r=M.nms(c,0.45,0.3);assert.deepEqual(r.kept,[0,2]);assert.equal(r.removed[0].by,0);assert.deepEqual(r.below,[3]);
  assert.equal(M.nms(c,0.99,0).kept.length,3);
 });
+test('4장 검출 AP: 손으로 센 작은 예, 경계값',()=>{
+ /* 정답 둘, 예측 셋(정답 1과 같은 상자, 그 중복, 아무 정답과도 안 겹치는 상자): TP·FP·FP → 재현율 1/2에서 정밀도 1, AP = 0.5 */
+ const g=[[0,0,10,10],[20,20,30,30]],d=[{box:[0,0,10,10],score:.9},{box:[0,0,10,10],score:.8},{box:[50,50,60,60],score:.7}];
+ const r=M.detAP(d,g,0.5);assert.deepEqual(r.rows.map(x=>x.tp),[true,false,false]);assert.deepEqual([r.tp,r.fp,r.fn],[1,2,1]);
+ near(r.ap,0.5);near(r.rows[2].precision,1/3);assert.deepEqual(r.env.map(v=>+v.toFixed(6)),[1,0.5,0.333333]);
+ /* 점수 순서: 입력 순서와 상관없이 점수가 높은 예측이 먼저 정답을 차지한다 */
+ assert.equal(M.detAP([d[2],d[1],d[0]],g,0.5).rows[0].score,.9);
+ /* IoU가 문턱과 정확히 같으면 TP(≥). [0,0,10,5]와 [0,0,10,10]의 IoU는 50/100 */
+ assert.equal(M.detAP([{box:[0,0,10,5],score:1}],[[0,0,10,10]],0.5).tp,1);assert.equal(M.detAP([{box:[0,0,10,5],score:1}],[[0,0,10,10]],0.51).tp,0);
+ /* 예측이 없으면 정밀도는 정의되지 않음(NaN), 재현율·AP 0. 정답이 없으면 AP는 정의되지 않음 */
+ const e=M.detAP([],g,0.5);assert.ok(Number.isNaN(e.precision));assert.equal(e.recall,0);assert.equal(e.ap,0);assert.equal(e.fn,2);
+ assert.ok(Number.isNaN(M.detAP(d,[],0.5).ap));
+});
+test('4장 AP 실험 장면: Python 분수 계산과 대조한 대표값과 불변 조건',()=>{
+ /* labs-scene.js와 같은 예시 상자. 기대값은 분수로 IoU·매칭·모든 점 보간을 따로 계산한 값이다. */
+ const C=[[40,110,190,230,.92],[52,118,200,236,.81],[30,100,175,225,.55],[172,114,318,234,.88],[185,120,330,240,.40],[335,30,420,238,.76],[322,42,410,250,.35]].map(([a,b,c,e,s])=>({box:[a,b,c,e],score:s}));
+ const G=[[44,112,194,232],[196,122,338,242],[333,34,418,242]];
+ near(M.iou(C[3].box,G[1]),0.6539050535987749);near(M.iou(C[4].box,G[1]),0.8488297187030277);near(M.iou(C[3].box,C[4].box),0.7673853628909809);
+ const ev=(match,minScore,nmsThr)=>M.detEval(C,G,{match,minScore,nmsThr});
+ const cases=[[0.5,0.3,null,3,4,0,11/12],[0.5,0.3,0.45,3,0,0,1],[0.75,0.3,null,3,4,0,2/3],[0.75,0.3,0.45,2,1,1,5/9],[0.75,0.5,null,2,3,1,2/3],[0.5,0.8,null,2,1,1,11/12],[0.75,0.8,null,1,2,2,2/3],[0.5,0.95,null,0,0,3,11/12]];
+ for(const [m,s,n,tp,fp,fn,ap] of cases){const r=ev(m,s,n);assert.deepEqual([r.tp,r.fp,r.fn],[tp,fp,fn],`${m}/${s}/${n}`);near(r.ap,ap,1e-12);}
+ near(ev(0.5,0.3,null).precision,3/7);near(ev(0.5,0.5,null).precision,3/5);near(ev(0.5,0.5,null).ap,11/12);
+ /* NMS가 점수 높은 b1(3번)을 남기고 정답 B와 더 잘 맞는 b2(4번)를 지운 경우를 짚어 낸다 */
+ assert.deepEqual(ev(0.75,0.3,0.45).lost,[4]);assert.deepEqual(ev(0.5,0.3,0.45).lost,[]);
+ /* 불변 조건: TP+FN = 정답 수, TP+FP = 문턱 위 예측 수, 0 ≤ AP ≤ 1, AP는 점수 문턱(운영점)과 상관없다 */
+ for(const m of [0.5,0.75])for(const n of [null,0.45]){let last=Infinity;
+  for(let k=2;k<=19;k++){const r=ev(m,Math.round(k*5)/100,n);assert.equal(r.tp+r.fn,3);assert.equal(r.tp+r.fp,r.op.length);assert.ok(r.ap>=0&&r.ap<=1);if(last!==Infinity)near(r.ap,last,1e-12);last=r.ap;}}
+});
 test('5장 분할 지표: 작은 물체에서 정확도와 IoU가 갈린다',()=>{
  const m=M.segMetrics(1000,10,0,0);near(m.acc,0.99);assert.equal(m.iou,0);assert.equal(m.dice,0);
  const g=M.segMetrics(100,20,10,5);near(g.iou,10/25);near(g.dice,M.diceFromIou(g.iou));assert.equal(g.tn+g.fn+10+5,100);

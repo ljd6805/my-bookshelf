@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="4장 검출 AP 실험(ap)의 사실 표, 식, 기준값, 가정, 오해 목록과 출처."><title>컴퓨터 비전 · 조사 노트 · 검출 AP</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><header class="top"><a class="brand" href="index.html">컴퓨터 비전 · 제작 문서</a><a href="../index.html#detect">4장 읽기</a></header>
+<main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">제작 문서로 돌아가기</a></p>
+<h1>조사 노트 · 4장 검출 AP 실험(ap)</h1>
+<p>지식조사팀(은재)이 2026-10-12 개정 관문 G3에서 묶은 노트입니다. 4장 detect의 둘째 실험 「검출 AP 직접 계산하기」가 기대는 사실과 숫자를 한곳에 모았습니다. 장면의 숫자는 이 노트를 쓰면서 책 코드(<code>js/math.js</code>)와 따로 Python 분수 계산으로 다시 구했고, 외부 사실은 아래 출처 절에 확인일과 함께 적었습니다. 참고 자료는 정의와 규칙만 참고했고 문장과 코드는 새로 썼습니다.</p>
+
+<section id="facts"><h2>사실 주장 표</h2>
+<div class="table-wrap"><table><thead><tr><th>주장 (책의 위치)</th><th>출처</th><th>확인일</th><th>변화가 잦은가</th></tr></thead><tbody>
+<tr><td>예측은 점수가 높은 것부터 하나씩, 아직 짝이 없는 정답 가운데 IoU가 가장 큰 것과 맞추고, IoU가 문턱 이상이면 TP입니다. 정답 하나는 예측 하나와만 짝이 됩니다(formulaNote, 깊이 읽기 지표 항목, 결과 문장)</td><td>S2 cocoeval.py <code>evaluateImg</code>의 맞춤 루프(<code>gtm</code>으로 이미 맞춘 정답을 건너뜀, <code>ious &lt; iou</code>이면 넘어가므로 문턱과 같은 IoU도 맞음)</td><td>2026-10-12 (원문 코드 직접 열람)</td><td>아니요</td></tr>
+<tr><td>COCO AP는 IoU 0.50~0.95를 0.05 간격(10개)으로 평균합니다(깊이 읽기 지표 항목)</td><td>S2 <code>iouThrs = np.linspace(.5, 0.95, 10)</code>; S1 공식 문서</td><td>S2 2026-10-12, S1 확인하지 못함</td><td>아니요</td></tr>
+<tr><td>COCO는 포락선 계단을 재현율 0, 0.01, …, 1의 101점에서 읽어 평균합니다(formulaNote)</td><td>S2 <code>recThrs = np.linspace(.0, 1.00, 101)</code>, 오른쪽에서 왼쪽으로 정밀도를 누적 최댓값으로 바꾸는 루프, <code>searchsorted(..., side='left')</code></td><td>2026-10-12</td><td>아니요</td></tr>
+<tr><td>이 책의 AP는 재현율이 오르는 모든 점에서 포락선을 더하는 모든 점 보간(VOC 2010 이후 방식)입니다(formulaNote, 결과 문장)</td><td>S3 VOC 2010 devkit 문서(모든 점 보간), 그 전 VOC 2007은 11점 보간</td><td>확인하지 못함 (원문을 열지 못함, 표준 지식과 검수 세션 판단으로만 대조)</td><td>아니요</td></tr>
+<tr><td>NMS 임계값은 보통 0.45 안팎이고, 판정 IoU 0.5와는 목적이 다른 문턱입니다(formulaNote)</td><td>원본 레슨 06(S4), YOLO 계열 관례</td><td>원본 커리큘럼 기준 2026-10-08</td><td>모델마다 다름 (값은 관례로만 씀)</td></tr>
+<tr><td>점수 문턱은 AP를 올리는 값이 아니라 운영점의 정밀도·재현율을 고르는 값입니다(결과 읽기)</td><td>정의에서 나오는 결론: AP는 점수 문턱과 상관없이 전체 순위로 적분하고, 문턱은 그 순위에서 운영점 하나를 고름 (아래 불변 조건, PR #56 리뷰 반영 뒤)</td><td>2026-10-12 (계산으로 확인)</td><td>아니요</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="formulas"><h2>식과 정의</h2>
+<ul>
+<li>IoU(A, B) = |A ∩ B| / |A ∪ B|. 상자는 (x1, y1, x2, y2) 픽셀 좌표이고 넓이는 (x2 − x1)(y2 − y1)로 셉니다(경계 픽셀을 +1 하지 않는 연속 좌표 방식).</li>
+<li>정밀도 = TP / (TP + FP), 재현율 = TP / (TP + FN). 순위 k까지의 점은 (재현율_k, 정밀도_k)입니다.</li>
+<li>포락선: 정밀도를 오른쪽에서부터 누적 최댓값으로 바꾼 값 env_k = max_{j ≥ k} 정밀도_j.</li>
+<li>모든 점 보간 AP = Σ (재현율_k − 재현율_{k−1}) · env_k (재현율이 오르는 k만 더함). COCO 101점 AP = (1/101) Σ_{r ∈ {0, 0.01, …, 1}} env(재현율이 처음 r 이상이 되는 순위).</li>
+<li>예측이 없으면 정밀도는 0/0이라 정의되지 않고, 재현율과 AP는 0으로 둡니다. 정답이 없으면 재현율과 AP가 정의되지 않습니다(이 장면에는 정답이 항상 셋).</li>
+</ul>
+</section>
+
+<section id="reference"><h2>기준값 (장면: 후보 7개, 정답 3개)</h2>
+<p>후보 a1 (40,110)–(190,230) 0.92, a2 (52,118)–(200,236) 0.81, a3 (30,100)–(175,225) 0.55, b1 (172,114)–(318,234) 0.88, b2 (185,120)–(330,240) 0.40, p1 (335,30)–(420,238) 0.76, p2 (322,42)–(410,250) 0.35. 정답 A (44,112)–(194,232), B (196,122)–(338,242), P (333,34)–(418,242). 아래 값은 분수로 따로 계산했고, <code>A05Math.detEval</code>의 20가지 조합 출력과 모두 같았습니다. PR #56 리뷰 반영 뒤 AP는 점수 문턱과 상관없이 전체 순위로 재므로, 점수 문턱 0.5·0.8·0.95 행의 AP를 그에 맞게 고쳤습니다(이전 값 1/2·2/3·0은 문턱 아래 예측을 지운 뒤 잰 값).</p>
+<div class="table-wrap"><table><thead><tr><th>점수 문턱</th><th>판정 IoU</th><th>NMS</th><th>TP · FP · FN</th><th>정밀도</th><th>AP (모든 점)</th><th>AP (COCO 101점, 참고)</th></tr></thead><tbody>
+<tr><td>0.3</td><td>0.5</td><td>끔</td><td>3 · 4 · 0</td><td>3/7 ≈ 0.429</td><td>11/12 ≈ 0.917</td><td>0.916</td></tr>
+<tr><td>0.3</td><td>0.5</td><td>0.45</td><td>3 · 0 · 0</td><td>1</td><td>1</td><td>1</td></tr>
+<tr><td>0.3</td><td>0.75</td><td>끔</td><td>3 · 4 · 0</td><td>3/7</td><td>2/3 ≈ 0.667</td><td>0.668</td></tr>
+<tr><td>0.3</td><td>0.75</td><td>0.45</td><td>2 · 1 · 1</td><td>2/3</td><td>5/9 ≈ 0.556</td><td>0.554</td></tr>
+<tr><td>0.5</td><td>0.5</td><td>끔</td><td>3 · 2 · 0</td><td>3/5 = 0.600</td><td>11/12</td><td>–</td></tr>
+<tr><td>0.5</td><td>0.75</td><td>끔</td><td>2 · 3 · 1</td><td>2/5</td><td>2/3</td><td>–</td></tr>
+<tr><td>0.8</td><td>0.5</td><td>끔</td><td>2 · 1 · 1</td><td>2/3</td><td>11/12</td><td>–</td></tr>
+<tr><td>0.95 (경계)</td><td>둘 다</td><td>둘 다</td><td>0 · 0 · 3</td><td>정의되지 않음</td><td>문턱 0.3과 같음(전체 순위)</td><td>–</td></tr>
+</tbody></table></div>
+<p>주요 IoU: b1–B 0.654, b2–B 0.849, b1–b2 0.767(NMS 0.45가 b2를 지우는 이유), a1–A 0.918, p1–P 0.919. 점수 문턱 0.1은 0.3과 같습니다(모든 후보가 0.35 이상). 101점 값은 이 장면에서 모든 점 보간과 소수 셋째 자리에서만 다르므로, 본문이 “COCO는 같은 계단을 101점에서 읽는다”고만 쓰고 숫자를 따로 내지 않은 것이 맞습니다.</p>
+<p>불변 조건: TP + FN = 3, TP + FP = 점수 문턱 위 예측 수, 0 ≤ AP ≤ 1, AP는 점수 문턱과 상관없습니다(전체 순위로 재고, 탐욕 맞춤과 NMS는 점수 순서대로 진행하므로 문턱 위 예측의 판정은 전체 순위에서의 판정과 같습니다).</p>
+</section>
+
+<section id="assumptions"><h2>가정·단위·유효 범위</h2>
+<ul>
+<li>단위는 픽셀 좌표(480×280 그림 판 안)이고, 점수는 0~1의 모델 점수입니다. 점수 문턱 입력 범위 0.1~0.95(0.05 간격), 판정 IoU 0.5·0.75, NMS 끔·0.45입니다.</li>
+<li>영상 한 장, 클래스를 구분하지 않는 단일 클래스 평가입니다. 실제 COCO 평가는 영상과 클래스별로 모아 계산하고, crowd 정답·면적 범위·영상당 최대 예측 수(maxDets)를 따로 다룹니다. 실험은 이것을 다루지 않는다고 결과 문장에 “정답이 셋뿐인 장면 하나”로 밝힙니다.</li>
+<li>정답이 셋뿐이라 재현율은 1/3씩만 움직입니다. 그래서 AP 차이가 실제 데이터보다 크게 보입니다.</li>
+</ul>
+</section>
+
+<section id="kinds"><h2>실제 계산·시나리오·비유의 구분</h2>
+<ul>
+<li><b>실제 계산</b>: IoU, NMS, 점수 순 맞춤, TP·FP·FN, 정밀도·재현율, 포락선, AP. 모두 <code>js/math.js</code>의 순수 함수입니다.</li>
+<li><b>미리 정한 예시</b>: 후보 상자 일곱 개와 점수, 사람이 그렸다고 정한 정답 상자 셋. 실제 모델의 출력이 아닙니다.</li>
+<li><b>시각적 비유</b>: 없음. 그림은 계산한 상자와 계단을 그대로 그립니다(실선 TP, 점선 FP, 흐린 점선은 판정에서 빠진 상자).</li>
+</ul>
+</section>
+
+<section id="misconceptions"><h2>오해 목록</h2>
+<ul>
+<li>“NMS를 켜면 AP는 언제나 오른다.” 판정 0.75에서는 NMS가 정답 B와 더 잘 맞던 b2를 지워 AP가 0.667에서 0.556으로 내려갑니다. NMS는 예측끼리의 겹침만 봅니다.</li>
+<li>“NMS 임계값과 판정 IoU 문턱은 같은 겹침 기준이다.” NMS는 예측과 예측, 판정은 예측과 정답의 겹침입니다.</li>
+<li>“점수 문턱을 올리면 AP가 오른다.” AP는 바뀌지 않고, 그 문턱에서의 정밀도만 오릅니다(0.3 → 0.5에서 0.429 → 0.600, AP 0.917 그대로).</li>
+<li>“같은 물체를 두 번 맞히면 TP가 둘이다.” 정답 하나는 예측 하나와만 짝이고 중복은 FP입니다.</li>
+<li>“AP50이 높으면 상자가 정확하다.” AP75처럼 엄격한 문턱에서 떨어지면 대략만 찾는 것입니다.</li>
+</ul>
+</section>
+
+<section id="sources"><h2>출처</h2>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>출처</th><th>책에서 쓴 내용</th><th>확인일</th></tr></thead><tbody>
+<tr><td>S1</td><td><a href="https://cocodataset.org/#detection-eval">COCO Detection Evaluation (COCO 공식 평가 문서)</a> · 책 sources 색인 68, 4장 「더 읽어 보기」</td><td>AP·AP50·AP75의 정의, IoU 0.50~0.95를 0.05 간격으로 평균</td><td>확인하지 못함: 이 환경의 프록시가 cocodataset.org 접속을 막음(2026-10-12 다시 시도, 403). 내용은 S2로 대조</td></tr>
+<tr><td>S2</td><td><a href="https://github.com/cocodataset/cocoapi/blob/master/PythonAPI/pycocotools/cocoeval.py">cocodataset/cocoapi, PythonAPI/pycocotools/cocoeval.py</a> (공식 평가 코드)</td><td>맞춤 규칙, 문턱과 같은 IoU의 처리, iouThrs 10개, recThrs 101점, 정밀도 포락선 루프</td><td>2026-10-12 (원문 코드를 내려받아 해당 줄을 읽음)</td></tr>
+<tr><td>S3</td><td>The PASCAL Visual Object Classes Challenge 2010 Development Kit (Everingham et al.)</td><td>모든 점 보간 AP(VOC 2010 이후), VOC 2007의 11점 보간과의 차이</td><td>확인하지 못함: 원문을 열지 않았습니다. 책은 방식의 이름만 쓰고 수치를 기대지 않습니다</td></tr>
+<tr><td>S4</td><td><a href="https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/04-computer-vision/06-object-detection-yolo">원본 레슨 06 · Object Detection — YOLO from Scratch</a> · 책 sources 색인 6</td><td>IoU·NMS·mAP를 4장에서 다루는 순서와 NMS 0.45 관례</td><td>원본 커리큘럼 기준 2026-10-08 (이번에 다시 열지 않음)</td></tr>
+<tr><td>S5</td><td><a href="https://arxiv.org/abs/1506.02640">You Only Look Once (Redmon et al., 2016)</a> · 책 sources 색인 34</td><td>격자마다 상자를 내는 검출기 (첫 실험의 배경, AP 실험은 기대지 않음)</td><td>이번에 다시 열지 못함 (arxiv.org 접속 차단)</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="limits"><h2>조사의 한계</h2>
+<ul>
+<li>S1과 S3 원문을 이 세션에서 열지 못했습니다. 핵심 규칙은 S2 공식 코드로 확인했으므로 실험의 숫자에는 영향이 없지만, 문서의 문구와 책 설명이 같은지는 다음 접속 가능한 세션이 확인해야 합니다.</li>
+<li>101점 AP 값은 S2의 방식을 따라 이 노트에서만 계산한 참고값이며 책 화면에는 나오지 않습니다.</li>
+</ul>
+</section>
+</main></body></html>

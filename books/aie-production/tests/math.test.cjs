@@ -140,3 +140,28 @@ test('capacity: Erlang C peak queue, representative values, boundaries, monotoni
  for(let c=3;c<8;c++)assert.ok(M.capacity(3,c+1,500).overBudget<M.capacity(3,c,500).overBudget);
  assert.ok(M.capacity(3,4,1000).overBudget<c4.overBudget);
 });
+
+/* 기대값은 Python statistics.NormalDist().inv_cdf로 따로 계산했다(책 코드와 독립). */
+test('normInv: known z values, symmetry, out of range',()=>{
+ near(M.normInv(0.975),1.959964,1e-6);near(M.normInv(0.8),0.841621,1e-6);near(M.normInv(0.995),2.575829,1e-6);
+ near(M.normInv(0.9),1.281552,1e-6);near(M.normInv(0.001),-3.090232,1e-6);assert.equal(M.normInv(0.5),0);
+ for(const p of [0.01,0.02425,0.1,0.3,0.7,0.97575,0.999])near(M.normInv(p),-M.normInv(1-p),1e-8);
+ for(const p of [0.001,0.05,0.5,0.8,0.99])near(M.phi(M.normInv(p)),p,1e-6);
+ assert.ok(Number.isNaN(M.normInv(0)));assert.ok(Number.isNaN(M.normInv(1)));assert.ok(Number.isNaN(M.normInv(-0.1)));
+});
+
+test('abSample: two-proportion sample size, days, CUPED, invalid inputs',()=>{
+ const base={p:0.6,delta:0.03,alpha:0.05,power:0.8,daily:50000,feedback:0.05},r=M.abSample(base);
+ near(r.p2,0.63,1e-12);near(r.raw,4125.89,0.05);assert.equal(r.n,4126);assert.equal(r.perDay,1250);near(r.days,3.3008,1e-9);assert.equal(r.wholeDays,4);
+ const cu=M.abSample({...base,rho:0.5});assert.equal(cu.nCuped,3095);near(cu.daysCuped,2.476,1e-9);assert.equal(cu.n,4126);
+ const half=M.abSample({...base,delta:0.015});assert.equal(half.n,16632);near(half.days,13.3056,1e-9);near(half.days/r.days,4.03,0.01);
+ assert.equal(M.abSample({...base,power:0.9}).n,5524);assert.equal(M.abSample({...base,alpha:0.01,power:0.9}).n,7822);
+ assert.equal(M.abSample({p:0.5,delta:0.05}).n,1562);
+ /* 피드백 비율을 두 배로 하면 날 수는 절반, ρ = 0이면 CUPED는 그대로 */
+ near(M.abSample({...base,feedback:0.1}).days,r.days/2,1e-9);assert.equal(r.nCuped,r.n);
+ /* 경계: p₂가 1 이상, δ ≤ 0, p가 0 또는 1이면 계산하지 않는다 */
+ assert.equal(M.abSample({...base,p:0.95,delta:0.05}).valid,false);assert.equal(M.abSample({...base,p:0.95,delta:0.05}).reason,'over');
+ assert.equal(M.abSample({...base,delta:0}).reason,'delta');assert.equal(M.abSample({...base,p:0}).reason,'base');
+ assert.equal(M.abSample({...base,p:0.94,delta:0.05}).n,209);
+ for(let d=0.005;d<0.1;d+=0.005)assert.ok(M.abSample({...base,delta:d+0.005}).n<M.abSample({...base,delta:d}).n);
+});
