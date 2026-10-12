@@ -5,6 +5,8 @@ Every published book must be woven into the library, not only placed on the shel
   2. it appears in at least MIN_CONCEPTS shared concepts (each concept spans two books or more);
   3. at least one learning path stops in it;
   4. it links out to another book and another book links back to it (../topic/#chapter).
+Concept names stay short (MAX_CONCEPT_NAME characters without spaces) so each one fits its row
+on the knowledge map, where books are columns and concepts are lines.
 validate.py runs these checks, so adding a book without updating the map fails CI.
 See docs/08-book-template.html#knowledge-links for the checklist that satisfies them.
 """
@@ -13,6 +15,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 MIN_CONCEPTS = 2
+MAX_CONCEPT_NAME = 10
 GUIDE = 'see docs/08-book-template.html#knowledge-links'
 CROSS_LINK = re.compile(r'\.\./([a-z0-9-]+)/(?:index\.html)?#([\w-]+)')
 
@@ -66,6 +69,9 @@ def check_concepts(catalog, books):
         owners = {owner(url, books)['id'] for url in concept['chapters'] if owner(url, books)}
         if len(owners) < 2:
             errors.append(f'concept {concept["id"]}: must connect chapters from two books or more')
+        if len(concept.get('name', '').replace(' ', '')) > MAX_CONCEPT_NAME:
+            errors.append(f'concept {concept["id"]}: name must be {MAX_CONCEPT_NAME} characters or fewer '
+                          'without spaces so it fits its row on the knowledge map')
         if len(set(concept['chapters'])) != len(concept['chapters']):
             errors.append(f'concept {concept["id"]}: lists the same chapter twice')
     for path in catalog.get('learning_paths', []):

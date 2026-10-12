@@ -1,0 +1,10 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="거실 조명 옆 작은 인식기 말귀가 ‘켜’ 소리를 듣고 세 명령의 확률을 내는 장면" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M40 20V44"/><path class="cv-node" d="M22 44H58L50 66H30Z"/><text class="cv-text cv-muted" x="40" y="86" text-anchor="middle">조명</text>
+<path class="cv-bus" d="M70 92C78 76 86 76 92 92S104 108 110 92 122 76 128 92"/><text class="cv-text cv-muted" x="99" y="122" text-anchor="middle">‘켜’</text>
+<rect class="cv-node" x="140" y="58" width="66" height="66" rx="10"/><text class="cv-text" x="173" y="96" text-anchor="middle">말귀</text>
+<path class="cv-hair" d="M206 91H222"/>
+<rect class="cv-node" x="226" y="40" width="84" height="22" rx="4"/><text class="cv-text" x="234" y="56">켜 0.91</text>
+<rect class="cv-node" x="226" y="70" width="84" height="22" rx="4"/><text class="cv-text cv-muted" x="234" y="86">꺼 0.06</text>
+<rect class="cv-node" x="226" y="100" width="84" height="22" rx="4"/><text class="cv-text cv-muted" x="234" y="116">밝게 0.03</text>
+<text class="cv-big" x="40" y="136" text-anchor="middle">∇</text>
+</svg>

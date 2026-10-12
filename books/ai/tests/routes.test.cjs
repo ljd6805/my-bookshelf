@@ -27,3 +27,25 @@ test('catalog book and chapter links resolve inside the integrated book',()=>{
  }
  assert.ok(html.includes('href="../../index.html#books"'));
 });
+
+test('every chapter has predict, remaining, next reason and a transfer question in [question, 3 options, answer, explanation] form',()=>{
+ const chapters=context.window.AIBook.chapters;
+ chapters.forEach((c,i)=>{
+  for(const key of ['predict','remaining'])assert.ok(typeof c[key]==='string'&&c[key].length>20,`${c.id}.${key}`);
+  if(i<chapters.length-1)assert.ok(typeof c.next==='string'&&c.next.length>20,`${c.id}.next`);
+  const [q,options,answer,why]=c.transfer||[];
+  assert.equal(typeof q,'string',`${c.id}.transfer question`);
+  assert.ok(Array.isArray(options)&&options.length===3&&options.every(o=>typeof o==='string'&&o),`${c.id}.transfer options`);
+  assert.ok(Number.isInteger(answer)&&answer>=0&&answer<=2,`${c.id}.transfer answer`);
+  assert.ok(typeof why==='string'&&why.length>20,`${c.id}.transfer explanation`);
+ });
+});
+
+test('final capstone chapter closes the book and the previous chapter leads into it',()=>{
+ const chapters=context.window.AIBook.chapters,last=chapters[chapters.length-1];
+ assert.equal(last.id,'final');assert.ok(/^[a-z]+$/.test(last.id));
+ assert.match(chapters[chapters.length-2].next,/마지막 장/);
+ assert.ok(last.cross.some(([,url])=>url.startsWith('../')),'cross link to another book');
+ assert.ok(last.labs.length>=1&&last.labs.length<=2);
+ assert.ok(html.includes('js/labs-final.js'));
+});

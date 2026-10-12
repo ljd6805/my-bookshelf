@@ -48,14 +48,14 @@ F.embedding=()=>{
  b+=`<path class="fig-draw" d="M70 230L${x(qv)} ${y(qv)}" stroke="var(--orange)" stroke-width="3"/>`+t(x(qv)-6,y(qv)-12,'질문',{size:13,fill:'var(--orange)'});
  const sims=M.semantic(q,M.corpus(false)).slice(0,3);
  b+=box(470,60,150,140,'var(--line)','var(--chart)')+t(545,88,'cos 상위',{size:13,fill:'var(--muted)'})+sims.map((s,i)=>t(545,118+i*28,`${s.id}  ${f(s.score)}`,{size:15})).join('');
- return {svg:svg('질문 “책을 늦게 돌려주면 어떻게 되나요?”의 벡터가 늦음·반납 축 쪽을 가리키고 D2 문서가 그 방향 가까이 놓인 그림',b,270),caption:'“책을 늦게 돌려주면 어떻게 되나요?”의 실제 임베딩을 두 축에 그렸습니다. 낱말이 하나도 겹치지 않아도 D2 연체 문서가 질문과 같은 방향에 놓입니다.'};
+ return {svg:svg('질문 “책을 늦게 돌려주면 어떻게 되나요?”의 벡터가 늦음·반납 축 쪽을 가리키고 D2 문서가 그 방향 가까이 놓인 그림',b,270),caption:'“책을 늦게 돌려주면 어떻게 되나요?”의 실제 임베딩을 두 축에 그렸습니다. 흔한 낱말 “책” 말고는 겹치는 낱말이 없어도 D2 연체 문서가 질문과 같은 방향에 놓입니다.'};
 };
 F.hybrid=()=>{
  const rows=M.hybrid(M.QUESTIONS[1].text,M.corpus(true),.5).slice(0,4);
  let b=t(20,24,'“늦게 돌려주면” · α=0.5',{a:'start',size:13,fill:'var(--muted)'});
  rows.forEach((r,i)=>{const y=44+i*52,k=.5*r.keyword*360,m=.5*r.meaning*360;b+=t(20,y+22,r.id,{a:'start',w:700})+grow(80,y,k,30,'var(--blue)',i*.2)+grow(80+k,y,m,30,'var(--accent)',.4+i*.2)+t(80+k+m+10,y+21,f(r.score),{a:'start',size:14});});
  b+=`<rect x="80" y="258" width="14" height="10" fill="var(--blue)"/>`+t(100,267,'키워드 몫 α·BM25/최고',{a:'start',size:12,fill:'var(--muted)'})+`<rect x="300" y="258" width="14" height="10" fill="var(--accent)"/>`+t(320,267,'의미 몫 (1−α)·cos',{a:'start',size:12,fill:'var(--muted)'});
- return {svg:svg('혼합 점수 막대가 키워드 몫과 의미 몫으로 나뉘어 자라고, D2가 의미 몫 덕분에 1위가 되는 그림',b,276),caption:`실제 계산입니다. D2는 키워드 몫이 0이지만 의미 몫으로 ${f(rows[0].score)}점, D3는 “책” 일치 덕분에 키워드 몫이 커서 ${f(rows[1].score)}점입니다.`};
+ return {svg:svg('혼합 점수 막대가 키워드 몫과 의미 몫으로 나뉘어 자라고, D2가 의미 몫을 더해 1위가 되는 그림',b,276),caption:`실제 계산입니다. D2는 흔한 낱말 “책”만 겹쳐 키워드 몫은 ${f(.5*rows[0].keyword)}에 그치지만, 의미 몫 ${f(.5*rows[0].meaning)}이 더해져 ${f(rows[0].score)}점으로 1위입니다. ${rows[1].id}는 “책” 일치로 키워드 몫(${f(.5*rows[1].keyword)})이 더 크지만 의미 몫이 작아 ${f(rows[1].score)}점입니다.`};
 };
 F.evaluation=()=>{
  const q=M.QUESTIONS[4],r=M.hybrid(q.text,M.corpus(true)).slice(0,5);
@@ -87,7 +87,7 @@ F.final=()=>{
  let b='<path d="M40 30V230H620" stroke="var(--line)" fill="none"/>'+t(44,22,'1위 혼합 점수',{a:'start',size:13,fill:'var(--muted)'});
  d.rows.forEach((r,i)=>{const h=r.top.score*190,x=52+i*44;b+=grow(x,230-h,30,h,col[r.outcome],i*.1).replace('fig-grow','fig-grow fig-up')+t(x+15,248,r.q.id.toUpperCase(),{size:11,fill:'var(--muted)'});});
  b+=`<path class="fig-seq" d="M40 ${230-.4*190}H620" stroke="var(--text)" stroke-width="2" stroke-dasharray="6 4"/>`+t(616,230-.4*190-8,'문턱 0.4',{a:'end',size:13});
- return {svg:svg('질문 13개의 1위 점수 막대와 문턱 0.4 선. 답이 없는 U2 노트북 질문의 막대가 문턱보다 훨씬 높다',b,264),caption:'실제 계산입니다. Q는 답할 수 있는 질문, U는 답이 없는 질문입니다. 초록은 맞게 답함, 주황은 틀리게 답함, 회색은 바르게 보류입니다. U2(노트북)는 점수가 0.96이라 문턱으로 막을 수 없습니다.'};
+ return {svg:svg('질문 13개의 1위 점수 막대와 문턱 0.4 선. 답이 없는 U2 노트북 질문의 막대가 문턱보다 훨씬 높다',b,264),caption:'실제 계산입니다. Q는 답할 수 있는 질문, U는 답이 없는 질문입니다. 초록은 맞게 답함, 주황은 틀리게 답함, 회색은 바르게 보류입니다. U2(노트북)는 점수가 0.96이라, 문턱으로 막으면 답할 수 있는 질문 대부분도 함께 막힙니다.'};
 };
 function render(id){return F[id]?F[id]():null;}
 return {render};

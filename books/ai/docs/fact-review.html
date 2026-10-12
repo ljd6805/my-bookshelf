@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI Book · 직접 실험하는 AI 교과서의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-12-final-ch13" data-reviewer="Claude 검수 세션 (13장 검수 r1)" data-author="Claude 새 장 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="13장 final 본문(문단 4개·식·식 설명·주의·예측·남은 질문), 실험 fieldkit·alarmplan과 lab-guides 안내·프리셋, math.js inferenceMemory·fieldBudget·alarmBudget, 확인 문제 1개·전이 문항 1개, 새 출처 2개(Kaplan 2020, Pope 2022), 나가는 링크 3개와 들어오는 링크(LLM 시스템 #design → ../ai/#final), 3장 generalization의 새 교차 링크 4개, 10·11·12장에 더한 13장 연결 문장" data-result="fixed">
+<h2>2026-10-12 13장 현장 점검 도우미 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (13장 검수 r1, 검수팀 정민·유진·건우 역할). 집필자: Claude 새 장 집필 세션 (2026-10-12). 범위: 13장 final 본문(문단 4개·식·식 설명·주의·예측·남은 질문), 실험 fieldkit·alarmplan과 lab-guides 안내·프리셋, math.js inferenceMemory·fieldBudget·alarmBudget, 확인 문제 1개·전이 문항 1개, 새 출처 2개(Kaplan 2020, Pope 2022), 나가는 링크 3개와 들어오는 링크(LLM 시스템 #design → ../ai/#final), 3장 generalization의 새 교차 링크 4개, 10·11·12장에 더한 13장 연결 문장.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>prefill·decode 설명, 장 번호 참조(1·7·9·10·11·12장), 한빛 공장·서윤 공통 사례, 6400 MT/s × 16 byte = 102.4 GB/s를 대조. 생성 시간 항을 “상한”이라 부른 표현을 고침</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>책 코드와 따로 Python으로 계산: 8B·4 bit 가중치 3.725 GiB, KV 131072 byte × 1912 = 0.2334 GiB, 합계 3.959 GiB; prefill 2 × 8×10⁹ × 1712 ÷ 5×10¹² = 5.48 s, decode 200 × 4.25×10⁹ ÷ 10¹¹ = 8.50 s, 합계 13.98 s; 14B·4 bit 6.753 GiB·24.09 s; 14B·8 bit 13.27 GiB·38.09 s; 14B·k=1 19.40 s·적중 3/8; 8B·k=7 19.52 s·8/8, k=8 20.90 s·8/8</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>node로 math.js를 실행해 위 값과 소수 둘째 자리까지 일치. alarmBudget을 Python으로 따로 구현해 문턱 0~1 대조: 기존 0.45 → TP 4·FP 3·FN 0, 105분; 새 센서 0.45 → 12건 180분; 새 센서 0.60 → 7건 105분; 경계값 문턱 0(20건 300분)·1(기존 0건, 새 센서는 1.06을 1로 자른 1건), 문턱과 같은 점수는 경보(≥). 실험 과제의 답(새 센서 0.60, 기존 0.45, fieldkit k=7)이 0.05·1 단위 슬라이더에서 유일함을 확인. 잘못된 입력은 RangeError</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>prefill·decode, KV 캐시, 정밀도·재현율 TP/(TP+FN), GiB(2³⁰)와 GB/s(10⁹)의 구분을 10·12장과 표준 정의에 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>WebFetch로 arXiv 2001.08361(Kaplan, McCandlish, Henighan, Brown, Chess, Child, Gray, Radford, Wu, Amodei)과 2211.05102(Pope, Douglas, Chowdhery, Devlin, Bradbury, Levskaya, Heek, Xiao, Agrawal, Dean)의 제목·저자를 열어 확인. Kaplan 2.1절 식 (2.2) “C_forward ≈ 2N + 2 n_layer n_ctx d_model”, Pope 2절 “At small batch sizes and sequence lengths, the time to load weights dominates”, 4.4절 “low-batch-size cost is dominated by weight loading time”을 원문에서 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#final formulaNote, js/math.js fieldBudget 주석</td><td>생성 시간 항(답 토큰 × 읽을 byte ÷ 대역폭)을 “상한”이라고 씀. 대역폭을 최대치로 쓴다고 보는 식이라 실제 시간은 더 길 수 있어 상한이 아님(KV를 마지막 길이로 세는 부분만 넉넉함)</td><td>Pope 등(2022)은 이 시간을 가중치 읽기에 드는 최소 시간으로 다룸</td><td>“단순화한 어림”으로 바꾸고, KV는 넉넉히 세지만 대역폭은 최대치로 보므로 실제 시간이 더 길 수 있다고 덧붙임. 자산 버전을 ?v=20261012-ch1r1로 올림</td></tr>
+<tr><td>#final 확인 문제</td><td>정답 하나(8B로 줄이기) 확인. 해설이 보기를 자리 번호가 아닌 내용(8 bit·8B·조각 1개)으로 가리켜 보기 순서를 돌려도 맞음</td><td>세 보기를 각각 계산: 38.09 s·13.27 GiB / 13.98 s·75% / 19.40 s·37.5%</td><td>수정 없음</td></tr>
+<tr><td>#final 전이 문항</td><td>정답 하나(실제 이상 여부를 붙여 분포 비교) 확인. 해설이 보기를 내용으로 가리킴</td><td>재현율 계산에 FN이 필요하다는 정의</td><td>수정 없음</td></tr>
+<tr><td>링크</td><td>나가는 링크 3개(../probability/#final, ../llm-gpu/#design, ../rag/#final), 들어오는 링크 LLM 시스템 12 #design → ../ai/#final, 3장의 ../probability/#correlation·#interval·#testing, ../aie-ml/#tradeoff의 장 번호·제목이 도착 장과 맞음. 확률과 통계 9장 r = 0.79도 그 책 본문과 같음</td><td>각 책 content.js 대조</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>5 TFLOPS·100 GB/s·운영체제 여유 6 GiB는 책이 밝힌 가정이며, 실제 노트북 측정값과는 대조하지 않았습니다.</li>
+<li>브라우저에서 두 실험의 입력·출력·초기화를 직접 조작하는 화면 확인은 하지 않았고, 계산은 node·Python 대조와 npm test로 대신했습니다. 학습 효과(L4)는 측정하지 않았습니다.</li>
+<li>시험 질문 순위와 모터 20대 자료는 가상 자료라 외부 출처가 없습니다.</li>
+</ul>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r1)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장의 새 필드(predict·remaining·next·transfer 12문항), 장마다 더한 숫자로 따라가기 문단 12개, 2장 역전파 문단 2개와 새 실험 backprop, 정답 자리 돌리기(app.js choices·math.js choiceOrder). 새 출처 없음" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할). 집필자: Claude 보충 집필 세션 (2026-10-12, 커밋 5f766a8). 범위: 12개 장의 새 필드(predict·remaining·next·transfer 12문항), 장마다 더한 숫자로 따라가기 문단 12개, 2장 역전파 문단 2개와 새 실험 backprop, 정답 자리 돌리기(app.js choices·math.js choiceOrder). 새 출처 없음.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>새 문단과 해설의 주장을 실험 코드(labs-*.js)의 고정 데이터·규칙과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 따로 계산: 회귀 최적 w=1.96·b=1.02·MSE 0.0344, 0.1 격자 최소 (2.0, 1.0)에서 0.038; 과적합 비율 0/0.64/1의 훈련·검증 MSE 0.3073/0.2281, 0.0398/0.0943, 0/0.1237; 어텐션 가중치 [0.365,0.180,0.365,0.089]와 출력 4.467; softmax·top-p·β 문항; 메모리 3.725 GiB + 1 GiB, 3B·8bit·4096 토큰 3.294 GiB; RAG 점수 4/√56=0.535, 2/√44=0.302; 전이 12문항 해설 전부</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>backprop을 따로 구현해 대조: 기준값 L=4, ∂L/∂w₁=−8, 한 걸음 뒤 (0.9, 2.1)·L=1.2321, w₁=−0.5에서 기울기 0, w₁=0의 중앙 차분 −5.98. 직접 해 보기(η=0.3, 10걸음)는 둘째 걸음부터 w₁&lt;0으로 넘어가 L=9에서 멈춤(죽은 ReLU)으로 질문 의도와 맞음</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>역전파·연쇄 법칙·죽은 ReLU·수치 미분·정밀도/재현율을 표준 용어와 대조</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>이번 보충에 새 출처가 없음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#rag 숫자로 따라가기 문단</td><td>“조사를 떼고 센 단어 14개”라고 썼지만 실험의 terms()는 정해 둔 조사 11가지만 떼어 “수와”·“크기도” 같은 형태가 남음</td><td>labs-systems.js terms() 정규식을 Python으로 재실행해 단어 목록 확인</td><td>“끝에 붙은 조사 몇 가지(은·는·이·가·의·와 등)를 뗀 뒤 센”으로 고침(js/content.js)</td></tr>
+<tr><td>#embeddings next</td><td>“Query와 Key의 내적은 이 장의 닮음 계산과 같다”: 이 장의 닮음 지표는 코사인 유사도이고 어텐션 점수는 정규화하지 않은 내적이라 같은 계산이 아님</td><td>labs-language.js attention 점수 = q·k/√2</td><td>“Query와 Key의 점수는 이 장에서 구한 내적과 같은 계산입니다”로 고침</td></tr>
+<tr><td>전이 문항 12개</td><td>정답 유일성·오답의 오류·본문 비복제 확인. 오류 없음</td><td>문항마다 따로 계산; choiceOrder가 원래 번호를 data-transfer/data-answer에 두고 판정은 q[2]와 비교함을 코드로 확인</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>브라우저에서 보기를 눌러 보는 화면 확인은 하지 않고 코드 검토와 npm test(계산·경로 테스트 16개 통과)로 대신했습니다. 브라우저 검사 tests/browser.cjs는 실행하지 않았습니다. 학습 효과는 측정하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드" data-date="2026-10-12" data-scope="12개 장 본문, 18개 실험 계산, 출처 10개(웹 1개 확인), 들어오는 링크 133개·나가는 링크 40개, 읽기 노선 정거장 9곳, 브라우저 1280·390·320px" data-result="passed">
+<h2>2026-10-12 편집팀 전체 도서 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드. 범위: 12개 장 본문, 18개 실험 계산, 출처 10개(웹 1개 확인), 들어오는 링크 133개·나가는 링크 40개, 읽기 노선 정거장 9곳, 브라우저 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>장마다 주장 문장(교차상관, top-p 정의, KL 정규화 정책 식, KV 캐시 식 등)을 표준 정의와 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>본문 예시(7×7→5×5, 8B·16bit=14.90 GiB, KV 8K=1.00 GiB)를 손계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>Python으로 따로 계산: 회귀 MSE 0.038, 과적합 검증 MSE 최소 0.094(비율 0.64)·0.1237(비율 1), 온도별 분포와 엔트로피 1.617 bit, top-p 누적, 경사하강 수렴·발산 배율, 평가 지표 TP5 FP2 FN1</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>로짓·교차상관·SFT·RLHF·GQA 등 한영 용어 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>GQA(arXiv 2305.13245, Ainslie 2023)를 WebFetch로 확인, 나머지는 서지 정보 대조</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/labs-basic.js · overfit</td><td>라벨을 한자 “補간”으로 쓴 뒤 .replace로 “보간”으로 바꾸는 우회 코드(화면 결과는 정상)</td><td>코드 읽기</td><td>라벨을 처음부터 “보간”으로 씀. 사실 오류는 아님</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul><li>기획·연결(서윤·하람·도현·민재): 장 색인 12개, 공통 개념 16개, 읽기 노선 6개가 모두 있고 나가는 링크 40개·들어오는 링크 133개의 도착 앵커가 모두 book-routes에 있습니다. 노선 “판단하는 부품에서 배우는 층으로”의 neuron 기록 과제는 실험으로 만들 수 없습니다(제안 1).</li><li>조사(은재·지호·유진): 출처 10개에 확인일이 있고 본문 사실 주장에서 오류를 찾지 못했습니다.</li><li>글작성(나래·준서·다온·예린): 일곱 블록이 비지 않았습니다. 다만 이 책에는 장 첫 문장의 이전 장 연결, 남은 질문, 다음 장 이동 이유 필드가 없고 확인 문제 몇 개는 본문 문장으로 바로 풀립니다(제안 2).</li><li>시각·실험(리안·하늘·소율·채원): 1280·390·320px에서 표지와 다섯 장을 열었습니다. 가로 넘침 0, 서가 복귀 버튼이 보이고 누를 수 있었으며, 콘솔 오류 0, 라벨 없는 입력·이름 없는 버튼 0개였습니다. 범위 입력은 키보드 화살표로 조작되었고 tests/browser.cjs는 18개 실험을 모두 통과했습니다.</li><li>규칙 감사(현석): npm test 13/13 통과, scripts/validate.py 116개 파일 오류 0.</li></ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul><li>data/catalog.json 읽기 노선 “판단하는 부품에서 배우는 층으로”의 books/ai/#neuron 기록 “x₁이 1 근처일 때만 출력이 0.5를 넘게 하는 w₁, b 한 조합”은 sigmoid 하나가 단조 함수라서 만들 수 없습니다. “x₁이 1을 넘을 때만 출력이 0.5를 넘게 하는 w₁, b 한 조합”으로 바꾸기를 제안합니다.</li><li>이 책은 기준 책인데도 computer·linear-algebra 책에 있는 먼저 예측하기, 남은 질문, 다음 장 이동 이유 필드가 없습니다. 장 구조를 바꾸는 일이라 docs/08과 함께 판단해야 합니다. 그때 learning·vision·inference 확인 문제를 본문 문장을 찾기만 해서는 풀 수 없는 적용 문제로 바꾸는 것도 함께 검토하세요.</li><li>12장 agents의 둘째 실험(이상 탐지 임계값)은 에이전트 평가와 연결이 약합니다. 도구 호출 성공률이나 근거 정확도 평가로 바꿀지 검토가 필요합니다.</li><li>index.html의 js 스크립트에 ?v= 버전이 없습니다. 고친 내용이 브라우저 캐시 때문에 늦게 반영될 수 있습니다.</li></ul>
+<h3>후속 처리 (2026-10-12)</h3>
+<ul><li>고침(js/content.js): learning·vision·inference 확인 문제를 실험으로 판단하는 문제로 바꿨습니다. learning은 학습률 0.9에서 점이 최솟값 양쪽을 넘나들며 다가가는지(남은 거리 매번 −0.8배, 10번 뒤 약 0.64), vision은 가로 경계 입력에 수직 Sobel 커널을 쓰면 출력이 모두 0인지, inference는 8 bit·4K로 바꿀 때 가중치 +3.73 GiB와 KV −0.5 GiB 중 어느 쪽이 큰지 묻습니다. 세 답은 labs의 계산식을 node로 따로 돌려 확인했습니다.</li><li>고침(index.html): 버전이 없던 책 js 스크립트 9개에 ?v=20261012-edit2를 붙였습니다. 이미 버전이 있는 assets/style.css와 ../../assets 경로는 그대로 두었습니다.</li><li>남김: 노선 neuron 기록 문장은 data/catalog.json 소관이라 편집장에게 넘깁니다. 먼저 예측하기·남은 질문·다음 장 이유 필드 추가는 docs/08과 모든 책에 걸친 구조 변경이라, agents 둘째 실험 교체는 실험 형식 변경이라 이번에 하지 않았습니다.</li></ul>
+<h3>확인하지 못한 것</h3>
+<p>출처 10개 가운데 9개는 링크를 열지 못하고 서지 정보로만 대조했습니다. 웹 확인은 WebFetch로만 가능했고(셸 curl은 프록시 403), 출처마다 전부 열지는 못했습니다. 학습 효과(독자가 실제로 설명할 수 있게 되는지)는 측정하지 않았습니다.</p>
+</section>
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드" data-date="2026-10-08" data-scope="12개 장 본문, 18개 실험 계산, 출처 8개와 문서의 외부 링크 4개, 이 책이 들어간 읽기 노선 정거장" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드. 범위: 12개 장 본문, 18개 실험 계산, 출처 8개와 문서의 외부 링크 4개, 이 책이 들어간 읽기 노선 정거장. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 0건, medium 3건, low 6건. 학습자가 틀린 사실이나 숫자를 배우게 되는 오류는 없었고, 출처가 주장을 뒷받침하지 못하는 곳과 노선 기록이 실험과 맞지 않는 곳을 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>논문 연도·저자를 arXiv 원문과 대조, 어텐션·인과 마스크·온도·교차상관·정렬 공식(πᵢ ∝ π₀ᵢ·exp(rᵢ/β)) 유도 확인</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>회귀 최소제곱 해(1.96, 1.02), 경사하강 발산 조건, BPE 조각 수, 메모리 3.725 GiB·KV 1 GiB 재계산. top-p 정의와 합성곱 출력 크기 식 2건 수정</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>npm test 13개 통과, node로 18개 실험의 대표값·경계값 재계산. 검색 실험의 조사 제거 오류 1건 수정</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>temperature·top-k·top-p·SFT/RLHF·정밀도/재현율 정의와 한영 용어 확인</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 12개를 WebFetch로 열어 확인. 주장을 뒷받침하지 못하는 연결 3건을 고치고 출처 2개(Holtzman 2019, Ainslie 2023) 추가, 모든 출처에 확인일 표기</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>M1 medium</td><td>#generation · js/content.js</td><td>temperature·top-k·top-p의 출처가 Transformer 논문(Vaswani 2017)</td><td>논문에 샘플링 내용이 없음</td><td>Holtzman et al. 2019(arXiv 1904.09751)를 출처에 추가해 연결</td></tr><tr><td>M2 medium</td><td>data/catalog.json 읽기 노선 #neuron</td><td>기록 “AND처럼 동작하는 w₁, w₂, b”</td><td>실험이 x₂=1로 고정되어 AND 진리표를 확인할 수 없음</td><td>“x₁이 1 근처일 때만 출력이 0.5를 넘게 하는 w₁, b 한 조합”</td></tr><tr><td>M3 medium</td><td>data/catalog.json 읽기 노선 #rag</td><td>“우주선 검색에서 놓친 문서”</td><td>관련 문서가 없어 실험은 답 보류를 보여 줌</td><td>이유·기록을 답 보류로 수정</td></tr><tr><td>L1 low</td><td>js/labs-systems.js terms()</td><td>조사 ‘이’ 제거로 ‘길이’가 ‘길’이 됨</td><td>node로 토큰화 확인</td><td>남는 길이가 2글자 이상일 때만 조사 제거</td></tr><tr><td>L2 low</td><td>#generation, js/lab-guides.js sampling</td><td>top-p를 “p를 넘는” 집합으로 설명</td><td>표준 정의와 구현은 “p 이상”</td><td>“p 이상”으로 수정</td></tr><tr><td>L3 low</td><td>#vision 식</td><td>출력 크기 식에 내림 없음</td><td>PyTorch Conv2d 문서의 floor 식</td><td>⌊…⌋와 padding 0 기준 추가</td></tr><tr><td>L4 low</td><td>#embeddings 출처</td><td>RAG 논문을 코사인 유사도 근거로 연결</td><td>논문에 해당 내용 없음</td><td>출처를 MLCC로 한정</td></tr><tr><td>L5 low</td><td>#inference 출처</td><td>KV 공식의 출처 없음</td><td>연결된 양자화 문서는 KV를 다루지 않음</td><td>GQA(Ainslie 2023) 추가</td></tr><tr><td>L6 low</td><td>js/content.js sources</td><td>출처에 확인일 없음</td><td>AGENTS.md 확인일 규칙</td><td>모든 출처에 (확인 2026-10-08)</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>브라우저 실행(tests/browser.cjs)과 학습 효과는 이번 검수 범위가 아니었습니다. 새로 넣은 출처 두 개는 검수 에이전트가 WebFetch로 열어 확인했습니다.</p>
+</section>
+</main></body></html>

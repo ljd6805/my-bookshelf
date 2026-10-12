@@ -1,7 +1,7 @@
-import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261008-plum2';
-import { createReader, connectSpines } from './reader.js?v=20261008-plum2';
-import { setupRoutes, setupAtlas } from './curation.js?v=20261008-plum2';
-import { setupShelves } from './shelves.js?v=20261008-plum2';
+import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261012-kg1';
+import { createReader, connectSpines } from './reader.js?v=20261012-kg1';
+import { setupRoutes, setupAtlas, setupFieldBar, setupSeries } from './curation.js?v=20261012-kg1';
+import { setupShelves } from './shelves.js?v=20261012-kg1';
 
 const storageKey = 'bookshelf:hub:v1:motion';
 const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -86,3 +86,5 @@ setupSearch(setupShelves(document.getElementById('resource-list')));
 if (typeof dialog.showModal === 'function') connectSpines(reader);
 setupRoutes(document.querySelector('[data-route-explorer]'));
 setupAtlas(document.querySelector('[data-atlas]'));
+setupFieldBar(document.getElementById('curation'));
+setupSeries(document.querySelector('[data-series-corner]'));

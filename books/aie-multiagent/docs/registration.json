@@ -1,0 +1,116 @@
+{
+ "book": {
+  "id": "aie-17-multiagent",
+  "title": "멀티 에이전트 · 여럿이 나눠 맡고 서로 확인하기",
+  "short_title": "멀티 에이전트",
+  "spine_title": "멀티에이전트",
+  "spine_category": "AI공학",
+  "description": "공공자전거 대여소 확대를 조사하는 보고서 팀 하나를 반장·조사원·작성자·검증자로 나누며, A2A 작업 수명주기, 차례 정하기, 반장과 조사원, 비평가와 검증자, 공유 대기열, 다수결과 단일 문화, 비잔틴 합의, 흥정과 섀플리 값, 마음 모형, 재시도 폭풍을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 16의 레슨 25개를 모두 재구성했습니다.",
+  "illustration_caption": "반장이 하위 질문을 조사원 셋에게 나눠 보내고, 요약이 돌아오면 검증자가 원문과 대조해 확인 표시를 켜는 시각적 비유입니다.",
+  "keywords": [
+   "멀티 에이전트",
+   "다중 에이전트",
+   "multi-agent",
+   "A2A",
+   "MCP",
+   "오케스트레이터",
+   "supervisor",
+   "손넘김",
+   "handoff",
+   "블랙보드",
+   "공유 기억",
+   "다수결",
+   "self-consistency",
+   "토론",
+   "비잔틴 합의",
+   "BFT",
+   "흥정",
+   "섀플리 값",
+   "마음 이론",
+   "theory of mind",
+   "재시도 폭풍",
+   "회로 차단기",
+   "MAST",
+   "swarm"
+  ],
+  "chapters_featured": [
+   "#why",
+   "#supervisor",
+   "#roles",
+   "#debate",
+   "#ops"
+  ],
+  "cover_meta": "12장 · 16개 실험"
+ },
+ "chapter_index": {
+  "books/aie-multiagent/#why": "01 · 혼자 일하는 에이전트의 천장",
+  "books/aie-multiagent/#protocol": "02 · 메시지에 의도를 적는 약속",
+  "books/aie-multiagent/#turn": "03 · 다음 차례는 누가 정하나",
+  "books/aie-multiagent/#supervisor": "04 · 반장 한 명과 조사원 여럿",
+  "books/aie-multiagent/#roles": "05 · 만드는 쪽과 확인하는 쪽",
+  "books/aie-multiagent/#swarm": "06 · 반장 없이 대기열에서 일 가져가기",
+  "books/aie-multiagent/#debate": "07 · 여럿이 답하고 서로 읽기",
+  "books/aie-multiagent/#consensus": "08 · 거짓말쟁이와 따라쟁이가 섞일 때",
+  "books/aie-multiagent/#market": "09 · 흥정하고 몫을 나누기",
+  "books/aie-multiagent/#social": "10 · 기억과 마음 모형으로 생기는 협력",
+  "books/aie-multiagent/#ops": "11 · 죽어도 이어 가고, 폭풍은 끊기",
+  "books/aie-multiagent/#final": "마지막 · 시의회 보고 뒤 올라온 사고 세 건"
+ },
+ "concepts": [
+  {
+   "id": "control-loop",
+   "new": false,
+   "chapters": [
+    "books/aie-multiagent/#turn",
+    "books/aie-multiagent/#supervisor"
+   ]
+  },
+  {
+   "id": "evaluation-uncertainty",
+   "new": false,
+   "chapters": [
+    "books/aie-multiagent/#final"
+   ]
+  },
+  {
+   "id": "coordination-consensus",
+   "new": true,
+   "name": "협력과 합의",
+   "aliases": [
+    "multi-agent coordination",
+    "consensus",
+    "voting",
+    "theory of mind",
+    "MARL"
+   ],
+   "summary": "여러 에이전트가 일을 나누고 답을 모을 때, 서로 얼마나 독립인지와 무엇으로 확인하는지가 결과를 정한다",
+   "chapters": [
+    "books/aie-multiagent/#debate",
+    "books/aie-multiagent/#consensus",
+    "books/aie-multiagent/#social",
+    "books/aie-rl/#multi"
+   ]
+  }
+ ],
+ "series_step": {
+  "url": "books/aie-multiagent/#supervisor",
+  "task": "조사원 수 실험에서 띄우기 비용을 1분으로 두고 K를 1, 5, 10으로 바꿔 완료 시간과 전체 토큰을 기록한 뒤, 비용을 3분으로 올려 가장 빠른 K가 어떻게 바뀌는지 확인한다.",
+  "minutes": 15,
+  "why": "앞 권의 에이전트는 혼자 도구를 부르며 일했지만, 이 권은 같은 일을 여럿으로 나눈다. 나누면 빨라지는 몫과 띄우기·종합 비용, 늘어나는 토큰을 직접 재 보는 일이 이후 운영과 안전을 판단하는 출발점이 된다.",
+  "record": "띄우기 비용, K별 완료 시간(분)과 전체 토큰, 가장 빠른 K, 혼자 할 때(108분)와 비교한 한 문장"
+ },
+ "incoming": [
+  {
+   "from": "books/aie-rl/#multi",
+   "label": "멀티 에이전트 · 기억과 마음 모형으로 생기는 협력",
+   "url": "../aie-multiagent/#social",
+   "why": "두 로봇이 보상으로 협력을 배우는 과정을 봤다면, 학습 없이 기억과 상대에 대한 짐작만으로 LLM 에이전트들이 같은 일을 두 번 하지 않게 되는 과정을 계산해 봅니다."
+  },
+  {
+   "from": "books/ai/#agents",
+   "label": "멀티 에이전트 · 혼자 일하는 에이전트의 천장",
+   "url": "../aie-multiagent/#why",
+   "why": "에이전트 하나의 고리를 이해했다면, 그 에이전트가 문맥 창과 도구 호출 수에서 언제 한계에 닿는지, 나누면 무엇을 대가로 치르는지 숫자로 확인해 봅니다."
+  }
+ ]
+}

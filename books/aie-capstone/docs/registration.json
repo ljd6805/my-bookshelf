@@ -1,0 +1,121 @@
+{
+ "book": {
+  "id": "aie-20-capstone",
+  "title": "캡스톤 · 배운 도구로 제품 하나를 끝까지",
+  "short_title": "캡스톤",
+  "spine_title": "캡스톤",
+  "spine_category": "AI공학",
+  "description": "여섯 명의 플랫폼 팀이 개발자 200명을 위한 사내 AI 개발 도우미 모루를 만들며, 에이전트 고리의 재시도와 예산, pass@k와 꼬리 표집, 역할 팀의 비용, UCB 연구 스케줄러, 124M GPT 조립, SFT와 DPO, ZeRO와 파이프라인 병렬, RAG 지표, 패치 토큰 예산, 부트스트랩 구간, 안전 게이트의 문턱을 직접 계산합니다. 마지막 장에서는 사용량이 두 배가 된 달의 출시 사양표 다섯 줄을 한꺼번에 맞춥니다. 12장 15개 실험으로 원본 커리큘럼 Phase 19의 프로젝트 85개를 모두 재구성했습니다.",
+  "illustration_caption": "출시 사양표의 비용·지연·품질·위험 손잡이가 오가다 모두 목표 구간에 들어오면 출시 등이 켜지는 시각적 비유입니다.",
+  "keywords": [
+   "캡스톤",
+   "AI 엔지니어링",
+   "에이전트",
+   "하네스",
+   "pass@k",
+   "관측",
+   "꼬리 표집",
+   "다중 에이전트",
+   "UCB",
+   "GPT",
+   "SFT",
+   "DPO",
+   "ZeRO",
+   "파이프라인 병렬",
+   "분산 학습",
+   "RAG",
+   "재순위",
+   "nDCG",
+   "ViT",
+   "다중 모달",
+   "평가 하네스",
+   "부트스트랩",
+   "프롬프트 주입",
+   "안전 게이트",
+   "출시 사양표",
+   "capstone"
+  ],
+  "chapters_featured": [
+   "#harness",
+   "#verify",
+   "#scale",
+   "#rag",
+   "#final"
+  ],
+  "cover_meta": "12장 · 15개 실험"
+ },
+ "chapter_index": {
+  "books/aie-capstone/#harness": "01 · 에이전트 고리에 예산과 계약을 걸기",
+  "books/aie-capstone/#verify": "02 · 행동은 관문에서 막고, 결과는 재서 남기기",
+  "books/aie-capstone/#products": "03 · 에이전트 하나에서 팀과 제품으로",
+  "books/aie-capstone/#research": "04 · 실험을 스스로 고르는 연구 고리",
+  "books/aie-capstone/#gpt": "05 · 작은 GPT를 처음부터 조립하기",
+  "books/aie-capstone/#posttrain": "06 · 이어 쓰는 모델을 일하는 모델로",
+  "books/aie-capstone/#scale": "07 · 한 대에서 여러 대로 학습을 나누기",
+  "books/aie-capstone/#rag": "08 · 근거를 찾아 붙이는 검색 파이프라인",
+  "books/aie-capstone/#multimodal": "09 · 그림과 소리를 토큰 예산에 넣기",
+  "books/aie-capstone/#evals": "10 · 두 버전 중 무엇이 나은지 판정하기",
+  "books/aie-capstone/#safety": "11 · 막을 것과 지나갈 것 사이의 문턱",
+  "books/aie-capstone/#final": "마지막 · 출시 사양표를 한 장으로 맞추기"
+ },
+ "concepts": [
+  {
+   "id": "control-loop",
+   "new": false,
+   "chapters": [
+    "books/aie-capstone/#harness",
+    "books/aie-capstone/#research"
+   ]
+  },
+  {
+   "id": "evaluation-uncertainty",
+   "new": false,
+   "chapters": [
+    "books/aie-capstone/#verify",
+    "books/aie-capstone/#evals"
+   ]
+  },
+  {
+   "id": "base-rate-threshold",
+   "new": false,
+   "chapters": [
+    "books/aie-capstone/#safety"
+   ]
+  },
+  {
+   "id": "retrieval-grounding",
+   "new": false,
+   "chapters": [
+    "books/aie-capstone/#rag"
+   ]
+  },
+  {
+   "id": "memory-hierarchy",
+   "new": false,
+   "chapters": [
+    "books/aie-capstone/#scale"
+   ]
+  }
+ ],
+ "series_step": {
+  "url": "books/aie-capstone/#final",
+  "task": "출시 사양표 실험에서 시도 횟수와 방식, 문맥 조각 수, 차단 문턱, 출력 쪽 층을 함께 움직여 다섯 줄을 모두 지키는 조합을 찾고, 그 조합이 기대는 가정 하나를 골라 출시 뒤 어떤 기록으로 다시 잴지 적는다.",
+  "minutes": 20,
+  "why": "앞 권들이 비용, 지연, 품질, 위험을 각각 다루었다면, 마지막 권은 그 넷이 한 제품에서 서로를 끌어당긴다는 것을 한 장의 표로 보여 준다. 시리즈 전체의 도구를 한 판단에 모으는 정거장이다.",
+  "record": "고른 다섯 손잡이 값, 다섯 줄의 계산값과 목표, 가장 의심스러운 가정과 그것을 다시 잴 기록 이름"
+ },
+ "incoming": [
+  {
+   "from": "books/ai/#agents",
+   "label": "캡스톤 · 에이전트 고리에 예산과 계약을 걸기",
+   "url": "../aie-capstone/#harness",
+   "why": "에이전트가 도구를 고르고 쓰는 고리를 봤다면, 그 고리에 재시도·턴·비용 상한을 걸어 제품으로 만드는 계산을 직접 해 봅니다."
+  },
+  {
+   "from": "books/probability/#interval",
+   "label": "캡스톤 · 두 버전 중 무엇이 나은지 판정하기",
+   "url": "../aie-capstone/#evals",
+   "why": "구간으로 말하는 법을 익혔다면, 두 모델의 점수 차이를 부트스트랩 구간으로 판정하고 과제 수가 판정을 어떻게 바꾸는지 계산해 봅니다."
+  }
+ ]
+}

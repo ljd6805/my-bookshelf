@@ -1,0 +1,45 @@
+<svg class="a13-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="세탁기 표시창 사진이 패치 격자로 잘리고, 패치 조각과 녹음의 소리 조각이 토큰 줄을 따라 언어 모델 상자로 흘러 들어간 뒤 상담 답 말풍선이 켜지는 과정을 보여 주는 비유 그림입니다(칸 수와 위치는 예시).">
+<style>
+.a13-ill-bg{fill:#eef5f3}
+.a13-ill-photo{fill:#fffaf2;stroke:#2f5f5b;stroke-width:2}
+.a13-ill-grid{stroke:#7fb5ae;stroke-width:1}
+.a13-ill-code{font:700 16px monospace;fill:#23413e;text-anchor:middle}
+.a13-ill-wave{fill:none;stroke:#2f5f5b;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.a13-ill-lane{stroke:#b9d3cf;stroke-width:2;fill:none}
+.a13-ill-llm{fill:#fffaf2;stroke:#0f6e68;stroke-width:2.4}
+.a13-ill-label{font:700 13px sans-serif;fill:#23413e;text-anchor:middle}
+.a13-ill-note{font:600 11px sans-serif;fill:#3f5b58;text-anchor:middle}
+.a13-ill-tok{fill:#0f6e68}
+.a13-ill-move{animation:a13-ill-move 3.2s linear infinite}
+.a13-ill-snd{fill:#b7793d;animation:a13-ill-snd 3.2s linear infinite}
+.a13-ill-d1{animation-delay:-.8s}.a13-ill-d2{animation-delay:-1.6s}.a13-ill-d3{animation-delay:-2.4s}
+.a13-ill-cut{fill:#0f6e68;opacity:.18;animation:a13-ill-cut 3.2s steps(4,end) infinite}
+.a13-ill-say{fill:#fff;stroke:#b7793d;stroke-width:2;animation:a13-ill-say 3.2s ease-in-out infinite}
+.a13-ill-saytext{font:700 11px sans-serif;fill:#7a4d22;text-anchor:middle;animation:a13-ill-say 3.2s ease-in-out infinite}
+@keyframes a13-ill-move{0%{transform:translateX(0);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translateX(100px);opacity:0}}
+@keyframes a13-ill-snd{0%{transform:translate(0,0);opacity:0}10%{opacity:1}45%{transform:translate(56px,0)}70%{transform:translate(56px,-42px)}90%{opacity:1}100%{transform:translate(100px,-42px);opacity:0}}
+@keyframes a13-ill-cut{0%{transform:translate(0,0)}25%{transform:translate(22px,0)}50%{transform:translate(0,22px)}75%{transform:translate(22px,22px)}100%{transform:translate(0,0)}}
+@keyframes a13-ill-say{0%,45%{opacity:.15}65%,100%{opacity:1}}
+html[data-motion=reduce] .a13-ill-move,html[data-motion=reduce] .a13-ill-snd,html[data-motion=reduce] .a13-ill-cut,html[data-motion=reduce] .a13-ill-say,html[data-motion=reduce] .a13-ill-saytext{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.a13-ill-move,.a13-ill-snd,.a13-ill-cut,.a13-ill-say,.a13-ill-saytext{animation:none;opacity:1}}
+</style>
+<rect class="a13-ill-bg" width="340" height="180"/>
+<rect class="a13-ill-photo" x="20" y="22" width="88" height="88" rx="5"/>
+<rect class="a13-ill-cut" x="20" y="22" width="22" height="22"/>
+<path class="a13-ill-grid" d="M42 22V110M64 22V110M86 22V110M20 44H108M20 66H108M20 88H108"/>
+<text class="a13-ill-code" x="64" y="72">E-21</text>
+<path class="a13-ill-wave" d="M20 140l8-10 8 16 8-22 8 26 8-16 8 10 8-8 8 6 8-4"/>
+<text class="a13-ill-note" x="64" y="168">사진과 소리</text>
+<path class="a13-ill-lane" d="M118 66H218M118 138H180V96H218"/>
+<rect class="a13-ill-tok a13-ill-move" x="118" y="60" width="12" height="12" rx="2"/>
+<rect class="a13-ill-tok a13-ill-move a13-ill-d1" x="118" y="60" width="12" height="12" rx="2"/>
+<rect class="a13-ill-tok a13-ill-move a13-ill-d2" x="118" y="60" width="12" height="12" rx="2"/>
+<rect class="a13-ill-tok a13-ill-move a13-ill-d3" x="118" y="60" width="12" height="12" rx="2"/>
+<circle class="a13-ill-snd a13-ill-d1" cx="124" cy="138" r="6"/>
+<circle class="a13-ill-snd a13-ill-d3" cx="124" cy="138" r="6"/>
+<rect class="a13-ill-llm" x="218" y="48" width="64" height="64" rx="8"/>
+<text class="a13-ill-label" x="250" y="85">LLM</text>
+<rect class="a13-ill-say" x="230" y="122" width="104" height="30" rx="10"/>
+<text class="a13-ill-saytext" x="282" y="141">필터를 열어 보세요</text>
+<text class="a13-ill-note" x="168" y="18">패치 하나가 토큰 하나</text>
+</svg>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="「LLM 직접 만들기」의 사실·수치·실험·용어·출처를 책을 쓰지 않은 검수 에이전트가 확인한 기록입니다."><title>팩트·출처 검수 기록 · LLM 직접 만들기</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · LLM 직접 만들기</h1>
+<p>「AI 엔지니어링 처음부터」 11권(books/aie-llm-build)을 쓴 에이전트가 아닌 별도 검수 에이전트가 원본 레슨(phases/10-llms-from-scratch, MIT)과 인용 논문에 비추어 확인한 결과입니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r5)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장의 전이 문항 12개, #pretrain 새 상세 절 "확장 학습: 문맥을 늘리고 마지막에 식히기"와 출처 46(Llama 3 논문) 연결, #final 첫 문단, math.test.cjs의 rollback(scale) 검사, docs/index.html 보충 절, app.js 정답 자리 돌리기(order)" data-result="fixed">
+<h2>2026-10-12 보충 검수 (r5)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r5, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 더한 것 — 12개 장의 전이 문항 12개, #pretrain 새 상세 절 "확장 학습: 문맥을 늘리고 마지막에 식히기"와 출처 46(Llama 3 논문) 연결, #final 첫 문단, math.test.cjs의 rollback(scale) 검사, docs/index.html 보충 절, app.js 정답 자리 돌리기(order). 이 검수자는 보충을 쓰지 않았습니다.</p>
+<p>전이 문항 12개 모두 정답이 하나이고 오답은 빠뜨린 계수나 다른 설정의 값으로 분명히 틀립니다. #selfimprove 문항은 본문의 p = 0.1 값과 대칭이라 같은 43%가 나오지만, 대칭을 알아야 풀리므로 전이 문항으로 둡니다.</p>
+<p>정답 자리 돌리기: <code>order(n, answer, target)</code>를 따로 확인했습니다. 화면 k번째 자리에 원래 번호 (k + answer − target) mod 3을 두므로 정답은 target 자리에 오고, 세 보기가 한 번씩 나옵니다. 버튼의 <code>data-answer</code>·<code>data-transfer</code>에는 원래 번호가 들어가고 판정은 <code>c.quiz[2]</code>·<code>tr[2]</code>와 원래 번호로 비교하므로, 돌린 뒤에도 판정이 맞습니다. 화면의 "1. 2. 3." 번호만 새 순서를 따릅니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody><tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>Llama 3 논문(arXiv 2407.21783v3 HTML)을 2026-10-12에 열어 3.4.2절(8K에서 128K까지 여섯 단계, 약 800B 토큰, 짧은 문맥 성능 회복과 바늘 찾기 통과 조건), 3.4.3절(마지막 40M 토큰, 128K 유지, 학습률 0까지 선형, 고품질 자료 업샘플), 3.1.3절(8B GSM8k +24.0%, MATH +6.4%, 405B 개선 미미), 3.2절(RoPE 밑수 500,000) 원문과 대조. 모두 일치</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>python3로 따로 계산: 32,000 × 2,048 = 65,536,000, 1 − (1 − 0.5⁵)²⁰ = 0.470, 1 − (1 − 0.5⁸)¹⁶ = 0.0607, 6 × 10⁹ × 2 × 10¹⁰ = 1.2 × 10²⁰, 16 × 70 × 10⁹ ÷ 64 = 17.5GB, 7 ÷ 39 = 0.179, 350 ÷ 50 = 7, DPO 손실 0.798·0.598과 기울기 0.0550·0.0450, 0.9⁸ + 0.1⁸ = 0.4305, ELO 기대 승률 0.7597 → −24.3점, (1 − 0.6⁴) ÷ 0.4 = 2.176, KV 캐시 163,840바이트 × 32,768 = 5.37GB. 해설 문장 1건 수정</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>새 실험 없음. 되돌리기 시간 1,446시간을 STAGES의 단계 시간으로 따로 더함: 확장 학습 1,200 + SFT 60 + 보상 모델 40 + DPO 50 + 자기개선 80 + 평가 10 + 양자화 4 + 서빙 2 = 1,446</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>확장 학습·어닐링·rope_theta·건초 더미 속 바늘·GPipe 거품·ZeRO 3단계를 책 안 표기와 원문 용어와 대조</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>출처 46 https://arxiv.org/abs/2407.21783 이 열리고 인용한 절의 내용이 원문에 있음. 확인일 2026-10-12가 출처 설명과 docs/index.html에 적혀 있음</td></tr></tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody><tr><td>#preference transfer 해설 (js/content.js)</td><td>"시그모이드는 대칭이 아니어서 크기가 같지 않고"라고 썼지만 시그모이드는 σ(−x) = 1 − σ(x)로 점대칭이다. 크기가 다른 이유는 손실 −log σ(β·m)이 m의 부호에 대해 대칭이 아니기 때문</td><td>σ(0.2) = 0.550, σ(−0.2) = 0.450 따로 계산</td><td>"손실 −log σ(β·m)은 m의 부호를 바꾸면 같은 값이 되지 않으므로(σ(0.2)와 σ(−0.2)는 서로 1의 나머지)"로 고침</td></tr></tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>어닐링 효과(+24.0%, +6.4%)는 논문 보고를 대조만 했고 재현하지 않았습니다. #architecture 문항의 21.5GB 오답은 Q 헤드 32개를 가정한 값으로 해설에만 그 가정이 있습니다. 실제 브라우저에서 바뀐 화면을 눌러 보지 않았습니다(이 세션에는 Playwright 실행을 하지 않았고, 집필 측 tests/browser.cjs 기록만 있습니다). 실제 독자의 학습 효과(L4)는 재지 않았습니다. 고친 content.js·labs·math.js의 스크립트 버전 문자열(?v=20261012-supp1)은 그대로 두었습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build)" data-date="2026-10-12" data-scope="12개 장 본문·식·상세·혼동 상자·확인 문제, 16개 실험과 표지 실험, 출처 49개(InstructGPT는 원문 확인), 다른 책 링크 19개와 들어오는 링크 5개, 카탈로그의 장 색인·개념 6개·읽기 노선 1곳·시리즈, 브라우저 1280·390·320px" data-result="fixed">
+<h2>2026-10-12 편집팀 전체 도서 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build). 범위: 12개 장 본문·식·상세·혼동 상자·확인 문제, 16개 실험과 표지 실험, 출처 49개(InstructGPT는 원문 확인), 다른 책 링크 19개와 들어오는 링크 5개, 카탈로그의 장 색인·개념 6개·읽기 노선 1곳·시리즈, 브라우저 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다. 실험 대표값은 책 코드와 따로 Python으로 다시 구현해 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>InstructGPT 보상 모델 데이터 규모를 논문 원문으로 확인해 바로잡음. Llama 2·3 어휘, Llama 3 405B 병렬(8×16×128=16,384), Llama 2 SFT 설정, rope_theta 500,000, DeepSeek-V3 2,048장, Jamba 52B·12B를 알려진 값과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Korthikanti 활성값 380·36.5·14GB와 8.3%, ZeRO 120·31.4·16.6·1.9GB, 거품 15.8·18.75·43%, SFT 2.47·1.15·0.33, DPO 0.693·0.598·0.313, GRPO 43·18.5%, ELO 0.909, 추측 디코딩 3.36, Hogwild 5,550·0.63배, GPT-2 124,439,808, Llama 3 8B 8,030,261,248, Mixtral 46.70B·12.88B, KV 17.2GB·327,680바이트·9.2GB, 1.34TB, 되돌리기 246·6시간을 손계산으로 재확인</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>BPE를 Python으로 따로 구현: 398바이트 → 10회 276, 30회 187, 49회 뒤 149, 시험 문장 53바이트가 영어 병합표로 53, 한국어로 20토큰. 바이그램 V=57·ln V=4.043·바닥 0.914, Chinchilla 1.937·1.993과 최적 32.4B·93.6토큰/파라미터, 양자화(책의 가중치를 받아 numpy로) 4비트 텐서별 SNR 11.29dB·보통 행 평균 상대 오차 91.2%, 채널별 21.41dB가 모두 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>BPE·MinHash·ZeRO·활성값 재계산·거품·SFT·DPO·GRPO·양자화·추측 디코딩·MoE가 책 안에서 일관됨</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>arXiv 번호 23개 서지 대조, InstructGPT(arXiv 2203.02155)는 원문을 열어 RM 데이터 문장 확인. 나가는 링크 19개와 들어오는 링크 5개(ai·llm-gpu·aie-llm-apps·aie-capstone)의 도착 장 ID를 스크립트로 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#preference 상세 “RLHF 세 단계” (js/content.js)</td><td>원본을 따라 InstructGPT가 “비교 쌍 약 3만 3천 개”를 썼다고 적음</td><td>Ouyang et al. (2022): “the RM dataset has 33k training prompts”, 프롬프트마다 K = 4~9개 답에 순위를 매겨 모든 쌍(C(K,2))을 비교로 씀(2026-10-12 원문 확인)</td><td>3만 3천은 프롬프트 수이고 비교 쌍은 그보다 훨씬 많다고 밝힘(원본 문장은 출처 표시와 함께 남김)</td></tr>
+<tr><td>index.html</td><td>자산 버전</td><td>책 파일 수정</td><td>js·css ?v=를 20261012-edit로 통일</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul>
+<li>기획·연결 (서윤·하람·도현·민재): 마지막 장은 되돌릴 범위를 계산하고 먼저 확인할 원인과 증거를 쓰는 과제입니다. 장 색인 12개, 공통 개념 6개, 노선 “LLM을 만들고 제품의 도구로 엮기”의 #preference 정거장(m −2·0·2, β 0.1·0.5는 실험 범위 안), 시리즈 11권 항목이 있습니다.</li>
+<li>조사 (은재·지호·유진): 원본 오류를 옮기지 않는다는 책 규칙(16바이트, Llama 3 데이터 구성, CCNet 필터)이 지켜지고 있습니다.</li>
+<li>글작성 (나래·준서·다온·예린): 장 연결과 일곱 블록, 이어 읽기의 이동 이유가 모두 있습니다.</li>
+<li>시각·실험 (리안·하늘·소율·채원): tests/browser.cjs를 포트 8106의 로컬 서버로 실행해 1280·390·320px에서 화면 42개·실험 확인 48회, 콘솔 오류 0, 가로 넘침 없음, 서가 복귀 버튼 표시를 확인했습니다(증거 파일은 저장소의 docs/evidence를 덮어쓰지 않도록 임시 폴더에 남김).</li>
+<li>규칙 감사 (현석): npm test 26개 통과, python3 scripts/validate.py 오류 0.</li>
+</ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul>
+<li>Differential Transformer 출처의 연도 “(2025)”는 arXiv 게재(2024년 10월)가 아니라 ICLR 2025 기준입니다. 표기 방침을 정해 주시면 맞추겠습니다.</li>
+<li>카탈로그 노선 할 일의 “기울기가 거의 사라지는 지점”은 실험 범위(m ≤ 6)에서 β=0.1이면 기울기가 0.035까지만 내려갑니다. “기울기가 가장 작아지는 쪽”으로 다듬는 것을 제안합니다(data/catalog.json, 서가 담당).</li>
+</ul>
+<h3>후속 처리 (2026-10-12)</h3>
+<ul>
+<li>Differential Transformer 출처 표기를 “Ye et al. (arXiv 2024, ICLR 2025)”로 바꿨습니다(js/content.js 출처 목록). arXiv 2410.05258 게재 연도와 학회 발표 연도를 함께 밝혀, 다른 책(트랜스포머 깊이 보기의 “(2024)”)과도 어긋나지 않게 했습니다. 본문에는 이 논문 연도가 따로 나오지 않습니다.</li>
+<li>카탈로그 노선 문구(“기울기가 거의 사라지는 지점”)는 data/catalog.json 소관이라 이 책 후속에서 고치지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>InstructGPT 외의 논문은 이번 회차에서 열지 않았습니다. 차등 어텐션 V2(2026년 1월), Constitutional AI 원칙 16개, LLM 심판 80% 일치, MTP 수락률 80%, A100 교차점 156, DeepSeek-V3 활용률 95%는 원본 기준 표시를 그대로 두었습니다. MinHash 추정값과 ELO 곡선은 시드 의존이라 경향만 확인했습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-build)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build)" data-date="2026-10-08" data-scope="12개 장 본문·식·세부·확인 문제, 16개 실험과 안내 상자, 표지 실험, 그림 캡션, 용어집, 출처 49개, 다른 책 링크 19개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-llm-build). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-llm-build). 범위: 12개 장 본문·식·세부·확인 문제, 16개 실험과 안내 상자, 표지 실험, 그림 캡션, 용어집, 출처 49개, 다른 책 링크 19개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>3건 수정</td><td>장마다 주장을 원본 en.md 24개와 대조하고, 원본이 인용한 논문(Llama 3 보고서, ZeRO, Chinchilla, InstructGPT, DeepSeek-V3, NSA, Jamba 등)으로 확인. Llama 3 데이터 구성·병렬 구성은 arXiv 2407.21783 본문으로 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>3건 수정</td><td>본문·formulaNote·세부·확인 문제·안내 상자의 숫자를 js/math.js를 node로 직접 실행해 재계산(BPE 276·187·149토큰, 53 대 20토큰, Jaccard 0.881, LSH 94.7%·6.1%, 패딩 51%·패킹 92%, ln 57 = 4.04, 0.925·0.914·1.12, Chinchilla 1.937·1.993·32.4B·93.6토큰/파라미터, 16Ψ = 128GB, ZeRO 7.5B·64장 120·31.4·16.6·1.9GB, 70B 최소 14장, 활성값 380·36.5·14GB와 8.3%·33%, 거품 15.8%·18.75%·75%·43%, SFT 2.47·1.15·0.33, DPO 0.693·0.598·0.313, GRPO 43%·18.5%, ELO 0.909, SNR 11.3·21.4dB, 추측 디코딩 3.36, Hogwild 5,550·0.63배, GPT-2 124.44M, Llama 3 8B 8.03B·17.2GB, Mixtral 46.7B·12.9B, DeepSeek-V3 671.0B·37.55B·9.2GB·1.34TB, Jamba 4층 KV, 되돌리기 246·6시간)</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>4건 수정</td><td>math.js 함수가 설명한 식(BPE, MinHash/LSH, 패킹, 바이그램 경사하강, Chinchilla 접근 3, ZeRO 16Ψ, Korthikanti 활성값, GPipe 일정, DPO, GRPO, ELO, 대칭 양자화, Leviathan 기대 토큰, config 파라미터·KV 셈, 의존 그래프)대로 계산하는지 코드로 읽고, 대표값·경계값을 따로 계산해 대조. 안내 상자의 결과 읽기와 실험 질문이 실험 범위에서 확인 가능한지 점검</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>BPE, MinHash, 교차 엔트로피, ZeRO, 활성값 재계산, 파이프라인 거품, SFT, DPO, GRPO, 양자화, 추측 디코딩, 전문가 혼합의 번역어와 원어 대응, 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 24개 폴더가 로컬 사본에 있음을 확인, 논문 24편의 arXiv 번호·저자·연도·제목 대조, 장별 source 번호(0부터)가 장 내용과 맞음을 확인, 다른 책 링크 19개의 도착 장 ID와 제목 확인, MIT 크레딧이 참고 자료·꼬리말·문서에 있음 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#data 세부 "패킹과 주의 마스크" (js/content.js)</td><td>Llama 3 데이터 구성을 "웹 50%, 코드 25%, 책·논문 13%, 수학 8%, 다국어 4%"로 적음(원본 3강의 오류를 옮김)</td><td>Llama 3 보고서(arXiv 2407.21783) 3.1.2절: 일반 지식 약 50%, 수학·추론 25%, 코드 17%, 다국어 8%</td><td>보고서 값으로 고치고 출처를 보고서로 바꿈</td></tr>
+<tr><td>#data 본문 첫 문단</td><td>"Llama 팀이 웹 데이터의 약 38%를 중복 제거로 걸러 냈다"</td><td>원본 3강만의 주장이며, Llama 3 보고서는 URL·문서·줄 단위 중복 제거를 설명할 뿐 제거 비율을 밝히지 않음</td><td>근거 없는 수치를 삭제</td></tr>
+<tr><td>#data 세부 "정제 파이프라인 다섯 단계"</td><td>위키백과 언어 모델 혼란도 필터를 RefinedWeb의 방식으로 적음</td><td>위키백과로 학습한 n-gram 모델의 혼란도 필터는 CCNet(Wenzek et al. 2019)의 방식이며, RefinedWeb(Penedo et al. 2023)은 모델 기반 필터 없이 규칙 필터와 중복 제거를 씀</td><td>CCNet으로 고치고 원본과 다른 점을 한 문장으로 밝힘</td></tr>
+<tr><td>#serving 본문 첫 문단</td><td>4비트 텐서별 양자화에서 "나머지 행들의 상대 오차가 96%"</td><td>실험이 화면에 보이는 보통 행 평균 상대 오차는 91.2%(행별 0.79~0.99)</td><td>"평균 91%"로 고침</td></tr>
+<tr><td>#serving 세부 "디코드를 빠르게 하는 장치"</td><td>Llama 3 70B KV 캐시 "320KB, 128K면 40GB"는 이진 단위(KiB·GiB)인데, 같은 책의 Llama 3 8B 17.2GB는 십진 GB라 단위가 섞임</td><td>2 × 80 × 8 × 128 × 2 = 327,680바이트, × 131,072 = 42.9 × 10⁹바이트 = 40GiB</td><td>"327,680바이트(320KiB) … 약 43GB(40GiB)"로 고침</td></tr>
+<tr><td>#memory 세부 "혼합 정밀도와 BF16"</td><td>원본의 "혼합 정밀도면 84GB로 25% 감소"를 그대로 전해, 같은 장의 16바이트 셈과 충돌</td><td>ZeRO 논문: 혼합 정밀도 Adam은 마스터 가중치 포함 16Ψ로 FP32 Adam(4+4+8 = 16Ψ)과 같음. 원본 84GB는 마스터 가중치를 뺀 값</td><td>84GB가 마스터 가중치를 뺀 값이며 포함하면 112GB로 같다는 설명을 더함</td></tr>
+<tr><td>info.bubble 실험 질문</td><td>"P = 8에서 거품을 10% 아래로 낮추려면 M이 얼마나 필요한가" — 답은 M = 64인데 실험 막대의 최댓값이 32라 실험으로 찾을 수 없음</td><td>7/(M+7) &lt; 0.1 ⇔ M ≥ 64. M = 32에서 17.9%</td><td>"20% 아래"로 바꿈(답 M = 29, 실험 범위 안)</td></tr>
+<tr><td>js/lab-guides.js dpo 결과 읽기</td><td>"같은 m이라도 β가 크면 … 기울기도 빨리 사라진다" — m = 2 예제에서 기울기 크기는 β = 0.1일 때 0.0475, β = 0.5일 때 0.134로 오히려 큼</td><td>기울기 크기 β·σ(−β·m) 재계산</td><td>무게 σ(−β·m)가 m에 따라 빨리 0으로 가지만 작은 m에서는 β 때문에 크기가 크다고 고침</td></tr>
+<tr><td>js/lab-guides.js packing 결과 읽기</td><td>"패킹은 거의 꽉 찬다" — L = 4,096 예제에서 패킹 활용률은 77%</td><td>packing() 재계산: L 512·1,024·4,096에서 97%·92%·77%</td><td>"마지막 시퀀스의 빈칸만 남아 훨씬 높게 유지된다"로 고침</td></tr>
+<tr><td>js/labs-serve.js 되돌리기 결과 문장</td><td>보상 모델 단계를 "원본의 비용 분류로 일 단위"라고 표시</td><td>원본 13강의 일 단위 묶음은 SFT·DPO·CAI뿐이고 보상 모델은 분류하지 않음</td><td>"따로 분류되지 않았습니다"가 나오도록 고침</td></tr>
+<tr><td>#architecture 본문 둘째 문단</td><td>NSA "64K에서 키 2,560개"의 조건이 없어 논문 기본 설정(압축 블록 32, 보폭 16; 약 5,600개)으로 오해될 수 있음</td><td>원본 17강의 예(l = 64, k = 16, b = 64, w = 512)로 65,536/64 + 1,024 + 512 = 2,560</td><td>계산 조건을 괄호로 밝힘</td></tr>
+</tbody></table>
+<h3>보류(원본 기준으로 남긴 것)</h3>
+<ul>
+<li>DeepSeek-V3 학습의 "GPU 활용률 95% 이상"(#parallel)은 원본 19강의 주장이며 DeepSeek-V3 보고서에서 같은 문장을 찾지 못했습니다. 본문이 이미 "원본 커리큘럼 기준"으로 표시하므로 남겼습니다.</li>
+<li>MTP 초안의 "수락률 80% 이상"(#serving)은 원본 표현이며, DeepSeek-V3 보고서는 둘째 토큰 수락률 85~90%로 적습니다. 서로 모순되지 않아 남겼습니다.</li>
+<li>Chinchilla 실험 안내의 "70B는 최솟값 근처"는 이 적합식의 최솟값이 32B여서 해석이 갈립니다. 손실 차이는 0.007로 작아 남겼습니다.</li>
+<li>선택적 재계산 추가 계산 8%는 4s/(72h + 12s) 식으로 맞지만 Korthikanti 논문의 GPT-3 사례 값(2.7%)과 식의 정의가 달라 직접 비교하지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>외부 URL은 Llama 3 보고서만 WebFetch로 열었고, 나머지 논문은 arXiv 번호·저자·연도를 검수자 지식으로 대조했습니다. 차등 어텐션 V2(2026년 1월), Hogwild! 추론 수치, Constitutional AI 원칙 16개, LLM 심판 80% 일치, InstructGPT 3만 3천 쌍 등은 원본 레슨과 일치함을 확인했지만 1차 출처 원문은 열지 않았습니다. 원문 복제는 장 6곳을 표본으로 원본 en.md와 비교해 긴 번역 구간이 없음을 확인했습니다. 학습 효과는 독자로 시험하지 않았습니다.</p>
+</section>
+</main></body></html>

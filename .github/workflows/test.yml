@@ -18,7 +18,7 @@ jobs:
           python-version: '3.12'
       - run: python3 scripts/validate.py
       - run: python3 -m unittest discover -s tests -v
-      - run: node --test tests/test_shelf_model.mjs
+      - run: node --test tests/*.mjs
       - run: npm test --prefix books/ai
       - run: npm test --prefix books/computer
       - run: npm test --prefix books/linear-algebra
@@ -27,4 +27,24 @@ jobs:
       - run: npm test --prefix books/rag
       - run: npm test --prefix books/knowledge-graph
       - run: npm test --prefix books/llm-performance
+      - run: npm test --prefix books/aie-workbench
+      - run: npm test --prefix books/aie-math
+      - run: npm test --prefix books/aie-ml
+      - run: npm test --prefix books/aie-deep
+      - run: npm test --prefix books/aie-vision
+      - run: npm test --prefix books/aie-nlp
+      - run: npm test --prefix books/aie-audio
+      - run: npm test --prefix books/aie-transformer
+      - run: npm test --prefix books/aie-generative
+      - run: npm test --prefix books/aie-rl
+      - run: npm test --prefix books/aie-llm-build
+      - run: npm test --prefix books/aie-llm-apps
+      - run: npm test --prefix books/aie-multimodal
+      - run: npm test --prefix books/aie-tools
+      - run: npm test --prefix books/aie-agents
+      - run: npm test --prefix books/aie-autonomy
+      - run: npm test --prefix books/aie-multiagent
+      - run: npm test --prefix books/aie-production
+      - run: npm test --prefix books/aie-safety
+      - run: npm test --prefix books/aie-capstone
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v

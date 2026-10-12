@@ -1,0 +1,13 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="질문 하나가 지시와 근거와 도구를 거쳐 모델에 들어가고, 검사를 통과한 답만 고객에게 나가는 LLM 서비스의 요청 흐름" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="10" y="54" width="58" height="40" rx="18"/><text class="cv-text" x="39" y="78" text-anchor="middle">질문</text>
+<path class="cv-bus" d="M68 74H98"/>
+<rect class="cv-node" x="98" y="22" width="62" height="26" rx="4"/><text class="cv-text cv-muted" x="129" y="40" text-anchor="middle">지시</text>
+<rect class="cv-node" x="98" y="61" width="62" height="26" rx="4"/><text class="cv-text cv-muted" x="129" y="79" text-anchor="middle">근거</text>
+<rect class="cv-node" x="98" y="100" width="62" height="26" rx="4"/><text class="cv-text cv-muted" x="129" y="118" text-anchor="middle">도구</text>
+<path class="cv-hair" d="M160 35L184 64M160 74H184M160 113L184 84"/>
+<rect class="cv-node" x="184" y="44" width="58" height="60" rx="6"/><text class="cv-big" x="213" y="82" text-anchor="middle">LLM</text>
+<path class="cv-bus" d="M242 74H262"/>
+<rect class="cv-node" x="262" y="54" width="48" height="40" rx="5"/><text class="cv-text" x="286" y="78" text-anchor="middle">답</text>
+<path class="cv-hair" d="M252 64V40H300V54"/><text class="cv-text cv-muted" x="276" y="34" text-anchor="middle">검사</text>
+<text class="cv-text" x="160" y="144" text-anchor="middle">프롬프트에서 서비스까지</text>
+</svg>

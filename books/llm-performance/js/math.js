@@ -37,6 +37,16 @@ const trials=[
  {name:'4bit 전환',ttft:430,itl:20,tps:60,memory:15,passed:18}
 ];
 function decision(index,ttft,itl,capacity){const r=trials[index];if(!r)throw new RangeError('없는 후보');const checks=[r.ttft<=ttft,r.itl<=itl,r.memory<=capacity,r.passed===20];return {...r,checks,accepted:checks.every(Boolean)};}
-const api={metrics,timing,pipeline,mapping,sectors,occupancy,roofline,fusion,attention,paging,schedule,parallel,percentile,trials,decision};
+/* 확인 문제 화면 순서(학습 내용의 계산이 아님): 원래 번호 answer인 보기가 화면 target번째(0부터)에 오도록 n개 보기를 돌린 원래 번호 목록. */
+function choiceOrder(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+/* 10장 깊이 읽기: 추측 디코딩의 이론값(Leviathan·Kalman·Matias 2023, 식 1과 정리 3.8). 수락률 alpha는 토큰마다 독립이라고 가정한다.
+   초안 모델 한 번의 비용은 큰 모델 한 단계의 cost배이고, 큰 모델이 gamma+1개 위치를 검증하는 시간은 한 단계와 같다고 가정한다. */
+function speculative(alpha,gamma,cost){
+ valid(alpha);if(alpha>=1)throw new RangeError('수락률은 0 이상 1 미만입니다');valid(gamma,1);valid(cost);
+ const at=g=>{const expected=(1-alpha**(g+1))/(1-alpha);return {gamma:g,expected,speedup:expected/(g*cost+1)};};
+ const curve=Array.from({length:8},(_,i)=>at(i+1)),best=curve.reduce((a,b)=>b.speedup>a.speedup?b:a);
+ return {...at(gamma),curve,best};
+}
+const api={choiceOrder,speculative,metrics,timing,pipeline,mapping,sectors,occupancy,roofline,fusion,attention,paging,schedule,parallel,percentile,trials,decision};
 if(typeof module==='object'&&module.exports)module.exports=api;else root.PMath=api;
 })(typeof window==='object'?window:globalThis);

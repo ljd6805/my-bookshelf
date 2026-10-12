@@ -1,0 +1,41 @@
+<svg class="a19-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="고객 요청 점들이 입력 점검, 상담 AI 누리, 출력 점검을 차례로 지나가고 위험한 요청 점은 점검 층에서 멈춰 사라지는 비유 그림. 실제 계산이 아니라 겹겹이 막는 구조를 보여 주는 그림이다.">
+<style>
+.a19-ill-bg{fill:#f4f2f8}
+.a19-ill-layer{fill:#fffaf0;stroke:#6a55a8;stroke-width:2}
+.a19-ill-core{fill:#ece6fb;stroke:#4a3a86;stroke-width:2}
+.a19-ill-label{font:700 13px sans-serif;fill:#2c2450;text-anchor:middle}
+.a19-ill-small{font:500 11px sans-serif;fill:#5a5375;text-anchor:middle}
+.a19-ill-wire{stroke:#c9c1df;stroke-width:2;fill:none;stroke-dasharray:4 4}
+.a19-ill-ok{fill:#2f8f6f}
+.a19-ill-bad{fill:#c24a3a}
+.a19-ill-p1{animation:a19-ill-pass 4s linear infinite}
+.a19-ill-p2{animation:a19-ill-pass 4s linear infinite;animation-delay:1.3s}
+.a19-ill-p3{animation:a19-ill-pass 4s linear infinite;animation-delay:2.6s}
+.a19-ill-b1{animation:a19-ill-stop1 4s linear infinite;animation-delay:.6s}
+.a19-ill-b2{animation:a19-ill-stop2 4s linear infinite;animation-delay:2s}
+.a19-ill-glow{fill:none;stroke:#c24a3a;stroke-width:2;opacity:0;animation:a19-ill-glow 4s ease-out infinite}
+.a19-ill-g1{animation-delay:.6s}.a19-ill-g2{animation-delay:2s}
+@keyframes a19-ill-pass{0%{transform:translateX(0);opacity:0}6%{opacity:1}92%{opacity:1}100%{transform:translateX(300px);opacity:0}}
+@keyframes a19-ill-stop1{0%{transform:translateX(0);opacity:0}6%{opacity:1}22%{transform:translateX(62px);opacity:1}40%,100%{transform:translateX(62px);opacity:0}}
+@keyframes a19-ill-stop2{0%{transform:translateX(0);opacity:0}6%{opacity:1}62%{transform:translateX(232px);opacity:1}80%,100%{transform:translateX(232px);opacity:0}}
+@keyframes a19-ill-glow{0%,18%{opacity:0}26%{opacity:1}45%,100%{opacity:0}}
+html[data-motion=reduce] .a19-ill-p1,html[data-motion=reduce] .a19-ill-p2,html[data-motion=reduce] .a19-ill-p3,html[data-motion=reduce] .a19-ill-b1,html[data-motion=reduce] .a19-ill-b2,html[data-motion=reduce] .a19-ill-glow{animation:none}
+html[data-motion=reduce] .a19-ill-p2{transform:translateX(150px)}html[data-motion=reduce] .a19-ill-b1{transform:translateX(62px)}html[data-motion=reduce] .a19-ill-b2{transform:translateX(232px)}
+@media(prefers-reduced-motion:reduce){.a19-ill-p1,.a19-ill-p2,.a19-ill-p3,.a19-ill-b1,.a19-ill-b2,.a19-ill-glow{animation:none}.a19-ill-p2{transform:translateX(150px)}.a19-ill-b1{transform:translateX(62px)}.a19-ill-b2{transform:translateX(232px)}}
+</style>
+<rect class="a19-ill-bg" width="340" height="180"/>
+<text class="a19-ill-small" x="170" y="22">요청 → 점검 → 누리 → 점검 → 답</text>
+<path class="a19-ill-wire" d="M14 70H330M14 100H330M14 130H330"/>
+<rect class="a19-ill-layer" x="76" y="44" width="22" height="108" rx="5"/>
+<rect class="a19-ill-core" x="134" y="44" width="72" height="108" rx="10"/>
+<rect class="a19-ill-layer" x="246" y="44" width="22" height="108" rx="5"/>
+<text class="a19-ill-label" x="170" y="96">누리</text><text class="a19-ill-small" x="170" y="114">상담 AI</text>
+<text class="a19-ill-small" x="87" y="168">입력 점검</text><text class="a19-ill-small" x="257" y="168">출력 점검</text>
+<circle class="a19-ill-glow a19-ill-g1" cx="74" cy="100" r="12"/>
+<circle class="a19-ill-glow a19-ill-g2" cx="244" cy="130" r="12"/>
+<circle class="a19-ill-ok a19-ill-p1" cx="18" cy="70" r="6"/>
+<circle class="a19-ill-ok a19-ill-p2" cx="18" cy="70" r="6"/>
+<circle class="a19-ill-ok a19-ill-p3" cx="18" cy="130" r="6"/>
+<circle class="a19-ill-bad a19-ill-b1" cx="12" cy="100" r="6"/>
+<circle class="a19-ill-bad a19-ill-b2" cx="12" cy="130" r="6"/>
+</svg>

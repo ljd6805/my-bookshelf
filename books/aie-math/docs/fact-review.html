@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="《모델을 움직이는 수학》을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 모델을 움직이는 수학</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>「AI 엔지니어링 처음부터」 02권 《모델을 움직이는 수학 · 미분에서 푸리에까지》(<code>books/aie-math/</code>)의 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 검수 에이전트가 사실과 출처를 확인했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r3)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항(transfer) 12개, #final 실험 verdict의 기저율·오경보율 손잡이(falseAlarms)와 결과 읽기, verdict 식 설명, quizOrder 보기 돌리기" data-result="passed" data-commit="5f766a8">
+<h2>2026-10-12 검수 (전체 도서 보충 · 검수 r3)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r3, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 12개 장 전이 문항(transfer) 12개, #final 실험 verdict의 기저율·오경보율 손잡이(falseAlarms)와 결과 읽기, verdict 식 설명, quizOrder 보기 돌리기. 커밋 5f766a8이 이 책에 더한 것만 보았고, 계산은 책 코드와 따로 Python·Node 스크립트로 다시 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>전이 문항 해설의 사실(브로드캐스팅은 오른쪽 축부터, 앞 차분 O(h)·가운데 차분 O(h²), 수렴 한계 2/λmax, 표준오차 1/√n)을 표준 정의와 대조. 전이 문항마다 정답이 하나뿐인지, 오답 해설의 계산이 그 오답 값을 실제로 만드는지 확인했습니다. 정답 자리 돌리기(quizOrder)는 n=3의 모든 (정답, 목표 자리) 9쌍에서 목표 자리에 원래 정답이 오고 보기가 겹치지 않음을 따로 확인했고, 클릭 판정은 data-answer·data-transfer의 원래 번호를 c.quiz[2]·c.transfer[2]와 비교합니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>따로 계산: 1.25Hz×8초=10(k=10), (2.1³−8)/0.1=12.61·(2.1³−1.9³)/0.2=12.01, b+2a=8, 2/50=0.04·|1−2.5|=1.5, 2−1=1비트, −800+ln2=−799.307, 0.4→0.1은 n×16=1,600, ⌊8000/181⌋=44(7,964), 정상 분포 π비=0.1/0.6=0.167, 공장 검사 0.00495/(0.00495+0.0199)=0.199</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>diffInterval·falseAlarms를 따로 계산해 대조: n=200 구간 −3.48~+9.48%p, n=2,000 +0.95~+5.05%p, 기저율 5%·오경보 3%에서 0.625(잘못 켬 37.5), 1%에서 0.2423(75.8), 30%에서 0.931. 결과 읽기 문장과 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>놀람·오경보율·기저율·민감도가 책 안의 기존 용어와 같고, 사후확률 P(명령 | 켜 판정) 표기도 식과 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>이 보충은 새 출처를 더하지 않았습니다(기존 출처 목록 그대로)</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>—</td><td>오류를 찾지 못했습니다</td><td>—</td><td>—</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>실제 브라우저에서 전이 문항을 직접 눌러 보지는 않았습니다(집필 측 tests/browser.cjs 기록만 봄). 독자의 학습 효과는 시험하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-math)" data-date="2026-10-12" data-scope="12개 장 본문·식·세부·경고·확인 문제, 15개 실험과 안내 상자 결과 읽기의 대표값·경계값(numpy로 따로 계산), 출처 48개 중 1개 웹 재확인, 교차 링크(나가는 22개·들어오는 3개) 도착 앵커, 1280·390·320px 브라우저" data-result="passed">
+<h2>2026-10-12 검수 (편집팀 전체 도서 검수)</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-math). 이 책을 쓰지 않은 새 세션이 다섯 팀 관점으로 다시 읽었습니다. 사실·수치·실험 계산 오류는 찾지 못했고 책 본문은 고치지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>float16 최대 65,504·최소 부분정규수 약 6×10⁻⁸, bfloat16 지수 8비트·가수 7비트, Adam 기본값(β₂=0.999·ε=10⁻⁸), 전진 차분 h≈10⁻⁸·가운데 차분 h≈10⁻⁵, 숄레스키가 LU의 약 두 배 빠름, 피들러 값 정의(이전 회차 수정분), FFT N=10⁶에서 10¹²→2×10⁷을 다시 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>손계산: e¹²≈162,755&gt;65,504, ln(3.4×10³⁸)≈88.7, log₂(0.9/0.45)=1비트, 최댓값 빼기 뒤 softmax[−2,−1,0]=[0.09,0.24,0.67], n이 4배면 표준오차 절반, 두 비율 차이 95% 구간(86%→89%, n=200: −3.5~+9.5%p, n=2,000: +1.0~+5.0%p, 92%: 하한 −0.1%p)</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>js/math.js를 쓰지 않고 numpy로 따로 계산: 골짜기 f=½(x²+12y²)에서 한계 η=2/12≈0.167, η=0.18 발산, 모멘텀 η=0.05에서 β=0은 40걸음 안에 0.01 미달·β=0.8은 24걸음·β=0.95는 21걸음에 닿았다가 40걸음 뒤 1.15로 다시 커짐(노선 기록 과제와 일치), 조건수 5°≈22.9·해 이동 0.162, 3°+λ=0.1 해 0.952·이동 0.0037, T=0.3 1등 확률 0.775, T=1.5·top-p 0.8에서 세 문장, 전이 행렬 q=0.5·q=0 정상 분포와 20걸음 분포</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>이산 푸리에 변환·브로드캐스팅·역전파·교차 엔트로피·조건수·정상 분포·핵 샘플링의 한영 대응과 책 안 일관성</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>이전 회차에서 교체한 Robert, “The Metropolis-Hastings algorithm”(arXiv 1504.01896)을 WebFetch로 다시 열어 제목·저자 확인. 교차 링크 22개의 도착 장 ID가 대상 책 book-routes에 있음을 스크립트로 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>—</td><td>사실·수치·실험 계산 오류 없음</td><td>위 표의 재계산</td><td>본문 수정 없음. docs/index.html의 검수 안내에 이번 회차가 더해졌다는 문장만 더함</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul>
+<li><b>기획·연결 (서윤·하람·도현·민재)</b>: 사례 ‘말귀’가 12장 내내 이어지고, 마지막 과제(부엌에서 틀리는 새 버전을 내보낼지 증거로 판단)가 관찰 가능한 행동으로 끝납니다. 장 색인 12개, 공통 개념 여러 개(손실과 우도·기울기와 역전파·차원 줄이기 등), 읽기 노선 #optimize 정거장의 할 일이 모멘텀 실험 프리셋과 맞습니다. 다만 다른 책에서 이 책으로 들어오는 링크는 3개(ai·aie-llm-build·linear-algebra)로 적은 편입니다.</li>
+<li><b>조사 (은재·지호·유진)</b>: 원본 커리큘럼 확인일(2026-10-08)과 MIT 크레딧이 표지·꼬리말에 있습니다. 새로 틀린 사실이나 과장은 찾지 못했습니다.</li>
+<li><b>글작성 (나래·준서·다온·예린)</b>: 장 첫 문장이 앞 장 결과(“1장에서…”, “2장에서…”)를 받고 마지막 문장이 다음 장 질문으로 넘어갑니다. 일곱 블록 필드가 비지 않았고 확인 문제는 계산·추론을 요구합니다.</li>
+<li><b>시각·실험 (리안·하늘·소율·채원)</b>: 1280·390·320px에서 표지와 12개 장의 가로 넘침 0, 서가 복귀 버튼 보임, 콘솔 오류 0, 이름 없는 SVG·라벨 없는 입력 0. 좁은 화면의 장 그림은 .figure-art 안에서 옆으로 밀리며 안내 문구가 붙습니다. 장마다 첫 슬라이더를 키보드 화살표로 움직여 결과가 바뀌는 것을 확인했습니다.</li>
+<li><b>규칙 감사 (현석)</b>: npm test 20개 통과, tests/browser.cjs(화면 42·실험 45·오류 0), scripts/validate.py 오류 0.</li>
+</ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul>
+<li>들어오는 링크가 3개뿐입니다. 시리즈 뒤 권(예: 머신러닝 기초·딥러닝 권)에서 미분·안정성·SVD 장으로 돌아오는 링크를 이동 이유와 함께 더하면 이 권이 “이후 권들이 쓰는 바탕”이라는 노선 설명과 맞습니다. 다른 책 폴더를 고쳐야 하므로 이번 회차에서는 손대지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>출처 48개 중 웹으로 다시 연 것은 1개이며 나머지는 이전 회차 확인을 따랐습니다. 몬테카를로 실제 오차(n=64에서 약 0.48)는 책의 시드 난수에 달린 값이라 책 코드로만 확인할 수 있어 독립 재계산 대상에서 뺐습니다(이론 표준오차 0.205 대비 약 2.3배로 가능한 범위). 학습 효과(L4)는 범위 밖입니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-math)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-math)" data-date="2026-10-08" data-scope="12개 장 본문·공식·details·혼동 주의·확인 문제, 15개 실험과 안내 상자(lab-guides), 표지 실험(home-lab), 장 그림 12개 캡션, 용어집, 출처 48개, cross 링크 21개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-math). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-math). 범위: 12개 장 전체, 실험 15개, 표지 실험, 그림 12개, 용어집 10개, 출처 48개, cross 링크 21개. 확인한 항목은 약 90개이고 그중 5건을 고쳤으며 1건은 보류했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>장마다 정의·수치 주장을 원본 레슨 <code>phases/01-math-foundations/*/docs/en.md</code>(로컬 사본)와 대조했습니다. 예: Adam 기본값(Kingma &amp; Ba), float16 최대 65,504·약 6×10⁻⁸ 언더플로·손실 스케일 65,536(레슨 13), 1만 명 중 1명 병과 99% 검사 → 약 1%(레슨 07), 미니배치 32~256(레슨 08), 숄레스키가 LU의 약 두 배 빠름(레슨 17), 기울기 검사 기준 10⁻⁷·10⁻³(레슨 13), 도박사의 파산 k/N·무작위 걸음 √n(레슨 22), PCA 90~95%(레슨 10). 피들러 값 정의 1건을 고쳤습니다.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>본문·공식 설명·그림 캡션·안내 상자 “결과 읽기”의 숫자를 <code>js/math.js</code>를 Node로 불러 다시 계산했습니다. 예: 매개변수 707개, e¹²≈162,755, ln(3.4×10³⁸)≈88.7, H(0.99)≈0.08비트, −log₂0.7≈0.51비트, σ=4√(π/4·(1−π/4))≈1.64, 조건수 5°≈22.9·해 이동 0.162, 3°+λ=0.1 이동 0.0037·해 0.952, k=1 에너지 89.7%·k=2 상대 오차 5.06%·k=6 저장 138개, 95% 구간 −3.5~+9.5 / +1.0~+5.0 / 92%일 때 하한 −0.1%p, 몬테카를로 n=64 오차 0.48·n=16,384 오차 0.015, 모멘텀 β=0.8 24걸음, FFT 10¹²→2×10⁷. 온도 실험의 “0.75 안팎” 1건을 실제 값 0.775에 맞게 고쳤습니다.</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 수정</td><td>함수마다 식과 구현을 대조했습니다: DFT 정의와 단측 진폭 환산, 브로드캐스팅 규칙(NumPy 문서), 보폭, 해석적 기울기와 가운데 차분, 경사하강 한계 2/λmax, 모멘텀 갱신, 엔트로피·KL, float16 반올림 흉내(65,520 이상 무한대, 2⁻²⁵ 미만 0), 최댓값 빼기, top-p, mulberry32 몬테카를로, 야코비 고유분해로 만든 SVD와 Eckart–Young 오차, 2×2 정규방정식과 AᵀA+λI 조건수, 전이 행렬 거듭제곱, 두 비율 차이의 정규 근사, 베이즈 사후 확률. 실제 계산·가상 값·시각적 비유 표시가 실제와 맞았습니다. 표지 실험에서 η=1.00일 때 “점점 크게 흔들립니다”라고 표시되던 문장 1건을 고쳤습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>한영 대응(이산 푸리에 변환, 브로드캐스팅, 보폭 stride, 역전파, 교차 엔트로피, 로그-합-지수, 특잇값 분해, 조건수, 정상 분포, 핵 샘플링, 내트, 파국적 소거)과 책 안 일관성을 확인했습니다.</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>2건 수정</td><td>원본 레슨 폴더 22개는 로컬 사본에 경로가 있는지, 영문 제목이 각 en.md 제목과 맞는지 확인했습니다. 외부 출처는 WebFetch로 arXiv 9편, AMS 두 곳, Trefethen, Boyd, Shannon PDF, Gundersen, Distill 두 편, Olah, Goldberg, Think Bayes, 3Blue1Brown을 열어 제목·저자를 확인했습니다. 장별 source 번호(0부터 셈)가 장 내용과 맞는지, cross 링크 21개의 도착 장 ID가 대상 책 book-routes에 있고 제목·내용이 이동 이유와 맞는지 확인했습니다. MIT 크레딧은 표지 참고 자료(sources[0]과 sourcesLead)와 꼬리말에 있습니다.</td></tr>
+</tbody></table>
+
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>sources[36] (8장·11장 더 읽어 보기), js/content.js</td><td>“Holbrook · The Metropolis-Hastings Algorithm”의 링크 arXiv 2304.07010은 실제로는 다른 논문(신뢰성 해석용 크리깅 대리 모형, Li 외)입니다. 원본 레슨 16의 인용 오류가 그대로 옮겨졌습니다. 같은 제목의 Holbrook 논문은 찾지 못했습니다.</td><td>arxiv.org/abs/2304.07010, arxiv.org/abs/1504.01896 초록 페이지</td><td>같은 제목의 MCMC 해설 논문 Robert, “The Metropolis-Hastings Algorithm”(arXiv 1504.01896, 2015)으로 바꾸고 설명에 교체 이유를 적음</td></tr>
+<tr><td>sources[23] 설명, js/content.js</td><td>3Blue1Brown 선형대수 시리즈를 “원본 레슨 01·02가 권하는”이라고 적었지만 레슨 01에는 링크가 없습니다.</td><td>레슨 01·02 en.md의 링크 목록</td><td>“원본 레슨 02가 권하는”으로 고침</td></tr>
+<tr><td>#markov details “그래프 이론”, js/content.js</td><td>피들러 값을 “가장 작은 0이 아닌 고윳값”이라고 정의했습니다. 정의는 라플라시안의 두 번째로 작은 고윳값(대수적 연결도)이며, 연결되지 않은 그래프에서는 0입니다. 원본 레슨 21 본문도 같은 표현이지만 그 코드는 eigenvalues[1](두 번째로 작은 값)을 씁니다.</td><td>Fiedler(1973)의 대수적 연결도 정의, 레슨 21 코드</td><td>“두 번째로 작은 고윳값(피들러 값, 연결된 그래프에서는 가장 작은 0이 아닌 고윳값)”으로 고침</td></tr>
+<tr><td>temperature 안내 상자, js/lab-guides.js</td><td>T=0.3일 때 1등 확률을 “0.75 안팎”이라고 적었지만 계산값은 0.775입니다.</td><td>A02Math.softmaxT([2.2, 1.8, 1.1, 0.2, −0.8], 0.3)[0] = 0.7749</td><td>“약 0.77”로 고침</td></tr>
+<tr><td>표지 실험 결과 문장, js/home-lab.js</td><td>η=1.00(슬라이더로 고를 수 있음)에서 “η가 1 이상이라 바닥을 넘어 점점 크게 흔들립니다”라고 표시됐습니다. 곡률 2에서 η=1이면 w가 −2와 6을 같은 폭으로 오가며 커지지 않습니다.</td><td>A02Math.descend1d(1).ws = [−2, 6, −2, 6, …]</td><td>η&gt;1과 η=1을 나누어 η=1에는 “같은 폭으로 끝없이 오갑니다(w=−2와 6)”를 표시</td></tr>
+<tr><td>#markov 확인 문제 해설, js/content.js (보류)</td><td>P′=0.5I+0.5P에서 정상 분포가 그대로라는 정답은 맞습니다. 다만 “섞이는 속도가 느려집니다”는 늘 참은 아닙니다. 음의 고윳값이 큰 P에서는 게으른 연쇄가 더 빨리 섞일 수 있고, 이 책의 P(q=0.25)에서도 0.001 기준 섞임 걸음이 8에서 7로 줄어듭니다. q=0.5에서는 5에서 9로 늘어납니다.</td><td>A02Math.mixingSteps로 q=0, 0.25, 0.5, 0.8 계산, numpy 고윳값</td><td>보류 후 서재 관리자(시리즈 진행 세션)가 반영: 보기를 “그대로이고 수렴 속도만 달라진다”로, 해설을 고윳값 (1+λ)/2와 q=0.25의 8→7걸음 예로 고침.</td></tr>
+</tbody></table>
+
+<h3>표본으로 본 원문 복제 여부</h3>
+<p>레슨 08(평평한 극소와 SGD), 레슨 13(기울기 검사 기준·손실 스케일링), 레슨 21(피들러 값), 레슨 07(1만 명 중 1명 검사) 구간을 책 문장과 나란히 비교했습니다. 사실과 예시는 같지만 문장은 한국어로 새로 쓴 요약이며, 긴 구간을 그대로 옮긴 곳은 찾지 못했습니다.</p>
+
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>검수 환경의 curl은 외부 사이트에 닿지 않아 링크 상태 코드를 일괄 확인하지 못했습니다. WebFetch로 연 출처 외에 NumPy 브로드캐스팅 문서, PyTorch Autograd 문서, FAISS 저장소는 주소 형식과 원본 레슨 인용만 확인했습니다. PyTorch 문서는 docs.pytorch.org로 넘겨 주는 주소이며 링크는 여전히 동작합니다.</li>
+<li>Cooley–Tukey, Shannon 등 논문은 제목·서지만 확인하고 본문 전체를 읽지는 않았습니다.</li>
+<li>학습 효과(L4)는 이번 검수 범위가 아닙니다.</li>
+</ul>
+<h3>검수 뒤 실행한 검사</h3>
+<ul>
+<li><code>npm test --prefix books/aie-math</code>: 20개 통과, 실패 0.</li>
+<li><code>BOOK_URL=http://127.0.0.1:8765/books/aie-math/ node books/aie-math/tests/browser.cjs</code>: 화면 42개, 실험 동작 45건, 오류 0건.</li>
+</ul>
+</section>
+</main></body></html>

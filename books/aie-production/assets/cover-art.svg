@@ -1,0 +1,11 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="누리봇 요청이 게이트웨이와 캐시를 아는 라우터를 지나 GPU 세 대로 나뉘고 아래에 운영 장부의 비용과 goodput이 적힌 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="12" y="52" width="58" height="32" rx="5"/><text class="cv-text" x="41" y="72" text-anchor="middle">누리봇</text>
+<path class="cv-bus" d="M70 68H104"/>
+<rect class="cv-node" x="104" y="46" width="70" height="44" rx="6"/><text class="cv-text" x="139" y="65" text-anchor="middle">게이트웨이</text><text class="cv-text cv-muted" x="139" y="81" text-anchor="middle">라우터</text>
+<path class="cv-bus" d="M174 68H200M200 30V106M200 30H222M200 68H222M200 106H222"/>
+<rect class="cv-node" x="222" y="16" width="86" height="28" rx="4"/><text class="cv-text" x="265" y="34" text-anchor="middle">GPU 1 · 캐시</text>
+<rect class="cv-node" x="222" y="54" width="86" height="28" rx="4"/><text class="cv-text" x="265" y="72" text-anchor="middle">GPU 2 · 캐시</text>
+<rect class="cv-node" x="222" y="92" width="86" height="28" rx="4"/><text class="cv-text cv-muted" x="265" y="110" text-anchor="middle">GPU 3 · 대기</text>
+<path class="cv-hair" d="M12 132H308"/>
+<text class="cv-text cv-muted" x="12" y="146">운영 장부</text><text class="cv-text" x="160" y="146" text-anchor="middle">$/100만 토큰</text><text class="cv-text" x="308" y="146" text-anchor="end">goodput</text>
+</svg>

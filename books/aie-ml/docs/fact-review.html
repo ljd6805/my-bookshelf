@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="《머신러닝 기초》를 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 머신러닝 기초</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>「AI 엔지니어링 처음부터」 03권 《머신러닝 기초 · 데이터에서 믿을 만한 예측까지》(books/aie-ml/)의 팩트·출처 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 에이전트가 검수했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r3)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항 12개, #trees 깊이 읽기(그래디언트 부스팅)·실험 boost(fitStump·boosting)·결과 읽기, 장 출처에 Friedman 2001(source 30) 추가, quizOrder" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 검수 (전체 도서 보충 · 검수 r3)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r3, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 12개 장 전이 문항 12개, #trees 깊이 읽기(그래디언트 부스팅)·실험 boost(fitStump·boosting)·결과 읽기, 장 출처에 Friedman 2001(source 30) 추가, quizOrder. 커밋 5f766a8이 이 책에 더한 것만 보았고, 계산은 책 코드와 따로 Python·Node 스크립트로 다시 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>부스팅이 잔차(제곱 오차의 음의 기울기)에 차례로 맞추는 편향 감소 앙상블이라는 설명, XGBoost·LightGBM의 2차 미분·규제·빠른 분할 설명을 Friedman(2001)·Chen &amp; Guestrin(2016)과 대조. 전이 문항마다 정답이 하나뿐인지, 오답 해설의 계산이 그 오답 값을 실제로 만드는지 확인했습니다. 정답 자리 돌리기(quizOrder)는 n=3의 모든 (정답, 목표 자리) 9쌍에서 목표 자리에 원래 정답이 오고 보기가 겹치지 않음을 따로 확인했고, 클릭 판정은 data-answer·data-transfer의 원래 번호를 c.quiz[2]·c.transfer[2]와 비교합니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>따로 계산: −ln0.01=4.605·(1−0.01)²=0.980, 지니 0.5−0.32=0.18, 1/1,500=0.000667·1/1,000=0.001, 정밀도 9/99=9.1%·재현율 90%, 1−0.9²⁰=0.878, SMOTE (1.5, 3), 비용 문턱 1/(1+9)=0.1·9/10=0.9</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>같은 데이터(boostData 시드 331)에 Python으로 따로 그루터기 부스팅을 구현해 대조: ν=1 최저 M=14·0.2342, M=10 0.2375, M=50 0.2507, M=200 0.2883·학습 0.0109, ν=0.1 M=50 0.3100, 최저 M=183·0.2213. 모두 일치. ν=0.05는 200라운드 안 최저가 0.2501로 ν=1보다 높아 "ν가 작으면 더 낮은 최저점" 읽기와 엇갈려 보이므로 결과 읽기에 한 문장을 더함</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>그루터기·학습률 ν·라운드 수 M·조기 종료가 책 안 용어와 같음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>Friedman 2001 DOI 10.1214/aos/1013203451이 Annals of Statistics 29(5) "Greedy function approximation: A gradient boosting machine"으로 열림(확인일 2026-10-12). 출처 목록 전체의 확인일은 content.js 머리말 2026-10-08</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/lab-guides.js boost 결과 읽기</td><td>ν=0.05를 고르면 200라운드 안 검증 최저(0.250)가 ν=1(0.234)보다 높아 본문 설명과 어긋나 보임</td><td>따로 계산한 ν=0.05 곡선이 M=200에서도 내려가는 중</td><td>"ν=0.05는 200라운드 끝에서도 아직 내려가는 중(0.250)이라 라운드도 늘려야 한다"는 문장 추가</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>실제 브라우저에서 전이 문항을 직접 눌러 보지는 않았습니다(집필 측 tests/browser.cjs 기록만 봄). 독자의 학습 효과는 시험하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml)" data-date="2026-10-12" data-scope="12개 장 본문·식·식 설명·심화 상자·혼동 경고·확인 문제, 실험 16개(안내 상자 결과 읽기 숫자 전부를 math.js로 재계산하고 그중 6개 실험은 Python 독립 구현·손계산으로 대조), 참고 자료 50개 서지 대조, 다른 책 링크 19개의 도착 앵커, 브라우저 1280·390·320px" data-result="fixed">
+<h2>2026-10-12 편집팀 전체 도서 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml). 범위: 12개 장, 실험 16개, 참고 자료 50개, 다른 책 링크 19개, 브라우저 세 폭. 이 세션은 이 책을 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>장마다 주장 문장을 원본 레슨(raw.githubusercontent.com에서 02-16 등 직접 확인)과 원 논문 기준으로 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>본문 예시 숫자(15,625가지, 63.2%, 1−0.95⁶⁰≈0.954, 675번 학습, 차분 예, 클래스 가중치 0.526·10.0·19배, 재현율 3.3%p 등)를 손으로 다시 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>결과 읽기 숫자 전체를 A03Math로 다시 뽑아 문장과 대조. 최근접 중심(거리 0·3), 문턱 0.3·0.5·0.7과 AUC 0.977, 다수결 1·51·101개, 나이브 베이즈 α=1·5, z-점수 이상값 0·2·20건은 mulberry32·Box-Muller를 Python으로 따로 구현하거나 손계산해 같은 값을 얻음. 정보 이득 4.5·5.5·8.5는 손계산</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>용어집 10개와 본문 한영 용어(정밀도·재현율, 편향·분산, 누설, 데이터 이동)의 정의와 쓰임 일관성 확인</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 18개 경로 형식과 외부 논문 서지(저자·연도·DOI·arXiv 번호)를 대조. 다른 책 링크 19개의 장 ID가 도착 책 book-routes에 있고, 장 번호(AI Book 2·3장, 확률과 통계 5장)와 제목이 catalog의 장 색인과 일치함을 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#rare 심화 “이상의 종류와 탐지기들”(js/content.js)</td><td>격리 숲 점수를 “0.5 근처면 정상”이라고 씀. 원본 레슨 02-16의 표현을 그대로 옮긴 것으로, 원 논문(Liu 외 2008)은 0.5보다 충분히 작으면 정상, 모든 점이 0.5 근처면 뚜렷한 이상이 없는 것으로 해석함</td><td>Liu, Ting, Zhou, Isolation Forest (ICDM 2008) 2절의 점수 해석</td><td>“1에 가까우면 이상, 0.5보다 충분히 작으면 정상으로 봅니다. 모든 점이 0.5 근처라면 뚜렷한 이상이 없다는 뜻입니다.”로 고침</td></tr>
+<tr><td>index.html</td><td>본문 파일이 바뀌었으므로 자산 버전 갱신 필요</td><td>책 구성 표준</td><td>모든 책 자산의 ?v=를 20261008-aie1에서 20261012-edit로 함께 올림</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul>
+<li><b>기획·연결 (서윤·하람·도현·민재)</b>: 마지막 과제(새 결제 수단 도입 뒤 문턱 재선택과 재학습 비교)가 “무엇을 바꾸나·왜·부족한 증거” 세 칸의 관찰 가능한 행동으로 끝납니다. 장 색인 12개, 공통 개념 5개(벡터와 의미 공간, 흔들림과 분산, 손실과 우도, 평가 숫자의 불확실성, 기저율과 문턱), 읽기 노선 “모델이 배우기까지 직접 쌓기”의 #metrics 정거장이 있고, 노선 과제(0.3·0.5·0.7 비교와 재현율 90% 이상 최고 문턱)는 실험 입력 범위 안에서 풀립니다(답 0.30, 오경보 82건). 다른 책에서 들어오는 링크는 11권에서 20개(시리즈 이동 단추 포함)입니다.</li>
+<li><b>지식조사 (은재·지호·유진)</b>: 시점에 민감한 실무 조언(표 데이터의 나무 계열 우세, XGBoost 권고, 실험 추적 도구)은 “원본 커리큘럼 기준, 확인일 2026-10-08”로 표시되어 있습니다. 격리 숲 점수 해석 1건만 원본 레슨을 따라 틀렸습니다.</li>
+<li><b>수치·실험 (수아·건우·시우)</b>: 모든 실험이 시드 고정 실제 계산이고, 결과 문장마다 “실제 계산”, 마지막 과제의 재학습 75%는 “시나리오 가정”으로 구분되어 있습니다. 안내 상자 숫자와 계산이 모두 일치했습니다.</li>
+<li><b>글작성 (나래·준서·다온·예린)</b>: 장마다 첫 문장이 앞 장 결과(예: “7장에서 특성을 다듬은 모델은…”)로 시작하고 마지막 문장이 다음 장의 질문으로 끝납니다. 일곱 블록과 필드가 비어 있지 않고, 확인 문제는 본문 문장을 그대로 찾기보다 적용을 묻습니다.</li>
+<li><b>시각·실험 (리안·하늘·소율·채원)</b>: 1280·390·320px에서 가로 넘침 없음, 서가 복귀 버튼이 세 폭 모두 보이고 누를 수 있는 크기(66~83×36px), 콘솔 오류·실패 요청 없음, 그림 SVG는 모두 aria-label, 입력은 모두 라벨을 가집니다. 문턱 슬라이더를 키보드 화살표로 움직이면 결과가 바뀝니다. 넓은 그림은 의도대로 그림 상자 안에서만 옆으로 밀립니다.</li>
+<li><b>규칙 감사 (현석)</b>: <code>npm test</code> 33/33 통과, <code>python3 scripts/validate.py</code> 오류 0, 책의 tests/browser.cjs(42개 화면, 48개 실험 점검) 통과.</li>
+</ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul>
+<li>2장(#lines)의 MSE 대 교차 엔트로피 설명과 확인 문제가 04권 5장(#loss)과 거의 같은 질문입니다. 시리즈 안 반복으로 의도된 것이라면 04권 5장에서 “03권 2장에서 본 결론을 기울기 크기로 확인한다”는 연결 문장을 두는 편이 좋습니다.</li>
+<li>이 책에서 다음 권(04권 딥러닝 핵심)의 특정 장으로 가는 “더 읽어 보기” 링크는 없고 시리즈 이동 단추만 있습니다. 2장 로지스틱 회귀에서 ../aie-deep/#perceptron 또는 #loss로 가는 링크를 하나 더하면 시리즈 안 연결이 장 단위로 이어집니다.</li>
+</ul>
+<h3>후속 처리 (2026-10-12)</h3>
+<ul>
+<li>2장(#lines) “더 읽어 보기”에 딥러닝 핵심 05 · 틀린 정도를 재는 자(../aie-deep/#loss)를 더했습니다. 이 장이 교차 엔트로피를 고른 이유를 그 장의 lossgrad 실험에서 기울기 크기로 다시 확인한다는 이동 이유를 적었습니다.</li>
+<li>같은 장에 모델을 움직이는 수학 03 · 손실이 변하는 빠르기 재기(../aie-math/#derivative)를 더했습니다. 경사하강이 따라가는 기울기를 시그모이드 뉴런 하나의 수치 미분으로 재고, 간격 h에 따른 근사·반올림 오차를 보는 numdiff 실험에 맞췄습니다.</li>
+<li>남긴 것: 2장과 04권 5장의 확인 문제가 비슷하다는 점은 04권 쪽 링크로 반복을 이어짐으로 바꾸었으므로 문제 자체는 고치지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>arXiv·IEEE·Springer 등 외부 논문 사이트는 이 환경의 프록시가 막아 링크를 직접 열지 못했고, 서지 정보는 알려진 서지와 대조만 했습니다. 격리 숲 원 논문의 점수 해석도 원문을 다시 열지 못하고 알려진 내용으로 판단했습니다. 학습 효과(독자가 실제로 이해하는지)는 측정하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-ml)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml)" data-date="2026-10-08" data-scope="12개 장 본문·식·심화 읽기·혼동 경고·확인 문제, 실험 16개의 계산과 안내 상자 결과 읽기, 장 그림 캡션, 표지 소개·용어집 10개, 참고 자료 50개, 다른 책 연결 링크 16개, 원본 Phase 2 레슨 18개 대조" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-ml). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml). 둘은 서로 다른 에이전트입니다. 범위: 12개 장 본문, 실험 16개, 참고 자료 50개, 다른 책 연결 16개, 원본 레슨 18개(로컬 사본 phases/02-ml-fundamentals/*/docs/en.md).</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>장마다 정의·역사·수치 주장을 원본 en.md와 대조(60~80% 시간, kNN 20~50 특성, KD-트리 20차원, 볼 트리 약 50차원, 1만 행 미만 표 데이터, TF-IDF+다항 NB 1만 건, 예산 60%, 무작위 60회·95%, 하이퍼밴드 81개·1/3, 학습률 0.01~0.3, 15차 릿지 0.001~100, 격리 숲 256·100, 부트스트랩 63%, √p·p/3, 클래스 가중치 0.526·10.0, 차분 예시, 이중 하강 2019년 이후). 격리 숲 기본값과 0.5 해석은 Liu et al. 원 논문으로, 이중 하강 연도는 arXiv 1812.11118(2018-12 제출, PNAS 2019)로 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>2건 수정</td><td>content.js의 formula·formulaNote·details와 lab-guides.js 결과 읽기의 숫자 약 90개를 js/math.js로 node에서 다시 계산(별도 스크립트). ln 2=0.693, 5⁶=15,625, 5×5×27=675, 1−0.95⁶⁰≈0.954, 1000/(2·950)≈0.526 손계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>16개 실험 함수가 설명한 식대로 계산하는지 코드 대조(BCE·경사하강, 지니·엔트로피·이득, 쌍대 좌표 하강 SVM, k-평균·실루엣, 다항 NB 평활, 편향-분산 분해, 다수결 이항 합, 겹별 목표 인코딩, 이동 평균, z·IQR, SMOTE 보간, 비용 문턱). 실제 계산·시나리오(재학습 75%)·비유 그림(파이프라인, SMOTE) 표시가 코드와 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>용어집 10개와 본문 한영 대응(정밀도·재현율, 편향·분산, 누설, 교차 검증, 데이터 이동, 불순도, 결정경계 등)이 표준 번역과 맞고 책 안에서 일관됨</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 링크 18개는 로컬 사본의 폴더 이름과 일치. 외부 자료 31개는 모두 해당 원본 레슨이 같은 URL로 인용함을 확인. Belkin(arXiv), Sculley(NeurIPS), Liu(격리 숲 PDF), Ester(DBSCAN, cdn.aaai.org로 리디렉션)는 웹에서 제목·저자 확인. 장별 source 번호(0부터 셈)가 장 내용과 맞음. 다른 책 링크 도착 장(ai #learning·#generalization·#neuron·#rag·#agents, probability #spread·#bayes·#interval·#binomial·#testing, linear-algebra #similarity·#pca)이 존재하고 이동 이유와 내용이 맞음. MIT 크레딧(2026 Rohit Ghumare, LICENSE와 일치)이 표지 참고 자료와 꼬리말에 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#rare formulaNote (js/content.js)</td><td>시험 이상 결제 범위를 “10.5만~16만 원”으로 적었으나 실제 값은 10.5+0.6i(i=0…9)라 최댓값 15.9만 원</td><td>js/math.js outlierLab 재계산</td><td>“10.5만~15.9만 원”으로 고침</td></tr>
+<tr><td>#neighbors knn 결과 읽기 (js/lab-guides.js)</td><td>“k=7이 시험 95.5%로 가장 좋다”고 했으나 슬라이더 범위(1~29 홀수)에서는 k=3·13이 96.5%로 더 높음</td><td>knnLab을 k=1…29 전부 재계산</td><td>“세 예제 가운데 가장 좋습니다(전체에서는 k=3과 k=13이 96.5%)”로 고침</td></tr>
+<tr><td>#rare 심화 읽기 LOF (js/content.js)</td><td>“밀도를 이웃 밀도와 비교해 1보다 크게 낮으면(예: 2 이상)”은 비율의 방향이 뒤섞여, LOF 값이 1보다 커질수록 이상이라는 정의와 어긋남</td><td>원본 16 en.md(LOF ≈1 정상, ≫1 예: 2.0+ 이상), Breunig et al. 2000 정의</td><td>“이웃 국소 밀도 ÷ 그 점의 국소 밀도. 1 근처면 정상, 1보다 훨씬 크면(예: 2 이상) 이상”으로 고침</td></tr>
+<tr><td>판정 “맞음” 대표 예</td><td>결과 읽기 16개(46.5%/53.0%, 0.368·82.5%, 이득 0.156·0.242비트, 4.704·27개, 309.0→61.7→60.2, 97.9%·87.6%, 40.9%, 25.5%·AUC 0.977, 편향² 0.466·분산 1.540, 92.6%·76.3%·79.0%, 76.5% 대 52.0%, MAE 12.6, σ 1.15→2.53→8.58, 재현율 85.0%·정밀도 23.0%, 비용 183.0·575.0·589.8·274.4), 층화 겹 6건과 무작위 7·6·4·5·8건, 문턱 0.5에서 19/30</td><td>math.js 재계산</td><td>변경 없음</td></tr>
+<tr><td>보류</td><td>격리 숲 “0.5 근처면 정상”은 원본 표현이며, 원 논문은 “모든 점이 0.5 근처면 뚜렷한 이상이 없다, 정상은 0.5보다 훨씬 작다”고 씀. 단순화로 볼 수 있어 고치지 않음</td><td>원본 16 en.md, Liu et al. 2008</td><td>보류</td></tr>
+</tbody></table>
+<h3>원문 복제 여부</h3>
+<p>02-01, 02-14(“Why It Still Works” 세 이유), 02-16, 02-17 단락을 표본으로 대조했습니다. 개념과 숫자 예시(클래스 가중치 0.526·10.0, 차분 예시, 60회·95%)는 원본에서 가져왔지만 문장은 서점 사례로 새로 썼고 긴 직역 구간은 없었습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>검수 컨테이너의 셸에서는 외부 사이트 접속이 막혀(GitHub 403, 그 밖은 연결 불가) 외부 URL 대부분은 응답 상태를 직접 확인하지 못했고, 원본 레슨이 같은 URL을 인용한다는 사실로 대신했습니다. IEEE(Cover &amp; Hart)와 Ng &amp; Jordan PDF는 웹 도구로 열었지만 내용이 비어 있거나 글꼴이 깨져 제목을 읽지 못했습니다. McCallum &amp; Nigam PDF 주소는 저자 개인 홈페이지로 리디렉션되어 PDF가 더 이상 그 주소에 없을 수 있습니다(보류, 원본 인용 그대로 둠).</li>
+<li>유료 논문(Breiman, Cortes &amp; Vapnik, Friedman)은 원문을 열지 않고 서지 정보만 확인했습니다.</li>
+<li>바꾼 문장 세 곳은 <code>npm test</code>와 브라우저 검사로 화면 동작만 다시 확인했고, 학습 효과(L4)는 확인하지 않았습니다.</li>
+</ul>
+</section>
+</main></body></html>

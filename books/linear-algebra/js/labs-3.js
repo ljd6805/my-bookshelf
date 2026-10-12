@@ -24,7 +24,7 @@
       if (v.show) for (const e of LA.eigen2(M)) p.line(LA.scale(-6, e.vector), LA.scale(6, e.vector), 'axis-pc');
       p.arrow(Mu, 'b', 'Mv').arrow(u, 'a', 'v').render();
       const ang = signedAngle(u, Mu), len = LA.norm(Mu);
-      const aligned = len > 1e-6 && (Math.abs(ang) < 2 || Math.abs(Math.abs(ang) - 180) < 2);
+      const aligned = len > 1e-6 && (Math.abs(ang) < 0.5 || Math.abs(Math.abs(ang) - 180) < 0.5);
       const lambda = LA.dot(Mu, u);
       out.innerHTML = `<p>M = ${mat(M, 2)}, v = ${vec(u, 2)} (φ = ${v.phi}°)</p>` +
         `<p>Mv = ${vec(Mu, 2)}, 길이 ${fmt(len)}, v에서 ${fmt(ang, 0)}° 돌아감</p>` +

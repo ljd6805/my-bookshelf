@@ -72,7 +72,7 @@
 <section id="verification">
 <h2>04 검증 결과 (2026-10-08)</h2>
 <ul>
-<li><strong>수치 정확성</strong>: <code>npm test --prefix books/probability</code> 18개 통과(계산 14개, 장 경로·학습 흐름·교차 링크·카탈로그 4개). 본문의 모든 수치 예시를 계산 모듈로 다시 계산해 맞췄고, 이 과정에서 7장 p값(0.058 → 0.14)과 검정력(약 45% → 약 20%), 8장 손실값, 마지막 과제 p값을 바로잡았다.</li>
+<li><strong>수치 정확성</strong>: <code>npm test --prefix books/probability</code> 21개 통과(2026-10-08 팩트 검수 시점). 본문의 모든 수치 예시를 계산 모듈로 다시 계산해 맞췄고, 이 과정에서 7장 p값(0.058 → 0.14)과 검정력(약 45% → 약 20%), 8장 손실값, 마지막 과제 p값을 바로잡았다.</li>
 <li><strong>동작 확인</strong>: 로컬 서버에서 Chromium(Playwright)으로 <code>tests/browser.cjs</code>를 실행했다. 1280·390·320px에서 12개 경로가 모두 열리고 가로 넘침과 콘솔 오류가 없었다. 1280px에서 실험 8개마다 버튼 조작 후 결과 문장이 바뀌고, 키보드 화살표로 슬라이더가 움직이고, 초기화 후 처음 결과로 돌아오는 것을 확인했다. 진도 기록이 8개 실험 모두 저장되었다.</li>
 <li><strong>구조 확인</strong>: <code>python3 scripts/validate.py</code>로 내부 링크·앵커(이 책 → AI Book 장 경로 포함)를 검사했다.</li>
 <li><strong>화면 확인</strong>: 밝은 화면·어두운 화면에서 1장, 5장, 6장 실험과 320px 장 목록 열기·닫기를 스크린숏으로 확인했다.</li>
@@ -96,11 +96,33 @@
 <li>레이아웃 전환 후 Chromium 1280·390·320px에서 경로 12개, 실험 8개 조작·초기화, 가로 넘침 없음, 콘솔 오류 없음을 다시 확인했다. 밝은 화면은 1280px 한 화면(6장 실험)만 눈으로 확인했다.</li>
 <li>학습 효과: 실제 독자가 예측·설명·전이 문제를 풀 수 있게 되는지는 시험하지 않았다(L4 미확인).</li>
 <li>Safari, Firefox, 실제 모바일 기기, 화면 읽기 프로그램, 저사양 기기 성능은 확인하지 않았다.</li>
-<li>참고 자료 링크 여섯 개는 집필 환경의 네트워크 제한으로 직접 열어 보지 못했다. 확인한 사람이 날짜를 남겨 주어야 한다.</li>
+<li>참고 자료 링크는 2026-10-08 독립 팩트 검수에서 모두 열리는 것을 확인했다(DOI 두 개는 출판사가 자동 접근을 막아 DOI 해석까지만, A&amp;S 299쪽은 스캔 이미지라 식은 수치로 대조). <a href="fact-review.html">팩트·출처 검수 기록</a></li>
 <li>서가에서 책을 펼칠 때 보이는 대표 삽화(<code>assets/shelf-illustration.svg</code>)는 생성기 검사만 통과했고, 펼친 화면은 1280px 한 화면에서만 확인했다.</li>
 <li>요약은 루트 <a href="../../../docs/03-verification.html#probability-book">검증 기록</a>에도 남겼다.</li>
 </ul>
 </section>
+<section id="supplement-20261012">
+<h2>07 2026-10-12 보충</h2>
+<ul>
+<li><strong>4장 clt.</strong> “z와 68·95·99.7” 두 문단을 더했습니다(z = (x̄ − μ) ÷ (σ/√n), ±1·2·3에 68.27·95.45·99.73%, 95%는 ±1.96, 99%는 ±2.58, z = 2.5의 양쪽 꼬리 약 1.24%). 실험 <code>clt</code>에 “μ ± 1.96 × σ/√n 띠 보기”와 예제 버튼(n = 30, 띠 켜고 500개)을 더해 띠 안에 든 평균의 비율과 이론값 95%를 나란히 보여 줍니다. 씨앗 4, 평균 500개에서 n = 30이면 치우침 94.8%, 균등 95.8%, 주사위 95.6%이고, 균등·주사위 n = 1이면 100%입니다. 계산은 <code>stats.js</code>의 <code>zScore</code>·<code>normalCoverage</code>·<code>twoSidedTail</code>, <code>inference.js</code>의 <code>shareWithin</code>입니다. 정규분포 비율은 기존 출처(A&amp;S 7.1.26 근사, NIST 핸드북) 범위 안의 값이라 새 출처를 더하지 않았습니다.</li>
+<li><strong>마지막 과제.</strong> 다섯째 질문으로 “기댓값으로 비용 비교하기”를 더했습니다(질문 6개). 가정값: 오경보 점검비 5만 원, 놓친 고장 500만 원, 고장률 2%. 모터 한 대·하루당 기존 센서 1.49만 원, 새 센서(95%·4%) 0.696만 원, 감지율 Wilson 하한 76%이면 2.596만 원, 비용이 같아지는 감지율 약 87%. 계산은 <code>stats.js</code>의 <code>expectedCost</code>이고 테스트로 지킵니다. 비용 수치는 실제 자료가 아니라 설명용 가정입니다.</li>
+<li><strong>공통.</strong> 장마다 “새 상황에 옮기기”에 보기 문항(<code>transfer.quiz</code>)을 붙였습니다. 이 책의 확인 문제는 보기 없는 서술형이라 돌릴 보기가 없고, 보기 문항만 화면에서 돌려(<code>js/quiz.js</code>) 정답 자리가 (장 번호 + 1) % 3에 오게 했습니다. 예측 질문의 정답 자리는 이미 1·2·3번에 고르게 있어 바꾸지 않았습니다.</li>
+<li><strong>검증.</strong> <code>npm test</code> 25개 통과. 실제 Chromium으로 1280·390·320px에서 모든 경로를 열어 가로 넘침·콘솔 오류 없음, 실험 8개 조작·초기화, 4장 예제 버튼의 띠 비율과 초기화, 8개 장 보기 문항의 오답·정답 피드백, 마지막 과제 질문 6개를 확인했습니다(<code>tests/browser.cjs</code>).</li>
+<li><strong>확인하지 못한 것.</strong> 밝은 화면, 실제 독자의 풀이 결과. 팩트·출처 재검수는 집필하지 않은 세션이 새 회차로 해야 합니다.</li>
+</ul>
+</section>
+<section id="new-chapter-20261012">
+<h2>08 2026-10-12 새 장 · 9장 correlation</h2>
+<ul>
+<li><strong>배치.</strong> 다른 책 링크가 쓰는 01~08 번호를 지키려고 likelihood 뒤에 09로 두었습니다. 순서는 8장 → 9장 → 마지막 과제입니다. 8장의 남은 질문·다음 장 이유를 9장으로 잇고, 9장의 다음 장 이유가 마지막 과제로 이어집니다. 기존 장 ID는 바꾸지 않았고 <code>book-routes</code>에 <code>correlation</code>을 더했습니다.</li>
+<li><strong>내용.</strong> 산점도, 피어슨 r(중심화한 두 벡터의 코사인), 교란 변수(부하), 층화, 무작위 실험을 다룹니다. 공장 기록은 가상 데이터라고 본문에 밝혔습니다. 이 장에는 “혼동하지 마세요” 블록(<code>warning</code> 필드, r은 직선 관계만 잰다)을 처음 넣었고, 다른 장에는 아직 없습니다.</li>
+<li><strong>실험 <code>correlation</code>.</strong> 씨앗 112로 고정한 모터 20대 × 5~30일 기록. 진동 = 3.0 + 4·c·(부하 − 0.7) + N(0, 0.6²), 온도 = 45 + 30·c·(부하 − 0.7) + N(0, 3²), 부하는 0.4·0.7·1.0 중 하나를 같은 확률로 고르므로 Var(부하) = 0.06이고, 진동은 0.1 아래로 자릅니다(영향은 무시할 만함). 모델의 기대 r = 7.2c² ÷ √[(0.96c² + 0.36)(54c² + 9)]이므로 c = 1이면 0.7895, c = 0.5이면 0.4899입니다. 기본 10일(200개)의 표본 r은 0.791이고, 부하 단계별 r은 0.021(56개)·−0.039(72개)·0.009(72개), 온도를 무작위로 정하면 0.005, c = 0이면 −0.009입니다. 계산은 <code>stats.js</code>의 <code>normalSample</code>·<code>cosine</code>·<code>pearson</code>, <code>inference.js</code>의 <code>sensorDays</code>·<code>correlationTheory</code>·<code>correlationSummary</code>이고 화면은 <code>js/labs-c.js</code>가 그립니다.</li>
+<li><strong>출처.</strong> Rodgers &amp; Nicewander (1988), The American Statistician 42(1): 59–66의 여덟째 방법(중심화한 변수 벡터 사이 각의 코사인)을 참고 자료에 더했습니다. 집필 세션은 DOI를 열지 못했고, 검수 세션이 2026-10-12 Crossref 서지(DOI 10.1080/00031305.1988.10475524)와 공개 사본의 13개 방법 목록으로 확인했습니다. 교란과 무작위 실험은 기존 출처 OpenIntro Statistics의 범위입니다.</li>
+<li><strong>검증.</strong> <code>npm test</code> 29개 통과(손계산 r = 0.9913, 단위 바꾸기·대칭·부호 불변, U자 관계 r = 0, NaN 경계, 이론값, 씨앗 200개 평균). Chromium 1280·390·320px에서 9개 장 모두 가로 넘침·콘솔 오류 없음, 9장의 예제 세 개·키보드 조작·초기화·두 문항 피드백 확인(<code>tests/browser.cjs</code>).</li>
+<li><strong>남은 일.</strong> 루트 <code>data/catalog.json</code>(장 목록·cover_meta “9장 · 9개 실험”·개념·노선)은 편집장이 반영합니다. 집필하지 않은 세션의 팩트·출처 검수는 <a href="fact-review.html#review-2026-10-12-correlation-ch9">9장 검수 r1</a>에 있습니다.</li>
+</ul>
+</section>
+<p><a href="fact-review.html">팩트·출처 검수 기록 (2026-10-08)</a></p>
 </main>
 </body>
 </html>

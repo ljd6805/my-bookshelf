@@ -1,0 +1,17 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="작은 언어 모델 도란이 예문 ‘나는 어제 산 책을 오늘 다 읽었다’를 읽으며 마지막 낱말에서 ‘책을’로 가장 굵은 어텐션 선을 긋는 장면" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-big" x="160" y="44" text-anchor="middle">QKᵀ/√d</text>
+<path class="cv-hair" d="M40 58H280"/>
+<path class="cv-hair" d="M291 104Q159.0 64 27 104"/>
+<path class="cv-hair" d="M291 104Q181.0 70 71 104"/>
+<path class="cv-hair" d="M291 104Q203.0 76 115 104"/>
+<path class="cv-bus" d="M291 104Q225.0 82 159 104"/>
+<path class="cv-hair" d="M291 104Q247.0 88 203 104"/>
+<path class="cv-hair" d="M291 104Q269.0 94 247 104"/>
+<rect class="cv-node" x="8" y="106" width="38" height="26" rx="4"/><text class="cv-text cv-muted" x="27" y="123" text-anchor="middle">나는</text>
+<rect class="cv-node" x="52" y="106" width="38" height="26" rx="4"/><text class="cv-text cv-muted" x="71" y="123" text-anchor="middle">어제</text>
+<rect class="cv-node" x="96" y="106" width="38" height="26" rx="4"/><text class="cv-text cv-muted" x="115" y="123" text-anchor="middle">산</text>
+<rect class="cv-node" x="140" y="106" width="38" height="26" rx="4"/><text class="cv-text" x="159" y="123" text-anchor="middle">책을</text>
+<rect class="cv-node" x="184" y="106" width="38" height="26" rx="4"/><text class="cv-text cv-muted" x="203" y="123" text-anchor="middle">오늘</text>
+<rect class="cv-node" x="228" y="106" width="38" height="26" rx="4"/><text class="cv-text cv-muted" x="247" y="123" text-anchor="middle">다</text>
+<rect class="cv-node" x="272" y="106" width="38" height="26" rx="4"/><text class="cv-text" x="291" y="123" text-anchor="middle">읽었다</text>
+</svg>

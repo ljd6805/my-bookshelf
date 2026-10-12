@@ -1,0 +1,111 @@
+{
+ "book": {
+  "id": "aie-16-autonomy",
+  "title": "자율 시스템 · 밤새 혼자 일하는 에이전트에 울타리 치기",
+  "short_title": "자율 시스템",
+  "spine_title": "자율 시스템",
+  "spine_category": "AI공학",
+  "description": "온라인 서점 책마루의 야간 에이전트 누리가 밤새 혼자 일하는 동안 단계 신뢰도의 곱, STaR·진화 고리·자동 연구와 자기 개선 관문, 권한 모드와 읽기-쓰기 경계, 사건 기록과 제안-확정, 비용 상한과 차단기, 원칙의 층과 분류기, 연구소 정책과 METR식 시간 지평 적합을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 15의 레슨 22개를 모두 재구성했습니다.",
+  "illustration_caption": "야간 에이전트 누리가 도구를 계속 부르는 동안 비용 막대가 차올라 상한에 닿으면 울타리 밖 멈춤 단추가 켜지는 시각적 비유입니다.",
+  "keywords": [
+   "자율 시스템",
+   "자율 에이전트",
+   "긴 지평 에이전트",
+   "시간 지평",
+   "METR",
+   "STaR",
+   "AlphaEvolve",
+   "Darwin Gödel Machine",
+   "AI Scientist",
+   "재귀적 자기 개선",
+   "권한 모드",
+   "프롬프트 주입",
+   "내구성 실행",
+   "제안-확정",
+   "비용 통제",
+   "킬 스위치",
+   "카나리 토큰",
+   "헌법 AI",
+   "Llama Guard",
+   "책임 있는 확장 정책",
+   "autonomous agents"
+  ],
+  "chapters_featured": [
+   "#horizon",
+   "#evolve",
+   "#permission",
+   "#budget",
+   "#policy"
+  ],
+  "cover_meta": "12장 · 16개 실험"
+ },
+ "chapter_index": {
+  "books/aie-autonomy/#horizon": "01 · 한 번 답하기에서 밤새 일하기로",
+  "books/aie-autonomy/#star": "02 · 맞힌 풀이만 남겨서 배우기",
+  "books/aie-autonomy/#evolve": "03 · 평가기가 길을 정한다",
+  "books/aie-autonomy/#research": "04 · 연구 전체를 맡기면",
+  "books/aie-autonomy/#bounded": "05 · 자기 개선에 울타리 치기",
+  "books/aie-autonomy/#permission": "06 · 권한 사다리 위의 코딩 에이전트",
+  "books/aie-autonomy/#browser": "07 · 읽은 글이 명령이 될 때",
+  "books/aie-autonomy/#durable": "08 · 끊겨도 이어서, 두 번은 하지 않게",
+  "books/aie-autonomy/#budget": "09 · 지갑과 멈춤 단추",
+  "books/aie-autonomy/#guard": "10 · 원칙의 순서와 걸러 내는 체",
+  "books/aie-autonomy/#policy": "11 · 연구소의 문턱과 바깥의 눈",
+  "books/aie-autonomy/#final": "마지막 · 주문 추적 도구를 붙인 첫 주"
+ },
+ "concepts": [
+  {
+   "id": "control-loop",
+   "new": false,
+   "chapters": [
+    "books/aie-autonomy/#horizon",
+    "books/aie-autonomy/#durable",
+    "books/aie-autonomy/#budget"
+   ]
+  },
+  {
+   "id": "evaluation-uncertainty",
+   "new": false,
+   "chapters": [
+    "books/aie-autonomy/#evolve",
+    "books/aie-autonomy/#policy"
+   ]
+  },
+  {
+   "id": "base-rate-threshold",
+   "new": false,
+   "chapters": [
+    "books/aie-autonomy/#guard"
+   ]
+  },
+  {
+   "id": "reward-feedback",
+   "new": false,
+   "chapters": [
+    "books/aie-autonomy/#star",
+    "books/aie-autonomy/#evolve"
+   ]
+  }
+ ],
+ "series_step": {
+  "url": "books/aie-autonomy/#budget",
+  "task": "비용 폭주 실험에서 분당 지출을 6달러로 두고 이달 상한만, 하루 상한, 10분 속도 제한을 차례로 켜서 고리가 시작된 뒤 몇 분 만에 얼마를 쓰고 끊기는지 비교한 다음, 분당 2달러로 낮춰 같은 비교를 다시 한다.",
+  "minutes": 18,
+  "why": "앞 권에서 도구를 부르고 계획하는 에이전트를 만들었다면, 이 권은 그 에이전트를 사람 없이 밤새 돌릴 때 필요한 울타리를 다룬다. 시간 단위가 다른 상한이 각각 무엇을 잡고 무엇을 놓치는지 숫자로 보면, 권한·기록·멈춤 단추를 왜 겹으로 두는지가 분명해진다.",
+  "record": "분당 지출, 켠 상한, 끊긴 시각(고리 시작 후 분)과 잃은 돈, 속도 제한이 놓친 느린 누수를 막은 상한에 대한 한 문장"
+ },
+ "incoming": [
+  {
+   "from": "books/ai/#agents",
+   "label": "자율 시스템 · 권한 사다리 위의 코딩 에이전트",
+   "url": "../aie-autonomy/#permission",
+   "why": "도구를 쓰고 결과를 확인하는 에이전트를 봤다면, 같은 에이전트를 밤새 혼자 돌릴 때 행동마다 묻기·자동·거절을 정하는 권한 모드와 그 빈틈을 직접 판정해 봅니다."
+  },
+  {
+   "from": "books/aie-rl/#rlhf",
+   "label": "자율 시스템 · 평가기가 길을 정한다",
+   "url": "../aie-autonomy/#evolve",
+   "why": "대리 점수를 최대화하면 보상 해킹이 생긴다는 것을 봤다면, 같은 일이 진화 고리와 자기 수정 에이전트에서 평가기 자체를 고치는 모습으로 나타나는 것을 시드 고정 실험으로 확인합니다."
+  }
+ ]
+}

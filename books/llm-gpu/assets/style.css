@@ -39,3 +39,6 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 @media(max-width:760px){.figure-art{padding:8px}.figure-art svg{min-width:520px}}
 @media(prefers-reduced-motion:reduce){.fig-dash,.fig-pkt,.fig-seq,.fig-turn,.fig-pulse,.fig-grow,.fig-draw{animation:none!important}.fig-pkt{display:none}.fig-seq{opacity:1}.fig-turn{opacity:0}.fig-turn.fig-first{opacity:1}}
 @media(max-width:760px){.figure-art:after{content:'그림이 넓으면 옆으로 밀어 볼 수 있습니다. 같은 내용은 아래 상자와 설명에도 있습니다.';display:block;font-size:12px;color:var(--muted);padding:6px 4px 0;position:sticky;left:0;width:calc(100vw - 70px)}}
+
+/* 2026-10-12 보충: 확인 문제 안의 전이 문항. 버튼은 .quiz button을 그대로 쓴다. */
+.transfer-quiz{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}

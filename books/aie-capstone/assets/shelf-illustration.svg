@@ -1,0 +1,32 @@
+<svg class="a20-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="모루의 출시 사양표에서 비용·지연·품질·위험 네 손잡이가 오가다 모두 목표 구간에 들어오면 출시 등이 켜지는 비유 그림입니다. 손잡이 위치는 실제 계산값이 아닙니다.">
+<style>
+.a20-ill-bg{fill:#f3f5ef}
+.a20-ill-sheet{fill:#fffaf0;stroke:#2f4a3a;stroke-width:2}
+.a20-ill-label{font:700 12px sans-serif;fill:#22392c}
+.a20-ill-small{font:500 10px sans-serif;fill:#4f6357}
+.a20-ill-track{stroke:#c3d0c6;stroke-width:6;stroke-linecap:round}
+.a20-ill-zone{fill:#bfe8c6}
+.a20-ill-knob{fill:#2f7d45;stroke:#fffaf0;stroke-width:2;animation:a20-ill-slide 4.8s ease-in-out infinite}
+.a20-ill-k2{animation-delay:-.6s}.a20-ill-k3{animation-delay:-1.2s}.a20-ill-k4{animation-delay:-1.8s}
+.a20-ill-lamp{fill:#d9e4dc;stroke:#2f4a3a;stroke-width:2;animation:a20-ill-lamp 4.8s ease-in-out infinite}
+.a20-ill-ray{stroke:#e0a43a;stroke-width:3;stroke-linecap:round;opacity:0;animation:a20-ill-ray 4.8s ease-in-out infinite}
+@keyframes a20-ill-slide{0%{transform:translateX(-58px)}35%{transform:translateX(22px)}55%,85%{transform:translateX(0)}100%{transform:translateX(-58px)}}
+@keyframes a20-ill-lamp{0%,50%{fill:#d9e4dc}60%,85%{fill:#f2c14e}100%{fill:#d9e4dc}}
+@keyframes a20-ill-ray{0%,55%{opacity:0}62%,85%{opacity:1}100%{opacity:0}}
+html[data-motion=reduce] .a20-ill-knob,html[data-motion=reduce] .a20-ill-lamp,html[data-motion=reduce] .a20-ill-ray{animation:none}
+html[data-motion=reduce] .a20-ill-lamp{fill:#f2c14e}html[data-motion=reduce] .a20-ill-ray{opacity:1}
+@media(prefers-reduced-motion:reduce){.a20-ill-knob,.a20-ill-lamp,.a20-ill-ray{animation:none}.a20-ill-lamp{fill:#f2c14e}.a20-ill-ray{opacity:1}}
+</style>
+<rect class="a20-ill-bg" width="340" height="180"/>
+<rect class="a20-ill-sheet" x="18" y="16" width="232" height="148" rx="10"/>
+<text class="a20-ill-label" x="32" y="36">출시 사양표</text><text class="a20-ill-small" x="236" y="36" text-anchor="end">초록 칸 = 목표</text>
+<g><text class="a20-ill-label" x="32" y="64">비용</text><path class="a20-ill-track" d="M86 60H230"/><rect class="a20-ill-zone" x="150" y="55" width="50" height="10" rx="5"/><circle class="a20-ill-knob" cx="175" cy="60" r="8"/></g>
+<g><text class="a20-ill-label" x="32" y="94">지연</text><path class="a20-ill-track" d="M86 90H230"/><rect class="a20-ill-zone" x="150" y="85" width="50" height="10" rx="5"/><circle class="a20-ill-knob a20-ill-k2" cx="175" cy="90" r="8"/></g>
+<g><text class="a20-ill-label" x="32" y="124">품질</text><path class="a20-ill-track" d="M86 120H230"/><rect class="a20-ill-zone" x="150" y="115" width="50" height="10" rx="5"/><circle class="a20-ill-knob a20-ill-k3" cx="175" cy="120" r="8"/></g>
+<g><text class="a20-ill-label" x="32" y="154">위험</text><path class="a20-ill-track" d="M86 150H230"/><rect class="a20-ill-zone" x="150" y="145" width="50" height="10" rx="5"/><circle class="a20-ill-knob a20-ill-k4" cx="175" cy="150" r="8"/></g>
+<circle class="a20-ill-lamp" cx="295" cy="80" r="22"/>
+<path class="a20-ill-ray" d="M295 48V40M323 62l7-5M267 62l-7-5M327 88h8M263 88h-8"/>
+<text class="a20-ill-label" x="295" y="126" text-anchor="middle">출시</text>
+<text class="a20-ill-small" x="295" y="142" text-anchor="middle">네 칸이 모두</text>
+<text class="a20-ill-small" x="295" y="156" text-anchor="middle">맞으면 켜짐</text>
+</svg>

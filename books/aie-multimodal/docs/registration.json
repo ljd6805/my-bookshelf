@@ -1,0 +1,113 @@
+{
+ "book": {
+  "id": "aie-13-multimodal",
+  "title": "멀티모달 AI · 보고 듣고 말하는 모델",
+  "short_title": "멀티모달 AI",
+  "spine_title": "멀티모달",
+  "spine_category": "AI공학",
+  "description": "세탁기 A/S 센터 상담 도우미 하나를 따라가며 이미지 패치 토큰, CLIP·SigLIP 대조 학습, Q-Former와 게이트 연결, LLaVA식 학습 순서, 해상도 전략, 영상·음성 토큰 예산, 이미지 생성 토큰, 로봇 행동 토큰, ColPali 문서 검색, 화면 에이전트를 직접 계산합니다. 12장 15개 실험으로 원본 커리큘럼 phases/12-multimodal-ai의 레슨 25개를 모두 재구성했습니다.",
+  "illustration_caption": "세탁기 표시창 사진이 패치 격자로 잘리고, 패치와 소리 조각이 토큰 줄을 따라 언어 모델로 흘러 들어가 상담 답이 켜지는 과정을 보여 주는 시각적 비유입니다(칸 수와 위치는 예시).",
+  "keywords": [
+   "멀티모달",
+   "VLM",
+   "ViT",
+   "패치 토큰",
+   "CLIP",
+   "SigLIP",
+   "대조 학습",
+   "BLIP-2",
+   "Q-Former",
+   "Flamingo",
+   "LLaVA",
+   "AnyRes",
+   "Qwen2-VL",
+   "영상 이해",
+   "Whisper",
+   "옴니 모델",
+   "Chameleon",
+   "Emu3",
+   "MaskGIT",
+   "Transfusion",
+   "VLA",
+   "OpenVLA",
+   "ColPali",
+   "멀티모달 RAG",
+   "컴퓨터 사용 에이전트",
+   "multimodal",
+   "vision-language model"
+  ],
+  "chapters_featured": [
+   "#patches",
+   "#bridge",
+   "#video",
+   "#docs",
+   "#agent"
+  ],
+  "cover_meta": "12장 · 15개 실험"
+ },
+ "chapter_index": {
+  "books/aie-multimodal/#patches": "01 · 세탁기 사진이 토큰이 되기까지",
+  "books/aie-multimodal/#clip": "02 · 사진과 설명서 문장을 한 공간에",
+  "books/aie-multimodal/#bridge": "03 · 얼린 두 모델 사이에 다리 놓기",
+  "books/aie-multimodal/#recipe": "04 · 단순한 프로젝터와 학습 순서",
+  "books/aie-multimodal/#anyres": "05 · 세로로 긴 설명서와 큰 사진 읽기",
+  "books/aie-multimodal/#video": "06 · 90초 영상을 토큰 예산 안에",
+  "books/aie-multimodal/#voice": "07 · 소음을 듣고 말로 답하기",
+  "books/aie-multimodal/#tokens": "08 · 그림도 다음 토큰으로",
+  "books/aie-multimodal/#unified": "09 · 이해와 생성을 한 모델에",
+  "books/aie-multimodal/#action": "10 · 말 대신 관절을 움직이는 모델",
+  "books/aie-multimodal/#docs": "11 · 스캔 설명서에서 맞는 쪽 찾기",
+  "books/aie-multimodal/#agent": "마지막 · 예약 화면을 대신 누르는 도우미"
+ },
+ "concepts": [
+  {
+   "id": "vector-space",
+   "new": false,
+   "chapters": [
+    "books/aie-multimodal/#clip"
+   ]
+  },
+  {
+   "id": "attention-kv",
+   "new": false,
+   "chapters": [
+    "books/aie-multimodal/#bridge"
+   ]
+  },
+  {
+   "id": "retrieval-grounding",
+   "new": false,
+   "chapters": [
+    "books/aie-multimodal/#docs"
+   ]
+  },
+  {
+   "id": "control-loop",
+   "new": false,
+   "chapters": [
+    "books/aie-multimodal/#agent"
+   ]
+  }
+ ],
+ "series_step": {
+  "url": "books/aie-multimodal/#bridge",
+  "task": "Q-Former 실험에서 사진 8장일 때 쿼리를 32, 8, 256으로 바꾸며 언어 모델이 받는 시각 토큰 수와 압축률을 적고, 게이트 실험에서 학습률 0.3과 2의 게이트 곡선을 비교한다",
+  "minutes": 15,
+  "why": "앞 권에서 글만 다루던 LLM 응용에 사진과 소리를 붙이려면, 얼린 두 모델 사이에서 무엇을 학습하고 문맥을 얼마나 내줄지부터 정해야 한다",
+  "record": "쿼리 수마다 시각 토큰 수와 압축률, 그리고 게이트가 처음 0에서 출발해도 학습되는 이유 한 줄"
+ },
+ "incoming": [
+  {
+   "from": "books/aie-vision/#reading",
+   "label": "멀티모달 AI · 얼린 두 모델 사이에 다리 놓기",
+   "url": "../aie-multimodal/#bridge",
+   "why": "ViT-MLP-LLM 구조를 익힌 뒤, 그 사이를 MLP 대신 Q-Former나 게이트 교차 어텐션으로 이으면 문맥 비용과 학습이 어떻게 달라지는지 계산해 보려면"
+  },
+  {
+   "from": "books/rag/#embedding",
+   "label": "멀티모달 AI · 스캔 설명서에서 맞는 쪽 찾기",
+   "url": "../aie-multimodal/#docs",
+   "why": "글 조각을 벡터 하나로 찾는 검색을 익힌 뒤, 표와 그림이 섞인 스캔 쪽을 패치 벡터 여러 개와 MaxSim으로 찾는 방법과 저장 비용을 비교해 보려면"
+  }
+ ]
+}

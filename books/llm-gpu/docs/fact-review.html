@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r2)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항(files~design), 회의 요약 공통 사례 숫자 문단 12곳(paragraphs), #design 실험 예제 “회의 요약 8명”(js/lab-guides.js budget), 보기 돌리기 코드(js/math.js choiceOrder, js/app.js choices)" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 검수 (전체 도서 보충 검수 r2)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r2)(검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 더한 것 — 12개 장 전이 문항(files~design), 회의 요약 공통 사례 숫자 문단 12곳(paragraphs), #design 실험 예제 “회의 요약 8명”(js/lab-guides.js budget), 보기 돌리기 코드(js/math.js choiceOrder, js/app.js choices).</p>
+<p>회의 요약 숫자 문단과 전이 문항의 계산은 모두 맞았습니다. 해설 한 곳이 화면에서 돌려진 보기 순서를 서수로 가리켜 고쳤습니다. 정답 자리 돌리기(choiceOrder)는 Node로 모든 장의 확인 문제·전이 문항에서 화면 목표 자리에 원래 정답 번호가 오고 세 번호가 한 번씩만 나오는지 따로 검사했고, Chromium 1280·390·320px 책 브라우저 테스트(증거 파일은 저장소 밖에 저장)에서 data-answer·data-transfer 원래 번호로 정답·오답 판정을 확인했습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>llama.cpp의 GGUF·변환 스크립트, prefix cache가 엔진이 관리하는 KV 재사용이라는 설명, Qwen3-8B config(36층·Q head 32·KV head 8·head_dim 128)를 Hugging Face config.json에서 확인</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>Python으로 따로 계산: 16,781,312 / 100,761,600 / 6.52 GiB / 14.90·3.73 GiB / 12 KB·800 byte / 4.78 TB / 1.007e11·3.36e7·1.72e10 FLOP / 3,299·944,850·549·26,225위치 / 412.5 MiB·4.03 GiB / 1.6875·3.375·6.75 GiB / 32 ms·9.57 s·8 ms·2.39 s·4→2 ms / 40·10·2 GB / 144 KiB→464.1 MiB, 96 KiB→309.4 MiB / 2.5·26.1·25 GiB / 22.39·12.10 GiB. 모두 본문 값과 같음. #design 해설의 서수 표현 한 곳을 고침</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>budget 예제 “회의 요약 8명”(16bit·4,096토큰·8명·24 GiB)을 책 RMath.budget과 따로 계산: 가중치 16e9 + 부가 10% + KV 4 GiB + 여유 2 GiB = 22.39 GiB, 만족. 안내 문장과 일치. phases(3000,300)·phases(500,50)도 대조</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>prefill·decode·KV head·Q head·논리적 KV·활성/전체 파라미터 용어가 책 안에서 일관</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>이번 보충에 새 출처가 없습니다(기존 출처 번호만 사용)</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#design 전이 해설</td><td>“둘째 보기는 …, 셋째는 …”: 보기를 화면에서 장마다 돌려 보여 주므로 서수가 화면 순서와 어긋남</td><td>js/app.js choices가 (index+1)%3 자리로 돌림</td><td>서수 대신 보기 내용(“초과”, “어떤 문맥 길이와 요청 수도”)으로 가리키게 고침</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>실제 GPU에서의 메모리·지연 측정은 범위가 아닙니다. 학습 효과(L4), Safari·Firefox·실기기·화면 읽기 프로그램은 확인하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드" data-date="2026-10-12" data-scope="12개 장 본문·자세히 보기·퀴즈·이어 읽기, 14개 실험과 표지 실험, 실험 안내 14개, 그림 캡션, 출처 18개(Qwen 설정 2개는 원문 재확인), 교차 링크 나가는 28개·들어오는 69개, Chromium 1280·390·320px" data-result="passed">
+<h2>2026-10-12 검수 (편집팀 전체 도서 검수)</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드. 범위: 12개 장 본문·자세히 보기·퀴즈·이어 읽기, 14개 실험과 표지 실험, 실험 안내 14개, 그림 캡션, 출처 18개(Qwen 설정 2개는 원문 재확인), 교차 링크 나가는 28개·들어오는 69개, Chromium 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다.</p>
+<p>사실·수치 오류를 찾지 못해 고친 파일이 없습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>Qwen3-8B·Qwen3-30B-A3B의 config.json과 모델 카드를 Hugging Face에서 다시 열어 층 36/48, KV head 8/4, head_dim 128, Q head 32, hidden 4096/2048, expert 128/8, 30.5B·3.3B 활성 확인. warp 32, GQA, FlashAttention·PagedAttention 서술 대조</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 따로 계산: 4 GB=3.73 GiB, KV 1.000·1.125·0.750·2·4 GiB, 예산 34.39·22.10(·22.39) GiB와 항목 14.90·1.49·16·2, 파라미터 15·20·72, 투영 위치 143 대 2168, roofline 8 ms·0.32 ms·40.96 ms, 전송 125 ms, MoE 10B/3B, 양자화 MSE</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>npm test 31개 통과. 실험 안내의 숫자 문장 14개를 모두 재현. browser.cjs 통과(44화면·42실험 조작)</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>GB/GiB, KV 캐시/하드웨어 캐시, CPU↔GPU 전송/GPU 내부 읽기, 전체/활성 파라미터가 책 규칙대로 구분됨</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>Qwen 설정·카드 2개는 원문 확인(2026-10-12). 나머지 링크는 서지만 대조</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td colspan="4">사실·수치 오류는 찾지 못했습니다.</td></tr>
+</tbody></table></div>
+<h3>편집팀 관점별 점검</h3>
+<ul><li><b>기획·연결 (서윤·하람·도현·민재)</b> 최종 과제(24 GiB 예산과 네 문장 설명·측정 계획)가 관찰 가능한 행동입니다. 장 색인 12개, 공통 개념 8개, 읽기 노선 3개(노트북·한 글자씩·왜 느릴까)의 할 일이 실험 조작과 맞습니다. 링크 97개의 도착 앵커와 제목이 맞습니다.</li><li><b>조사 (은재·지호·유진)</b> 시점 민감 정보(Qwen 사양)에 확인일이 있고 이번에 원문으로 다시 확인했습니다.</li><li><b>수치·실험 (수아·건우·시우)</b> 모든 실험 결과에 ‘실제 계산·시나리오·개념도’ 구분 문장이 있습니다.</li><li><b>글작성 (나래·준서·다온·예린)</b> 장 첫 문장은 ‘앞 장에서…’로 이어지고 끝 문장은 다음 장 질문입니다. 일곱 블록과 필드가 비지 않았습니다.</li><li><b>시각·실험 (리안·하늘·소율·채원)</b> 1280·390·320px에서 home·files·cache·design·sources 문서 가로 넘침 0, 서가 복귀 버튼 보임, 콘솔 오류 0, 그림·입력 라벨 누락 0, 포커스 윤곽 확인.</li><li><b>규칙 감사 (현석)</b> npm test 31개 통과, validate.py 0 errors.</li></ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul><li>books/llm-gpu/AGENTS.md·README.md의 제목은 ‘GPU 속 LLM’이고 카탈로그·index.html 제목은 ‘LLM은 컴퓨터에서 어떻게 실행되는가’입니다. 책 이름을 하나로 맞출지 판단이 필요합니다.</li><li>개념 그림 상자(.figure-art)의 가로 밀기 영역에 키보드 포커스가 없습니다(RAG와 같은 제안).</li></ul>
+<h3>후속 처리 (2026-10-12)</h3>
+<ul><li>고침: AGENTS.md와 README.md의 제목을 카탈로그·index.html과 같은 “LLM은 컴퓨터에서 어떻게 실행되는가”로 맞췄습니다.</li><li>남김: .figure-art 키보드 포커스는 RAG와 함께 AI Book 표준으로 판단할 일이라 편집장에게 넘깁니다.</li></ul>
+<h3>확인하지 못한 것</h3>
+<p>이 실행 환경의 프록시가 arxiv.org·doi.org·lucene.apache.org·openintro.org 등 대부분의 외부 사이트를 막아 출처 본문을 직접 열지 못했습니다. Qwen 설정·카드는 Hugging Face 연결로 확인했지만 NVIDIA·JAX·Transformers 문서와 arXiv 논문 본문은 다시 열지 못했습니다. 실제 GPU 측정과 학습 효과는 범위 밖입니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드" data-date="2026-10-08" data-scope="12개 장 본문, 14개 실험 계산, Qwen 두 모델 사양, 외부 출처 18개, 구현 문서" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드. 범위: 12개 장 본문, 14개 실험 계산, Qwen 두 모델 사양, 외부 출처 18개, 구현 문서. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 0건, medium 0건, low 4건. Qwen3-8B·Qwen3-30B-A3B 사양이 공식 config.json·모델 카드와 맞았고, KV 1 GiB·0.750 GiB·예산 22.10 GiB 등 모든 수치가 재계산과 일치했습니다. 표기 문제 4건을 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>Qwen 층 수·헤드·KV 헤드·문맥 길이를 Hugging Face config.json과 대조. 메모리 계층 그림의 크기 표기 수정</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>가중치·KV·예산·루프라인·FLOPs·MoE 활성 파라미터·전송 시간 재계산. 2PB 표기와 GB/GiB 혼용 2건 수정</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>npm test 31개 통과, math.js 대표값과 범위 밖 입력 거부 확인</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>prefill/decode·TTFT/ITL·GQA·FlashAttention·PagedAttention·병렬화 용어 확인</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>외부 출처 18개와 Actions 실행 2개를 열어 주장과 대조. 구현 문서의 교차 링크 수만 갱신</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>L1 low</td><td>js/figures.js 메모리 계층</td><td>VRAM “수십 GB”, L2 “수십 MB”</td><td>소비자 GPU는 L2 수 MB, VRAM 8 GB부터</td><td>“수 GB~수백 GB”, “수 MB~수십 MB”</td></tr><tr><td>L2 low</td><td>#bottleneck, docs/implementation.html</td><td>“연산량은 대략 2PB”</td><td>페타바이트로 읽힘</td><td>“2×P×B FLOP”</td></tr><tr><td>L3 low</td><td>#weights 설명·퀴즈</td><td>4 GB GPU</td><td>판매 표기 4 GB는 4 GiB</td><td>“4 GB(약 3.73 GiB)”, “4 GiB GPU”</td></tr><tr><td>L4 low</td><td>docs/implementation.html</td><td>교차 링크 19개</td><td>content.js 기준 22개, RAG·추론 최적화 포함</td><td>수 갱신</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>양자화 개요 문서가 활성화 양자화를 명시하는지는 확인하지 못했습니다. 브라우저 실행과 실제 GPU 측정은 범위 밖입니다.</p>
+</section>
+</main></body></html>

@@ -1,0 +1,162 @@
+{
+  "book": {
+    "id": "aie-06-nlp",
+    "title": "자연어 처리 · 단어 세기에서 문장 이해까지",
+    "short_title": "자연어 처리",
+    "spine_title": "자연어 처리",
+    "spine_category": "AI공학",
+    "description": "온라인 서점의 고객 문의함 하나를 쪼개고, 세고, 벡터로 놓고, 분류하고, 번역하고, 근거를 찾아 답하며 토큰화부터 TF-IDF, 단어 벡터, 나이브 베이즈, 비터비, 퍼플렉서티, 어텐션, BLEU, 청킹, 개체 연결, 대화 상태, 긴 문맥 평가까지 직접 계산합니다. 12장 · 16개 실험으로 원본 커리큘럼 Phase 5의 레슨 29개를 모두 재구성했습니다.",
+    "illustration_caption": "문의 한 통이 낱말 토큰으로 나뉘고 TF-IDF 막대가 자라 환불 문의로 분류되는 그림으로, 막대 길이는 실제 계산이고 흐르는 움직임은 처리 순서를 보여 주는 비유입니다.",
+    "keywords": [
+      "자연어 처리",
+      "NLP",
+      "토큰화",
+      "BPE",
+      "TF-IDF",
+      "BM25",
+      "word2vec",
+      "GloVe",
+      "fastText",
+      "LDA",
+      "BERTopic",
+      "감성 분석",
+      "NLI",
+      "개체명 인식",
+      "품사 태깅",
+      "HMM",
+      "비터비",
+      "n-gram",
+      "퍼플렉서티",
+      "seq2seq",
+      "어텐션",
+      "BLEU",
+      "요약",
+      "질의응답",
+      "청킹",
+      "상호참조",
+      "개체 연결",
+      "관계 추출",
+      "대화 상태 추적",
+      "구조화 출력",
+      "LLM 평가",
+      "긴 문맥"
+    ],
+    "chapters_featured": [
+      "#clean",
+      "#vectors",
+      "#tagging",
+      "#seq2seq",
+      "#answer"
+    ],
+    "cover_meta": "12장 · 16개 실험"
+  },
+  "chapter_index": {
+    "books/aie-nlp/#clean": "01 · 문의를 낱말로 쪼개기",
+    "books/aie-nlp/#tfidf": "02 · 흔한 낱말과 드문 낱말의 무게",
+    "books/aie-nlp/#vectors": "03 · 같은 자리에 오는 낱말은 닮았다",
+    "books/aie-nlp/#topics": "04 · 문의함 전체가 무엇을 말하나",
+    "books/aie-nlp/#sentiment": "05 · “나쁘지 않아요”는 칭찬일까",
+    "books/aie-nlp/#tagging": "06 · 같은 낱말, 다른 역할",
+    "books/aie-nlp/#sequence": "07 · 다음 낱말을 얼마나 잘 맞히나",
+    "books/aie-nlp/#seq2seq": "08 · 번역하며 원문 어디를 볼까",
+    "books/aie-nlp/#answer": "09 · 약관을 줄이고 근거를 찾아 답하기",
+    "books/aie-nlp/#links": "10 · 그 작가와 그 강을 구별하기",
+    "books/aie-nlp/#dialog": "11 · 대화가 이어져도 주문을 기억하기",
+    "books/aie-nlp/#final": "마지막 · 해외 문의와 긴 약관이 들어왔다"
+  },
+  "concepts": [
+    {
+      "id": "number-representation",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#clean"
+      ]
+    },
+    {
+      "id": "vector-space",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#tfidf",
+        "books/aie-nlp/#vectors"
+      ]
+    },
+    {
+      "id": "dimension-reduction",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#topics"
+      ]
+    },
+    {
+      "id": "attention-kv",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#seq2seq"
+      ]
+    },
+    {
+      "id": "loss-likelihood",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#sequence",
+        "books/aie-nlp/#tagging"
+      ]
+    },
+    {
+      "id": "base-rate-threshold",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#sentiment",
+        "books/aie-nlp/#links"
+      ]
+    },
+    {
+      "id": "retrieval-grounding",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#answer"
+      ]
+    },
+    {
+      "id": "evaluation-uncertainty",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#final"
+      ]
+    },
+    {
+      "id": "control-loop",
+      "new": false,
+      "chapters": [
+        "books/aie-nlp/#dialog"
+      ]
+    }
+  ],
+  "series_step": {
+    "url": "books/aie-nlp/#tfidf",
+    "task": "IDF 실험에서 “환불”의 문서 빈도를 1, 2, 8로 바꾸며 두 IDF 식의 가중치를 비교하고, 모든 문의에 나오는 낱말의 무게가 왜 0이 되는지 적습니다.",
+    "minutes": 15,
+    "why": "컴퓨터 비전 권이 픽셀을 숫자로 바꿨다면, 이 권은 낱말을 숫자로 바꿉니다. 뒤의 트랜스포머·LLM 권이 쓰는 토큰, 임베딩, 어텐션, 평가 지표가 모두 이 권의 계산에서 시작합니다.",
+    "record": "df별 평활·비평활 IDF 값과, 흔한 낱말을 거르는 두 방법(불용어, IDF)의 차이 한 줄"
+  },
+  "incoming": [
+    {
+      "from": "books/ai/#tokens",
+      "label": "자연어 처리 · 문의를 낱말로 쪼개기",
+      "url": "../aie-nlp/#clean",
+      "why": "토큰 ID의 기초를 본 뒤, 한국어 문의를 어절·조사·BPE로 자를 때 어휘 크기와 검색 결과가 어떻게 달라지는지 직접 계산해 볼 수 있습니다."
+    },
+    {
+      "from": "books/ai/#rag",
+      "label": "자연어 처리 · 약관을 줄이고 근거를 찾아 답하기",
+      "url": "../aie-nlp/#answer",
+      "why": "검색 증강 생성의 전체 흐름을 본 뒤, 그 앞단에서 문서를 어떻게 잘라야 답이 한 조각에 온전히 들어가는지 청킹 실험으로 확인할 수 있습니다."
+    },
+    {
+      "from": "books/rag/#chunking",
+      "label": "자연어 처리 · 약관을 줄이고 근거를 찾아 답하기",
+      "url": "../aie-nlp/#answer",
+      "why": "조각 크기가 검색 점수를 바꾸는 것을 봤다면, 요약·추출형 답변·청킹을 한 장에서 묶어 근거가 한 조각에 온전히 들어가야 답이 맞는 이유를 고객 문의로 다시 계산해 봅니다."
+    }
+  ]
+}

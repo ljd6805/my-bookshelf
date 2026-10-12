@@ -1,22 +1,19 @@
-"""Draw the shared-concept atlas: books as glass spines, concepts as labels between them.
+"""Prepare the shared-concept atlas: an island map of fields with a book-centred zoom.
 
-Layout is computed here, deterministically, so the map is plain SVG that works without
-JavaScript. Each concept starts at the weighted centre of the books it appears in and is
-then nudged until no two labels overlap. Script only adds highlighting and the side panel.
+The map itself is drawn in the browser (assets/atlas-view.js) from a small JSON payload, because
+the zoomed view depends on the book a reader picks. Layout rules live in assets/atlas-model.mjs:
+fields become islands, concepts shared by two fields become bridges, and nothing is placed by hand.
+This module writes that payload and a plain list of concept cards grouped by field. The list is
+what readers without JavaScript see, and the text alternative of the map for everyone else.
 """
-import math
+import json
 
 if __package__:
-    from .shelf_renderer import esc
+    from .shelf_renderer import esc, safe_book_url
 else:
-    from shelf_renderer import esc
+    from shelf_renderer import esc, safe_book_url
 
-WIDTH, HEIGHT = 960, 700
-# Books stand evenly on an ellipse, AI Book at the bottom as the shared destination, so a new
-# book in the catalog gets its own place on the map without hand-placed coordinates.
-CENTER, RADIUS = (480, 340), (400, 268)
-TONES = {'aqua': '#1e737b', 'blue': '#345d95', 'violet': '#6e508e', 'sage': '#517353',
-         'amber': '#a66f26', 'rose': '#a15a50', 'plum': '#803a6c'}
+TONES = ['aqua', 'blue', 'violet', 'sage', 'amber', 'rose']
 
 
 def owner_of(url, books):
@@ -27,94 +24,67 @@ def short_name(book):
     return book.get('short_title') or book.get('spine_title') or book['title']
 
 
-def book_slots(books):
-    order = sorted(books, key=lambda b: b['id'] != 'ai-book-interactive')
-    slots = {}
-    for i, book in enumerate(order):
-        angle = math.pi / 2 + 2 * math.pi * i / len(order)
-        slots[book['id']] = (round(CENTER[0] + RADIUS[0] * math.cos(angle)),
-                             round(CENTER[1] + RADIUS[1] * math.sin(angle)))
-    return slots
+def field_of(book):
+    return book.get('spine_category') or '기타'
 
 
-def label_width(text):
-    return 32 + 17.5 * len(text)
+def fields_in_order(books):
+    return list(dict.fromkeys(field_of(b) for b in books))
 
 
-def overlaps(a, b, gap=12):
-    return (abs(a['x'] - b['x']) < (a['w'] + b['w']) / 2 + gap
-            and abs(a['y'] - b['y']) < (a['h'] + b['h']) / 2 + gap)
+def concept_fields(concept, books):
+    """(fields the concept touches in shelf order, field where most of its chapters are)."""
+    order = fields_in_order(books)
+    by_id = {b['id']: b for b in books}
+    weight = {}
+    for url in concept['chapters']:
+        field = field_of(by_id[owner_of(url, books)])
+        weight[field] = weight.get(field, 0) + 1
+    fields = [f for f in order if f in weight]
+    home = max(fields, key=lambda f: (weight[f], -order.index(f)))
+    return fields, home
 
 
-def inside(n):
-    return n['w'] / 2 + 8 <= n['x'] <= WIDTH - n['w'] / 2 - 8 and 24 <= n['y'] <= HEIGHT - 24
+def atlas_payload(concepts, catalog):
+    books = catalog['books']
+    index = catalog.get('chapter_index', {})
+    order = fields_in_order(books)
+    return {
+        'fields': [{'name': f, 'tone': TONES[i % len(TONES)]} for i, f in enumerate(order)],
+        'books': [{'id': b['id'], 'title': b['title'], 'short': short_name(b), 'spine': b.get('spine_title') or short_name(b),
+                   'field': field_of(b), 'color': b.get('color', 'aqua'), 'url': safe_book_url(b['url'])} for b in books],
+        'concepts': [{'id': c['id'], 'name': c['name'], 'aliases': c.get('aliases', []), 'summary': c.get('summary', ''),
+                      'chapters': [{'book': owner_of(u, books), 'url': safe_book_url(u), 'title': index[u]} for u in c['chapters']]}
+                     for c in concepts],
+    }
 
 
-def place(node, taken):
-    """Search beyond the central cluster as new books change the anchors."""
-    ax, ay = node['x'], node['y']
-    for step in range(20000):
-        radius, angle = 3 * math.sqrt(step), step * 2.39996  # golden-angle spiral
-        node['x'], node['y'] = ax + radius * math.cos(angle) * 1.8, ay + radius * math.sin(angle)
-        if inside(node) and not any(overlaps(node, other) for other in taken):
-            return node
-    raise ValueError(f"No room on the concept map for {node['id']}; enlarge the map")
+def payload_script(payload):
+    text = json.dumps(payload, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
+    return f'<script type="application/json" data-atlas-data>{text}</script>'
 
 
-def layout(concepts, books):
-    slots = book_slots(books)
-    taken = [{'x': x, 'y': y + 12, 'w': 130, 'h': 140} for x, y in slots.values()]
-    nodes = []
+def render_atlas_list(concepts, books, card):
+    """Concept cards grouped under the field where each concept is taught most."""
+    groups = {}
     for concept in concepts:
-        owners = [owner_of(url, books) for url in concept['chapters']]
-        x = sum(slots[o][0] for o in owners) / len(owners)
-        y = sum(slots[o][1] for o in owners) / len(owners)
-        nodes.append({'id': concept['id'], 'x': x, 'y': y, 'w': label_width(concept['name']),
-                      'h': 40, 'owners': owners})
-    # Concepts tied to many chapters claim their spot first; the rest settle around them.
-    for node in sorted(nodes, key=lambda n: (-len(n['owners']), n['id'])):
-        taken.append(place(node, taken))
-    return nodes, slots
+        fields, home = concept_fields(concept, books)
+        groups.setdefault(home, []).append((concept, fields))
+    parts = []
+    for field in fields_in_order(books):
+        members = groups.get(field, [])
+        if not members:
+            continue
+        cards = ''.join(f'<div class="atlas-item" data-fields="{esc("|".join(fs))}">{card(c)}</div>' for c, fs in members)
+        parts.append(f'<section class="atlas-list-group" data-field="{esc(field)}"><h4><b>{esc(field)}</b>에서 주로 다루는 개념 '
+                     f'<small>{len(members)}개</small></h4><div class="atlas-cards">{cards}</div></section>')
+    return f'<div class="atlas-list" data-atlas-list>{"".join(parts)}</div>'
 
 
-def edges(node, slots, books):
-    tones = {b['id']: TONES[b.get('color', 'aqua')] for b in books}
-    result = []
-    for bid in dict.fromkeys(node['owners']):
-        bx, by = slots[bid]
-        weight = node['owners'].count(bid)
-        cx, cy = (node['x'] + bx) / 2, (node['y'] + by) / 2 - 18
-        result.append(f'<path class="atlas-edge" data-concept="{esc(node["id"])}" data-book="{esc(bid)}" '
-                      f'd="M{node["x"]:.0f} {node["y"]:.0f} Q{cx:.0f} {cy:.0f} {bx} {by}" '
-                      f'stroke="{tones[bid]}" stroke-width="{1 + weight * 0.9:.1f}"/>')
-    return ''.join(result)
-
-
-def book_node(book, slot):
-    x, y = slot
-    tone = book.get('color', 'aqua')
-    return (f'<a class="atlas-book tone-{esc(tone)}" href="{esc(book["url"])}" data-book="{esc(book["id"])}">'
-            f'<title>{esc(book["title"])}</title>'
-            f'<rect class="atlas-spine" x="{x - 30}" y="{y - 52}" width="60" height="104" rx="8" '
-            f'fill="{TONES[tone]}"/><rect class="atlas-spine-label" x="{x - 21}" y="{y - 34}" '
-            f'width="42" height="68" rx="4"/>'
-            f'<text class="atlas-book-name" x="{x}" y="{y + 76}">{esc(short_name(book))}</text></a>')
-
-
-def concept_node(node, concept):
-    x, y, w = node['x'], node['y'], node['w']
-    return (f'<a class="atlas-node" href="#concept-{esc(node["id"])}" data-concept="{esc(node["id"])}" '
-            f'aria-label="{esc(concept["name"])}: {len(concept["chapters"])}개 장에서 만납니다">'
-            f'<rect x="{x - w / 2:.0f}" y="{y - 20:.0f}" width="{w:.0f}" height="40" rx="20"/>'
-            f'<text x="{x:.0f}" y="{y + 6:.0f}">{esc(concept["name"])}</text></a>')
-
-
-def render_atlas_svg(concepts, books):
-    nodes, slots = layout(concepts, books)
-    by_id = {c['id']: c for c in concepts}
-    lines = ''.join(edges(n, slots, books) for n in nodes)
-    spines = ''.join(book_node(b, slots[b['id']]) for b in books)
-    labels = ''.join(concept_node(n, by_id[n['id']]) for n in nodes)
-    return (f'<svg class="atlas-map" viewBox="0 0 {WIDTH} {HEIGHT}" role="group" '
-            'aria-labelledby="concept-title" aria-describedby="atlas-help">'
-            f'<g class="atlas-edges" aria-hidden="true">{lines}</g>{spines}{labels}</svg>')
+def book_picker(books):
+    groups = ''
+    for field in fields_in_order(books):
+        options = ''.join(f'<option value="{esc(b["id"])}">{esc(short_name(b))}</option>' for b in books if field_of(b) == field)
+        groups += f'<optgroup label="{esc(field)}">{options}</optgroup>'
+    return (f'<label class="atlas-pick"><span>가운데 책</span><select data-atlas-pick>'
+            f'<option value="">전체 섬 지도</option>{groups}</select></label>')

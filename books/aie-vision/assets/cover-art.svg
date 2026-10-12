@@ -1,0 +1,11 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="역 앞 공공자전거 대여소를 비추는 카메라 화면에 자전거 두 대와 거치대가 서 있고, 검출 상자가 자전거마다 하나씩 그려진 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="14" y="12" width="292" height="118" rx="6"/>
+<text class="cv-text cv-muted" x="26" y="30">CAM · 대여소</text>
+<path class="cv-hair" d="M24 112H296"/>
+<path class="cv-hair" d="M54 112V84M54 84H270M270 84V112"/>
+<circle class="cv-bus" cx="86" cy="100" r="11"/><circle class="cv-bus" cx="124" cy="100" r="11"/><path class="cv-bus" d="M86 100l14-20h16l8 20"/>
+<circle class="cv-bus" cx="190" cy="100" r="11"/><circle class="cv-bus" cx="228" cy="100" r="11"/><path class="cv-bus" d="M190 100l14-20h16l8 20"/>
+<rect class="cv-hair" x="70" y="62" width="70" height="52"/><rect class="cv-hair" x="174" y="62" width="70" height="52"/>
+<text class="cv-big" x="280" y="62" text-anchor="middle">2</text>
+<text class="cv-text" x="160" y="146" text-anchor="middle">640×480 · 30fps · 33.3ms</text>
+</svg>

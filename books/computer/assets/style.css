@@ -208,6 +208,16 @@ tr.current{background:var(--panel2);font-weight:700}
 .quiz h2{margin:14px 0 22px}
 .quiz button{display:block;width:100%;text-align:left;margin:10px 0;padding:14px 18px;background:var(--bg)}
 .quiz-feedback{color:var(--accent);margin-top:18px}
+/* 2026-10-12 보충: 확인 문제 아래의 전이 문항과 2장 부동소수점 스위치 */
+.transfer-quiz{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+.transfer-quiz h3{margin:8px 0 10px}
+.transfer-feedback{color:var(--accent);margin-top:14px}
+.float-bits{display:flex;flex-wrap:wrap;gap:14px 18px;margin:0 0 20px}
+.float-field{display:grid;gap:6px;min-width:0}
+.float-row{display:flex;flex-wrap:wrap;gap:4px}
+.float-row .bit{width:42px;min-height:64px;padding:8px 0}
+.float-row .bit b{font-size:1.15rem}
+.float-row .bit small{font-size:.62rem}
 .source-list{padding-left:20px;font-size:.92rem}
 .source-list li{padding-left:6px;margin-bottom:18px}
 .source-list a{color:var(--accent);text-decoration:underline;text-underline-offset:4px}
@@ -258,6 +268,7 @@ tr.current{background:var(--panel2);font-weight:700}
  .controls{gap:10px}.controls button{font-size:.82rem;padding:9px 12px}.controls select{max-width:100%}
  .controls input[type=range]{width:200px}.controls label{max-width:100%}
  .bit-row{gap:4px}.bit{min-height:66px;padding:8px 0}.bit b{font-size:1.2rem}.bit small{font-size:.63rem}
+ .float-row .bit{width:34px;min-height:56px}
  .memory .cell{grid-template-columns:20px minmax(0,1fr);gap:5px;padding:8px 6px}
  .cpu{gap:28px}.access-grid{grid-template-columns:repeat(8,minmax(0,1fr))}
  .quiz{padding:20px}.quiz button{padding:13px;font-size:.9rem}

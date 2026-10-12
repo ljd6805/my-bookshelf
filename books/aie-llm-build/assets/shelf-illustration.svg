@@ -1,0 +1,49 @@
+<svg class="a11-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="바이트 네 칸이 하나의 토큰으로 합쳐지고, 그 토큰으로 학습한 손실 곡선이 내려간 뒤, 정렬과 양자화를 거쳐 답이 나가는 LLM 제작 과정을 보여 주는 시각적 비유입니다.">
+<style>
+.a11-ill-bg{fill:#f5f3e8}
+.a11-ill-byte{fill:#fffaf0;stroke:#7a7a1e;stroke-width:2}
+.a11-ill-tok{fill:#e9e7a0;stroke:#5f6300;stroke-width:2;opacity:0;animation:a11-ill-tok 6s ease-in-out infinite}
+.a11-ill-b1{animation:a11-ill-m1 6s ease-in-out infinite}
+.a11-ill-b2{animation:a11-ill-m2 6s ease-in-out infinite}
+.a11-ill-b3{animation:a11-ill-m3 6s ease-in-out infinite}
+.a11-ill-b4{animation:a11-ill-m4 6s ease-in-out infinite}
+.a11-ill-label{font:700 12px sans-serif;fill:#2f3a20;text-anchor:middle}
+.a11-ill-small{font:11px sans-serif;fill:#5a5a40;text-anchor:middle}
+.a11-ill-axis{stroke:#a7a58a;stroke-width:1.5;fill:none}
+.a11-ill-curve{stroke:#b8642a;stroke-width:3;fill:none;stroke-linecap:round;stroke-dasharray:200;stroke-dashoffset:200;animation:a11-ill-draw 6s ease-in-out infinite}
+.a11-ill-floor{stroke:#5f6300;stroke-width:1.5;stroke-dasharray:4 4;fill:none}
+.a11-ill-box{fill:#fffaf0;stroke:#4d6f90;stroke-width:2}
+.a11-ill-reply{fill:#5f6300;opacity:.2;animation:a11-ill-reply 6s ease-in-out infinite}
+.a11-ill-arrow{stroke:#a7a58a;stroke-width:2;fill:none}
+@keyframes a11-ill-m1{0%,10%{transform:translateX(0)}35%,100%{transform:translateX(12px)}}
+@keyframes a11-ill-m2{0%,10%{transform:translateX(0)}35%,100%{transform:translateX(4px)}}
+@keyframes a11-ill-m3{0%,10%{transform:translateX(0)}35%,100%{transform:translateX(-4px)}}
+@keyframes a11-ill-m4{0%,10%{transform:translateX(0)}35%,100%{transform:translateX(-12px)}}
+@keyframes a11-ill-tok{0%,30%{opacity:0}40%,92%{opacity:1}100%{opacity:0}}
+@keyframes a11-ill-draw{0%,35%{stroke-dashoffset:200}70%,100%{stroke-dashoffset:0}}
+@keyframes a11-ill-reply{0%,70%{opacity:.2}80%,95%{opacity:1}100%{opacity:.2}}
+html[data-motion=reduce] .a11-ill-b1,html[data-motion=reduce] .a11-ill-b2,html[data-motion=reduce] .a11-ill-b3,html[data-motion=reduce] .a11-ill-b4,html[data-motion=reduce] .a11-ill-tok,html[data-motion=reduce] .a11-ill-curve,html[data-motion=reduce] .a11-ill-reply{animation:none;opacity:1;stroke-dashoffset:0;transform:none}
+@media(prefers-reduced-motion:reduce){.a11-ill-b1,.a11-ill-b2,.a11-ill-b3,.a11-ill-b4,.a11-ill-tok,.a11-ill-curve,.a11-ill-reply{animation:none;opacity:1;stroke-dashoffset:0;transform:none}}
+</style>
+<rect class="a11-ill-bg" width="340" height="180"/>
+<text class="a11-ill-label" x="58" y="34">바이트 → 토큰</text>
+<rect class="a11-ill-byte a11-ill-b1" x="14" y="62" width="18" height="26" rx="3"/>
+<rect class="a11-ill-byte a11-ill-b2" x="36" y="62" width="18" height="26" rx="3"/>
+<rect class="a11-ill-byte a11-ill-b3" x="62" y="62" width="18" height="26" rx="3"/>
+<rect class="a11-ill-byte a11-ill-b4" x="84" y="62" width="18" height="26" rx="3"/>
+<rect class="a11-ill-tok" x="26" y="104" width="64" height="28" rx="4"/>
+<text class="a11-ill-small" x="58" y="122">서재봇</text>
+<text class="a11-ill-small" x="58" y="156">병합</text>
+<path class="a11-ill-arrow" d="M110 90H124M119 85l5 5-5 5"/>
+<text class="a11-ill-label" x="186" y="34">사전학습 손실</text>
+<path class="a11-ill-axis" d="M134 48V142H240"/>
+<path class="a11-ill-floor" d="M134 124H240"/>
+<path class="a11-ill-curve" d="M136 54C150 92 166 110 190 118S226 122 238 123"/>
+<text class="a11-ill-small" x="186" y="158">바닥을 향해</text>
+<path class="a11-ill-arrow" d="M248 90H262M257 85l5 5-5 5"/>
+<text class="a11-ill-label" x="298" y="34">정렬·서빙</text>
+<rect class="a11-ill-box" x="270" y="54" width="58" height="44" rx="8"/>
+<text class="a11-ill-small" x="299" y="80">SFT·DPO</text>
+<rect class="a11-ill-reply" x="270" y="108" width="58" height="30" rx="8"/>
+<text class="a11-ill-small" x="299" y="158">답 한 줄</text>
+</svg>

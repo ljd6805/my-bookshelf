@@ -4,9 +4,19 @@
   'use strict';
   const B = LABook, V = LAViews, H = LAApp, main = H.main, pad = H.pad;
 
+  // 보기 버튼: data 값은 원래 번호, 화면 번호는 돌린 순서대로 붙입니다(정답 자리를 장마다 고르게).
+  const choices = (q, target, attr) => LAQuiz.order(q[1].length, q[2], target)
+    .map((n, k) => `<button type="button" data-${attr}="${n}">${k + 1}. ${q[1][n]}</button>`).join('');
+  function transferQuiz(c, i) {
+    const q = c.transfer.quiz;
+    if (!q) return '';
+    return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${q[0]}</p>${choices(q, (i + 1) % 3, 'transfer')}` +
+      '<div class="transfer-feedback" role="status" aria-live="polite"></div></div>';
+  }
+
   function head(c, i) {
     return `<div class="chapter-head"><div class="eyebrow">CHAPTER ${pad(i + 1)} / ${c.group}</div><h1>${c.title}</h1><p class="lead">${c.subtitle}</p>` +
-      `<span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 예측 1개 · 확인 문제 1개</span></div>`;
+      `<span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 예측 1개 · 확인 문제 ${c.transfer.quiz ? 2 : 1}개</span></div>`;
   }
 
   function concept(c, i) {
@@ -31,12 +41,12 @@
       `<div class="lab-inner" data-lab="${id}">${v.html}</div><div class="challenge"><b>직접 해 보기</b>${v.task}</div></article>`;
   }
 
-  function results(c) {
+  function results(c, i) {
     const checks = c.checks.join('');
     const extra = c.extra.map((e, k) => `<section><h2>${e.heading}</h2>${e.html}${k === 0 ? checks : ''}</section>`).join('');
     const example = c.example ? `<div class="worked"><b>숫자로 따라가기</b> ${c.example}</div>` : '';
     return `<section id="results"><h2>실험 결과 읽기</h2><h3>${c.observe.heading}</h3>${c.observe.html}${example}${c.explainAfter}${c.extra.length ? '' : checks}</section>${extra}` +
-      `<section id="transfer"><h2>${c.transfer.heading}</h2>${c.transfer.html}${c.cross.join('')}</section>`;
+      `<section id="transfer"><h2>${c.transfer.heading}</h2>${c.transfer.html}${transferQuiz(c, i)}${c.cross.join('')}</section>`;
   }
 
   function closing(c, i) {
@@ -45,7 +55,7 @@
     const question = c.question ? `<section id="next-question"><h2>남은 질문</h2>${c.question}</section>` : '';
     return `<div class="note"><strong>혼동하지 마세요</strong><br>${c.warning}</div>${c.deeper.join('')}` +
       `<section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>` +
-      c.quiz[1].map((a, k) => `<button type="button" data-answer="${k}">${k + 1}. ${a}</button>`).join('') +
+      choices(c.quiz, i % 3, 'answer') +
       `<div class="quiz-feedback" role="status" aria-live="polite"></div></section><section><h2>더 읽어 보기</h2>${H.sourceLinks(c.sources)}</section>` +
       `${question}<nav class="chapter-nav" aria-label="이전·다음 챕터">${prev}${next}</nav>`;
   }
@@ -53,7 +63,7 @@
   function chapter(c, i) {
     document.body.classList.add('reading');
     document.title = `${pad(i + 1)}. ${c.title} · 벡터와 행렬로 보는 세상`;
-    main.innerHTML = `<div class="chapter-body">${head(c, i)}${concept(c, i)}${c.labs.map((id, k) => lab(c, id, k, i)).join('')}${results(c)}${closing(c, i)}</div>`;
+    main.innerHTML = `<div class="chapter-body">${head(c, i)}${concept(c, i)}${c.labs.map((id, k) => lab(c, id, k, i)).join('')}${results(c, i)}${closing(c, i)}</div>`;
     main.querySelectorAll('.predict').forEach(UI.predict);
     c.labs.forEach((id) => {
       const el = main.querySelector(`[data-lab="${id}"]`);
@@ -63,6 +73,11 @@
       const correct = Number(b.dataset.answer) === c.quiz[2];
       main.querySelectorAll('[data-answer]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
       main.querySelector('.quiz-feedback').textContent = `${correct ? '정답입니다.' : '다시 생각해 보세요.'} ${c.quiz[3]}`;
+    }));
+    main.querySelectorAll('[data-transfer]').forEach((b) => b.addEventListener('click', () => {
+      const q = c.transfer.quiz, correct = Number(b.dataset.transfer) === q[2];
+      main.querySelectorAll('[data-transfer]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      main.querySelector('.transfer-feedback').textContent = `${correct ? '정답입니다.' : '다시 생각해 보세요.'} ${q[3]}`;
     }));
   }
 

@@ -16,3 +16,8 @@
 @media(max-width:760px){header nav>a.shelf-return{display:inline-flex;white-space:nowrap;font-size:.8rem}header{gap:8px;padding-inline:12px}header nav{gap:7px}header .brand{gap:7px}header nav button{padding:7px 9px;font-size:.8rem}header .brand strong{font-size:.82rem;letter-spacing:0}}
 /* 서가로 돌아가기 버튼: 모든 책의 머리말에 두는 공통 규칙(docs/07-book-integration.html#shelf-return) */
 header nav>a.shelf-return{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border:1px solid var(--accent);border-radius:999px;color:var(--accent);font-weight:700;white-space:nowrap;text-decoration:none}header nav>a.shelf-return:hover{background:var(--accent);color:var(--bg)}header nav>a.shelf-return:focus-visible{outline:3px solid var(--accent);outline-offset:3px}@media(max-width:760px){header nav>a.shelf-return{display:inline-flex;min-height:36px;padding:0 10px;font-size:.8rem}}@media(max-width:360px){header nav>a.shelf-return{padding:0 8px;gap:3px}header nav button{white-space:nowrap}header .brand strong{display:none}}
+/* 2026-10-12 보충: 같은 블록 안의 예측·남은 질문·다음 장 이유·전이 문항 */
+.predict,.remaining{border-left:3px solid var(--orange);background:var(--panel);padding:18px 22px;color:var(--muted);margin:25px 0;font-size:.95rem}.remaining{border-color:var(--accent)}.predict strong,.remaining strong{color:var(--text)}
+.chapter-nav a{max-width:48%}.chapter-nav a:last-child{text-align:right}.chapter-nav .why{display:block;color:var(--muted);font-size:.84rem;line-height:1.7;margin-top:8px}
+.transfer-quiz{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}.transfer-feedback{margin-top:16px;color:var(--accent)}
+@media(max-width:760px){.chapter-nav{flex-direction:column}.chapter-nav a{max-width:none}.chapter-nav a:last-child{text-align:left}}

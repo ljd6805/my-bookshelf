@@ -1,0 +1,55 @@
+/* 책을 만드는 팀 소개 페이지(team.html). 색은 서가 유리 팔레트의 tone 값을 --t(면)·--e(테두리)로 받습니다. */
+.team-page main{padding-bottom:40px}
+.team-page h2{font-size:26px;line-height:1.5;margin-bottom:22px}
+.team-hero{padding:56px 0 44px;max-width:760px}.team-hero .eyebrow{font:700 11px var(--sans);letter-spacing:.2em;color:#5d6d70;margin-bottom:16px}.team-hero h1{font-size:clamp(30px,4.4vw,48px);line-height:1.4;margin-bottom:24px}.team-hero p{font-size:15.5px;margin-bottom:14px}.team-hero strong{color:var(--ink)}
+.team-flow-wrap,.chief-wrap,.team-rules{border-top:1px solid #59706b33;padding:42px 0}
+.team-flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;counter-reset:step}
+.team-flow li{position:relative}.team-flow li:not(:last-child)::after{content:"";position:absolute;top:21px;left:calc(50% + 18px);right:calc(-50% + 18px);border-top:2px dashed #7d8f8a80}
+.team-flow a{display:grid;justify-items:center;text-align:center;gap:6px;text-decoration:none;padding:6px 4px}
+.team-flow .dot{width:30px;height:30px;border-radius:50%;background:rgba(var(--t,120,130,125),.35);border:2px solid rgb(var(--e,90,100,98));margin:6px 0 4px;animation:team-pass 8s var(--ease) infinite;animation-delay:calc(var(--i) * 1s)}
+.team-flow .shelf-stop .dot{border-radius:4px;background:#e9dcc6;border-color:#8c7a5e}
+.team-flow b{font:700 15px var(--serif)}.team-flow small{font-size:12px;color:var(--muted);line-height:1.5}
+@keyframes team-pass{0%,12%{transform:scale(1);background:rgba(var(--t,200,180,150),.35)}5%{transform:scale(1.28);background:rgb(var(--t,200,180,150))}}
+.flow-note{font-size:13.5px;margin-top:18px;max-width:720px}
+.person{list-style:none;background:#fbf8f2d9;border:1px solid rgba(var(--e),.28);border-top:4px solid rgb(var(--t));border-radius:10px;padding:18px 20px}
+.person.lead{background:#fffdf8;border-color:rgba(var(--e),.5);border-top-color:rgb(var(--e))}
+.chief{max-width:560px}
+.person-head{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+
+.person h4{margin:0;font:700 18px var(--serif)}.person .role{font-size:12.5px}
+.person .temper{font-size:14px;margin-bottom:10px}
+.person blockquote{margin:0 0 10px;padding:8px 12px;border-left:3px solid rgb(var(--t));background:rgba(var(--t),.1);font:600 14px/1.6 var(--serif);color:var(--ink)}
+.person .does{font-size:13.5px;color:var(--ink)}
+.team-block{border-top:1px solid #59706b33;padding:42px 0;display:grid;grid-template-columns:250px minmax(0,1fr);gap:40px}
+.team-intro{position:sticky;top:20px;align-self:start}.team-no{font:700 11px var(--sans);letter-spacing:.12em;color:rgb(var(--e));margin-bottom:8px}.team-intro h3{font:700 26px var(--serif);margin:0 0 12px;letter-spacing:var(--tracking-heading)}.team-intro p{font-size:14px}.team-intro .count{margin-top:12px;font-size:12px}
+.people{margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.team-rules ul{padding-left:20px;margin:0 0 18px;max-width:760px}.team-rules li{margin:8px 0;color:var(--muted);font-size:14.5px}
+@media(max-width:900px){.team-block{grid-template-columns:1fr;gap:20px}.team-intro{position:static}.team-flow{grid-template-columns:repeat(4,minmax(0,1fr));row-gap:22px}.team-flow li:nth-child(4)::after{display:none}}
+@media(max-width:600px){.people{grid-template-columns:1fr}.team-flow{grid-template-columns:1fr;gap:4px}.team-flow li::after{display:none}.team-flow a{grid-template-columns:30px minmax(0,1fr);grid-template-rows:auto auto;justify-items:start;text-align:left;column-gap:14px;row-gap:0}.team-flow .dot{grid-row:span 2;margin:0}.team-hero{padding:32px 0 30px}}
+@media(prefers-reduced-motion:reduce){.team-flow .dot{animation:none}}
+html[data-motion=reduce] .team-flow .dot{animation:none}
+.persona-more{margin-top:12px;border-top:1px dashed rgba(var(--e),.35);padding-top:10px}
+.persona-more summary{cursor:pointer;font-size:13px;font-weight:700;color:rgb(var(--e));list-style:none;display:flex;align-items:center;gap:6px;min-height:32px}
+.persona-more summary::-webkit-details-marker{display:none}
+.persona-more summary::before{content:"+";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1px solid rgba(var(--e),.6);font-size:13px;line-height:1}
+.persona-more[open] summary::before{content:"−"}
+.persona-more dl{margin:8px 0 0;font-size:13.5px;line-height:1.7}
+.persona-more dt{font-weight:700;font-size:12px;color:rgb(var(--e));margin-top:12px}
+.persona-more dd{margin:3px 0 0;color:var(--ink)}
+.persona-more ul{margin:2px 0 0;padding-left:18px}.persona-more li{margin:2px 0}
+.persona-more .checks{list-style:none;padding-left:0}.persona-more .checks li{position:relative;padding-left:22px}.persona-more .checks li::before{content:"☐";position:absolute;left:0;color:rgb(var(--e))}
+.persona-more q{display:block;quotes:none;padding:8px 12px;border-radius:8px;background:rgba(var(--t),.12);font-family:var(--serif)}
+.persona-more q::before{content:"“"}.persona-more q::after{content:"”"}
+/* 인물 일러스트(scripts/portrait_renderer.py). 배경·소품 테두리는 팀 색을 따릅니다. */
+.portrait{display:block;flex:none;width:88px;height:88px;border-radius:22%;overflow:hidden;box-shadow:0 6px 16px rgba(var(--e),.22)}
+.portrait .pt-bg{fill:rgba(var(--t),.32)}.portrait .pt-glow{fill:#fffdf8;opacity:.4}
+.portrait .pt-prop>circle{fill:#fffdf8;stroke:rgb(var(--e));stroke-width:2}.portrait .pt-prop g{stroke:rgb(var(--e))}
+.person-head{gap:16px}.person h4{font-size:20px}
+.chief .portrait{width:120px;height:120px}
+.lineup{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:12px 8px;margin-top:30px;max-width:900px}
+.lineup a{display:grid;justify-items:center;gap:4px;text-decoration:none;font-size:12px;color:var(--muted)}
+.lineup .portrait{width:56px;height:56px;box-shadow:0 3px 8px rgba(var(--e),.2);transition:transform .2s var(--ease)}
+.lineup a:hover .portrait,.lineup a:focus-visible .portrait{transform:translateY(-4px)}
+.person:target{outline:3px solid rgba(var(--e),.55);outline-offset:3px}
+@media(max-width:600px){.portrait{width:72px;height:72px}.chief .portrait{width:96px;height:96px}.lineup{grid-template-columns:repeat(auto-fill,minmax(54px,1fr))}.lineup .portrait{width:48px;height:48px}}
+@media(prefers-reduced-motion:reduce){.lineup .portrait{transition:none}}

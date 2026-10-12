@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="트랜스포머 깊이 보기를 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 트랜스포머 깊이 보기</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · 트랜스포머 깊이 보기</h1>
+<p>「AI 엔지니어링 처음부터」 08권(books/aie-transformer/)을 쓰지 않은 검수 에이전트가 원본 Phase 7 레슨 16개, 원본이 인용한 논문 초록, 책의 계산 코드에 비추어 확인한 결과입니다. 규칙은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r4)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12장 transfer 12개, #position 본문·깊이 읽기 “RoPE 문맥 늘리기”와 새 실험 ropelong(ropeExtend), #final 깊이 읽기 “답을 쓰는 틀”, #bertgpt 식의 x_&lt;t 수정, 새 출처 Chen et al. 2023(arXiv 2306.15595), 정답 자리 돌리기" data-result="passed">
+<h2>2026-10-12 보충 검수 (r4)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r4) — 검수팀(정민·유진·건우·채원·현석) 관점으로 점검했고 이번 보충을 쓰지 않았습니다. 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 바꾼 것 — 12장 transfer 12개, #position 본문·깊이 읽기 “RoPE 문맥 늘리기”와 새 실험 ropelong(ropeExtend), #final 깊이 읽기 “답을 쓰는 틀”, #bertgpt 식의 x_&lt;t 수정, 새 출처 Chen et al. 2023(arXiv 2306.15595), 정답 자리 돌리기.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>위치 보간 논문(Chen·Wong·Chen·Tian 2023): LLaMA를 32,768토큰까지, 1,000단계 이내 미세조정 — 초록과 일치. RoPE θᵢ = base^(−2i/d), PI가 위치를 배율로 나눈다는 설명 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>전이 해설 재계산: 1,024² = 1,048,576, √1,024 = 32, 4 × 4,096² = 67,108,864, d_head 64 쌍 11개·θ₃₁ = 1.33×10⁻⁴·0.273·2.185 rad, 12 × 4,096² × 32 ≈ 64.4억, 500,500칸, 577토큰·768차원, 160억 × 2 = 32GB, ℓ = 1.0748(한 번에 센 값과 같음), C = 1.2×10²⁰·N = 5억, (1 − 0.6⁴) ÷ 0.4 = 2.176·÷ 1.15 = 1.89배, KV 4.29GB·합 18.3GB·32K 31.2GB</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>ropeExtend를 따로 계산해 대조: d128·4K→32K 그대로 18쌍·최대 8배, 가장 느린 쌍 0.473 → 3.784 rad, 한 바퀴 54,409토큰, PI 0쌍(간격 1/8), base 10배 12쌍·1.529배, base 100배 0쌍, 경계 d64·2K→128K 11쌍·64배, 목표 = 학습 길이 0쌍. 모두 일치하고 lab-guides 문장과 맞음</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>위치 보간(PI)·NTK 인식 보간·YaRN·base·차원 쌍의 쓰임이 장 안과 문헌 용어에 맞음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>arXiv 2306.15595 저자·제목·주장 확인, 확인일 2026-10-12 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td colspan="4">고칠 오류를 찾지 못했습니다.</td></tr>
+</tbody></table>
+<h3>전이 문항과 정답 자리</h3>
+<p>12장 전이 문항 모두 해설의 계산을 python3로 따로 다시 계산했고, 정답이 하나뿐이며 오답 둘이 각각 특정한 계산 실수나 오해로 분명히 틀린지 확인했습니다. 소재와 숫자가 본문과 달라 본문 문장을 찾아서는 풀리지 않습니다. 정답 자리 돌리기는 quizOrder(n, answer, target)[target] = answer이고 결과가 0~n−1의 순열임을 식으로 확인했으며, app.js가 버튼의 data-answer·data-transfer에 원래 보기 번호를 쓰고 c.quiz[2]·c.transfer[2]와 비교하므로 화면 자리와 무관하게 판정이 맞습니다(확인 문제 index % 3, 전이 (index + 1) % 3).</p>
+<h3>확인하지 못한 것</h3>
+<p>“추론 때 base만 10배”의 실제 모델 품질 변화는 책이 밝힌 대로 계산하지 않습니다. 원본이 전한 Llama 3.1의 RoPE 조정은 1차 출처를 열지 않았습니다(기존 문장, 이번 범위 밖). 실제 브라우저 확인은 하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer)" data-date="2026-10-12" data-scope="12개 장 본문·식·깊이 읽기·확인 문제·다른 책 연결, 16개 실험(js/math.js·lab-guides.js 결과 읽기), 출처 57개의 장별 번호, 카탈로그 장 색인·개념·읽기 노선 항목, 브라우저 1280·390·320px" data-result="passed">
+<h2>2026-10-12 편집팀 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer). 범위: 12개 장 본문·식·깊이 읽기·확인 문제·다른 책 연결, 16개 실험(js/math.js·lab-guides.js 결과 읽기), 출처 57개의 장별 번호, 카탈로그 장 색인·개념·읽기 노선 항목, 브라우저 1280·390·320px.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>GPT-3 175B·300B, Chinchilla 70B·1.4T, Llama 3 8B 15T(1,875), Llama 3 70B 헤드 64·KV 8, Mixtral 8×22B 39B/141B, DeepSeek-V3 37B/671B·공유 1+라우팅 256 중 8, Kimi K2, ModernBERT(지역 128·8,192·GeGLU·사전 LayerNorm), ViT-Base 86M·Large 307M, Whisper turbo 809M, ALiBi 기울기, Gemma 3 창 1,024·5:1, PyTorch 2.5 enable_gqa를 알려진 공식 문헌과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>본문·확인 문제 수치(세 칸 앞, 1,024토큰 10단계, √256 = 16, 0.11·0.87·6.57B, 10,000토큰 중 [MASK] 기대 1,200, 257토큰, 671B fp16 ≈ 1.3TB, KV 10.7GB, 5×3 + 30 = 45 ms 대 150 ms, 3.29토큰, 800K 파라미터·ln 65 ≈ 4.2)를 Python으로 다시 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>js/math.js를 쓰지 않는 Python으로 재계산: KV 10.74·343.6·7.44GB, Chinchilla 최적 비율 10¹⁹ 32·10²³ 78(손실 2.005)·10²⁶ 153과 비율 1.7(+0.055, 6.78배)·1,875(+0.040, 0.2배), 추측 디코딩 2.19·1.11·1.46·3.40배, 설계 GQA 10.13GB·추측 1.821배, 패치 197·785·729(가장자리 6), 마스크 49·6·21칸. √d_k 실험은 독립 몬테카를로(2,000회)로 89%·40%·97%와 같은 경향을 확인(책은 시드 고정 200회)</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>셀프 어텐션·잔차·인과 마스크·교차 어텐션·전문가 혼합·추측 디코딩·과잉 학습·퍼플렉서티의 한영 대응과 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>장별 source 번호 범위와 장 내용 대응, 나가는 링크 18개(+1개 추가)의 도착 앵커를 각 책 book-routes로 검사, 들어오는 링크 6개 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#encdec 더 읽어 보기 (편집 보강, 오류 아님)</td><td>Whisper 흐름을 다루면서 같은 시리즈 07권의 Whisper 장으로 가는 길이 없음</td><td>책 사이 연결 규칙(양방향 링크)</td><td>../aie-audio/#whisper 링크를 이동 이유와 함께 추가</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul>
+<li><b>기획·연결팀 (서윤·하람·도현·민재)</b>: 마지막 과제(새 요구 세 가지에 설계표의 칸 고르기)와 답을 쓰는 틀이 있어 끝의 행동이 관찰 가능합니다. 장 색인 12장, 공통 개념 6개, 읽기 노선 정거장 #selfattn의 과제(d_k 16~512, 나눔·나누지 않음, 기울기 합)가 scale 실험의 선택지와 출력에 맞습니다. KV 캐시는 llm-gpu, 어텐션 직관은 AI Book으로 넘기고 짧게 요약해 겹침을 관리합니다.</li>
+<li><b>지식조사팀 (은재·지호·유진)</b>: 시점 민감 정보(Flash 4, MoE 비중, 2026 요인)에 원본 기준·확인일이 붙어 있습니다. 새 사실 오류는 찾지 못했습니다.</li>
+<li><b>수치·실험 (수아·건우·시우)</b>: 16개 실험과 본문 수치가 독립 재계산과 일치합니다. 실제 계산/교육용 가정(시드 고정 벡터, 라우터 치우침, 대역폭 어림)이 결과 문장에 밝혀져 있습니다.</li>
+<li><b>글작성팀 (나래·준서·다온·예린)</b>: 12장 모두 앞 장 결과로 시작해 다음 장 질문으로 끝나고 일곱 블록 필드가 채워져 있습니다. 확인 문제는 계산·적용형이 대부분입니다.</li>
+<li><b>시각·실험팀 (리안·하늘·소율·채원)</b>: 브라우저(Playwright·Chromium, 포트 8105): 책의 tests/browser.cjs로 1280·390·320px에서 표지·전체 목차·참고 자료와 12개 장(화면 42개)을 열어 가로 넘침 없음, 머리말 서가 복귀 버튼 보임, 장마다 그림 1개, 실험 16개의 예제·입력 최솟값·최댓값·초기화(48회)에서 NaN·undefined 없음과 초기화 후 원래 결과 복귀를 확인했습니다. 별도 스크립트로 320px의 15개 경로에서 이름 없는 SVG·입력 0개, 서가 복귀 버튼 66×36px로 화면 안, 콘솔 오류 0건, Tab 키로 실험 단추까지 초점 이동을 확인했습니다. 수정 뒤 다시 돌려 같은 결과를 얻었습니다.</li>
+<li><b>규칙 감사관 (현석)</b>: npm test(node --test tests/*.test.cjs) 25개 통과, python3 scripts/validate.py “116 HTML files checked; 0 errors”, build_catalog.py --check “Catalog HTML is current”. 고친 파일이 있어 index.html의 책 js/css ?v=를 모두 20261012-edit로 올렸습니다(공통 type.css 버전은 그대로).</li>
+</ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul>
+<li>#memory 깊이 읽기의 FlashAttention 배수(“A100에서 2배”, “3배”)는 무엇과 비교한 배수인지 밝히지 않았습니다. 원본 기준 표기지만 비교 대상을 적을지 판단이 필요합니다.</li>
+<li>책 폴더 밖 변경은 필요하지 않습니다.</li>
+</ul>
+<h3>후속 처리 (2026-10-12)</h3>
+<ul>
+<li>9장(#memory) 깊이 읽기의 FlashAttention 배수를 각 논문 초록의 비교 기준으로 바꾸었습니다. Flash 1은 GPT-2(문맥 1K) 학습이 기존 기준 구현보다 3배(arXiv 2205.14135), Flash 2는 FlashAttention-1보다 약 2배(arXiv 2307.08691)입니다(확인일 2026-10-12, 두 초록 직접 확인). 원본의 “A100에서 2배”, “3배”는 비교 대상이 밝혀지지 않아 지웠습니다.</li>
+<li>남긴 것: 표준 PyTorch 어텐션과 직접 비교한 커널 배율은 GPU·문맥 길이·헤드 크기에 따라 크게 달라 한 숫자로 옮기지 않았고, 본문에도 그렇게 적었습니다. Flash 3·4의 성능 수치는 원래도 적혀 있지 않습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>외부 URL은 열지 않았고 논문은 알려진 서지로만 대조했습니다. Medusa·EAGLE·Lookahead 배수, FlashAttention 버전별 배수, SwiGLU 퍼플렉서티 0.5 같은 원본 성능 수치는 독립 측정과 대조하지 않았습니다. 학습 효과는 사람 검토가 필요해 확인하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-transformer)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer)" data-date="2026-10-08" data-scope="12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 그림 캡션, 용어집, 출처 56개(검수 때 1개 추가)와 다른 책 링크 15개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-transformer). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-transformer). 범위: 12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 그림 캡션, 용어집, 출처 56개와 다른 책 링크 15개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>4건 수정</td><td>장마다 모델 이름·크기·연도·비율을 원본 레슨 en.md 16개와 대조하고, 원본이 의심스러운 곳은 논문 초록(ModernBERT, Sardana·Frankle, Pearce·Song)으로 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>formula·formulaNote·details·확인 문제·그림 캡션·안내 상자의 숫자 약 60개를 js/math.js를 node로 따로 불러 다시 계산(예: 1,024토큰 10단계·1,048,576칸, d_k 64 최대 가중치 0.893/0.401, 6.57B, KV 10.74·343.6·7.44GB, α 0.75·초안 5에서 3.288토큰·2.19배, 설계 GQA 10.13GB·추측 디코딩 1.821배)</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>각 함수가 설명한 식과 같은지 코드로 읽고, 경계값(타일 1, RoPE 이동 0·100, 14×14 패치, 나누어떨어지지 않는 헤드 수, α=1)을 대조. Chinchilla 최적 비율을 10¹⁹~10²⁶에서 다시 풀어 31.8→152로 커짐을 확인</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>한영 대응(셀프 어텐션, 잔차 연결, 인과 마스크, 교차 어텐션, 전문가 혼합, 추측 디코딩, 과잉 학습)을 표준 용례와 대조하고 책 안에서 일관된지 확인</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>1건 수정(출처 추가)</td><td>원본 레슨 폴더 16개는 로컬 사본의 경로로 존재 확인, arXiv 번호 36개를 제목과 대조, 장마다 source 번호가 그 장 내용과 맞는지 확인, 다른 책 링크 15개의 도착 장 ID와 제목을 그 책 content.js에서 확인, MIT 크레딧이 참고 자료 첫 항목과 꼬리말에 있음을 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#scaling 본문 (js/content.js)</td><td>“N은 임베딩을 뺀 파라미터 수”라고 썼지만, 이 장의 Chinchilla 식은 임베딩을 포함한 전체 파라미터로 적합했습니다. 임베딩 제외는 Kaplan의 셈법입니다(원본 레슨의 같은 오류를 옮김).</td><td>Pearce·Song (2024) arXiv 2406.12907 초록: Kaplan이 전체가 아닌 비임베딩 파라미터를 센 것이 두 법칙 차이의 주된 원인</td><td>두 셈법의 차이를 밝히는 문장으로 고치고 출처 56번(Pearce·Song 2024)을 추가해 #scaling의 더 읽어 보기에 연결</td></tr>
+<tr><td>#scaling 깊이 읽기 “왜 일부러 과잉 학습하나”</td><td>파라미터당 100~500토큰이라는 범위를 Sardana·Frankle(2024)의 분석 결과로 돌렸지만, 그 논문은 이 범위를 제시하지 않습니다. 원본은 이 범위를 존재가 확인되지 않는 “DeepMind 2024” 논문에 돌렸습니다.</td><td>arXiv 2401.00448 초록: 약 10억 요청 수준의 수요라면 Chinchilla보다 작고 오래 학습해야 하며, 최대 10,000 토큰/파라미터까지 실험</td><td>100~500은 원본의 어림으로, 논문의 결론은 초록 내용대로 나눠 적음</td></tr>
+<tr><td>#bertgpt 깊이 읽기 “BERT의 학습과 쓰임”</td><td>ModernBERT가 사전 RMSNorm을 쓴다고 했지만 실제로는 편향 없는 표준 LayerNorm을 사전 정규화로 씁니다(원본 표의 오류).</td><td>Warner 등 (2024) arXiv 2412.13663 본문: “pre-normalization block … with the standard layer normalization”</td><td>“편향 없는 사전 LayerNorm”으로 고침</td></tr>
+<tr><td>#position 깊이 읽기 “RoPE 문맥 늘리기”</td><td>8K에서 128K로 문맥을 늘린 모델을 Llama 3로 적었습니다. 128K는 Llama 3.1부터입니다(원본 레슨의 다른 줄도 “Llama 3.1 128K”로 적음).</td><td>원본 레슨 04 en.md 71·150행, Meta Llama 3.1 공개 내용</td><td>“Llama 3.1”로 고침</td></tr>
+<tr><td>#block 깊이 읽기, #final 깊이 읽기</td><td>perplexity를 “혼잡도”로 옮겼습니다. 혼잡도는 congestion의 뜻이라 표준 번역어가 아닙니다.</td><td>국내 NLP 문헌의 관용 표기(퍼플렉서티)</td><td>두 곳 모두 “퍼플렉서티”로 고침</td></tr>
+</tbody></table>
+<h3>Chinchilla 비율 20에 대한 확인</h3>
+<p>집필자 설명대로 본문은 파라미터당 약 20토큰을 “흔히 말하는 계산 최적 비율”이자 도란의 기준선으로 소개하고, 원본이 인용한 적합 상수(A 406.4, B 410.7, α 0.34, β 0.28, E 1.69, Hoffmann 2022 식 10과 같음)로 직접 풀면 비율이 20에 고정되지 않는다고 밝힙니다. 따로 다시 풀어 보니 최적 비율은 C = 10¹⁹에서 약 32, 10²³에서 약 78, 10²⁶에서 약 152로, 본문의 “30에서 100 이상”과 안내 상자의 “10²³에서 약 78, 손실 약 2.005”가 맞습니다. 원본 레슨이 이 상수에서 비율 20이 나온다고 유도한 부분(N_opt ≈ D_opt ≈ 0.6·(C/6)^0.5)은 자기모순이며, 책은 이를 옮기지 않았습니다. 다만 공개된 상수가 반올림된 값이고, 이 상수의 적합 자체에 대한 재현 논쟁(Besiroglu 등 2024)이 있다는 점은 본문에 쓰지 않았습니다. 오류는 아니라 보류로 둡니다.</p>
+<h3>보류</h3>
+<ul>
+<li>#block “원본은 d = 4096, 32층에서 블록 파라미터만으로 약 7B”: 책의 12d² 어림으로는 블록만 약 6.44B(임베딩 포함 6.57B)입니다. 실제 Llama 3 8B의 비임베딩 파라미터는 7B 근처라 “약 7B (Llama 3 8B 근처)”가 틀렸다고 보기는 어려워 고치지 않았습니다.</li>
+<li>#why “2026년의 여러 연구실이 SSM 혼합 모델을 학습한다”, #moe “상위 공개 모델 다수가 MoE”, #memory Flash 4 내용, #scaling “2026년에 곡선을 옮기는 요인”: 원본 커리큘럼 기준(확인일 2026-10-08) 표시가 붙어 있고, 독립 출처로는 확인하지 않았습니다.</li>
+</ul>
+<h3>원문 복제 표본 확인</h3>
+<p>레슨 01·05·13·16의 en.md와 해당 장을 나란히 비교했습니다. 숫자 예(30ms·3ms, 1,875, 5~10배)와 표의 항목은 같지만 문장은 한국어로 새로 쓰였고, 원문을 그대로 옮긴 긴 구간은 찾지 못했습니다.</p>
+<h3>테스트</h3>
+<p>수정 뒤 <code>npm test --prefix books/aie-transformer</code> 25개 통과, <code>tests/browser.cjs</code> 통과(화면 42개·실험 확인 48회, 오류 0).</p>
+<h3>확인하지 못한 것</h3>
+<p>논문은 초록과 공개 HTML의 해당 문단만 확인했고 전문을 읽지 않았습니다. Medusa·EAGLE·Lookahead 배수, FlashAttention 버전별 배수, Whisper turbo 8배, PagedAttention 처리량 같은 원본 레슨의 성능 수치는 독립 측정과 대조하지 않았습니다. 외부 URL은 arXiv 번호와 제목만 대조했고 jalammar·harvard NLP 페이지는 열어 보지 않았습니다. 실제 브라우저에서 사람이 눈으로 보는 확인은 하지 않았습니다.</p>
+</section>
+</main></body></html>

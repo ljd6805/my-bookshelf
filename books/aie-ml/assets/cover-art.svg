@@ -1,0 +1,12 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="작은 온라인 서점의 결제 기록이 점으로 흩어지고, 그 사이에 그은 경계선 너머의 사기 결제에 경보가 붙는 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="16" y="26" width="70" height="92" rx="6"/><path class="cv-hair" d="M26 46H76M26 60H76M26 74H70M26 88H76M26 102H64"/><text class="cv-text cv-muted" x="51" y="136" text-anchor="middle">결제 1,000건</text>
+<path class="cv-bus" d="M90 72H112"/>
+<rect class="cv-node" x="116" y="20" width="118" height="104" rx="6"/>
+<circle class="cv-hair" cx="134" cy="98" r="4"/><circle class="cv-hair" cx="146" cy="84" r="4"/><circle class="cv-hair" cx="158" cy="104" r="4"/><circle class="cv-hair" cx="140" cy="62" r="4"/><circle class="cv-hair" cx="166" cy="78" r="4"/><circle class="cv-hair" cx="152" cy="46" r="4"/><circle class="cv-hair" cx="178" cy="98" r="4"/>
+<rect class="cv-node" x="198" y="36" width="9" height="9"/><rect class="cv-node" x="214" y="56" width="9" height="9"/><rect class="cv-node" x="206" y="76" width="9" height="9"/>
+<path class="cv-bus" d="M170 22L200 122"/>
+<path class="cv-bus" d="M238 72H256"/>
+<path class="cv-node" d="M268 74C268 54 296 54 296 74V88H268Z"/><path class="cv-hair" d="M262 92H302M282 48V54"/>
+<text class="cv-big" x="282" y="124" text-anchor="middle">3%</text>
+<text class="cv-text cv-muted" x="175" y="140" text-anchor="middle">경계를 데이터에서 배운다</text>
+</svg>

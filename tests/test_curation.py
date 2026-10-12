@@ -28,6 +28,20 @@ class CurationTests(unittest.TestCase):
         self.assertIn('약 20분 · 2단계', html)
         self.assertIn('href="books/b/#two"', html)
 
+    def test_paths_group_under_the_field_with_most_stops_and_share_one_field_bar(self):
+        from scripts.curation_renderer import path_fields
+        books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='AI 공학')]
+        catalog = {'books': books, 'chapter_index': dict(INDEX, **{'books/b/#three': '03 · 셋'}),
+                   'learning_paths': [path(('a', 'books/a/#one'), ('b', 'books/b/#two'), ('b', 'books/b/#three'))],
+                   'concepts': []}
+        self.assertEqual(path_fields(catalog['learning_paths'][0], catalog), (['수학', 'AI 공학'], 'AI 공학'))
+        html = render_curation(catalog)
+        self.assertIn('class="route-group" role="presentation" data-field="AI 공학"', html)
+        self.assertIn('data-fields="수학|AI 공학"', html)  # spaces stay inside one field name
+        self.assertNotIn('data-field="수학"><p', html)
+        self.assertIn('<button type="button" data-field="수학"', html)
+        self.assertEqual(html.count('class="field-bar"'), 1)
+
     def test_unknown_or_mismatched_chapter_fails_the_build(self):
         for steps in [[('a', 'books/a/#missing')], [('b', 'books/a/#one')]]:
             with self.subTest(steps=steps), self.assertRaises(ValueError):
@@ -50,18 +64,74 @@ class CurationTests(unittest.TestCase):
 
 
 
+class SeriesTests(unittest.TestCase):
+    def catalog(self, volumes):
+        books = [dict(BOOKS[0], status='published', color='aqua', cover_meta='3장 · 2개 실험', spine_category='수학'),
+                 dict(BOOKS[1], status='published', color='rose', spine_category='AI 공학')]
+        return {'books': books, 'chapter_index': INDEX, 'learning_paths': [path(('a', 'books/a/#one'))],
+                'concepts': [], 'series': [{'id': 's', 'title': '시리즈', 'summary': '요약', 'volumes': volumes}]}
+
+    def test_series_links_published_volumes_in_order_and_shows_later_ones(self):
+        html = render_curation(self.catalog([
+            {'number': 1, 'title': '첫 권', 'book_id': 'a', 'next_why': '다음으로'},
+            {'number': 2, 'title': '둘째 권', 'book_id': 'b'},
+            {'number': 3, 'title': '셋째 권', 'status': 'writing'}]))
+        self.assertIn('출간 2 / 3권', html)
+        self.assertLess(html.index('href="books/a/"'), html.index('href="books/b/"'))
+        self.assertIn('data-fields="수학|AI 공학"', html)
+        self.assertIn('class="vol is-later"', html)
+        self.assertIn('집필 중', html)
+        self.assertIn('1권부터 읽기', html)
+
+    def test_unknown_book_or_out_of_order_volumes_fail_the_build(self):
+        for volumes in [[{'number': 1, 'title': 'x', 'book_id': 'nope'}],
+                        [{'number': 2, 'title': 'x', 'book_id': 'a'}, {'number': 1, 'title': 'y', 'book_id': 'b'}],
+                        [{'number': 1, 'title': 'x', 'status': 'someday'}]]:
+            with self.subTest(volumes=volumes), self.assertRaises(ValueError):
+                render_curation(self.catalog(volumes))
+
+
 class AtlasLayoutTests(unittest.TestCase):
-    def test_real_concept_labels_do_not_overlap_and_stay_on_the_map(self):
-        from scripts.atlas_renderer import layout, WIDTH, HEIGHT
+    def test_payload_carries_every_real_concept_with_its_chapters(self):
+        from scripts.atlas_renderer import atlas_payload
         catalog = json.loads((ROOT / 'data/catalog.json').read_text())
-        nodes, _ = layout(catalog['concepts'], catalog['books'])
-        for i, a in enumerate(nodes):
-            self.assertTrue(a['w'] / 2 <= a['x'] <= WIDTH - a['w'] / 2, a['id'])
-            self.assertTrue(0 < a['y'] < HEIGHT, a['id'])
-            for b in nodes[i + 1:]:
-                apart = (abs(a['x'] - b['x']) >= (a['w'] + b['w']) / 2
-                         or abs(a['y'] - b['y']) >= (a['h'] + b['h']) / 2)
-                self.assertTrue(apart, f"{a['id']} overlaps {b['id']}")
+        data = atlas_payload(catalog['concepts'], catalog)
+        ids = {b['id'] for b in data['books']}
+        self.assertEqual([c['id'] for c in data['concepts']], [c['id'] for c in catalog['concepts']])
+        for concept, source in zip(data['concepts'], catalog['concepts']):
+            self.assertEqual(len(concept['chapters']), len(source['chapters']))
+            for chapter in concept['chapters']:
+                self.assertIn(chapter['book'], ids)
+                self.assertEqual(chapter['title'], catalog['chapter_index'][chapter['url']])
+        self.assertEqual({b['field'] for b in data['books']}, {f['name'] for f in data['fields']})
+
+    def test_list_groups_concepts_under_their_home_field_in_shelf_order(self):
+        from scripts.atlas_renderer import concept_fields, render_atlas_list
+        books = [dict(BOOKS[0], spine_category='수학'), dict(BOOKS[1], spine_category='컴퓨터'),
+                 {'id': 'c', 'title': '책 C', 'url': 'books/c/', 'spine_category': '수학'}]
+        concepts = [{'id': 'x', 'name': 'X', 'chapters': ['books/b/#1', 'books/b/#2', 'books/a/#1']},
+                    {'id': 'y', 'name': 'Y', 'chapters': ['books/a/#1', 'books/c/#1']}]
+        self.assertEqual(concept_fields(concepts[0], books), (['수학', '컴퓨터'], '컴퓨터'))
+        html = render_atlas_list(concepts, books, lambda c: f'<i>{c["id"]}</i>')
+        self.assertLess(html.index('data-field="수학"'), html.index('data-field="컴퓨터"'))
+        self.assertLess(html.index('<i>y</i>'), html.index('<i>x</i>'))
+        self.assertIn('data-fields="수학|컴퓨터"', html)
+
+    def test_thirty_books_and_sixty_concepts_render_without_layout_limits(self):
+        books = [{'id': f'b{i}', 'title': f'책 {i}', 'url': f'books/b{i}/', 'spine_category': f'분야 {i // 6}'}
+                 for i in range(30)]
+        index = {f'books/b{i}/#c': f'01 · 장 {i} </script>' for i in range(30)}
+        concepts = [{'id': f'k{n}', 'name': f'개념 {n}', 'summary': '요약',
+                     'chapters': [f'books/b{n % 30}/#c', f'books/b{(n * 7 + 3) % 30}/#c']}
+                    for n in range(60) if n % 30 != (n * 7 + 3) % 30]
+        html = render_curation({'books': books, 'chapter_index': index, 'learning_paths': [],
+                                'concepts': concepts})
+        self.assertEqual(html.count('class="atlas-item"'), len(concepts))
+        raw = html.split('data-atlas-data>', 1)[1].split('</script>', 1)[0]
+        data = json.loads(raw)
+        self.assertEqual(len(data['books']), 30)
+        self.assertEqual(len(data['fields']), 5)
+        self.assertNotIn('</', raw)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,40 @@
+<svg class="a07-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="부엌에서 들어온 말소리 파형이 점으로 찍히고, 멜 스펙트로그램 칸이 왼쪽부터 차례로 밝아진 뒤, 오른쪽 스피커에서 대답 파형이 퍼져 나가는 그림. 실제 계산이 아닌 시각적 비유입니다.">
+<style>
+.a07-ill-bg{fill:#f6f1ea}
+.a07-ill-label{font:700 12px sans-serif;fill:#3b2a25;text-anchor:middle}
+.a07-ill-small{font:11px sans-serif;fill:#6a5650;text-anchor:middle}
+.a07-ill-wave{fill:none;stroke:#9a6b5e;stroke-width:2;stroke-dasharray:4 4;animation:a07-ill-scroll 1.2s linear infinite}
+.a07-ill-dot{fill:#c8553d;animation:a07-ill-blink 3.6s ease-in-out infinite}
+.a07-ill-cell{fill:#e0805f;opacity:.12;animation:a07-ill-col 3.6s ease-in-out infinite}
+.a07-ill-frame{fill:#fffaf3;stroke:#7a5a50;stroke-width:1.5}
+.a07-ill-ring{fill:none;stroke:#3f7a8a;stroke-width:2.5;opacity:0;animation:a07-ill-ring 3.6s ease-out infinite}
+.a07-ill-spk{fill:#fffaf3;stroke:#3f7a8a;stroke-width:2}
+@keyframes a07-ill-scroll{to{stroke-dashoffset:-16}}
+@keyframes a07-ill-blink{0%,100%{opacity:.25}20%,40%{opacity:1}}
+@keyframes a07-ill-col{0%,10%{opacity:.12}25%,60%{opacity:.95}80%,100%{opacity:.12}}
+@keyframes a07-ill-ring{0%,55%{opacity:0;transform:scale(.6)}70%{opacity:1}100%{opacity:0;transform:scale(1.15)}}
+.a07-ill-c1{animation-delay:.3s}.a07-ill-c2{animation-delay:.6s}.a07-ill-c3{animation-delay:.9s}.a07-ill-c4{animation-delay:1.2s}.a07-ill-c5{animation-delay:1.5s}
+.a07-ill-r2{animation-delay:.4s}.a07-ill-r3{animation-delay:.8s}
+.a07-ill-ring{transform-box:fill-box;transform-origin:left center}
+html[data-motion=reduce] .a07-ill-wave,html[data-motion=reduce] .a07-ill-dot,html[data-motion=reduce] .a07-ill-cell,html[data-motion=reduce] .a07-ill-ring{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.a07-ill-wave,.a07-ill-dot,.a07-ill-cell,.a07-ill-ring{animation:none;opacity:1}}
+</style>
+<rect class="a07-ill-bg" width="340" height="180"/>
+<text class="a07-ill-label" x="170" y="22">“솔아, 타이머 오 분”을 듣고 대답하기</text>
+<path class="a07-ill-wave" d="M14 92c6-24 10-24 14 0s8 24 12 0 8-34 12 0 8 34 12 0 6-16 10 0 6 16 10 0"/>
+<circle class="a07-ill-dot" cx="20" cy="80" r="3.5"/><circle class="a07-ill-dot a07-ill-c1" cx="34" cy="100" r="3.5"/><circle class="a07-ill-dot a07-ill-c2" cx="48" cy="72" r="3.5"/><circle class="a07-ill-dot a07-ill-c3" cx="62" cy="110" r="3.5"/><circle class="a07-ill-dot a07-ill-c4" cx="76" cy="86" r="3.5"/><circle class="a07-ill-dot a07-ill-c5" cx="90" cy="98" r="3.5"/>
+<text class="a07-ill-small" x="56" y="146">파형 · 16 kHz</text>
+<rect class="a07-ill-frame" x="118" y="48" width="104" height="84" rx="4"/>
+<g>
+<rect class="a07-ill-cell" x="124" y="54" width="14" height="22"/><rect class="a07-ill-cell" x="124" y="80" width="14" height="22"/><rect class="a07-ill-cell" x="124" y="106" width="14" height="20"/>
+<rect class="a07-ill-cell a07-ill-c1" x="140" y="54" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c1" x="140" y="80" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c1" x="140" y="106" width="14" height="20"/>
+<rect class="a07-ill-cell a07-ill-c2" x="156" y="54" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c2" x="156" y="80" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c2" x="156" y="106" width="14" height="20"/>
+<rect class="a07-ill-cell a07-ill-c3" x="172" y="54" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c3" x="172" y="80" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c3" x="172" y="106" width="14" height="20"/>
+<rect class="a07-ill-cell a07-ill-c4" x="188" y="54" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c4" x="188" y="80" width="14" height="22"/><rect class="a07-ill-cell a07-ill-c4" x="188" y="106" width="14" height="20"/>
+<rect class="a07-ill-cell a07-ill-c5" x="204" y="54" width="12" height="22"/><rect class="a07-ill-cell a07-ill-c5" x="204" y="80" width="12" height="22"/><rect class="a07-ill-cell a07-ill-c5" x="204" y="106" width="12" height="20"/>
+</g>
+<text class="a07-ill-small" x="170" y="146">멜 스펙트로그램</text>
+<rect class="a07-ill-spk" x="244" y="74" width="20" height="32" rx="3"/><path class="a07-ill-spk" d="M264 80l14-12v44l-14-12z"/>
+<path class="a07-ill-ring" d="M288 76c8 6 8 22 0 28"/><path class="a07-ill-ring a07-ill-r2" d="M298 68c12 10 12 34 0 44"/><path class="a07-ill-ring a07-ill-r3" d="M308 60c16 14 16 46 0 60"/>
+<text class="a07-ill-small" x="284" y="146">대답 · 솔이</text>
+</svg>

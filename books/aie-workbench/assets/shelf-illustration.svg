@@ -1,0 +1,29 @@
+<svg class="a01-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="코드·라이브러리·CUDA 층을 담은 상자 하나가 노트북, GPU 상자, 팀원의 컴퓨터로 차례로 옮겨 가고 도착할 때마다 점검 표시가 켜지는 그림. 실제 계산이 아닌 시각적 비유입니다.">
+<style>
+.a01-ill-bg{fill:#f4f2ea}
+.a01-ill-host{fill:#fffdf6;stroke:#5c7a4a;stroke-width:2}
+.a01-ill-label{font:700 12px sans-serif;fill:#2f3d27;text-anchor:middle}
+.a01-ill-small{font:11px sans-serif;fill:#5b6655;text-anchor:middle}
+.a01-ill-rail{stroke:#c5ccb8;stroke-width:3;fill:none;stroke-dasharray:4 5}
+.a01-ill-pack{animation:a01-ill-move 6s ease-in-out infinite}
+.a01-ill-layer{stroke:#fffdf6;stroke-width:1}
+.a01-ill-check{fill:none;stroke:#3f7d2a;stroke-width:3;stroke-linecap:round;opacity:.15;animation:a01-ill-ok 6s linear infinite}
+.a01-ill-c2{animation-delay:2s}.a01-ill-c3{animation-delay:4s}
+@keyframes a01-ill-move{0%,12%{transform:translate(0,0)}30%,45%{transform:translate(115px,0)}63%,80%{transform:translate(230px,0)}100%{transform:translate(0,0)}}
+@keyframes a01-ill-ok{0%,8%{opacity:.15}14%,30%{opacity:1}36%,100%{opacity:.15}}
+html[data-motion=reduce] .a01-ill-pack,html[data-motion=reduce] .a01-ill-check{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.a01-ill-pack,.a01-ill-check{animation:none;opacity:1}}
+</style>
+<rect class="a01-ill-bg" width="340" height="180"/>
+<text class="a01-ill-label" x="170" y="22">review-lab을 어디서나 같은 상자로</text>
+<path class="a01-ill-rail" d="M55 92H285"/>
+<rect class="a01-ill-host" x="15" y="110" width="80" height="44" rx="6"/><text class="a01-ill-label" x="55" y="136">노트북</text>
+<rect class="a01-ill-host" x="130" y="110" width="80" height="44" rx="6"/><text class="a01-ill-label" x="170" y="136">GPU 상자</text>
+<rect class="a01-ill-host" x="245" y="110" width="80" height="44" rx="6"/><text class="a01-ill-label" x="285" y="136">팀원</text>
+<path class="a01-ill-check" d="M44 168l7 6 13-12"/><path class="a01-ill-check a01-ill-c2" d="M159 168l7 6 13-12"/><path class="a01-ill-check a01-ill-c3" d="M274 168l7 6 13-12"/>
+<g class="a01-ill-pack">
+<rect class="a01-ill-layer" x="25" y="40" width="60" height="16" rx="2" fill="#d98b3a"/><text class="a01-ill-small" x="55" y="52">코드</text>
+<rect class="a01-ill-layer" x="25" y="56" width="60" height="16" rx="2" fill="#6f9a52"/><text class="a01-ill-small" x="55" y="68">라이브러리</text>
+<rect class="a01-ill-layer" x="25" y="72" width="60" height="16" rx="2" fill="#8fb3c9"/><text class="a01-ill-small" x="55" y="84">CUDA</text>
+</g>
+</svg>

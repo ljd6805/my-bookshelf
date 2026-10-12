@@ -48,7 +48,7 @@ F.journey=()=>{
  return {svg:svg('가중치는 처음 한 번 PCIe로 VRAM에 옮기고, 토큰마다 VRAM에서 다시 읽으며, 작은 토큰 ID만 CPU로 돌아가는 그림',b),caption:'큰 가중치는 처음 한 번 PCIe를 건너 VRAM에 자리를 잡습니다. 그 뒤로는 토큰마다 GPU 안에서 다시 읽고, 매번 CPU로 돌아가는 것은 작은 토큰 ID뿐입니다(단순화한 시나리오).'};
 };
 F.hierarchy=()=>{
- const L=[['VRAM (HBM·GDDR)','수십 GB · GPU 전체','var(--blue)',470],['L2 캐시','수십 MB · GPU 전체가 공유','var(--blue)',420],['L1 · shared memory','SM마다 수백 KB 이하','var(--accent)',340],['레지스터','스레드가 바로 쓰는 칸','var(--accent)',270],['Tensor Core','곱하고 누적하는 연산 유닛','var(--orange)',210]];let b='';
+ const L=[['VRAM (HBM·GDDR)','수 GB~수백 GB · GPU 전체','var(--blue)',470],['L2 캐시','수 MB~수십 MB · GPU 전체가 공유','var(--blue)',420],['L1 · shared memory','SM마다 수백 KB 이하','var(--accent)',340],['레지스터','스레드가 바로 쓰는 칸','var(--accent)',270],['Tensor Core','곱하고 누적하는 연산 유닛','var(--orange)',210]];let b='';
  L.forEach(([a,s,c,w],i)=>{const x=320-w/2,y=14+i*54;b+=box(x,y,w,44,c,'var(--panel2)',6)+t(320,y+20,a,{w:700,size:15})+t(320,y+38,s,{size:12,fill:'var(--muted)'});});
  b+=`<rect class="fig-pkt fig-down" style="--dx:0px;--dy:216px" x="${320+95}" y="22" width="18" height="18" rx="3" fill="var(--orange)"/>`;
  b+=blink(`<circle cx="${320+80}" cy="250" r="7" fill="var(--orange)"/>`,1.6)+blink(`<circle cx="${320+80}" cy="250" r="12" fill="none" stroke="var(--orange)" stroke-width="2"/>`,2);

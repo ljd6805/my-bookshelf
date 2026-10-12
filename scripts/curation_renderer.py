@@ -5,11 +5,13 @@ its chapters. Every link here must be a chapter listed in chapter_index so a ren
 moved chapter fails the build instead of leaving a dead link on the shelf.
 """
 if __package__:
+    from .series_renderer import render_series
     from .shelf_renderer import esc, safe_book_url
-    from .atlas_renderer import render_atlas_svg, owner_of, short_name
+    from .atlas_renderer import atlas_payload, payload_script, render_atlas_list, book_picker, owner_of, short_name, field_of
 else:
+    from series_renderer import render_series
     from shelf_renderer import esc, safe_book_url
-    from atlas_renderer import render_atlas_svg, owner_of, short_name
+    from atlas_renderer import atlas_payload, payload_script, render_atlas_list, book_picker, owner_of, short_name, field_of
 
 
 def book_lookup(catalog):
@@ -63,19 +65,59 @@ def stop(path, n, step, catalog):
             f'<div><dt>남길 기록</dt><dd>{esc(step["record"])}</dd></div></dl></section>')
 
 
+def book_field(book_id, catalog):
+    return next(field_of(b) for b in catalog['books'] if b['id'] == book_id)
+
+
+def path_fields(path, catalog):
+    """Fields a path passes through, and its home: the field with most stops (later wins ties)."""
+    steps = [book_field(s['book_id'], catalog) for s in path['steps']]
+    home = path.get('category') or max(reversed(steps), key=steps.count)
+    return list(dict.fromkeys(steps)), home
+
+
+def shelf_fields(catalog):
+    """Fields in shelf order, only those that curation actually reaches."""
+    used = {s['book_id'] for p in catalog.get('learning_paths', []) for s in p['steps']}
+    for concept in catalog.get('concepts', []):
+        used.update(owner_of(url, catalog['books']) for url in concept['chapters'])
+    return list(dict.fromkeys(field_of(b) for b in catalog['books'] if b['id'] in used))
+
+
+def pick(path, first, catalog):
+    minutes = sum(int(s['minutes']) for s in path['steps'])
+    dots = ''.join(f'<i class="tone-{esc(tone_of(bid, catalog))}"></i>'
+                   for bid in dict.fromkeys(s['book_id'] for s in path['steps']))
+    fields = path_fields(path, catalog)[0]
+    return (f'<a class="route-pick" role="tab" id="tab-{esc(path["id"])}" href="#path-{esc(path["id"])}" '
+            f'aria-controls="path-{esc(path["id"])}" aria-selected="{str(first).lower()}" '
+            f'data-fields="{esc("|".join(fields))}">'
+            f'<span class="pick-meta"><span class="pick-dots" aria-hidden="true">{dots}</span>'
+            f'{len(path["steps"])}개 장 · 약 {minutes}분</span>'
+            f'<span class="pick-title">{esc(path["title"])}</span></a>')
+
+
 def picker(paths, catalog):
-    tabs = []
-    for i, path in enumerate(paths):
-        minutes = sum(int(s['minutes']) for s in path['steps'])
-        dots = ''.join(f'<i class="tone-{esc(tone_of(bid, catalog))}"></i>'
-                       for bid in dict.fromkeys(s['book_id'] for s in path['steps']))
-        tabs.append(f'<a class="route-pick" role="tab" id="tab-{esc(path["id"])}" href="#path-{esc(path["id"])}" '
-                    f'aria-controls="path-{esc(path["id"])}" aria-selected="{str(i == 0).lower()}">'
-                    f'<span class="pick-meta"><span class="pick-dots" aria-hidden="true">{dots}</span>'
-                    f'{len(path["steps"])}개 장 · 약 {minutes}분</span>'
-                    f'<span class="pick-title">{esc(path["title"])}</span></a>')
+    """Question cards grouped under the field each path mostly stays in."""
+    groups, first = [], None
+    for field in shelf_fields(catalog):
+        members = [p for p in paths if path_fields(p, catalog)[1] == field]
+        if members:
+            first = first or members[0]
+            tabs = ''.join(pick(p, p is first, catalog) for p in members)
+            groups.append(f'<div class="route-group" role="presentation" data-field="{esc(field)}">'
+                          f'<p class="route-group-name" role="presentation">{esc(field)} <small>{len(members)}개 노선</small></p>'
+                          f'<div class="route-group-picks" role="presentation">{tabs}</div></div>')
     return ('<div class="route-picker" role="tablist" aria-label="질문으로 읽기 경로 고르기">'
-            + ''.join(tabs) + '</div>')
+            + ''.join(groups) + '</div>')
+
+
+def field_bar(catalog):
+    buttons = ''.join(f'<button type="button" data-field="{esc(f)}" aria-pressed="false">{esc(f)}</button>'
+                      for f in shelf_fields(catalog))
+    return ('<div class="field-bar" role="group" aria-label="분야로 노선과 개념 거르기">'
+            '<span class="field-bar-label">분야</span>'
+            '<button type="button" data-field="" aria-pressed="true">모든 분야</button>' + buttons + '</div>')
 
 
 def render_path(path, catalog):
@@ -118,17 +160,19 @@ def render_concept(concept, catalog):
 def render_atlas(concepts, catalog):
     if not concepts:
         return ''
-    cards = ''.join(render_concept(c, catalog) for c in concepts)
-    legend = ''.join(f'<li><i class="tone-{esc(b.get("color", "aqua"))}"></i>{esc(short_name(b))}</li>'
-                     for b in catalog['books'])
+    cards = render_atlas_list(concepts, catalog['books'], lambda c: render_concept(c, catalog))
     return ('<div class="concept-atlas" data-atlas><div class="atlas-head">'
-            '<p class="curation-eyebrow">지식 지도</p><h3 id="concept-title">책과 책이 만나는 개념</h3>'
-            '<p id="atlas-help">같은 개념이 책마다 다른 사례로 나옵니다. 가운데 개념을 고르면 '
-            '그 개념이 지나가는 책이 선으로 밝아지고, 옆에 만나는 장이 펼쳐집니다. 책등을 누르면 그 책으로 갑니다.</p></div>'
-            f'<div class="atlas-body"><figure class="atlas-figure">{render_atlas_svg(concepts, catalog["books"])}'
-            f'<figcaption><ul class="atlas-legend" aria-label="선 색이 뜻하는 책">{legend}</ul>'
-            '선이 굵을수록 그 책에서 해당 개념을 다루는 장이 많습니다.</figcaption></figure>'
-            f'<div class="atlas-cards" aria-live="polite">{cards}</div></div></div>')
+            '<p class="curation-eyebrow">지식 지도</p><h3 id="concept-title">분야는 섬, 함께 쓰는 개념은 다리</h3>'
+            '<p id="atlas-help">분야마다 섬 하나를 그리고 그 분야의 책을 섬 위에 세웠습니다. 두 분야가 함께 쓰는 개념은 '
+            '섬 사이 다리가 되고, 다리가 굵을수록 함께 쓰는 개념이 많습니다. 섬이나 다리를 누르면 옆에 개념이 나오고, '
+            '책등을 누르거나 가운데 책을 고르면 그 책 하나를 가운데 두고 이어지는 개념과 책만 보여 줍니다.</p></div>'
+            '<div class="atlas-tools" data-atlas-tools hidden><div class="atlas-view" role="group" aria-label="지식 지도 보기 방식">'
+            '<button type="button" data-view="map" aria-pressed="true">지도</button>'
+            '<button type="button" data-view="list" aria-pressed="false">목록</button></div>'
+            f'{book_picker(catalog["books"])}</div>'
+            '<div class="atlas-stage" data-atlas-stage hidden><div class="atlas-canvas" data-atlas-canvas></div>'
+            '<aside class="atlas-panel" data-atlas-panel aria-live="polite" aria-label="고른 섬·다리·개념 설명"></aside></div>'
+            f'{cards}{payload_script(atlas_payload(concepts, catalog))}</div>')
 
 
 def render_curation(catalog):
@@ -144,8 +188,9 @@ def render_curation(catalog):
     return ('<div class="curation-intro"><p class="curation-eyebrow">서재의 큐레이션</p>'
             '<h2 id="curation-title">질문 하나로 여러 책을 건너는 읽기 노선</h2>'
             '<p>책 한 권을 처음부터 끝까지 읽지 않아도 됩니다. 궁금한 질문을 고르면 여러 책의 장을 '
-            '정거장처럼 이어 갑니다. 정거장마다 그 장으로 가는 이유와 남겨 둘 기록이 있습니다.</p></div>'
-            f'{explorer}{render_atlas(concepts, catalog)}')
+            '정거장처럼 이어 갑니다. 정거장마다 그 장으로 가는 이유와 남겨 둘 기록이 있습니다. '
+            '분야를 고르면 그 분야를 지나는 노선과 개념만 남습니다.</p></div>'
+            f'{field_bar(catalog)}{explorer}{render_series(catalog)}{render_atlas(concepts, catalog)}')
 
 
 def concept_terms(catalog):

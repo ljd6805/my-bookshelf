@@ -1,0 +1,22 @@
+{"book":{"id":"aie-14-tools","title":"도구와 프로토콜 · 함수 호출에서 MCP와 스킬까지","short_title":"도구와 프로토콜","spine_title":"도구와 MCP","spine_category":"AI공학","description":"팀 회의 노트 비서 하나를 함수 호출에서 MCP 서버, 게이트웨이, 스킬까지 키우며 인자 검사, 요청 검사 순서와 오류 코드, 캐시 범위, 되묻기 재시도 검증, 작업 상태와 두 시계, 서술자 고정, 토큰 검사, 트레이스, 스킬 목록 예산과 라우팅 평가를 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 13의 레슨 31개를 모두 재구성했습니다.","illustration_caption":"노트 비서의 요청 봉투가 검사 관문 일곱 개를 차례로 지나며 통과 표시를 켜고 도구 상자에 닿는 시각적 비유입니다.","keywords":["도구 호출","함수 호출","JSON Schema","MCP","Model Context Protocol","JSON-RPC","Streamable HTTP","cacheScope","MRTR","elicitation","Tasks","도구 중독","tool poisoning","OAuth","aud","게이트웨이","OpenTelemetry","Agent Skills","SKILL.md","라우팅 평가","A2A"],"chapters_featured":["#loop","#envelope","#mrtr","#poison","#skills"],"cover_meta":"12장 · 16개 실험"},
+ "chapter_index":{
+  "books/aie-tools/#loop":"01 · 모델이 행동을 부탁하는 네 단계",
+  "books/aie-tools/#schema":"02 · 모델이 헷갈리지 않는 도구 계약 쓰기",
+  "books/aie-tools/#envelope":"03 · 요청 한 통에 필요한 것을 모두 담기",
+  "books/aie-tools/#client":"04 · 여러 서버를 묶고 전송을 고르기",
+  "books/aie-tools/#context":"05 · 행동, 읽을거리, 틀을 나누기",
+  "books/aie-tools/#mrtr":"06 · 서버가 사람과 모델에게 되묻기",
+  "books/aie-tools/#tasks":"07 · 오래 걸리는 일과 끊긴 연결",
+  "books/aie-tools/#poison":"08 · 도구 설명과 공급망을 믿지 않기",
+  "books/aie-tools/#auth":"09 · 토큰은 누구를 위해 발급되었나",
+  "books/aie-tools/#gateway":"10 · 한 문 뒤의 서버들을 관찰하고 고르기",
+  "books/aie-tools/#skills":"11 · 절차를 스킬로 포장하기",
+  "books/aie-tools/#final":"마지막 · 노트 비서가 이상하게 굴던 날"},
+ "concepts":[
+  {"id":"control-loop","new":false,"chapters":["books/aie-tools/#loop","books/aie-tools/#tasks"]},
+  {"id":"base-rate-threshold","new":false,"chapters":["books/aie-tools/#skills"]},
+  {"id":"evaluation-uncertainty","new":false,"chapters":["books/aie-tools/#skills"]}],
+ "series_step":{"url":"books/aie-tools/#envelope","task":"MCP 요청 검사 순서 실험에서 ‘헤더와 본문 버전이 다르고 본문 버전도 미지원’을 HTTP와 stdio로 각각 보내고, 오류 코드가 -32020과 -32022로 갈리는 이유를 검사 순서로 설명한다.","minutes":15,"why":"모델이 앱 밖의 도구를 쓰려면 요청 한 통이 어떤 순서로 검사되는지 알아야 다음 권의 에이전트가 실패할 때 원인을 계약 단위로 나눌 수 있습니다.","record":"고른 결함과 전송 방식, 멈춘 검사 단계, HTTP 상태와 JSON-RPC 오류 코드"},
+ "incoming":[
+  {"from":"books/ai/#agents","label":"도구와 프로토콜 · 모델이 행동을 부탁하는 네 단계","url":"../aie-tools/#loop","why":"에이전트가 도구를 부르는 고리를 봤다면, 그 호출의 인자를 스키마로 검사하고 순차와 병렬 호출의 시간을 직접 계산해 봅니다."},
+  {"from":"books/rag/#context","label":"도구와 프로토콜 · 행동, 읽을거리, 틀을 나누기","url":"../aie-tools/#context","why":"검색한 문서를 문맥에 넣는 법을 익혔다면, MCP 자원으로 읽을거리를 내놓을 때 사용자마다 다른 내용을 캐시가 섞지 않게 하는 법을 확인합니다."}]}

@@ -1,0 +1,11 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="밤 10시부터 아침 6시까지 울타리 안에서 야간 에이전트 누리가 버그 수정, 공급 페이지 확인, 환불 처리로 일을 보내는 장면" xmlns="http://www.w3.org/2000/svg">
+<circle class="cv-stroke" cx="292" cy="22" r="10"/><path class="cv-fill" d="M292 12a10 10 0 0 0 0 20a7 7 0 0 1 0-20z"/>
+<text class="cv-text cv-muted" x="20" y="24">22:00 → 06:00</text>
+<rect class="cv-dash" x="14" y="36" width="292" height="104" rx="10"/>
+<rect class="cv-node" x="30" y="66" width="72" height="44" rx="8"/><text class="cv-big" x="66" y="96" text-anchor="middle">누리</text>
+<path class="cv-bus" d="M102 88H140M140 60V116M140 60H176M140 88H176M140 116H176"/>
+<rect class="cv-node" x="176" y="48" width="112" height="24" rx="5"/><text class="cv-text" x="232" y="65" text-anchor="middle">버그 수정</text>
+<rect class="cv-node" x="176" y="76" width="112" height="24" rx="5"/><text class="cv-text" x="232" y="93" text-anchor="middle">공급 페이지</text>
+<rect class="cv-node" x="176" y="104" width="112" height="24" rx="5"/><text class="cv-text" x="232" y="121" text-anchor="middle">환불 제안</text>
+<circle class="cv-dot" cx="140" cy="88" r="4"/>
+</svg>

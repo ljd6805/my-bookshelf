@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지의 팩트·출처 검수 기록입니다."><title>팩트·출처 검수 기록 · 컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html">책 개발 문서로 돌아가기</a> · <a href="../../../docs/03-verification.html#fact-review">검수 규칙</a></p>
+<h1>팩트·출처 검수 기록 · 컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</h1>
+<p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r1)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="2장 부동소수점 문단 2개·깊이 읽기·혼동하지 마세요, 새 실험 float(FP16·BF16)과 model.js encodeFloat·decodeFloat·floatNeighbor, 9개 장 전이 문항, 정답 자리 돌리기(quiz.js order), 새 출처 4개(IEEE 754-2019, Python struct, Google Cloud BF16, MDN Number)" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할). 집필자: Claude 보충 집필 세션 (2026-10-12, 커밋 5f766a8). 범위: 2장 부동소수점 문단 2개·깊이 읽기·혼동하지 마세요, 새 실험 float(FP16·BF16)과 model.js encodeFloat·decodeFloat·floatNeighbor, 9개 장 전이 문항, 정답 자리 돌리기(quiz.js order), 새 출처 4개(IEEE 754-2019, Python struct, Google Cloud BF16, MDN Number).</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>FP16·BF16·binary64 구조와 0.1 + 0.2 결과를 출처 원문과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>FP16 최댓값 65,504, 최소 정규수 2⁻¹⁴, 1 근처 간격 2⁻¹⁰, 2048 근처 간격 2, BF16 간격 2⁻⁷(8배), 70,000→BF16 70,144, 9+9=1 0010, 68,400−65,536=2,864, 300 mod 256=44를 따로 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>numpy float16과 float32→bfloat16 반올림을 기준으로 encodeFloat를 1, 0.1, 2048, 2049, 65504, 65519, 65520, 70000, 2⁻¹⁴, 2⁻²⁴, 2⁻²⁵, 1.5·2⁻²⁵, 1e−8, −0, NaN, ∞에서 대조해 모두 일치(0.1→0.0999755859375, BF16 0.10009765625; 65520 이상 무한대; 2049→2048). cpu.js run으로 곱셈 프로그램 n=4 37개, n=10 85개 명령, 90→LDI 10 확인. cache.js로 8바이트 줄 순차 64바이트 87.5%, 4바이트 줄 75% 확인</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>부동소수점·비정규수·정규수·NaN·binary16/bfloat16 용어 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>네 링크를 2026-10-12에 열어 확인: IEEE 쪽 제목과 발행일 2019-07-22, Python struct 주석(부호 1, 지수 5, 정밀도 11비트·10비트 저장, 약 6.1e−05~6.5e+04), Google 블로그(1·8·7비트, 범위 FP32와 같음), MDN(64비트, 1·11·52비트). 확인일 표기 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#encoding 넷째 문단</td><td>“지수 칸이 00000이면 아주 작은 수(비정규수)”: 지수 00000·가수 0은 0이라 0이 빠짐</td><td>IEEE 754 binary16 부호화, model.js decodeFloat의 zero 분기</td><td>“0과 아주 작은 수(비정규수)”로 고침(js/content.js)</td></tr>
+<tr><td>#bits 전이 해설</td><td>9비트 오답 설명 “칸 수를 2로 나누며 줄어든다고 착각”은 그 오답이 나오는 이유를 설명하지 못함</td><td>2⁹ = 512 &lt; 1,000</td><td>“2⁹ = 512가 1,000에 못 미친다는 것을 확인하지 않은 답”으로 고침</td></tr>
+<tr><td>전이 문항 9개</td><td>정답 유일성·오답 확인. 오류 없음</td><td>문항마다 따로 계산; quiz.js order가 원래 번호를 data-*에 두고 판정은 원래 번호로 함</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>IEEE 754-2019 본문은 유료라 소개 쪽만 확인했습니다. 실험 화면은 1 근처 간격을 “2⁻¹⁰ ≈ 9.7656e−4” 형식으로 보여 주며 안내 문장의 0.000977과 값은 같고 표기만 다릅니다. 실제 브라우저 조작 확인은 npm test로 대신했고, 브라우저 검사 tests/browser.cjs는 실행하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · 컴퓨터 책 집필·개편 스레드" data-date="2026-10-12" data-scope="9개 장 본문(마지막 과제 포함), 9개 실험 계산(게이트·가산기·레지스터·CPU 4개 프로그램·캐시 4패턴), 출처 5개(웹 2개 확인), 나가는 링크 10개·들어오는 링크 29개, 브라우저 1280·390·320px" data-result="fixed">
+<h2>2026-10-12 편집팀 전체 도서 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · 컴퓨터 책 집필·개편 스레드. 범위: 9개 장 본문(마지막 과제 포함), 9개 실험 계산(게이트·가산기·레지스터·CPU 4개 프로그램·캐시 4패턴), 출처 5개(웹 2개 확인), 나가는 링크 10개·들어오는 링크 29개, 브라우저 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>2의 보수, UTF-8 한글 3바이트, Ben Eater 명령 체계(JC·JZ 번호 차이), 클럭·캐시 설명을 대조</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>8장 결과 읽기의 적중률 문장을 설정별로 다시 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>Python으로 CPU와 캐시를 따로 구현: 3+4는 명령 4개, 3×4는 명령 37개(8n+5), 100×3=44·85×3=255·86×3=2, 7번 칸 NOP이면 3, 캐시 차례 읽기 75%·건너뛰기(4줄) 0%·반복 96.9%</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>PC·ACC·IR·플립플롭·직접 사상 캐시 용어 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>RFC 3629(U+0800~FFFF는 3바이트, 최대 4바이트)를 WebFetch로 확인, eater.net 접속 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/lab-guides.js · cache 결과 읽기</td><td>“작은 구간을 반복하면 거의 모두 적중합니다”를 설정 조건 없이 썼습니다. 한 줄 1바이트·4줄에서는 반복 구간 적중률이 0%입니다</td><td>캐시 모의 계산(4줄·4바이트 62/64, 4줄·1바이트 0/64)</td><td>처음 설정을 밝히고 “약 97%”, 줄 수가 적을 때 건너뛰기 0%, 1바이트 줄에서 반복 구간 0%를 적음. index.html 자산 버전 20261012-edit로 올림</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul><li>기획·연결(서윤·하람·도현·민재): 공통 사례(3+4)와 마지막 과제(100×3=44)가 처음부터 끝까지 이어지고, 마지막 과제는 관찰·설명·증거 판단을 글로 요구합니다. 장 색인 9개, 공통 개념 4개, 읽기 노선 5개가 있고 링크 도착 앵커가 모두 맞습니다.</li><li>조사(은재·지호·유진): 사실 오류를 찾지 못했습니다. 출처 목록에 확인일이 없습니다(제안).</li><li>글작성(나래·준서·다온·예린): 장 첫 문장이 앞 장 결과를 받고, 남은 질문과 다음 장 이유가 모든 장에 있습니다. 확인 문제는 본문 상황을 비튼 적용 문제라 문장 찾기로 풀리지 않습니다.</li><li>시각·실험(리안·하늘·소율·채원): 1280·390·320px에서 표지와 다섯 장을 열었습니다. 가로 넘침 0, 서가 복귀 버튼 정상, 콘솔 오류 0입니다. tests/browser.cjs와 reader-browser.cjs(140개 배치 검사)가 수정 전후 모두 통과했습니다.</li><li>규칙 감사(현석): npm test 16/16 통과, scripts/validate.py 오류 0.</li></ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul><li>js/content.js의 출처 5개에 확인일이 없습니다. 이번에 확인한 RFC 3629부터 “(확인 2026-10-12)”를 붙이고 나머지는 열어 본 뒤 붙이기를 제안합니다.</li><li>8장 실험에 AI Book처럼 비교 예제 버튼(차례로·건너뛰기 4줄·건너뛰기 16줄)을 두면 결과 읽기 문장을 바로 재현할 수 있습니다. 실험 형식 변경이라 판단이 필요합니다.</li></ul>
+<h3>후속 처리 (2026-10-12)</h3>
+<ul><li>고침(js/content.js): 이번 검수에서 연 RFC 3629 출처에만 “(확인 2026-10-12)”를 붙였습니다.</li><li>남김: 나머지 출처 4개는 열어 보지 못해 확인일을 붙이지 않았습니다. 8장 비교 예제 버튼은 실험 형식 변경이라 하지 않았습니다.</li></ul>
+<h3>확인하지 못한 것</h3>
+<p>Nand2Tetris, MDN TextEncoder, LWN(Drepper) 원문은 열지 못했습니다. 웹 확인은 WebFetch로만 가능했고(셸 curl은 프록시 403), 출처마다 전부 열지는 못했습니다. 학습 효과는 측정하지 않았습니다.</p>
+</section>
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="Claude · 컴퓨터 책 집필·개편 스레드" data-date="2026-10-08" data-scope="9개 장 본문, 9개 실험 계산(게이트·가산기·CPU·캐시), 출처 5개, 교차 링크 9개" data-result="fixed" data-commit="cd5cb84">
+<h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
+<p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: Claude · 컴퓨터 책 집필·개편 스레드. 범위: 9개 장 본문, 9개 실험 계산(게이트·가산기·CPU·캐시), 출처 5개, 교차 링크 9개. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>
+<p>high 1건, medium 2건, low 5건. CPU 장이 화면에 7이 뜨는 단계를 12단계라고 썼지만 실험에서는 9단계였습니다. 이를 포함해 모두 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>인코딩·게이트·플립플롭·캐시 설명을 RFC 3629와 Drepper 문서로 대조. 과도한 일반화 2건 수정</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>2진·16진 변환, UTF-8 바이트(가 = EA B0 80), 4비트 가산기 256쌍, 곱셈 프로그램 8n+5 명령 수 등 약 60개 재계산. 단계 수·되돌아온 횟수 표현 수정</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>npm test 16개 통과, CPU 단계별 추적·캐시 4패턴×4줄 수×4블록 크기 재계산. CPU 실험 안내의 단계 수 수정</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>2의 보수·전가산기·리플 캐리·래치·플립플롭·적중/실패·직접 사상 용어 확인</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>외부 링크 5개 WebFetch 확인. 캐시 근거 링크를 Part 2로 교체, Ben Eater 설계와의 명령 번호 차이 명시</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>번호·심각도</th><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>F1 high</td><td>#cpu desc·본문, js/lab-guides.js cpu</td><td>“12단계를 거쳐 화면에 7이 뜬다”</td><td>CompCPU.step 추적: OUT 실행인 9단계에서 7 출력, 12단계는 HLT</td><td>9단계에 7, 12단계에 멈춤으로 수정</td></tr><tr><td>F2 medium</td><td>9장 풀이</td><td>ADD 다음 명령을 LDA라고 씀</td><td>실제로는 STA·JMP 뒤에 LDA, 둘은 깃발을 바꾸지 않음</td><td>JC 확인을 다음 LDA보다 앞에 두라는 문장으로 수정</td></tr><tr><td>F3 medium</td><td>출처 Drepper(LWN)</td><td>링크가 Part 1(DRAM)</td><td>캐시 줄·지역성은 Part 2에 있음</td><td>lwn.net/Articles/252125(Part 2: CPU caches)로 교체</td></tr><tr><td>F4 low</td><td>6장 명령표</td><td>Ben Eater 설계와 JZ·JC 번호가 반대</td><td>Eater 설계 재구현 문서의 JC=7, JZ=8</td><td>표 설명에 차이 명시</td></tr><tr><td>F5 low</td><td>7장 본문</td><td>“다섯 번째로 0번에 돌아왔을 때”</td><td>0번 실행은 다섯 번, 되돌아옴은 네 번</td><td>표현 수정</td></tr><tr><td>F6 low</td><td>6장 주의</td><td>“수천 개의 명령”</td><td>명령 수는 설계마다 다름</td><td>“설계에 따라 수백에서 수천 개”</td></tr><tr><td>F7 low</td><td>2장 본문</td><td>키보드가 글자 번호 51을 보낸다는 표현</td><td>키보드는 키 코드를 보내고 운영체제가 변환</td><td>운영체제가 51로 바꿔 넘긴다고 수정</td></tr><tr><td>F8 low</td><td>8장 본문, docs/index.html</td><td>블록 크기가 모형값임을 표시하지 않음, “다섯 가지” 목록은 여섯</td><td>실제 캐시 줄은 흔히 64바이트</td><td>64바이트·실험값 명시, “여섯 가지”</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<p>README의 공개 주소와 개편 기록의 GitHub Actions 실행 링크는 검수 환경의 네트워크 제한으로 열지 못했습니다. 브라우저 실행과 학습 효과는 범위 밖입니다.</p>
+</section>
+</main></body></html>

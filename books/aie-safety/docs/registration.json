@@ -1,0 +1,23 @@
+{"book":{"id":"aie-19-safety","title":"AI 안전과 윤리 · 출시 전에 무엇을 확인할까","short_title":"AI 안전과 윤리","spine_title":"안전과 윤리","spine_category":"AI공학","description":"누리은행의 상담 AI 누리를 출시하기 전에 RLHF와 DPO의 보상 신호, 숨은 백도어와 정렬 위장, AI 통제 프로토콜, 탈옥과 간접 프롬프트 주입, 조정 층, 대출 심사의 공정성, 차등 프라이버시와 워터마크, EU와 한국의 규제 일정을 차례로 점검합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 18의 레슨 30개를 모두 재구성했습니다.","illustration_caption":"고객 요청 점들이 입력 점검, 누리, 출력 점검을 지나고 위험한 요청은 점검 층에서 멈추는 시각적 비유입니다.","keywords":["AI 안전","AI 윤리","정렬","RLHF","DPO","보상 해킹","아첨","헌법 AI","잠복 요원","정렬 위장","AI 통제","탈옥","프롬프트 주입","EchoLeak","Llama Guard","공정성","차등 프라이버시","워터마크","EU AI Act","AI 기본법","AI safety","alignment"],"chapters_featured":["#rlhf","#control","#injection","#fairness","#governance"],"cover_meta":"12장 · 16개 실험"},
+ "chapter_index":{
+  "books/aie-safety/#rlhf":"01 · 사람의 선호를 점수로 바꾸면 생기는 일",
+  "books/aie-safety/#dpo":"02 · 보상 모델 없이, 사람 라벨러 없이",
+  "books/aie-safety/#deception":"03 · 훈련에서는 착하고 배포에서는 다르게",
+  "books/aie-safety/#scheming":"04 · 심지 않아도 꾸미고, 감시받으면 순응한다",
+  "books/aie-safety/#control":"05 · 믿지 않고도 일을 맡기는 법",
+  "books/aie-safety/#jailbreak":"06 · 탈옥은 몇 번 만에 성공할까",
+  "books/aie-safety/#injection":"07 · 누리가 읽은 메일이 명령을 내린다",
+  "books/aie-safety/#guard":"08 · 분류기를 겹겹이 세우고 문턱 정하기",
+  "books/aie-safety/#fairness":"09 · 같은 문턱이면 공정할까",
+  "books/aie-safety/#privacy":"10 · 기억하지 않게, 표시는 남게",
+  "books/aie-safety/#governance":"11 · 누가 언제부터 무엇을 요구하나",
+  "books/aie-safety/#final":"마지막 · 출시 한 달 뒤 올라온 보고 세 건"},
+ "concepts":[
+  {"id":"reward-feedback","new":false,"chapters":["books/aie-safety/#rlhf","books/aie-safety/#dpo"]},
+  {"id":"base-rate-threshold","new":false,"chapters":["books/aie-safety/#guard","books/aie-safety/#fairness"]},
+  {"id":"evaluation-uncertainty","new":false,"chapters":["books/aie-safety/#jailbreak","books/aie-safety/#scheming"]},
+  {"id":"retrieval-grounding","new":false,"chapters":["books/aie-safety/#injection"]}],
+ "series_step":{"url":"books/aie-safety/#rlhf","task":"KL 벌점과 동의 벌점 실험에서 β를 1에서 0.1로 줄이고, 이어서 α = 0.5를 더하며 맞장구 답의 비율, 보상 모델 점수, 실제 도움이 어떻게 바뀌는지 비교한다.","minutes":15,"why":"앞 권들이 모델을 만들고 운영하는 법을 다뤘다면, 마지막 앞 권인 이 권은 그 모델을 사람에게 내놓기 전에 무엇이 잘못될 수 있는지 묻는다. 보상 점수가 오를수록 실제 도움이 떨어질 수 있다는 첫 실험이 이후 감독·방어·제도 점검의 출발점이 된다.","record":"β와 α 값, 세 답의 비율, 보상 모델 점수와 실제 도움 기댓값, 최적화기보다 목적을 고쳐야 하는 이유 한 문장"},
+ "incoming":[
+  {"from":"books/aie-rl/#rlhf","label":"AI 안전과 윤리 · 사람의 선호를 점수로 바꾸면 생기는 일","url":"../aie-safety/#rlhf","why":"보상 모델과 KL 벌점을 계산해 봤다면, 같은 식이 상담 AI에서 아첨과 과최적화를 어떻게 키우는지, 그리고 동의 벌점이 무엇을 고치는지 확인해 봅니다."},
+  {"from":"books/ai/#agents","label":"AI 안전과 윤리 · 누리가 읽은 메일이 명령을 내린다","url":"../aie-safety/#injection","why":"에이전트가 도구를 쓰기 시작하면 검색된 문서 속 지시가 도구 호출로 이어질 수 있습니다. 간접 프롬프트 주입 사슬과 이를 끊는 정보 흐름 통제를 단계별로 따라가 봅니다."}]}

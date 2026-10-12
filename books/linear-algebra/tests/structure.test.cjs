@@ -45,6 +45,26 @@ test('every chapter carries the chapter parts and the learning flow', () => {
   }
 });
 
+test('every chapter has a multiple-choice transfer question in its transfer section', () => {
+  for (const c of chapters) {
+    const [q, options, answer, why] = c.transfer.quiz || [];
+    assert.ok(typeof q === 'string' && q.length > 10, `${c.id}: transfer question`);
+    assert.equal(options.length, 3, `${c.id}: three transfer options`);
+    assert.ok(Number.isInteger(answer) && answer >= 0 && answer <= 2, `${c.id}: transfer answer`);
+    assert.ok(typeof why === 'string' && why.length > 20, `${c.id}: transfer explanation`);
+  }
+});
+
+test('quiz options rotate so the answer lands on the chosen slot', () => {
+  const Q = require('../js/quiz.js');
+  assert.deepEqual(Q.order(3, 1, 0), [1, 2, 0]);
+  assert.deepEqual(Q.order(3, 0, 2), [1, 2, 0]);
+  for (let a = 0; a < 3; a++) for (let t = 0; t < 3; t++) assert.equal(Q.order(3, a, t)[t], a);
+  // 장 순서대로 확인 문제 정답 자리가 1·2·3번에 고르게 놓입니다.
+  const slots = chapters.map((c, i) => Q.order(3, c.quiz[2], i % 3).indexOf(c.quiz[2]));
+  assert.deepEqual(slots, chapters.map((_, i) => i % 3));
+});
+
 test('every lab has a guide with presets, a task, a readout and labelled inputs', () => {
   for (const c of chapters) for (const id of c.labs) {
     const v = views[id];

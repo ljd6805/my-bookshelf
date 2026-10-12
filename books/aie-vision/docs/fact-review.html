@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="컴퓨터 비전 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 컴퓨터 비전</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록</h1>
+<p>《컴퓨터 비전 · 픽셀에서 장면 이해까지》(「AI 엔지니어링 처음부터」 05권, books/aie-vision/)의 팩트·출처 검수 기록입니다. 검수 회차마다 섹션 하나를 두고, 새 회차는 위에 더합니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r3)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항 12개, #capstone 실험 nightscore(nightScore·normCdf·nightCurves)·결과 읽기·식 설명, quizOrder" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 검수 (전체 도서 보충 · 검수 r3)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r3, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 12개 장 전이 문항 12개, #capstone 실험 nightscore(nightScore·normCdf·nightCurves)·결과 읽기·식 설명, quizOrder. 커밋 5f766a8이 이 책에 더한 것만 보았고, 계산은 책 코드와 따로 Python·Node 스크립트로 다시 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>IoU가 임계값보다 작으면 NMS가 지우지 않음, 칼만 이득, CER 편집 거리, CFG 식, 오일러 1차 오차를 표준 정의와 대조. 상대 깊이 문항이 "비율만 맞힌다"고 했으나 책 본문은 상대 깊이를 "축척과 이동을 맞춘 뒤 잰다"고 해 가정을 밝힘. 전이 문항마다 정답이 하나뿐인지, 오답 해설의 계산이 그 오답 값을 실제로 만드는지 확인했습니다. 정답 자리 돌리기(quizOrder)는 n=3의 모든 (정답, 목표 자리) 9쌍에서 목표 자리에 원래 정답이 오고 보기가 겹치지 않음을 따로 확인했고, 클릭 판정은 data-answer·data-transfer의 원래 번호를 c.quiz[2]·c.transfer[2]와 비교합니다.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>따로 계산: 합성곱 512→512·풀링 256(패딩 없으면 508→254), ViT 24²+1=577, softmax [1,0]=0.731·[2,0]=0.881·[4,0]=0.982, IoU 8/24=1/3, 정확도 99.96%·Dice 0, K=0.8, CLIP τ=0.07 0.771·τ=1 0.367, CER 1/9, 깊이 6×2.5=15, CFG 1.1, 오일러 1/3. 깊이 문항 오답 "11m = 차이를 더한 값"은 실제로 5+(6−2)=9m라 맞지 않아 고침</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>math.erf로 정규 누적분포를 따로 계산해 대조: 문턱 0.5 낮 정밀도 97.21%, 밤 반사 오탐 112.13·정밀도 45.92%·재현율 95.22%, 0.7 밤 정밀도 67.75%·재현율 50.00%, 야간 재학습 0.5 정밀도 76.11%·재현율 96.66%, 경계 0.3·0.9도 tp+fn=100. 시나리오 값임이 화면·식 설명에 밝혀져 있음</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>정밀도·재현율 정의(식 설명)와 오탐·문턱이 책 4장과 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>이 보충은 새 출처를 더하지 않았습니다</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#depth 장 transfer(상대 깊이 축척)</td><td>오답 해설 "11m는 차이를 더한 실수"가 틀림(차이를 더하면 9m), 또 축척만 모른다는 가정이 빠져 본문(축척과 이동)과 어긋남</td><td>5+(6−2)=9, 본문 "상대 깊이는 축척과 이동을 맞춘 뒤 잽니다"</td><td>질문에 "축척만 모르는 상대 깊이(이동 0)라고 가정" 추가, 보기를 9m로, 축척·이동을 모두 모르면 거리를 아는 점이 둘 이상 필요하다는 문장 추가</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>실제 브라우저에서 전이 문항을 직접 눌러 보지는 않았습니다(집필 측 tests/browser.cjs 기록만 봄). 독자의 학습 효과는 시험하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-vision)" data-date="2026-10-12" data-scope="12개 장 본문·식·깊이 읽기·확인 문제, 실험 16개(안내 상자 결과 읽기 숫자 전부를 math.js로 재계산하고 InfoNCE·ᾱ_t·소프트맥스와 라벨 스무딩·오일러 도착 오차·NMS IoU·지연 합계·Dice는 Python 독립 계산이나 손계산으로 대조), 참고 자료 66개 서지 대조, 원본 레슨 04-03·22·24 직접 대조, 다른 책 링크 19개(검수 후 20개) 도착 앵커, 브라우저 1280·390·320px" data-result="fixed">
+<h2>2026-10-12 편집팀 전체 도서 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-vision). 범위: 12개 장, 실험 16개, 참고 자료 66개, 다른 책 링크 20개, 브라우저 세 폭. 이 세션은 이 책을 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>모델 계보·연도, SAM 3(2025년 11월, 400만 개념, SA-CO 27만 개념, 사람 성능의 75~80%), 가우시안 스플래팅 교환 형식 등을 원본 레슨과 대조하고, 시점 민감 정보에 “원본 커리큘럼 기준, 확인일 2026-10-08” 표시가 있음을 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>1,792개, 150,528, 18C²·25C², VOC 칸당 50개, 분할 어텐션 246만 대 32만(7.7배), 48배 압축, 가우시안 59개 실수·240바이트·240MB·1.2GB, 층별 학습률 0.75¹¹≈0.04, 확인 문제 112·50·0.667·0.2·1/6을 손계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>InfoNCE τ=0.07·0.3·1 → 0.124·0.623·1.084, √ᾱ_t(t=100·500·900) → 0.947·0.280·0.017, NMS 0.05에서 b1이 a1과 IoU 0.0625로 지워지고 b2가 남음, 지연 97.5·34.5·20.1ms, 휜 길 1단계 오차 1.257, 칼만 R=4·25·200 궤적을 독립 계산과 대조해 모두 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>용어집 13개(HWC·CHW, IoU, NMS, Dice, CTC, CFG, 정류 흐름 등)와 본문 쓰임 일관성 확인</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>1건 수정, 1건 추가</td><td>원본 레슨 28개 경로와 외부 논문 서지 대조, 다른 책 링크의 장 ID가 도착 책 book-routes에 있음을 확인. 이동 이유가 끝나지 않은 문장 1건을 고치고, 본문이 언급만 하던 시리즈 생성 모델 권으로 가는 링크를 더함</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#reading 더 읽어 보기(멀티모달 AI · 얼린 두 모델 사이에 다리 놓기)</td><td>이동 이유가 “…계산해 보려면”으로 끝나 문장이 완성되지 않음</td><td>공통 규칙: 다른 책 링크에는 이동 이유를 쓴다</td><td>“…어떻게 달라지는지 계산해 볼 수 있습니다.”로 고침</td></tr>
+<tr><td>#generate 첫 문단과 더 읽어 보기</td><td>본문이 “시리즈의 생성 모델 권이 따로 다루므로”라고 말하지만 그 권으로 가는 링크가 없음</td><td>aie-generative가 published이고 #ddpm 장이 book-routes에 있음</td><td>“생성 모델 · 노이즈를 더하고 거꾸로 걷어 내기”(../aie-generative/#ddpm) 링크를 이동 이유와 함께 더함</td></tr>
+<tr><td>index.html</td><td>본문 파일이 바뀌었으므로 자산 버전 갱신 필요</td><td>책 구성 표준</td><td>모든 책 자산의 ?v=를 20261012-edit로 함께 올림</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul>
+<li><b>기획·연결 (서윤·하람·도현·민재)</b>: 공통 사례(역 앞 대여소 카메라)가 1장 전처리부터 마지막 과제(1280×720 새 카메라, 비 오는 밤 오탐, 33.3ms 예산)까지 이어지고, 마지막 과제는 지연과 오탐을 서로 다른 증거로 확인하게 해 관찰 가능한 행동으로 끝납니다. 장 색인 12개, 공통 개념 5개, 읽기 노선 #detect 정거장이 있고, 노선 과제(NMS 0.05·0.45·0.8에서 남는 상자 수)는 실험에서 그대로 재현됩니다(0.05에서 b1이 지워짐, 0.8에서 중복 상자 남음).</li>
+<li><b>지식조사 (은재·지호·유진)</b>: 2025~2026년 모델·형식(SAM 3.1, Z-Image, Sora 2, Genie 3, OpenUSD 26.03, KHR_gaussian_splatting)은 모두 원본 커리큘럼 기준과 확인일로 표시되어 있고, 원본 레슨 04-22·24의 서술과 일치합니다. 틀린 사실은 찾지 못했습니다.</li>
+<li><b>수치·실험 (수아·건우·시우)</b>: 개요의 안내대로 계산은 실제이고 후보 상자·임베딩·깊이 값은 예시, 지연 단계 시간과 정밀도 배율은 시나리오로 실험마다 구분되어 있습니다.</li>
+<li><b>글작성 (나래·준서·다온·예린)</b>: 장 첫 문장이 앞 장 결과로, 마지막 문장이 남은 질문으로 이어지고 일곱 블록이 모두 채워져 있습니다. 미완성 이동 이유 문장 1건을 고쳤습니다.</li>
+<li><b>시각·실험 (리안·하늘·소율·채원)</b>: 1280·390·320px에서 가로 넘침 없음, 서가 복귀 버튼이 세 폭 모두 보이고 누를 수 있음, 콘솔 오류 없음, SVG 모두 aria-label, 입력 모두 라벨. NMS 슬라이더를 키보드로 움직이면 결과가 바뀝니다. 새 링크가 320px에서 이동 이유와 함께 보이는 것을 확인했습니다.</li>
+<li><b>규칙 감사 (현석)</b>: <code>npm test</code> 21/21 통과, <code>python3 scripts/validate.py</code> 오류 0, 책의 tests/browser.cjs(42개 화면, 48개 실험 점검) 수정 전후 모두 통과.</li>
+</ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul>
+<li>10·11장(#generate, #world)은 09권 생성 모델과 내용이 크게 겹칩니다(DDPM·CFG·정류 흐름). 본문은 범위를 “비전 엔지니어가 알아야 할 구조와 손잡이”로 좁혀 두었으므로 문제는 아니지만, 11장에서도 ../aie-generative/#flow로 가는 링크를 두면 같은 원칙이 이어집니다.</li>
+<li>이 책으로 들어오는 링크(6권에서 11개)는 대부분 #selfsup·#pixels에 몰려 있고, 마지막 과제(#capstone)나 #motion으로 들어오는 링크는 없습니다. 운영 쪽 책(배포·운영)에서 #capstone으로 오는 링크를 검토할 만합니다.</li>
+<li>2장 본문의 LeNet-5 “완전연결 층 두 개”는 원본 레슨과 같고 C5를 합성곱으로 센 원 논문 구조와도 맞지만, 원본 레슨의 PyTorch 구현은 선형층 셋입니다. 독자가 구현과 비교할 때 혼동할 수 있어 괄호 설명을 검토할 만합니다.</li>
+</ul>
+<h3>후속 처리 (2026-10-12)</h3>
+<ul>
+<li>11장(#world) “더 읽어 보기”에 생성 모델 09 · 곧은 길로 빨리 가기: 플로 매칭과 정류 플로(../aie-generative/#flow)를 더했습니다. 이 장 실험은 속도장을 정확히 안다고 가정하므로, 두 봉우리 분포에서 평균 속도장 때문에 길이 휘고 재흐름이 그 길을 펴는 과정을 이어 본다는 이유를 적었습니다.</li>
+<li>2장(#backbone) “더 읽어 보기”에 딥러닝 핵심 08 · 첫 가중치가 신호를 살린다(../aie-deep/#init)를 더했습니다. 잔차 없는 층을 50개까지 쌓아 신호가 사라지거나 폭발하는 depthsignal 실험과, 트랜스포머 잔차 층 초기화를 줄이는 이유로 잔차 연결의 역할을 잇습니다.</li>
+<li>2장 본문의 LeNet-5 “완전연결 층 두 개” 뒤에 “(많은 PyTorch 재구현은 출력층까지 포함해 선형 층 세 개로 씁니다)”를 더했습니다. 계보 표의 원 논문 기준 설명은 그대로 두었습니다.</li>
+<li>남긴 것: #capstone·#motion으로 들어오는 링크는 다른 책 수정이라 이 책 범위 밖입니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>arXiv와 회사 블로그는 이 환경의 프록시가 막아 열지 못했습니다. SAM 3(arXiv 2511.16719)·Qwen3-VL(2511.21631) 번호와 SAM 3.1(2026년 3월), OpenUSD 26.03, Z-Image 60억 파라미터 같은 최근 사실은 원본 레슨 서술과만 대조했고 1차 출처로 재확인하지 못했습니다. 실제 이미지 처리와 엣지 장비 지연은 이 책이 측정하지 않으며 이번 검수도 측정하지 않았습니다. 학습 효과는 측정하지 않았습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-vision)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-vision)" data-date="2026-10-08" data-scope="12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 표지·용어집, 출처 66개, 다른 책 링크 18개" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-vision), 집필자와 다른 에이전트입니다. 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-vision). 범위: 12개 장 본문·식·깊이 읽기·확인 문제, 16개 실험 계산과 안내 상자 결과 읽기, 표지·용어집, 출처 66개, 다른 책 링크 18개.</p>
+<p>대조 기준: 원본 커리큘럼 로컬 사본(rohitg00/ai-engineering-from-scratch, MIT)의 phases/04-computer-vision 레슨 28개 docs/en.md, 그리고 웹에서 직접 연 arXiv 2511.16719(SAM 3), 2511.21631(Qwen3-VL), 2511.10647(Depth Anything 3) 초록과 depth-anything.github.io 페이지.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정, 2건 보류</td><td>장마다 모델 이름·연도·파라미터 수·벤치마크 수치 약 70개를 원본 레슨 en.md 문장과 대조(예: ResNet-18 1,170만·VGG-16 1.38억·top-1 69.8%/71.6%, ViT-B/16 8,600만, DeiT 81.8%, SAM 3 2025년 11월·400만 개념·SA-CO 27만·사람의 75~80%, SAM 3.1 2026년 3월, DINOv2 1.42억 장, CLIP 4억 쌍·τ 0.07, SD 잠재 48배·8.6억·0.18215, T5-XXL 47억, Z-Image 60억, INT8 정확도 손실 0.1~1%p)</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>3건 수정</td><td>본문 식·확인 문제·안내 상자 결과 읽기의 숫자를 js/math.js로 node에서 다시 계산(출력 크기 112, 파라미터 1,792, 토큰 50·197, Dice 0.667, 분할 어텐션 246만→32만 쌍, CER 1/6, 가중치 0.2, √ᾱ₅₀₀ ≈ 0.28, CFG 6.5배, 지연 97.5·34.5·20.1ms 등)</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>16개 실험의 math.js 함수를 식과 대조하고 대표값·경계값을 별도 스크립트로 계산. 실제 계산·예시 입력·가정한 시나리오 표시가 코드와 맞는지 확인</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>용어집 13개와 본문 번역어(합성곱, 잔차 연결, 비최대 억제, 정류 흐름, 분류기 없는 가이던스, 수용 영역 등)의 영어 대응과 책 안 일관성 확인</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>원본 레슨 28개 경로가 로컬 사본에 모두 있음, 외부 URL 37개가 모두 원본 레슨이 인용한 주소와 일치, arXiv 번호와 제목 대응 확인, 장별 source 번호가 그 장 내용과 맞음, 다른 책 링크 18개의 도착 장 ID·제목이 실제로 있음, 표지 참고 자료와 꼬리말에 MIT 크레딧 있음</td></tr>
+</tbody></table>
+
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#depth · 깊이 읽기 “가우시안 스플래팅의 부품” (js/content.js)</td><td>“가우시안 약 59~60개 실수 … 500만 개면 약 240MB”. 원본 레슨 22도 같은 문장이지만 계산이 맞지 않음</td><td>500만 × 60 × 4바이트(FP32) ≈ 1.2GB. 240MB는 100만 개일 때의 값</td><td>“32비트 실수로 저장하면 하나에 약 240바이트라 100만 개면 약 240MB, 500만 개면 약 1.2GB”로 고침</td></tr>
+<tr><td>nms 실험 안내 상자 결과 읽기 (js/lab-guides.js)</td><td>“0.05에서는 붙어 선 두 번째 자전거까지 지워지며”. 실제 계산에서는 b1만 지워지고 b2가 남아 두 번째 자전거에도 상자가 하나 남음(실험 결과 문장도 “상자 셋”)</td><td>A05Math.nms(후보 7개, 0.05, 0.3) → 남은 상자 a1·p1·b2, b1은 a1과 IoU 0.06으로 제거</td><td>“두 번째 자전거의 가장 좋은 상자 b1이 a1과 IoU 0.06만 겹쳐도 지워지고 점수가 낮은 b2(0.40)가 대신 남으며”로 고침</td></tr>
+<tr><td>dice 실험 안내 상자 결과 읽기 (js/lab-guides.js)</td><td>“전경 1%에서 아무것도 못 찾아도 정확도는 0.99를 넘지만”. 오탐 50픽셀이 고정이라 실제 값은 0.985</td><td>segMetrics(10000, 100, 0, 50).acc = 0.985, “모두 배경” 답의 정확도 = 0.99</td><td>“정확도는 0.985(“모두 배경”이라 답하면 0.99)이지만”으로 고침</td></tr>
+<tr><td>contrast 실험 안내 상자 결과 읽기 (js/lab-guides.js)</td><td>“τ=1이면 … 손실이 log 4 ≈ 1.39에 가까워집니다”. 실제로 화면에 나오는 손실은 1.084</td><td>infoNCE(유사도 표, 1).loss = 1.084, τ=0.3에서 0.623, τ=0.07에서 0.124</td><td>“손실이 약 1.08로 커지고, 네 칸이 완전히 같을 때의 값 log 4 ≈ 1.39 쪽으로 다가갑니다”로 고침</td></tr>
+</tbody></table>
+
+<h3>보류 (고치지 않고 남긴 판단)</h3>
+<table><thead><tr><th>위치</th><th>내용</th><th>판단과 근거</th></tr></thead><tbody>
+<tr><td>#selfsup · 자기지도 세 갈래</td><td>“원본 레슨 기준 SimCLR ResNet-50 약 71%”</td><td>원본 레슨 17 문장과 일치. SimCLR 논문의 ResNet-50(1×) 선형 평가는 69.3%로 알려져 있고 71%대는 SimCLRv2 수치에 가까움. 원본 기준임을 밝히고 있어 고치지 않음, 논문 본문 표는 직접 열지 못함</td></tr>
+<tr><td>#depth · 단안 깊이의 범위와 한계</td><td>“Depth Anything V3는 얼린 DINOv2 ViT-L/14 인코더와 DPT 디코더로”</td><td>원본 레슨 26 문장과 일치. arXiv 2511.10647 초록은 “plain transformer(vanilla DINO encoder)”만 말하고 인코더를 얼리는지는 밝히지 않음. 원본 커리큘럼 기준(확인일 2026-10-08)으로 표시되어 있어 보류</td></tr>
+<tr><td>#segment · SAM 3 수치</td><td>“SA-CO에서 사람 성능의 75~80%”</td><td>원본 레슨 24와 일치. arXiv 초록에는 이 수치가 없고 “기존 시스템의 두 배 정확도”만 있음. 원본 기준 표시가 있어 유지</td></tr>
+</tbody></table>
+
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>외부 URL은 원본 레슨 인용 주소와의 일치, 그리고 arXiv 3건·Depth Anything 페이지만 직접 열어 확인했습니다. 나머지 arXiv 번호는 널리 알려진 논문 번호와 제목 대응으로 확인했고 페이지를 하나씩 열지는 않았습니다.</li>
+<li>원본 커리큘럼 기준으로 표시한 2026년 시점 정보(SAM 3.1 Object Multiplex, KHR_gaussian_splatting·OpenUSD 26.03, Genie 3·GWM-1·Sora 2, Z-Image, Qwen3-VL OSWorld 순위 등)는 원본 문장과의 일치만 확인했고 공식 발표로 재확인하지 않았습니다.</li>
+<li>원문 복제 여부는 장마다 한두 문단을 원본 en.md와 나란히 읽는 표본 확인만 했으며 긴 직역 구간은 찾지 못했습니다.</li>
+<li>수정 뒤 npm test(통과)와 1280·390·320px 브라우저 검사(views 42, labs 48, 오류 0)를 다시 실행했습니다. 스크립트 자산 버전(?v=20261008-aie1)은 바꾸지 않았으므로 이전 판을 캐시한 브라우저에서는 수정된 문장이 늦게 보일 수 있습니다.</li>
+</ul>
+</section>
+</main></body></html>

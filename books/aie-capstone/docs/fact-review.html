@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="AI 엔지니어링 처음부터 20권 캡스톤 책을 쓰지 않은 검수 에이전트가 사실·수치·실험·용어·출처를 확인한 기록입니다."><title>팩트·출처 검수 기록 · 캡스톤</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head>
+<body><main style="max-width:1050px;margin:auto;padding:32px">
+<h1>팩트·출처 검수 기록 · AI 엔지니어링 처음부터 20권 캡스톤</h1>
+<p>이 책을 쓰지 않은 검수 에이전트가 원본 단계 <code>phases/19-capstone-projects</code>의 프로젝트 85개 레슨 문서와 책의 12개 장, 실험 계산, 출처 목록을 대조한 결과입니다. 검수 절차는 서재의 검증 문서(docs/03-verification.html#fact-review)를 따랐습니다. <a href="index.html">책 문서 목차로 돌아가기</a></p>
+
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r7)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="커밋 5f766a8의 보충: 12개 장 전이 문항(transfer), 02~10장 사양표 연결 문장 9개, 12장 심화 상자 “장마다 채운 칸” 표, 보기 돌리기(js/visual.js order, js/app.js choices)" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 보충 검수 (검수팀 정민·유진·건우·채원·현석)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r7). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8의 보충: 12개 장 전이 문항(transfer), 02~10장 사양표 연결 문장 9개, 12장 심화 상자 “장마다 채운 칸” 표, 보기 돌리기(js/visual.js order, js/app.js choices). 결과: fixed. 수치는 책 코드와 따로 python3 스크립트로 다시 계산해 책 함수 결과와 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>새 문장은 책 안 계산과 가정값을 옮긴 것이고 외부 사실은 06장 “평가 데이터 1% 유출” 하나로, 기존 본문이 원본 캡스톤 07을 출처로 든 문장과 같음.</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>따로 계산: 01장 1 − 0.3³ = 0.973, 1 − 0.3⁴ = 0.992; 02장 1 − C(16,2)/C(20,2) = 1 − 120/190 = 0.368, 0.03 ÷ 0.35 = 0.0857; 03장 3.2 대 3.556, (2/0.55)/(1/0.3) = 1.091; 04장 UCB 1.106 대 1.917; 05장 12 × 512² + 13 × 512 = 3,152,384, ×8 = 25,219,072; 124M bf16 0.249GB·Adam 1.99GB; 06장 ln(0.25) + 2 = 0.614, σ = 0.649; 07장 5/(M + 5) < 0.1 → M = 46, M = 6이면 0.455, ZeRO-1 (4 + 12/8) × 7e9 = 38.5GB; 08장 R 0.5·P 0.2, 7조각 × 0.15초 = 1.05초; 09장 24² = 576, 28² = 784, 785²/197² = 15.9; 11장 0.00475/0.02465 = 0.193; 12장 사양표 표 행 01의 p95 5.9초가 시간 제한 5초에서만 나오는데 제한이 빠져 있었음.</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>새 실험은 없고, 새 문장·표가 인용한 실험 값을 책 함수로 다시 돌려 대조: retryStats(0.2, 3, 5) 성공 0.992·p95 5.925초, tryUntilPass k = 1·5 모두 0.0857달러, ucbRun(1.4, 30) 13/30, zeroMem·bubble, ragRun base 4,000토큰·rerank 1,200토큰, patchTokens, bootstrapDiff 50 보류·120 나아짐·130 보류·150 나아짐(폭 50개 0.059, 200개 0.034), gateStats(0.7, 0.01) 정밀도 0.086·594건, launchSheet 사용량 2배 $5,471·p95 40.5초, 1배 $2,736·차단 2,614건·공격 194건(전이 문항 12의 “두 줄만 넘는다”와 일치). 정답 자리 돌리기 12장 모두 원래 번호 유지.</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>pass@k(비편향 추정), UCB1, 파이프라인 거품, ZeRO-1, 재현율·정밀도, 패치 토큰, 부트스트랩 구간, 차단의 정밀도가 책 식·표준 용법과 일치.</td></tr><tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>새 출처 없음</td><td>이번 보충은 출처를 더하지 않았습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#final 심화 상자 “장마다 채운 칸” 01장 행</td><td>“시간 초과 확률 0.2에서 3번 시도: p95 약 5.9초” — p95는 시간 제한에 따라 달라짐(제한 2초면 2.9초, 5초면 5.9초). 01장 그림은 제한 5초를 씀</td><td>retryStats 따로 대조</td><td>“시간 초과 확률 0.2, 제한 5초로 3번 시도”로 조건을 밝힘 (js/content.js)</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>새 문장의 화면 배치를 브라우저에서 직접 열어 보지는 않았습니다(npm test의 browser.cjs와 함수 대조만). 06장 “1% 유출” 문장의 원본 캡스톤 07 원문은 이번에 다시 열지 않았습니다(기존 본문과 같은 출처).</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-capstone)" data-date="2026-10-12" data-scope="12개 장 본문과 더 깊이 보기, 실험 15종과 표지 실험(js/math.js·js/lab-guides.js 결과 읽기), 다른 책 링크 31개와 들어오는 링크 2개, 원본 프로젝트 요약은 수치가 있는 문장 위주로 표본 확인, 1280·390·320px 브라우저(표지와 12개 장, 실험 45회 조작)" data-result="fixed">
+<h2>2026-10-12 편집팀 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-capstone). 범위: 12개 장 본문과 더 깊이 보기, 실험 15종과 표지 실험(js/math.js·js/lab-guides.js 결과 읽기), 다른 책 링크 31개와 들어오는 링크 2개, 원본 프로젝트 요약은 수치가 있는 문장 위주로 표본 확인, 1280·390·320px 브라우저(표지와 12개 장, 실험 45회 조작). 결과: fixed.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>본문 사실 주장과 출처 설명을 읽고 시점 민감 표시를 확인. 외부 기술 사실(GPT-2 124M 설정, BPE, ZeRO 단계, GPipe 거품, RRF 상수 60, ViT 패치)이 표준 문헌과 맞음</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>손계산으로 따로 검산: 1−0.2³=0.992, pass@5 0.917·0.832, UCB 1.33, ln(28/32)=−0.133, 블록 7,087,872·전체 124,439,808·묶지 않으면 163,037,184·블록 몫 68%, 학습 상태 약 2GB, σ(1)·σ(2)·σ(0.5), 7B 112GB, ZeRO-1 5.5·4.19바이트, 거품 3/11·3/67, LSH 문턱 0.42·충돌 0.87·0.95·0.06, 1TB 4시간→약 4분, 150,528²≈226억·196²=38,416·785²/197²≈15.9배, 투영 약 130만, 정밀도 0.15, 삼의 규칙 6%, 사양표 5,471달러·40.5초·0.725·5,227건·387건과 해답 3,506달러·25.5초·0.564·253~289건</td></tr><tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 수정</td><td>node로 ucbRun(0.55 갈래가 세 번째 실험에서 논문 신호), bootstrapDiff(0.02에서 130개는 보류, 200개부터 판정), gateStats(문턱 0.7에서 56%·6%·정밀도 8.6%), launchSheet를 다시 돌려 문장과 대조. 재시도 대기의 평균값(×1.25) 가정이 본문 식 설명에 드러나지 않아 밝힘</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>예열·재순위·근거 충실도·과소 거절·과잉 거절 등 책 안 용어 일관성 확인. 다른 책의 “워밍업”과 이어지도록 링크 이유에 함께 적음</td></tr><tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>2건 수정</td><td>다른 책 링크 31개의 도착 앵커는 모두 맞았으나, 링크 이름 24개가 도착 장 제목과 달랐고(예: “에이전트 엔지니어링 · 검증 게이트” → 실제 “10 · “다 했습니다”를 믿지 않는 법”), 한 링크의 이동 이유가 도착 장에 없는 내용을 약속함</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody><tr><td>js/content.js 모든 장의 cross 링크 24개</td><td>링크 이름이 도착 장의 실제 제목·번호와 달라, 누른 뒤 다른 제목의 장이 열림. “AI 작업대”는 책 이름(AI 개발 작업대)과도 다름</td><td>data/catalog.json chapter_index, 다른 책 index.html book-routes</td><td>“책 이름 NN · 실제 장 제목” 형식으로 맞춤(다른 18~19권과 같은 형식)</td></tr><tr><td>#products cross → ../aie-agents/#loop</td><td>이동 이유 “단계별 성공률이 곱해지는 이유를 15권에서 먼저 짚습니다”: 도착 장(15권 1장)은 생각·행동·관찰 루프와 멈춤 조건·턴 예산을 다루고 성공률 곱셈은 다루지 않음</td><td>aie-agents js/content.js #loop 본문</td><td>도착 장의 실제 내용(루프와 멈춤 조건·턴 예산)으로 이유를 고침</td></tr><tr><td>#harness formulaNote</td><td>“0.1·(1+U)초, 0.4·(1+U)초를 평균값으로” 쓴다고만 적었으나 코드(BACKOFF 0.125·0.5)는 U의 평균을 0.25로 둔 값이라 독자가 재현할 수 없음</td><td>js/math.js retryStats 주석 “평균(×1.25)”</td><td>“무작위 폭 U의 평균을 0.25로 보아 0.125초, 0.5초로 쓰고(이 책의 가정)”로 밝힘</td></tr><tr><td>#verify formulaNote</td><td>“…0.024달러이고, …경우이고, …”로 이어진 한 문장이 길고 어색함</td><td>문장 검토</td><td>세 문장으로 나눔</td></tr><tr><td>#research 세부 “한 번의 행운이 논문 신호를 낼 때”, #scale cross(aie-deep), js/math.js 주석</td><td>“실험 결과 이 책의 가정에서는”의 어색한 연결, 다른 책 용어 “워밍업”과의 연결 부족, 슬라이딩 창 함수 주석이 “3장”(실제 5장)</td><td>문장·용어 검토</td><td>“실험해 보면”, “예열(워밍업)”, “5장”으로 고침. index.html의 책 자산 ?v=를 20261012-edit로 올림</td></tr></tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul><li><b>기획·연결 (서윤·하람·도현·민재)</b>: 마지막 과제(#final)는 다섯 줄 사양표를 맞추고 가장 약한 가정과 출시 뒤 다시 잴 기록을 적게 해 관찰 가능한 행동으로 끝납니다. 장 색인 12개, 공통 개념 5개, 읽기 노선의 #final 정거장 할 일이 launch 실험과 맞습니다. 들어오는 링크는 ai #harness, probability #evals 두 개입니다.</li><li><b>조사 (은재·지호·유진)</b>: 원본 프로젝트의 목표 수치는 “원본 커리큘럼 기준”으로 표시되어 있고, LSH 설정처럼 원본 주장과 계산이 다른 곳은 계산을 따로 밝혔습니다.</li><li><b>수치·실험 (수아·건우·시우)</b>: 본문·확인 문제·더 깊이 보기의 숫자 약 60개와 사양표 두 조합을 손계산과 node 재실행으로 대조해 모두 일치했습니다. 재시도 대기의 가정만 본문에 드러나지 않아 밝혔습니다.</li><li><b>글작성 (나래·준서·다온·예린)</b>: 장마다 앞 장 결과로 시작해 다음 질문으로 넘어가고 일곱 블록이 채워져 있습니다. 링크 이름을 도착 장 제목과 맞추고 어색한 문장 두 곳을 다듬었습니다.</li><li><b>시각·실험 (리안·하늘·소율·채원)</b>: tests/browser.cjs로 42개 화면과 실험 45회를 통과했고, 고친 링크 이름이 화면에 그대로 나오는지, 320px 서가로 버튼·Tab 이동·그림 aria-label·입력 라벨·콘솔 오류 없음을 따로 확인했습니다.</li><li><b>규칙 감사 (현석)</b>: 수정 뒤 npm test 23개 통과, python3 scripts/validate.py 0 오류.</li></ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul><li>docs/index.html의 대응표와 문서는 링크 이름을 쓰지 않아 고치지 않았습니다.</li><li>11장 안전 게이트와 19권 8장 조정 층이 같은 기저율 계산을 반복합니다. 캡스톤의 통합 성격상 유지하되, 서가 개념 “기저율과 문턱” 설명에서 두 장의 역할을 나눌지 판단이 필요합니다.</li></ul>
+<h3>확인하지 못한 것</h3>
+<p>GitHub 원본 저장소 접근이 막혀 원본 레슨(특히 레슨 23의 무작위 폭 U 범위, 레슨 64의 LongRAG 재현율 인용)과 다시 대조하지 못했습니다. 원본 프로젝트 85개 요약은 이번 회차에서 전수 대조하지 않고 수치가 있는 문장 위주로 표본 확인했습니다. 학습 효과는 범위 밖입니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-capstone)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-capstone)" data-date="2026-10-08" data-scope="12개 장 본문과 더 깊이 보기, 원본 프로젝트 85개 요약 전체, 실험 15종과 표지 실험 계산, 출처 목록 122개, docs/index.html 대응표" data-result="fixed">
+<h2>2026-10-08 검수</h2>
+<p>검수자: Claude · AI 엔지니어링 시리즈 검수 에이전트 (aie-capstone). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-capstone). 범위: 12개 장 본문과 더 깊이 보기, 원본 프로젝트 85개 요약 전체(표본이 아니라 모든 레슨의 docs/en.md와 대조), 실험 15종과 표지 실험 계산, 출처 목록 122개, docs/index.html 대응표.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>5건 수정</td><td>85개 프로젝트 요약을 원본 레슨 문서와 한 문장씩 대조</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>2건 수정</td><td>재시도 1 − pᵃ, pass@k 비편향·단순 추정, UCB1, GPT 블록 12d²+13d(124M 설정 124,439,808), DPO 최적 정책, ZeRO 바이트, 파이프라인 버블 (S−1)/(M+S−1), RAG 지표, 패치 수, 부트스트랩, 게이트 정밀도·세 개의 법칙, LSH 문턱 (1/b)^(1/r) ≈ 0.42를 node로 따로 계산해 대조</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 수정</td><td>js/math.js의 모든 함수를 대표값·경계값으로 따로 계산하고, 실험 안내·퀴즈 정답·출시 게이트 해답(3,506달러·25.5초·통과율 0.564)을 재현</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>본문·출처 설명·대응표의 한영 용어를 서로 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>장마다 출처 번호와 원본 레슨 번호의 대응, MIT 저작자 표시, 외부 논문 arXiv 번호를 확인. EAGLE-3(arXiv 2503.01840)과 MCP 2026-07-28 인가 문서는 직접 열어 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#rag 더 깊이 보기(원본 08), docs/index.html</td><td>“분포가 5% 넘게 흔들리면 경보”</td><td>원본 08은 nDCG·인용 충실도 같은 검색 품질이 5% 떨어지면 경보</td><td>“검색 품질(nDCG·인용 충실도)이 5% 떨어지면 경보”로 고침</td></tr>
+<tr><td>#verify 더 깊이 보기(원본 27), docs/index.html</td><td>“큰 개선은 시끄럽고 큰 회귀는 조용한 현상”은 원본의 예와 다름</td><td>원본 27은 눈에 띄는 과제에서 4% 오르는 사이 조용한 과제에서 14% 떨어지는 숨은 회귀를 듦</td><td>원본의 예로 고침</td></tr>
+<tr><td>#multimodal 본문(원본 58)</td><td>“픽셀마다 토큰을 두면 어텐션 쌍이 약 226억 개”</td><td>224×224 픽셀 50,176개면 약 25억 쌍. 226억 쌍은 RGB 값 150,528개일 때(150,528² ≈ 2.27×10¹⁰)</td><td>“픽셀 값(RGB 세 채널) 하나하나를 토큰으로 두면 150,528개”로 고침</td></tr>
+<tr><td>#multimodal 더 깊이 보기(원본 04), docs/index.html</td><td>OCR 대체 경로를 표·그림·손글씨 같은 내용 유형별로 둔다고 씀</td><td>원본 04의 OCR 대체 경로는 수식·빽빽한 표용이고, 내용 유형은 평가 축</td><td>“수식·빽빽한 표에 쓰는 OCR 대체 경로와 내용 유형별 평가”로 고침</td></tr>
+<tr><td>#scale 더 깊이 보기(원본 45), docs/index.html</td><td>“나쁜 묶음은 평소의 20배 노름”</td><td>원본 45는 이전 최고치의 20배(4,200)</td><td>“이전 최고치의 20배 노름”으로 고침</td></tr>
+<tr><td>#rag 더 깊이 보기(원본 64), docs/index.html</td><td>다섯 실패 중 “오래된 조각”</td><td>원본 64의 실패 유형은 stale embeddings</td><td>“낡은 임베딩”으로 고침</td></tr>
+<tr><td>js/content.js 출처 목록(원본 84)</td><td>“덜 거절”이 본문의 “과소 거절”과 다름</td><td>같은 개념(under-refusal)을 본문은 과소 거절로 씀</td><td>“과소 거절과 과잉 거절”로 통일</td></tr>
+<tr><td>#verify 식 설명</td><td>“실험의 k번 시도는 모두 끝까지 돌린다고 봅니다”가 실험과 모순</td><td>passk 실험과 표지 실험은 통과하면 멈추는 차례 시도(math.js tryUntilPass)로 통과당 비용 = 시도당 비용 ÷ p를 계산해 k와 무관</td><td>식의 해결당 비용은 k번을 모두 돌리는 경우이고 실험은 차례 시도라고 구분해 고침</td></tr>
+<tr><td>#evals 더 깊이 보기 “과제 수를 늘리면”</td><td>“200개부터 구간 전체가 0 위로”는 실제 경계로 읽힘</td><td>같은 씨앗으로 계산하면 약 130개 안팎(102·110·120에서도 간헐적)부터 0 위로 올라옴. 200은 실험 선택지 가운데 첫 값</td><td>“실험 선택지 가운데서는 200개부터(이 가정에서는 대략 130개 안팎부터)”로 고침</td></tr>
+</tbody></table>
+<h3>보류(고치지 않고 기록)</h3>
+<ul>
+<li>원본 36의 “최소 10%” 하한은 레슨 36 연습 문제에 나오지만 권고 자체는 레슨 44의 것입니다. 책 서술이 크게 어긋나지 않아 그대로 둡니다.</li>
+<li>DPO 길이 편향: 원본은 DPO가 짧은 답을 선호한다고 쓰지만, 책은 긴 답 쪽으로 기운다고 씁니다. 책의 서술이 문헌(Park et al. 2024, 길이 편향과 DPO)과 맞아 그대로 둡니다.</li>
+<li>원본 64가 LongRAG를 인용한 “재현율 35% 흔들림”은 책이 원본의 인용으로만 전합니다. 논문에서 직접 확인하지 못했습니다.</li>
+<li>원본 15는 여섯 층을 나열하고 “다섯 층”이라고 부릅니다. 책은 출력 필터와 사람 검토를 묶어 다섯으로 셉니다. 문제 없음으로 봅니다.</li>
+<li>원본 78은 옵티마이저 상태를 56GB와 28GB로 서로 다르게 적습니다. 책은 두 값 모두 쓰지 않습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>검수 환경의 프록시 때문에 대부분의 외부 URL(arXiv·GitHub)을 curl로 열지 못했습니다. EAGLE-3과 MCP 인가 문서만 직접 열었고, 나머지 논문은 arXiv 번호와 제목을 알려진 문헌 정보와 대조했습니다.</li>
+<li>원본 레슨이 인용한 외부 목표 수치(예: 제품 지연 목표, 벤치마크 점수)는 원본에 적힌 값과 책의 값이 같은지만 확인했고, 각 수치의 1차 출처는 다시 확인하지 않았습니다.</li>
+<li>학습 효과는 검수 범위가 아닙니다.</li>
+</ul>
+</section>
+</main></body></html>

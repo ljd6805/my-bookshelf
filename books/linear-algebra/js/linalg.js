@@ -89,7 +89,7 @@
     return points.reduce((s, p) => add(s, p), points[0].map(() => 0)).map((x) => x / n);
   }
 
-  // 표본 공분산 행렬(n으로 나눔). 점이 하나뿐이면 0 행렬입니다.
+  // 공분산 행렬(n으로 나눔, 모집단 공식). 점이 하나뿐이면 0 행렬입니다.
   function covariance(points) {
     const m = mean(points);
     const C = [[0, 0], [0, 0]];
@@ -111,9 +111,23 @@
     return { mean: mean(points), axis, values: pairs.map((p) => p.value), ratio: total < EPS ? 1 : first.value / total };
   }
 
+
+  // 최소제곱: 식이 미지수(2개)보다 많을 때. M은 n×2 행렬(행 = 식 하나), b는 길이 n의 기록입니다.
+  // 정규방정식 MᵀM·x = Mᵀb를 풉니다. 모든 행이 같은 방향이면 MᵀM의 행렬식이 0이라 null을 돌려줍니다.
+  function leastSquares(M, b) {
+    const MtM = [0, 1].map((i) => [0, 1].map((j) => M.reduce((s, row) => s + row[i] * row[j], 0)));
+    const Mtb = [0, 1].map((i) => M.reduce((s, row, k) => s + row[i] * b[k], 0));
+    const x = solve(MtM, Mtb);
+    if (!x) return { x: null, MtM, Mtb };
+    const fitted = M.map((row) => dot(row, x));
+    const residual = sub(b, fitted);
+    const check = [0, 1].map((i) => M.reduce((s, row, k) => s + row[i] * residual[k], 0));
+    return { x, MtM, Mtb, fitted, residual, sse: dot(residual, residual), check };
+  }
+
   const relu = (v) => v.map((x) => Math.max(0, x));
   const layer = (W, b, x) => add(W.map((row) => dot(row, x)), b);
 
   return { EPS, add, sub, scale, dot, norm, cosine, angleDeg, project, fromDeg, identity, matVec, matMul,
-    det, inverse, solve, rotation, scaling, shear, lerpMatrix, eigen2, mean, covariance, pca, relu, layer };
+    det, inverse, solve, leastSquares, rotation, scaling, shear, lerpMatrix, eigen2, mean, covariance, pca, relu, layer };
 });

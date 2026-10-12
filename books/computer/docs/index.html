@@ -10,10 +10,10 @@
 <main style="max-width:880px;margin:auto;padding:48px 20px">
   <div class="eyebrow">Book brief · 2026-10-08</div>
   <h1>책 기획서와 검증 기록</h1>
-  <p class="lead">“컴퓨터는 어떻게 동작하는가”를 쓰기 전에 정한 다섯 가지와 장 구성, 그리고 실제로 확인한 범위를 기록합니다.</p>
+  <p class="lead">“컴퓨터는 어떻게 동작하는가”를 쓰기 전에 정한 여섯 가지와 장 구성, 그리고 실제로 확인한 범위를 기록합니다.</p>
 
   <p><a href="redesign-plan.html">표현 개편 계획</a> · <a href="redesign-validation.html">표현 개편 구현·검증 기록</a></p>
-  <h2 id="brief">쓰기 전에 정한 다섯 가지</h2>
+  <h2 id="brief">쓰기 전에 정한 여섯 가지</h2>
   <div class="box">
     <p><strong>독자.</strong> 컴퓨터를 매일 쓰지만 안에서 무슨 일이 일어나는지 설명해 본 적 없는 고등학생 이상 일반 독자입니다. 프로그래밍 경험은 필요하지 않습니다.</p>
     <p><strong>끝의 행동.</strong> 작은 CPU 메모리에 프로그램을 넣어 실행하고, 결과가 틀렸을 때 비트 폭·자리올림·깃발 중 무엇 때문인지 근거를 들어 설명하고 고칠 위치를 고릅니다.</p>
@@ -29,6 +29,7 @@
     <tbody>
       <tr><td>bits</td><td>스위치로 어떤 수까지 셀까</td><td>8개 스위치로 수 만들기·자동 세기</td><td>실제 계산</td></tr>
       <tr><td>encoding</td><td>같은 비트가 왜 다른 뜻이 되나</td><td>한 바이트 네 가지 해석·UTF-8</td><td>실제 계산</td></tr>
+      <tr><td>encoding</td><td>소수는 16비트에 어떻게 적나 (2026-10-12 보충)</td><td>FP16 스위치 16개·BF16 반올림 비교 (<code>float</code>)</td><td>실제 계산</td></tr>
       <tr><td>gates</td><td>전기로 판단할 수 있나</td><td>게이트 진리표 채우기</td><td>실제 계산</td></tr>
       <tr><td>adder</td><td>게이트로 어떻게 더하나</td><td>자리올림이 번지는 4비트 덧셈기</td><td>실제 계산</td></tr>
       <tr><td>memory</td><td>회로가 값을 기억할 수 있나</td><td>클럭이 올 때만 기억하는 레지스터</td><td>교육용 모형</td></tr>
@@ -68,7 +69,15 @@
   <p><strong>2차 다듬기 후 확인.</strong> 단위·경로·그림 테스트 16개 통과. <code>tests/browser.cjs</code>로 9개 실험의 입력·출력을 다시 확인했고, <code>tests/reader-browser.cjs</code>로 표지와 9개 장을 320·375·390·412·768·1024·1440px, 두 테마(140개 조합)에서 확인해 가로 넘침, 그림 잘림, 머리말 겹침이 없고 그림 글씨가 12.5px 이상임을 확인했습니다.</p>
   <p><strong>확인하지 못한 것.</strong> Safari·Firefox·실제 모바일 기기·화면 낭독기, 동작 줄이기 설정에서의 실제 체감, 학습 효과는 확인하지 않았습니다.</p>
 
+  <h2 id="supplement-20261012">2026-10-12 보충</h2>
+  <div class="box">
+    <p><strong>더한 것.</strong> ① 2장 encoding에 부동소수점 두 문단(부호·지수·가수, 수가 커질수록 넓어지는 간격, 최댓값 65,504와 최소 정규수 2⁻¹⁴)과 “더 깊이 보기”(0.1 + 0.2, BF16의 범위와 정밀도 맞바꿈), 새 실험 <code>float</code>(FP16 스위치 16개, 십진수 입력, 예제 1·0.1·2048·65504, 초기화, BF16 반올림 결과)를 더했습니다. 계산은 <code>js/model.js</code>의 <code>decodeFloat</code>·<code>encodeFloat</code>(가장 가까운 값, 가운데면 짝수)·<code>floatNeighbor</code>입니다. 책 실험은 9개에서 10개가 되었습니다(표지 통계는 실험 수를 세어 자동으로 바뀜). ② 장마다 전이 문항(<code>transfer</code>)을 확인 문제 블록 안 “다른 상황에 써 보기”로 더했습니다. ③ 확인 문제 보기 순서를 화면에서 돌려(<code>js/quiz.js</code>의 <code>order</code>) 정답 자리가 장 번호에 따라 1·2·3번에 고르게 오게 했습니다. 데이터의 정답 번호는 그대로입니다.</p>
+    <p><strong>출처.</strong> Python 문서 struct(binary16 부호 1·지수 5·가수 10비트, 약 6.1e−05~6.5e+04), Google Cloud 블로그(BF16 부호 1·지수 8·가수 7비트, 범위가 FP32와 같음), MDN Number(JavaScript 수는 binary64), IEEE 754-2019 소개 쪽(제목·발행일만 확인, 본문은 유료라 읽지 못함). 모두 2026-10-12에 열어 확인했습니다.</p>
+    <p><strong>검증.</strong> <code>npm test</code> 19개 통과. FP16 인코딩은 Python <code>struct.pack('&gt;e')</code>와 1, 0.1, 0.3, 2048, 2049, 65504, 2⁻¹⁴, 2⁻²⁴, 1.5e−5, −2에서 같은 비트임을 대조했고, 유한한 FP16 비트 31,744개 모두가 값→비트로 되돌아오는지 테스트합니다. 실제 Chromium 1280px에서 2장의 예제 버튼, 2049 입력의 반올림, 스위치 조작(무한대), 잘못된 입력 오류, 초기화, 전이 문항 정답·오답 피드백, 콘솔 오류 없음을 확인했고, 390·320px에서는 2장·6장·9장의 가로 넘침이 없음과 스위치 배치를 화면으로 확인했습니다(<code>tests/browser.cjs</code>).</p>
+    <p><strong>확인하지 못한 것.</strong> IEEE 754-2019 본문 대조, BF16 비정규수 처리(TPU 변환은 0으로 버리지만 이 실험의 값 범위에서는 생기지 않음), 밝은 화면, 실제 독자의 전이 문항 풀이 결과. 팩트·출처 재검수는 집필하지 않은 세션이 새 회차로 해야 합니다.</p>
+  </div>
   <p style="margin-top:40px"><a href="../index.html">책으로 돌아가기</a> · <a href="../../../index.html#books">서가로 돌아가기</a></p>
+<p><a href="fact-review.html">팩트·출처 검수 기록 (2026-10-08)</a></p>
 </main>
 </body>
 </html>

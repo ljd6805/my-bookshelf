@@ -1,0 +1,39 @@
+<svg class="a09-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="흩어진 노이즈 점들이 단계를 거치며 낮 장면과 밤 장면 두 무리로 모여드는 디노이징 과정을 보여 주는 시각적 비유입니다.">
+<style>
+.a09-ill-bg{fill:#f4f1fa}
+.a09-ill-axis{stroke:#9a90b8;stroke-width:1.5}
+.a09-ill-label{font:700 13px sans-serif;fill:#3b2f63;text-anchor:middle}
+.a09-ill-small{font:600 11px sans-serif;fill:#5c5280;text-anchor:middle}
+.a09-ill-peak{fill:#c9b6ff;fill-opacity:.55;stroke:#5b3fb0;stroke-width:2;transform-origin:50% 150px;animation:a09-ill-rise 5s ease-in-out infinite}
+.a09-ill-dot{fill:#5b3fb0;animation-duration:5s;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
+.a09-ill-l{animation-name:a09-ill-left}
+.a09-ill-r{animation-name:a09-ill-right}
+.a09-ill-arrow{stroke:#b7793d;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-dasharray:6 6;animation:a09-ill-flow 1.2s linear infinite}
+@keyframes a09-ill-left{0%,10%{transform:translate(var(--a09-ill-dx),var(--a09-ill-dy))}55%,90%{transform:translate(0,0)}100%{transform:translate(var(--a09-ill-dx),var(--a09-ill-dy))}}
+@keyframes a09-ill-right{0%,10%{transform:translate(var(--a09-ill-dx),var(--a09-ill-dy))}55%,90%{transform:translate(0,0)}100%{transform:translate(var(--a09-ill-dx),var(--a09-ill-dy))}}
+@keyframes a09-ill-rise{0%,15%{transform:scaleY(.08);opacity:.2}55%,90%{transform:scaleY(1);opacity:1}100%{transform:scaleY(.08);opacity:.2}}
+@keyframes a09-ill-flow{to{stroke-dashoffset:-12}}
+html[data-motion=reduce] .a09-ill-dot,html[data-motion=reduce] .a09-ill-peak,html[data-motion=reduce] .a09-ill-arrow{animation:none;transform:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.a09-ill-dot,.a09-ill-peak,.a09-ill-arrow{animation:none;transform:none;opacity:1}}
+</style>
+<rect class="a09-ill-bg" width="340" height="180"/>
+<text class="a09-ill-label" x="170" y="22">노이즈 → 도토리 그림</text>
+<path class="a09-ill-arrow" d="M150 40H190"/>
+<path class="a09-ill-axis" d="M20 150H320"/>
+<path class="a09-ill-peak" d="M50 150C70 150 80 70 100 70S130 150 150 150Z"/>
+<path class="a09-ill-peak" d="M190 150C210 150 220 70 240 70S270 150 290 150Z"/>
+<g>
+<circle class="a09-ill-dot a09-ill-l" cx="88" cy="128" r="4" style="--a09-ill-dx:84px;--a09-ill-dy:-70px"/>
+<circle class="a09-ill-dot a09-ill-l" cx="100" cy="112" r="4" style="--a09-ill-dx:120px;--a09-ill-dy:-40px"/>
+<circle class="a09-ill-dot a09-ill-l" cx="112" cy="130" r="4" style="--a09-ill-dx:20px;--a09-ill-dy:-80px"/>
+<circle class="a09-ill-dot a09-ill-l" cx="94" cy="98" r="4" style="--a09-ill-dx:150px;--a09-ill-dy:10px"/>
+<circle class="a09-ill-dot a09-ill-l" cx="106" cy="140" r="4" style="--a09-ill-dx:60px;--a09-ill-dy:-20px"/>
+<circle class="a09-ill-dot a09-ill-r" cx="228" cy="128" r="4" style="--a09-ill-dx:-60px;--a09-ill-dy:-75px"/>
+<circle class="a09-ill-dot a09-ill-r" cx="240" cy="110" r="4" style="--a09-ill-dx:-110px;--a09-ill-dy:-30px"/>
+<circle class="a09-ill-dot a09-ill-r" cx="252" cy="132" r="4" style="--a09-ill-dx:-20px;--a09-ill-dy:-85px"/>
+<circle class="a09-ill-dot a09-ill-r" cx="234" cy="96" r="4" style="--a09-ill-dx:-140px;--a09-ill-dy:20px"/>
+<circle class="a09-ill-dot a09-ill-r" cx="246" cy="140" r="4" style="--a09-ill-dx:-80px;--a09-ill-dy:-50px"/>
+</g>
+<text class="a09-ill-small" x="100" y="168">낮 장면</text>
+<text class="a09-ill-small" x="240" y="168">밤 장면</text>
+</svg>
