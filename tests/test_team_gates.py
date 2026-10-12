@@ -5,9 +5,11 @@ from scripts.team_gates import LEGACY, validate_team_gates
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = (ROOT / 'templates/gate-log.html').read_text()
-SECTIONS = ''.join(f'<section id="{i}"></section>' for i in ('plan', 'curriculum', 'chapters', 'rehearsal'))
+SECTIONS = (''.join(f'<section id="{i}"></section>' for i in ('plan', 'curriculum', 'rehearsal'))
+            + '<section id="chapters"><table><tr><th>장</th></tr><tr><td>a</td></tr><tr><td>b</td></tr></table>'
+            + '<a href="research.html">조사 노트</a></section>')
 STYLE = '<section id="style"><h3 id="style-a"></h3><h3 id="style-b"></h3></section>'
-REVIEW = '<section class="fact-review" data-date="{}"></section>'
+REVIEW = '<section class="fact-review round" data-date=\'{}\'></section>'
 
 
 def catalog(bid='new-book', status='published'):
@@ -22,6 +24,7 @@ class TeamGates(unittest.TestCase):
             docs.mkdir(parents=True)
             (Path(name) / 'data').mkdir()
             (Path(name) / 'data/agent-team.json').write_text((ROOT / 'data/agent-team.json').read_text())
+            (docs / 'research.html').write_text('<section id="sources"></section>')
             if doc is not None:
                 (docs / 'index.html').write_text(doc)
             if review:
@@ -48,7 +51,7 @@ class TeamGates(unittest.TestCase):
 
     def test_style_memo_needed_for_every_chapter(self):
         errors = self.run_check(SECTIONS + STYLE.replace('<h3 id="style-b"></h3>', '') + TEMPLATE)
-        self.assertTrue(any('style critique memo' in e and '1 of 2' in e for e in errors))
+        self.assertTrue(any('missing style-b' in e for e in errors))
 
     def test_writing_book_needs_gates_in_order(self):
         rows = TEMPLATE.split('<tr data-gate="G3"')[0] + '</table></section>'
@@ -65,12 +68,43 @@ class TeamGates(unittest.TestCase):
         self.assertTrue(self.run_check(doc.replace(' data-approved="정민"', '')))
         self.assertTrue(self.run_check(doc.replace('data-approved="한결">', 'data-approved="서윤">')))
 
+    def test_artifacts_must_match_chapters_and_notes(self):
+        doc = SECTIONS + STYLE + TEMPLATE
+        errors = self.run_check(doc.replace('id="style-b"', 'id="style-old"'))
+        self.assertTrue(any('missing style-b' in e for e in errors))
+        self.assertTrue(self.run_check(doc.replace('<tr><td>b</td></tr>', '')))
+        self.assertTrue(self.run_check(doc.replace('research.html', 'missing.html')))
+        outside = SECTIONS + STYLE + '<h3 id="style-c"></h3>' + TEMPLATE
+        self.assertTrue(self.run_check(outside.replace('id="style-b"', 'id="x"')))
+
+    def test_round_must_sit_in_log_and_gates_once(self):
+        doc = SECTIONS + STYLE + TEMPLATE
+        self.assertTrue(self.run_check(doc.replace('<section id="log">', '<section id="notlog">')))
+        dup = doc.replace('<tr data-gate="G7"', '<tr data-gate="G6" data-approved="정민"><td>G6</td><td></td><td></td></tr><tr data-gate="G7"')
+        self.assertTrue(any('twice' in e for e in self.run_check(dup)))
+        self.assertTrue(self.run_check(doc.replace('data-date="2026-10-12"', 'data-date="2026-99-99"')))
+
+    def test_new_book_cannot_hide_behind_a_revision_round(self):
+        doc = SECTIONS + STYLE + TEMPLATE.replace('data-kind="new"', 'data-kind="revision"')
+        self.assertTrue(any('new" round' in e for e in self.run_check(doc)))
+        later = TEMPLATE.split('<section id="log">')[1].replace(
+            'data-kind="new"', 'data-kind="revision"').replace('</section>', '')
+        broken = (SECTIONS + STYLE + TEMPLATE.replace(' data-approved="정민"', '')
+                  .replace('</table>\n</section>', '</table>' + later.split('</table>')[0] + '</table></section>'))
+        self.assertTrue(any(e.startswith('books/new/docs/index.html: new round') for e in self.run_check(broken)))
+
+    def test_same_day_rounds_use_the_later_one(self):
+        rev = TEMPLATE.split('<section id="log">')[1].split('</table>')[0].replace(
+            'data-kind="new"', 'data-kind="revision"').replace(' data-approved="정민"', '') + '</table>'
+        doc = SECTIONS + STYLE + TEMPLATE.replace('</table>\n</section>', '</table>' + rev + '</section>')
+        self.assertTrue(any('G6 needs data-approved' in e for e in self.run_check(doc)))
+
     def test_legacy_book_is_grandfathered_until_revised(self):
         bid = sorted(LEGACY)[0]
         self.assertEqual(self.run_check(bid=bid), [])
         self.assertEqual(self.run_check(bid=bid, review='2026-10-12'), [])
         self.assertEqual(len(self.run_check(bid=bid, review='2026-11-01')), 1)
-        revision = (STYLE + TEMPLATE.replace('data-kind="new" data-date="2026-10-12"',
+        revision = (SECTIONS + STYLE + TEMPLATE.replace('data-kind="new" data-date="2026-10-12"',
                                              'data-kind="revision" data-date="2026-11-02"'))
         self.assertEqual(self.run_check(revision, bid=bid, review='2026-11-01'), [])
 
