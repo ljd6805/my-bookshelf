@@ -159,5 +159,15 @@
     "ci": "success: https://github.com/ljd6805/my-bookshelf/actions/runs/37741224761",
     "pages": "success: https://github.com/ljd6805/my-bookshelf/actions/runs/37741224491",
     "public_verification": "Chromium 1280/390/320px shelf, cover, routes, return and reduced motion; 4 numerical checks; example links; 0 page errors"
+  },
+  "book_theme": {
+    "date": "2026-10-12",
+    "status": "implemented_and_browser_verified_locally",
+    "rule": "docs/08-book-template.html#theme",
+    "source": "assets/book-theme.js",
+    "storage_key": "bookshelf:shelf:v1:book-theme",
+    "behavior": "모든 책은 시스템 설정과 관계없이 밝은 화면으로 열리고, 독자가 고른 어두운 화면은 서재 전체 책에서 기억한다",
+    "verified": "27권 첫 화면 밝음(시스템 어두운 모드 포함)·전환·새로고침·다른 책 유지·320px 머리말 확인(Chromium)",
+    "not_verified": "Safari·Firefox·실기기"
   }
 }

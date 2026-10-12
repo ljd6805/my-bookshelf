@@ -4,7 +4,8 @@ import unittest
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from validate import (validate_html, validate_catalog, validate_shelf_return, validate_asset_versions,
-                      validate_cross_links, validate_typography, validate_illustrations, validate_covers)
+                      validate_cross_links, validate_typography, validate_illustrations, validate_covers,
+                      validate_book_theme)
 from cover_renderer import cover_errors
 
 
@@ -139,6 +140,21 @@ class IntegrityChecks(unittest.TestCase):
             css.write_text('')
             page.write_text('<html lang="ko"><link rel="stylesheet" href="assets/style.css">')
             self.assertEqual(len(validate_typography(root)), 2)
+
+    def test_books_open_in_the_light_theme(self):
+        with tempfile.TemporaryDirectory() as name:
+            root = Path(name)
+            (root / 'books/demo').mkdir(parents=True)
+            page = root / 'books/demo/index.html'
+            good = ('<html lang="ko" data-theme="light"><head><script src="../../assets/book-theme.js?v=1"></script>'
+                    '</head><body><button id="theme" aria-label="어두운 화면으로 전환">어두운 화면</button>')
+            page.write_text(good)
+            self.assertEqual(validate_book_theme(root), [])
+            page.write_text(good.replace('data-theme="light"', 'data-theme="dark"').replace('>어두운 화면<', '>밝은 화면<'))
+            self.assertEqual(len(validate_book_theme(root)), 2)
+            page.write_text(good.replace('<script src="../../assets/book-theme.js?v=1"></script></head>',
+                                         '</head><script src="../../assets/book-theme.js?v=1"></script>'))
+            self.assertEqual(len(validate_book_theme(root)), 1)
 
     def test_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as name:
