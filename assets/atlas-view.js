@@ -1,6 +1,6 @@
 /* 지식 지도 화면. 좌표는 atlas-model.mjs가 계산하고, 여기서는 SVG를 그리고 고른 것을 밝히고
    옆 설명판을 채웁니다. 스크립트가 없으면 build_catalog.py가 만든 개념 목록이 그대로 보입니다. */
-import { buildGraph, layoutIslands, layoutFocus, blob } from './atlas-model.mjs?v=20261012-team2';
+import { buildGraph, layoutIslands, layoutFocus, blob } from './atlas-model.mjs?v=20261012-team3';
 
 const NS = 'http://www.w3.org/2000/svg';
 
