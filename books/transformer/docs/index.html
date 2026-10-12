@@ -52,15 +52,15 @@
 </section>
 
 <section id="log"><h2>6. 제작 기록 (관문 G0~G7)</h2>
-<table><tr><th>관문</th><th>넘긴 산출물</th><th>기록</th></tr>
-<tr><td>G0 요청</td><td>사용자 요청 두 건, 코디네이터 메모</td><td>2026-10-12. 어텐션은 이 책 안에 두기로 결정해 사용자에게 알림.</td></tr>
-<tr><td>G1 기획</td><td>이 문서 1절(기획·반대 의견·연결 계획)</td><td>aie-08과 범위가 겹치지 않음을 확인. 책 id transformer-inside, 서가 분류 인공지능, 색 sage(이웃 rose·amber).</td></tr>
-<tr><td>G2 교과과정</td><td>2절 목차·선수 관계·범위 표·사례 계획</td><td>14장, 부 다섯(다음 낱말 / 어텐션 / 회로 / 기억과 원인 / 학습과 한계).</td></tr>
-<tr><td>G3 조사·교수 설계</td><td>research.html, 3절 학습 설계표</td><td>토리를 JAX로 학습(tools/train_tori.py, 6000단계, 시드 7). 본문 숫자는 모두 js/math.js로 다시 계산해 확인.</td></tr>
-<tr><td>G4 원고</td><td>js/content.js 14장, 4절 문체 비평 메모와 반영, 실험 14개, 그림 14개, 서가 삽화·표지</td><td>문체 비평 반영 9건. 책 테스트(routes·math) 통과.</td></tr>
-<tr><td>G5 연결</td><td>catalog.json 장 색인·개념·노선, aie-08 들어오는 링크</td><td>build_catalog.py와 validate.py 통과.</td></tr>
-<tr><td>G6 검수</td><td>fact-review.html</td><td>집필하지 않은 새 세션이 독립 순전파로 검수. 1회차 open(필수 2건: 9장 오답 설명, 13장 다의적 뉴런 예; 사소 8건). 모두 고친 뒤 같은 검수자가 2회차로 재확인.</td></tr>
-<tr><td>G7 공개</td><td>PR과 CI</td><td>CI 통과 후 병합.</td></tr>
+<table class="gate-round" data-kind="new" data-date="2026-10-12"><tr><th>관문</th><th>넘긴 산출물</th><th>기록</th></tr>
+<tr data-gate="G0"><td>G0 요청</td><td>사용자 요청 두 건, 코디네이터 메모</td><td>2026-10-12. 어텐션은 이 책 안에 두기로 결정해 사용자에게 알림.</td></tr>
+<tr data-gate="G1"><td>G1 기획</td><td>이 문서 1절(기획·반대 의견·연결 계획)</td><td>aie-08과 범위가 겹치지 않음을 확인. 책 id transformer-inside, 서가 분류 인공지능, 색 sage(이웃 rose·amber).</td></tr>
+<tr data-gate="G2"><td>G2 교과과정</td><td>2절 목차·선수 관계·범위 표·사례 계획</td><td>14장, 부 다섯(다음 낱말 / 어텐션 / 회로 / 기억과 원인 / 학습과 한계).</td></tr>
+<tr data-gate="G3"><td>G3 조사·교수 설계</td><td>research.html, 3절 학습 설계표</td><td>토리를 JAX로 학습(tools/train_tori.py, 6000단계, 시드 7). 본문 숫자는 모두 js/math.js로 다시 계산해 확인.</td></tr>
+<tr data-gate="G4"><td>G4 원고</td><td>js/content.js 14장, 4절 문체 비평 메모와 반영, 실험 14개, 그림 14개, 서가 삽화·표지</td><td>문체 비평 반영 9건. 책 테스트(routes·math) 통과.</td></tr>
+<tr data-gate="G5"><td>G5 연결</td><td>catalog.json 장 색인·개념·노선, aie-08 들어오는 링크</td><td>build_catalog.py와 validate.py 통과.</td></tr>
+<tr data-gate="G6"><td>G6 검수</td><td>fact-review.html</td><td>집필하지 않은 새 세션이 독립 순전파로 검수. 1회차 open(필수 2건: 9장 오답 설명, 13장 다의적 뉴런 예; 사소 8건). 모두 고친 뒤 같은 검수자가 2회차로 재확인.</td></tr>
+<tr data-gate="G7"><td>G7 공개</td><td>PR과 CI</td><td>CI 통과 후 병합.</td></tr>
 </table>
 <h3>재현 방법</h3>
 <p><code>python3 tools/train_tori.py</code>(jax·optax 필요, CPU 몇 분)로 tools/tori.pkl을 만들고, <code>python3 tools/export_tori.py</code>로 js/weights.js, js/checkpoints.js, tests/reference.json을 다시 씁니다. tori.pkl은 커밋하지 않습니다. 가중치는 소수 넷째 자리로 반올림했고, 테스트는 반올림한 가중치로 numpy가 계산한 기준값과 브라우저 계산이 1e-3 안에서 같은지 확인합니다.</p>
