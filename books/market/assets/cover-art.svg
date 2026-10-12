@@ -1,0 +1,25 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="새벽전자 호가창에서 위로는 19,960원부터 매도호가가, 아래로는 19,950원부터 매수호가가 쌓이고, 하린의 주문표 한 장이 19,950원 매수 줄의 맨 뒤로 들어가는 그림" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="14" y="22">매도</text>
+<text class="cv-text cv-muted" x="14" y="108">매수</text>
+<rect class="cv-bar" x="86" y="12" width="34" height="14" rx="2"/>
+<rect class="cv-bar" x="70" y="30" width="50" height="14" rx="2"/>
+<rect class="cv-bar" x="94" y="48" width="26" height="14" rx="2"/>
+<rect class="cv-node" x="124" y="12" width="52" height="14" rx="2"/><text class="cv-text" x="129" y="22">19,980</text>
+<rect class="cv-node" x="124" y="30" width="52" height="14" rx="2"/><text class="cv-text" x="129" y="40">19,970</text>
+<rect class="cv-node" x="124" y="48" width="52" height="14" rx="2"/><text class="cv-text" x="129" y="58">19,960</text>
+<path class="cv-hair cv-dash" d="M50 69H244"/>
+<text class="cv-text cv-muted" x="182" y="72">10원</text>
+<rect class="cv-fill" x="124" y="78" width="52" height="16" rx="2"/><text class="cv-text cv-inverse" x="129" y="89">19,950</text>
+<rect class="cv-node" x="124" y="98" width="52" height="14" rx="2"/><text class="cv-text" x="129" y="108">19,940</text>
+<rect class="cv-node" x="124" y="116" width="52" height="14" rx="2"/><text class="cv-text" x="129" y="126">19,930</text>
+<rect class="cv-tint" x="180" y="79" width="20" height="14" rx="2"/><rect class="cv-tint" x="203" y="79" width="14" height="14" rx="2"/><rect class="cv-tint" x="220" y="79" width="20" height="14" rx="2"/>
+<rect class="cv-bar" x="180" y="98" width="40" height="14" rx="2"/>
+<rect class="cv-bar" x="180" y="116" width="22" height="14" rx="2"/>
+<path class="cv-line cv-dash" d="M292 56Q290 84 262 86"/>
+<path class="cv-stroke" d="M266 82L260 86L266 90"/>
+<rect class="cv-node" x="268" y="20" width="38" height="34" rx="3"/>
+<path class="cv-hair" d="M274 32H300M274 40H296M274 47H290"/>
+<text class="cv-text cv-bold" x="273" y="28">매수</text>
+<rect class="cv-fill" x="244" y="79" width="10" height="14" rx="2"/>
+<text class="cv-text cv-muted" x="14" y="144">호가 · 줄 · 단일가 · 눈금 · 결제</text>
+</svg>

@@ -1,0 +1,64 @@
+<svg class="mk-ill" viewBox="0 0 340 180" role="img" aria-label="하린의 매수 주문표가 증권사를 거쳐 호가창 19,950원 줄에서 매도 주문과 만나 체결되고, T+2 도장 뒤 주식 10주가 계좌에 들어오는 그림" aria-labelledby="mk-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="mk-ill-title">하린의 매수 주문표가 휴대전화에서 증권사를 거쳐 새벽전자 호가창 19,950원 줄로 가고, 매도 주문과 만나 함께 깜빡이며 체결된 뒤 T+2 도장이 찍히고 주식이 계좌에 들어오는 과정</title>
+<style>
+.mk-ill-box{fill:#fffaf0;stroke:#a7895c;stroke-width:1.3}
+.mk-ill-book{fill:#fffaf0;stroke:#8c6a32;stroke-width:1.4}
+.mk-ill-ask{fill:#e6edf4;stroke:#5c7a99;stroke-width:1}
+.mk-ill-bid{fill:#f6e7cc;stroke:#b07a24;stroke-width:1}
+.mk-ill-word{font:600 10px sans-serif;fill:#2c2416}
+.mk-ill-small{font:500 8.5px sans-serif;fill:#6b5d48}
+.mk-ill-num{font:600 9px monospace;fill:#2c2416}
+.mk-ill-path{fill:none;stroke:#c9b48f;stroke-width:1.4;stroke-dasharray:3 4}
+.mk-ill-slip{fill:#b07a24}
+.mk-ill-slip-t{font:700 7px sans-serif;fill:#fff}
+.mk-ill-sell{fill:#5c7a99}
+.mk-ill-order{animation:mk-ill-travel 6s ease-in-out infinite}
+.mk-ill-seller{opacity:0;animation:mk-ill-sellin 6s ease-in-out infinite}
+.mk-ill-flash{fill:#f2c14e;opacity:0;animation:mk-ill-flash 6s ease-in-out infinite}
+.mk-ill-stamp{opacity:0;transform-box:fill-box;transform-origin:center;animation:mk-ill-stamp 6s ease-out infinite}
+.mk-ill-stamp-r{fill:none;stroke:#b4542d;stroke-width:2}
+.mk-ill-stamp-t{font:800 12px sans-serif;fill:#b4542d}
+.mk-ill-share{fill:#b07a24;opacity:0;animation:mk-ill-land 6s ease-in infinite}
+.mk-ill-count{opacity:0;animation:mk-ill-count 6s ease-in-out infinite}
+@keyframes mk-ill-travel{0%,4%{transform:translate(0,0);opacity:1}22%{transform:translate(98px,0);opacity:1}30%{transform:translate(98px,0)}46%,62%{transform:translate(200px,14px);opacity:1}68%,100%{transform:translate(200px,14px);opacity:0}}
+@keyframes mk-ill-sellin{0%,36%{transform:translate(28px,0);opacity:0}44%{opacity:1}50%,62%{transform:translate(0,0);opacity:1}68%,100%{transform:translate(0,0);opacity:0}}
+@keyframes mk-ill-flash{0%,50%{opacity:0}53%{opacity:.85}56%{opacity:.2}59%{opacity:.85}64%,100%{opacity:0}}
+@keyframes mk-ill-stamp{0%,66%{opacity:0;transform:scale(1.6) rotate(-12deg)}72%,94%{opacity:1;transform:scale(1) rotate(-8deg)}100%{opacity:0;transform:scale(1) rotate(-8deg)}}
+@keyframes mk-ill-land{0%,72%{transform:translate(0,-34px);opacity:0}76%{opacity:1}84%,94%{transform:translate(0,0);opacity:1}100%{opacity:0}}
+@keyframes mk-ill-count{0%,82%{opacity:0}86%,94%{opacity:1}100%{opacity:0}}
+html[data-motion=reduce] .mk-ill-order{animation:none;transform:translate(200px,14px);opacity:1}
+html[data-motion=reduce] .mk-ill-seller,html[data-motion=reduce] .mk-ill-stamp,html[data-motion=reduce] .mk-ill-share,html[data-motion=reduce] .mk-ill-count{animation:none;opacity:1}
+html[data-motion=reduce] .mk-ill-stamp{transform:rotate(-8deg)}
+html[data-motion=reduce] .mk-ill-flash{animation:none;opacity:0}
+@media(prefers-reduced-motion:reduce){.mk-ill-order{animation:none;transform:translate(200px,14px);opacity:1}.mk-ill-seller,.mk-ill-stamp,.mk-ill-share,.mk-ill-count{animation:none;opacity:1}.mk-ill-stamp{transform:rotate(-8deg)}.mk-ill-flash{animation:none;opacity:0}}
+</style>
+<text class="mk-ill-small" x="170" y="16" text-anchor="middle">주문 → 증권사 → 호가창 → 체결 → T+2 결제</text>
+<path class="mk-ill-path" d="M44 70H104M166 70H196"/>
+<rect class="mk-ill-box" x="14" y="38" width="30" height="54" rx="6"/>
+<rect x="19" y="46" width="20" height="34" rx="2" fill="#f6e7cc"/>
+<text class="mk-ill-small" x="29" y="104" text-anchor="middle">하린</text>
+<rect class="mk-ill-box" x="104" y="42" width="62" height="56" rx="5"/>
+<text class="mk-ill-word" x="135" y="57" text-anchor="middle">증권사</text>
+<text class="mk-ill-small" x="135" y="91" text-anchor="middle">증거금 확인</text>
+<rect class="mk-ill-book" x="196" y="26" width="132" height="92" rx="6"/>
+<text class="mk-ill-small" x="262" y="38" text-anchor="middle">새벽전자 호가창</text>
+<rect class="mk-ill-ask" x="248" y="44" width="38" height="13" rx="2"/><text class="mk-ill-num" x="267" y="54" text-anchor="middle">19,970</text>
+<rect class="mk-ill-ask" x="248" y="59" width="38" height="13" rx="2"/><text class="mk-ill-num" x="267" y="69" text-anchor="middle">19,960</text>
+<rect class="mk-ill-flash" x="200" y="74" width="124" height="18" rx="3"/>
+<rect class="mk-ill-bid" x="248" y="77" width="38" height="13" rx="2"/><text class="mk-ill-num" x="267" y="87" text-anchor="middle">19,950</text>
+<rect class="mk-ill-bid" x="248" y="92" width="38" height="13" rx="2"/><text class="mk-ill-num" x="267" y="102" text-anchor="middle">19,940</text>
+<text class="mk-ill-small" x="204" y="54">매도</text><text class="mk-ill-small" x="204" y="102">매수</text>
+<rect x="200" y="79" width="10" height="9" rx="1.5" fill="#d9bd8c"/><rect x="212" y="79" width="10" height="9" rx="1.5" fill="#d9bd8c"/>
+<g class="mk-ill-seller"><rect class="mk-ill-sell" x="292" y="78" width="30" height="11" rx="2"/><text class="mk-ill-slip-t" x="307" y="86" text-anchor="middle">매도</text></g>
+<g class="mk-ill-order"><rect class="mk-ill-slip" x="24" y="64" width="22" height="11" rx="2"/><text class="mk-ill-slip-t" x="35" y="72" text-anchor="middle">매수</text></g>
+<path d="M120 126H330" stroke="#d6c8ae" stroke-width="1"/>
+<rect class="mk-ill-box" x="232" y="134" width="96" height="36" rx="5"/>
+<text class="mk-ill-small" x="240" y="148">하린의 계좌</text>
+<rect class="mk-ill-share" x="244" y="153" width="9" height="11" rx="1.5"/>
+<rect class="mk-ill-share" x="256" y="153" width="9" height="11" rx="1.5" style="animation-delay:.12s"/>
+<rect class="mk-ill-share" x="268" y="153" width="9" height="11" rx="1.5" style="animation-delay:.24s"/>
+<g class="mk-ill-count"><text class="mk-ill-word" x="284" y="163">+10주</text></g>
+<g class="mk-ill-stamp"><rect class="mk-ill-stamp-r" x="160" y="134" width="52" height="28" rx="4"/><text class="mk-ill-stamp-t" x="186" y="153" text-anchor="middle">T+2</text></g>
+<text class="mk-ill-small" x="14" y="150">체결은 오늘,</text>
+<text class="mk-ill-small" x="14" y="163">결제는 이틀 뒤</text>
+</svg>

@@ -198,5 +198,25 @@
   "study_features": {
     "status": "local_tests_and_browser_verified",
     "remaining": "복습 퀴즈가 없는 25권(scripts/study_rules.py PENDING)에 review.json을 쓰고 새 세션 팩트 검수 뒤 PENDING에서 지우기. AI Book은 공통 사례 개편이 끝난 뒤 쓰기"
+  },
+  "securities_market": {
+    "book": "books/market/",
+    "series": "finance-from-scratch 4권 (13권 시리즈 첫 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md",
+    "docs": "books/market/docs/index.html",
+    "research": "books/market/docs/research.html",
+    "fact_review": "books/market/docs/fact-review.html (1회차 fixed)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 27개",
+      "브라우저 1280/390/320 47개 화면·42회 실험 조작",
+      "validate.py·build_catalog.py --check·node --test·unittest"
+    ],
+    "remaining": [
+      "법령·거래소 규정 조문 원문 대조",
+      "66개 출처 링크 전체 상태 점검",
+      "시간에 민감한 규칙(애프터마켓, 거래세, NXT 시간)은 개정 때 재확인"
+    ],
+    "next": "시리즈 1권 「돈의 시간 가치」를 같은 절차로 시작, 그다음 12권 그리드"
   }
 }
