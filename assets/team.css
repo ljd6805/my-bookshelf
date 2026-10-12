@@ -28,3 +28,15 @@
 @media(max-width:600px){.people{grid-template-columns:1fr}.team-flow{grid-template-columns:1fr;gap:4px}.team-flow li::after{display:none}.team-flow a{grid-template-columns:30px minmax(0,1fr);grid-template-rows:auto auto;justify-items:start;text-align:left;column-gap:14px;row-gap:0}.team-flow .dot{grid-row:span 2;margin:0}.team-hero{padding:32px 0 30px}}
 @media(prefers-reduced-motion:reduce){.team-flow .dot{animation:none}}
 html[data-motion=reduce] .team-flow .dot{animation:none}
+.persona-more{margin-top:12px;border-top:1px dashed rgba(var(--e),.35);padding-top:10px}
+.persona-more summary{cursor:pointer;font-size:13px;font-weight:700;color:rgb(var(--e));list-style:none;display:flex;align-items:center;gap:6px;min-height:32px}
+.persona-more summary::-webkit-details-marker{display:none}
+.persona-more summary::before{content:"+";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1px solid rgba(var(--e),.6);font-size:13px;line-height:1}
+.persona-more[open] summary::before{content:"−"}
+.persona-more dl{margin:8px 0 0;font-size:13.5px;line-height:1.7}
+.persona-more dt{font-weight:700;font-size:12px;color:rgb(var(--e));margin-top:12px}
+.persona-more dd{margin:3px 0 0;color:var(--ink)}
+.persona-more ul{margin:2px 0 0;padding-left:18px}.persona-more li{margin:2px 0}
+.persona-more .checks{list-style:none;padding-left:0}.persona-more .checks li{position:relative;padding-left:22px}.persona-more .checks li::before{content:"☐";position:absolute;left:0;color:rgb(var(--e))}
+.persona-more q{display:block;quotes:none;padding:8px 12px;border-radius:8px;background:rgba(var(--t),.12);font-family:var(--serif)}
+.persona-more q::before{content:"“"}.persona-more q::after{content:"”"}
