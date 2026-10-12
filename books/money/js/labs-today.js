@@ -9,7 +9,7 @@ MLabs.discount=el=>{
   if(fv===null)return U.result(el,'',U.problem('금액','미래에 받을 돈은 1만 원에서 100,000만 원 사이의 숫자로 넣어야 합니다.'));
   const amount=fv*1e4,today=M.pv(amount,r,n),steps=Array.from({length:n+1},(_,t)=>[t,M.pv(amount,r,n-t)/1e4]);
   const chart=U.lines([{name:'그 해 시점의 값',points:steps,color:'var(--accent)'}],{label:`${n}년 뒤 ${F(fv,0)}만 원을 할인율 ${r}%로 오늘까지 데려온 값. 오늘 ${W(today)}.`,xName:'오늘부터 지난 해',yName:'만 원',yFmt:v=>F(v,0),marks:[[0,today/1e4,`오늘 ${W(today)}`],[n,fv,'']]});
-  const chain=n<=4?`<br>한 해씩 거꾸로: ${steps.slice().reverse().map(([t,v],i)=>i?`÷ ${F(1+r/100,3)} → ${F(v,1)}만`:`${n}년 뒤 ${F(v,0)}만`).join(' ')}.`:'';
+  const chain=n<=4?`<br>한 해씩 거꾸로: ${steps.slice().reverse().map(([t,v],i)=>i?`÷ ${F(1+r/100,3)} → ${F(v,v>=100?0:1)}만`:`${n}년 뒤 ${F(v,0)}만`).join(' ')}.`:'';
   const near=M.pv(1e6,r,1),far=M.pv(1e6,r,30);
   U.result(el,chart,`${n}년 뒤 ${W(amount)}의 현재가치는 할인율 ${P(r,1)}에서 <b>${W(today)}</b>입니다. 이 가정에서는 이 상품에 오늘 그보다 많이 내면, 같은 금리로 맡기는 것보다 불리합니다.${chain}<br>같은 할인율에서 1년 뒤 100만 원은 ${W(near)}, 30년 뒤 100만 원은 ${W(far)}입니다.${U.kind('real','할인율은 가정이며, 할인율을 말하지 않은 현재가치는 비교할 수 없습니다.')}`);
  });
@@ -25,7 +25,7 @@ function prepayText(s,k,fee){
  if(!k)return fee>0?`<br>중도상환수수료율 ${P(fee,1)}를 넣었지만, 미리 갚는 달을 0(안 갚음)으로 두어 수수료를 계산하지 않았습니다.`:'';
  if(k>=s.rows.length)return '<br>미리 갚는 달이 만기와 같거나 뒤라서 아낄 이자가 없습니다.';
  const left=s.rows[k-1].left,saved=s.rows.slice(k).reduce((a,r)=>a+r.interest,0),cost=Math.round(left*fee/100),net=saved-cost;
- return `<br>${k}개월째 끝에 남은 원금 ${W(left)}을 모두 갚으면 그 뒤 이자 <b>${W(saved)}</b>를 내지 않습니다. 중도상환수수료 ${P(fee,1)}는 ${W(cost)}이라, 이 가정에서는 수수료를 빼고 ${net>=0?`${W(net)}을 아낍니다`:`오히려 ${W(-net)} 더 냅니다`}(아낀 이자는 할인하지 않고 더한 값).`;
+ return `<br>${k}개월째 끝에 남은 원금 ${W(left)}을 모두 갚으면 그 뒤 이자 <b>${W(saved)}</b>${U.josa(W(saved),'을','를')} 내지 않습니다. 중도상환수수료 ${P(fee,1)}는 ${W(cost)}이라, 이 가정에서는 수수료를 빼고 ${net>=0?`${W(net)}을 아낍니다`:`오히려 ${W(-net)} 더 냅니다`}(아낀 이자는 할인하지 않고 더한 값).`;
 }
 MLabs.schedule=el=>{
  U.setup(el,U.range('lprin','빌린 돈 (만 원)',100,5000,50,600)+U.range('lrate','연 금리 (%)',0,20,.1,6)+U.range('lmonths','기간 (개월)',6,120,6,36)+U.select('lmethod','상환 방식',METHODS,'level')+U.range('lpre','미리 다 갚는 달 (0 = 안 갚음)',0,120,1,0)+U.range('lfee','중도상환수수료율 (%)',0,3,.1,0));

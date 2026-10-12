@@ -25,3 +25,5 @@ test('art files follow the cover and shelf rules',()=>{
  assert.match(shelf,/@keyframes/);assert.match(shelf,/animation\s*:/);assert.match(shelf,/prefers-reduced-motion/);assert.match(shelf,/html\[data-motion=reduce\]/);
  for(const [,c] of shelf.matchAll(/(?:class|id)="([^"]+)"/g))for(const tok of c.split(' '))assert.ok(tok.startsWith('mn-'),tok);
 });
+test('the discount figure runs from 3 years later back to today',()=>{const ctx={window:{MMath:require('../js/math.js')}};ctx.window.window=ctx.window;vm.runInNewContext(read('js/figures.js'),ctx.window);const f=ctx.window.MFigures.render('discount');assert.match(f.caption,/오늘 10,066,558원/);const texts=[...f.svg.matchAll(/>([^<]+)</g)].map(m=>m[1]);assert.equal(texts[texts.indexOf('오늘')+1],'10,066,558');assert.equal(texts[texts.indexOf('3년 뒤')+1],'11,000,000');});
+test('prediction questions in app.js match the design table in docs/index.html',()=>{const app=read('js/app.js'),doc=read('docs/index.html');for(const id of LABS){const m=app.match(new RegExp(`\\b${id}:\\['[^']+','[^']+','([^']+)'`));assert.ok(m,id);assert.ok(doc.includes(`<b>L2</b> ${m[1]}</td>`),id);}});

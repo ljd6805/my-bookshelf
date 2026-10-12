@@ -15,7 +15,7 @@ MLabs.real=el=>{
 /* 경로 읽기: "50, -50" → [50,-50]. 1~30개, 각 값은 −99.9% 이상 1000% 이하. */
 function parsePath(s){const v=s.replace(/−/g,'-').split(/[,\s]+/).filter(Boolean).map(Number);return v.length>=1&&v.length<=30&&v.every(x=>Number.isFinite(x)&&x>-100&&x<=1000)?v:null;}
 MLabs.cagr=el=>{
- U.setup(el,U.text('gpath','해마다 수익률 (%, 쉼표로)','50, -50','예: 20, -10, 15, -5, 10')+U.range('gswing','흔들림 크기 (%) · 평균은 그대로',0,150,5,100)+U.range('gstart','처음 금액 (만 원)',100,5000,100,1000));
+ U.setup(el,U.text('gpath','해마다 수익률 (%, 쉼표로)','50, -50','예: 20, -10, 15, -5, 10')+U.range('gswing','흔들림 크기 (%) · 평균은 그대로',0,150,5,100,'100% = 입력한 경로 그대로, 0% = 해마다 평균만큼, 150% = 평균에서 1.5배 더 멀리')+U.range('gstart','처음 금액 (만 원)',100,5000,100,1000));
  U.bind(el,()=>{
   const base=parsePath(el.querySelector('#gpath').value),swing=U.value(el,'gswing')/100,start=U.value(el,'gstart')*1e4;
   if(!base)return U.result(el,'',U.problem('수익률','숫자 1~30개를 쉼표로 나눠 넣고, 한 해 수익률은 −100%보다 커야 합니다. 예: 50, -50'));
@@ -50,12 +50,13 @@ MLabs.decide=el=>{
   const a0=U.num(el,'xamt');
   if(a0===null)return U.result(el,'',U.problem('금액','쓸 돈은 10만 원에서 1,000만 원 사이로 넣어야 합니다.'));
   const a=a0*1e4,loan=U.value(el,'xloan'),n=U.value(el,'xyears'),sc=['xs1','xs2','xs3'].map(id=>U.value(el,id)),fee=U.value(el,'xfee'),tax=+el.querySelector('#xtax').value,pre=U.value(el,'xpre');
-  const r=M.repayVsInvest(a,loan,n,sc,fee,tax),cut=M.compoundFV(a*pre/100,loan,n),monthly=M.payment(a,loan,n*12),spare=1e7-a;
+  const r=M.repayVsInvest(a,loan,n,sc,fee,tax),full=M.breakEvenAfter(loan,n,fee,tax,pre),cut=M.compoundFV(a*pre/100,loan,n),monthly=M.payment(a,loan,n*12),spare=1e7-a;
   const labels=['상환 (확실)',...sc.map(s=>`투자 ${U.sfmt(s,0)}% (가정)`)],vals=[r.repay-cut,...r.invest.map(x=>x.end)];
   const chart=U.bars(labels,vals.map(v=>v/1e4),{max:Math.max(...vals)/1e4,mark:i=>i===0,show:v=>`${F(v,1)}만`})+decideTable(r,a,n,cut,loan);
   const inv=r.invest.map(x=>`연 ${P(x.rate,1)}면 ${W(x.end)}(상환보다 ${W(Math.abs(x.diff+cut))} ${x.diff+cut>=0?'많음':'적음'})`).join(', ');
-  const preText=pre?` 중도상환수수료 ${P(pre,1)}는 오늘 ${W(a*pre/100)}이고, 같은 ${n}년 뒤로 옮기면 ${W(cut)}이라 상환 효과에서 뺐습니다. 아래 같아지는 수익률은 이 수수료를 빼기 전 값입니다.`:'';
-  U.result(el,chart,`이 가정에서는 ${W(a)}으로 연 ${P(loan,1)} 대출을 갚으면 ${n}년 뒤 <b>${W(r.repay-cut)}</b>어치의 효과가 확실하게 남습니다.${preText}<br>투자에 두면 비용률 ${P(fee,2)}${tax?`와 세금 ${P(tax,1)}`:''}를 뺀 뒤 ${inv}입니다.<br>상환과 같아지려면 비용을 떼기 전 수익률로 해마다 <b>연 ${P(r.breakEven)}</b>를 꾸준히 벌어야 합니다${tax?'(세금은 이 값에 넣지 않았습니다)':''}. 수익률이 흔들리면 같은 평균이어도 연환산은 그보다 낮을 수 있습니다(8장).<br>계산 밖의 숫자: 비상금으로 남는 돈 ${W(Math.max(0,spare))}, 대출을 갚으면 달마다 나가지 않는 상환액 ${W(monthly)}(원리금균등 ${n*12}개월 가정). 이 표는 정답을 고르지 않고, 어떤 조건에서 숫자가 어느 쪽을 가리키는지만 보여 줍니다.${U.kind('scenario','투자 수익률은 가정한 시나리오이며 미래 수익률의 예측이 아닙니다. 상환 효과는 아낀 이자를 같은 금리로 복리 근사했습니다.')}`);
+  const preText=pre?` 중도상환수수료 ${P(pre,1)}는 오늘 ${W(a*pre/100)}이고, 같은 ${n}년 뒤로 옮기면 ${W(cut)}이라 상환 효과에서 뺐습니다.`:'';
+  const what=[pre?'중도상환수수료':'',tax?'세금':''].filter(Boolean).join('와 '),fullText=what?` ${what}까지 넣어 계산하면 같아지는 수익률은 <b>연 ${P(full)}</b>입니다.`:'';
+  U.result(el,chart,`이 가정에서는 ${W(a)}으로 연 ${P(loan,1)} 대출을 갚으면 ${n}년 뒤 <b>${W(r.repay-cut)}</b>어치의 효과가 확실하게 남습니다.${preText}<br>투자에 두면 비용률 ${P(fee,2)}${tax?`와 세금 ${P(tax,1)}`:''}를 뺀 뒤 ${inv}입니다.<br>상환과 같아지려면 비용을 떼기 전 수익률로 해마다 <b>연 ${P(r.breakEven)}</b>를 꾸준히 벌어야 합니다${what?`(${what}${U.josa(what,'은','는')} 넣기 전 값)`:''}.${fullText} 수익률이 흔들리면 같은 평균이어도 연환산은 그보다 낮을 수 있습니다(8장).<br>계산 밖의 숫자: 비상금으로 남는 돈 ${W(Math.max(0,spare))}, 대출을 갚으면 달마다 나가지 않는 상환액 ${W(monthly)}(원리금균등 ${n*12}개월 가정). 이 표는 정답을 고르지 않고, 어떤 조건에서 숫자가 어느 쪽을 가리키는지만 보여 줍니다.${U.kind('scenario','투자 수익률은 가정한 시나리오이며 미래 수익률의 예측이 아닙니다. 상환 효과는 아낀 이자를 같은 금리로 복리 근사했습니다.')}`);
  });
 };
 })();

@@ -44,7 +44,8 @@ F.rule72=()=>{
  return {svg:svg('연 3, 6, 9, 12%에서 72의 법칙으로 어림한 두 배 걸리는 해와 정확한 값을 나란히 놓은 막대그래프. 둘이 거의 같다',s+note(`달마다 붙이는 연 3%의 실효 금리는 ${M.ear(3,12).toFixed(4)}%입니다.`,250)),caption:`72의 법칙(파랑)과 정확한 값 ln 2 ÷ ln(1 + 금리)(초록)은 4~12% 근처에서 거의 겹칩니다. 연 6%면 12년과 ${M.doublingYears(6).toFixed(2)}년입니다.`};
 };
 F.discount=()=>{
- const vals=[3,2,1,0].map(k=>M.pv(1.1e7,3,k));
+ /* i=0이 오른쪽 끝 3년 뒤(1,100만 원 그대로), i=3이 왼쪽 끝 오늘(세 번 나눈 값). vals[i]는 i년만큼 할인한 값이다. */
+ const vals=[0,1,2,3].map(k=>M.pv(1.1e7,3,k));
  let s='';
  vals.forEach((v,i)=>{const x=470-i*150,c=i===3?'var(--accent)':'var(--line)';s+=box(x,90,120,70,c)+t(x+60,118,i===0?'3년 뒤':i===3?'오늘':`${3-i}년 뒤`,{size:13,fill:'var(--muted)'})+t(x+60,144,`${won(v)}`,{size:14,w:700});if(i<3)s+=arrow(x-4,125,x-26,'var(--muted)')+t(x-15,112,'÷1.03',{size:11,fill:'var(--muted)'});});
  s+=dot(530,76,-450,0,'var(--accent)',0,6)+t(320,50,'복리를 거꾸로: 해마다 1.03으로 나눕니다',{size:13,fill:'var(--accent)',w:700});

@@ -15,7 +15,7 @@ const value=(el,id)=>Number(el.querySelector('#'+id).value);
 /* 숫자 칸 읽기: 비었거나 범위를 벗어나면 null. 오류 문장은 각 실험이 "확인해 주세요"로 보여 준다. */
 function num(el,id){const x=el.querySelector('#'+id),s=x.value.trim(),v=Number(s);if(s===''||!Number.isFinite(v))return null;if(x.min!==''&&v<+x.min)return null;if(x.max!==''&&v>+x.max)return null;return v;}
 const problem=(what,why)=>`<strong>${what}${josa(what,'을','를')} 확인해 주세요</strong> · ${why}`;
-function range(id,label,min,max,step,v){return `<label class="control" for="${id}"><span class="row"><span>${label}</span><output id="${id}-value">${v}</output></span><input id="${id}" type="range" min="${min}" max="${max}" step="${step}" value="${v}"></label>`;}
+function range(id,label,min,max,step,v,hint=''){return `<label class="control" for="${id}"><span class="row"><span>${label}</span><output id="${id}-value">${v}</output></span><input id="${id}" type="range" min="${min}" max="${max}" step="${step}" value="${v}"${hint?` aria-describedby="${id}-hint"`:''}>${hint?`<small class="hint" id="${id}-hint">${hint}</small>`:''}</label>`;}
 function number(id,label,min,max,step,v,hint=''){return `<label class="control" for="${id}"><span>${label}</span><input id="${id}" type="number" inputmode="decimal" min="${min}" max="${max}" step="${step}" value="${v}">${hint?`<small class="hint">${hint}</small>`:''}</label>`;}
 function select(id,label,options,v){return `<label class="control" for="${id}"><span>${label}</span><select id="${id}">${options.map(([key,text])=>`<option value="${esc(key)}" ${String(key)===String(v)?'selected':''}>${esc(text)}</option>`).join('')}</select></label>`;}
 function text(id,label,v,hint=''){return `<label class="control" for="${id}"><span>${label}</span><input id="${id}" type="text" value="${esc(v)}" autocomplete="off" spellcheck="false">${hint?`<small class="hint">${hint}</small>`:''}</label>`;}
@@ -37,15 +37,26 @@ function bars(labels,values,{unit='',digits=0,max=null,mark=()=>false,signed=fal
  const mob=`<div class="mobile-bars">${labels.map((l,i)=>`<div class="mobile-bar"><div><b>${esc(l)}${mark(i)?' ✓':''}</b><span>${esc(label(i))}</span></div><div class="mobile-track"><i style="width:${Math.min(100,Math.abs(values[i])/top*100)}%;background:${color(values[i],i)}"></i></div></div>`).join('')}</div>`;
  return `<div class="responsive-bars">${desk}${mob}</div>`;
 }
+/* 축 눈금: lo~hi를 1·2·5×10^k 간격으로 나눈 둥근 값들. 끝수 없는 숫자만 눈금 글자로 쓴다. */
+function niceTicks(lo,hi,count=4){
+ const span=hi-lo;if(!(span>0))return [lo];
+ const raw=span/count,pow=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/pow,step=(f<=1?1:f<=2?2:f<=5?5:10)*pow,out=[];
+ for(let v=Math.ceil(lo/step)*step;v<=hi+step*1e-9;v+=step)out.push(Math.abs(v)<step*1e-9?0:Number(v.toPrecision(12)));
+ return out;
+}
+/* 세로축 눈금: 글자로 바꿨을 때 같은 글자가 겹치면(예: 0.5를 정수로 적어 1) 정수 눈금만 남긴다. */
+function yTicks(lo,hi,f){const t=niceTicks(lo,hi);return new Set(t.map(f)).size<t.length?t.filter(Number.isInteger):t;}
+/* 가로축 눈금: 점의 x가 모두 정수(해·개월)면 정수 눈금만 쓴다. */
+function xTicks(lo,hi,xs){let t=niceTicks(lo,hi);if(xs.every(Number.isInteger))t=t.filter(Number.isInteger);return t.length>=2?t:[lo,hi];}
 /* 선 그래프: series=[{name,points:[[x,y]...],color,dash}], 축 범위는 점들에서 잡는다. marks=[[x,y,글]]은 점과 글을 찍는다. */
 function lines(series,{label='',xName='',yName='',yFmt=v=>sfmt(v,0),xFmt=v=>v,marks=[],zero=false,h=280}={}){
  const pts=series.flatMap(s=>s.points),xs=pts.map(p=>p[0]),ys=pts.map(p=>p[1]).concat(marks.map(m=>m[1])).concat(zero?[0]:[]);
  const x0=Math.min(...xs),x1=Math.max(...xs),ylo=Math.min(...ys),yhi=Math.max(...ys),pad=(yhi-ylo)*.08||1,y0=ylo-pad,y1=yhi+pad;
  const L=64,R=468,T=26,B=h-46,X=x=>L+(x-x0)/((x1-x0)||1)*(R-L),Y=y=>B-(y-y0)/((y1-y0)||1)*(B-T);
  let s=`<path d="M${L} ${T}V${B}H${R}" stroke="var(--line)" fill="none"/>`;
- [y0+pad,(y0+y1)/2,y1-pad].forEach(v=>{s+=`<text x="${L-6}" y="${Y(v)+4}" text-anchor="end" class="axis">${esc(yFmt(v))}</text><path d="M${L} ${Y(v)}H${R}" stroke="var(--line)" stroke-dasharray="2 4"/>`;});
+ yTicks(y0,y1,yFmt).forEach(v=>{s+=`<text x="${L-6}" y="${Y(v)+4}" text-anchor="end" class="axis">${esc(yFmt(v))}</text><path d="M${L} ${Y(v)}H${R}" stroke="var(--line)" stroke-dasharray="2 4"/>`;});
  if(zero&&y0<0&&y1>0)s+=`<path d="M${L} ${Y(0)}H${R}" stroke="var(--muted)" stroke-width="1.5"/>`;
- [x0,(x0+x1)/2,x1].forEach(v=>{s+=`<text x="${X(v)}" y="${B+18}" text-anchor="middle" class="axis">${esc(xFmt(Math.round(v*10)/10))}</text>`;});
+ xTicks(x0,x1,xs).forEach(v=>{s+=`<text x="${X(v)}" y="${B+18}" text-anchor="middle" class="axis">${esc(xFmt(v))}</text>`;});
  s+=`<text x="${R}" y="${h-8}" text-anchor="end" class="axis">${esc(xName)}</text><text x="8" y="24" class="axis">${esc(yName)}</text>`;
  series.forEach((ser,k)=>{s+=`<path d="${ser.points.map((p,i)=>`${i?'L':'M'}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('')}" fill="none" stroke="${ser.color}" stroke-width="${ser.width||3}" ${ser.dash?`stroke-dasharray="${ser.dash}"`:''}/>`;const lx=L+k*150;s+=`<path d="M${lx} 8H${lx+22}" stroke="${ser.color}" stroke-width="3" ${ser.dash?`stroke-dasharray="${ser.dash}"`:''}/><text x="${lx+27}" y="12" style="fill:${ser.color}" class="series">${esc(ser.name)}</text>`;});
  marks.forEach(([x,y,t])=>{s+=`<circle cx="${X(x)}" cy="${Y(y)}" r="5" fill="var(--orange)" stroke="var(--bg)" stroke-width="1.5"/>${t?`<text x="${Math.min(X(x)+8,R-4)}" y="${Y(y)+18}" ${X(x)>R-120?'text-anchor="end"':''} class="mark-t">${esc(t)}</text>`:''}`;});
@@ -68,5 +79,5 @@ function thumbnail(i){
  const colors=['var(--accent)','var(--blue)','var(--orange)'],widths=[70,45,25];
  return `<svg viewBox="0 0 300 100" aria-hidden="true">${sets.map((s,k)=>`<rect x="${8+k*99}" y="18" width="86" height="62" rx="6" fill="var(--panel2)" stroke="${colors[k]}"/><rect x="${16+k*99}" y="67" width="${widths[(k+i)%3]}" height="3" fill="${colors[k]}"/><text x="${51+k*99}" y="51" text-anchor="middle" fill="var(--text)" font-size="${s.length>4?13:16}">${esc(s)}</text>`).join('')}</svg>`;
 }
-return {josa,esc,fmt,sfmt,pct,won,man,value,num,problem,range,number,select,text,setup,bind,result,KINDS,kind,svg,table,bars,lines,balance,thumbnail};
+return {niceTicks,josa,esc,fmt,sfmt,pct,won,man,value,num,problem,range,number,select,text,setup,bind,result,KINDS,kind,svg,table,bars,lines,balance,thumbnail};
 })();

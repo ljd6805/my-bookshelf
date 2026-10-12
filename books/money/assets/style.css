@@ -91,3 +91,5 @@ html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-m
 .readout strong{color:var(--orange)}
 .lab .table-wrap td:nth-child(n+2){font-family:var(--font-mono);font-variant-numeric:tabular-nums}
 @media(max-width:760px){.lab .chart svg text.axis{font-size:15px}.lab .chart svg text.series,.lab .chart svg text.mark-t{font-size:16px}}
+/* 좁은 화면: 슬라이더를 움직이는 동안 결과 문장이 바로 보이도록 조작 → 결과 → 그림 순서로 놓는다(DOM 순서는 그대로). */
+@media(max-width:760px){.lab-inner{display:flex;flex-direction:column;gap:15px}.lab-inner>.lab-columns{display:contents}.lab-inner .controls{order:1}.lab-inner>.readout{order:2;margin-top:0}.lab-inner .chart{order:3}}

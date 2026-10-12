@@ -90,3 +90,27 @@ test('choice order rotates the answer to the target slot',()=>{
  for(let a=0;a<3;a++)for(let t=0;t<3;t++)assert.equal(M.choiceOrder(3,a,t)[t],a);
 });
 test('repayVsInvest taxes gains only, never losses',()=>{const r=M.repayVsInvest(6e6,6,3,[-10,8],0.1,15.4);assert.equal(Math.round(r.invest[0].end),4360891);assert.equal(Math.round(r.invest[1].end),7299134);});
+test('prediction (L2) cases that the chapter prose does not compute',()=>{
+ assert.equal(R(M.compoundFV(1e7,3.5,1)),10350000);
+ assert.equal(R(M.compoundFV(1e7,6,10)),17908477);assert.equal(R(M.compoundFV(1e7,6,10)-M.simpleFV(1e7,6,10)),1908477);
+ assert.equal(M.rule72(4),18);assert.equal(M.doublingYears(4).toFixed(2),'17.67');assert.equal(((M.rule72(4)-M.doublingYears(4))*12).toFixed(1),'3.9');
+ assert.equal(((M.rule72(6)-M.doublingYears(6))*12).toFixed(1),'1.3');
+ assert.equal(R(M.pv(12e6,4,5)),9863125);
+ const s=M.schedule(6e6,6,60,'level');assert.equal(s.totalInterest,959806);assert.equal(s.first.pay,115997);
+ assert.equal(M.npv(8,[-100,40,40,40]).toFixed(2),'3.08');assert.equal(M.irr([-100,40,40,40])[0].toFixed(2),'9.70');assert.equal(M.npv(15,[-100,60,60]).toFixed(2),'-2.46');
+ const r=M.real(4,3,15.4);near(r.after,3.384,1e-12);assert.equal(r.exact.toFixed(3),'0.373');
+ const c=M.cagr([20,-20],1e7);assert.equal(c.mean,0);assert.equal(R(c.end),9600000);assert.equal(c.cagr.toFixed(2),'-2.02');
+ const f=M.feeDrag(1e7,6,.5,30);assert.equal(R(f.withFee),49416090);assert.equal(f.lostShare.toFixed(1),'14.0');
+ assert.equal(M.repayVsInvest(6e6,6,3,[],.5,0).breakEven.toFixed(2),'6.53');
+});
+test('break-even after prepayment fee and tax',()=>{
+ near(M.breakEvenAfter(6,3,.1),M.repayVsInvest(6e6,6,3,[],.1,0).breakEven,1e-9,'no fee/tax equals breakEven');
+ assert.equal(M.breakEvenAfter(6,3,.1).toFixed(2),'6.11');assert.equal(M.breakEvenAfter(6,3,.1,0,1).toFixed(2),'5.75');assert.equal(M.breakEvenAfter(6,3,.1,15.4,0).toFixed(2),'7.13');
+ for(const [tax,pre] of [[15.4,0],[0,1],[15.4,1],[15.4,3]]){const b=M.breakEvenAfter(6,3,.1,tax,pre),x=M.repayVsInvest(6e6,6,3,[b],.1,tax).invest[0];near(x.diff+M.compoundFV(6e6*pre/100,6,3),0,1e-6,`tax ${tax} pre ${pre}`);}
+ assert.ok(M.breakEvenAfter(0,3,0,15.4,3)<0,'when repaying loses money, the break-even is a loss and no tax applies');
+});
+test('ch9 transfer: 3만 원 a month for 10 years at 3%',()=>{
+ assert.equal(Math.round(3e4*(Math.pow(1.0025,120)-1)/.0025/1e4),419);
+ const s=M.savings(3e4,120,3,0);assert.equal(Math.round((s.principal+s.interest)/1e4),414);
+ assert.equal(R(1.2e7*.06/12),60000);near(M.npv(10,[-100,55,60.5]),0,1e-9);
+});

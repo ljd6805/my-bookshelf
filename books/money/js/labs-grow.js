@@ -15,7 +15,7 @@ MLabs.scale=el=>{
   const same=Math.abs(gap)<1;
   const verdict=same?'두 접시가 <b>같은 무게</b>입니다.':gap>0?`오늘 받는 쪽이 <b>${W(gap)} 무겁습니다</b>.`:`나중에 받는 쪽이 <b>${W(-gap)} 무겁습니다</b>.`;
   const evenText=even===null?'두 금액이 같아지는 금리를 −99%~1,000% 안에서 찾지 못했습니다.':`두 제안이 같아지는 금리는 <b>연 ${P(even)}</b>입니다. 맡길 수 있는 금리가 이보다 높으면 오늘 쪽이, 낮으면 나중 쪽이 무거워집니다.`;
-  U.result(el,chart,`오늘 ${W(today*1e4)}을 연 ${P(rate,1)}로 ${years}년 옮기면 <b>${W(moved)}</b>입니다. ${years}년 뒤 약속한 ${W(offer)}과 견주면 ${verdict}<br>거꾸로 ${years}년 뒤 ${W(offer)}을 같은 금리로 오늘로 데려오면 ${W(back)}입니다. ${evenText}${U.kind('real','복리로 계산했고 세금·물가·약속이 깨질 위험은 뺐습니다. 금리는 가정입니다.')}`);
+  U.result(el,chart,`오늘 ${W(today*1e4)}을 연 ${P(rate,1)}로 ${years}년 옮기면 <b>${W(moved)}</b>입니다. ${years}년 뒤 약속한 ${W(offer)}과 견주면 ${verdict}<br>거꾸로 ${years}년 뒤 ${W(offer)}을 같은 금리로 오늘로 데려오면 ${W(back)}입니다. ${evenText}${U.kind('real','해마다 이자를 다시 붙여 계산했습니다(2장에서 자세히 봅니다). 세금·물가·약속이 깨질 위험은 뺐고, 금리는 가정입니다.')}`);
  });
 };
 MLabs.compound=el=>{
@@ -39,7 +39,7 @@ MLabs.double=el=>{
   const chart=U.lines([{name:'72의 법칙 − 정확한 값',points:rates.map(x=>[x,M.rule72(x)-M.doublingYears(x)]),color:'var(--accent)'}],{label:`72의 법칙의 오차(년). 연 ${r}%에서 72의 법칙 ${F(est,2)}년, 정확한 값 ${F(exact,2)}년, 차이 ${F(est-exact,2)}년.`,xName:'연 금리 (%)',yName:'어림의 오차 (년)',yFmt:v=>U.sfmt(v,1),zero:true,marks:[[r,est-exact,`${U.sfmt(est-exact,2)}년`]]})
    +U.table(['붙이는 횟수','실효 연 금리'],PERIODS.map(([k,t])=>[`${t}${+k===m?' ✓':''}`,P(M.ear(r,+k),4)]),`표시 금리 연 ${r}%`);
   const err=est-exact;
-  U.result(el,chart,`연 ${P(r,1)}에서 72의 법칙은 <b>${F(est,2)}년</b>, 정확한 값 ln 2 ÷ ln(1 + 금리)는 <b>${F(exact,2)}년</b>으로 ${F(Math.abs(err),2)}년 ${err>=0?'길게':'짧게'} 어림합니다.<br>같은 연 ${P(r,1)}라도 이자를 ${periodName(m)} 붙이면 실효 연 금리는 <b>${P(eff,4)}</b>이고, 두 배까지 ${F(withM,2)}년이 걸립니다.${U.kind('real','세금은 뺐습니다. 실효 금리는 한 해 동안 실제로 불어나는 비율입니다.')}`);
+  U.result(el,chart,`연 ${P(r,1)}에서 72의 법칙은 <b>${F(est,2)}년</b>, 정확한 값 ln 2 ÷ ln(1 + 금리)는 <b>${F(exact,2)}년</b>으로 ${F(Math.abs(err),2)}년(약 ${F(Math.abs(err)*12,1)}개월) ${err>=0?'길게':'짧게'} 어림합니다.<br>같은 연 ${P(r,1)}라도 이자를 ${periodName(m)} 붙이면 실효 연 금리는 <b>${P(eff,4)}</b>이고, 두 배까지 ${F(withM,2)}년이 걸립니다.${U.kind('real','세금은 뺐습니다. 실효 금리는 한 해 동안 실제로 불어나는 비율입니다.')}`);
  });
 };
 })();

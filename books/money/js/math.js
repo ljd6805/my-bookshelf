@@ -70,8 +70,14 @@ function repayVsInvest(a,loanRate,years,scenarios,fee=0,tax=0){
  const repay=a*Math.pow(1+pct(loanRate),years);
  return {repay,invest:scenarios.map(s=>{const net=(1+pct(s))*(1-pct(fee))-1,gain=Math.pow(1+net,years)-1,end=a*(1+(gain>0?gain*(1-pct(tax)):gain));return {rate:s,end,diff:end-repay};}),breakEven:((1+pct(loanRate))/(1-pct(fee))-1)*100};
 }
+/* 수수료·세금까지 넣은 같아지는 수익률(%): 중도상환수수료 pre(%)는 상환 효과에서 빼고, 세금 tax(%)는 투자 이익에서만 뗀다(repayVsInvest와 같은 가정).
+   상환 효과 (1+대출 금리)^해 × (1−pre)를 투자가 이익일 때 1 + (G−1)(1−tax)로 따라잡는 G를 찾고, 비용률 fee를 떼기 전 연 수익률로 바꾼다. pre=tax=0이면 breakEven과 같다. */
+function breakEvenAfter(loanRate,years,fee=0,tax=0,pre=0){
+ const target=Math.pow(1+pct(loanRate),years)*(1-pct(pre)),growth=target>1?1+(target-1)/(1-pct(tax)):target;
+ return (Math.pow(growth,1/years)/(1-pct(fee))-1)*100;
+}
 /* 보기 순서: 정답 원래 번호 answer를 target 자리에 오게 돌린다. */
 function choiceOrder(n,answer,target){const order=[...Array(n).keys()];const k=((answer-target)%n+n)%n;return order.slice(k).concat(order.slice(0,k));}
-const api={simpleFV,compoundFV,continuousFV,ear,rule72,doublingYears,pv,payment,schedule,savings,lumpInterest,npv,irr,real,cagr,feeDrag,repayVsInvest,choiceOrder};
+const api={simpleFV,compoundFV,continuousFV,ear,rule72,doublingYears,pv,payment,schedule,savings,lumpInterest,npv,irr,real,cagr,feeDrag,repayVsInvest,breakEvenAfter,choiceOrder};
 if(typeof module!=='undefined')module.exports=api;else root.MMath=api;
 })(this);

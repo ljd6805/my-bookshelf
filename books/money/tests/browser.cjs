@@ -10,7 +10,9 @@ const report={date:'2026-10-12',views:[],labs:[],errors:[],console:[]};
 const BAD=/NaN|undefined|Infinity/;
 /* 기본값에서 결과 문장에 꼭 나와야 하는 숫자: 본문(js/content.js)과 같은 값이다. */
 const DEFAULTS={scale:['10,300,000원','같은 무게','연 3.00%'],compound:['13,000,000원','13,439,164원','439,164원'],double:['12.00년','11.90년','6.1678%'],discount:['10,066,558원'],schedule:['182,532원','30,000원','571,136원','555,000원','1,080,000원'],npv:['11.56만 원','13.07%'],real:['2.538%','0.527%'],cagr:['0.00%','−13.40%','7,500,000원'],fees:['57,434,912원','42,484,626원','55,736,617원','26.0%','3.0%','4.94%'],decide:['7,146,096원','6,924,934원','7,535,620원','4,360,891원','연 6.11%','4,000,000원','182,532원']};
-const PRESETS={npv:[1,['10.00%와 20.00%']],cagr:[1,['6.00%','5.35%','12,978,900원']],schedule:[3,['262,321원','221,137원']],decide:[1,['7,074,635원']]};
+const PRESETS={npv:[1,['10.00%와 20.00%']],cagr:[1,['6.00%','5.35%','12,978,900원']],schedule:[3,['262,321원','221,137원']],decide:[1,['7,074,635원','연 5.75%']]};
+/* 그림 캡션에 꼭 나와야 하는 숫자(4장 할인 그림은 오늘 = 10,066,558원, 3년 뒤 = 1,100만 원 방향). */
+const FIGURES={discount:['10,066,558원']};
 const freePort=()=>new Promise(res=>{const s=net.createServer();s.listen(0,'127.0.0.1',()=>{const p=s.address().port;s.close(()=>res(p));});});
 async function serve(){
  if(process.env.BOOK_URL)return {url:process.env.BOOK_URL,stop:()=>{}};
@@ -25,6 +27,7 @@ async function frame(page,url,width,id){
  const d=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,returnVisible:!!document.querySelector('header [data-shelf-return]')?.getBoundingClientRect().width,figure:!!document.querySelector('.figure-art svg')}));
  assert.ok(d.scroll<=width,`${id}@${width}: overflow ${d.scroll}`);assert.ok(d.returnVisible,`${id}: shelf return hidden`);
  if(id!=='home')assert.ok(d.figure,`${id}: no .figure-art`);
+ if(FIGURES[id])has(await page.locator('.concept-diagram figcaption').innerText(),FIGURES[id],`${id} figure caption`);
  report.views.push({width,id,...d});
 }
 const state=lab=>lab.evaluate(l=>l.querySelector('.chart').innerHTML+l.querySelector('.readout').innerText);
