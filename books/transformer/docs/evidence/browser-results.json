@@ -1,0 +1,610 @@
+{
+  "url": "http://127.0.0.1:8765/books/transformer/",
+  "date": "2026-10-12",
+  "views": [
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "predict",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "embed",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "lookup",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "qkv",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "mask",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "multihead",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "stream",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "qkov",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "induction",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "mlp",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "patch",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "training",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "limits",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "home",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "predict",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "embed",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "lookup",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "qkv",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "mask",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "multihead",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "stream",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "qkov",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "induction",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "mlp",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "patch",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "training",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "limits",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "predict",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "embed",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "lookup",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "qkv",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "mask",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "multihead",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "stream",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "qkov",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "induction",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "mlp",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "patch",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "training",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "limits",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "induction",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "stream",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "patch",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "multihead",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "training",
+      "scroll": 320,
+      "returnVisible": true
+    }
+  ],
+  "labs": [
+    {
+      "width": 1280,
+      "id": "next",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "similar",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "softlookup",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "qktrace",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "mask",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "heads",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "lens",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "ov",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "repeat",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "neurons",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "patching",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "timeline",
+      "controls": 1,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "superpose",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "investigate",
+      "controls": 12,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "next",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "similar",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "softlookup",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "qktrace",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "mask",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "heads",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "lens",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "ov",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "repeat",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "neurons",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "patching",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "timeline",
+      "controls": 1,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "superpose",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "investigate",
+      "controls": 12,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "next",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "similar",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "softlookup",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "qktrace",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "mask",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "heads",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "lens",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "ov",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "repeat",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "neurons",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "patching",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "timeline",
+      "controls": 1,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "superpose",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "investigate",
+      "controls": 12,
+      "presets": 3,
+      "reset": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}
