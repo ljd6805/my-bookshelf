@@ -24,10 +24,15 @@ function number(id,label,min,max,step,v,hint=''){return `<label class="control" 
 function select(id,label,options,v,hint=''){return `<label class="control" for="${id}"><span>${label}</span><select id="${id}">${options.map(([key,text])=>`<option value="${esc(key)}" ${String(key)===String(v)?'selected':''}>${esc(text)}</option>`).join('')}</select>${hint?`<small class="hint">${hint}</small>`:''}</label>`;}
 function text(id,label,v,hint=''){return `<label class="control" for="${id}"><span>${label}</span><input id="${id}" type="text" value="${esc(v)}" autocomplete="off" spellcheck="false">${hint?`<small class="hint">${hint}</small>`:''}</label>`;}
 function setup(el,controls){el.innerHTML=`<div class="lab-columns"><div class="controls">${controls}</div><div class="chart" tabindex="0" role="group" aria-label="실험 그림. 좁은 화면에서는 옆으로 밀어 볼 수 있고, 같은 숫자는 아래 결과 문장에 있습니다."></div></div><div class="readout" role="status" aria-live="polite"></div>`;}
-/* 입력이 바뀌면 다시 계산한다. 계산에 걸린 시간은 data-ms에 남겨 브라우저 검사가 읽는다(결과 문장에는 넣지 않는다). */
-function bind(el,fn){
- const update=e=>{el.querySelectorAll('input[type=range]').forEach(x=>{const o=el.querySelector('#'+x.id+'-value');if(o)o.textContent=fmt(x.value,(String(x.step).split('.')[1]||'').length);});const t=performance.now();fn(e);el.dataset.ms=(performance.now()-t).toFixed(1);};
- el.querySelectorAll('input,select').forEach(x=>{x.addEventListener('input',update);if(x.tagName==='SELECT')x.addEventListener('change',update);});update();
+/* 입력이 바뀌면 다시 계산한다. 계산에 걸린 시간은 data-ms에 남겨 브라우저 검사가 읽는다(결과 문장에는 넣지 않는다).
+   lazy에 적은 슬라이더는 끄는 동안(input) 숫자 표시만 바꾸고 놓았을 때(change) 다시 계산한다. 방향키는 한 칸마다 change가 나므로 바로 바뀐다. */
+function bind(el,fn,{lazy=[]}={}){
+ const sync=()=>el.querySelectorAll('input[type=range]').forEach(x=>{const o=el.querySelector('#'+x.id+'-value');if(o)o.textContent=fmt(x.value,(String(x.step).split('.')[1]||'').length);});
+ const update=e=>{sync();const t=performance.now();fn(e);el.dataset.ms=(performance.now()-t).toFixed(1);};
+ el.querySelectorAll('input,select').forEach(x=>{
+  if(lazy.includes(x.id)){x.addEventListener('input',sync);x.addEventListener('change',update);return;}
+  x.addEventListener('input',update);if(x.tagName==='SELECT')x.addEventListener('change',update);
+ });update();
 }
 function result(el,chart,textHtml){el.querySelector('.chart').innerHTML=chart;el.querySelector('.readout').innerHTML=textHtml;}
 /* 실험 결과의 성격을 밝히는 꼬리표. real: 정한 식대로 실제 계산, scenario: 미리 정한 가상 경로, gen: 시드를 밝힌 생성기 경로, metaphor: 시각적 비유. */

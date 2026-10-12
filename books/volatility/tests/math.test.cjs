@@ -298,8 +298,8 @@ test('content ch10 final: two records',()=>{
  assert.deepEqual([M.autocorr(gr,1).toFixed(3),M.varianceRatio(gr,5).vr.toFixed(2),M.varianceRatio(gr,8).vr.toFixed(3)],['0.103','1.02','0.955']);
  assert.ok(Math.abs(M.autocorr(gr,1))<M.acfBand(130)&&Math.abs(M.varianceRatio(gr,5).z)<1.96&&Math.abs(M.varianceRatio(gr,8).z)<1.96,'generated part is indistinguishable from a random walk');
  const sd=M.sd(M.logReturns(c));assert.equal(f(sd),'2.23');
- const sim=M.monteCarlo({n:250,vol:sd,start:20000,seed:1},1000,q=>{const l=M.logReturns(q);return {z8:M.varianceRatio(l,8).z,ac:M.autocorr(l,1),cr:M.crossingsOfLevels(q,M.HARIN_LINES).total,md:M.maxDrawdown(q).mdd};});
- assert.deepEqual([sim.filter(s=>s.z8<=v8.z).length,sim.filter(s=>s.ac>=S.ac1).length,sim.filter(s=>s.cr>=322).length,sim.filter(s=>s.md<S.mdd.mdd).length],[0,0,85,731]);
+ const sim=M.monteCarlo({n:249,vol:sd,start:20000,seed:1},1000,q=>{const l=M.logReturns(q);return {z8:M.varianceRatio(l,8).z,ac:M.autocorr(l,1),cr:M.crossingsOfLevels(q,M.HARIN_LINES).total,md:M.maxDrawdown(q).mdd};});
+ assert.deepEqual([sim.filter(s=>s.z8<=v8.z).length,sim.filter(s=>s.ac>=S.ac1).length,sim.filter(s=>s.cr>=322).length,sim.filter(s=>s.md<S.mdd.mdd).length],[0,0,84,730]);
 });
 
 test('lab prediction answers (L2) proposed for the guides',()=>{
