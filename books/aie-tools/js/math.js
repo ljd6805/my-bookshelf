@@ -78,6 +78,42 @@ function lifecycle(defect,transport){
  return {stages:st,out};
 }
 
+/* 3장 보충: 선 위의 요청 한 통. lifecycle과 같은 결함을 넣은 요청과 그 응답을 실제 모양의 줄로 만들고, 검사에 걸린 줄에 이유를 단다.
+   키 이름·헤더·결과 모양은 MCP 2026-07-28 명세(기본 프로토콜·Streamable HTTP·Tools·버전) 원문 예와 대조했다(확인일 2026-10-12).
+   id 7, 노트 이름, 버전 번호, 서버 이름은 이 책의 시나리오 값이다. 줄은 [글, 걸린 이유 또는 ''] 쌍이다. */
+function wireMessage(defect,transport){
+ const http=transport==='http',bad=v=>v==='unsupported'||v==='mismatchUnsupported';
+ const name=defect==='missingCap'?'notes_delete':'notes_search',method=defect==='unknownMethod'?'notes/search':'tools/call';
+ const hv=defect==='unsupported'?'2027-01-01':'2026-07-28',bv=bad(defect)?'2027-01-01':'2026-07-28',hname=defect==='nameMismatch'?'notes_delete':name;
+ const why={nameMismatch:'헤더의 이름과 본문의 params.name이 다름',mismatchUnsupported:http?'헤더와 본문의 버전이 다름':'서버가 지원하지 않는 버전',unsupported:'서버가 지원하지 않는 버전',unknownMethod:'서버에 없는 메서드',missingCap:'이 요청에 필요한 기능(이 책 시나리오: 지우기 확인을 받는 elicitation)이 목록에 없음'}[defect]||'';
+ const req=[];
+ if(http){
+  req.push(['POST /mcp HTTP/1.1',defect==='noToken'?'Authorization 헤더가 없음':''],['Content-Type: application/json',''],['Accept: application/json, text/event-stream','']);
+  if(defect!=='noToken')req.push(['Authorization: Bearer eyJhbGciOi…(토큰)','']);
+  req.push([`MCP-Protocol-Version: ${hv}`,bad(defect)?why:''],[`Mcp-Method: ${method}`,defect==='unknownMethod'?why:''],[`Mcp-Name: ${hname}`,defect==='nameMismatch'?why:''],['','']);
+ }
+ req.push(['{',''],['  "jsonrpc": "2.0",','']);
+ if(defect!=='notification')req.push(['  "id": 7,','']);
+ req.push([`  "method": "${method}",`,defect==='notification'?'id 줄이 없어 응답을 받지 않는 알림으로 읽힘':defect==='unknownMethod'?why:''],['  "params": {',defect==='noMeta'?'_meta가 없어 버전과 클라이언트 기능을 알 수 없음':''],[`    "name": "${name}",`,defect==='nameMismatch'?why:'']);
+ const args=name==='notes_delete'?'{ "note_id": "n-102" }':'{ "query": "TPS 보고서", "limit": 5 }';
+ if(defect==='noMeta')req.push([`    "arguments": ${args}`,'']);
+ else req.push([`    "arguments": ${args},`,''],['    "_meta": {',''],[`      "io.modelcontextprotocol/protocolVersion": "${bv}",`,bad(defect)?why:''],['      "io.modelcontextprotocol/clientInfo": { "name": "notes-assistant", "version": "1.4.0" },',''],['      "io.modelcontextprotocol/clientCapabilities": {}',defect==='missingCap'?why:''],['    }','']);
+ req.push(['  }',''],['}','']);
+ return {request:req,response:wireResponse(defect,http,lifecycle(defect,transport).out)};
+}
+function wireResponse(defect,http,o){
+ const head=s=>http?[[`HTTP/1.1 ${s}`,''],['Content-Type: application/json',''],['','']]:[];
+ if(o.kind==='notification')return http?[['HTTP/1.1 202 Accepted',''],['(본문 없음)','']]:[['(아무것도 보내지 않음)','알림에는 응답하지 않음']];
+ if(o.kind==='auth')return [['HTTP/1.1 401 Unauthorized','토큰이 없어 JSON-RPC 처리 전에 거절'],['(JSON-RPC 본문 없음)','']];
+ if(o.kind==='error'){
+  const msg={'-32602':'Invalid params','-32020':defect==='nameMismatch'?"Header mismatch: Mcp-Name header value 'notes_delete' does not match body value 'notes_search'":"Header mismatch: MCP-Protocol-Version header value '2026-07-28' does not match body value '2027-01-01'",'-32022':'Unsupported protocol version','-32601':'Method not found','-32021':'Missing required client capability'}[o.code];
+  const status=o.http===404?'404 Not Found':'400 Bad Request',data=o.code===-32022;
+  return [...head(status),['{',''],['  "jsonrpc": "2.0",',''],['  "id": 7,',''],['  "error": {',''],[`    "code": ${o.code},`,'검사가 멈춘 단계의 오류 코드'],[`    "message": "${msg}"${data?',':''}`,'']].concat(data?[['    "data": { "supported": ["2026-07-28"], "requested": "2027-01-01" }','클라이언트는 supported에서 버전을 골라 새 id로 다시 보냄']]:[],[['  }',''],['}','']]);
+ }
+ const fail=o.kind==='toolError',text=fail?'노트 저장소에 연결하지 못했습니다. 잠시 뒤 다시 시도하세요.':'노트 2개: 3월 TPS 보고서, 4월 TPS 보고서';
+ return [...head('200 OK'),['{',''],['  "jsonrpc": "2.0",',''],['  "id": 7,',''],['  "result": {',''],['    "resultType": "complete",',''],[`    "content": [{ "type": "text", "text": "${text}" }],`,''],[`    "isError": ${fail},`,fail?'도구가 실패: 프로토콜 오류가 아니라 정상 결과 안의 표시':''],['    "_meta": { "io.modelcontextprotocol/serverInfo": { "name": "notes-server", "version": "2.1.0" } }',''],['  }',''],['}','']];
+}
+
 /* 4장: 복제본 메모리에 숨은 상태. 다음 요청이 N개 복제본 중 하나로 고르게 간다고 가정한다.
    MOVE_SHARE는 고정 경로(sticky)가 재시작·배포·장애 조치로 바뀌는 작업의 비율로, 교육용 가정값이다. */
 const MOVE_SHARE=0.02;
@@ -228,6 +264,6 @@ function triage(incident,order){
  return {root,done,minutes:sum(done.map(k=>CHECKS[k][1])),position:idx+1,worst:sum(seq.map(k=>CHECKS[k][1]))};
 }
 
-const A14Math={SEARCH_SCHEMA,validateArgs,TOOL_LATENCY,fanout,retryOdds,lintTool,LIFE_STAGES,lifecycle,MOVE_SHARE,replicaState,CACHE_REQS,CACHE_UPDATE,cacheRun,REBIND_CHECKS,rebind,TASK_STORIES,taskStep,deadline,canonical,fnv,APPROVED,descriptorVariant,admitDescriptor,SCOPE_FOR,checkToken,traceSpans,CAT_TOKENS,BODY_TOKENS,REF_TOKENS,CATALOG_SHARE,disclosure,ROUTE_CASES,routeEval,CHECKS,INCIDENTS,ORDERS,triage};
+const A14Math={SEARCH_SCHEMA,validateArgs,TOOL_LATENCY,fanout,retryOdds,lintTool,LIFE_STAGES,lifecycle,wireMessage,MOVE_SHARE,replicaState,CACHE_REQS,CACHE_UPDATE,cacheRun,REBIND_CHECKS,rebind,TASK_STORIES,taskStep,deadline,canonical,fnv,APPROVED,descriptorVariant,admitDescriptor,SCOPE_FOR,checkToken,traceSpans,CAT_TOKENS,BODY_TOKENS,REF_TOKENS,CATALOG_SHARE,disclosure,ROUTE_CASES,routeEval,CHECKS,INCIDENTS,ORDERS,triage};
 if(typeof module!=='undefined')module.exports=A14Math;else root.A14Math=A14Math;
 })(typeof window!=='undefined'?window:globalThis);

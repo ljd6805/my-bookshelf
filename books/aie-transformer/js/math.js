@@ -47,6 +47,17 @@ function positionShift(method,shift,m=6,n=3){const {q,k}=POS_QK;return {base:pos
 
 /* 5장: 블록 파라미터. 어텐션 4d², FFN은 ReLU 4배 폭(2행렬)이면 8d², SwiGLU 8/3배 폭(3행렬)이면 8d²로 같다.
    임베딩은 어휘 32,000개를 출력층과 공유한다고 가정한다(묶은 임베딩). 노름의 작은 파라미터는 뺀다. */
+/* 4장 더 깊이: RoPE 문맥 늘리기. 학습 base 10,000, 쌍 i의 각속도 θᵢ = base^(−2i/d) (rad/토큰).
+   학습 중 본 최대 각도 = L_train·θᵢ. 목표 길이에서의 최대 각도는 방법마다 다르다.
+   none: L_target·θᵢ / pi(위치 보간): 위치를 s = L_target ÷ L_train으로 나눠 L_train·θᵢ / base10·base100: 추론 때 base만 10배·100배로 바꿔 L_target·θ′ᵢ.
+   '본 적 없는 각도' 쌍 = 학습 중 한 바퀴(2π)를 다 돌지 못했는데 목표에서 학습 최대 각도를 넘는 쌍. */
+function ropeExtend({dHead=128,lTrain=4096,lTarget=32768,method='none',base=10000}){
+ const nb={none:base,pi:base,base10:base*10,base100:base*100}[method],s=lTarget/lTrain,pairs=[];
+ for(let i=0;i<dHead/2;i++){const th=Math.pow(base,-2*i/dHead),th2=Math.pow(nb,-2*i/dHead),train=lTrain*th,target=method==='pi'?lTarget/s*th:lTarget*th2;
+  pairs.push({i,theta:th,wave:2*Math.PI/th,train,target,unseen:train<2*Math.PI&&target>train*(1+1e-9)});}
+ const bad=pairs.filter(p=>p.unseen),slow=pairs[pairs.length-1];
+ return {pairs,s,unseen:bad.length,worst:bad.length?Math.max(...bad.map(p=>p.target/p.train)):1,slow,closeStep:method==='pi'?1/s:1};
+}
 function blockParams(d,L,vocab=32000){const attn=4*d*d,ffn=8*d*d,emb=vocab*d;return {d,L,attn:attn*L,ffn:ffn*L,emb,perLayer:attn+ffn,total:(attn+ffn)*L+emb};}
 function layerNorm(x,eps=1e-5){const m=x.reduce((a,b)=>a+b,0)/x.length,v=x.reduce((a,b)=>a+(b-m)**2,0)/x.length;return x.map(t=>(t-m)/Math.sqrt(v+eps));}
 function rmsNorm(x,eps=1e-6){const r=Math.sqrt(x.reduce((a,b)=>a+b*b,0)/x.length+eps);return x.map(t=>t/r);}
@@ -149,6 +160,9 @@ function redesign(req,change){
  return {req,change,label:CHANGES[change],reqLabel:R.label,total:D.total,active:D.active,weightsGB,kvGB,memGB,speed,loss,baseLoss,pass};
 }
 
-const A08Math={TOKENS,rng,normal,softmax,entropy,dot,depth,attnRow,heads,sinusoid,rope,posScore,positionShift,blockParams,layerNorm,rmsNorm,mlm,causalMatrix,maskGrid,patches,whisperFrames,MOE_BASE,moeRoute,tiledAttention,scoreMemory,KV_VARIANTS,kvCache,CH,chLoss,chOptimal,chAtRatio,spec,specBest,acceptRate,residual,REQS,CHANGES,design,redesign};
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리(0부터)에 오도록 n개 보기를 돌린다.
+   돌려받은 배열의 k번째 값은 화면 k번째 자리에 놓을 원래 보기 번호다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
+const A08Math={quizOrder,TOKENS,rng,normal,softmax,entropy,dot,depth,attnRow,heads,sinusoid,rope,posScore,positionShift,ropeExtend,blockParams,layerNorm,rmsNorm,mlm,causalMatrix,maskGrid,patches,whisperFrames,MOE_BASE,moeRoute,tiledAttention,scoreMemory,KV_VARIANTS,kvCache,CH,chLoss,chOptimal,chAtRatio,spec,specBest,acceptRate,residual,REQS,CHANGES,design,redesign};
 if(typeof module!=='undefined')module.exports=A08Math;else root.A08Math=A08Math;
 })(typeof window!=='undefined'?window:globalThis);

@@ -2,7 +2,7 @@
 
 - 이 책의 개발 원본은 `my-bookshelf/books/aie-workbench/`이다. 루트 `AGENTS.md`와 `docs/08-book-template.html`을 따른다.
 - 「AI 엔지니어링 처음부터」 시리즈 01권이다. 원본 커리큘럼 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 0 · Setup & Tooling(레슨 12개)를 한국어로 재구성했다. 원문과 코드를 옮기지 않는다.
-- 공통 사례: 영화 리뷰 감성 분류 프로젝트 review-lab을 내 노트북, 빌린 GPU 상자, 팀원의 상자에서 같은 결과로 다시 돌리는 일. 모든 장의 문단과 실험이 이 프로젝트를 다시 쓴다. 마지막 장은 팀원의 고장 보고 네 가지에 확인 순서를 세우는 과제다.
+- 공통 사례: 영화 리뷰 감성 분류 프로젝트 review-lab을 내 노트북, 빌린 GPU 상자, 팀원의 상자에서 같은 결과로 다시 돌리는 일. 모든 장의 문단과 실험이 이 프로젝트를 다시 쓴다. 마지막 장은 팀원의 고장 보고 네 가지(와 9장으로 돌아가는 다섯째 보고 “정확도가 매번 조금씩 다름”)에 확인 순서를 세우는 과제다.
 - 장 ID(stack, envs, git, gpu, remote, docker, keys, notebook, data, debug, final)와 진입 경로(home, chapters, sources)는 주소로 쓰이므로 바꾸지 않는다. 바꾸면 index.html의 book-routes와 data/catalog.json을 함께 고친다.
 - 계산은 js/math.js에만 둔다. 화면 코드(labs-*.js, figures.js, home-lab.js)는 계산하지 않고 그린다. 계산을 바꾸면 tests/math.test.cjs에 대표값·경계값·불변 조건을 더한다.
 - 다른 책의 JavaScript를 가져오지 않는다. 다른 책으로는 `../폴더/#장ID` 링크와 이동 이유로만 잇는다.

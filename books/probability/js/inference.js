@@ -56,6 +56,13 @@
     return counts.map((c) => (total ? c / total : 0));
   }
 
+
+  /* 값들 가운데 center ± half 안에 든 비율. 값이 없으면 0이다. */
+  function shareWithin(values, center, half) {
+    if (!values.length) return 0;
+    return values.filter((v) => Math.abs(v - center) <= half).length / values.length;
+  }
+
   /* 경보가 울렸을 때 실제 고장일 확률. population명의 자연 빈도로도 돌려준다. */
   function bayes({ prevalence, sensitivity, falseAlarmRate, population: total = 1000 }) {
     S.assertProbability(prevalence, '고장률');
@@ -127,6 +134,6 @@
     return { best, gap, inside: gap <= threshold };
   }
 
-  return { POPULATIONS, population, sampleMean, histogram, capTail, frequencies, bayes, wilson, intervalCovers,
+  return { POPULATIONS, population, sampleMean, histogram, capTail, frequencies, shareWithin, bayes, wilson, intervalCovers,
     lowerTailTest, rejectionRate, logLikelihood, crossEntropy, mle, LR95, likelihoodRegion };
 });

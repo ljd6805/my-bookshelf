@@ -26,6 +26,20 @@ L.descent=el=>{
  function run(n){for(let i=0;i<n&&Math.abs(w)<=1e6;i++){w=w-U.value(el,'lr')*2*(w-3);steps++;history.push([w,(w-3)**2]);history=history.slice(-10);if(Math.abs(w)>1e6)break;}render();}
  el.querySelector('#one').onclick=()=>run(1);el.querySelector('#ten').onclick=()=>run(10);el.querySelector('#reset').onclick=()=>{w=-3;steps=0;history=[[-3,36]];render();};U.bind(el,render);
 };
+L.backprop=el=>{
+ // 실제 계산: x=1, t=3로 고정한 두 층 모형의 순전파·역전파·갱신. 슬라이더는 시작점을 정하고, 버튼이 내부 상태를 갱신한다.
+ let w1=.5,w2=2,steps=0;
+ U.setup(el,U.range('bw1','첫 층 가중치 w₁ (시작값)',-1,2,.1,.5)+U.range('bw2','둘째 층 가중치 w₂ (시작값)',-1,3,.1,2)+U.range('blr','학습률 η',.01,.3,.01,.05)+'<div class="buttons"><button id="bp-step">한 걸음 갱신</button><button id="bp-ten">10걸음 갱신</button></div><p class="caption">입력 x=1, 정답 t=3으로 고정합니다. h=ReLU(w₁x), y=w₂h, L=(y−t)². 슬라이더를 움직이면 그 값에서 다시 시작합니다.</p>');
+ const render=()=>{const g=M.backprop(w1,w2),num=M.numericGrad(v=>M.backprop(v,w2).loss,w1),big=!(g.loss<1e6);
+ el.querySelector('#bp-step').disabled=el.querySelector('#bp-ten').disabled=big;
+ el.querySelector('.chart').innerHTML=U.plot({lines:[{data:U.series(v=>M.backprop(v,w2).loss,Math.min(-1,w1-.5),Math.max(3,w1+.5),140)}],points:[[w1,g.loss]],xmin:Math.min(-1,w1-.5),xmax:Math.max(3,w1+.5),ymin:0,ymax:12,xlabel:'첫 층 가중치 w₁ (w₂는 현재값 고정)',ylabel:'손실 L'});
+ const dead=g.a<=0?'<br>ReLU가 꺼져 h=0입니다. ∂L/∂h가 0이 아니어도 ReLU를 지나며 0이 곱해져 ∂L/∂w₁=0, h=0이라 ∂L/∂w₂=0입니다. 두 가중치 모두 움직이지 않습니다(죽은 ReLU).':'';
+ const kink=Math.abs(g.a)<1e-9?' 꺾이는 점이라 수치 미분과 해석 기울기가 다릅니다.':'';
+ el.querySelector('.readout').innerHTML=`${steps}회 갱신 · w₁ = <b>${U.fmt(w1,3)}</b>, w₂ = <b>${U.fmt(w2,3)}</b><br>순전파: h = ${U.fmt(g.h,3)} → y = ${U.fmt(g.y,3)} → 손실 L = <b>${U.fmt(g.loss,4)}</b><br>역전파: ∂L/∂y = ${U.fmt(g.dy,3)} → ∂L/∂w₂ = ${U.fmt(g.dw2,3)}, ∂L/∂h = ${U.fmt(g.dh,3)} → ∂L/∂w₁ = <b>${U.fmt(g.dw1,3)}</b> · 수치 미분(ε=0.01) ${U.fmt(num,3)}${kink}${dead}${big?'<br>손실이 100만을 넘어 계산을 멈춥니다. 학습률을 낮추고 시작값을 다시 고르세요.':''}`;};
+ function run(n){const eta=U.value(el,'blr');for(let i=0;i<n&&M.backprop(w1,w2).loss<1e6;i++){({w1,w2}=M.backpropStep(w1,w2,eta));steps++;}render();}
+ el.querySelector('#bp-step').onclick=()=>run(1);el.querySelector('#bp-ten').onclick=()=>run(10);
+ U.bind(el,()=>{w1=U.value(el,'bw1');w2=U.value(el,'bw2');steps=0;render();});
+};
 L.overfit=el=>{
  const xs=[-1,-.72,-.43,-.14,.14,.43,.72,1],ys=xs.map((x,i)=>Math.sin(x*3)+[.2,-.13,.18,-.15,.12,-.17,.14,-.23][i]);
  const mean=M.sum(ys)/8,slope=M.dot(xs,ys)/M.dot(xs,xs);

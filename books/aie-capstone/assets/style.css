@@ -52,3 +52,4 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 [data-theme=light]{--accent:#22702f}
 .fig-turn.fig-first{opacity:1}
 html[data-motion=reduce] :is(.fig-dash,.fig-pkt,.fig-seq,.fig-turn,.fig-pulse,.fig-grow,.fig-draw){animation:none!important}html[data-motion=reduce] .fig-pkt{display:none}html[data-motion=reduce] .fig-seq{opacity:1}html[data-motion=reduce] .fig-turn.fig-first{opacity:1}
+.transfer-quiz{margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}

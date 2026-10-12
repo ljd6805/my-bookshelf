@@ -164,6 +164,22 @@ function majorityVote(N,p){let s=0;for(let k=Math.floor(N/2)+1;k<=N;k++)s+=Math.
 /* 상관 rho: 확률 rho로 모든 모델이 같은 판단(정답 확률 p)을 내리고, 나머지는 서로 독립이라는 단순 모형 */
 const ensembleAccuracy=(N,p,rho)=>rho*p+(1-rho)*majorityVote(N,p);
 
+/* 3·9장: 그래디언트 부스팅(제곱 오차). 깊이 1 그루터기를 지금 앙상블의 잔차에 맞추고 ν만큼 줄여 더한다.
+   데이터는 9장 biasVariance와 같은 참 곡선 sin(4.2x)+0.3x에 잡음 0.35를 더한 학습 40점·검증 200점(시드 고정). */
+function fitStump(xs,res){const idx=xs.map((_,i)=>i).sort((a,b)=>xs[a]-xs[b]),n=xs.length,tot=sum(res);let best=null,left=0;
+ for(let k=0;k<n-1;k++){left+=res[idx[k]];if(xs[idx[k]]===xs[idx[k+1]])continue;const nl=k+1,nr=n-nl,ml=left/nl,mr=(tot-left)/nr,gain=nl*ml*ml+nr*mr*mr;
+  if(!best||gain>best.gain)best={t:(xs[idx[k]]+xs[idx[k+1]])/2,l:ml,r:mr,gain};}
+ return best;}
+function boostData(seed=331){const r=rng(seed),mk=n=>Array.from({length:n},()=>{const x=r()*2-1;return {x,y:trueCurve(x)+gauss(r)*0.35};});return {train:mk(40),val:mk(200)};}
+function boosting(M,nu,{seed=331,maxM=200}={}){
+ const {train,val}=boostData(seed),xs=train.map(d=>d.x),f0=mean(train.map(d=>d.y)),ft=train.map(()=>f0),fv=val.map(()=>f0),stumps=[];
+ const mse=(f,D)=>mean(D.map((d,i)=>(d.y-f[i])**2)),trainCurve=[mse(ft,train)],valCurve=[mse(fv,val)];
+ for(let m=1;m<=maxM;m++){const s=fitStump(xs,train.map((d,i)=>d.y-ft[i])),h=x=>nu*(x<=s.t?s.l:s.r);stumps.push(s);
+  train.forEach((d,i)=>{ft[i]+=h(d.x);});val.forEach((d,i)=>{fv[i]+=h(d.x);});trainCurve.push(mse(ft,train));valCurve.push(mse(fv,val));}
+ const predict=x=>f0+stumps.slice(0,M).reduce((a,s)=>a+nu*(x<=s.t?s.l:s.r),0);
+ let bestM=0;valCurve.forEach((v,m)=>{if(v<valCurve[bestM])bestM=m;});
+ return {M,nu,f0,train,val,trainCurve,valCurve,trainMSE:trainCurve[M],valMSE:valCurve[M],bestM,bestVal:valCurve[bestM],predict,noise:0.35*0.35};}
+
 /* ---------- 10장: 목표 인코딩 누설과 시계열 누설 ---------- */
 function targetEncodingLab(nCat,{rows=600,folds=5,seed=401}={}){
  const r=rng(seed),D=Array.from({length:rows},()=>({k:Math.floor(r()*nCat),c:r()<0.5?1:0}));
@@ -209,9 +225,11 @@ function driftLab(shift,policy){
  const eff=policy==='retrain'?shift*0.25:shift,t0=bestThreshold(scoreData(0,211,5000)).t,t=policy==='keep'?t0:bestThreshold(scoreData(eff,227,5000)).t,after=scoreData(eff,223,5000);
  const c=confusion(after,t),cm={TP:c.TP/5,FP:c.FP/5,FN:c.FN/5,TN:c.TN/5};return {t,t0,cm,...rates(cm),cost:expectedCost(cm),auc:auc(after)};}
 
-const A03Math={rng,gauss,sum,mean,variance,std,quantile,sigmoid,accuracy,twoBlobs,centroids,centroidLab,bce,trainLogistic,logisticLab,
+/* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
+const A03Math={quizOrder,rng,gauss,sum,mean,variance,std,quantile,sigmoid,accuracy,twoBlobs,centroids,centroidLab,bce,trainLogistic,logisticLab,
  gini,entropy,splitScores,bestSplit,SPLIT_DATA,knnData,knnPredict,knnLab,svmData,trainSVM,svmLab,clusterData,kmeans,silhouette,NB,naiveBayes,
  scaleData,scaler,scalingLab,pearson,mutualInfo,scoreData,confusion,rates,rocCurve,auc,stratifiedCounts,trueCurve,solve,polyFit,polyEval,biasVariance,
- majorityVote,ensembleAccuracy,targetEncodingLab,orderSeries,forecasts,outlierLab,imbalanceData,smote,resample,imbalanceLab,expectedCost,bestThreshold,driftLab};
+ majorityVote,ensembleAccuracy,fitStump,boostData,boosting,targetEncodingLab,orderSeries,forecasts,outlierLab,imbalanceData,smote,resample,imbalanceLab,expectedCost,bestThreshold,driftLab};
 if(typeof module!=='undefined')module.exports=A03Math;else root.A03Math=A03Math;
 })(typeof window!=='undefined'?window:globalThis);

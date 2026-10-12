@@ -86,3 +86,9 @@ test('incident: cutting each path leaves no open incident; easy fixes leave all 
  assert.equal(M.incident('none','none','none').open,3);assert.equal(M.incident('month','sanitize','score').open,3);
  const z=M.incident('tool','boundary','firewall');assert.equal(z.open,0);assert.equal(z.cost,50);
 });
+test('checkedStep: detect-and-retry raises step reliability but keeps missed failures',()=>{
+ const c=M.checkedStep(0.99,0.8);near(c.pe,0.99792,1e-9);near(M.chain(c.pe,70).P,0.8644,1e-4);near(M.chain(c.pe,1).n50,332.9,0.1);
+ near(M.chain(M.checkedStep(0.99,0.5).pe,1).n50,136.9,0.1);
+ near(M.checkedStep(0.99,0).pe,0.99,1e-12,'no detection = no change');near(1-c.pe,c.missed+c.retryFail,1e-12,'failure splits into missed and failed retry');
+ assert.ok(M.checkedStep(0.99,0.9).pe>M.checkedStep(0.99,0.5).pe);assert.ok(M.checkedStep(0.99,1).pe<1,'retry can still fail');
+});

@@ -56,6 +56,20 @@ function goodput(slo,chunked){
  const fail={ttft:s.filter(x=>x.ttft>slo.ttft).length,tpot:s.filter(x=>x.tpot>slo.tpot).length,e2e:s.filter(x=>x.e2e>slo.e2e).length};
  return {n:s.length,goodput:ok/s.length,meanTpot:mean(tp),p50:percentile(tp,0.5),p90:percentile(tp,0.9),p99:percentile(tp,0.99),ttftP99:percentile(s.map(x=>x.ttft),0.99),fail};
 }
+/* 4장 보충: 피크 대기열. 복제본 c대를 창구 c개로 본 M/M/c 근사(Erlang C). 근사 모형이다:
+   요청 하나(2,700토큰)를 한 대가 2,300 tok/s로 처리한다고 보아 처리 시간 S ≈ 1.17초로 두었고, 실제 연속 배칭 엔진은 여러 요청을 묶어 처리하므로 대기열 모양이 다르다.
+   그래도 사용률 ρ가 1에 가까워질수록 대기가 ρ/(1−ρ)꼴로 급격히 늘어난다는 성질은 같다. 피크 배수는 교육용 가정. */
+function erlangC(c,a){
+ if(a>=c)return 1;let sum=0,term=1;
+ for(let k=0;k<c;k++){if(k>0)term*=a/k;sum+=term;}
+ const top=term*a/c*c/(c-a);return top/(sum+top);
+}
+function capacity(peak,c,budgetMs=500,o={}){
+ const tok=NURI.prefix+NURI.dynamic+NURI.output,lam=(o.daily||NURI.daily)/86400*peak,mu=NURI.tput/tok,a=lam/mu,rho=a/c,stable=rho<1;
+ const pWait=stable?erlangC(c,a):1,gap=c*mu-lam,wqMs=stable?pWait/gap*1000:null,over=stable?pWait*Math.exp(-gap*budgetMs/1000):1;
+ const need70=Math.ceil(a/0.7-1e-9);
+ return {lam,mu,serviceMs:1000/mu,a,rho,stable,pWait,wqMs,overBudget:over,need70,withSpare:need70+1,tokPerSec:lam*tok,inSystem:stable?lam*(wqMs/1000+1/mu):null};
+}
 /* 4장: 같은 요청 기록을 두 도구가 다르게 재는 토큰 간격(원본 레슨 08의 예) */
 function itlByTool(ttft,decode,tokens){return {excl:decode/(tokens-1),incl:(ttft+decode)/tokens};}
 
@@ -171,6 +185,6 @@ function homeDecode(conc){
  return {...h,tpot,tput:conc/tpot*1000,slo:25,meets:tpot<=25&&h.fits};
 }
 
-const A18Math={NURI,rng,gauss,percentile,mean,phi,breakeven,nuriUtil,chunkedPrefill,FORMATS,kvBytesPerToken,hbmBudget,edgeCeiling,latencySample,goodput,itlByTool,SPEC_LOAD,specTokens,specSpeedup,LINKS,kvTransfer,routeSim,crossRegion,coldStart,scaleSignals,PRICE,dailyBill,parallelWrites,cascade,gatewayFallback,CANARY,STAGES,canary,burnRate,traceSampling,finalCase,homeDecode};
+const A18Math={NURI,rng,gauss,percentile,mean,phi,breakeven,nuriUtil,chunkedPrefill,FORMATS,kvBytesPerToken,hbmBudget,edgeCeiling,latencySample,goodput,itlByTool,erlangC,capacity,SPEC_LOAD,specTokens,specSpeedup,LINKS,kvTransfer,routeSim,crossRegion,coldStart,scaleSignals,PRICE,dailyBill,parallelWrites,cascade,gatewayFallback,CANARY,STAGES,canary,burnRate,traceSampling,finalCase,homeDecode};
 if(typeof module!=='undefined')module.exports=A18Math;else root.A18Math=A18Math;
 })(typeof window!=='undefined'?window:globalThis);

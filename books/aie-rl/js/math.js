@@ -82,6 +82,24 @@ function cliffCompare(eps,o={}){const env=cliffWorld(),runs=o.runs||10,episodes=
   const p=first,reached=p[p.length-1]===47;
   out[algo]={curve,lastAvg:curve.slice(-100).reduce((a,b)=>a+b,0)/100,path:p,reached,steps:p.length-1,edgeRuns:edge,runs,topRow:Math.min(...p.map(s=>Math.floor(s/12)))};}
  return out;}
+/* 4장: 다섯 칸 무작위 걷기(Sutton & Barto 예제 6.2의 구성). 칸 A~E, C에서 출발, 왼쪽 끝 보상 0, 오른쪽 끝 +1, γ=1.
+   참값은 1/6~5/6이다. 가치는 모두 0.5에서 시작한다. n단계 TD(n=1은 TD(0)), n=Infinity는 상수 α 모든 방문 몬테카를로.
+   같은 시드로 runs번 반복해 에피소드마다 다섯 칸의 RMS 오차를 평균한다. */
+const WALK_TRUE=[1,2,3,4,5].map(k=>k/6);
+function walkEpisode(r){const S=[2];let s=2;while(s>=0&&s<=4){s+=r()<0.5?-1:1;S.push(s);}return S;}
+/* n단계 TD를 τ = 0…T−1 순서로 갱신한다. τ의 목표가 읽는 V(S_{τ+n})는 앞선 갱신이 반영된 값이라, 걸음마다 갱신하는 온라인 방식과 같은 결과다. */
+function nstepUpdate(V,S,n,alpha){const T=S.length-1,rew=i=>S[i]===5?1:0;
+ for(let tau=0;tau<T;tau++){const end=Math.min(tau+n,T);let G=0;for(let i=tau+1;i<=end;i++)G+=rew(i);if(tau+n<T)G+=V[S[tau+n]];V[S[tau]]+=alpha*(G-V[S[tau]]);}}
+function tdPredict(n,alpha,episodes,o={}){const runs=o.runs||100,r=rng(o.seed||29),rms=new Array(episodes+1).fill(0),last=[0,0,0,0,0];
+ const err=V=>Math.sqrt(V.reduce((t,v,i)=>t+(v-WALK_TRUE[i])**2,0)/5);
+ for(let run=0;run<runs;run++){const V=[.5,.5,.5,.5,.5];rms[0]+=err(V)/runs;
+  for(let e=1;e<=episodes;e++){const S=walkEpisode(r);
+   if(n===Infinity){const G=S[S.length-1]===5?1:0;for(let t=0;t<S.length-1;t++)V[S[t]]+=alpha*(G-V[S[t]]);}
+   else nstepUpdate(V,S,n,alpha);
+   rms[e]+=err(V)/runs;}
+  V.forEach((v,i)=>last[i]+=v/runs);}
+ const tail=rms.slice(-10).reduce((a,b)=>a+b,0)/Math.min(10,rms.length);
+ return {rms,final:rms[episodes],tail,values:last,truth:WALK_TRUE};}
 /* 5장: 최대화 편향. 참값이 모두 0인 행동 K개를 잡음 σ로 추정할 때 max 추정의 평균(단일)과 이중 추정. */
 function maxBias(K,sigma,o={}){const r=rng(o.seed||3),trials=o.trials||4000;let single=0,dbl=0;
  for(let t=0;t<trials;t++){let bA=-Infinity,iA=0;const B=[];for(let a=0;a<K;a++){const qa=sigma*gauss(r);B.push(sigma*gauss(r));if(qa>bA){bA=qa;iA=a;}}single+=bA/trials;dbl+=B[iA]/trials;}
@@ -152,7 +170,11 @@ function finalCase(report,fix){const R=REPORTS[report];let before,after,dry=null
  else{before=banditEps(0,{runs:100}).lastAvg;after=fix==='eps'?banditEps(0.1,{runs:100}).lastAvg:before;}
  return {metric:R.metric,before,after,dry,matched:fix===R.fix};}
 
-const A10Math={rng,gauss,sigmoid,softmax,ARROWS,makeGrid,warehouse,cliffWorld,homeWorld,move,outcomes,qValue,evaluate,uniform,asProbs,greedy,valueSweeps,valueIteration,policyIteration,path,
- mdpRandom,mcRandom,ROUTE_MEANS,banditEps,tdRun,cliffCompare,maxBias,pgVariance,gae,gaeStats,clipObj,PPO_BATCH,ppoEpochs,bt,BEHAVIORS,klPolicy,AISLE,coopGame,REAL_SLIPS,trainedPolicy,evalPolicy,drEval,MOVES,puct,grpoGroup,homeGamma,REPORTS,finalCase};
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리에 오도록 n개 보기를 돌린다.
+   반환값은 화면 순서대로 늘어놓은 원래 번호다. 정답 판정은 원래 번호로 하므로 데이터는 바뀌지 않는다. */
+function order(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+
+const A10Math={order,rng,gauss,sigmoid,softmax,ARROWS,makeGrid,warehouse,cliffWorld,homeWorld,move,outcomes,qValue,evaluate,uniform,asProbs,greedy,valueSweeps,valueIteration,policyIteration,path,
+ mdpRandom,mcRandom,ROUTE_MEANS,banditEps,tdRun,cliffCompare,WALK_TRUE,walkEpisode,tdPredict,maxBias,pgVariance,gae,gaeStats,clipObj,PPO_BATCH,ppoEpochs,bt,BEHAVIORS,klPolicy,AISLE,coopGame,REAL_SLIPS,trainedPolicy,evalPolicy,drEval,MOVES,puct,grpoGroup,homeGamma,REPORTS,finalCase};
 if(typeof module!=='undefined')module.exports=A10Math;else root.A10Math=A10Math;
 })(typeof window!=='undefined'?window:globalThis);

@@ -98,7 +98,7 @@ F.workbench=()=>{
  const lab={in:'허용',off:'경고',forbidden:'차단'},col={in:A,off:B,forbidden:O};
  r.rows.forEach((x,i)=>{const y=44+i*56;b+=blink(box(340,y,290,46,col[x.status])+t(352,y+28,x.file,{a:'start',size:13})+t(620,y+28,lab[x.status],{a:'end',size:14,w:700,fill:col[x.status]}),1+i*.6);});
  b+=t(340,284,`차단 ${r.blocks} · 경고 ${r.warns} → ${r.passed?'통과':'게이트로 넘기지 않음'}`,{a:'start',size:14,w:700});
- return {svg:svg(`작업대의 바닥 파일 네 개와, 범위가 번진 diff를 계약에 대어 차단 ${r.blocks}개와 경고 ${r.warns}개가 나오는 그림`,b),caption:`길잡이·상태·작업판이 작업대의 바닥이고, 범위 계약이 diff를 파일 단위로 판정합니다. 판정은 실험과 같은 글롭 규칙으로 계산했으며 파일 경로는 원본 레슨의 가입 검증 예를 본뜬 시나리오입니다.`};
+ return {svg:svg(`작업대의 바닥 파일 네 개와, 범위가 번진 diff를 계약에 대어 차단 ${r.blocks}개와 경고 ${r.warns}개가 나오는 그림`,b),caption:`길잡이·상태·작업판이 작업대의 바닥이고, 범위 계약이 diff를 파일 단위로 판정합니다. 판정은 실험과 같은 글롭 규칙으로 계산했으며 파일 경로는 8장의 결론(쓰기 도구에 출처 꼬리표 검사 넣기)을 맡긴 과업의 시나리오입니다.`};
 };
 F.gates=()=>{
  const names=['검사 없음','실행됨','0으로 끝남','종료 코드','금지 경로','차단 규칙','범위 밖'];let b=t(20,28,'에이전트가 “완료”라고 보고한 20건 가운데 통과 수',{a:'start',size:14,fill:MU});

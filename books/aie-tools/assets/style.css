@@ -57,3 +57,8 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 [data-theme=light]{--accent:#1d5f99}
 [data-theme=light] button.primary,[data-theme=light] .button.primary{color:#fff}
 .side-series{display:flex;flex-direction:column;gap:2px;margin:6px 0 10px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.85rem}.side-series span{color:var(--muted);font-size:.78rem;padding:0 12px}.side-series a{color:var(--accent)}
+/* 2026-10-12 보충: 확인 문제 안의 전이 문항. 버튼 모양은 .quiz button을 그대로 쓴다. */
+.transfer-quiz{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:.2em 0 .4em}.transfer-feedback{margin-top:14px;color:var(--accent)}
+/* 3장 보충: 선 위의 요청 한 통. 긴 줄은 상자 안에서만 옆으로 밀린다. */
+.a14-wire{margin-top:16px;display:grid;gap:12px;min-width:0}.a14-wire-part{min-width:0}.a14-wire-part>b{display:block;font-size:.92rem;margin-bottom:6px}.a14-wire pre{margin:0;padding:12px 14px;background:var(--chart);border:1px solid var(--line);border-radius:8px;font-family:var(--font-mono);font-size:.8rem;line-height:1.65;overflow-x:auto;max-width:100%;white-space:pre}.a14-wire .hot{display:inline-block;min-width:100%;color:var(--orange);font-weight:700;border-left:3px solid var(--orange);margin-left:-8px;padding-left:5px}.a14-wire .hot em{font-style:normal;font-family:var(--font-sans);font-weight:400}
+.deep-reading pre{margin:10px 0 14px;padding:12px 14px;background:var(--chart);border:1px solid var(--line);border-radius:8px;overflow-x:auto;max-width:100%}.deep-reading pre code{font-family:var(--font-mono);font-size:.8rem;line-height:1.6;white-space:pre;background:none;padding:0}

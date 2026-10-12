@@ -14,6 +14,7 @@ const EXPECT = {
   compose: ['달라집니다', '', '같습니다'],
   determinant: ['3.18', '0.00', '−2.25'],
   solve: ['(2.00, 1.50)', '(−4.75, 15.00)', '평행'],
+  'least-squares': ['(2.00, 1.50)', '(2.35, 1.06)', '같은 방향'],
   eigen: ['고윳값은 약 3.00', '고윳값은 약 1.00', '고유벡터가 아닙니다'],
   pca: ['55%', '94%', '6%'],
   layer: ['4곡', '', '직선 변환'],
@@ -77,6 +78,12 @@ async function labs(page) {
       const answer = await page.evaluate((r) => LABook.chapters.find((c) => c.id === r).quiz[2], route);
       await page.click(`[data-answer="${answer}"]`);
       quiz = (await page.innerText('.quiz-feedback')).startsWith('정답입니다.');
+      // 새 상황에 써 보기의 보기 문항: 정답과 오답 피드백
+      const tAnswer = await page.evaluate((r) => LABook.chapters.find((c) => c.id === r).transfer.quiz[2], route);
+      await page.click(`[data-transfer="${(tAnswer + 1) % 3}"]`);
+      const wrong = (await page.innerText('.transfer-feedback')).startsWith('다시 생각해 보세요.');
+      await page.click(`[data-transfer="${tAnswer}"]`);
+      quiz = quiz && wrong && (await page.innerText('.transfer-feedback')).startsWith('정답입니다.');
     }
     const ok = !errors.length && l.overflow <= 0 && l.shelf && l.ready && quiz && lab.every((x) => !x.misses.length && x.reset && x.keys !== false);
     if (!ok) bad++;

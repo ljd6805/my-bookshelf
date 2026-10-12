@@ -117,3 +117,16 @@ test('home decode: bandwidth floor and HBM limit',()=>{
  assert.ok(!M.homeDecode(120).fits);assert.ok(!M.homeDecode(120).meets);
  for(let c=1;c<160;c+=10)assert.ok(M.homeDecode(c+1).tpot>M.homeDecode(c).tpot);
 });
+
+test('capacity: Erlang C peak queue, representative values, boundaries, monotonicity',()=>{
+ near(M.erlangC(1,0.5),0.5,1e-9);assert.equal(M.erlangC(2,2),1);
+ const c3=M.capacity(3,3,500),c4=M.capacity(3,4,500),p5=M.capacity(5,4,500);
+ near(c3.rho,0.679,1e-3);near(c3.pWait,0.462,1e-3);near(c3.wqMs,564,1);near(c3.overBudget,0.307,1e-3);
+ near(c4.rho,0.510,1e-3);near(c4.overBudget,0.0795,1e-3);near(p5.wqMs,1338,1);near(p5.overBudget,0.532,1e-3);
+ assert.equal(c3.need70,3);assert.equal(c3.withSpare,4);near(c3.tokPerSec,4687.5,0.1);
+ /* 평균 하루(피크 1배) 한 대: 01장의 사용률 68%와 같고 M/M/1 평균 대기 = S·ρ/(1−ρ) */
+ const one=M.capacity(1,1,500);near(one.rho,M.nuriUtil().util,1e-9);near(one.wqMs,one.serviceMs*one.rho/(1-one.rho),1e-6);
+ const two=M.capacity(3,2,500);assert.equal(two.stable,false);assert.equal(two.wqMs,null);assert.equal(two.overBudget,1);
+ for(let c=3;c<8;c++)assert.ok(M.capacity(3,c+1,500).overBudget<M.capacity(3,c,500).overBudget);
+ assert.ok(M.capacity(3,4,1000).overBudget<c4.overBudget);
+});

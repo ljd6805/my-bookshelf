@@ -53,6 +53,16 @@ function networkForward(x){
   const logits=[3*(hidden[0]-hidden[1]),3*(hidden[1]-hidden[0])];
   return {input:x,hidden,logits,probabilities:softmax(logits)};
 }
-const api={networkForward,sum,dot,sigmoid,softmax,cosine,filterDistribution,quantize,metrics,bpe,convolve,lagrange};
+// 두 층 모형 x → h=ReLU(w₁x) → y=w₂h, L=(y−t)²의 순전파와 연쇄 법칙 역전파. ReLU의 꺾이는 점(w₁x=0)에서는 기울기를 0으로 둔다.
+function backprop(w1,w2,t=3,x=1){
+  const a=w1*x,h=Math.max(0,a),y=w2*h,loss=(y-t)**2,dy=2*(y-t),dw2=dy*h,dh=dy*w2,dw1=dh*(a>0?1:0)*x;
+  return {a,h,y,loss,dy,dw2,dh,dw1};
+}
+// 중앙 차분 수치 미분: (f(w+ε) − f(w−ε)) / 2ε
+const numericGrad=(f,w,eps=.01)=>(f(w+eps)-f(w-eps))/(2*eps);
+function backpropStep(w1,w2,eta,t=3,x=1){const g=backprop(w1,w2,t,x);return {w1:w1-eta*g.dw1,w2:w2-eta*g.dw2};}
+// 확인 문제 보기의 화면 순서: 원래 번호 배열을 돌려 정답(answer)이 target번째 자리에 오게 한다.
+function choiceOrder(n,answer,target){const shift=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+shift)%n);}
+const api={backprop,numericGrad,backpropStep,choiceOrder,networkForward,sum,dot,sigmoid,softmax,cosine,filterDistribution,quantize,metrics,bpe,convolve,lagrange};
 root.AIMath=api;if(typeof module!=='undefined')module.exports=api;
 })(globalThis);

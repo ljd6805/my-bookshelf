@@ -87,3 +87,8 @@ test('마지막 과제: 구간은 1/√n으로 좁아지고, n=200은 0을 포�
  assert.ok(!a.clear&&a.lo<0&&a.hi>0);assert.ok(M.diffInterval(.86,.89,2000).clear);near(a.d,.03,1e-12);
  near(M.posterior(1e-4,.99,.01),.99e-4/(.99e-4+.9999*.01),1e-15);assert.ok(M.posterior(1e-4,.99,.01)<.01);near(M.posterior(.5,.9,.1),.9,1e-12);
 });
+test('false alarms: base rate 5%·FPR 3% gives 0.625, 1% gives about 0.24, and n does not enter',()=>{
+ const a=M.falseAlarms(.05,.95,.03),b=M.falseAlarms(.01,.95,.03);
+ near(a.post,.625,1e-12);near(a.wrong,37.5,1e-9);near(b.post,.0095/(.0095+.0297),1e-12);assert.ok(b.post>.24&&b.post<.245);
+ near(a.real+a.wrong,100,1e-9);assert.ok(M.falseAlarms(.3,.95,.03).post>a.post,'higher base rate, fewer false alarms');assert.ok(M.falseAlarms(.05,.95,.1).post<a.post);
+});

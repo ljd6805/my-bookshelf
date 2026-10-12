@@ -28,6 +28,13 @@
   function crossLinks(items = []) {
     return items.length ? `<h3>다른 책으로 이어 읽기</h3><ul class="source-list cross-list">${items.map(([label, url, why]) => `<li><a href="${url}">${label}</a><br><span class="caption">이동 이유: ${why}</span></li>`).join('')}</ul>` : '';
   }
+  const labCount = () => B.chapters.reduce((n, c) => n + c.labs.length, 0);
+  /* 보기 버튼: data 값은 원래 번호, 화면 번호는 돌린 순서대로 붙인다. */
+  const choices = (q, target, attr) => window.CompQuiz.order(q[1].length, q[2], target).map((i, k) => `<button data-${attr}="${i}">${k + 1}. ${q[1][i]}</button>`).join('');
+  function transferQuiz(c, index) {
+    if (!c.transfer) return '';
+    return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer, (index + 1) % 3, 'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;
+  }
   const figure = (key, label) => window.CompFigureView.render(key, label);
   const progress = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
   const saveProgress = (v) => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { /* 저장할 수 없는 환경에서는 표시만 유지 */ } };
@@ -41,7 +48,7 @@
   function home() {
     document.body.classList.remove('reading');
     document.title = '컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지';
-    main.innerHTML = `<section class="hero"><div><div class="eyebrow">How computers work · from switches to CPU</div><h1>3 + 4를 누르면,<br><em>화면에 7이 뜨기까지.</em></h1><p class="lead">스위치에서 게이트, 메모리, CPU까지. 비트가 움직이고 명령이 실행되는 과정을 직접 조작하며 배웁니다.</p><div class="hero-links"><a class="button primary" href="#bits">01장부터 읽기</a><a class="button" href="#cpu">CPU 실험하기</a></div><div class="stats"><span><b>${B.chapters.length}</b>챕터</span><span><b>${B.chapters.length}</b>인터랙티브 실험</span><span><b>0</b>외부 API 호출</span></div></div><div class="hero-lab"><div class="lab-top"><span>LIVE · 8개 스위치</span><span>실제 계산</span></div><div class="lab-pad" id="home-bits"></div><p class="caption">스위치를 누르거나 “자동으로 세기”를 켜 보세요. 1장의 실험과 같습니다.</p></div></section>
+    main.innerHTML = `<section class="hero"><div><div class="eyebrow">How computers work · from switches to CPU</div><h1>3 + 4를 누르면,<br><em>화면에 7이 뜨기까지.</em></h1><p class="lead">스위치에서 게이트, 메모리, CPU까지. 비트가 움직이고 명령이 실행되는 과정을 직접 조작하며 배웁니다.</p><div class="hero-links"><a class="button primary" href="#bits">01장부터 읽기</a><a class="button" href="#cpu">CPU 실험하기</a></div><div class="stats"><span><b>${B.chapters.length}</b>챕터</span><span><b>${labCount()}</b>인터랙티브 실험</span><span><b>0</b>외부 API 호출</span></div></div><div class="hero-lab"><div class="lab-top"><span>LIVE · 8개 스위치</span><span>실제 계산</span></div><div class="lab-pad" id="home-bits"></div><p class="caption">스위치를 누르거나 “자동으로 세기”를 켜 보세요. 1장의 실험과 같습니다.</p></div></section>
       <section class="section"><div class="section-heading"><h2>컴퓨터의 흐름을 한눈에</h2><p>비트로 수와 글자를 나타내고, 게이트로 계산하고, 기억한 값을 명령으로 움직입니다. 각 단계가 아래의 챕터와 연결됩니다.</p></div>${flow(['표현|비트·바이트·인코딩', '회로|게이트·덧셈기', '기억|레지스터·메모리', '실행|CPU·반복', '속도|캐시'])}</section>
       <section class="section" id="chapters"><div class="section-heading"><div class="eyebrow">EXPLORE THE BOOK</div><p>개념을 읽고, 예측하고, 직접 실험한 뒤 확인 문제로 마무리하세요.</p></div><h2>전체 챕터</h2><div class="chapter-grid">${B.chapters.map((c, i) => `<a class="chapter-card" href="#${c.id}"><span class="num">CHAPTER ${pad(i)} / ${c.group}</span>${thumb(i)}<h3>${c.title}</h3><p>${c.desc}</p><span class="tag">실험 ${c.labs.length}개</span><span class="caption">약 ${c.time}</span></a>`).join('')}</div></section>
       <section class="section"><div class="section-heading"><h2>나에게 맞는 학습 경로</h2><p>처음부터 순서대로 읽거나, 지금 궁금한 질문에서 출발해도 좋습니다.</p></div><div class="path-grid"><div class="path"><h3>컴퓨터 구조가 처음이라면</h3><p>비트와 약속에서 시작해 판단 회로와 덧셈기를 만듭니다.</p><a href="#bits">01</a><a href="#encoding">02</a><a href="#gates">03</a><a href="#adder">04</a></div><div class="path"><h3>CPU가 궁금하다면</h3><p>기억 장치에서 출발해 명령 실행과 반복까지 따라갑니다.</p><a href="#memory">05</a><a href="#cpu">06</a><a href="#programs">07</a></div><div class="path"><h3>성능과 고장이 궁금하다면</h3><p>읽는 순서가 바꾸는 속도와 넘침으로 생긴 오류를 조사합니다.</p><a href="#cache">08</a><a href="#final">09</a></div></div></section>
@@ -65,14 +72,14 @@
     document.body.classList.add('reading');
     document.title = `${pad(index)}. ${c.title} · 컴퓨터는 어떻게 동작하는가`;
     const read = !!progress()[c.id];
-    main.innerHTML = `<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${pad(index)} / ${c.group}</div><h1>${c.title}</h1><p class="lead">${c.subtitle}</p><div class="chapter-meta"><span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 확인 문제 1개</span></div></div>
+    main.innerHTML = `<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${pad(index)} / ${c.group}</div><h1>${c.title}</h1><p class="lead">${c.subtitle}</p><div class="chapter-meta"><span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 확인 문제 ${c.transfer ? 2 : 1}개</span></div></div>
       <section><h2>먼저 개념 잡기</h2>${c.paragraphs.map((p) => `<p>${p}</p>`).join('')}${c.aside || ''}${c.figure ? figure(c.figure, `그림 ${index + 1}-1.`) : ''}<figure class="concept-diagram">${flow(c.flow)}<figcaption class="caption">그림 ${index + 1}-${c.figure ? 2 : 1}. ${c.title}의 핵심 관계를 순서대로 정리했습니다.</figcaption></figure><div class="formula"><code>${c.formula}</code><p>${c.formulaNote}</p></div></section>
       <div class="predict"><strong>먼저 예측하기</strong><br>${c.predict}</div>
       ${c.labs.map(renderLab).join('')}
       <div class="note"><strong>혼동하지 마세요</strong><br>${c.warning}</div>
       ${c.deeper ? `<details><summary>더 깊이 보기</summary><p>${c.deeper}</p></details>` : ''}
       ${c.extra || ''}
-      <section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>${c.quiz[1].map((a, i) => `<button data-answer="${i}">${i + 1}. ${a}</button>`).join('')}<div class="quiz-feedback" role="status" aria-live="polite"></div></section>
+      <section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>${choices(c.quiz, index % 3, 'answer')}<div class="quiz-feedback" role="status" aria-live="polite"></div>${transferQuiz(c, index)}</section>
       ${c.remaining ? `<div class="remaining"><strong>해결한 것과 남은 질문</strong><br>${c.remaining}</div>` : ''}
       <section><h2>더 읽어 보기</h2>${sourceLinks(c.source)}${crossLinks(c.cross)}<button class="read-toggle" aria-pressed="${read}">${read ? '✓ 읽은 장으로 표시됨' : '이 장을 읽었어요'}</button></section>
       ${chapterNav(index)}</div>`;
@@ -83,6 +90,10 @@
     main.querySelectorAll('[data-answer]').forEach((b) => { b.onclick = () => {
       const correct = +b.dataset.answer === c.quiz[2];
       main.querySelector('.quiz-feedback').textContent = `${correct ? '정답입니다.' : '다시 생각해 보세요.'} ${c.quiz[3]}`;
+    }; });
+    main.querySelectorAll('[data-transfer]').forEach((b) => { b.onclick = () => {
+      const correct = +b.dataset.transfer === c.transfer[2];
+      main.querySelector('.transfer-feedback').textContent = `${correct ? '정답입니다.' : '다시 생각해 보세요.'} ${c.transfer[3]}`;
     }; });
     main.querySelector('.read-toggle').onclick = (e) => {
       const p = progress(); p[c.id] = !p[c.id]; saveProgress(p);

@@ -85,6 +85,16 @@ test('chunking keeps or splits the answer span',()=>{
  assert.equal(M.chunkDoc(300,'fixed').whole,false);assert.equal(M.chunkDoc(300,'sentence').whole,true);assert.equal(M.chunkDoc(400,'fixed').whole,true);
  for(const n of [50,120,400])for(const st of ['fixed','sentence']){const r=M.chunkDoc(n,st);assert.equal(r.chunks[0][0],0);assert.equal(r.chunks[r.chunks.length-1][1],555);for(let i=1;i<r.chunks.length;i++)assert.equal(r.chunks[i][0],r.chunks[i-1][1]);}
 });
+test('chunk retrieval scores chunks with BM25 and measures how much of the answer comes back',()=>{
+ assert.equal(M.TERMS.text.length,M.TERMS.lens.length);
+ const a=M.retrieveChunks(100,'fixed',2);assert.deepEqual(a.top,[3,4]);assert.equal(a.rank,0);assert.equal(a.recall,85/120);assert.deepEqual(a.keys,[['7일',false],['30일',true]]);assert.equal(a.cost,200);
+ const b=M.retrieveChunks(120,'sentence',2);assert.equal(b.rank,1);assert.equal(b.recall,1);assert.equal(b.cost,190);
+ assert.equal(M.retrieveChunks(300,'fixed',1).recall,85/120);assert.equal(M.retrieveChunks(50,'sentence',2).recall,50/120);
+ for(const n of [50,90,150,250,400])for(const st of ['fixed','sentence'])for(const k of [1,2,3]){const r=M.retrieveChunks(n,st,k);
+  assert.equal(r.words.flat().length,M.TERMS.text.reduce((s,t)=>s+M.tokenize(t,'josa').length,0),'every word lands in one chunk');
+  assert.ok(r.recall>=0&&r.recall<=1&&r.cost<=r.total);assert.ok(r.scores.every(x=>x>=0&&Number.isFinite(x)));
+  if(k>=r.chunks.length)assert.equal(r.recall,1);}
+});
 test('entity linking with prior weight and NIL',()=>{
  assert.equal(M.linkEntity('한강 신간 소설 언제 나오나요',0.3).pick,'작가 한강');assert.equal(M.linkEntity('한강 신간 소설 언제 나오나요',0.6).pick,'강 한강');
  assert.match(M.linkEntity('한강 주차 되나요',0).pick,/^NIL/);assert.equal(M.linkEntity('한강 주차 되나요',1).pick,'강 한강');

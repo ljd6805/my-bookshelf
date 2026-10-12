@@ -32,6 +32,16 @@ L.split=el=>{
   const chart=U.svg(body,`결제 24건을 시도 횟수 ${t} 이하와 초과로 나눈 그림. 왼쪽 사기 ${s.left[1]}건, 오른쪽 사기 ${s.right[1]}건`);
   U.result(el,chart,`기준 <b>시도 ≤ ${t}</b>. 왼쪽 정상 ${s.left[0]}·사기 ${s.left[1]}, 오른쪽 정상 ${s.right[0]}·사기 ${s.right[1]}. 지니는 부모 ${f(s.parentGini,3)}에서 자식 가중 평균 ${f(s.childGini,3)}로, 이득 <strong>${f(s.gainGini,3)}</strong>. 엔트로피는 ${f(s.parentEntropy,3)}에서 ${f(s.childEntropy,3)}로, 정보 이득 <strong>${f(s.gainEntropy,3)}</strong>비트. 모든 기준 중 정보 이득이 가장 큰 곳은 ${best.t}입니다.<br><small>실제 계산 · 가상 결제 24건(사기 10건)</small>`);});
 };
+L.boost=el=>{
+ U.setup(el,U.range('bs-m','부스팅 라운드 수 M(그루터기 개수)',1,200,1,50)+U.select('bs-nu','학습률 ν(한 그루터기를 얼마나 믿을까)',[[0.05,'0.05'],[0.1,'0.1'],[0.3,'0.3'],[1,'1.0 (줄이지 않음)']],0.1));
+ U.bind(el,()=>{const m=U.value(el,'bs-m'),nu=U.value(el,'bs-nu'),r=M.boosting(m,nu),g=Array.from({length:161},(_,i)=>-1+i/80);
+  const fitChart=U.plot({lines:[{data:g.map(x=>[x,M.trueCurve(x)]),color:'var(--text)',dashed:true},{data:g.map(x=>[x,r.predict(x)]),color:'var(--orange)'}],points:r.train.map(d=>[d.x,d.y,'var(--blue)',3.5]),xmin:-1,xmax:1,ymin:-2.5,ymax:2.5,xlabel:'입력 x',ylabel:'예측',label:`그루터기 ${m}개를 더한 계단 예측(주황), 참 곡선(점선), 학습점 40개(파랑)`});
+  const ms=r.trainCurve.map((v,k)=>[k,v]),vs=r.valCurve.map((v,k)=>[k,v]);
+  const errChart=U.plot({lines:[{data:ms,color:'var(--blue)'},{data:vs,color:'var(--accent)',dashed:true}],points:[[m,r.valMSE,'var(--orange)',7],[r.bestM,r.bestVal,'var(--text)',5]],xmin:0,xmax:200,ymin:0,ymax:0.8,xlabel:'라운드 수 M',ylabel:'평균제곱오차',label:`학습 MSE(실선)와 검증 MSE(점선). 검증 최저점은 M=${r.bestM}에서 ${f(r.bestVal,3)}`});
+  const after=m>r.bestM+10?`지금 M은 검증 최저점(M=${r.bestM})을 지나 검증 오차가 다시 ${f(r.valMSE-r.bestVal,3)} 올랐습니다. 여기서 멈추는 것이 조기 종료입니다.`:m<r.bestM-10?`검증 오차는 M=${r.bestM}까지 더 내려갑니다. 아직 덜 맞은(편향이 남은) 상태입니다.`:'검증 최저점 근처입니다.';
+  U.result(el,fitChart+errChart,`학습률 ν=<b>${nu}</b>, 그루터기 <b>${m}</b>개. 학습 MSE <b>${f(r.trainMSE,3)}</b>, 검증 MSE <strong>${f(r.valMSE,3)}</strong>(잡음만으로 생기는 바닥 ${f(r.noise,4)}). 200라운드 안의 검증 최저점은 <b>M=${r.bestM}</b>에서 <strong>${f(r.bestVal,3)}</strong>입니다. ${after}<br><small>실제 계산 · 참 곡선 sin(4.2x)+0.3x에 잡음 0.35를 더한 학습 40점·검증 200점, 깊이 1 회귀 그루터기를 잔차에 맞춤</small>`);});
+};
+
 
 L.knn=el=>{
  U.setup(el,U.range('k','이웃 수 k',1,29,2,7));

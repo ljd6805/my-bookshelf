@@ -78,3 +78,12 @@ test('12장 지연 예산',()=>{
  near(M.latency(640,'fp32').total,34.5);near(M.latency(1280,'fp32').total,97.5);near(M.latency(640,'int8').total,20.1);
  near(M.latency(640,'fp32').budget,1000/30);assert.ok(M.latency(320,'int8').total<M.latency(640,'int8').total);
 });
+test('night score scenario: threshold trades night precision for recall; retraining shifts the reflections',()=>{
+ near(M.normCdf(0),0.5,1e-7);near(M.normCdf(1.96),0.975,1e-4);near(M.normCdf(-1)+M.normCdf(1),1,1e-7);
+ const a=M.nightScore(0.5),b=M.nightScore(0.7),c=M.nightScore(0.5,'retrain');
+ near(a.day.precision,0.972,0.001);near(a.night.precision,0.459,0.001);near(a.night.recall,0.952,0.001);near(a.night.fp,150*(1-M.normCdf((0.5-0.58)/0.12)),1e-9);
+ assert.ok(b.night.precision>a.night.precision&&b.night.recall<a.night.recall,'raising the threshold trades recall for precision');near(b.night.recall,0.5,1e-6);
+ near(c.night.precision,0.761,0.001);assert.ok(c.night.recall>a.night.recall);near(c.day.precision,a.day.precision,1e-12);
+ for(const t of [0.3,0.6,0.9]){const r=M.nightScore(t);near(r.night.tp+r.night.fn,100,1e-9);assert.ok(r.night.precision<=1&&r.night.precision>=0);}
+ const curve=M.nightCurves('base','night');assert.equal(curve.length,101);assert.ok(curve[70][1]>curve[70][2]&&curve[50][2]>curve[50][1]);
+});

@@ -32,7 +32,7 @@ A15Labs.scope=el=>{
   const d=U.text(el,'scope-diff'),strict=U.text(el,'scope-mode')==='strict',r=M.scopeCheck(M.DIFFS[d],strict);
   const items=r.rows.map(x=>[x.file,ST[x.status],x.severity==='ok'?'통과':x.severity==='warn'?'경고':'차단',x.severity==='ok']);
   U.result(el,U.rows(items,`diff 파일 ${r.rows.length}개 판정, 차단 ${r.blocks}개`,'파일별 범위 판정'),
-  `범위 검사: <strong>${r.passed?'통과':'차단'}</strong> · 차단 ${r.blocks} · 경고 ${r.warns}<br>허용: ${M.CONTRACT.allowed.join(', ')} · 금지: ${M.CONTRACT.forbidden.join(', ')}<br>${r.warns?'경고는 통과를 막지 않지만 리뷰에서 보이게 남습니다.':''}${r.blocks?' 금지 경로나 엄격 모드의 범위 밖 쓰기는 게이트로 넘기지 않습니다.':''} 글롭 대조는 실제 계산이고, 계약과 diff는 원본 레슨의 가입 검증 예를 본뜬 시나리오입니다.`);
+  `범위 검사: <strong>${r.passed?'통과':'차단'}</strong> · 차단 ${r.blocks} · 경고 ${r.warns}<br>허용: ${M.CONTRACT.allowed.join(', ')} · 금지: ${M.CONTRACT.forbidden.join(', ')}<br>${r.warns?'경고는 통과를 막지 않지만 리뷰에서 보이게 남습니다.':''}${r.blocks?' 금지 경로나 엄격 모드의 범위 밖 쓰기는 게이트로 넘기지 않습니다.':''} 글롭 대조는 실제 계산이고, 계약과 diff는 원본 레슨의 범위 계약 예를 이 책의 쓰기 도구 검사 과업으로 바꾼 시나리오입니다.`);
  });
 };
 

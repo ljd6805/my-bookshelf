@@ -1,6 +1,6 @@
 {
-  "url": "http://127.0.0.1:8765/books/llm-performance/",
-  "date": "2026-10-08",
+  "url": "http://127.0.0.1:8792/books/llm-performance/",
+  "date": "2026-10-12",
   "views": [
     {
       "width": 1280,
@@ -365,6 +365,13 @@
     },
     {
       "width": 1280,
+      "id": "speculate",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
       "id": "parallel",
       "controls": 3,
       "presets": 3,
@@ -456,6 +463,13 @@
     },
     {
       "width": 390,
+      "id": "speculate",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
       "id": "parallel",
       "controls": 3,
       "presets": 3,
@@ -541,6 +555,13 @@
     {
       "width": 320,
       "id": "schedule",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "speculate",
       "controls": 3,
       "presets": 3,
       "reset": true

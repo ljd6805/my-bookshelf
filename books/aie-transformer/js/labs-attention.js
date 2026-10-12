@@ -43,4 +43,13 @@ A08Labs.rope=el=>{
   const same=Math.abs(r.moved-r.base)<1e-9;
   U.result(el,chart,`${m==='rope'?'RoPE':'사인 인코딩 더하기'} · 위치 (6, 3) 점수 <b>${F(r.base,4)}</b> → (${6+s}, ${3+s}) 점수 <strong>${F(r.moved,4)}</strong> · 차이 <b>${F(Math.abs(r.moved-r.base),6)}</b><br>${same?'상대 거리 3이 같으므로 점수가 그대로입니다. 회전한 두 벡터의 내적은 각도 차이에만 의존합니다.':'절대 위치 신호를 임베딩에 더했기 때문에 같은 거리라도 놓인 자리에 따라 점수가 흔들립니다.'}<br>d = 8짜리 고정 벡터로 한 실제 계산입니다. 초록 선이 고른 방식, 회색 점선이 다른 방식입니다.`);});
 };
+const LONG={none:'그대로 (위치를 그대로 씀)',pi:'위치 보간 PI (위치 ÷ 배율)',base10:'추론 때 base만 10배',base100:'추론 때 base만 100배'};
+A08Labs.ropelong=el=>{
+ U.setup(el,S('ldhead','헤드 차원 d_head',[[64,'64 (쌍 32개)'],[128,'128 (쌍 64개)']],128)+S('ltrain','학습 길이 L_train (토큰)',[[2048,'2,048'],[4096,'4,096'],[8192,'8,192']],4096)+S('ltarget','목표 길이 (토큰)',[[8192,'8,192'],[16384,'16,384'],[32768,'32,768'],[131072,'131,072']],32768)+S('lmethod','늘리는 방법',Object.entries(LONG),'none'));
+ U.bind(el,()=>{const p={dHead:U.value(el,'ldhead'),lTrain:U.value(el,'ltrain'),lTarget:U.value(el,'ltarget'),method:U.text(el,'lmethod')},r=M.ropeExtend(p),n=r.pairs.length;
+  const lg=v=>Math.max(-2,Math.min(6,Math.log10(v)));
+  const chart=U.plot({lines:[{data:[[0,lg(2*Math.PI)],[n-1,lg(2*Math.PI)]],color:'var(--muted)',dashed:true},{data:r.pairs.map(q=>[q.i,lg(q.train)]),color:'var(--accent)'},{data:r.pairs.map(q=>[q.i,lg(q.target)]),color:'var(--orange)',dashed:true}],points:r.pairs.filter(q=>q.unseen).map(q=>[q.i,lg(q.target),'var(--orange)',4]),xmin:0,xmax:n-1,ymin:-2,ymax:6,xlabel:'차원 쌍 번호 i (오른쪽일수록 느리게 돎)',ylabel:'log₁₀ 최대 각도 (rad)',label:`차원 쌍마다 학습 중 본 최대 각도(실선)와 목표 길이의 최대 각도(점선). 본 적 없는 각도를 받는 쌍 ${r.unseen}개.`});
+  const sl=r.slow,warn=r.unseen?`<strong>${r.unseen}쌍</strong>이 학습 때 한 바퀴도 돌지 못한 채 처음 보는 각도를 받습니다(가장 크게는 학습 최대 각도의 ${F(r.worst,2)}배).`:'<strong>모든 쌍</strong>이 학습 때 본 각도 범위 안에 머뭅니다.';
+  U.result(el,chart,`d_head ${p.dHead}, 학습 base 10,000 · 쌍 ${n}개 · 배율 s = ${F(p.lTarget,0)} ÷ ${F(p.lTrain,0)} = <b>${F(r.s,0)}</b><br>가장 느린 쌍의 각속도 <b>${sl.theta.toExponential(2)}</b> rad/토큰(한 바퀴 ${F(sl.wave,0)}토큰) · 학습 최대 각도 <b>${F(sl.train,2)}</b> rad → 목표 최대 각도 <b>${F(sl.target,2)}</b> rad<br>${LONG[p.method]}: ${warn} ${p.method==='pi'?`대신 이웃한 두 토큰의 각도 차이가 1/${F(r.s,0)}로 좁아지므로, 원 논문처럼 짧게 다시 학습해 이 촘촘한 간격에 익숙해지게 합니다.`:p.method==='none'?'학습 길이를 넘는 순간 위치 감각이 깨지는 이유입니다.':'느린 쌍은 덜 돌게 되지만 빠른 쌍은 거의 그대로라, 쌍마다 늘어나는 정도가 다릅니다.'}<br>각도는 식으로 바로 계산한 실제 값이고, 실제 모델의 정확도 변화는 계산하지 않습니다.`);});
+};
 })();

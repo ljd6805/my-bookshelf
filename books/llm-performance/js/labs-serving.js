@@ -9,6 +9,14 @@ L.schedule=el=>{
  U.bind(el,()=>{const r=M.schedule(U.value(el,'slots'),U.value(el,'step'),Boolean(U.value(el,'policy')));
  U.result(el,U.timeline(r.events,['요청 1','요청 2','요청 3','요청 4'],r.total)+U.table(['요청','출력 수','완료 ms'],r.ends.map((v,i)=>[i+1,[2,6,3,5][i],v])),`<b>마지막 완료 ${r.total} ms · ${U.fmt(r.tps,2)} tokens/s</b><br>16개 추가 토큰을 모두 생성했습니다. 시간×슬롯 중 사용한 비율은 ${U.fmt(r.utilization*100,1)}%입니다. 단계 시간이 활성 요청 수와 무관하다는 가정이며 실제 GPU 사용률 지표는 아닙니다.`);});
 };
+L.speculate=el=>{
+ U.setup(el,U.range('alpha','초안 토큰 수락률 α',.5,.95,.05,.8)+U.range('gamma','한 번에 제안하는 토큰 γ (개)',1,8,1,4)+U.range('cost','초안 한 번의 비용 c (큰 모델 한 단계 = 1)',0,.5,.05,.05));
+ U.bind(el,()=>{const a=U.value(el,'alpha'),g=U.value(el,'gamma'),c=U.value(el,'cost'),r=M.speculative(a,g,c),top=Math.max(...r.curve.map(x=>x.speedup),1);
+ const cols=r.curve.map((x,i)=>{const h=x.speedup/top*170,X=40+i*54;return `<rect x="${X}" y="${215-h}" width="38" height="${h}" rx="3" fill="${x.gamma===g?'var(--accent)':'var(--blue)'}" opacity="${x.gamma===g?1:.55}"/><text x="${X+19}" y="${208-h}" text-anchor="middle">${U.fmt(x.speedup,2)}</text><text x="${X+19}" y="236" text-anchor="middle">γ${x.gamma}</text>`;}).join('');
+ const one=215-1/top*170;
+ U.result(el,U.svg(`<path d="M30 ${one}H470" stroke="var(--orange)" stroke-dasharray="5 4"/><text x="470" y="${one-6}" text-anchor="end">1배(추측 없음)</text>${cols}<text x="12" y="270">γ별 이론 속도 향상(배) · 밝은 막대가 지금 γ</text>`,`γ 1~8의 이론 속도 향상: ${r.curve.map(x=>'γ'+x.gamma+' '+U.fmt(x.speedup,2)+'배').join(', ')}`),
+ `<b>검증 한 번에 기대 토큰 ${U.fmt(r.expected,2)}개 · 이론 속도 향상 ${U.fmt(r.speedup,2)}배</b><br>(1 − ${a}<sup>${g+1}</sup>) ÷ (1 − ${a}) = ${U.fmt(r.expected,2)}, 속도 향상 = ${U.fmt(r.expected,2)} ÷ (${g} × ${c} + 1). 이 α·c에서 γ 1~8 중에서는 γ ${r.best.gamma}일 때 ${U.fmt(r.best.speedup,2)}배로 가장 큽니다.<br>Leviathan 외(2023)의 기대값 식으로 계산한 이론값입니다. 수락이 토큰마다 독립이고, 큰 모델이 γ+1개 위치를 검증하는 시간이 decode 한 단계와 같다고 가정했습니다. 실제 수락률과 초안 비용은 측정해야 합니다.`);});
+};
 L.parallel=el=>{
  U.setup(el,U.select('devices','GPU 수',[[1,'1개'],[2,'2개'],[4,'4개'],[8,'8개']],1)+U.range('payload','collective당 메시지 (MB)',.25,8,.25,.25)+U.range('link','가정한 링크 처리율 (GB/s)',25,200,25,50));
  U.bind(el,()=>{const r=M.parallel(U.value(el,'devices'),U.value(el,'payload'),U.value(el,'link'));

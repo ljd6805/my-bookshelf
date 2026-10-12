@@ -96,6 +96,39 @@
     const p0 = [(c * a) / n2, (c * b) / n2], dir = LA.scale(12 / Math.sqrt(n2), [-b, a]);
     return [LA.add(p0, dir), LA.sub(p0, dir)];
   }
+  // 7장 보충: 점수표 세 장, 미지수 둘. 최소제곱 x̂ = (MᵀM)⁻¹Mᵀb.
+  const LS_ROWS = { diff: [[2, 1], [1, 1.5], [1, -1]], same: [[2, 1], [4, 2], [1, 0.5]] };
+  const term = (k, name) => (k === 1 ? name : k === -1 ? `− ${name}` : `${fmt(k, 2).replace(/\.?0+$/, '')}${name}`);
+  const eqText = (row, c) => `${term(row[0], 'x')} ${row[1] < 0 ? '− ' + term(-row[1], 'y') : '+ ' + term(row[1], 'y')} = ${fmt(c)}`;
+  UI.lab('least-squares', (root) => {
+    const p = new Plane(root.querySelector('svg'), { range: 4 });
+    const out = root.querySelector('.readout');
+    const draw = (v) => {
+      const M = LS_ROWS[v.rows] || LS_ROWS.diff, b = [v.b1, v.b2, v.b3], r = LA.leastSquares(M, b);
+      p.clear().grid().axes(F);
+      ['guide', 'axis-pc', 'third'].forEach((cls, i) => { const [a1, a2] = lineThrough(M[i][0], M[i][1], b[i]); p.line(a1, a2, cls); });
+      KIT.drawSongs(p, null, { dim: true, labels: false });
+      const pairs = [[0, 1], [0, 2], [1, 2]].map(([i, j]) => ({ i, j, x: LA.solve([M[i], M[j]], [b[i], b[j]]) }));
+      pairs.forEach((q) => { if (q.x) p.point(q.x, 'pair', '', 4); });
+      const eqs = M.map((row, i) => `<p>식 ${'①②③'[i]} ${eqText(row, b[i])}</p>`).join('');
+      let msg;
+      if (!r.x) {
+        msg = `<p>MᵀM = ${mat(r.MtM, 2)}, det(MᵀM) = <strong>${fmt(LA.det(r.MtM))}</strong></p><p class="status-bad"><strong>세 직선이 모두 같은 방향이라 하나의 답을 정할 수 없습니다.</strong> 점수표를 아무리 늘려도 서로 다른 방향이 없으면 빠르기와 에너지를 따로 되찾지 못합니다.</p>`;
+      } else {
+        const near = KIT.nearest(r.x), exact = r.sse < 1e-9;
+        p.point(r.x, 'res', 'x̂', 6);
+        const pairText = pairs.map((q) => `${'①②③'[q.i]}${'①②③'[q.j]} ${q.x ? vec(q.x, 2) : '없음'}`).join(' · ');
+        msg = `<p><strong>x̂ = (MᵀM)⁻¹Mᵀb = ${vec(r.x, 2)}</strong> · 가장 가까운 노래: ${near.song.name} (거리 ${fmt(near.d)})</p>` +
+          `<p>잔차 r = b − Mx̂ = ${vec(r.residual, 2)} · 잔차 제곱합 <strong>${fmt(r.sse)}</strong></p>` +
+          `<p>검산: Mᵀr = ${vec(r.check, 2)} (두 열과 직각)</p>` +
+          `<p>${exact ? '세 직선이 한 점에서 만납니다. 기록이 모두 맞아 오차 없이 되찾았습니다.' : `두 식씩 골라 푼 교점(빈 원): ${pairText}. 고르는 식에 따라 답이 달라지지만, x̂는 세 식의 오차를 함께 줄인 하나의 답입니다.`}</p>`;
+      }
+      p.render();
+      out.innerHTML = eqs + msg;
+    };
+    UI.ranges(root, draw).update();
+  });
+
 
   // 7장: 기록된 점수 b에서 원래 노래 x를 찾기. M = [2 1; 1 d]
   UI.lab('solve', (root) => {

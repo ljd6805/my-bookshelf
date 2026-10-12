@@ -77,3 +77,19 @@ test('song data stay inside the stated −3…3 range', () => {
   for (const s of S.songs) for (const x of [...s.v, S.lyrics[s.id]]) assert.ok(x >= -3 && x <= 3, s.id);
   assert.equal(S.songs.length, 8);
 });
+
+test('least squares: exact records give zero residual, a wrong record leaves a residual orthogonal to the columns', () => {
+  const M = [[2, 1], [1, 1.5], [1, -1]];
+  const exact = LA.leastSquares(M, [5.5, 4.25, 0.5]);
+  nearVec(exact.x, [2, 1.5]);
+  near(exact.sse, 0);
+  nearVec(LA.leastSquares(M, [5.5, 4.25, 1.5]).x, [181 / 77, 163 / 154]); // (2.351, 1.058)
+  const r = LA.leastSquares(M, [5.5, 4.25, 1.5]);
+  near(LA.det(r.MtM), 19.25);
+  nearVec(r.check, [0, 0], 1e-12); // Mᵀr = 0: 잔차는 M의 두 열과 직각
+  near(r.sse, 0.2077922077922078, 1e-12);
+  // 세 행이 같은 방향이면 MᵀM의 행렬식이 0이라 답을 하나로 정할 수 없습니다.
+  assert.equal(LA.leastSquares([[2, 1], [4, 2], [1, 0.5]], [5.5, 4.25, 1.5]).x, null);
+  // 식이 둘뿐이면 최소제곱 답은 역행렬로 푼 답과 같습니다.
+  nearVec(LA.leastSquares([[2, 1], [1, 1.5]], [5.5, 4.25]).x, LA.solve([[2, 1], [1, 1.5]], [5.5, 4.25]));
+});

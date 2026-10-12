@@ -27,6 +27,14 @@ A01Labs.split=el=>{
   U.result(el,U.bars(['훈련','검증','평가','누수'],[...r.sizes,r.overlap],'개',null,0),
   `${n}개를 시드 ${sd}로 나눔: 훈련 <b>${r.sizes[0]}</b> · 검증 <b>${r.sizes[1]}</b> · 평가 <b>${r.sizes[2]}</b><br>새 평가 세트 중 시드 42로 나눴을 때 훈련에 쓰인 리뷰: <strong>${r.overlap}개 (${F(r.rate*100,1)}%)</strong><br>${r.overlap?'옛 체크포인트를 이 평가 세트로 재면 이미 본 리뷰로 점수를 매기게 되어 정확도가 부풀려집니다.':'같은 시드라 분할이 그대로 재현되어 누수가 없습니다.'} 실제로 섞고 겹침을 센 계산입니다.`);});
 };
+const FIXED={none:'아무것도 고정 안 함',seeded:'초기화·섞기 시드 고정',deterministic:'시드 고정 + 결정적 알고리즘'};
+A01Labs.rerun=el=>{
+ U.setup(el,S('fixed','다시 학습할 때 고정한 것',Object.entries(FIXED),'none')+R('gain','비교할 개선 폭 (%p)',0,2,0.1,0.4));
+ U.bind(el,()=>{const mode=U.text(el,'fixed'),g=U.value(el,'gain'),r=M.rerun(mode,g);el.querySelector('#gain-value').textContent=F(g,1);
+  const pts=r.runs.map((v,i)=>[i+1,v,'var(--orange)',6]);
+  U.result(el,U.plot({lines:[{data:[[0.5,r.mean],[5.5,r.mean]]},{data:[[0.5,r.mean+g],[5.5,r.mean+g]],color:'var(--blue)',dashed:true}],points:pts,xmin:0.5,xmax:5.5,ymin:85,ymax:88.5,xlabel:'다시 학습한 차례(점 하나가 한 번)',ylabel:'검증 정확도 (%)',label:`${FIXED[mode]}: 다섯 번 정확도 ${r.runs.join(', ')}%, 평균 ${F(r.mean,2)}%, 점선은 평균 + ${F(g,1)}%p`}),
+  `${FIXED[mode]} · 다섯 번 정확도 ${r.runs.map(v=>F(v,1)).join(', ')}%<br>평균 <b>${F(r.mean,2)}%</b> · 범위(최대 − 최소) <strong>${F(r.spread,1)}%p</strong> · 표준편차 ${F(r.sd,2)}%p<br>${r.beyond?`비교할 차이 ${F(g,1)}%p가 다시 돌릴 때의 범위(${F(r.spread,1)}%p)보다 큽니다. 같은 상자에서 흔들림만으로는 설명하기 어렵지만, 평가 세트가 작아서 생기는 불확실성은 따로 따져야 합니다.`:`비교할 차이 ${F(g,1)}%p가 다시 돌리기만 해도 생기는 범위(${F(r.spread,1)}%p) 안에 있습니다. 한 번씩 돌려 비교해서는 개선인지 흔들림인지 가를 수 없습니다.`}${mode==='deterministic'?' 결정적 설정도 같은 상자·같은 버전에서만 같은 결과를 기대할 수 있습니다.':''}<br>다섯 번의 정확도는 교육용 시나리오 값이고, 평균·범위·표준편차와 판정은 실제로 계산했습니다.`);});
+};
 A01Labs.profile=el=>{
  U.setup(el,R('workers','DataLoader 일꾼 수 (num_workers)',0,8,1,0));
  U.bind(el,()=>{const w=U.value(el,'workers'),r=M.stepTime(60,40,w);
@@ -40,7 +48,7 @@ A01Labs.curve=el=>{
   U.result(el,U.plot({lines:[{data:pts},{data:[[0,2],[30,2]],color:'var(--orange)',dashed:true}],xmin:0,xmax:30,ymin:-8,ymax:10,xlabel:'학습 단계',ylabel:'log₁₀ 손실',label:`학습률 ${F(lr,2)}의 손실 곡선: ${r.kind}`}),
   `학습률 <b>${F(lr,2)}</b> · 한 단계마다 w에 곱해지는 수 |1 − 2η| = <b>${F(r.factor,2)}</b> → <strong>${r.kind}</strong><br>30단계 뒤 손실 ${r.final<1e-4?'0.0001 미만':r.final>1e6?'백만 초과':F(r.final,4)} · 조건부 중단점(손실 > 100): ${r.stop<0?'걸리지 않음':`<b>${r.stop}단계</b>에서 멈춤`}<br>주황 점선이 손실 100입니다. L = w²에 경사하강을 실제로 반복한 계산이며, 실제 모델의 손실 지형은 이보다 복잡합니다.`);});
 };
-const SCEN={importfail:'import torch 실패',nocuda:'CUDA가 보이지 않음',acc99:'평가 정확도 99%',slow:'학습이 세 배 느림'};
+const SCEN={importfail:'import torch 실패',nocuda:'CUDA가 보이지 않음',acc99:'평가 정확도 99%',slow:'학습이 세 배 느림',jitter:'정확도가 매번 조금씩 다름'};
 A01Labs.triage=el=>{
  U.setup(el,S('scenario','팀원의 보고',Object.entries(SCEN),'acc99')+S('strategy','확인 순서 전략',[['bottom','아래층부터 차례로'],['symptom','증상에 맞는 점검부터'],['top','손실 곡선부터 거꾸로']],'bottom'));
  U.bind(el,()=>{const r=M.triage(U.text(el,'scenario'),U.text(el,'strategy'));

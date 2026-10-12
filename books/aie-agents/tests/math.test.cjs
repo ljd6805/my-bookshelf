@@ -54,7 +54,8 @@ test('PVE rules block more calls as layers turn on',()=>{
 test('glob scope contract',()=>{
  assert.ok(M.globMatch('app/signup/a/b.py','app/signup/**'));assert.ok(!M.globMatch('app/email/x.py','app/signup/**'));assert.ok(M.globMatch('tests/test_signup_x.py','tests/test_signup*.py'));
  assert.equal(M.scopeCheck(M.DIFFS.clean,false).passed,true);const d=M.scopeCheck(M.DIFFS.docs,false);assert.equal(d.warns,1);assert.ok(d.passed);assert.equal(M.scopeCheck(M.DIFFS.docs,true).passed,false);
- assert.equal(M.scopeCheck(M.DIFFS.creep,false).blocks,1);
+ assert.equal(M.scopeCheck(M.DIFFS.creep,false).blocks,1);assert.equal(M.scopeCheck(M.DIFFS.creep,false).warns,1);
+ assert.equal(M.scopeCheck(['config/prod/alerts.yaml'],false).rows[0].status,'forbidden');assert.equal(M.scopeCheck(['oncall/tools/a/b.py'],true).passed,true);assert.equal(M.scopeCheck(['tests/test_tools_guard.py'],true).passed,true);
 });
 test('gate passes fewer claimed completions as checks turn on',()=>{
  assert.deepEqual([0,1,2,3,4,5,6].map(l=>M.gate(l,false).passed),[20,17,15,14,12,11,11]);assert.equal(M.gate(6,true).passed,9);assert.equal(M.gate(6,false).warned,2);

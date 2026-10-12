@@ -1,4 +1,4 @@
-/* 1~5장 실험: 무작위 정책 가치, 가치 반복, ε-탐욕 통로, 절벽 걷기, 최대화 편향. 계산은 A10Math에서 한다. */
+/* 1~5장 실험: 무작위 정책 가치, 가치 반복, ε-탐욕 통로, 절벽 걷기, 무작위 걷기 MC 대 TD, 최대화 편향. 계산은 A10Math에서 한다. */
 (()=>{
 'use strict';
 const U=A10UI,M=A10Math,R=U.range,S=U.select,F=U.fmt;
@@ -29,6 +29,17 @@ A10Labs.cliff=el=>{
   const row=x=>x.topRow===0?'맨 윗줄로 돌아감':x.topRow===2?'낭떠러지 바로 위 줄을 따라감':'가운데 줄로 감';
   U.result(el,`<div class="a10-pair">${b(r.q,'Q-learning')}${b(r.sarsa,'SARSA')}</div>`,
   `ε = <b>${F(e,2)}</b><br>Q-learning: 탐욕 경로 <b>${r.q.steps}걸음</b>(${row(r.q)}), 가장자리 경로를 배운 시드 ${r.q.edgeRuns}/${r.q.runs}, 훈련 마지막 100번 평균 보상 <strong>${F(r.q.lastAvg,1)}</strong><br>SARSA: 탐욕 경로 <b>${r.sarsa.steps}걸음</b>(${row(r.sarsa)}), 가장자리 경로 ${r.sarsa.edgeRuns}/${r.sarsa.runs}, 마지막 100번 평균 <strong>${F(r.sarsa.lastAvg,1)}</strong><br>α=0.5, 500 에피소드, 시드 10개로 실제 학습한 결과입니다. 경로 그림은 첫 번째 시드입니다.`);});
+};
+/* 4장: 다섯 칸 무작위 걷기에서 n단계 TD와 몬테카를로의 RMS 오차. 비교선은 같은 α의 다른 쪽 끝(TD(0) ↔ 몬테카를로). */
+const WALK_N=[['1','n = 1 (TD(0))'],['2','n = 2'],['4','n = 4'],['8','n = 8'],['inf','n = ∞ (몬테카를로)']];
+A10Labs.mctd=el=>{
+ U.setup(el,S('wn','부트스트래핑까지 기다리는 걸음 n',WALK_N,'1')+R('walpha','학습률 α',0.01,0.3,0.01,0.1)+R('wep','에피소드 수',10,100,10,100));
+ U.bind(el,()=>{const raw=U.text(el,'wn'),n=raw==='inf'?Infinity:Number(raw),a=U.value(el,'walpha'),ep=U.value(el,'wep'),r=M.tdPredict(n,a,ep),cn=n===Infinity?1:Infinity,c=M.tdPredict(cn,a,ep);
+  const name=k=>k===Infinity?'몬테카를로':k===1?'TD(0)':`${k}단계 TD`,pts=x=>x.rms.map((v,i)=>[i,v]);el.querySelector('#walpha-value').textContent=F(a,2);
+  U.result(el,U.plot({lines:[{data:pts(c),color:'var(--orange)',dashed:true},{data:pts(r)}],xmin:0,xmax:ep,ymin:0,ymax:0.3,xlabel:'에피소드',ylabel:'RMS 오차(100번 평균)',label:`${name(n)}와 ${name(cn)}(점선)의 RMS 오차 곡선, α ${F(a,2)}`})+U.grid([r.values,r.truth],`칸 A~E의 마지막 가치 평균(윗줄)과 참값 1/6~5/6(아랫줄)`,3)+'<p class="caption">윗줄: 이 방법이 배운 가치(100번 평균) · 아랫줄: 참값 1/6, 2/6, 3/6, 4/6, 5/6</p>',
+  `${name(n)}, α = <b>${F(a,2)}</b>, ${ep}번 뒤 RMS 오차 <strong>${F(r.final,3)}</strong> · 비교: 같은 α의 ${name(cn)}(점선) <b>${F(c.final,3)}</b><br>`+
+  `${r.final<c.final?`이 설정에서는 ${name(n)}가 더 정확합니다.`:`이 설정에서는 ${name(cn)}가 더 정확합니다.`} α가 크면 두 곡선 모두 바닥에서 위아래로 흔들리고, α가 아주 작으면 TD(0)는 정보가 한 칸씩 퍼지느라 늦게 내려옵니다.<br>`+
+  `처음 가치는 모두 0.5, 처음 RMS ${F(r.rms[0],3)}. 다섯 칸 무작위 걷기(γ=1)를 시드 고정으로 100번 반복한 실제 계산입니다.`);});
 };
 A10Labs.overest=el=>{
  U.setup(el,R('acts','행동 수 K',1,20,1,10)+S('noise','추정 잡음 표준편차 σ',[[0.5,'0.5'],[1,'1'],[2,'2']],1));

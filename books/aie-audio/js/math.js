@@ -111,10 +111,20 @@ function rvq(signal,stages,levels=4){
  return {recon,errors,rms:errors.length?errors[errors.length-1]:Math.sqrt(signal.reduce((s,r)=>s+r*r,0)/signal.length)};
 }
 /* 8장: 코덱 토큰의 양. 코드북 크기 1024(10비트)를 가정한다. */
-function codecBudget(frameRate,codebooks,seconds=10,bitsPerCode=10){return {kbps:frameRate*codebooks*bitsPerCode/1000,tokens:frameRate*codebooks*seconds,frames:frameRate*seconds};}
+/* 코덱별 코드북 크기(비트). EnCodec·DAC 10비트(1,024개)와 Mimi 11비트(2,048개, Moshi 논문)는 공개 자료 값,
+   SNAC은 공개 저장소가 크기를 밝히지 않아 이 책이 10비트로 가정한다(확인일 2026-10-12). */
+const CODEBOOK_BITS={75:10,86:10,12:10,12.5:11};
+function codecBudget(frameRate,codebooks,seconds=10,bitsPerCode=CODEBOOK_BITS[frameRate]||10){return {kbps:frameRate*codebooks*bitsPerCode/1000,tokens:frameRate*codebooks*seconds,frames:frameRate*seconds};}
 
 /* 9장: 음성 비서 한 턴의 지연 예산. 단계별 기본값은 원본 레슨의 예산표이고 LLM 생성 속도는 가정값이다. */
 const STAGES={mic:20,vad:10,asrStream:150,asrChunked:2000,llmFirst:100,tts:100,render:20};
+/* 9장 더 깊이: 호출어 감지의 시간당 오작동. 판정 간격 gap(ms)마다 창 하나를 판정하고, 연속 n창이 문턱을 넘어야 깨운다.
+   교육용 가정: 창끼리 독립. 오작동 기대값 ≈ 창 수 × pⁿ, 놓침률 = 1 − qⁿ (q = 진짜 호출에서 창 하나가 넘을 확률).
+   실제 소음은 창끼리 이어져 있어 n을 늘린 효과가 이 계산보다 작다. */
+function wakeWord({gap=20,p=1e-4,n=1,q=0.9}){
+ const windows=3600000/gap,rate=k=>windows*Math.pow(p,k);
+ return {windows,perHour:rate(n),perDay:rate(n)*24,miss:1-Math.pow(q,n),curve:[1,2,3,4,5].map(k=>({n:k,perDay:rate(k)*24,miss:1-Math.pow(q,k)}))};
+}
 function turnLatency({asr='stream',ttsAfter=20,tokPerSec=50,hangover=0}){
  const asrMs=asr==='stream'?STAGES.asrStream:STAGES.asrChunked,wait=Math.max(0,ttsAfter-1)/tokPerSec*1000;
  const parts=[['마이크 버퍼',STAGES.mic],['VAD',STAGES.vad],['침묵 대기',hangover],['음성 인식',asrMs],['LLM 첫 토큰',STAGES.llmFirst],['토큰 모으기',wait],['TTS 첫 조각',STAGES.tts],['스피커 출력',STAGES.render]];
@@ -152,6 +162,9 @@ function watermark(p,k=14,n=16){return {bra:1-p,detect:atLeast(n,k,1-p),falseAla
 /* 12장: 집단별 WER의 가중 평균. 평균 하나가 특정 집단의 높은 오류를 가린다. */
 function sliceWer(slices){const words=slices.reduce((s,x)=>s+x.share,0);const overall=slices.reduce((s,x)=>s+x.share*x.wer,0)/words;return {overall,worst:Math.max(...slices.map(x=>x.wer)),gap:Math.max(...slices.map(x=>x.wer))-overall};}
 
-const A07Math={clamp,alias,quantize,stft,hzToMel,melToHz,melBank,classMetrics,ctcCollapse,wer,normalize,whisperChunks,audioTokens,loraParams,phi,verify,normalPdf,cosine,mixVoice,durations,RVQ_SIGNAL,rvq,codecBudget,STAGES,turnLatency,VAD_SCENE,vadRun,hangoverRun,binom,atLeast,watermark,sliceWer};
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리(0부터)에 오도록 n개 보기를 돌린다.
+   돌려받은 배열의 k번째 값은 화면 k번째 자리에 놓을 원래 보기 번호다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
+const A07Math={quizOrder,clamp,alias,quantize,stft,hzToMel,melToHz,melBank,classMetrics,ctcCollapse,wer,normalize,whisperChunks,audioTokens,loraParams,phi,verify,normalPdf,cosine,mixVoice,durations,RVQ_SIGNAL,rvq,CODEBOOK_BITS,codecBudget,STAGES,wakeWord,turnLatency,VAD_SCENE,vadRun,hangoverRun,binom,atLeast,watermark,sliceWer};
 if(typeof module!=='undefined')module.exports=A07Math;else root.A07Math=A07Math;
 })(typeof window!=='undefined'?window:globalThis);

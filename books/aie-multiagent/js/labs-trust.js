@@ -14,13 +14,21 @@ A17Labs.verifier=el=>{
   `b = <b>${F(b,2)}</b>, 지금 방식: ${MODES.find(x=>x[0]===m)[1]}<br>검사가 버그를 놓칠 확률 <b>${pct(r.miss)}</b> · 버그가 섞여 나감 <strong>${pct(r.bug,2)}</strong> · 깨끗하게 나감 <b>${pct(r.clean)}</b> · 수정 왕복 2번 뒤 사람에게 넘김 <b>${pct(r.escalate,2)}</b><br>평균 시도 ${F(r.attempts,2)}번, 모델 호출 ${F(r.calls,2)}번<br>비평가 30%, 검증자 90%라는 잡는 비율은 가정값이고, 확률은 그 가정으로 정확히 계산했습니다.`);});
 };
 
-const PM=[['none','장치 없음'],['provenance','출처 기록 + 덧붙이기만'],['readonly','읽기 전용 검증자'],['writer','풀에 직접 쓰는 검증자']];
+const PM=[['none','장치 없음'],['provenance','출처 기록 + 덧붙이기만'],['readonly','읽기 전용 검증자'],['writer','풀에 직접 쓰는 검증자'],['privilege','권한 분리 (바깥 글의 명령문은 데이터로만)']];
+const PS=[['error','옮겨 적기 실수 (4.2% → 42%)'],['inject','민원 글 속 남의 지시 (가상 시나리오)']];
+function poisonNote(r,m,n){
+ if(r.scenario==='inject'){
+  const fin=r.final===null?' · 최종 보고서는 아직 쓰지 않았습니다.':r.final==='clean'?' · 최종 보고서: <strong>지시가 빠진 보고서</strong>(찬성·반대 수만 인용)':' · 최종 보고서: <strong>“30곳 확대는 시민 합의”</strong>가 들어감';
+  const why=r.caught?'작성자가 바깥 글 꼬리표가 붙은 명령문을 지시로 따르지 않고 인용으로만 다루어 경로가 끊겼습니다.':m==='readonly'&&n>=4?'검증자는 옮겨 적기가 원문과 같은지를 확인했고, 실제로 같았습니다. 독립 검증은 정확성을 보지 누가 시킨 말인지는 보지 않습니다.':m==='writer'&&n>=4?'검증자가 “확인됨”을 풀에 써서 남의 지시를 사실처럼 굳혔습니다.':m==='provenance'?'출처 꼬리표로 글 #318까지는 바로 닿지만, 작성자가 그 기록을 여전히 동료의 말로 따릅니다.':'아직 이 경로를 끊는 장치가 없습니다.';
+  return `${PM.find(x=>x[0]===m)[1]} · 민원 글 속 지시, ${n}단계까지 진행<br>풀에서 남의 지시를 실어 나른 기록 <strong>${r.carried}개</strong>${fin}<br>지시가 들어온 곳을 찾으려면 기록을 <b>${r.traceSteps}개</b> 거슬러 올라가야 합니다.<br>${why}<br>글 #318과 기록 내용은 이 책이 만든 가상 시나리오이며, 기록 수와 추적 단계는 그 시나리오에서 실제로 셌습니다.`;
+ }
+ return `${PM.find(x=>x[0]===m)[1]}, ${n}단계까지 진행<br>공유 풀에서 42%를 담은 기록 <strong>${r.wrong}개</strong>${r.final===null?' · 최종 보고서는 아직 쓰지 않았습니다.':` · 최종 보고서의 증가율 <strong>${r.final}%</strong> (원문은 4.2%)`}<br>잘못이 어디서 시작됐는지 찾으려면 기록을 <b>${r.traceSteps}개</b> 거슬러 올라가야 합니다${m==='none'?'(출처가 없어 하나씩 열어 봐야 함)':'(출처를 따라 바로 1번 기록에 닿음)'}.<br>${r.caught?'검증자가 풀이 아니라 원문과 대조했기 때문에 잡았습니다.':m==='writer'&&n>=4?'검증자가 풀의 기록끼리만 맞춰 보아 “확인됨”을 붙였습니다. 같은 오류를 세 번 읽은 것뿐입니다.':m==='privilege'?'권한 분리는 남이 심은 지시를 막는 장치라, 조사원 자신의 옮겨 적기 실수는 막지 못합니다.':'원문과 따로 대조한 에이전트가 아직 없습니다.'}<br>미리 정한 시나리오이며, 기록 수와 추적 단계는 그 시나리오에서 실제로 셌습니다.`;
+}
 A17Labs.poison=el=>{
- U.setup(el,S('pmode','공유 기억 장치',PM,'none')+R('pstep','진행한 단계',1,5,1,5));
- U.bind(el,()=>{const m=U.text(el,'pmode'),n=U.value(el,'pstep'),r=M.poison(m,n);
-  const items=r.pool.map(x=>[`${x.who}${x.side?' · 별도 채널':''}`,`${x.text} <b>(${x.value}%)</b>${x.source?`<br>출처: ${x.source}`:''}${x.flag?`<br>표시: ${x.flag}`:''}`]);
-  U.result(el,U.cards(items,items.length-1),
-  `${PM.find(x=>x[0]===m)[1]}, ${n}단계까지 진행<br>공유 풀에서 42%를 담은 기록 <strong>${r.wrong}개</strong>${r.final===null?' · 최종 보고서는 아직 쓰지 않았습니다.':` · 최종 보고서의 증가율 <strong>${r.final}%</strong> (원문은 4.2%)`}<br>잘못이 어디서 시작됐는지 찾으려면 기록을 <b>${r.traceSteps}개</b> 거슬러 올라가야 합니다${m==='none'?'(출처가 없어 하나씩 열어 봐야 함)':'(출처를 따라 바로 1번 기록에 닿음)'}.<br>${r.caught?'검증자가 풀이 아니라 원문과 대조했기 때문에 잡았습니다.':m==='writer'&&n>=4?'검증자가 풀의 기록끼리만 맞춰 보아 “확인됨”을 붙였습니다. 같은 오류를 세 번 읽은 것뿐입니다.':'원문과 따로 대조한 에이전트가 아직 없습니다.'}<br>미리 정한 시나리오이며, 기록 수와 추적 단계는 그 시나리오에서 실제로 셌습니다.`);});
+ U.setup(el,S('pscen','무엇이 풀에 들어오나',PS,'error')+S('pmode','공유 기억 장치',PM,'none')+R('pstep','진행한 단계',1,5,1,5));
+ U.bind(el,()=>{const sc=U.text(el,'pscen'),m=U.text(el,'pmode'),n=U.value(el,'pstep'),r=M.poison(m,n,sc);
+  const items=r.pool.map(x=>[`${x.who}${x.side?' · 별도 채널':''}`,`${U.esc(x.text)}${x.value!==null?` <b>(${x.value}%)</b>`:''}${x.carries?' <b>[지시가 실림]</b>':''}${x.source?`<br>출처: ${x.source}`:''}${x.flag?`<br>표시: ${x.flag}`:''}`]);
+  U.result(el,U.cards(items,items.length-1),poisonNote(r,m,n));});
 };
 
 const QM=[['sequential','한 명이 차례로'],['fixed','미리 번갈아 나눠 줌'],['queue','공유 대기열 (빈 사람이 가져감)'],['lpt','대기열 + 긴 일부터']];

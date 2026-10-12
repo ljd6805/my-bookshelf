@@ -93,7 +93,7 @@ F.codec=()=>{
  const q=M.rvq(M.RVQ_SIGNAL,4),bm=M.codecBudget(12.5,8),be=M.codecBudget(75,8);let b=t(20,28,'잔차 벡터 양자화: 코드북마다 남은 오차를 다시 적는다',{a:'start',fill:Mu});
  q.errors.forEach((e,i)=>{const y=48+i*44,w=Math.max(4,Math.sqrt(e/q.errors[0])*200);b+=t(20,y+22,`코드북 ${i+1}`,{a:'start',size:14})+grow(110,y,w,28,i?B:A,i*.5)+t(110+w+8,y+20,`오차 ${e.toExponential(1)}`,{a:'start',size:13,fill:Mu});});
  b+=t(110,234,'막대 길이는 남은 오차의 제곱근 비율',{a:'start',size:13,fill:Mu});
- b+=box(420,48,200,90,A,'var(--chart)',10)+t(520,74,'Mimi 12.5 Hz × 8',{size:14,w:700})+t(520,100,`10초 = 토큰 ${bm.tokens}개`,{size:14,fill:A})+t(520,124,`${bm.kbps} kbps (1,024코드 가정)`,{size:13,fill:Mu});
+ b+=box(420,48,200,90,A,'var(--chart)',10)+t(520,74,'Mimi 12.5 Hz × 8',{size:14,w:700})+t(520,100,`10초 = 토큰 ${bm.tokens}개`,{size:14,fill:A})+t(520,124,`${bm.kbps} kbps (2,048코드)`,{size:13,fill:Mu});
  b+=box(420,154,200,90,O,'var(--chart)',10)+t(520,180,'EnCodec 75 Hz × 8',{size:14,w:700})+t(520,206,`10초 = 토큰 ${be.tokens}개`,{size:14,fill:O})+t(520,230,`${be.kbps} kbps`,{size:13,fill:Mu});
  for(let i=0;i<8;i++)b+=blink(`<rect x="${428+i*24}" y="258" width="20" height="20" rx="3" fill="${i?B:A}"/>`,i*.3);
  b+=t(520,296,'한 프레임의 토큰 8개 (첫째 = 의미)',{size:13,fill:Mu});

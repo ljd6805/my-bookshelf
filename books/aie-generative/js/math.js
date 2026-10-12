@@ -160,6 +160,24 @@ function varScales(k){
  return {k,approx,row:ROW,mse:errs[errs.length-1],errs,passes:k,tokens2d:tokens,raster:256};
 }
 
+/* 10장 더 깊이: 벡터 양자화(VQ). 도토리 특징 2차원 점 400개(밝기 축은 낮 −2·밤 +2 두 봉우리, 표준편차 0.5, 둘째 축은 자세 N(0, 1))에
+   k-평균 코드북을 맞춘다. init='data'는 데이터 점 K개에서 출발, 'corner'는 모든 코드를 (−4, −4) 근처 한곳에 몰아 둔다.
+   한 번도 배정되지 않은 코드는 움직이지 않는다(죽은 코드). 시드 고정이라 같은 입력이면 같은 결과다. */
+const VQ_DATA=(()=>{const r=rng(2024);return Array.from({length:400},(_,i)=>[(i%2?2:-2)+0.5*gauss(r),gauss(r)]);})();
+function vqAssign(pts,codes){return pts.map(([x,y])=>{let b=0,bd=Infinity;codes.forEach(([a,c],k)=>{const d=(x-a)**2+(y-c)**2;if(d<bd){bd=d;b=k;}});return [b,bd];});}
+function vqFit(K,init='data',iters=10,pts=VQ_DATA){
+ const r=rng(99);let codes;
+ if(init==='corner')codes=Array.from({length:K},()=>[-4+0.01*r(),-4+0.01*r()]);
+ else{const idx=pts.map((_,i)=>i);for(let i=idx.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}codes=idx.slice(0,K).map(i=>pts[i].slice());}
+ const hist=[];let a=vqAssign(pts,codes);hist.push(mean(a.map(x=>x[1])));
+ for(let t=0;t<iters;t++){
+  const sx=Array(K).fill(0),sy=Array(K).fill(0),n=Array(K).fill(0);a.forEach(([k],i)=>{sx[k]+=pts[i][0];sy[k]+=pts[i][1];n[k]++;});
+  codes=codes.map((c,k)=>n[k]?[sx[k]/n[k],sy[k]/n[k]]:c);a=vqAssign(pts,codes);hist.push(mean(a.map(x=>x[1])));
+ }
+ const count=Array(K).fill(0);a.forEach(([k])=>count[k]++);const used=count.filter(x=>x>0).length;
+ return {K,init,iters,codes,count,mse:hist[hist.length-1],hist,bits:Math.log2(K),used,dead:K-used,deadRatio:(K-used)/K,points:pts};
+}
+
 /* 11장: 2차원 특징에서 FID = ‖μ_r−μ_g‖² + Tr(Σ_r + Σ_g − 2(Σ_rΣ_g)^½). 2×2에서는 Tr√M = √(trM + 2√detM). */
 function fid2(m1,S1,m2,S2){
  const M=[[S1[0][0]*S2[0][0]+S1[0][1]*S2[1][0],S1[0][0]*S2[0][1]+S1[0][1]*S2[1][1]],[S1[1][0]*S2[0][0]+S1[1][1]*S2[1][0],S1[1][0]*S2[0][1]+S1[1][1]*S2[1][1]]];
@@ -195,6 +213,9 @@ const TRIAGE={
 };
 function triage(symptom,action){const [verdict,why,need]=TRIAGE[symptom][action];return {symptom,action,verdict,why,need,best:Object.keys(TRIAGE[symptom]).find(k=>TRIAGE[symptom][k][0]==='good')};}
 
-const A09Math={rng,gauss,erf,Phi,npdf,mean,std,MIX,NIGHT,mixSamples,mixPdf,mixProb,density,LAMBDA,bottleneck,betaVae,ganSim,ganGrad,l1l2,truncation,T,alphaBars,schedule,epsStar,ddim,sampleStats,steps,cfg,latentSize,lora,sdedit,video,codec,splatMB,flowVel,flowPath,flow,ROW,varScales,fid2,fidOnce,fidLab,cosine,forward,triage,TRIAGE};
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리(0부터)에 오도록 n개 보기를 돌린다.
+   돌려받은 배열의 k번째 값은 화면 k번째 자리에 놓을 원래 보기 번호다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
+const A09Math={quizOrder,rng,gauss,erf,Phi,npdf,mean,std,MIX,NIGHT,mixSamples,mixPdf,mixProb,density,LAMBDA,bottleneck,betaVae,ganSim,ganGrad,l1l2,truncation,T,alphaBars,schedule,epsStar,ddim,sampleStats,steps,cfg,latentSize,lora,sdedit,video,codec,splatMB,flowVel,flowPath,flow,ROW,varScales,VQ_DATA,vqAssign,vqFit,fid2,fidOnce,fidLab,cosine,forward,triage,TRIAGE};
 if(typeof module!=='undefined')module.exports=A09Math;else root.A09Math=A09Math;
 })(typeof window!=='undefined'?window:globalThis);

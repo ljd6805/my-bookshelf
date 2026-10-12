@@ -84,3 +84,16 @@ test('12장 에이전트 성공률: 재시도는 단계 성공을 올리고, 감
  const z=M.agentSuccess(0.95,20,0);near(z.retry,z.plain);assert.equal(M.agentSuccess(1,40,0).plain,1);
  assert.ok(M.agentSuccess(0.95,10).plain>a.plain);
 });
+test('order rotates options so the answer lands on the target slot and keeps every option once',()=>{
+ assert.deepEqual(M.order(3,1,0),[1,2,0]);assert.deepEqual(M.order(3,1,1),[0,1,2]);assert.deepEqual(M.order(3,0,2),[1,2,0]);
+ for(let a=0;a<3;a++)for(let t=0;t<3;t++){const o=M.order(3,a,t);assert.equal(o[t],a);assert.deepEqual([...o].sort(),[0,1,2]);}
+});
+
+test('finalPlan: 마지막 과제 계산서가 앞 장의 식을 그대로 묶는다',()=>{
+ const now=M.finalPlan();assert.equal(now.tokens,29160);assert.ok(Math.abs(now.catchP-0.3)<1e-12);assert.ok(Math.abs(now.fpsMax-32768/29160)<1e-12);
+ assert.equal(now.doc.tokens,576);assert.ok(Math.abs(now.success-0.95**20)<1e-12);
+ const all4=M.finalPlan({fps:4});assert.equal(all4.tokens,116640);assert.equal(all4.fits,false);
+ const fix=M.finalPlan({fps:4,audio:true,doc:'native',d:0.8});assert.equal(fix.tokens,17820);assert.equal(fix.catchP,1);assert.equal(fix.doc.tokens,1230);
+ assert.ok(Math.abs(fix.agent.step-0.988)<1e-12);assert.ok(Math.abs(fix.success-0.988**20)<1e-12);
+ assert.equal(M.finalPlan().index,120*1030*128*4);assert.equal(M.finalPlan({retr:'mean'}).index,120*768*4);
+});

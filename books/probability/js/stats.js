@@ -113,7 +113,33 @@
     return 0.5 * (1 + erf((x - mu) / (sigma * Math.SQRT2)));
   }
 
+
+  /* 4장 보충: 표준화 점수와 정규분포에서 ±z 안에 드는 비율. */
+  function zScore(xbar, mu, sigma, n = 1) {
+    if (!(sigma > 0)) throw new RangeError('표준편차는 0보다 커야 합니다');
+    assertCount(n);
+    if (n < 1) throw new RangeError('n은 1 이상이어야 합니다');
+    return (xbar - mu) / (sigma / Math.sqrt(n));
+  }
+
+  /* P(−z ≤ Z ≤ z). z = 1, 2, 3이면 약 68.27%, 95.45%, 99.73%이다. */
+  function normalCoverage(z) { return normalCdf(Math.abs(z), 0, 1) - normalCdf(-Math.abs(z), 0, 1); }
+
+  /* 우연이라면 |Z|가 |z| 이상으로 벗어날 확률(양쪽). */
+  function twoSidedTail(z) { return 1 - normalCoverage(z); }
+
+  /* 마지막 과제 보충: 2장의 기댓값으로 모터 한 대·하루당 기대 비용을 낸다. 오경보 점검비와 놓친 고장 비용만 센다. */
+  function expectedCost({ prevalence, sensitivity, falseAlarmRate, falseAlarmCost, missCost }) {
+    assertProbability(prevalence, '고장률');
+    assertProbability(sensitivity, '감지율');
+    assertProbability(falseAlarmRate, '오경보율');
+    const falseAlarm = (1 - prevalence) * falseAlarmRate * falseAlarmCost;
+    const missed = prevalence * (1 - sensitivity) * missCost;
+    return { falseAlarm, missed, total: falseAlarm + missed };
+  }
+
   return {
+    zScore, normalCoverage, twoSidedTail, expectedCost,
     rng, sum, mean, variance, sd, median, flips, runningProportion,
     binomialPmf, binomialDistribution, binomialUpper, binomialLower, binomialSample,
     erf, normalPdf, normalCdf, assertProbability, assertCount

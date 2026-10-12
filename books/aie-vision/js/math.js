@@ -3,9 +3,11 @@
 (function(root){
 'use strict';
 const sum=a=>a.reduce((s,x)=>s+x,0);
+/* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
 const IMAGENET={mean:[0.485,0.456,0.406],std:[0.229,0.224,0.225]};
 const A05Math={
- IMAGENET,
+ quizOrder,IMAGENET,
  /* 1장: 합성곱 출력 한 변 = ⌊(H − K + 2P)/S⌋ + 1 */
  convOut:(H,K,P,S)=>Math.floor((H-K+2*P)/S)+1,
  /* 같은 층을 여러 번 쌓을 때 수용 영역: r ← r + (k−1)·j, j ← j·s */
@@ -95,6 +97,17 @@ const A05Math={
  flowEuler(steps,bend){const h=1/steps;let p=A05Math.flowPath(1,bend);const pts=[p.slice()];
   for(let k=0;k<steps;k++){const t=1-k*h,v=[0.8,0.4*bend*Math.PI*Math.cos(Math.PI*t)];p=[p[0]-h*v[0],p[1]-h*v[1]];pts.push(p.slice());}
   const end=A05Math.flowPath(0,bend);return {pts,err:Math.hypot(p[0]-end[0],p[1]-end[1])};},
+ /* 12장: 낮·비 오는 밤 점수 문턱 시나리오. 점수는 정규분포로 가정한 기대 건수다(실측 아님).
+    real은 실제 자전거 100대, fake는 가짜 후보(낮: 그림자, 밤: 젖은 바닥 반사). retrain은 합성 야간 데이터로 다시 학습했다고 가정한 분포. */
+ NIGHT:{base:{day:{real:[0.80,0.10,100],fake:[0.30,0.12,60]},night:{real:[0.70,0.12,100],fake:[0.58,0.12,150]}},
+  retrain:{day:{real:[0.80,0.10,100],fake:[0.30,0.12,60]},night:{real:[0.72,0.12,100],fake:[0.40,0.12,150]}}},
+ /* 표준정규 누적분포(Abramowitz–Stegun 7.1.26, 오차 1.5e-7 이하) */
+ normCdf(z){const x=Math.abs(z)/Math.SQRT2,t=1/(1+0.3275911*x),y=1-((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);return z>=0?(1+y)/2:(1-y)/2;},
+ /* 점수 0.01 칸마다 들어가는 기대 후보 수(그림용): [점수, 실제 자전거 밀도, 가짜 후보 밀도] */
+ nightCurves(model='base',scene='night'){const S=A05Math.NIGHT[model][scene],pdf=([m,sd,n],x)=>n*Math.exp(-(((x-m)/sd)**2)/2)/(sd*Math.sqrt(2*Math.PI))/100;return Array.from({length:101},(_,i)=>{const x=i/100;return [x,pdf(S.real,x),pdf(S.fake,x)];});},
+ nightScore(thr,model='base'){const S=A05Math.NIGHT[model],above=([m,sd,n])=>n*(1-A05Math.normCdf((thr-m)/sd));
+  const one=sc=>{const tp=above(sc.real),fp=above(sc.fake),n=sc.real[2];return {tp,fp,fn:n-tp,precision:tp+fp>0?tp/(tp+fp):1,recall:tp/n};};
+  return {thr,model,day:one(S.day),night:one(S.night)};},
  /* 12장: 단계별 지연 시나리오. 기준은 입력 한 변 640·FP32에서 가정한 ms 값.
     전처리·검출은 픽셀 수((side/640)²)에 비례, 모델 단계는 정밀도 배율을 곱한다. */
  LATENCY_BASE:{decode:6,pre:3,det:18,nms:1.5,cls:6},PRECISION:{fp32:1,fp16:0.6,int8:0.4},

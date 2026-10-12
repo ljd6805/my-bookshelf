@@ -56,6 +56,17 @@ L.goodput=el=>{
  });
 };
 
+L.capacity=el=>{
+ U.setup(el,U.range('peak','피크 배수 (하루 평균의 몇 배)',1,5,0.5,3)+U.range('replicas','복제본 수 c (대)',1,8,1,3)+U.range('budget','대기 예산 (ms)',100,1500,100,500));
+ U.bind(el,()=>{
+  const peak=U.value(el,'peak'),c=U.value(el,'replicas'),b=U.value(el,'budget'),r=M.capacity(peak,c,b);
+  const all=[1,2,3,4,5,6,7,8].map(n=>M.capacity(peak,n,b).overBudget*100);
+  const chart=`<p class="caption">복제본 수별로 대기 예산 ${b}ms를 넘기는 요청 비율(%) · 지금 ${c}대</p>`+U.bars(all.map((_,i)=>`${i+1}대${i+1===c?' ◀':''}`),all,'%',null,1);
+  const q=r.stable?`기다릴 확률(Erlang C) <b>${pct(r.pWait)}</b> · 평균 대기 <b>${U.fmt(r.wqMs,0)}ms</b> · 대기 예산 ${b}ms를 넘는 요청 <b>${pct(r.overBudget)}</b><br>리틀의 법칙 L = λ·W로 함대 안에 동시에 머무는 요청은 평균 ${U.fmt(r.inSystem,1)}개입니다.`:`<b>사용률이 100% 이상이라 대기열이 끝없이 자랍니다.</b> 들어오는 요청이 처리 속도보다 많으므로 평균 대기는 정해지지 않고, 모든 요청이 기다립니다.`;
+  U.result(el,chart,`피크 도착 ${U.fmt(r.lam,2)}건/s(${U.fmt(r.tokPerSec,0)} tok/s) · 사용률 ρ <b>${pct(r.rho)}</b> (${c}대)<br>${q}<br>사용률 70% 아래에 두려면 ${r.need70}대, 여유 한 대를 더하면 ${r.withSpare}대입니다.<br>근사 모형의 실제 계산입니다. 복제본 한 대를 요청을 하나씩 처리하는 창구로 본 M/M/c 대기열이며(처리 시간 ${U.fmt(r.serviceMs,0)}ms = 2,700토큰 ÷ 2,300 tok/s), 연속 배칭 엔진의 실제 대기와는 모양이 다릅니다. 피크 배수와 대기 예산은 교육용 가정입니다.`);
+ });
+};
+
 L.spec=el=>{
  U.setup(el,U.range('alpha','수락률 α',0,0.95,0.05,0.7)+U.select('specK','초안 길이 K',[[1,'1'],[2,'2'],[3,'3'],[5,'5'],[8,'8']],5)+U.select('load','서버가 붐비는 정도',[['low','한가함'],['mid','보통'],['high','붐빔']],'mid'));
  U.bind(el,()=>{

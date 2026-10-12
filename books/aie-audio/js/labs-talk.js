@@ -15,6 +15,17 @@ A07Labs.budget=el=>{
  U.bind(el,()=>{const r=M.turnLatency({asr:U.text(el,'asr'),ttsAfter:U.value(el,'ttsafter')});
   U.result(el,stack(r),`${r.parts.filter(p=>p[1]>0).map(p=>`${p[0]} ${Math.round(p[1])}`).join(' + ')} = <strong>${Math.round(r.total)} ms</strong><br>느낌: <b>${r.feel}</b>${r.total<=800?' · 원본 종합 과제의 800 ms 목표 안입니다.':' · 원본 종합 과제의 800 ms 목표를 넘습니다.'}<br>토큰을 적게 모을수록 빨라지지만 TTS가 문장 억양을 계획할 단어가 줄어듭니다. 단계별 값은 원본 레슨의 예산표, LLM 속도 초당 50토큰은 가정값이며 합은 실제로 계산했습니다. 침묵 대기는 다음 장에서 정하므로 0으로 두었습니다.`);});
 };
+const tiny=v=>v<0.001?v.toExponential(1):U.fmt(v,v<1?3:1);
+function wakeView(r,n){
+ const pts=r.curve.map(c=>[c.n,Math.max(-12,Math.log10(Math.max(c.perDay,1e-12)))]);
+ return U.plot({lines:[{data:pts,color:'var(--accent)'},{data:[[1,0],[5,0]],color:'var(--orange)',dashed:true}],points:[[n,pts[n-1][1],'var(--orange)',7]],xmin:1,xmax:5,ymin:-12,ymax:5,xlabel:'연속으로 넘어야 할 창 수 n',ylabel:'log₁₀ 하루 오작동',label:`연속 창 수에 따른 하루 오작동 기대값. 지금 n = ${n}에서 하루 ${tiny(r.perDay)}번, 점선은 하루 1번입니다.`});
+}
+A07Labs.wake=el=>{
+ U.setup(el,R('gap','판정 간격 (ms)',10,100,10,20)+R('pexp','창 하나의 오작동 확률 p (10의 거듭제곱)',-6,-2,0.5,-4)+R('wn','연속으로 넘어야 할 창 수 n',1,5,1,1)+R('wq','진짜 “솔아”에서 창 하나가 넘을 확률 q',0.5,0.99,0.01,0.9));
+ U.bind(el,()=>{const gap=U.value(el,'gap'),e=U.value(el,'pexp'),n=U.value(el,'wn'),q=U.value(el,'wq'),r=M.wakeWord({gap,p:Math.pow(10,e),n,q});
+  el.querySelector('#pexp-value').textContent='10^'+U.fmt(e,1);
+  U.result(el,wakeView(r,n),`판정 간격 ${gap} ms이면 한 시간에 창 <b>${U.fmt(r.windows,0)}개</b>를 판정합니다. 창 하나의 오작동 확률 p = 10^${U.fmt(e,1)}, 연속 ${n}창 기준<br>오작동 기대값: 시간당 <strong>${tiny(r.perHour)}번</strong> · 하루 <strong>${tiny(r.perDay)}번</strong> · 진짜 호출을 놓칠 확률 <strong>${U.fmt(r.miss*100,1)}%</strong><br>${r.perDay>=1?'창 하나로는 작아 보이던 확률이 하루 동안의 창 수와 곱해져 여러 번 깨어납니다.':'오작동은 드물어졌지만 n을 늘린 만큼 진짜 호출도 더 자주 놓칩니다.'} 창 수와 곱셈은 실제 계산이고, 창끼리 독립이라는 가정은 교육용입니다. 실제 소음은 여러 창에 이어지므로 n을 늘린 효과가 이보다 작습니다.`);});
+};
 function vadView(scene,r,t){
  const w=440/60,x=i=>20+i*w,y=p=>200-p*160;let b='';
  const [sa,sb]=scene.speech[0];b+=`<rect x="${x(sa)}" y="36" width="${(sb-sa+1)*w}" height="168" fill="var(--accent)" opacity=".1"/><text x="${x(sa)}" y="30">실제 말 “솔아…”</text><text x="${x(33)}" y="30">기침</text><text x="${x(43)}" y="30">후드 팬</text>`;

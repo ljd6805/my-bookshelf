@@ -16,6 +16,13 @@ A09Labs.scales=el=>{
   const sizes=Array.from({length:k},(_,s)=>2**s).join(' · ');
   U.result(el,chart,`척도 <b>${k}</b>개 (블록 ${sizes}칸) → 평균 제곱 오차 <strong>${F(r.mse,4)}</strong>${k>1?` (척도 1개일 때 ${F(r.errs[0],4)})`:''}<br>각 척도는 앞 척도들이 남긴 잔차의 블록 평균만 더합니다. 2차원 16×16 격자로 옮기면 토큰 <b>${r.tokens2d}</b>개를 패스 <b>${r.passes}</b>번에 냅니다. 래스터 자기회귀라면 패스 ${r.raster}번입니다.<br>코드북 양자화를 뺀 잔차 다중 척도 분해로 한 실제 계산이며, 밝기 값은 교육용 예입니다.`);});
 };
+A09Labs.vq=el=>{
+ U.setup(el,S('vqk','코드북 크기 K',[4,8,16,32,64,128,256].map(k=>[k,String(k)]),16)+S('vqinit','코드 처음 놓는 곳',[['data','데이터 점 K개에서 뽑기'],['corner','한쪽 구석 (−4, −4)에 몰아 두기']],'data')+R('vqit','k-평균 반복 수',0,20,1,10));
+ U.bind(el,()=>{const K=U.value(el,'vqk'),init=U.text(el,'vqinit'),it=U.value(el,'vqit'),r=M.vqFit(K,init,it);
+  const pts=r.points.map(p=>[p[0],p[1],'var(--muted)',1.6]),codes=r.codes.map((c,k)=>[c[0],c[1],r.count[k]?'var(--accent)':'var(--orange)',r.count[k]?5:3.5]);
+  const chart=U.plot({points:pts.concat(codes),xmin:-4.5,xmax:4.5,ymin:-4.5,ymax:4.5,xlabel:'밝기 특징 (낮 −2 · 밤 +2)',ylabel:'자세 특징',label:`도토리 특징 400개(회색)와 코드 ${K}개. 쓰인 코드 ${r.used}개(큰 점), 죽은 코드 ${r.dead}개(작은 점).`});
+  U.result(el,chart,`코드북 K = <b>${K}</b> · ${init==='data'?'데이터 점에서 출발':'구석에 몰아 둔 출발'} · 반복 ${it}번<br>양자화 오차(점과 가장 가까운 코드 사이 거리 제곱의 평균) <strong>${F(r.mse,4)}</strong> · 토큰 하나의 정보 log₂K = <b>${F(r.bits,0)}비트</b><br>한 번이라도 쓰인 코드 <b>${r.used}개</b>, 한 번도 쓰이지 않은 죽은 코드 <strong>${r.dead}개 (${pct(r.deadRatio)})</strong><br>${init==='corner'?'모든 코드가 한곳에 몰려 있으면 가장 가까운 몇 개만 점을 받아 움직이고, 나머지는 점을 하나도 받지 못해 제자리에 남습니다. K를 키워도 쓰이는 코드가 거의 늘지 않아 비트만 낭비됩니다.':'데이터에서 출발하면 거의 모든 코드가 점을 받고, K를 키울수록 오차가 줄어듭니다.'} 점 400개는 이 책의 두 봉우리 분포에서 시드를 고정해 뽑은 교육용 값이고, 배정·평균·오차는 실제 계산입니다. 실제 VQ-VAE는 인코더와 코드북을 손실로 함께 학습합니다.`);});
+};
 A09Labs.fid=el=>{
  U.setup(el,R('fshift','생성 특징의 평균 이동',0,2,0.1,0)+R('fsigma','생성 특징의 표준편차 σ (다양성)',0.2,1.5,0.05,1)+S('fn','표본 수 N (진짜·생성 각각)',[[50,'50장'],[200,'200장'],[1000,'1,000장'],[10000,'10,000장']],1000));
  U.bind(el,()=>{const sh=U.value(el,'fshift'),sg=U.value(el,'fsigma'),n=U.value(el,'fn'),r=M.fidLab(sh,sg,n);

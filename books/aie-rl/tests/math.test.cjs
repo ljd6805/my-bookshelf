@@ -96,3 +96,16 @@ test('final task: only the matching fix moves the failing metric',()=>{
  for(const [rep,fix] of [['slip','dr'],['hack','beta'],['stuck','eps']]){const ok=M.finalCase(rep,fix);assert.ok(ok.matched&&ok.after>ok.before,rep);
   for(const f of ['dr','beta','eps','gamma'])if(f!==fix){const x=M.finalCase(rep,f);assert.equal(x.after,x.before);assert.equal(x.matched,false);}}
 });
+test('order rotates options so the answer lands on the target slot and keeps every option once',()=>{
+ assert.deepEqual(M.order(3,1,0),[1,2,0]);assert.deepEqual(M.order(3,1,1),[0,1,2]);assert.deepEqual(M.order(3,0,2),[1,2,0]);
+ for(let a=0;a<3;a++)for(let t=0;t<3;t++){const o=M.order(3,a,t);assert.equal(o[t],a);assert.deepEqual([...o].sort(),[0,1,2]);}
+});
+test('random walk: initial RMS is sqrt(1/18), TD(0) beats Monte Carlo at α=0.1 but not at α=0.01, n=4 sits between',()=>{
+ const td=M.tdPredict(1,0.1,100),mc=M.tdPredict(Infinity,0.1,100),n4=M.tdPredict(4,0.1,100);
+ near(td.rms[0],Math.sqrt(1/18),1e-12);near(M.WALK_TRUE[2],0.5,1e-12);
+ assert.ok(td.final<n4.final&&n4.final<mc.final,'0.056 < 0.094 < 0.156');near(td.final,0.056,0.005);near(mc.final,0.156,0.01);
+ assert.ok(M.tdPredict(Infinity,0.01,100).final<M.tdPredict(1,0.01,100).final,'tiny α: MC ahead within 100 episodes');
+ const e=M.walkEpisode(M.rng(3));assert.equal(e[0],2);assert.ok(e[e.length-1]===-1||e[e.length-1]===5);
+ for(const v of mc.values)assert.ok(v>=0&&v<=1);
+ const big=M.tdPredict(100000,0.1,30,{seed:5}),inf=M.tdPredict(Infinity,0.1,30,{seed:5});near(big.final,inf.final,1e-12,'n larger than any episode equals Monte Carlo');
+});

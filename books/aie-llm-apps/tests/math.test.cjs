@@ -101,3 +101,15 @@ test('monthlyCost: 표지·12장 대표값과 단조성',()=>{
  const r=M.monthlyCost({hit:0.2,mini:0.4});near(r.strong+r.cheap,r.total,1e-9);assert.equal(r.requests,1500000);
  assert.ok(M.monthlyCost({hit:0.5}).total<M.monthlyCost({hit:0.4}).total);assert.ok(M.monthlyCost({mini:0.5}).total<M.monthlyCost({mini:0.2}).total);
 });
+test('order rotates options so the answer lands on the target slot and keeps every option once',()=>{
+ assert.deepEqual(M.order(3,1,0),[1,2,0]);assert.deepEqual(M.order(3,1,1),[0,1,2]);assert.deepEqual(M.order(3,0,2),[1,2,0]);
+ for(let a=0;a<3;a++)for(let t=0;t<3;t++){const o=M.order(3,a,t);assert.equal(o[t],a);assert.deepEqual([...o].sort(),[0,1,2]);}
+});
+
+test('layeredDefense: 층을 겹치면 막는 비율이 오르고 상관이 높으면 덜 오른다',()=>{
+ const all=['input','wrap','hier','output','pii'];
+ near(M.layeredDefense(['input']).blocked,0.48,1e-9);near(M.layeredDefense(['input']).pass[1],0.8,1e-9);
+ const a=M.layeredDefense(all,0);near(a.blocked,0.938,0.001);near(a.falseBlocks,346.5,0.1);assert.equal(a.addedMs,630);
+ near(M.layeredDefense(all,1).blocked,0.76,1e-9);
+ const none=M.layeredDefense([]);assert.equal(none.blocked,0);assert.equal(none.fpRate,0);
+});

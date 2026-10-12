@@ -163,6 +163,24 @@ function valley(opt,lr,steps=40,start=[-4,1.2]){
  return {path,diverged:0,f:0.5*(VALLEY[0]*p[0]**2+VALLEY[1]*p[1]**2)};
 }
 
+/* 6장: 미니배치 SGD. 원 판별기 80점을 epoch마다 섞어 B개씩 나누고, 묶음마다 평균 기울기로 한 번 갱신한다.
+   전체 배치(B=80)면 epoch당 갱신이 1번이다. 갱신마다 전체 학습 손실을 다시 재어, 손실이 직전 갱신보다 오히려 오른 갱신의 비율(upFrac)로 흔들림을 센다. */
+function minibatch({B=8,lr=0.3,epochs=30,seed=1,width=8,act:name='tanh'}={}){
+ const D=dataset('circle',80,seed),V=dataset('circle',200,seed+1000),n=D.X.length,r=rng(seed*97+5),X=D.X.map(p=>Float64Array.from(p));
+ const net=build([2,width,1],'xavier',seed),params=net.flatMap(L=>[L.W,L.b]),ws=workspace(net),af=ACT[name][0],df=ACT[name][1],T={X,Y:D.Y};
+ const idx=Array.from({length:n},(_,i)=>i),steps=[],epochLoss=[evaluate(net,T,name).loss];
+ for(let e=0;e<epochs;e++){
+  for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+  for(let s=0;s<n;s+=B){const part=idx.slice(s,s+B),grads=net.map(L=>({W:new Float64Array(L.W.length),b:new Float64Array(L.b.length)}));
+   part.forEach(i=>{forward(net,ws,X[i],af);backward(net,ws,X[i],D.Y[i],df,'bce',grads);});
+   grads.flatMap(g=>[g.W,g.b]).forEach((g,k)=>{for(let i=0;i<g.length;i++)g[i]/=part.length;step(params[k],g,null,'sgd',lr,1,0);});
+   steps.push(evaluate(net,T,name).loss);}
+  epochLoss.push(steps[steps.length-1]);
+ }
+ let up=0;for(let i=1;i<steps.length;i++)if(steps[i]>steps[i-1])up++;const va=evaluate(net,V,name);
+ return {B,lr,epochs,perEpoch:Math.ceil(n/B),updates:steps.length,steps,epochLoss,upFrac:up/Math.max(1,steps.length-1),trainLoss:epochLoss[epochs],valAcc:va.acc,valLoss:va.loss};
+}
+
 /* 10장: 작은 자동미분 엔진. 노드는 [이름, 연산, 부모 목록]이고, 역위상 순서로 기울기를 더해 내려간다. */
 const EXPR={
  reuse:{vars:{a:2,b:-3},nodes:[['c','a*b',['a','b']],['f','c+a',['c','a']]]},
@@ -193,6 +211,8 @@ function gradCheck(eps,bug='none'){
  return {ana,num,rel,max:Math.max(...rel)};
 }
 
-const A04Math={rng,normal,sigmoid,act,dact,ACT,GATES,CORNERS,perceptron,xorForward,chain,dataset,initStd,build,forward,predict,workspace,lrAt,bce,evaluate,train,decisionGrid,deepStats,std,lossAt,smooth,valley,VALLEY,autodiff,EXPR,mlpParams,memory,DTYPE,gradCheck,CIRCLE_R2,DEFAULT};
+/* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
+const A04Math={quizOrder,rng,normal,sigmoid,act,dact,ACT,GATES,CORNERS,perceptron,xorForward,chain,dataset,initStd,build,forward,predict,workspace,lrAt,bce,evaluate,train,decisionGrid,deepStats,std,lossAt,smooth,valley,VALLEY,minibatch,autodiff,EXPR,mlpParams,memory,DTYPE,gradCheck,CIRCLE_R2,DEFAULT};
 if(typeof module!=='undefined')module.exports=A04Math;else root.A04Math=A04Math;
 })(typeof window!=='undefined'?window:globalThis);

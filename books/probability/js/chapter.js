@@ -13,6 +13,16 @@
       <details><summary>예측 확인 (실험 후에 펼치기)</summary><p><strong>답: ${esc(ch.predict.options[ch.predict.answer])}</strong> ${esc(ch.predict.why)}</p></details></section>`;
   }
 
+  /* 새 상황에 옮기기의 보기 문항. data 값은 원래 번호이고, 정답 자리는 장마다 돌려 고르게 놓는다. */
+  function transferQuiz(ch) {
+    const q = ch.transfer.quiz;
+    if (!q) return '';
+    const order = window.ProbQuiz.order(q[1].length, q[2], (ch.index + 1) % 3);
+    return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${esc(q[0])}</p>
+      ${order.map((i, k) => `<button type="button" data-transfer="${i}">${k + 1}. ${esc(q[1][i])}</button>`).join('')}
+      <div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;
+  }
+
   function labBlock(ch) {
     const lab = L[ch.lab], g = G[ch.lab];
     return `<article class="lab" id="lab-${ch.lab}"><div class="lab-heading"><span>EXPERIMENT ${ch.num}</span><h3>${esc(lab.title)}</h3></div>
@@ -35,14 +45,14 @@
   function renderChapter(ch) {
     const n = ch.index + 1;
     const deeper = ch.deeper.map((d) => [d.label, d.href, d.why]);
-    return `<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${ch.num} / ${esc(ch.group)}</div><h1 tabindex="-1">${esc(ch.title)}</h1><p class="lead">${esc(ch.subtitle)}</p><span class="tag">1개 실험</span><span class="caption">약 ${esc(ch.time)} · 예측 1개 · 확인 문제 1개</span></div>
+    return `<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${ch.num} / ${esc(ch.group)}</div><h1 tabindex="-1">${esc(ch.title)}</h1><p class="lead">${esc(ch.subtitle)}</p><span class="tag">1개 실험</span><span class="caption">약 ${esc(ch.time)} · 예측 1개 · 확인 문제 ${ch.transfer.quiz ? 2 : 1}개</span></div>
       <section><h2>이번 장의 질문</h2><p class="muted">${esc(ch.prev)}</p><p>${esc(ch.problem)}</p></section>
       <section><h2>먼저 개념 잡기</h2>${ch.body.map((p) => `<p>${esc(p)}</p>`).join('')}
       <figure class="concept-diagram"><div class="figure-frame">${F[ch.figure]()}</div><figcaption class="caption">그림 ${n}-1. ${esc(ch.figureCaption)}</figcaption></figure>
       <div class="formula"><code>${esc(ch.formula.expr)}</code><p>${esc(ch.formula.read)}</p></div><p class="example"><b>숫자로 보기</b> ${esc(ch.example)}</p></section>
       ${predictBlock(ch)}${labBlock(ch)}
       <section><h2>실험에서 본 것</h2><p>${esc(ch.explain)}</p></section>
-      <section><h2>새 상황에 옮기기</h2><p>${esc(ch.transfer.q)}</p><details><summary>생각을 정리한 뒤 펼치기</summary><p>${esc(ch.transfer.a)}</p></details></section>
+      <section><h2>새 상황에 옮기기</h2><p>${esc(ch.transfer.q)}</p><details><summary>생각을 정리한 뒤 펼치기</summary><p>${esc(ch.transfer.a)}</p></details>${transferQuiz(ch)}</section>
       <section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${esc(ch.check.q)}</h2><details><summary>답 보기</summary><p>${esc(ch.check.a)}</p></details></section>
       <section><h2>더 읽어 보기</h2>${A.sourceLinks(deeper)}<p class="caption">개념의 출처는 <a href="#sources">참고 자료</a>에 모아 두었습니다.</p></section>
       <section><h2>아직 풀지 못한 질문</h2><p>${esc(ch.remaining)}</p><p class="muted"><b>다음 장으로 가는 이유</b> ${esc(ch.nextWhy)}</p></section>
@@ -67,6 +77,11 @@
       main.querySelectorAll('[data-predict]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
       main.querySelector('.predict .quiz-feedback').textContent = '예측을 기록했습니다. 실험한 뒤 아래에서 확인하세요.';
       main.querySelector('.record').outerHTML = recordLine(ch);
+    }));
+    main.querySelectorAll('[data-transfer]').forEach((b) => b.addEventListener('click', () => {
+      const q = ch.transfer.quiz, correct = Number(b.dataset.transfer) === q[2];
+      main.querySelectorAll('[data-transfer]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      main.querySelector('.transfer-feedback').textContent = `${correct ? '정답입니다.' : '다시 생각해 보세요.'} ${q[3]}`;
     }));
     const inner = main.querySelector('.lab-inner');
     let cleanup = () => {};

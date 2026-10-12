@@ -31,7 +31,7 @@ async function run(){
  try{
   const page=await browser.newPage({reducedMotion:'reduce'});page.on('pageerror',e=>report.errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')report.errors.push(m.text());});
   await page.goto(URL);const prefix=await page.evaluate(()=>Object.keys(window).find(k=>/Book$/.test(k)&&window[k].chapters).replace(/Book$/,''));
-  const chapters=await page.evaluate(p=>window[p+'Book'].chapters.map(c=>({id:c.id,answer:c.quiz[2],labs:c.labs})),prefix);
+  const chapters=await page.evaluate(p=>window[p+'Book'].chapters.map(c=>({id:c.id,answer:c.quiz[2],transfer:c.transfer?c.transfer[2]:null,labs:c.labs})),prefix);
   for(const width of [1280,390,320]){
    await frame(page,width,'home');
    const home=page.locator('.hero-lab');const hb=await home.locator('[role=status]').innerText();const btns=home.locator('button');
@@ -40,8 +40,10 @@ async function run(){
    for(const c of chapters){
     await frame(page,width,c.id);
     for(const id of c.labs)await labCheck(page.locator('#lab-'+id),width,id);
-    await page.locator('[data-answer]').nth(c.answer).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^정답입니다/);
-    await page.locator('[data-answer]').nth((c.answer+1)%3).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^다시 생각/);
+    await page.locator(`[data-answer="${c.answer}"]`).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^정답입니다/);
+    await page.locator(`[data-answer="${(c.answer+1)%3}"]`).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^다시 생각/);
+    if(c.transfer!==null){await page.locator(`[data-transfer="${c.transfer}"]`).click();assert.match(await page.locator('.transfer-feedback').innerText(),/^정답입니다/);
+     await page.locator(`[data-transfer="${(c.transfer+2)%3}"]`).click();assert.match(await page.locator('.transfer-feedback').innerText(),/^다시 생각/);}
    }
   }
   const shot=(n)=>path.join(output,n);const hide={style:'header,.skip{visibility:hidden!important}'};

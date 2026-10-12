@@ -5,11 +5,14 @@
 const U=A16UI,M=A16Math,R=U.range,S=U.select,F=U.fmt,pct=x=>F(x*100,1)+'%';
 
 A16Labs.chain=el=>{
- U.setup(el,R('steps','단계 수 n',1,300,1,70)+S('pstep','한 단계 성공 확률 p',[[0.99,'0.99'],[0.995,'0.995'],[0.999,'0.999']],0.99));
- U.bind(el,()=>{const n=U.value(el,'steps'),p=U.value(el,'pstep'),r=M.chain(p,n),ps=[0.99,0.995,0.999];
+ U.setup(el,R('steps','단계 수 n',1,300,1,70)+S('pstep','한 단계 성공 확률 p',[[0.99,'0.99'],[0.995,'0.995'],[0.999,'0.999']],0.99)+R('detect','실패를 알아채는 검사 적발률 d (알아채면 한 번 다시)',0,0.9,0.1,0));
+ U.bind(el,()=>{const n=U.value(el,'steps'),p=U.value(el,'pstep'),d=U.value(el,'detect'),r=M.chain(p,n),ps=[0.99,0.995,0.999];
   const lines=ps.map(q=>({data:M.chainCurve(q,300),color:q===p?'var(--accent)':'var(--muted)',dashed:q!==p}));
-  U.result(el,U.plot({lines,points:[[n,r.P,'var(--orange)',6]],xmin:0,xmax:300,ymin:0,ymax:1,xlabel:'단계 수 n',ylabel:'끝까지 성공할 확률',label:`p ${p}에서 단계 수에 따른 끝까지 성공할 확률 곡선. 점선은 다른 p`}),
-  `p = <b>${p}</b>, n = <b>${n}</b> · 끝까지 성공할 확률 pⁿ = <strong>${pct(r.P)}</strong> (적어도 한 번 실패 ${pct(r.fail)})<br>끝까지 성공할 확률이 절반이 되는 단계 수 n₅₀ = ln 0.5 ÷ ln p ≈ <b>${F(r.n50,1)}</b> · 첫 실패까지 평균 <b>${F(r.expectedFirstFail,0)}</b>단계<br>단계 실패가 서로 독립이라는 가정 위에서 실제로 계산한 값입니다. 실선이 고른 p, 점선이 나머지 두 p입니다.`);});
+  const c=M.checkedStep(p,d),rc=M.chain(c.pe,n);
+  if(d>0)lines.push({data:M.chainCurve(c.pe,300),color:'var(--blue)'});
+  const extra=d>0?`<br>검사 적발률 d = <b>${F(d,1)}</b> · 실질 단계 신뢰도 p′ = p + (1 − p)·d·p = <b>${F(c.pe,5)}</b> · p′ⁿ = <strong>${pct(rc.P)}</strong> (검사 없을 때 ${pct(r.P)}) · n₅₀ ≈ <b>${F(rc.n50,0)}</b>단계 (검사 없을 때 ${F(r.n50,0)})<br>파란 실선이 검사를 둔 곡선입니다. 검사가 놓친 실패 (1 − p)(1 − d) = 단계당 <b>${F(c.missed*100,2)}%</b>는 그대로 남습니다. 다시 시도가 처음과 독립이고 성공 확률도 p라는 것은 교육용 가정입니다.`:'<br>검사 적발률 d = 0: 실패를 고쳐 가지 않는 경우입니다. d를 올려 검사하고 다시 하기의 효과를 보세요.';
+  U.result(el,U.plot({lines,points:[[n,d>0?rc.P:r.P,'var(--orange)',6]],xmin:0,xmax:300,ymin:0,ymax:1,xlabel:'단계 수 n',ylabel:'끝까지 성공할 확률',label:`p ${p}에서 단계 수에 따른 끝까지 성공할 확률 곡선. 점선은 다른 p${d>0?`, 파란 실선은 검사 적발률 ${d}를 둔 곡선`:''}`}),
+  `p = <b>${p}</b>, n = <b>${n}</b> · 끝까지 성공할 확률 pⁿ = <strong>${pct(r.P)}</strong> (적어도 한 번 실패 ${pct(r.fail)})<br>끝까지 성공할 확률이 절반이 되는 단계 수 n₅₀ = ln 0.5 ÷ ln p ≈ <b>${F(r.n50,1)}</b> · 첫 실패까지 평균 <b>${F(r.expectedFirstFail,0)}</b>단계<br>단계 실패가 서로 독립이라는 가정 위에서 실제로 계산한 값입니다. 실선이 고른 p, 점선이 나머지 두 p입니다.${extra}`);});
 };
 
 A16Labs.star=el=>{

@@ -16,6 +16,10 @@ const A16Math={
   const P=Math.pow(p,n),n50=p>=1?Infinity:Math.log(0.5)/Math.log(p);
   return {P,n50,fail:1-P,expectedFirstFail:p>=1?Infinity:1/(1-p)};
  },
+ /* 1장 보충 · 검사하고 다시 하기 [가정]: 단계가 실패하면 검사가 확률 d로 알아채고 한 번 다시 시도한다.
+    다시 시도의 성공 확률도 p이고 처음 시도와 독립이라고 본다. 실질 단계 신뢰도 p′ = p + (1 − p)·d·p.
+    검사가 놓친 실패((1 − p)(1 − d))와 다시 해도 실패한 몫((1 − p)·d·(1 − p))은 남는다. */
+ checkedStep(p,d){const q=clamp(d,0,1),pe=p+(1-p)*q*p;return {pe,missed:(1-p)*(1-q),retryFail:(1-p)*q*(1-p)};},
  chainCurve(p,nmax,steps=60){const out=[];for(let i=0;i<=steps;i++){const n=nmax*i/steps;out.push([n,Math.pow(p,n)]);}return out;},
 
  /* 2장 · STaR 고리 장난감 모형. 풀이를 세 종류로 나눈다: 바른 추론, 지름길, 찍기.

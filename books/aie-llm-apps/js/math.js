@@ -140,6 +140,23 @@ function guard(threshold,attackShare,daily=10000){
 }
 const layeredMiss=misses=>misses.reduce((p,m)=>p*m,1);
 
+/* 9장 둘째 실험: 여러 층 방어. 공격 다섯 갈래 × 방어 층 다섯 개의 차단율은 원리를 보이려고 정한 교육용 시나리오 값이다.
+   층들이 서로 다른 빈틈을 가지면(ρ = 0) 통과율은 층별 통과율의 곱, 모두 같은 빈틈을 공유하면(ρ = 1) 가장 약한 층 하나만큼만 막는다.
+   ρ는 두 끝을 선형으로 섞는 교육용 손잡이다. 지연은 원본 레슨의 범위(분류기 5~20ms, LLM 판정 200~2,000ms) 안에서 고른 값이다. */
+const ATTACKS=['직접 주입','간접 주입','탈옥','데이터 추출','개인정보 수집'];
+const LAYERS=[
+ {id:'input',name:'입력 주입 분류기',ms:15,fp:0.02,block:[0.8,0.2,0.5,0.6,0.3]},
+ {id:'wrap',name:'검색 내용을 데이터로 감싸기',ms:0,fp:0,block:[0,0.7,0,0,0]},
+ {id:'hier',name:'지시 계층',ms:0,fp:0,block:[0.6,0.5,0.3,0.5,0]},
+ {id:'output',name:'출력 LLM 판정',ms:600,fp:0.01,block:[0.4,0.5,0.7,0.7,0.3]},
+ {id:'pii',name:'개인정보 지우기',ms:15,fp:0.005,block:[0,0,0,0.2,0.9]}];
+function layeredDefense(on,rho=0,daily=10000,baseMs=800){
+ const act=LAYERS.filter(l=>on.includes(l.id));
+ const pass=ATTACKS.map((_,k)=>{const ps=act.map(l=>1-l.block[k]);return (1-rho)*layeredMiss(ps)+rho*(ps.length?Math.min(...ps):1);});
+ const avgPass=sum(pass)/pass.length,fpRate=1-layeredMiss(act.map(l=>1-l.fp)),addedMs=sum(act.map(l=>l.ms));
+ return {pass,avgPass,blocked:1-avgPass,fpRate,falseBlocks:daily*fpRate,addedMs,latencyRatio:(baseMs+addedMs)/baseMs,count:act.length};
+}
+
 /* 11장: 환불 요청을 처리하는 상태 그래프를 한 단계씩 실행한다. */
 const GRAPH_PLAN=[['agent','모델이 lookup_order 호출을 정함'],['tools','lookup_order 실행 · 주문 확인'],['agent','모델이 issue_refund 호출을 정함'],['refund','issue_refund 실행 · 환불 처리'],['agent','고객에게 결과 답변'],['END','종료']];
 function graphRun(reducer,interrupt){
@@ -161,6 +178,10 @@ function monthlyCost({dau=10000,qpd=5,hit=0.35,mini=0,inTok=1500,outTok=400}={})
  return {requests:req,calls,strong,cheap,total,perRequest:total/req,input:calls*((1-mini)*inTok*PRICE.strong[0]+mini*inTok*PRICE.mini[0])/1e6};
 }
 
-const A12Math={sum,CANDIDATES,softmax,sampling,fewshot,comb,majority,SCHEMA,VOCAB,TARGET,allowedNext,jsonMask,contextBudget,vectorStore,rrf,LLAMA,baseParams,loraMatrix,TARGETS,lora,toolLatency,MCP_VERSION,mcpRequest,mcpCheck,integrations,wilson,kappa,SEM_PAIRS,semCache,PROVIDERS,promptCache,ATTACK_SCORES,NORMAL_SCORES,guard,layeredMiss,GRAPH_PLAN,graphRun,PRICE,monthlyCost};
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리에 오도록 n개 보기를 돌린다.
+   반환값은 화면 순서대로 늘어놓은 원래 번호다. 정답 판정은 원래 번호로 하므로 데이터는 바뀌지 않는다. */
+function order(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+
+const A12Math={order,sum,CANDIDATES,softmax,sampling,fewshot,comb,majority,SCHEMA,VOCAB,TARGET,allowedNext,jsonMask,contextBudget,vectorStore,rrf,LLAMA,baseParams,loraMatrix,TARGETS,lora,toolLatency,MCP_VERSION,mcpRequest,mcpCheck,integrations,wilson,kappa,SEM_PAIRS,semCache,PROVIDERS,promptCache,ATTACK_SCORES,NORMAL_SCORES,guard,layeredMiss,ATTACKS,LAYERS,layeredDefense,GRAPH_PLAN,graphRun,PRICE,monthlyCost};
 if(typeof module!=='undefined')module.exports=A12Math;else root.A12Math=A12Math;
 })(typeof window!=='undefined'?window:globalThis);

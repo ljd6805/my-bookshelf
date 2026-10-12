@@ -92,3 +92,12 @@ test('표지와 마지막 과제',()=>{
  for(const s of Object.keys(M.TRIAGE)){const goods=Object.values(M.TRIAGE[s]).filter(v=>v[0]==='good');assert.equal(goods.length,1,s);}
  assert.equal(M.triage('fid','psi').verdict,'wrong');assert.equal(M.triage('samey','cfg').verdict,'good');assert.equal(M.triage('slow','steps').best,'distill');
 });
+test('vector quantization: k-means codebook error, bits and dead codes',()=>{
+ assert.equal(M.VQ_DATA.length,400);
+ const a=M.vqFit(16,'data',10),b=M.vqFit(256,'data',10),c=M.vqFit(256,'corner',10);
+ assert.equal(a.bits,4);assert.equal(b.bits,8);assert.equal(a.dead,0);assert.equal(b.dead,0);assert.ok(b.mse<a.mse);
+ assert.equal(c.used,6);assert.ok(c.deadRatio>0.97);assert.ok(c.mse>a.mse);assert.equal(M.vqFit(16,'corner',10).used,3);
+ for(const K of [4,32,128])for(const init of ['data','corner']){const r=M.vqFit(K,init,8);assert.equal(r.count.reduce((x,y)=>x+y,0),400);assert.equal(r.used+r.dead,K);
+  for(let i=1;i<r.hist.length;i++)assert.ok(r.hist[i]<=r.hist[i-1]+1e-12,'k-means never increases the error');}
+ assert.deepEqual(M.vqFit(8,'data',5).codes,M.vqFit(8,'data',5).codes);
+});

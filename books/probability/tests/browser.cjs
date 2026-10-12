@@ -48,6 +48,25 @@ async function exercise(page, id) {
       if (viewport.width !== 1280 && ['home', 'bayes', 'clt'].includes(route)) await page.screenshot({ path: path.join(shots, `prob-${route}-${viewport.width}.png`), fullPage: false });
     }
     if (viewport.width === 1280) {
+      // 4장 보충: 예제 버튼(n = 30, 띠 켜고 500개) → 띠 안 비율과 이론값 95%, 초기화하면 띠가 꺼진다
+      await page.goto(`${target}#clt`);
+      await page.getByRole('button', { name: '예제: n = 30, 띠 켜고 500개' }).click();
+      await page.waitForTimeout(1500);
+      const band = await readout(page);
+      assert.match(band, /띠\(.*\) 안의 평균 \d+개 = 9[45]\.\d% \(정규분포 이론값 95\.0%\)/, band);
+      await page.getByRole('button', { name: '초기화' }).click();
+      assert.ok(!(await page.locator('#clt-band').isChecked()), 'reset clears band');
+      // 전이 보기 문항: 오답 → 정답 피드백
+      for (const id of ids) {
+        await page.goto(`${target}#${id}`);
+        const ans = await page.evaluate((r) => ProbBook.chapters.find((c) => c.id === r).transfer.quiz[2], id);
+        await page.click(`[data-transfer="${(ans + 1) % 3}"]`);
+        assert.match(await page.locator('.transfer-feedback').innerText(), /^다시 생각해 보세요/);
+        await page.click(`[data-transfer="${ans}"]`);
+        assert.match(await page.locator('.transfer-feedback').innerText(), /^정답입니다/);
+      }
+      await page.goto(`${target}#final`);
+      assert.equal(await page.locator('.final-q').count(), 6);
       await page.goto(`${target}#chance`);
       await page.screenshot({ path: path.join(shots, 'prob-chance-1280.png'), fullPage: true });
       const stored = await page.evaluate((key) => localStorage.getItem(key), 'bookshelf:probability-statistics:v1:progress');
