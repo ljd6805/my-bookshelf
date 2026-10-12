@@ -1,0 +1,37 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="가로로 늘어선 일곱 줄의 격자 가격 사이를 주가 선이 오르내리며 지나가고, 선이 내려가며 격자선에 닿은 자리에는 매수 점이, 산 칸보다 한 줄 위로 올라간 자리에는 매도 네모가 찍힌 그림" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-tint" x="18" y="30" width="286" height="96"/>
+<path class="cv-grid" d="M18 30H304"/>
+<path class="cv-grid cv-dash" d="M18 46H304"/>
+<path class="cv-grid cv-dash" d="M18 62H304"/>
+<path class="cv-grid" d="M18 78H304"/>
+<path class="cv-grid cv-dash" d="M18 94H304"/>
+<path class="cv-grid cv-dash" d="M18 110H304"/>
+<path class="cv-grid" d="M18 126H304"/>
+<path class="cv-hair" d="M18 140H304"/>
+<text class="cv-text cv-muted" x="18" y="22">22,000</text>
+<text class="cv-text cv-muted" x="18" y="148">18,000</text>
+<text class="cv-text cv-muted" x="252" y="148">칸마다 5주</text>
+<path class="cv-line cv-bold" d="M22 70 L58 118 L98 42 L140 104 L180 54 L222 120 L262 38 L300 86"/>
+<circle class="cv-dot" cx="28.0" cy="78" r="3"/>
+<circle class="cv-dot" cx="40.0" cy="94" r="3"/>
+<circle class="cv-dot" cx="52.0" cy="110" r="3"/>
+<rect class="cv-node" x="84.7" y="59.2" width="5.6" height="5.6"/>
+<rect class="cv-node" x="76.3" y="75.2" width="5.6" height="5.6"/>
+<rect class="cv-node" x="67.8" y="91.2" width="5.6" height="5.6"/>
+<circle class="cv-dot" cx="100.7" cy="46" r="3"/>
+<circle class="cv-dot" cx="111.5" cy="62" r="3"/>
+<circle class="cv-dot" cx="122.4" cy="78" r="3"/>
+<circle class="cv-dot" cx="133.2" cy="94" r="3"/>
+<rect class="cv-node" x="170.8" y="59.2" width="5.6" height="5.6"/>
+<rect class="cv-node" x="158.0" y="75.2" width="5.6" height="5.6"/>
+<circle class="cv-dot" cx="185.1" cy="62" r="3"/>
+<circle class="cv-dot" cx="195.3" cy="78" r="3"/>
+<circle class="cv-dot" cx="205.5" cy="94" r="3"/>
+<circle class="cv-dot" cx="215.6" cy="110" r="3"/>
+<rect class="cv-node" x="255.3" y="43.2" width="5.6" height="5.6"/>
+<rect class="cv-node" x="247.5" y="59.2" width="5.6" height="5.6"/>
+<rect class="cv-node" x="239.7" y="75.2" width="5.6" height="5.6"/>
+<rect class="cv-node" x="231.9" y="91.2" width="5.6" height="5.6"/>
+<circle class="cv-dot" cx="281.0" cy="62" r="3"/>
+<circle class="cv-dot" cx="293.7" cy="78" r="3"/>
+</svg>

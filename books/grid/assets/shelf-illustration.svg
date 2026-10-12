@@ -1,0 +1,45 @@
+<svg class="gr-ill" viewBox="0 0 340 180" role="img" aria-labelledby="gr-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="gr-ill-title">가격 선이 다섯 줄의 격자 가격을 오르내리며 지나가는 동안, 오른쪽 칸들이 가격이 내려와 닿으면 차고(매수) 다시 올라가 위 가격에 닿으면 비워지는(매도) 과정</title>
+<style>
+.gr-ill-bg{fill:#fbf6f7}
+.gr-ill-level{stroke:#a3384f;stroke-width:1;stroke-dasharray:3 3;opacity:.55}
+.gr-ill-word{font:600 10px sans-serif;fill:#2c1f22}
+.gr-ill-small{font:500 8.5px sans-serif;fill:#66545a}
+.gr-ill-price{fill:none;stroke:#2c1f22;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:349;stroke-dashoffset:349;animation:gr-ill-draw 9s linear infinite}
+.gr-ill-dot{fill:#a3384f;stroke:#fff;stroke-width:1.2;animation:gr-ill-move 9s linear infinite}
+.gr-ill-cell{fill:#fff;stroke:#a3384f;stroke-width:1}
+.gr-ill-on{fill:#f0a3b4;opacity:0}
+.gr-ill-c1{animation:gr-ill-c1 9s steps(1,end) infinite}
+.gr-ill-c2{animation:gr-ill-c2 9s steps(1,end) infinite}
+.gr-ill-c3{animation:gr-ill-c3 9s steps(1,end) infinite}
+.gr-ill-tag{font:700 8.5px sans-serif;fill:#2c1f22}
+@keyframes gr-ill-draw{0%{stroke-dashoffset:349;opacity:1}20%{stroke-dashoffset:267.6}45%{stroke-dashoffset:157.8}70%{stroke-dashoffset:61.8}85%,94%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes gr-ill-move{0%{transform:translate(0,0);opacity:1}20%{transform:translate(50px,64px)}45%{transform:translate(110px,-28px)}70%{transform:translate(160px,54px)}85%,94%{transform:translate(190px,0);opacity:1}100%{transform:translate(190px,0);opacity:0}}
+@keyframes gr-ill-c1{0%{opacity:0}13%{opacity:1}34%{opacity:0}66%{opacity:1}81%{opacity:0}}
+@keyframes gr-ill-c2{0%{opacity:0}4%{opacity:1}41%{opacity:0}58%{opacity:1}96%{opacity:0}}
+@keyframes gr-ill-c3{0%{opacity:0}49%{opacity:1}96%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.gr-ill-price{animation:none;stroke-dashoffset:0}.gr-ill-dot{animation:none;transform:translate(190px,0)}.gr-ill-c1{animation:none;opacity:0}.gr-ill-c2,.gr-ill-c3{animation:none;opacity:1}}
+html[data-motion=reduce] .gr-ill-price{animation:none;stroke-dashoffset:0}
+html[data-motion=reduce] .gr-ill-dot{animation:none;transform:translate(190px,0)}
+html[data-motion=reduce] .gr-ill-c1{animation:none;opacity:0}
+html[data-motion=reduce] .gr-ill-c2,html[data-motion=reduce] .gr-ill-c3{animation:none;opacity:1}
+</style>
+<rect class="gr-ill-bg" width="340" height="180" rx="10"/>
+<text class="gr-ill-small" x="170" y="16" text-anchor="middle">내려와 닿으면 사고, 위 가격에 닿으면 판다 (칸마다 5주)</text>
+<path class="gr-ill-level" d="M24 34H236M24 62H236M24 90H236M24 118H236M24 146H236"/>
+<path class="gr-ill-level" d="M236 34H252M236 62H252M236 90H252M236 118H252M236 146H252"/>
+<rect class="gr-ill-cell" x="254" y="35" width="56" height="26" rx="3"/><rect class="gr-ill-on gr-ill-c3" x="254" y="35" width="56" height="26" rx="3"/>
+<rect class="gr-ill-cell" x="254" y="63" width="56" height="26" rx="3"/><rect class="gr-ill-on gr-ill-c2" x="254" y="63" width="56" height="26" rx="3"/>
+<rect class="gr-ill-cell" x="254" y="91" width="56" height="26" rx="3"/><rect class="gr-ill-on gr-ill-c1" x="254" y="91" width="56" height="26" rx="3"/>
+<rect class="gr-ill-cell" x="254" y="119" width="56" height="26" rx="3"/>
+<text class="gr-ill-tag" x="282" y="51" text-anchor="middle">칸 4</text>
+<text class="gr-ill-tag" x="282" y="79" text-anchor="middle">칸 3</text>
+<text class="gr-ill-tag" x="282" y="107" text-anchor="middle">칸 2</text>
+<text class="gr-ill-tag" x="282" y="135" text-anchor="middle">칸 1</text>
+<path class="gr-ill-price" d="M30 76L80 140L140 48L190 130L220 76"/>
+<circle class="gr-ill-dot" cx="30" cy="76" r="5"/>
+<text class="gr-ill-small" x="318" y="36">비싼</text>
+<text class="gr-ill-small" x="318" y="150">싼</text>
+<text class="gr-ill-word" x="24" y="170">가격이 오르내리는 길</text>
+<text class="gr-ill-word" x="330" y="170" text-anchor="end">채워진 칸 = 매도 대기</text>
+</svg>
