@@ -1,5 +1,5 @@
 /* 10장 마지막 과제: 하린의 1년 기록 두 장. 첫 장은 누리200(생성기 시드 524, 하루 1.2%)과 날마다 k배로 맞춘 상품,
-   둘째 장은 새벽전자 기록에 1~9장의 자를 모두 대고, 같은 σ의 무작위 보행(시작 20,000원, 시드 1부터)에서 그 값 이상이 나오는 비율을 센다. */
+   둘째 장은 새벽전자 기록에 1~9장의 자를 모두 대고, 같은 σ의 무작위 보행(기록 구간의 첫 종가에서 시작, 시드 1부터)에서 그 값 이상이 나오는 비율을 센다. */
 (()=>{
 'use strict';
 const U=VUI,M=VMath,F=U.fmt,P=U.pct,PP=U.ppct,D=U.DATA;
@@ -11,11 +11,11 @@ function nuriSheet(k){
  const text=`<b>첫 장 · 누리200</b>: 지수는 100에서 최저 ${F(Math.min(...p),1)}, 최고 ${F(Math.max(...p),1)}${U.josa(F(Math.max(...p),1),'을','를')} 지나 250일째 <b>${F(p[250],2)}</b>입니다. 날마다 ${name}로 다시 맞춘 상품은 100에서 <b>${F(L[250],2)}</b>(<b>${PP(L[250]/100-1)}</b>)이고, 처음에 ${name}로 한 번만 샀다면 ${PP(M.staticLeverage(g-1,k))}였습니다.<br>하루 로그 수익률 σ ${P(M.sd(lr))}(연율 ${P(M.annualizeVol(M.sd(lr)),1)}), 하루 분산의 합 Σσ² = ${F(v*250,4)}. 어림식 ${F(g,4)}^${k<0?`(${k})`:k} × e^(−${F(coef,0)} × ${F(v*250,4)}) ≈ <b>${F(ap,4)}</b>, 날마다 곱한 값 <b>${F(L[250]/100,4)}</b>. 최대 낙폭은 지수 ${P(M.maxDrawdown(p).mdd,1)}, 상품 ${P(M.maxDrawdown(L).mdd,1)}입니다.`;
  return {chart,text};
 }
-/* 같은 σ의 무작위 보행 N개에서 기록의 숫자만큼 치우친 값이 나온 개수. 시작 20,000원, 걸음 수는 기록의 하루 수익률 수와 같다(종가 수가 같도록 n = 종가 수 − 1). */
-function chance(n,sd,N){return U.memo(`fin|${n}|${sd}|${N}`,()=>M.monteCarlo({n,vol:sd,start:20000,seed:1},N,q=>{const l=M.logReturns(q);return {z8:M.varianceRatio(l,8).z,ac:M.autocorr(l,1),cr:M.crossingsOfLevels(q,M.HARIN_LINES).total,md:M.maxDrawdown(q).mdd};}));}
+/* 같은 σ의 무작위 보행 N개에서 기록의 숫자만큼 치우친 값이 나온 개수. 시작가는 고른 구간의 첫 종가(격자 선 통과 횟수가 시작 위치에 달려 있어서), 걸음 수는 기록의 하루 수익률 수와 같다(종가 수가 같도록 n = 종가 수 − 1). */
+function chance(n,sd,N,start){return U.memo(`fin|${n}|${sd}|${N}|${start}`,()=>M.monteCarlo({n,vol:sd,start,seed:1},N,q=>{const l=M.logReturns(q);return {z8:M.varianceRatio(l,8).z,ac:M.autocorr(l,1),cr:M.crossingsOfLevels(q,M.HARIN_LINES).total,md:M.maxDrawdown(q).mdd};}));}
 function saebyeokSheet(part,N){
  const [name,a,b]=PARTS[part],c=D.closes().slice(a,b),r=M.logReturns(c),S=M.summarize(c),v8=M.varianceRatio(r,8),atr=M.atrWilder(D.year(),14)[b-1],cr=M.crossingsOfLevels(c,M.HARIN_LINES).total;
- const sim=chance(c.length-1,M.sd(r),N),cnt=f=>sim.filter(f).length,share=k=>`${F(k)}개 (${P(k/N,1)})`;
+ const sim=chance(c.length-1,M.sd(r),N,c[0]),cnt=f=>sim.filter(f).length,share=k=>`${F(k)}개 (${P(k/N,1)})`;
  const zC=cnt(s=>v8.z<0?s.z8<=v8.z:s.z8>=v8.z),aC=cnt(s=>S.ac1>=0?s.ac>=S.ac1:s.ac<=S.ac1),cC=cnt(s=>s.cr>=cr),dC=cnt(s=>s.md<S.mdd.mdd);
  const rows=[['VR(8)의 z',zf(v8.z),`${v8.z<0?'그 이하':'그 이상'} ${share(zC)}`],['ρ₁',U.splus(S.ac1,3),`${S.ac1>=0?'그 이상':'그 이하'} ${share(aC)}`],['격자 선 통과',`${F(cr)}회`,`그 이상 ${share(cC)}`],['최대 낙폭',P(S.mdd.mdd,1),`더 깊음 ${share(dC)}`]];
  const chart=U.lines({series:[{values:c,name:`새벽전자 ${name} 종가 (원)`}],band:[18000,22000,'격자 범위'],xunit:'일',h:230,label:`새벽전자 ${name} 종가`})+U.table(['숫자','기록','같은 σ의 무작위 보행 '+F(N)+'개'],rows,`우연과 견주기 · σ ${P(M.sd(r))}, 시드 1부터`);
