@@ -65,6 +65,7 @@ test('round trip costs and break-even sell price',()=>{
  assert.deepEqual(M.roundTrip(19950,20000,10),{buyAmt:199500,sellAmt:200000,buyFee:29,sellFee:30,tax:400,costs:459,gross:500,net:41});
  assert.equal(M.roundTrip(19950,20000,100).net,401);assert.equal(M.roundTrip(19950,20000,10,.015,0).net,441);
  assert.equal(M.breakEven(19950,10),20000);assert.equal(M.breakEven(19950,10,.015,0,'etf'),19960);
+ assert.ok(M.isValidPrice(M.breakEven(20030,10)),'off-tick buy still gives an orderable break-even');assert.equal(M.breakEven(20030,10),20100);
 });
 test('grid cells: tick validity, cost and the narrowest profitable step',()=>{
  const sheet=M.gridSheet(19970,30,6,10);

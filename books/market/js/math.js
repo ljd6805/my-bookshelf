@@ -89,7 +89,8 @@ function roundTrip(buyPrice,sellPrice,qty,fee=.015,tax=.2){
 }
 /* 본전 매도가: 비용까지 넣고 손익이 0 이상이 되는 가장 낮은 유효 가격. */
 function breakEven(buyPrice,qty,fee=.015,tax=.2,kind='stock'){
- let p=buyPrice;for(let i=0;i<10000;i++){if(roundTrip(buyPrice,p,qty,fee,tax).net>=0)return p;p+=tickSize(p,kind);}
+ let p=isValidPrice(buyPrice,kind)?buyPrice:roundToTick(buyPrice,kind,'up');/* 눈금에 맞지 않는 매수가도 매도 후보는 유효 가격에서만 찾는다. */
+ for(let i=0;i<10000;i++){if(roundTrip(buyPrice,p,qty,fee,tax).net>=0)return p;p+=tickSize(p,kind);}
  return null;
 }
 /* 격자 한 칸 판정: 위 가격이 호가단위에 맞는지, 한 칸 차익이 왕복 비용보다 큰지. */
