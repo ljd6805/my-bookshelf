@@ -54,8 +54,8 @@ L.infer=el=>{
  U.bind(el,()=>{
   const base=G.triples.concat(G.extra),ids=ruleSets[U.pick(el,'rules')],rounds=U.value(el,'rounds'),r=G.infer(base,ids,rounds),fresh=r.log.flat().map(a=>a.t);
   const show=ids.includes('located')?['marie','warsaw','poland','europe','pierre','paris','france','irene']:null;
-  el.querySelector('.chart').innerHTML=`${U.graph(r.all,{fresh,names:true,title:'추론 결과 그래프',on:show?new Set(show):null})}<ol class="round-log">${r.log.map((added,i)=>`<li><b>${i+1}라운드 · ${added.length}개</b> ${added.map(a=>U.fact(a.t)).join(', ')}</li>`).join('')||'<li>아직 새 사실이 없습니다.</li>'}</ol>`;
-  el.querySelector('.readout').innerHTML=`적힌 사실 ${base.length}개 → 추론 후 <b>${r.all.length}</b>개 (새 사실 <b>${r.added}</b>개, 점선)<br>${ids.length?(r.fixed?`<b>고정점</b>: 다음 라운드를 돌려도 새 사실이 나오지 않습니다.`:'아직 고정점이 아닙니다. 라운드를 하나 더 늘려 보세요.'):'규칙이 없으면 그래프는 그대로입니다.'}`;
+  el.querySelector('.chart').innerHTML=`${U.graph(r.all,{fresh,names:(r.log[r.log.length-1]||[]).map(a=>a.t),title:'추론 결과 그래프',on:show?new Set(show):null})}<ol class="round-log">${r.log.map((added,i)=>`<li><b>${i+1}라운드 · ${added.length}개</b> ${added.map(a=>U.fact(a.t)).join(', ')}</li>`).join('')||'<li>아직 새 사실이 없습니다.</li>'}</ol>`;
+  el.querySelector('.readout').innerHTML=`적힌 사실 ${base.length}개(책의 사실 ${G.triples.length}개 + 나라가 속한 대륙 ${G.extra.length}개) → 추론 후 <b>${r.all.length}</b>개 (새 사실 <b>${r.added}</b>개, 점선. 그림의 간선 이름은 마지막 라운드에 생긴 사실만 보입니다)<br>${ids.length?(r.fixed?`<b>고정점</b>: 다음 라운드를 돌려도 새 사실이 나오지 않습니다.`:'아직 고정점이 아닙니다. 라운드를 하나 더 늘려 보세요.'):'규칙이 없으면 그래프는 그대로입니다.'}`;
  });
 };
 })();

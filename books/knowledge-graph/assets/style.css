@@ -40,16 +40,16 @@ header nav>a.shelf-return{display:inline-flex;align-items:center;gap:6px;min-hei
 .chapter-nav .caption{display:block;font-size:.8rem;margin-top:4px}
 /* 개념 그림: 간선이 차례로 그려지고 이름이 나타난다. 동작 줄이기에서는 완성된 그림으로 멈춘다. */
 .kg-fig{display:block;width:100%;height:auto;max-width:720px;margin:0 auto 18px;border:1px solid var(--line);border-radius:8px;background:var(--chart)}
-.kg-fig text{font:12px var(--font-sans);fill:var(--text)}.kg-fig .kg-fig-small{font-size:10.5px;fill:var(--muted)}.kg-fig-label{fill:var(--muted)!important;font-size:11px!important}
-.kg-fig-edge{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-dasharray:1;stroke-dashoffset:1;animation:kg-draw 5s ease-in-out infinite}
+.kg-fig text{font:12px var(--font-sans);fill:var(--text);paint-order:stroke;stroke:var(--chart);stroke-width:4px}.kg-fig .kg-fig-small{font-size:10.5px;fill:var(--muted)}.kg-fig-label{fill:var(--muted)!important;font-size:11px!important}
+.kg-fig-edge{fill:none;stroke:var(--accent);stroke-width:2.2;stroke-dasharray:1;stroke-dashoffset:1;animation:kg-draw 1.2s ease-in-out both}
 .kg-fig-edge.fresh{stroke:var(--orange);stroke-width:2.4}.kg-fig-edge.bad{stroke:#e06c75;stroke-width:2}
 .kg-fig-node circle{fill:var(--panel2);stroke:var(--accent);stroke-width:2}.kg-fig-node.var circle{stroke:var(--orange);stroke-dasharray:3 2}.kg-fig-node.id circle{fill:var(--accent)}.kg-fig-node.class circle{stroke:var(--blue)}.kg-fig-node.name circle{stroke:var(--muted)}
-.kg-fig-fade{opacity:0;animation:kg-fade 5s ease-in-out infinite}.kg-fig-box{fill:var(--panel2);stroke:var(--accent)}
-.kg-fig-bar{fill:var(--accent);opacity:.75;transform-box:fill-box;transform-origin:bottom;animation:kg-grow 5s ease-out infinite}.kg-fig-bar.bad{fill:var(--orange)}
+.kg-fig-fade{opacity:0;animation:kg-fade .9s ease-out both}.kg-fig-box{fill:var(--panel2);stroke:var(--accent)}
+.kg-fig-bar{fill:var(--accent);opacity:.75;transform-box:fill-box;transform-origin:bottom;animation:kg-grow 1.2s ease-out both}.kg-fig-bar.bad{fill:var(--orange)}
 .kg-fig-cut{stroke:var(--text);stroke-width:1.5;stroke-dasharray:6 4}
-@keyframes kg-draw{0%{stroke-dashoffset:1}25%,88%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:.2}}
-@keyframes kg-fade{0%,8%{opacity:0}25%,88%{opacity:1}100%{opacity:0}}
-@keyframes kg-grow{0%{transform:scaleY(0)}30%,100%{transform:scaleY(1)}}
+@keyframes kg-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:.2}}
+@keyframes kg-fade{from{opacity:0}to{opacity:1}100%{opacity:0}}
+@keyframes kg-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
 @media(prefers-reduced-motion:reduce){.kg-fig-edge,.kg-fig-fade,.kg-fig-bar{animation:none;stroke-dashoffset:0;opacity:1}}
 html[data-motion=reduce] .kg-fig-edge,html[data-motion=reduce] .kg-fig-fade,html[data-motion=reduce] .kg-fig-bar{animation:none;stroke-dashoffset:0;opacity:1}
 @media(max-width:760px){.compare{grid-template-columns:1fr}.candidates li{grid-template-columns:38px 1fr}.candidates em{grid-column:2}.chart .kg-node text{font-size:13px}}
@@ -57,3 +57,6 @@ html[data-motion=reduce] .kg-fig-edge,html[data-motion=reduce] .kg-fig-fade,html
 .compare section{margin:0}
 @media(max-width:520px){.brand strong{display:none}}
 .transfer-quiz{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}
+
+.chart .kg-plot-label{fill:var(--text);paint-order:stroke;stroke:var(--chart);stroke-width:4px}
+@media(max-width:520px){.chart .kg-node text,.home-graph .kg-node text{font-size:19px}.chart .kg-node.dim text,.home-graph .kg-node.dim text{display:none}.chart .kg-edge-label,.home-graph .kg-edge-label{font-size:16px}.chart .kg-plot-label{font-size:15px}.kg-fig text{font-size:19px}.kg-fig-label{font-size:16px!important}.kg-fig .kg-fig-small{font-size:12px}}

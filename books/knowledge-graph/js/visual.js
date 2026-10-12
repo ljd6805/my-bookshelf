@@ -19,27 +19,33 @@ function setup(el,controls){el.innerHTML=`<div class="lab-columns"><div>${contro
 function svg(content,label='실험 그림',box='0 0 480 280'){return `<svg viewBox="${box}" role="img" aria-label="${esc(label)}">${content}</svg>`;}
 const label=id=>G.entities[id]?G.entities[id].label:id;
 const fact=([s,p,o])=>`${label(s)} —${G.predicates[p]||p}→ ${label(o)}`;
-// 그래프 그리기. on: 강조할 점, edges: 강조할 사실, fresh: 새로 생긴 사실(점선), names: 간선 이름을 보일지.
+// 그래프 그리기. on: 강조할 점, edges: 강조할 사실, fresh: 새로 생긴 사실(점선), names: 간선 이름을 보일지(true면 강조·새 사실, 배열이면 그 사실만).
 function graph(list,{on=null,edges=[],fresh=[],names=false,title='지식 그래프'}={}){
  const nodes=new Set();list.forEach(([s,,o])=>{nodes.add(s);nodes.add(o);});
- const hot=new Set(edges.map(G.key)),neu=new Set(fresh.map(G.key)),id='kg-arrow-'+Math.random().toString(36).slice(2,8);
- let out=`<defs><marker id="${id}" viewBox="0 0 10 10" refX="17" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9z" fill="context-stroke"/></marker></defs>`;
+ const hot=new Set(edges.map(G.key)),neu=new Set(fresh.map(G.key)),named=Array.isArray(names)?new Set(names.map(G.key)):null,id='kg-arrow-'+Math.random().toString(36).slice(2,8);
+ let out=`<defs><marker id="${id}" viewBox="0 0 10 10" refX="17" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1L9 5L0 9z" fill="context-stroke"/></marker></defs>`,labels='';const spots=[];
  for(const t of list){
   const [a,p,b]=t,A=G.entities[a],B=G.entities[b],k=G.key(t),cls=neu.has(k)?'kg-edge fresh':hot.has(k)?'kg-edge on':'kg-edge';
   out+=`<line class="${cls}" x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" marker-end="url(#${id})"/>`;
-  if(names&&(hot.has(k)||neu.has(k)))out+=`<text class="kg-edge-label" x="${(A.x+B.x)/2}" y="${(A.y+B.y)/2-4}" text-anchor="middle">${esc(G.predicates[p])}</text>`;
+  if(named?named.has(k):names&&(hot.has(k)||neu.has(k))){
+   // 이름이 이미 놓인 이름과 겹치면 아래로 한 줄씩 내린다.
+   const x=(A.x+B.x)/2;let y=(A.y+B.y)/2-4;while(spots.some(([sx,sy])=>Math.abs(sx-x)<76&&Math.abs(sy-y)<13))y+=14;spots.push([x,y]);
+   labels+=`<text class="kg-edge-label" x="${x}" y="${y}" text-anchor="middle">${esc(G.predicates[p])}</text>`;
+  }
  }
  for(const n of nodes){const e=G.entities[n],state=on?(on.has(n)?' on':' dim'):'';const [lx,ly,anchor]=e.side==='r'?[e.x+12,e.y+4,'start']:[e.x,e.y<140?e.y-12:e.y+20,'middle'];out+=`<g class="kg-node${state}"><circle cx="${e.x}" cy="${e.y}" r="7"/><text x="${lx}" y="${ly}" text-anchor="${anchor}">${esc(e.label)}</text></g>`;}
- return svg(out,`${title}. 점 ${nodes.size}개, 사실 ${list.length}개. 숫자 결과는 아래 글에 있습니다.`,'0 0 480 292');
+ return svg(out+labels,`${title}. 점 ${nodes.size}개, 사실 ${list.length}개. 숫자 결과는 아래 글에 있습니다.`,'-34 0 548 292');
 }
 function plot({points=[],arrows=[],xmin=-1,xmax=1,ymin=-1,ymax=1,xlabel='x',ylabel='y'}){
  const x=v=>140+(v-xmin)/(xmax-xmin)*210,y=v=>235-(v-ymin)/(ymax-ymin)*210;let out='';
- for(let i=0;i<=4;i++){const xx=140+i*52.5,yy=25+i*52.5;out+=`<path d="M${xx} 25V235M140 ${yy}H350" stroke="var(--line)" stroke-width=".6"/><text x="${xx}" y="252" text-anchor="middle">${fmt(xmin+(xmax-xmin)*i/4,1)}</text><text x="132" y="${yy+4}" text-anchor="end">${fmt(ymax-(ymax-ymin)*i/4,1)}</text>`;}
+ for(let i=0;i<=4;i++){const xx=140+i*52.5,yy=25+i*52.5;out+=`<path d="M${xx} 25V235M140 ${yy}H350" stroke="var(--line)" stroke-width=".6"/><text x="${xx}" y="252" text-anchor="${i?(i<4?'middle':'end'):'start'}">${fmt(xmin+(xmax-xmin)*i/4,1)}</text><text x="132" y="${yy+4}" text-anchor="end">${fmt(ymax-(ymax-ymin)*i/4,1)}</text>`;}
  const id='kg-plot-'+Math.random().toString(36).slice(2,8);
  out+=`<defs><marker id="${id}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1L9 5L0 9z" fill="context-stroke"/></marker></defs>`;
  for(const a of arrows)out+=`<line x1="${x(a.from[0])}" y1="${y(a.from[1])}" x2="${x(a.to[0])}" y2="${y(a.to[1])}" stroke="${a.color||'var(--accent)'}" stroke-width="${a.width||2}" ${a.dashed?'stroke-dasharray="4 4"':''} marker-end="url(#${id})"/>`;
- for(const p of points)out+=`<circle cx="${x(p.at[0])}" cy="${y(p.at[1])}" r="${p.r||5}" fill="${p.color||'var(--orange)'}"/>${p.text?`<text x="${x(p.at[0])+8}" y="${y(p.at[1])-7}">${esc(p.text)}</text>`:''}`;
- return svg(out+`<text x="350" y="272" text-anchor="end">${esc(xlabel)}</text><text x="140" y="14" text-anchor="middle">${esc(ylabel)}</text>`,`${xlabel}와 ${ylabel} 평면. 숫자 결과는 아래 글에 있습니다.`,'80 0 330 280');
+ // 점을 모두 그린 뒤 이름을 얹는다. side가 'l'이면 이름을 점 왼쪽에, 'b'면 아래에 둔다.
+ for(const p of points)out+=`<circle cx="${x(p.at[0])}" cy="${y(p.at[1])}" r="${p.r||5}" fill="${p.color||'var(--orange)'}"/>`;
+ for(const p of points.filter(q=>q.text)){const [dx,dy,an]=p.side==='l'?[-8,-7,'end']:p.side==='b'?[0,18,'middle']:[8,-7,'start'];out+=`<text class="kg-plot-label" x="${x(p.at[0])+dx}" y="${y(p.at[1])+dy}" text-anchor="${an}">${esc(p.text)}</text>`;}
+ return svg(out+`<text x="350" y="272" text-anchor="end">${esc(xlabel)}</text><text x="88" y="12" text-anchor="start">${esc(ylabel)} ↑</text>`,`${xlabel}와 ${ylabel} 평면. 숫자 결과는 아래 글에 있습니다.`,'80 -4 330 284');
 }
 function bars(rows){return `<div class="bars">${rows.map(([l,v,t])=>`<div class="bar-row"><span>${esc(l)}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(0,Math.min(1,v||0))*100}%"></div></div><small>${t}</small></div>`).join('')}</div>`;}
 function thumbnail(index){

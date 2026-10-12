@@ -4,15 +4,15 @@ const U=KGUI,G=KGGraph,L=KGLabs;
 const predOptions=Object.keys(G.predicates).map(p=>[p,G.predicates[p]]);
 const reasoned=()=>G.infer(G.triples.concat(G.extra),['spouse','parent','located'],10).all;
 L.query=el=>{
- const objects=[['?y','?y (빈칸)'],...Object.keys(G.entities).map(id=>[id,G.entities[id].label])];
- U.setup(el,U.select('p1','패턴 1 관계 (?x 관계 목적어)',predOptions,'discovered')+U.select('o1','패턴 1 목적어',objects,'polonium')+U.select('p2','패턴 2 관계 (?x 관계 ?z)',[['none','패턴 2 없음'],...predOptions],'spouse')+U.select('reason','그래프',[['no','적힌 사실만'],['yes','추론 포함(5장 세 규칙)']],'no'));
+ const objects=[['?o','?o (빈칸)'],...Object.keys(G.entities).map(id=>[id,G.entities[id].label])];
+ U.setup(el,U.select('p1','패턴 1 관계 (?x 관계 목적어)',predOptions,'discovered')+U.select('o1','패턴 1 목적어',objects,'polonium')+U.select('p2','패턴 2 관계 (?x 관계 ?y)',[['none','패턴 2 없음'],...predOptions],'spouse')+U.select('reason','그래프',[['no','적힌 사실만'],['yes','추론 포함(5장 세 규칙)']],'no'));
  U.bind(el,()=>{
   const p1=U.pick(el,'p1'),o1=U.pick(el,'o1'),p2=U.pick(el,'p2'),list=U.pick(el,'reason')==='yes'?reasoned():G.triples;
-  const patterns=[['?x',p1,o1]];if(p2!=='none')patterns.push(['?x',p2,'?z']);
+  const patterns=[['?x',p1,o1]];if(p2!=='none')patterns.push(['?x',p2,'?y']);
   const rows=G.match(list,patterns),vars=[...new Set(patterns.flat().filter(v=>v.startsWith('?')))];
   const term=v=>v.startsWith('?')?v:':'+v;
   el.querySelector('.chart').innerHTML=`<pre class="sparql">SELECT ${vars.join(' ')} WHERE {\n${patterns.map(p=>'  '+p.map(term).join(' ')).join(' .\n')}\n}</pre><table class="bindings"><thead><tr>${vars.map(v=>`<th>${v}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${vars.map(v=>`<td>${U.label(r[v])}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${vars.length}">맞는 값이 없습니다</td></tr>`}</tbody></table>`;
-  el.querySelector('.readout').innerHTML=`그래프 사실 ${list.length}개에서 패턴 ${patterns.length}줄에 맞는 답 <b>${rows.length}</b>개${rows.length?': '+rows.map(r=>vars.map(v=>U.label(r[v])).join('·')).join(', '):''}<br>${rows.length?'같은 변수(?x)는 모든 줄에서 같은 값이어야 하므로 줄을 더할수록 답은 줄거나 그대로입니다.':'답이 없다고 거짓은 아닙니다. 방향을 바꾸거나 추론을 포함해 보세요.'}`;
+  el.querySelector('.readout').innerHTML=`그래프 사실 ${list.length}개에서 패턴 ${patterns.length}줄에 맞는 답 <b>${rows.length}</b>줄${rows.length?': '+rows.map(r=>'('+vars.map(v=>`${v}=${U.label(r[v])}`).join(', ')+')').join(', '):''}<br>${rows.length?'같은 변수(?x)는 모든 줄에서 같은 값이어야 하므로 줄을 더할수록 답은 줄거나 그대로입니다.':'답이 없다고 거짓은 아닙니다. 방향을 바꾸거나 추론을 포함해 보세요.'}`;
  });
 };
 const candidates=[
@@ -33,14 +33,16 @@ L.extract=el=>{
  });
 };
 const {cities,countries,answer,train}=G.embedding;
+// 가까운 점끼리 이름이 겹치지 않도록 이름을 놓을 쪽을 정한다(l: 왼쪽, b: 아래).
+const side={warsaw:'b',spain:'l',paris:'l',madrid:'b',rome:'b'};
 L.transe=el=>{
  U.setup(el,U.range('rx','관계 화살표 r의 가로',-1,3,.05,0)+U.range('ry','관계 화살표 r의 세로',-1,3,.05,0)+U.select('head','머리 도시 h',Object.keys(cities).map(k=>[k,cities[k][0]+(train.includes(k)?' (학습 쌍)':' (처음 보는 쌍)')]),'warsaw'));
  U.bind(el,()=>{
   const r=[U.value(el,'rx'),U.value(el,'ry')],h=U.pick(el,'head'),cand=Object.fromEntries(Object.entries(countries).map(([k,v])=>[k,v[1]]));
   const rank=G.transe(cities[h][1],r,cand),pos=rank.findIndex(x=>x.id===answer[h])+1,end=[cities[h][1][0]+r[0],cities[h][1][1]+r[1]];
   const score=G.transeScore(train.map(c=>[cities[c][1],answer[c]]),r,cand),best=G.meanOffset(train.map(c=>[cities[c][1],countries[answer[c]][1]]));
-  const points=[...Object.values(cities).map(([n,p])=>({at:p,text:n,color:'var(--blue)',r:4})),...Object.values(countries).map(([n,p])=>({at:p,text:n,color:'var(--accent)',r:4})),{at:end,color:'var(--orange)',r:6}];
-  el.querySelector('.chart').innerHTML=U.plot({points,arrows:[{from:cities[h][1],to:end,color:'var(--orange)',width:2.5}],xmin:-1.5,xmax:3,ymin:-1,ymax:2.5,xlabel:'좌표 1',ylabel:'좌표 2'});
+  const points=[...Object.entries(cities).map(([k,[n,p]])=>({at:p,text:n,color:'var(--blue)',r:4,side:side[k]})),...Object.entries(countries).map(([k,[n,p]])=>({at:p,text:n,color:'var(--accent)',r:4,side:side[k]})),{at:end,color:'var(--orange)',r:6}];
+  el.querySelector('.chart').innerHTML=U.plot({points,arrows:[{from:cities[h][1],to:end,color:'var(--orange)',width:2.5}],xmin:-1.6,xmax:3.2,ymin:-1,ymax:3,xlabel:'좌표 1',ylabel:'좌표 2'});
   el.querySelector('.readout').innerHTML=`r = (${U.fmt(r[0])}, ${U.fmt(r[1])}) · 학습 쌍 네 개의 평균 거리 <b>${U.fmt(score.meanError)}</b> · 1위로 맞힌 쌍 <b>${score.hits}/${train.length}</b><br>${cities[h][0]} + r에 가장 가까운 나라: <b>${countries[rank[0].id][0]}</b> (거리 ${U.fmt(rank[0].d)}). 정답 ${countries[answer[h]][0]}의 순위는 <b>${pos}위</b>입니다.<br>거리 제곱합을 가장 작게 만드는 r̂ = (${U.fmt(best[0])}, ${U.fmt(best[1])})`;
  });
 };

@@ -30,7 +30,7 @@ function chapterNav(index){
  const prev=B.chapters[index-1],next=B.chapters[index+1];
  return `<nav class="chapter-nav" aria-label="이전·다음 챕터">${prev?`<a href="#${prev.id}">이전 · ${prev.title}</a>`:'<a href="#home">책 표지로</a>'}${next?`<a href="#${next.id}">다음 · ${next.title}<br><span class="caption">이동 이유: ${next.desc}</span></a>`:'<a href="#chapters">목차로 돌아가기</a>'}</nav>`;
 }
-function choices(q,target,attr){return G.choiceOrder(q[1].length,q[2],target).map((i,k)=>`<button type="button" data-${attr}="${i}">${k+1}. ${q[1][i]}</button>`).join('');}
+function choices(q,target,attr){return G.choiceOrder(q[1].length,q[2],target).map((i,k)=>`<button type="button" aria-pressed="false" data-${attr}="${i}">${k+1}. ${q[1][i]}</button>`).join('');}
 function transferQuiz(c,index){if(!c.transfer)return '';return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer,(index+1)%3,'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;}
 function chapter(c,index){
  document.body.classList.add('reading');document.title=`${num(index)}. ${c.title} · ${NAME}`;

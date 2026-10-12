@@ -14,7 +14,7 @@ graphrag:['같은 질문을 문장 검색과 그래프 걷기로 풀 때 근거 
 function mount(id,el){
  const [purpose,presets,interpretation]=guides[id],host=el.parentElement;
  const box=document.createElement('div');box.className='lab-guide';
- box.innerHTML=`<p><b>무엇을 확인하나요?</b> ${purpose}</p><div class="buttons" aria-label="비교 예제">${presets.map((p,i)=>`<button data-preset="${i}">${p[0]}</button>`).join('')}<button data-initialize>실험 초기화</button></div><p class="guide-reading"><b>결과 읽기</b> ${interpretation}</p>`;
+ box.innerHTML=`<p><b>무엇을 확인하나요?</b> ${purpose}</p><div class="buttons" aria-label="비교 예제">${presets.map((p,i)=>`<button type="button" data-preset="${i}">${p[0]}</button>`).join('')}<button type="button" data-initialize>실험 초기화</button></div><p class="guide-reading"><b>결과 읽기</b> ${interpretation}</p>`;
  host.insertBefore(box,el);
  box.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-initialize')){KGLabs[id](el);box.querySelectorAll('[aria-pressed]').forEach(x=>x.removeAttribute('aria-pressed'));return;}
  const [,values,action]=presets[+b.dataset.preset];for(const [key,value] of Object.entries(values))el.querySelector('#'+key).value=value;
