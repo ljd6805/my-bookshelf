@@ -42,7 +42,7 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 
 /* 장 그림 공통 부품 */
 .fig-up{transform-origin:bottom center;animation-name:fig-up}@keyframes fig-up{from{transform:scaleY(0)}}
-html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-motion=reduce] .fig-seq,html[data-motion=reduce] .fig-grow,html[data-motion=reduce] .fig-draw,html[data-motion=reduce] .fig-pulse{animation:none!important}
+html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-motion=reduce] .fig-seq,html[data-motion=reduce] .fig-grow,html[data-motion=reduce] .fig-draw,html[data-motion=reduce] .fig-pulse{animation:none!important}html[data-motion=reduce] .fig-pkt{display:none}
 /* 2026-10-12 보충: 확인 문제 안의 전이 문항. 버튼은 .quiz button을 그대로 쓴다. */
 .transfer-quiz{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}
 /* 예측·회상 상자, 칩 줄, 계산 표 */

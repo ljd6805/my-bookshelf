@@ -33,7 +33,7 @@ MLabs.fees=el=>{
  U.bind(el,()=>{
   const p=U.value(el,'fprin')*1e4,g=U.value(el,'fgross'),n=U.value(el,'fyears'),turn=U.value(el,'fturn'),fa=U.value(el,'fa')+turn*.23,fb=U.value(el,'fb');
   const A=M.feeDrag(p,g,fa,n),B=M.feeDrag(p,g,fb,n),yrs=Array.from({length:n+1},(_,t)=>t);
-  const chart=U.lines([{name:'비용 0%',points:yrs.map(t=>[t,M.feeDrag(p,g,0,t).withFee/1e4]),color:'var(--blue)',dash:'7 5'},{name:`② ${F(fb,2)}%`,points:yrs.map(t=>[t,M.feeDrag(p,g,fb,t).withFee/1e4]),color:'var(--accent)'},{name:`① ${F(fa,2)}%`,points:yrs.map(t=>[t,M.feeDrag(p,g,fa,t).withFee/1e4]),color:'var(--orange)'}],{label:`${n}년 뒤 비용 없음 ${W(A.noFee)}, 비용 ${fb}% ${W(B.withFee)}, 비용 ${F(fa,2)}% ${W(A.withFee)}.`,xName:'해',yName:'만 원',yFmt:v=>F(v,0)});
+  const chart=U.lines([{name:'비용 0%',points:yrs.map(t=>[t,M.feeDrag(p,g,0,t).withFee/1e4]),color:'var(--blue)',dash:'7 5'},{name:`② ${F(fb,2)}%`,points:yrs.map(t=>[t,M.feeDrag(p,g,fb,t).withFee/1e4]),color:'var(--accent)'},{name:`① ${F(fa,2)}%`,points:yrs.map(t=>[t,M.feeDrag(p,g,fa,t).withFee/1e4]),color:'var(--orange)'}],{label:`${n}년 뒤 비용 없음 ${W(A.noFee)}, 비용 ${F(fb,2)}% ${W(B.withFee)}, 비용 ${F(fa,2)}% ${W(A.withFee)}.`,xName:'해',yName:'만 원',yFmt:v=>F(v,0)});
   const line=(x,f,k)=>`비용률 ${k} ${P(f,2)}: <b>${W(x.withFee)}</b>(${U.man(x.withFee)}), 비용이 없을 때보다 ${W(x.lost)} 적어 쌓였어야 할 돈의 <b>${P(x.lostShare,1)}</b>`;
   const net=M.feeDrag(100,g,fa,1).withFee-100,turnText=turn?`<br>①에는 한 해 ${turn}번 회전 × 왕복 0.23% = ${P(turn*.23,2)}가 더해져 있습니다(4권 10장의 왕복 비용을 어림한 값).`:'';
   U.result(el,chart,`${W(p)}이 연 ${P(g,1)}로 ${n}년 불어나면 비용이 없을 때 <b>${W(A.noFee)}</b>(${U.man(A.noFee)})입니다.<br>${line(A,fa,'①')}입니다.<br>${line(B,fb,'②')}입니다.<br>비용률 ①을 떼면 해마다 실제로 불어나는 비율은 (1 + ${F(g/100,3)}) × (1 − ${F(fa/100,4)}) − 1 = ${P(net,2)}입니다.${turnText}${U.kind('real','비용을 해마다 끝에 한 번 뗀다고 보았습니다. 수익률과 비용률은 가정입니다.')}`);
@@ -45,7 +45,7 @@ function decideTable(r,a,years,cut,loanRate){
  return U.table(['선택','성격',`${years}년 뒤`,'상환과 차이'],rows,`${F(a/1e4,0)}만 원을 어디에 두나`);
 }
 MLabs.decide=el=>{
- U.setup(el,U.number('xamt','상환 또는 투자에 쓸 돈 (만 원)',10,1000,10,600,'모아 둔 돈 1,000만 원 안에서')+U.range('xloan','대출 금리 (연 %)',0,20,.1,6)+U.range('xyears','비교 시점 (년 뒤)',1,10,1,3)+U.range('xs1','투자 시나리오 ㉠ (연 %)',-30,30,1,-10)+U.range('xs2','투자 시나리오 ㉡ (연 %)',-30,30,1,5)+U.range('xs3','투자 시나리오 ㉢ (연 %)',-30,30,1,8)+U.range('xfee','투자 비용률 (연 %)',0,2,.05,.1)+U.select('xtax','투자 이익에 붙는 세금',[['0','없음 (국내 주식형 ETF 매매 차익 가정)'],['15.4','15.4% (분배금·이자 가정)']],'0')+U.range('xpre','중도상환수수료율 (%)',0,3,.1,0));
+ U.setup(el,U.number('xamt','상환 또는 투자에 쓸 돈 (만 원)',10,1000,10,600,'모아 둔 돈 1,000만 원 안에서')+U.range('xloan','대출 금리 (연 %)',0,20,.1,6)+U.range('xyears','비교 시점 (년 뒤)',1,10,1,3)+U.range('xs1','투자 시나리오 ㉠ (연 %)',-30,30,1,-10)+U.range('xs2','투자 시나리오 ㉡ (연 %)',-30,30,1,5)+U.range('xs3','투자 시나리오 ㉢ (연 %)',-30,30,1,8)+U.range('xfee','투자 비용률 (연 %)',0,2,.05,.1)+U.select('xtax','투자 이익에 붙는 세금',[['0','없음 (가정)'],['15.4','15.4% (분배금·이자 가정)']],'0')+U.range('xpre','중도상환수수료율 (%)',0,3,.1,0));
  U.bind(el,()=>{
   const a0=U.num(el,'xamt');
   if(a0===null)return U.result(el,'',U.problem('금액','쓸 돈은 10만 원에서 1,000만 원 사이로 넣어야 합니다.'));
