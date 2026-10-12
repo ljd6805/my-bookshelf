@@ -126,7 +126,7 @@ function randomWalk(o={}){
  if(!(Math.abs(phi)<1))throw new RangeError('phi must be in (-1, 1)');
  if(!(kappa>=0&&kappa<1))throw new RangeError('kappa must be in [0, 1)');
  if(!(start>0)||!(vol>=0))throw new RangeError('start > 0 and vol >= 0 required');
- const g=rng(o.seed??1),anchor=Math.log(o.anchor??start),eps=o.tails==='t'?()=>g.studentT(o.nu??4):g.normal;
+ const g=rng(o.seed??1),anchor=Math.log(o.anchor??start),eps=o.tails==='t'?()=>g.studentT(o.nu??6):g.normal;
  let x=Math.log(start),prev=drift;const out=[start];
  for(let t=0;t<n;t++){
   const r=drift+phi*(prev-drift)+vol*eps();
@@ -208,10 +208,60 @@ function summarize(prices,o={}){
   vr:varianceRatio(r,q),...moments(r),mdd:maxDrawdown(prices)};
 }
 
+/* ── 새벽전자의 1년 기록 (마지막 과제·5장·7장의 공통 사례) ──
+   앞 120거래일은 12권 「격자 하나에서 손익이 갈리기까지」 13장의 6개월 시나리오(GUI.PATH.FINAL)를 그대로 쓴다:
+     80일 박스권 wave({start:20000, days:80, perDay:8, amp:7, period:64})
+     + 20일 하락 wave({start:20000, days:20, perDay:8, amp:2, period:16, drift:−0.5, gaps:{0:−8}})  (81일째 시가 −8% 갭)
+     + 20일 횡보 wave({start:16700, days:20, perDay:8, amp:2, period:16}).
+   아래 SAEBYEOK_TICKS·tickRound·tri·wave는 books/grid/js/math.js의 STOCK_TICKS·roundToTick('nearest', 주식)·tri·wave를
+   계산이 같도록 복사했다(책 사이 코드 의존을 두지 않음). 12권 쪽이 바뀌면 tests/math.test.cjs의 대조 검사가 알려 준다.
+   뒤 130거래일은 이 파일의 생성기에서 뽑은 가상 경로다(실제 시세 아님, 12권에 없는 날). 120일째 종가에서 이어
+   하루 perDay점씩 로그 가격을 움직인다: 한 점의 잡음 vol/√perDay, 평균 회귀 kappa/perDay(기준은 120일째 종가). 점마다 호가단위로 맞춘다.
+   하루 막대: 시가 = 첫 점, 종가 = 마지막 점, 고가·저가 = 그날 점들의 최대·최소(장중 점이 perDay개뿐인 가상 막대).
+   단위: 원. 하린의 격자 가격선은 12권과 같은 18,000~22,000원 200원 간격 21개. */
+const SAEBYEOK_TICKS=[[2000,1],[5000,5],[20000,10],[50000,50],[200000,100],[500000,500],[Infinity,1000]];
+const tickOf=p=>SAEBYEOK_TICKS.find(([upper])=>p<upper)[1];
+function tickRound(price){const p=Math.max(1,price),t=tickOf(p);return Math.max(t,Math.round(p/t)*t);}
+function tri(x){const f=((x-.25)%1+1)%1;return 4*Math.abs(f-.5)-1;}
+function wave(o){
+ const perDay=o.perDay||8,period=o.period||16,amp=o.amp||0,drift=o.drift||0,gaps=o.gaps||{};
+ let level=o.start,t=0;const out=[];
+ for(let d=0;d<o.days;d++){
+  if(d>0)level*=1+drift/100;if(gaps[d])level*=1+gaps[d]/100;
+  const row=[];for(let k=0;k<perDay;k++,t++)row.push(tickRound(level*(1+amp/100*tri(t/period))));out.push(row);
+ }
+ return out;
+}
+const HARIN_LINES=Object.freeze(Array.from({length:21},(_,i)=>18000+200*i));
+/* 12권 13장 시나리오의 하루 점들(120일 × 8점). */
+function gridSixMonths(){
+ return [...wave({start:20000,days:80,perDay:8,amp:7,period:64}),
+  ...wave({start:20000,days:20,perDay:8,amp:2,period:16,drift:-.5,gaps:{0:-8}}),
+  ...wave({start:16700,days:20,perDay:8,amp:2,period:16})];
+}
+/* 생성한 날들의 하루 점들. 시드가 같으면 같은 점이 나온다. */
+function generatedDays(start,o={}){
+ const days=o.days??130,perDay=o.perDay??8,vol=o.vol??.015,kappa=o.kappa??0,g=rng(o.seed??8);
+ if(!(start>0)||!(vol>=0)||!(kappa>=0&&kappa<1))throw new RangeError('start > 0, vol >= 0, 0 <= kappa < 1');
+ const sp=vol/Math.sqrt(perDay),kp=kappa/perDay,anchor=Math.log(start),out=[];let x=anchor;
+ for(let d=0;d<days;d++){
+  const row=[];for(let k=0;k<perDay;k++){x+=sp*g.normal()+kp*(anchor-x);row.push(tickRound(Math.exp(x)));}out.push(row);
+ }
+ return out;
+}
+const toBars=(days,source)=>days.map(row=>({open:row[0],close:row[row.length-1],high:Math.max(...row),low:Math.min(...row),source}));
+/* 새벽전자 1년 기록: 250개 하루 막대 {day(1부터), open, close, high, low, source: 'grid'|'generated'}. */
+function saebyeokYear(o={}){
+ const first=toBars(gridSixMonths(),'grid'),last=first[first.length-1].close;
+ const rest=toBars(generatedDays(last,o),'generated');
+ return [...first,...rest].map((b,i)=>({day:i+1,...b}));
+}
+
 const api={PERIODS_PER_YEAR,rng,simpleReturns,logReturns,simpleToLog,logToSimple,compound,pathFromReturns,
  mean,variance,sd,annualizeVol,annualizeMean,moments,tailShare,
  leveragedPath,staticLeverage,flatVolatileReturns,leveragedApprox,volatilityDrag,
  trueRange,atrWilder,randomWalk,monteCarlo,autocorr,acf,acfBand,varianceRatio,
- levelCrossings,crossingsOfLevels,drawdownSeries,maxDrawdown,recoveryNeeded,summarize};
+ levelCrossings,crossingsOfLevels,drawdownSeries,maxDrawdown,recoveryNeeded,summarize,
+ tickRound,wave,HARIN_LINES,gridSixMonths,generatedDays,saebyeokYear};
 if(typeof module!=='undefined')module.exports=api;else root.VMath=api;
 })(this);

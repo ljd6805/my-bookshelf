@@ -87,6 +87,7 @@ test('seeded generator is deterministic and has the requested moments',()=>{
  assert.ok(M.moments(t).kurtosis>1.5,'t(6) has fat tails (theory: excess kurtosis 3)');
  assert.ok(M.tailShare(t,3)>2*M.tailShare(z,3),'more 3σ days under t than normal');
  assert.throws(()=>g.studentT(2),RangeError);
+ assert.deepEqual(M.randomWalk({tails:'t',seed:3,n:30}),M.randomWalk({tails:'t',nu:6,seed:3,n:30}),'default t noise is ν = 6 (ν = 4 has infinite excess kurtosis)');
  const flat=M.randomWalk({n:5,vol:0,drift:.01,start:100});near(flat[5],100*Math.exp(.05),1e-9,'zero vol is pure drift');
  assert.throws(()=>M.randomWalk({phi:1}),RangeError);assert.throws(()=>M.randomWalk({kappa:1}),RangeError);
 });
@@ -97,9 +98,9 @@ test('V-8 autocorrelation and variance ratio recover the settings (Monte Carlo)'
  const ret=p=>M.logReturns(p);
  const ac=o=>M.mean(M.monteCarlo({n:500,...o},60,p=>M.autocorr(ret(p),1)));
  near(ac({}),0,.03,'random walk ac1');near(ac({phi:.3}),.3,.06,'AR(1) phi 0.3');near(ac({phi:-.3}),-.3,.06);
- const z=M.monteCarlo({n:250,seed:11},400,p=>M.varianceRatio(ret(p),5).z);
- near(M.sd(z),1,.15,'z is roughly standard normal under the random walk');
- const rej=z.filter(v=>Math.abs(v)>1.96).length/z.length;assert.ok(rej<.1,'false rejection near 5%: '+rej);
+ const z=M.monteCarlo({n:250,seed:11},4000,p=>M.varianceRatio(ret(p),5).z);/* research V-8: sd 1.037, 5.58% */
+ near(M.sd(z),1,.06,'z is roughly standard normal under the random walk');
+ const rej=z.filter(v=>Math.abs(v)>1.96).length/z.length;assert.ok(rej>.04&&rej<.07,'false rejection near 5%: '+rej);
  const vr=o=>M.mean(M.monteCarlo({n:250,...o},200,p=>M.varianceRatio(ret(p),5).vr));
  assert.ok(vr({phi:.2})>1.2,'trend-like returns: VR > 1');assert.ok(vr({kappa:.2})<.8,'mean reversion: VR < 1');
  near(M.varianceRatio([.01,-.01,.01,-.01,.01,-.01],2).vr<1?1:0,1,0,'alternating path');
@@ -126,4 +127,44 @@ test('summary of one price record and the expected 2x loss on a random flat year
  const R=M.simpleReturns(p),L=M.leveragedPath(R,2,{start:1}),idx=p[250]/p[0];
  const v=M.variance(M.logReturns(p),0);
  near(L[250],M.leveragedApprox(idx,2,v,250),.02,'Avellaneda–Zhang approximation on a random path');
+});
+
+test('Saebyeok one-year record: vol. 12 six-month scenario + 130 generated days',()=>{
+ const y=M.saebyeokYear(),c=y.map(b=>b.close);
+ assert.equal(y.length,250);assert.deepEqual([y[0].day,y[249].day],[1,250]);
+ assert.equal(y.filter(b=>b.source==='grid').length,120);assert.ok(y.slice(120).every(b=>b.source==='generated'));
+ y.forEach(b=>assert.ok(b.low<=Math.min(b.open,b.close)&&b.high>=Math.max(b.open,b.close),'bar '+b.day));
+ /* checkpoints that vol. 12 tests also hold (books/grid/tests/math.test.cjs, 13장) */
+ assert.deepEqual(c.slice(0,8),[20600,21300,20800,20100,19390,18690,19210,19910],'8-day box cycle');
+ assert.equal(c[79],19910,'day 80 close');
+ assert.deepEqual([y[80].open,y[80].close,y[80].high,y[80].low],[18400,18490,18770,18400],'day 81: −8% gap open');
+ assert.equal(c[99],16640,'day 100 close');
+ const m6=y.slice(100,120);assert.equal(Math.min(...m6.map(b=>b.low)),16370);assert.equal(Math.max(...m6.map(b=>b.high)),17030);
+ assert.equal(Math.min(...c.slice(0,120)),16620);assert.equal(c.indexOf(16620),101,'first 16,620 close is day 102');
+ assert.equal(c[119],16620,'day 120 close = vol. 12 final price');
+ assert.equal(Math.min(...y.slice(0,80).map(b=>b.low)),18600);assert.equal(Math.max(...y.slice(0,80).map(b=>b.high)),21400);
+ /* the generated part continues from day 120 and is deterministic */
+ assert.deepEqual(M.saebyeokYear(),y);assert.notDeepEqual(M.saebyeokYear({seed:9}).slice(120),y.slice(120));
+ assert.deepEqual(M.saebyeokYear({seed:9}).slice(0,120),y.slice(0,120),'seed changes only the generated days');
+ assert.equal(c[249],14750,'day 250 close (seed 8, vol 1.5%, kappa 0; provisional until G3)');
+ y.forEach(b=>[b.open,b.close,b.high,b.low].forEach(p=>assert.equal(M.tickRound(p),p,'on tick '+b.day)));
+ assert.deepEqual(M.HARIN_LINES,Array.from({length:21},(_,i)=>18000+200*i));
+ assert.throws(()=>M.generatedDays(0),RangeError);
+});
+
+test('Saebyeok record teaching hooks: gap day in the tails, range VR below 1 from one cycle',()=>{
+ const c=M.saebyeokYear().map(b=>b.close),r=M.logReturns(c),m=M.mean(r),s=M.sd(r);
+ near(r[79],Math.log(18490/19910),1e-15,'day 81 close-to-close');assert.ok((r[79]-m)/s<-3,'gap day is beyond 3σ of the year');
+ const g=M.logReturns(c.slice(0,120));
+ assert.ok(M.varianceRatio(g,8).vr<.3,'q = one 8-day box cycle: VR far below 1');
+ assert.ok(M.varianceRatio(g,2).vr>1.3,'q = 2 inside a cycle: VR above 1');
+});
+
+test('vol. 12 scenario copy matches books/grid/js/math.js (read-only, skipped if absent)',t=>{
+ const path=require('node:path'),fs=require('node:fs'),file=path.join(__dirname,'../../grid/js/math.js');
+ if(!fs.existsSync(file)){t.skip('books/grid not present');return;}
+ const G=require(file),W=o=>G.wave(o);
+ const F=[...W({start:20000,days:80,perDay:8,amp:7,period:64}),...W({start:20000,days:20,perDay:8,amp:2,period:16,drift:-.5,gaps:{0:-8}}),...W({start:16700,days:20,perDay:8,amp:2,period:16})];
+ assert.deepEqual(M.gridSixMonths(),F,'all 960 points');
+ assert.deepEqual(M.saebyeokYear().slice(0,120).map(b=>b.close),F.map(d=>d[d.length-1]),'first 120 daily closes');
 });
