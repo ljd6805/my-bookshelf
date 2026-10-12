@@ -33,7 +33,7 @@ function schedule(p,r,n,method='level'){
 /* 적금(정기적립식) 단리 이자: 매달 같은 금액을 넣고, 각 납입금은 만기까지 남은 달 수만큼 단리로 이자가 붙는다(1회차는 n개월, 마지막 회차는 1개월).
    세금은 이자에서 원천징수 비율(기본 15.4%)을 뗀다. */
 function savings(monthly,n,r,tax=15.4){
- const months=n*(n+1)/2,interest=monthly*pct(r)/12*months,taxWon=Math.floor(interest*pct(tax)/10)*10;
+ const months=n*(n+1)/2,interest=monthly*pct(r)/12*months,taxWon=Math.round(interest*pct(tax));
  return {principal:monthly*n,interest,tax:taxWon,net:interest-taxWon,effective:interest/(monthly*n)*100};
 }
 /* 같은 적금 총액을 처음에 한꺼번에 예금했을 때와 비교하기 위한 값. */
