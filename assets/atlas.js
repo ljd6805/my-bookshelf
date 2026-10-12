@@ -1,7 +1,7 @@
 /* 지식 지도의 동작: 섬 지도와 책 중심 보기를 오가고, 고른 섬·다리·개념을 밝히고, 옆 설명판을 채웁니다.
    계산은 atlas-model.mjs, 그리기는 atlas-view.js가 맡습니다. */
-import { buildGraph } from './atlas-model.mjs?v=20261012-kg1';
-import { drawMap, drawFocus } from './atlas-view.js?v=20261012-kg1';
+import { buildGraph } from './atlas-model.mjs?v=20261012-order2';
+import { drawMap, drawFocus, setBadgeText, andParticle } from './atlas-view.js?v=20261012-order2';
 
 function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
@@ -39,13 +39,43 @@ function panelIsland(ctx, name) {
   const concepts = g.concepts.filter(c => c.fields.includes(name));
   return [kicker('섬 · 분야'), el('h4', { text: name, tabindex: '-1' }),
     el('p', { text: `책 ${field.books.length}권이 서 있고, 다른 분야와 개념 ${concepts.length}개를 함께 씁니다.` }),
-    kicker('섬 위의 책 · 누르면 그 책 중심으로'),
-    chips(field.books.map(id => chip(g.bookById.get(id).short, () => focusOn(ctx, id, true), { class: `atlas-chip is-book tone-${g.bookById.get(id).color}` }))),
+    kicker('추천 읽기 순서 · 책을 누르면 그 책 중심으로'),
+    readingOrder(ctx, field),
     kicker('함께 쓰는 분야'),
     chips(partners(g, name).map(p => chip(`${p.other} · 개념 ${p.bridge.concepts.length}`, () => select(ctx, { type: 'bridge', id: p.bridge.id })))),
     kicker('이 분야를 지나는 개념'),
     chips(concepts.map(c => chip(c.name, () => select(ctx, { type: 'concept', id: c.id })))),
     backButton(ctx)];
+}
+
+/* 근거 단추: 노선이면 그 노선 탭을 열고, 시리즈·서가면 그 자리로 갑니다. */
+function goVia(href) {
+  const tab = document.querySelector(`[role=tab][aria-controls="${href.slice(1)}"]`);
+  if (tab) tab.click();
+  (tab?.closest('[data-route-explorer]') || document.querySelector(href))?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+}
+
+/* 근거가 앞 단계와 같으면 다시 쓰지 않고, 여섯 권이 넘으면 다섯 권만 보이고 나머지는 펼쳐 봅니다. */
+function readingOrder(ctx, field) {
+  const g = ctx.graph;
+  const steps = field.order || [];
+  const items = steps.map((step, i) => {
+    const book = g.bookById.get(step.book);
+    const sameVia = i > 0 && steps[i - 1].via.href === step.via.href;
+    return el('li', { class: `tone-${book.color}`, hidden: steps.length > 6 && i >= 5 ? '' : null },
+      el('button', { type: 'button', class: 'atlas-book-link', on: () => focusOn(ctx, book.id, true), title: `${book.short} 중심으로 보기` }, book.short),
+      el('p', { text: step.reason }),
+      sameVia ? null : el('button', { type: 'button', class: 'atlas-via', on: () => goVia(step.via.href) }, `근거 · ${step.via.title}`));
+  });
+  const list = el('ol', { class: 'atlas-steps' }, ...items);
+  if (steps.length <= 6) return list;
+  const more = el('button', { type: 'button', class: 'atlas-more' }, `나머지 ${steps.length - 5}권 순서 보기`);
+  more.addEventListener('click', () => {
+    items.forEach(item => { item.hidden = false; });
+    more.remove();
+    items[5].querySelector('button').focus();
+  });
+  return el('div', {}, list, more);
 }
 
 function panelBridge(ctx, id) {
@@ -138,6 +168,7 @@ function highlight(ctx) {
     mark(all('[data-bridge]'), n => Boolean(t.bridges) && t.bridges.has(n.dataset.bridge), 'is-on');
     mark(all('[data-bridge]'), n => Boolean(t.bridges) && !t.bridges.has(n.dataset.bridge), 'is-dim');
     mark(all('.atlas-spine'), n => Boolean(t.books) && t.books.has(n.dataset.book), 'is-lit');
+    labelBadges(ctx, all('.atlas-badge'), s);
     return;
   }
   const c = s?.type === 'concept' ? ctx.graph.concepts.find(x => x.id === s.id) : null;
@@ -145,6 +176,15 @@ function highlight(ctx) {
   mark(all('[data-concept]'), n => Boolean(c) && n.dataset.concept !== c.id, 'is-dim');
   mark(all('.atlas-orbit'), n => Boolean(c) && c.books.includes(n.dataset.book), 'is-lit');
   mark(all('.atlas-orbit'), n => Boolean(c) && !c.books.includes(n.dataset.book), 'is-dim');
+}
+
+/* 섬을 고르면 그 섬의 다리 이름표에 건너편 섬 이름을 붙여, 같은 '개념 6'이 서로 다른 다리임을 보입니다. */
+function labelBadges(ctx, badges, s) {
+  badges.forEach(g => {
+    const b = ctx.graph.bridges.find(x => x.id === g.dataset.bridge);
+    const other = s?.type === 'island' && (b.a === s.id ? b.b : b.b === s.id ? b.a : null);
+    setBadgeText(g, other ? `${other}${andParticle(other)} 개념 ${b.concepts.length}` : `개념 ${b.concepts.length}`);
+  });
 }
 
 function select(ctx, sel, moveFocus = false) {
@@ -211,6 +251,7 @@ function setView(ctx, view) {
 }
 
 function filterList(list, field) {
+  list.querySelectorAll('.atlas-order').forEach(order => order.classList.toggle('is-filtered', Boolean(field) && order.dataset.field !== field));
   list.querySelectorAll('.atlas-item').forEach(item => item.classList.toggle('is-filtered', Boolean(field) && !item.dataset.fields.split('|').includes(field)));
   list.querySelectorAll('.atlas-list-group').forEach(group => group.classList.toggle('is-filtered', !group.querySelector('.atlas-item:not(.is-filtered)')));
 }

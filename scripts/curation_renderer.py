@@ -7,11 +7,11 @@ moved chapter fails the build instead of leaving a dead link on the shelf.
 if __package__:
     from .series_renderer import render_series
     from .shelf_renderer import esc, safe_book_url
-    from .atlas_renderer import atlas_payload, payload_script, render_atlas_list, book_picker, owner_of, short_name, field_of
+    from .atlas_renderer import atlas_payload, payload_script, render_atlas_list, render_reading_orders, book_picker, owner_of, short_name, field_of
 else:
     from series_renderer import render_series
     from shelf_renderer import esc, safe_book_url
-    from atlas_renderer import atlas_payload, payload_script, render_atlas_list, book_picker, owner_of, short_name, field_of
+    from atlas_renderer import atlas_payload, payload_script, render_atlas_list, render_reading_orders, book_picker, owner_of, short_name, field_of
 
 
 def book_lookup(catalog):
@@ -160,7 +160,7 @@ def render_concept(concept, catalog):
 def render_atlas(concepts, catalog):
     if not concepts:
         return ''
-    cards = render_atlas_list(concepts, catalog['books'], lambda c: render_concept(c, catalog))
+    cards = render_atlas_list(concepts, catalog['books'], lambda c: render_concept(c, catalog), render_reading_orders(catalog))
     return ('<div class="concept-atlas" data-atlas><div class="atlas-head">'
             '<p class="curation-eyebrow">지식 지도</p><h3 id="concept-title">분야는 섬, 함께 쓰는 개념은 다리</h3>'
             '<p id="atlas-help">분야마다 섬 하나를 그리고 그 분야의 책을 섬 위에 세웠습니다. 두 분야가 함께 쓰는 개념은 '
