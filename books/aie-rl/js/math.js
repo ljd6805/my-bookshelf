@@ -93,7 +93,9 @@ function pgVariance(p,mu0,mu1,sigma,b){const s1=1-p,s0=-p,mean=p*s1*(mu1-b)+(1-p
 /* 6장: GAE. δ_t=r_t+γV(s_{t+1})-V(s_t), A_t=Σ(γλ)^l δ_{t+l}. */
 function gae(rewards,values,gamma,lambda,last=0){const A=new Array(rewards.length).fill(0);let g=0;
  for(let t=rewards.length-1;t>=0;t--){const nv=t+1<values.length?values[t+1]:last,d=rewards[t]+gamma*nv-values[t];g=d+gamma*lambda*g;A[t]=g;}return A;}
-/* 6장: 비평가가 모든 칸을 c만큼 틀릴 때 A_0 추정의 편향·분산(γ=1, 길이 T, 보상 잡음 σ). */
+/* 6장: 비평가가 모든 칸을 c만큼 틀릴 때 A_0 추정의 편향·분산(γ=1, 길이 T, 보상 잡음 σ, 끝 칸 가치 0은 정확).
+   V̂(s_0)는 행동과 무관한 기준선이라 기울기의 평균을 바꾸지 않으므로 빼고, 뒤 칸 V̂(s_1…s_{T-1})의 오차가
+   이점에 섞여 드는 몫 Σ_{l=1}^{T-1} λ^{l-1}(1-λ)·c = c(1-λ^{T-1})를 편향으로 센다. */
 function gaeStats(lambda,c,T=20,sigma=1){const bias=c*(1-Math.pow(lambda,T-1));let v=0;for(let l=0;l<T;l++)v+=Math.pow(lambda,2*l);v*=sigma*sigma;return {bias,variance:v,rmse:Math.sqrt(bias*bias+v)};}
 /* 7장: PPO 클리핑 목적. */
 function clipObj(ratio,A,eps){const c=Math.min(Math.max(ratio,1-eps),1+eps),un=ratio*A,cl=c*A,obj=Math.min(un,cl);return {unclipped:un,clipped:cl,obj,gradZero:(A>0&&ratio>1+eps)||(A<0&&ratio<1-eps)};}
@@ -141,12 +143,14 @@ function grpoGroup(G,p,seed=21){const r=rng(seed),rew=Array.from({length:G},()=>
 function homeGamma(gamma){const env=homeWorld(),vi=valueIteration(env,gamma,1e-9),p=path(env,vi.policy,30),end=p[p.length-1];
  return {V:vi.V,policy:vi.policy,path:p,target:end===24?'far':'near',near:2*gamma,far:10*Math.pow(gamma,5),threshold:Math.pow(0.2,1/4)};}
 /* 마지막 과제: 보고 세 가지와 처방 네 가지. 맞는 처방이면 앞 장의 계산으로 전후를 비교한다. */
+/* 젖은 바닥 처방은 w=0.2(평균 미끄러짐 0.1)로 훈련한다. w가 0.35 이상이면 마른 바닥에서 출발하지 못하는 정책이 되므로(10장) 쓰지 않는다. */
+const DR_FIX_SLIP=0.1;
 const REPORTS={slip:{metric:'젖은 바닥(미끄러짐 0.3)에서 출발 칸의 기대 이득',fix:'dr'},hack:{metric:'작업자 실제 만족도의 기대값',fix:'beta'},stuck:{metric:'마지막 100번의 평균 보상',fix:'eps'}};
-function finalCase(report,fix){const R=REPORTS[report];let before,after;
- if(report==='slip'){before=evalPolicy(trainedPolicy(0),0.3);after=fix==='dr'?evalPolicy(trainedPolicy(0.2),0.3):before;}
+function finalCase(report,fix){const R=REPORTS[report];let before,after,dry=null;
+ if(report==='slip'){const p0=trainedPolicy(0),p1=fix==='dr'?trainedPolicy(DR_FIX_SLIP):p0;before=evalPolicy(p0,0.3);after=evalPolicy(p1,0.3);dry={before:evalPolicy(p0,0),after:evalPolicy(p1,0)};}
  else if(report==='hack'){before=klPolicy(0.2).truth;after=fix==='beta'?klPolicy(1.5).truth:before;}
  else{before=banditEps(0,{runs:100}).lastAvg;after=fix==='eps'?banditEps(0.1,{runs:100}).lastAvg:before;}
- return {metric:R.metric,before,after,matched:fix===R.fix};}
+ return {metric:R.metric,before,after,dry,matched:fix===R.fix};}
 
 const A10Math={rng,gauss,sigmoid,softmax,ARROWS,makeGrid,warehouse,cliffWorld,homeWorld,move,outcomes,qValue,evaluate,uniform,asProbs,greedy,valueSweeps,valueIteration,policyIteration,path,
  mdpRandom,mcRandom,ROUTE_MEANS,banditEps,tdRun,cliffCompare,maxBias,pgVariance,gae,gaeStats,clipObj,PPO_BATCH,ppoEpochs,bt,BEHAVIORS,klPolicy,AISLE,coopGame,REAL_SLIPS,trainedPolicy,evalPolicy,drEval,MOVES,puct,grpoGroup,homeGamma,REPORTS,finalCase};

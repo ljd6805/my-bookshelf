@@ -14,7 +14,7 @@ A12Labs.toolloop=el=>{
 };
 
 const VARIANTS=[['ok','올바른 tools/list'],['call','올바른 tools/call'],['nometa','_meta 없음'],['noversion','protocolVersion 빠짐'],['oldversion','버전 2025-11-25 요청'],['header','HTTP 헤더 버전만 다름']];
-const WHY={'-32602':'메타데이터가 없거나 필수 필드(protocolVersion, clientCapabilities)가 빠졌거나 자료형이 틀리면 형식이 잘못된 요청으로 봅니다.','-32022':'형식은 올바르지만 서버가 지원하지 않는 버전입니다. Streamable HTTP에서는 HTTP 400과 함께 돌아옵니다. data의 supported 목록에서 버전을 골라 다시 보내면 됩니다.','-32020':'HTTP에서는 MCP-Protocol-Version 헤더가 _meta의 버전과, Mcp-Method가 method와 같아야 합니다. 다르면 HTTP 400으로 거절합니다.'};
+const WHY={'-32602':'메타데이터가 없거나 필수 필드(protocolVersion, clientCapabilities)가 빠졌거나 자료형이 틀리면 형식이 잘못된 요청으로 봅니다. Streamable HTTP에서는 HTTP 400과 함께 돌아옵니다.','-32022':'형식은 올바르지만 서버가 지원하지 않는 버전입니다. Streamable HTTP에서는 HTTP 400과 함께 돌아옵니다. data의 supported 목록에서 버전을 골라 다시 보내면 됩니다.','-32020':'HTTP에서는 MCP-Protocol-Version 헤더가 _meta의 버전과, Mcp-Method가 method와 같아야 합니다. 다르면 HTTP 400으로 거절합니다.'};
 A12Labs.mcp=el=>{
  U.setup(el,S('mc-variant','요청 종류',VARIANTS,'ok')+S('mc-transport','전송 방식',[['stdio','stdio (헤더 없음)'],['http','Streamable HTTP (POST)']],'stdio'));
  U.bind(el,()=>{const v=U.text(el,'mc-variant'),tr=U.text(el,'mc-transport'),r=M.mcpCheck(v,tr),esc=U.esc;

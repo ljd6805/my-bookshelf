@@ -33,12 +33,12 @@ A10Labs.grpo=el=>{
   U.result(el,grid,`G = <b>${G}</b>, p = ${p} · 이번 묶음 성공 ${r.rewards.filter(x=>x).length}/${G}, 평균 ${F(r.mean,3)}, 표준편차 ${F(r.std,3)}<br>${r.std>0?`성공한 시도의 이점 <b>${F(pos,2)}</b>, 실패한 시도의 이점 <b>${F(neg,2)}</b>`:'<strong>모든 시도의 점수가 같아 이점이 전부 0입니다. 이 묶음에서는 배우지 못합니다.</strong>'}<br>묶음 전체가 같은 점수일 확률 p^G + (1−p)^G = <strong>${F(r.noSignal*100,2)}%</strong><br>표본은 시드를 고정해 뽑았고, 확률은 정확한 식입니다.`);});
 };
 const REPORT_LABEL={slip:'젖은 바닥에서 낙하',hack:'점수는 오르는데 작업자 불만',stuck:'늘 같은 통로만 씀'};
-const FIX_LABEL={dr:'미끄러짐 무작위화 넓히기',beta:'KL 벌점 β 올리기',eps:'탐험 ε 올리기',gamma:'할인율 γ 올리기'};
+const FIX_LABEL={dr:'미끄러짐 무작위화 넓히기(0~0.2)',beta:'KL 벌점 β 올리기',eps:'탐험 ε 올리기',gamma:'할인율 γ 올리기'};
 const MISSING={slip:'실제 바닥의 미끄러짐을 잰 값, 바퀴 마모 여부, 낙하가 일어난 칸',hack:'KL 곡선, 작업자 평가 추이, 보상 모델이 본 적 없는 행동의 비율',stuck:'통로별 방문 횟수, 다른 통로의 실제 배송 시간 표본'};
 A10Labs.diagnose=el=>{
  U.setup(el,S('report','운영 보고',Object.entries(REPORT_LABEL),'slip')+S('fix','처방',Object.entries(FIX_LABEL),'beta'));
  U.bind(el,()=>{const rep=U.text(el,'report'),fx=U.text(el,'fix'),r=M.finalCase(rep,fx);
   U.result(el,`<h4 class="a10-sub">${r.metric} (막대 길이는 값의 크기)</h4>`+U.bars(['처방 전','처방 후'],[r.before,r.after],'',null,2),
-  `보고: <b>${REPORT_LABEL[rep]}</b> · 처방: <b>${FIX_LABEL[fx]}</b><br>${r.metric}: ${F(r.before,2)} → <strong>${F(r.after,2)}</strong><br>${r.matched?'이 처방은 실패한 지표를 움직입니다. 이제 왜 이 원인이라고 판단했는지와 부족한 증거를 적어 보세요.':'이 처방이 바꾸는 변수는 이 지표의 계산에 들어가지 않아 값이 그대로입니다. 다른 원인을 찾아야 합니다.'}<br>확정하려면 더 필요한 증거: ${MISSING[rep]}.<br>앞 장의 계산을 그대로 다시 돌린 결과이며, 실제 창고를 진단한 것은 아닙니다.`);});
+  `보고: <b>${REPORT_LABEL[rep]}</b> · 처방: <b>${FIX_LABEL[fx]}</b><br>${r.metric}: ${F(r.before,2)} → <strong>${F(r.after,2)}</strong><br>${r.dry?`같은 정책의 마른 바닥(미끄러짐 0) 기대 이득: ${F(r.dry.before,2)} → ${F(r.dry.after,2)}. 처방이 마른 날의 일을 망치지 않는지도 함께 봅니다.<br>`:''}${r.matched?'이 처방은 실패한 지표를 움직입니다. 이제 왜 이 원인이라고 판단했는지와 부족한 증거를 적어 보세요.':'이 처방이 바꾸는 변수는 이 지표의 계산에 들어가지 않아 값이 그대로입니다. 다른 원인을 찾아야 합니다.'}<br>확정하려면 더 필요한 증거: ${MISSING[rep]}.<br>앞 장의 계산을 그대로 다시 돌린 결과이며, 실제 창고를 진단한 것은 아닙니다.`);});
 };
 })();

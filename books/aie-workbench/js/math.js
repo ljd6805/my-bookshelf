@@ -23,13 +23,17 @@ function resolveEnv({aMin,aMax,bPin,mode}){
  if(mode==='separate')return {mode,installedA:aMax,installedB:bPin,okA:true,okB:true,common};
  const installed=bPin;return {mode,installedA:installed,installedB:installed,okA:installed>=aMin&&installed<=aMax,okB:true,common};
 }
-/* 2장: 드라이버가 지원하는 CUDA와 PyTorch 빌드의 CUDA. 원본의 단순 규칙: 빌드 CUDA ≤ 드라이버 CUDA. */
+/* 2장: 드라이버가 지원하는 CUDA와 PyTorch 빌드의 CUDA. 원본의 단순 규칙: 빌드 CUDA ≤ 드라이버 CUDA.
+   규칙을 어겨도 주 버전이 같으면(12.1 드라이버에 cu124) NVIDIA의 minor version compatibility로
+   기능이 제한된 채 돌 수 있어 gpu:false는 "규칙상 보장 안 됨"을 뜻한다(sameMajor로 구분, 확인일 2026-10-12). */
 function cudaCheck(driver,wheel){
  if(wheel==='cpu')return {runs:true,gpu:false,reason:'CPU용 빌드라 실행은 되지만 GPU를 쓰지 않습니다.'};
  const w=Number(wheel);
  if(driver==='none')return {runs:true,gpu:false,reason:'GPU 드라이버가 없어 CUDA를 쓸 수 없습니다. torch.cuda.is_available()은 False입니다.'};
  const d=Number(driver);
- return w<=d?{runs:true,gpu:true,reason:`빌드 CUDA ${w.toFixed(1)} ≤ 드라이버 CUDA ${d.toFixed(1)}이므로 GPU를 씁니다.`}:{runs:true,gpu:false,reason:`빌드 CUDA ${w.toFixed(1)}이 드라이버 CUDA ${d.toFixed(1)}보다 높아 GPU를 쓰지 못합니다.`};
+ if(w<=d)return {runs:true,gpu:true,sameMajor:true,reason:`빌드 CUDA ${w.toFixed(1)} ≤ 드라이버 CUDA ${d.toFixed(1)}이므로 GPU를 씁니다.`};
+ const sameMajor=Math.floor(w)===Math.floor(d);
+ return {runs:true,gpu:false,sameMajor,reason:sameMajor?`빌드 CUDA ${w.toFixed(1)} > 드라이버 CUDA ${d.toFixed(1)}: 원본 규칙을 어깁니다. 주 버전이 같으므로 NVIDIA의 minor version compatibility로 기능이 제한된 채 돌 수도 있지만 보장되지 않습니다. 빌드를 낮추거나 드라이버를 올리는 것이 안전합니다.`:`빌드 CUDA ${w.toFixed(1)} > 드라이버 CUDA ${d.toFixed(1)}: 빌드가 더 높고 주 버전도 달라 GPU를 쓰지 못합니다.`};
 }
 /* 3장: 브랜치 병합. main에 base개 커밋이 있을 때 갈라진 뒤 main m개, experiment e개를 만든다. */
 function gitMerge(base,m,e){

@@ -81,7 +81,8 @@ function lora(target,r,method,m=LLAMA){
 function toolLatency(n,t,mode,m=800){
  const seq=(n+1)*m+n*t,par=2*m+t;return {seq,par,total:mode==='parallel'?par:seq,trips:mode==='parallel'?2:n+1,saved:1-par/seq};
 }
-/* MCP 요청 판정(원본 커리큘럼이 설명한 2026-07-28 개정 규칙). 네트워크 없이 규칙만 평가한다. */
+/* MCP 요청 판정(원본 커리큘럼이 설명한 2026-07-28 개정 규칙). 네트워크 없이 규칙만 평가한다.
+   Streamable HTTP에서는 -32602(필수 _meta 누락)·-32020·-32022 모두 HTTP 400이다(MCP 기본 프로토콜·Streamable HTTP 명세, 확인일 2026-10-12). */
 const MCP_VERSION='2026-07-28';
 function mcpRequest(variant){
  const meta={'io.modelcontextprotocol/protocolVersion':MCP_VERSION,'io.modelcontextprotocol/clientCapabilities':{}};
@@ -91,7 +92,7 @@ function mcpRequest(variant){
  return {body,headers};
 }
 function mcpCheck(variant,transport){
- const {body,headers}=mcpRequest(variant),meta=body.params._meta,err=(code,name,data)=>({ok:false,code,name,data,http:transport==='http'?(code===-32020||code===-32022?400:200):null});
+ const {body,headers}=mcpRequest(variant),meta=body.params._meta,err=(code,name,data)=>({ok:false,code,name,data,http:transport==='http'?400:null});
  if(transport==='http'&&meta&&typeof meta['io.modelcontextprotocol/protocolVersion']==='string'&&(headers['MCP-Protocol-Version']!==meta['io.modelcontextprotocol/protocolVersion']||headers['Mcp-Method']!==body.method))return {...err(-32020,'HeaderMismatch'),body,headers};
  if(!meta||typeof meta['io.modelcontextprotocol/protocolVersion']!=='string'||typeof meta['io.modelcontextprotocol/clientCapabilities']!=='object')return {...err(-32602,'Invalid Params'),body,headers};
  const v=meta['io.modelcontextprotocol/protocolVersion'];

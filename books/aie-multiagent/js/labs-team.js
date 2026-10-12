@@ -36,7 +36,7 @@ A17Labs.fanout=el=>{
  U.bind(el,()=>{const K=U.value(el,'workers'),sp=U.value(el,'spawn'),r=M.fanout(K,sp),best=M.bestFanout(sp),pts=[];
   for(let i=1;i<=10;i++)pts.push([i,M.fanout(i,sp).time]);
   U.result(el,U.plot({lines:[{data:pts},{data:[[1,r.serial],[10,r.serial]],color:'var(--orange)',dashed:true}],points:[[K,r.time,'var(--orange)',7],[best.k,best.time,'var(--blue)',5]],xmin:1,xmax:10,ymin:0,ymax:120,xlabel:'조사원 수 K',ylabel:'끝날 때까지 걸린 시간(분)',label:`조사원 수에 따른 완료 시간. 지금 K ${K}에서 ${r.time}분, 혼자 하면 ${r.serial}분`}),
-  `K = <b>${K}</b>, 띄우기 비용 ${sp}분<br>완료 시간 = 계획 5 + 띄우기 ${sp}×${K} + 가장 바쁜 조사원 ${r.makespan} + 종합 3 + ${K} = <strong>${r.time}분</strong> (혼자 차례로 하면 ${r.serial}분, 주황 점선)<br>조사원별 일 ${r.load.join(', ')}분 · 이 비용에서 가장 빠른 K는 <b>${best.k}명(${best.time}분)</b>입니다(파란 점).<br>전체 토큰 <b>${F(r.tokens,0)}</b> · 반장 문맥 ${F(r.leadCtx,0)} · 가장 큰 조사원 문맥 ${F(r.maxWorkerCtx,0)}<br>하위 질문 10개의 소요 시간과 토큰은 가정값이고, 배분(긴 일부터 빈 조사원에게)과 합계는 실제 계산입니다.`);});
+  `K = <b>${K}</b>, 띄우기 비용 ${sp}분<br>완료 시간 = 계획 5 + 띄우기 ${sp}×${K} + 가장 바쁜 조사원 ${r.makespan} + 종합 3 + ${K} = <strong>${r.time}분</strong> (혼자 차례로 하면 ${r.serial}분, 주황 점선)<br>조사원별 일 ${r.load.join(', ')}분 · 이 비용에서 가장 빠른 K는 <b>${best.k}명(${best.time}분)</b>입니다(파란 점, 같은 시간이면 토큰이 적은 쪽).<br>전체 토큰 <b>${F(r.tokens,0)}</b> · 반장 문맥 ${F(r.leadCtx,0)} · 가장 큰 조사원 문맥 ${F(r.maxWorkerCtx,0)}<br>하위 질문 10개의 소요 시간과 토큰은 가정값이고, 배분(긴 일부터 빈 조사원에게)과 합계는 실제 계산입니다.`);});
 };
 
 A17Labs.drift=el=>{

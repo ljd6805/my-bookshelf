@@ -5,6 +5,25 @@
 <h1>팩트·출처 검수 기록 · LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드" data-date="2026-10-12" data-scope="12개 장 본문·자세히 보기·퀴즈·이어 읽기, 14개 실험과 표지 실험, 실험 안내 14개, 그림 캡션, 출처 18개(Qwen 설정 2개는 원문 재확인), 교차 링크 나가는 28개·들어오는 69개, Chromium 1280·390·320px" data-result="passed">
+<h2>2026-10-12 검수 (편집팀 전체 도서 검수)</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드. 범위: 12개 장 본문·자세히 보기·퀴즈·이어 읽기, 14개 실험과 표지 실험, 실험 안내 14개, 그림 캡션, 출처 18개(Qwen 설정 2개는 원문 재확인), 교차 링크 나가는 28개·들어오는 69개, Chromium 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다.</p>
+<p>사실·수치 오류를 찾지 못해 고친 파일이 없습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>Qwen3-8B·Qwen3-30B-A3B의 config.json과 모델 카드를 Hugging Face에서 다시 열어 층 36/48, KV head 8/4, head_dim 128, Q head 32, hidden 4096/2048, expert 128/8, 30.5B·3.3B 활성 확인. warp 32, GQA, FlashAttention·PagedAttention 서술 대조</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 따로 계산: 4 GB=3.73 GiB, KV 1.000·1.125·0.750·2·4 GiB, 예산 34.39·22.10(·22.39) GiB와 항목 14.90·1.49·16·2, 파라미터 15·20·72, 투영 위치 143 대 2168, roofline 8 ms·0.32 ms·40.96 ms, 전송 125 ms, MoE 10B/3B, 양자화 MSE</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>npm test 31개 통과. 실험 안내의 숫자 문장 14개를 모두 재현. browser.cjs 통과(44화면·42실험 조작)</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>GB/GiB, KV 캐시/하드웨어 캐시, CPU↔GPU 전송/GPU 내부 읽기, 전체/활성 파라미터가 책 규칙대로 구분됨</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>Qwen 설정·카드 2개는 원문 확인(2026-10-12). 나머지 링크는 서지만 대조</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td colspan="4">사실·수치 오류는 찾지 못했습니다.</td></tr>
+</tbody></table></div>
+<h3>편집팀 관점별 점검</h3>
+<ul><li><b>기획·연결 (서윤·하람·도현·민재)</b> 최종 과제(24 GiB 예산과 네 문장 설명·측정 계획)가 관찰 가능한 행동입니다. 장 색인 12개, 공통 개념 8개, 읽기 노선 3개(노트북·한 글자씩·왜 느릴까)의 할 일이 실험 조작과 맞습니다. 링크 97개의 도착 앵커와 제목이 맞습니다.</li><li><b>조사 (은재·지호·유진)</b> 시점 민감 정보(Qwen 사양)에 확인일이 있고 이번에 원문으로 다시 확인했습니다.</li><li><b>수치·실험 (수아·건우·시우)</b> 모든 실험 결과에 ‘실제 계산·시나리오·개념도’ 구분 문장이 있습니다.</li><li><b>글작성 (나래·준서·다온·예린)</b> 장 첫 문장은 ‘앞 장에서…’로 이어지고 끝 문장은 다음 장 질문입니다. 일곱 블록과 필드가 비지 않았습니다.</li><li><b>시각·실험 (리안·하늘·소율·채원)</b> 1280·390·320px에서 home·files·cache·design·sources 문서 가로 넘침 0, 서가 복귀 버튼 보임, 콘솔 오류 0, 그림·입력 라벨 누락 0, 포커스 윤곽 확인.</li><li><b>규칙 감사 (현석)</b> npm test 31개 통과, validate.py 0 errors.</li></ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul><li>books/llm-gpu/AGENTS.md·README.md의 제목은 ‘GPU 속 LLM’이고 카탈로그·index.html 제목은 ‘LLM은 컴퓨터에서 어떻게 실행되는가’입니다. 책 이름을 하나로 맞출지 판단이 필요합니다.</li><li>개념 그림 상자(.figure-art)의 가로 밀기 영역에 키보드 포커스가 없습니다(RAG와 같은 제안).</li></ul>
+<h3>확인하지 못한 것</h3>
+<p>이 실행 환경의 프록시가 arxiv.org·doi.org·lucene.apache.org·openintro.org 등 대부분의 외부 사이트를 막아 출처 본문을 직접 열지 못했습니다. Qwen 설정·카드는 Hugging Face 연결로 확인했지만 NVIDIA·JAX·Transformers 문서와 arXiv 논문 본문은 다시 열지 못했습니다. 실제 GPU 측정과 학습 효과는 범위 밖입니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드" data-date="2026-10-08" data-scope="12개 장 본문, 14개 실험 계산, Qwen 두 모델 사양, 외부 출처 18개, 구현 문서" data-result="fixed" data-commit="cd5cb84">
 <h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
 <p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: GPT(Codex) · 사용자 저장소 커밋으로 집필, 이후 Claude 삽화·연결 보강 스레드. 범위: 12개 장 본문, 14개 실험 계산, Qwen 두 모델 사양, 외부 출처 18개, 구현 문서. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>

@@ -5,6 +5,27 @@
 <h1>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드" data-date="2026-10-12" data-scope="12개 장 본문, 18개 실험 계산, 출처 10개(웹 1개 확인), 들어오는 링크 133개·나가는 링크 40개, 읽기 노선 정거장 9곳, 브라우저 1280·390·320px" data-result="passed">
+<h2>2026-10-12 편집팀 전체 도서 검수</h2>
+<p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드. 범위: 12개 장 본문, 18개 실험 계산, 출처 10개(웹 1개 확인), 들어오는 링크 133개·나가는 링크 40개, 읽기 노선 정거장 9곳, 브라우저 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>장마다 주장 문장(교차상관, top-p 정의, KL 정규화 정책 식, KV 캐시 식 등)을 표준 정의와 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>본문 예시(7×7→5×5, 8B·16bit=14.90 GiB, KV 8K=1.00 GiB)를 손계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>Python으로 따로 계산: 회귀 MSE 0.038, 과적합 검증 MSE 최소 0.094(비율 0.64)·0.1237(비율 1), 온도별 분포와 엔트로피 1.617 bit, top-p 누적, 경사하강 수렴·발산 배율, 평가 지표 TP5 FP2 FN1</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>로짓·교차상관·SFT·RLHF·GQA 등 한영 용어 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>GQA(arXiv 2305.13245, Ainslie 2023)를 WebFetch로 확인, 나머지는 서지 정보 대조</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/labs-basic.js · overfit</td><td>라벨을 한자 “補간”으로 쓴 뒤 .replace로 “보간”으로 바꾸는 우회 코드(화면 결과는 정상)</td><td>코드 읽기</td><td>라벨을 처음부터 “보간”으로 씀. 사실 오류는 아님</td></tr>
+</tbody></table>
+<h3>편집팀 관점별 점검</h3>
+<ul><li>기획·연결(서윤·하람·도현·민재): 장 색인 12개, 공통 개념 16개, 읽기 노선 6개가 모두 있고 나가는 링크 40개·들어오는 링크 133개의 도착 앵커가 모두 book-routes에 있습니다. 노선 “판단하는 부품에서 배우는 층으로”의 neuron 기록 과제는 실험으로 만들 수 없습니다(제안 1).</li><li>조사(은재·지호·유진): 출처 10개에 확인일이 있고 본문 사실 주장에서 오류를 찾지 못했습니다.</li><li>글작성(나래·준서·다온·예린): 일곱 블록이 비지 않았습니다. 다만 이 책에는 장 첫 문장의 이전 장 연결, 남은 질문, 다음 장 이동 이유 필드가 없고 확인 문제 몇 개는 본문 문장으로 바로 풀립니다(제안 2).</li><li>시각·실험(리안·하늘·소율·채원): 1280·390·320px에서 표지와 다섯 장을 열었습니다. 가로 넘침 0, 서가 복귀 버튼이 보이고 누를 수 있었으며, 콘솔 오류 0, 라벨 없는 입력·이름 없는 버튼 0개였습니다. 범위 입력은 키보드 화살표로 조작되었고 tests/browser.cjs는 18개 실험을 모두 통과했습니다.</li><li>규칙 감사(현석): npm test 13/13 통과, scripts/validate.py 116개 파일 오류 0.</li></ul>
+<h3>제안(사용자·서가 판단 필요)</h3>
+<ul><li>data/catalog.json 읽기 노선 “판단하는 부품에서 배우는 층으로”의 books/ai/#neuron 기록 “x₁이 1 근처일 때만 출력이 0.5를 넘게 하는 w₁, b 한 조합”은 sigmoid 하나가 단조 함수라서 만들 수 없습니다. “x₁이 1을 넘을 때만 출력이 0.5를 넘게 하는 w₁, b 한 조합”으로 바꾸기를 제안합니다.</li><li>이 책은 기준 책인데도 computer·linear-algebra 책에 있는 먼저 예측하기, 남은 질문, 다음 장 이동 이유 필드가 없습니다. 장 구조를 바꾸는 일이라 docs/08과 함께 판단해야 합니다. 그때 learning·vision·inference 확인 문제를 본문 문장을 찾기만 해서는 풀 수 없는 적용 문제로 바꾸는 것도 함께 검토하세요.</li><li>12장 agents의 둘째 실험(이상 탐지 임계값)은 에이전트 평가와 연결이 약합니다. 도구 호출 성공률이나 근거 정확도 평가로 바꿀지 검토가 필요합니다.</li><li>index.html의 js 스크립트에 ?v= 버전이 없습니다. 고친 내용이 브라우저 캐시 때문에 늦게 반영될 수 있습니다.</li></ul>
+<h3>확인하지 못한 것</h3>
+<p>출처 10개 가운데 9개는 링크를 열지 못하고 서지 정보로만 대조했습니다. 웹 확인은 WebFetch로만 가능했고(셸 curl은 프록시 403), 출처마다 전부 열지는 못했습니다. 학습 효과(독자가 실제로 설명할 수 있게 되는지)는 측정하지 않았습니다.</p>
+</section>
 <section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정)" data-author="GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드" data-date="2026-10-08" data-scope="12개 장 본문, 18개 실험 계산, 출처 8개와 문서의 외부 링크 4개, 이 책이 들어간 읽기 노선 정거장" data-result="fixed" data-commit="cd5cb84">
 <h2>2026-10-08 검수 (기존 도서 일괄 검수)</h2>
 <p>검수자: Claude · 기존 도서 팩트 검수 스레드의 독립 검수 에이전트(책마다 새로 배정). 집필자: GPT(Codex) · 원 ai-book-interactive 저장소, 이후 Claude 서가 통합·개편 스레드. 범위: 12개 장 본문, 18개 실험 계산, 출처 8개와 문서의 외부 링크 4개, 이 책이 들어간 읽기 노선 정거장. 검수한 커밋은 main의 cd5cb84이고, 아래 수정은 이 기록과 같은 커밋에 들어 있습니다.</p>

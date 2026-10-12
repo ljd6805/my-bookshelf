@@ -48,7 +48,8 @@ sources:[
  ['chmod 매뉴얼','https://man7.org/linux/man-pages/man1/chmod.1.html','권한 비트와 8진수 표기의 정의.'],
  ['Python 프로파일러 문서','https://docs.python.org/3/library/profile.html','cProfile로 함수별 누적 시간을 재는 법.'],
  ['PyTorch TensorBoard 문서','https://pytorch.org/docs/stable/tensorboard.html','SummaryWriter로 손실과 히스토그램을 기록하는 법.'],
- ['WSL 설치 안내','https://learn.microsoft.com/windows/wsl/install','Windows에서 실제 리눅스 커널 환경을 쓰는 방법.']
+ ['WSL 설치 안내','https://learn.microsoft.com/windows/wsl/install','Windows에서 실제 리눅스 커널 환경을 쓰는 방법.'],
+ ['NVIDIA · CUDA Minor Version Compatibility','https://docs.nvidia.com/deploy/cuda-compatibility/latest/minor-version-compatibility.html','같은 주 버전(예: 12.x) 안에서 더 새 툴킷으로 만든 프로그램이 최소 드라이버(12.x는 525) 이상에서 기능이 제한된 채 도는 조건. 확인일 2026-10-12.']
 ],
 info:{
  preflight:['경로별 사전 점검','학습 경로와 빠진 도구 하나를 고르면, 원본 verify.py의 경로 표대로 필수 검사 결과와 종료 코드를 계산합니다.','agent-skills 경로에서 Node.js가 없으면 결과가 어떻게 달라질지 먼저 예측해 보세요.'],
@@ -83,18 +84,18 @@ chapters:[
  quiz:['입문(beginner) 경로로 점검했더니 Python과 Git은 통과했고 Node.js와 GPU가 없다고 나왔습니다. 결과는?',['종료 코드 1이므로 Node.js부터 설치해야 시작할 수 있다','종료 코드 0이므로 첫 레슨을 시작하고 Node.js는 필요할 때 설치한다','GPU가 없으므로 이 과정을 따라갈 수 없다'],1,'입문 경로의 필수 검사는 Python과 Git뿐입니다. Node.js와 GPU는 선택이라 종료 코드에 영향을 주지 않습니다.'],
  cross:[['컴퓨터 원리 07 · 반복하고 갈라지기','../computer/#programs','사전 점검은 검사 결과에 따라 갈라지는 작은 프로그램입니다. 조건 분기가 기계 수준에서 어떻게 실행되는지 보고 오면 종료 코드 0과 1이 다음 행동을 어떻게 바꾸는지 더 분명해집니다. 돌아오면 2장으로 넘어갑니다.']]},
 
-{id:'envs',title:'프로젝트마다 따로 사는 파이썬',subtitle:'가상 환경으로 패키지 충돌을 막고, CUDA 빌드는 드라이버에 맞춥니다.',desc:'두 프로젝트가 서로 다른 PyTorch를 원하면 어떻게 할까요?',group:'기초 공사',time:'15분',labs:['resolver','cuda'],source:[7,14,15,16],thumb:['전역','가상환경','CUDA'],
+{id:'envs',title:'프로젝트마다 따로 사는 파이썬',subtitle:'가상 환경으로 패키지 충돌을 막고, CUDA 빌드는 드라이버에 맞춥니다.',desc:'두 프로젝트가 서로 다른 PyTorch를 원하면 어떻게 할까요?',group:'기초 공사',time:'15분',labs:['resolver','cuda'],source:[7,14,15,16,31],thumb:['전역','가상환경','CUDA'],
  paragraphs:[
  '앞 장의 점검으로 시스템 Python과 Git이 준비되었습니다. 이제 review-lab에 PyTorch를 설치할 차례인데, 같은 노트북에는 지난달 만든 다른 프로젝트도 있습니다. review-lab은 PyTorch 2.3 이상을 원하고, 예전 프로젝트는 특정 CUDA 빌드에 묶인 2.1을 고정해 두었다고 해 봅시다. 시스템 전체에 설치하는 전역 설치에서는 한 패키지가 한 버전만 있을 수 있으므로, 나중에 설치한 쪽이 앞의 것을 덮어씁니다. 하나를 고치면 다른 하나가 깨지는 이 상황을 흔히 의존성 지옥이라고 부릅니다.',
  '해법은 프로젝트마다 자기 Python 해석기와 패키지 폴더를 담은 가상 환경을 두는 것입니다. uv, 내장 venv, conda 중 무엇을 쓰든 원리는 같고, 원본은 속도 때문에 uv를 권합니다. pyproject.toml에는 허용하는 버전 범위를, 잠금 파일에는 간접 의존성까지 정확한 버전을 적어 Git에 올립니다. GPU를 쓰려면 하나를 더 맞춰야 합니다. 원본의 규칙대로 PyTorch가 빌드된 CUDA 버전은 드라이버가 지원하는 CUDA 버전보다 높으면 안 됩니다. 그렇다면 환경을 나눈 뒤에 생기는 수많은 변경은 어떻게 기록하고 되돌릴까요?'],
- formula:'전역 설치: 두 요구 범위의 교집합이 비면 한쪽이 깨진다 · 가상 환경: 프로젝트마다 범위 안의 버전 하나',formulaNote:'버전은 PyTorch 2.x의 둘째 자리로 단순화했습니다. 실제 설치기는 간접 의존성과 플랫폼까지 함께 풉니다. CUDA 규칙 “빌드 CUDA ≤ 드라이버 CUDA”는 원본 레슨의 어림 규칙이며, 실제 호환 범위는 PyTorch 설치 안내에서 확인해야 합니다.',
+ formula:'전역 설치: 두 요구 범위의 교집합이 비면 한쪽이 깨진다 · 가상 환경: 프로젝트마다 범위 안의 버전 하나',formulaNote:'버전은 PyTorch 2.x의 둘째 자리로 단순화했습니다. 실제 설치기는 간접 의존성과 플랫폼까지 함께 풉니다. CUDA 규칙 “빌드 CUDA ≤ 드라이버 CUDA”는 원본 레슨의 안전한 어림 규칙입니다. CUDA 11 이후에는 주 버전이 같으면 더 낮은 드라이버에서도 기능이 제한된 채 돌 수 있으므로(NVIDIA minor version compatibility, 확인일 2026-10-12), 실제 호환 범위는 PyTorch 설치 안내와 NVIDIA 호환성 문서에서 확인합니다.',
  flow:['전역 설치|한 패키지에 한 버전, 덮어쓰기','가상 환경|.venv마다 해석기와 패키지','잠금 파일|정확한 버전을 Git에','CUDA 확인|nvidia-smi와 torch.version.cuda'],
  details:[
  ['세 가지 도구와 쓰는 때','<ul><li><b>uv</b>: <code>uv venv</code>로 환경을, <code>uv add</code>로 pyproject.toml과 uv.lock을 함께 갱신합니다. 원본은 pip보다 훨씬 빠르다고 소개합니다.</li><li><b>venv</b>: Python에 내장되어 어디서나 됩니다. <code>python3 -m venv .venv</code> 뒤 활성화하고 pip을 씁니다.</li><li><b>conda</b>: CUDA 툴킷·cuDNN·C 라이브러리처럼 Python 밖의 의존성을 다룰 때, 시스템 패키지를 설치할 수 없는 공용 클러스터에서 씁니다. 한 환경 안에서는 conda로 모두 깔고, pip만 있는 패키지는 마지막에 깝니다.</li><li><b>단계별 환경</b>: 원본은 과정 전체를 환경 하나로 버티지 말고, 가벼운 초반 단계용 환경과 PyTorch 단계, API SDK 단계의 환경을 나누라고 권합니다.</li></ul>'],
  ['pyproject.toml과 잠금 파일','<p>pyproject.toml은 setup.py·setup.cfg·requirements.txt를 한 파일로 대신합니다. 기본 의존성 아래에 <code>[project.optional-dependencies]</code>로 torch 묶음과 llm 묶음을 두면 <code>uv pip install -e ".[torch]"</code>처럼 필요한 것만 고를 수 있습니다. 잠금 파일은 의존성의 의존성까지 정확한 버전을 적으므로 다른 컴퓨터에서 같은 설치를 다시 만듭니다. 잠금 파일은 Git에 올리고, 200MB에서 2GB에 이르는 .venv 폴더는 올리지 않습니다.</p>'],
  ['원본이 꼽은 다섯 가지 실수','<ul><li>활성화하지 않고 전역에 설치하기: <code>which python</code>이 .venv 안을 가리키는지 확인합니다.</li><li>conda 환경에 pip을 섞기: conda의 의존성 추적이 깨집니다.</li><li>활성화를 잊고 실행하기: 프롬프트 앞에 (.venv)가 보이는지 확인합니다.</li><li>.venv를 Git에 올리기: 컴퓨터 사이에 옮길 수 없는 큰 폴더입니다.</li><li>CUDA 불일치: <code>nvidia-smi</code>의 드라이버 CUDA와 <code>torch.version.cuda</code>를 비교합니다.</li></ul>']],
  warning:'가상 환경은 가상 머신이 아닙니다. 운영체제와 GPU 드라이버는 그대로 공유하고, Python 해석기와 패키지 폴더만 프로젝트별로 나눕니다. 그래서 드라이버와 CUDA 빌드가 맞지 않는 문제는 가상 환경을 새로 만들어도 사라지지 않습니다.',
- quiz:['nvidia-smi는 CUDA 12.1을, torch.version.cuda는 12.4를 보여 줍니다. 가장 적절한 판단은?',['가상 환경을 새로 만들면 해결된다','빌드 CUDA가 드라이버보다 높으므로 cu121 이하 빌드를 깔거나 드라이버를 올린다','CUDA 버전은 속도에만 영향을 주므로 무시해도 된다'],1,'빌드 CUDA가 드라이버가 지원하는 CUDA보다 높으면 GPU를 쓰지 못합니다. 가상 환경은 드라이버를 바꾸지 않습니다.'],
+ quiz:['nvidia-smi는 CUDA 12.1을, torch.version.cuda는 12.4를 보여 줍니다. 가장 적절한 판단은?',['가상 환경을 새로 만들면 해결된다','빌드 CUDA가 드라이버보다 높으므로 cu121 이하 빌드를 깔거나 드라이버를 올린다','CUDA 버전은 속도에만 영향을 주므로 무시해도 된다'],1,'빌드 CUDA가 드라이버가 지원하는 CUDA보다 높으면 원본 규칙을 어깁니다. 같은 12.x 안에서는 NVIDIA의 minor version compatibility로 제한적으로 돌 수도 있지만 보장되지 않으므로, 규칙에 맞추는 것이 확실한 해결입니다. 가상 환경은 드라이버를 바꾸지 않습니다.'],
  cross:[['LLM 시스템 04 · 질문이 GPU에 도착하기까지','../llm-gpu/#journey','드라이버와 CUDA 빌드가 맞아야 하는 이유는 프로그램이 GPU에 일을 넘기는 경로에 있습니다. RAM에서 VRAM으로 가는 길을 보고 오면 “CUDA available: False”가 무엇을 막는지 보입니다.']]},
 
 {id:'git',title:'실험을 되돌릴 수 있게 남기기',subtitle:'커밋은 스냅숏, 브랜치는 이름표이며, 무엇을 기록하지 않을지도 정합니다.',desc:'어제 잘 돌던 상태로 어떻게 돌아갈까요?',group:'기초 공사',time:'14분',labs:['branch','ignore'],source:[3,17,1],thumb:['add','commit','merge'],
@@ -148,7 +149,7 @@ chapters:[
  ['기본 이미지 고르기','<div class="table-wrap"><table><tr><th>기본 이미지</th><th>들어 있는 것</th><th>크기(원본 기준)</th></tr><tr><td>CUDA devel</td><td>CUDA 툴킷과 컴파일러(nvcc). flash-attn처럼 컴파일이 필요한 패키지용</td><td>약 4GB</td></tr><tr><td>CUDA runtime</td><td>실행에 필요한 CUDA만</td><td>약 1.5GB</td></tr><tr><td>PyTorch 이미지</td><td>CUDA 위에 PyTorch까지</td><td>약 6GB</td></tr><tr><td>python slim</td><td>CUDA 없음, CPU 전용</td><td>약 150MB</td></tr></table></div><p>원본의 Dockerfile은 devel 이미지에서 시작해 시스템 도구, Python 3.12, CUDA용 PyTorch, 나머지 라이브러리를 차례로 깔고 /workspace와 /models를 볼륨으로 둡니다.</p>'],
  ['GPU·볼륨·Compose','<ul><li>NVIDIA GPU가 있는 리눅스에서는 NVIDIA Container Toolkit을 깔고 <code>docker run --gpus all … nvidia-smi</code>로 확인합니다. GPU가 없으면 이 옵션만 빼면 CPU로 돕니다.</li><li><code>-v $(pwd):/workspace</code>, <code>-v ~/models:/models</code>로 코드와 모델을 붙이면 컨테이너를 몇 번 다시 만들어도 14GB를 다시 받지 않습니다.</li><li>Apple silicon에서는 원본이 고정한 PyTorch cu124 휠이 x86_64용만 있어 <code>--platform=linux/amd64</code>로 에뮬레이션해야 빌드되며, 이때 GPU는 없습니다.</li><li>Compose 파일 하나로 개발 컨테이너와 벡터 데이터베이스(Qdrant)를 함께 띄우면 서비스 이름(qdrant:6333)으로 서로 찾습니다. <code>docker compose down -v</code>는 볼륨까지 지웁니다.</li></ul>'],
  ['컨테이너의 세 용도와 자주 쓰는 명령','<p>개발 컨테이너는 편집기·주피터·디버거까지 담고, 학습 컨테이너는 학습 스크립트와 의존성만 담아 GPU 클러스터에서 돌고, 추론 컨테이너는 작고 빨리 뜨게 만들어 서비스 뒤에 둡니다. 자주 쓰는 명령은 <code>docker ps</code>, <code>docker images</code>, 디스크를 비우는 <code>docker system prune -a</code>, 실행 중인 컨테이너 안에서 <code>docker exec … nvidia-smi</code>, 파일을 꺼내는 <code>docker cp</code>, 로그를 따라가는 <code>docker logs -f</code>입니다.</p>']],
- warning:'컨테이너는 GPU 드라이버까지 담지 않습니다. CUDA 툴킷은 이미지 안에 있지만 드라이버는 호스트 것을 NVIDIA Container Toolkit으로 빌려 씁니다. 그래서 호스트 드라이버가 이미지의 CUDA 빌드보다 낮으면 컨테이너 안에서도 GPU를 쓸 수 없습니다.',
+ warning:'컨테이너는 GPU 드라이버까지 담지 않습니다. CUDA 툴킷은 이미지 안에 있지만 드라이버는 호스트 것을 NVIDIA Container Toolkit으로 빌려 씁니다. 그래서 호스트 드라이버가 이미지의 CUDA 빌드보다 낮으면 2장의 규칙이 컨테이너 안에서도 그대로 적용되어, GPU를 쓰지 못하거나 기능이 제한될 수 있습니다.',
  quiz:['Dockerfile에서 COPY . /workspace를 pip install 줄보다 앞에 두었습니다. 코드 한 줄을 고치고 다시 빌드하면?',['코드 층만 다시 만든다','코드 층과 그 뒤의 pip install 층까지 모두 다시 만든다','기본 이미지부터 전부 다시 받는다'],1,'바뀐 층 뒤의 층은 모두 캐시를 잃습니다. 그래서 자주 바뀌는 COPY는 마지막에 둡니다.'],
  cross:[['LLM 시스템 01 · 다운로드한 모델의 실체','../llm-gpu/#files','볼륨으로 붙이는 /models 폴더 안에 실제로 무엇이 들어 있는지 봅니다. 설정·토크나이저·가중치 파일이 따로 있다는 것을 알면 어떤 파일을 이미지 밖에 둘지 판단하기 쉽습니다.']]},
 

@@ -103,12 +103,12 @@ F.multi=()=>{
  return {svg:svg('교차로로 다가오는 두 로봇과 3×3 공동 보상표. 둘 다 질주 11점, 한쪽만 질주 −30점, 둘 다 천천히 5점',b),caption:'두 로봇이 같은 교차로로 들어오는 장면은 시각적 비유이고, 오른쪽 보상표는 실험에 쓰는 가정값입니다. 둘 다 질주하는 11점이 최선이지만, 상대가 가끔 다른 속도를 고르면 −30이 섞여 둘 다 천천히(5점)가 안전해 보입니다.'};
 };
 F.simreal=()=>{
- const narrow=M.evalPolicy(M.trainedPolicy(0),0.3),wide=M.evalPolicy(M.trainedPolicy(0.2),0.3);let b=t(130,34,'훈련: 매번 다른 바닥',{w:700});
+ const narrow=M.evalPolicy(M.trainedPolicy(0),0.3),wide=M.evalPolicy(M.trainedPolicy(0.1),0.3);let b=t(130,34,'훈련: 매번 다른 바닥',{w:700});
  [0.05,0.32,0.18,0.4,0.11].forEach((s,i)=>{b+=blink(box(30+(i%2)*110,52+Math.floor(i/2)*64,100,52,'var(--blue)','var(--chart)')+t(80+(i%2)*110,84+Math.floor(i/2)*64,`slip ${s}`,{size:15}),i*.6);});
  b+=line('M250 150H330','var(--accent)')+dot(252,150,74,0,'var(--accent)',0,6);
  b+=box(340,60,280,180,'var(--orange)','var(--chart)')+t(480,88,'실제 바닥: 미끄러짐 0.3',{w:700,fill:'var(--orange)'});
  const X=v=>Math.abs(v)/220*190;b+=t(360,124,'마른 바닥만 본 정책',{a:'start',size:14})+grow(360,132,X(narrow),18,'var(--orange)',0)+t(360+X(narrow)>590?590:360+X(narrow)+6,146,f(narrow,0),{a:360+X(narrow)>590?'end':'start',size:14,w:700});
- b+=t(360,184,'0~0.4로 무작위화한 정책',{a:'start',size:14})+grow(360,192,X(wide),18,'var(--accent)',0.4)+t(366+X(wide),206,f(wide,0),{a:'start',size:14,w:700});
+ b+=t(360,184,'0~0.2로 무작위화한 정책',{a:'start',size:14})+grow(360,192,X(wide),18,'var(--accent)',0.4)+t(366+X(wide),206,f(wide,0),{a:'start',size:14,w:700});
  b+=t(480,232,'출발 칸의 기대 이득 (막대가 짧을수록 좋음)',{size:13,fill:'var(--muted)'})+t(320,284,'관측하지 못하는 미끄러짐을 고르게 섞으면 평균 미끄러짐 하나로 훈련한 것과 같습니다',{size:14,fill:'var(--muted)'});
  return {svg:svg(`여러 미끄러짐으로 훈련한 정책이 미끄러짐 0.3 바닥에서 기대 이득 ${f(wide,0)}, 마른 바닥만 본 정책은 ${f(narrow,0)}인 그림`,b),caption:`왼쪽 상자들은 훈련마다 다른 바닥을 뽑는다는 시각적 표현이고, 오른쪽 막대는 절벽 창고에서 가치 반복과 정책 평가로 실제 계산한 출발 칸 기대 이득(${f(narrow,0)} 대 ${f(wide,0)})입니다.`};
 };
