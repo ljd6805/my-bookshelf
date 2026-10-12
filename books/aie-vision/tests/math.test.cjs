@@ -56,14 +56,14 @@ test('4장 AP 실험 장면: Python 분수 계산과 대조한 대표값과 불�
  const G=[[44,112,194,232],[196,122,338,242],[333,34,418,242]];
  near(M.iou(C[3].box,G[1]),0.6539050535987749);near(M.iou(C[4].box,G[1]),0.8488297187030277);near(M.iou(C[3].box,C[4].box),0.7673853628909809);
  const ev=(match,minScore,nmsThr)=>M.detEval(C,G,{match,minScore,nmsThr});
- const cases=[[0.5,0.3,null,3,4,0,11/12],[0.5,0.3,0.45,3,0,0,1],[0.75,0.3,null,3,4,0,2/3],[0.75,0.3,0.45,2,1,1,5/9],[0.75,0.5,null,2,3,1,1/2],[0.5,0.8,null,2,1,1,2/3],[0.75,0.8,null,1,2,2,1/3],[0.5,0.95,null,0,0,3,0]];
+ const cases=[[0.5,0.3,null,3,4,0,11/12],[0.5,0.3,0.45,3,0,0,1],[0.75,0.3,null,3,4,0,2/3],[0.75,0.3,0.45,2,1,1,5/9],[0.75,0.5,null,2,3,1,2/3],[0.5,0.8,null,2,1,1,11/12],[0.75,0.8,null,1,2,2,2/3],[0.5,0.95,null,0,0,3,11/12]];
  for(const [m,s,n,tp,fp,fn,ap] of cases){const r=ev(m,s,n);assert.deepEqual([r.tp,r.fp,r.fn],[tp,fp,fn],`${m}/${s}/${n}`);near(r.ap,ap,1e-12);}
  near(ev(0.5,0.3,null).precision,3/7);near(ev(0.5,0.5,null).precision,3/5);near(ev(0.5,0.5,null).ap,11/12);
  /* NMS가 점수 높은 b1(3번)을 남기고 정답 B와 더 잘 맞는 b2(4번)를 지운 경우를 짚어 낸다 */
  assert.deepEqual(ev(0.75,0.3,0.45).lost,[4]);assert.deepEqual(ev(0.5,0.3,0.45).lost,[]);
- /* 불변 조건: TP+FN = 정답 수, TP+FP = 판정에 들어간 예측 수, 0 ≤ AP ≤ 1, 점수 문턱을 올리면 AP는 늘지 않는다 */
+ /* 불변 조건: TP+FN = 정답 수, TP+FP = 문턱 위 예측 수, 0 ≤ AP ≤ 1, AP는 점수 문턱(운영점)과 상관없다 */
  for(const m of [0.5,0.75])for(const n of [null,0.45]){let last=Infinity;
-  for(let k=2;k<=19;k++){const r=ev(m,k*0.05,n);assert.equal(r.tp+r.fn,3);assert.equal(r.tp+r.fp,r.kept.length);assert.ok(r.ap>=0&&r.ap<=1);assert.ok(r.ap<=last+1e-12,`AP rose at ${k*0.05}`);last=r.ap;}}
+  for(let k=2;k<=19;k++){const r=ev(m,Math.round(k*5)/100,n);assert.equal(r.tp+r.fn,3);assert.equal(r.tp+r.fp,r.op.length);assert.ok(r.ap>=0&&r.ap<=1);if(last!==Infinity)near(r.ap,last,1e-12);last=r.ap;}}
 });
 test('5장 분할 지표: 작은 물체에서 정확도와 IoU가 갈린다',()=>{
  const m=M.segMetrics(1000,10,0,0);near(m.acc,0.99);assert.equal(m.iou,0);assert.equal(m.dice,0);

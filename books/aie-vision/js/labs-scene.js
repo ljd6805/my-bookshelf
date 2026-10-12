@@ -28,7 +28,7 @@ A05Labs.nms=el=>{
 /* 같은 장면의 정답 상자(사람이 그린 라벨이라고 정한 예시). 자전거 A·B와 사람 P. */
 const GTS=[{id:'A',box:[44,112,194,232]},{id:'B',box:[196,122,338,242]},{id:'P',box:[333,34,418,242]}];
 function apScene(r){
- const st=i=>{const row=r.rows.find(x=>x.i===i);return row?(row.tp?'tp':'fp'):'out';};
+ const st=i=>{const row=r.op.find(x=>x.i===i);return row?(row.tp?'tp':'fp'):'out';};
  let b=`<rect x="8" y="8" width="464" height="264" rx="6" fill="var(--panel2)"/>`;
  GTS.forEach(g=>{const [x1,y1,x2,y2]=g.box;b+=`<rect x="${x1}" y="${y1}" width="${x2-x1}" height="${y2-y1}" fill="none" stroke="var(--text)" stroke-width="4" stroke-dasharray="2 5" opacity=".75"/><text x="${x1+4}" y="${y2+18}" style="fill:var(--text)">정답 ${g.id}</text>`;});
  CANDS.forEach((c,i)=>{const [x1,y1,x2,y2]=c.box,s=st(i);
@@ -36,32 +36,32 @@ function apScene(r){
   b+=`<rect x="${x1}" y="${y1}" width="${x2-x1}" height="${y2-y1}" fill="none" ${style}/>`;
   if(s==='tp')b+=`<rect x="${x1}" y="${y1-22}" width="80" height="22" fill="var(--accent)"/><text x="${x1+5}" y="${y1-5}" style="fill:var(--bg)">${c.id} TP</text>`;});
  b+=`<text x="16" y="30">실선 TP · 점선 FP</text>`;
- const tps=r.rows.filter(x=>x.tp).map(x=>`${CANDS[x.i].id}→${GTS[x.gt].id}`);
+ const tps=r.op.filter(x=>x.tp).map(x=>`${CANDS[x.i].id}→${GTS[x.gt].id}`);
  return U.svg(b,`정답 상자 3개와 예측 상자. TP ${r.tp}개(${tps.join(', ')||'없음'}), FP ${r.fp}개, 놓친 정답 ${r.fn}개`);
 }
 function apCurve(r){
- const pts=r.rows.map(x=>[x.recall,x.precision,x.tp?'var(--accent)':'var(--orange)',x.tp?6:4]),line=[];let prev=0;
+ const pts=r.rows.map(x=>[x.recall,x.precision,x.on?(x.tp?'var(--accent)':'var(--orange)'):'var(--muted)',x.tp?6:4]),line=[];let prev=0;
  r.rows.forEach((x,k)=>{if(x.recall>prev){line.push([prev,r.env[k]],[x.recall,r.env[k]]);prev=x.recall;}});
  return U.plot({lines:line.length?[{data:line,color:'var(--accent)'}]:[],points:pts,xmin:0,xmax:1,ymin:0,ymax:1,xlabel:'재현율',ylabel:'정밀도',
-  label:`정밀도-재현율 점 ${r.rows.length}개와 보간 포락선. AP ${F(r.ap,3)}`});
+  label:`전체 순위의 정밀도-재현율 점 ${r.rows.length}개와 보간 포락선. AP ${F(r.ap,3)}. 점수 문턱 위 점 ${r.op.length}개가 운영점까지의 구간`});
 }
 A05Labs.ap=el=>{
  U.setup(el,S('apm','맞음으로 셀 IoU 문턱 (판정)',[['0.5','0.5 · AP50'],['0.75','0.75 · AP75 (엄격)']],'0.5')+R('aps','점수 문턱 (이상만 셈)',0.1,0.95,0.05,0.3)+S('apn','판정 전 NMS',[['none','끄기 · 후보 7개 그대로'],['0.45','켜기 · NMS 임계값 0.45']],'none'));
  U.bind(el,()=>{const m=V(el,'apm'),s=V(el,'aps'),nm=U.text(el,'apn'),on=nm!=='none',r=M.detEval(CANDS,GTS.map(g=>g.box),{match:m,minScore:s,nmsThr:on?0.45:null});
   const id=i=>CANDS[i].id,twin=k=>r.rows.slice(0,k).find(y=>y.tp&&M.iou(CANDS[r.rows[k].i].box,GTS[y.gt].box)>=m);
-  const list=r.rows.map((x,k)=>{const y=x.tp?null:twin(k);return `<li>${k+1}. ${id(x.i)} 점수 ${F(x.score,2)} · ${x.tp?`정답 ${GTS[x.gt].id}와 IoU ${F(x.iou,2)} → <b>TP</b>`:`${y?`정답 ${GTS[y.gt].id}는 이미 짝(${id(y.i)})이 있고, `:''}가장 가까운 남은 정답과 IoU ${F(x.iou,2)} → FP`} · 정밀도 ${F(x.precision,2)}, 재현율 ${F(x.recall,2)}</li>`;}).join('');
-  const dup=r.rows.map((x,k)=>k).filter(k=>!r.rows[k].tp&&twin(k));
-  const missed=GTS.filter((g,k)=>!r.rows.some(x=>x.tp&&x.gt===k)).map(g=>g.id);
+  const list=r.rows.map((x,k)=>{const y=x.tp?null:twin(k);return `<li>${k+1}. ${id(x.i)} 점수 ${F(x.score,2)} · ${x.tp?`정답 ${GTS[x.gt].id}와 IoU ${F(x.iou,2)} → <b>TP</b>`:`${y?`정답 ${GTS[y.gt].id}는 이미 짝(${id(y.i)})이 있고, `:''}가장 가까운 남은 정답과 IoU ${F(x.iou,2)} → FP`} · 정밀도 ${F(x.precision,2)}, 재현율 ${F(x.recall,2)}${x.on?'':' · <i>점수 문턱 아래(AP 계산에는 들어감, 운영점에서는 빠짐)</i>'}</li>`;}).join('');
+  const dup=r.rows.map((x,k)=>k).filter(k=>r.rows[k].on&&!r.rows[k].tp&&twin(k));
+  const miss=rows=>GTS.filter((g,k)=>!rows.some(x=>x.tp&&x.gt===k)).map(g=>g.id),missed=miss(r.rows),missedOp=miss(r.op);
   let verdict;
-  if(!r.rows.length)verdict=`점수 ${F(s,2)} 이상인 예측이 하나도 없습니다. 정밀도는 나눌 예측이 없어 정의되지 않고, 재현율과 AP는 0입니다. 점수 문턱을 내려 보세요.`;
+  if(!r.op.length)verdict=`점수 ${F(s,2)} 이상인 예측이 하나도 없습니다. 이 운영점에서는 알림을 하나도 내지 않으므로 정밀도는 나눌 예측이 없어 정의되지 않고 재현율은 0입니다. AP는 전체 순위로 재므로 ${F(r.ap,3)} 그대로입니다. 점수 문턱을 내려 보세요.`;
   else if(r.lost.length)verdict=`NMS가 점수가 더 높은 상자를 남기면서 정답 ${missed.join(', ')}와 IoU ${F(m,2)} 이상으로 겹치던 ${r.lost.map(id).join(', ')}를 지웠습니다. NMS는 중복을 지울 뿐, 위치가 가장 정확한 상자를 고르지 않습니다.`;
   else if(dup.length){const last=r.rows.map(x=>x.tp).lastIndexOf(true),early=dup.filter(k=>k<last).map(k=>id(r.rows[k].i));
    const alt=on?null:M.detEval(CANDS,GTS.map(g=>g.box),{match:m,minScore:s,nmsThr:0.45}),cure=alt&&alt.lost.length?`판정 전에 NMS 0.45를 켜면 이 중복은 사라지지만, 이 판정 문턱에서는 NMS가 정답과 더 잘 맞던 ${alt.lost.map(id).join(', ')}까지 지워 AP가 오히려 ${F(alt.ap,3)}까지 내려갑니다.`:'판정 전에 NMS로 중복을 지우면 이 손실이 사라집니다.';
    verdict=`정답 하나는 한 번만 맞출 수 있으므로, FP ${r.fp}개${dup.length===r.fp?(r.fp>1?'는 모두':'는'):` 가운데 ${dup.length}개는`} 이미 짝이 정해진 정답을 다시 가리킨 중복으로 셉니다. ${early.length?`그중 ${early.join(', ')}는 마지막 TP보다 순위가 높아 AP를 깎습니다. ${cure}`:'중복이 모두 마지막 TP보다 아래라 AP는 그대로지만, 이 문턱의 정밀도는 낮아집니다.'}`;}
-  else if(r.fn)verdict=`정답 ${missed.join(', ')}를 IoU ${F(m,2)} 이상으로 맞춘 예측이 남아 있지 않아 놓쳤습니다.`;
+  else if(r.fn)verdict=`점수 문턱 위에는 정답 ${missedOp.join(', ')}를 IoU ${F(m,2)} 이상으로 맞춘 예측이 없어, 이 운영점에서는 놓칩니다. 문턱 아래 순위까지 보는 AP는 ${F(r.ap,3)}입니다.`;
   else verdict=r.fp?`정답 셋을 모두 맞췄고 FP ${r.fp}개는 순위가 TP보다 아래라 AP를 깎지 않습니다. 대신 이 문턱의 정밀도를 낮춥니다.`:'정답 셋을 하나씩, 남는 예측 없이 맞췄습니다.';
   U.result(el,apScene(r)+apCurve(r),
-  `점수 ${F(s,2)} 이상 ${r.pass.length}개 → ${on?`NMS 0.45 뒤 ${r.kept.length}개`:'NMS 없이 그대로'} → 판정 IoU ${F(m,2)}로 점수 순서대로 정답과 맞춤<ol class="ap-rank">${list}</ol>TP <b>${r.tp}</b> · FP <b>${r.fp}</b> · FN <b>${r.fn}</b> → 이 문턱의 정밀도 <b>${F(r.precision,3)}</b>, 재현율 <b>${F(r.recall,3)}</b><br>AP${m===0.5?'50':'75'}(모든 점 보간) = <strong>${F(r.ap,3)}</strong><br>${verdict}<br>후보 상자·점수·정답 상자는 미리 정한 예시이고, IoU·맞춤·AP는 실제 계산입니다. 정답이 셋뿐인 장면 하나라 재현율이 1/3씩만 움직입니다.`);});
+  `후보 ${CANDS.length}개 → ${on?`NMS 0.45 뒤 ${r.kept.length}개`:'NMS 없이 그대로'} → 판정 IoU ${F(m,2)}로 점수 순서대로 정답과 맞춤<ol class="ap-rank">${list}</ol>AP${m===0.5?'50':'75'}(모든 점 보간, 점수 문턱과 상관없이 전체 순위로) = <strong>${F(r.ap,3)}</strong><br>점수 문턱 ${F(s,2)} 위 ${r.op.length}개가 운영점: TP <b>${r.tp}</b> · FP <b>${r.fp}</b> · FN <b>${r.fn}</b> → 정밀도 <b>${F(r.precision,3)}</b>, 재현율 <b>${F(r.recall,3)}</b><br>${verdict}<br>후보 상자·점수·정답 상자는 미리 정한 예시이고, IoU·맞춤·AP는 실제 계산입니다. 정답이 셋뿐인 장면 하나라 재현율이 1/3씩만 움직입니다.`);});
 };
 
 A05Labs.dice=el=>{

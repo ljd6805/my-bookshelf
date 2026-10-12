@@ -58,14 +58,17 @@ const A05Math={
   const n=rows.length;
   return {rows,env,tp,fp:n-tp,fn:gts.length-tp,precision:n?tp/n:NaN,recall:gts.length?tp/gts.length:NaN,ap:gts.length?ap:NaN};
  },
- /* 점수 문턱 → (선택) NMS → 정답과 맞추기. nmsThr가 null이면 NMS를 건너뛴다. */
+ /* AP는 (선택) NMS 뒤 전체 순위로 적분하고, 점수 문턱은 운영점 하나(TP·FP·FN·정밀도·재현율)만 고른다.
+    탐욕 맞춤은 점수 순서대로 하므로 문턱 위 예측의 판정은 전체 순위에서의 판정과 같다. */
  detEval(cands,gts,{match=0.5,minScore=0,nmsThr=null}={}){
-  const pass=cands.map((c,i)=>i).filter(i=>cands[i].score>=minScore);
-  const kept=nmsThr===null?pass:A05Math.nms(cands,nmsThr,minScore).kept;
+  const all=cands.map((c,i)=>i),pass=all.filter(i=>cands[i].score>=minScore);
+  const kept=nmsThr===null?all:A05Math.nms(cands,nmsThr,0).kept;
   const r=A05Math.detAP(kept.map(i=>cands[i]),gts,match),hit=new Set(r.rows.filter(x=>x.tp).map(x=>x.gt));
+  const rows=r.rows.map(x=>({...x,i:kept[x.i],on:x.score>=minScore})),op=rows.filter(x=>x.on),tp=op.filter(x=>x.tp).length;
   /* NMS가 지운 상자 가운데, 끝내 놓친 정답과 IoU ≥ match였던 것(“위치가 더 맞는 상자를 지운 경우”) */
-  const lost=pass.filter(i=>!kept.includes(i)).filter(i=>gts.some((g,k)=>!hit.has(k)&&A05Math.iou(cands[i].box,g)>=match));
-  return {...r,kept,pass,lost,rows:r.rows.map(x=>({...x,i:kept[x.i]}))};
+  const lost=all.filter(i=>!kept.includes(i)).filter(i=>gts.some((g,k)=>!hit.has(k)&&A05Math.iou(cands[i].box,g)>=match));
+  return {...r,rows,op,kept,pass,lost,tp,fp:op.length-tp,fn:gts.length-tp,
+   precision:op.length?tp/op.length:NaN,recall:gts.length?tp/gts.length:NaN};
  },
  /* 5장: 픽셀 수로 센 분할 지표. 정의되지 않는 0/0은 완전 일치(1)로 둔다. */
  segMetrics(total,fg,tp,fp){const fn=fg-tp,tn=total-fg-fp,den=tp+fp+fn;
