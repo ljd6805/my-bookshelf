@@ -49,6 +49,14 @@ PROPS = {
     'chart': ('막대 그래프', '<path d="M5 20v-9M11 20V5M17 20v-8M3 20h18"/>'),
     'pointer': ('마우스 포인터', '<path d="M5 3l13 8-6 1.5L9 19z"/>'),
     'clipboard': ('점검표', '<rect x="5" y="4" width="14" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M8 11h8M8 15h6"/>'),
+    'target': ('과녁', '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><path d="M12 12l7-7M16 4.5h3.5V8"/>'),
+    'stairs': ('계단', '<path d="M3 20h5v-5h5v-5h5V5h3"/>'),
+    'bulb': ('전구', '<path d="M9.5 17.5h5M10.5 20.5h3M8.5 14.5a6 6 0 1 1 7 0c-.7.6-1 1.3-1 2h-5c0-.7-.3-1.4-1-2z"/>'),
+    'loop': ('되돌아 도는 화살표', '<path d="M20 12a8 8 0 1 1-2.4-5.7M20 3.5v4h-4"/>'),
+    'toc': ('목차', '<path d="M9 6h11M9 12h11M9 18h7"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>'),
+    'tree': ('개념 나무', '<circle cx="12" cy="4.5" r="2"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="12" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/><path d="M12 6.5v10M12 11H5.5v5.5M12 11h6.5v5.5"/>'),
+    'grid': ('범위 표', '<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M3.5 15h17M9.5 4v16"/>'),
+    'sprout': ('새싹', '<path d="M12 21v-9M12 12c0-4 3-6 7-6 0 4-3 6-7 6zM12 15c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"/>'),
 }
 FIELDS = ('skin', 'hair', 'hair_color', 'top', 'top_color', 'glasses', 'eyes', 'brows', 'mouth', 'prop')
 
