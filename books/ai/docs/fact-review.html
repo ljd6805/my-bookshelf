@@ -5,6 +5,29 @@
 <h1>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-common-case-r3" data-reviewer="Claude 검수 세션 (공통 사례 검수 r3)" data-author="Claude 공통 사례 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="r2에서 열린 10장 inference 넷째 문단 마지막 문장(13장 KV 길이 설명)의 수정과 자산 버전 case3 갱신, 세 화면 폭과 브라우저 실험 재확인" data-result="passed" data-commit="d84be5b">
+<h2>2026-10-12 공통 사례 검수 (r3)</h2>
+<p>검수자: Claude 검수 세션 (공통 사례 검수 r3, 검수팀 정민·건우·유진·채원 역할). 집필자: Claude 공통 사례 집필 세션 (2026-10-12, 커밋 d84be5b). 범위: r2에서 연 10장 문장의 수정과 자산 버전 갱신. 이 세션은 이 원고를 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>고친 문장 “13장에서는 KV 캐시를 지시·질문·매뉴얼 조각에 답까지 더한 실제 길이로 다시 세고, 응답 시간까지 따져 서윤의 점검 도우미를 설계합니다.”를 13장 셋째 문단(입력 512 + 3×400 = 1712토큰, 답까지 1912토큰, KV 1912 × 131072 byte), labs-final.js 설명(기본 지시와 질문 512토큰, 답 200토큰), math.js fieldBudget(KV 길이 prompt + answer)과 대조해 맞음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장에는 숫자가 없음. r2에서 따로 계산한 1912토큰 KV 0.2334 GiB·합계 3.959 GiB가 고친 문장이 가리키는 길이와 이제 맞음</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>git show d84be5b --stat으로 바뀐 파일이 js/content.js 한 문장과 index.html 자산 버전(case2 → case3, 11곳 모두 case3)뿐임을 확인. tests/browser.cjs 21개 모두 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>‘지시·질문·매뉴얼 조각·답’이 13장과 labs-final.js의 낱말(기본 지시와 질문, 조각, 답)과 같은 뜻으로 쓰임</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>새 출처·인용 없음, source 번호 변경 없음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#inference 넷째 문단 마지막 문장</td><td>r2의 열린 항목: “질문과 매뉴얼 조각을 더한 실제 입력 길이”가 13장의 KV 길이(답까지 더한 1912토큰)와 맞지 않았음</td><td>13장 셋째 문단, math.js fieldBudget</td><td>집필자가 d84be5b에서 “지시·질문·매뉴얼 조각에 답까지 더한 실제 길이”로 고침. 검수에서 맞음을 확인해 닫음</td></tr>
+</tbody></table>
+<h3>세 화면 폭 재확인 (채원)</h3>
+<p>python3 -m http.server 8764로 띄운 books/ai를 Chromium(Playwright)으로 1280·390·320px에서 다시 열고 처음 화면과 13개 장을 넘겼습니다. 세 폭 모두 가로 넘침이 없고 콘솔·페이지 오류는 0건이었으며, 10장 첫 문단은 16px로 화면 폭 안에 놓였습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>실제 휴대전화와 Safari·Firefox에서는 보지 않았고, 이번 회차는 화면을 측정값으로만 확인했습니다.</li>
+<li>학습 효과는 측정하지 않았습니다. 사례와 13장 수치는 가정에서 나온 값이라 외부 근거가 없습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-common-case-r2" data-reviewer="Claude 검수 세션 (공통 사례 검수 r2)" data-author="Claude 공통 사례 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="커밋 fdb48b9에서 고친 네 문장(8장 vision 첫 문단 “4장부터 도우미가 읽고 쓰던 것은 글이었습니다”, 7장 generation 남은 질문 “4장부터 입력은 모두 글자였습니다”, 10장 inference 마지막 문단의 13장 연결 문장, 3장 generalization 첫 문단의 13장 시험 질문 10개 문장)과 r1이 건너뛴 1280·390·320px 화면 확인" data-result="open" data-commit="fdb48b9">
 <h2>2026-10-12 공통 사례 검수 (r2)</h2>
 <p>검수자: Claude 검수 세션 (공통 사례 검수 r2, 검수팀 정민·건우·유진·채원 역할). 집필자: Claude 공통 사례 집필 세션 (2026-10-12, 커밋 fdb48b9). 범위: fdb48b9에서 고친 7·8·10·3장의 네 문장과 r1이 하지 않은 세 화면 폭 확인. 이 세션은 이 원고를 쓰지 않았고, 검수팀은 고치지 않고 찾은 것만 남깁니다.</p>
