@@ -57,7 +57,7 @@ function cagr(path,start=1){
  const variance=path.reduce((s,x)=>s+Math.pow(pct(x)-pct(mean),2),0)/n;
  return {mean,cagr:(Math.pow(growth,1/n)-1)*100,end:start*growth,approx:mean-variance/2*100};
 }
-/* 비용의 복리: 총수익률 gross에서 해마다 비용률 fee를 뺀 순수익률로 불어난다(근사: (1+g)(1−f)). */
+/* 비용의 복리: 총수익률 gross에서 해마다 비용률 fee를 뺀 순수익률로 불어난다(이 책이 고른 모형: 해마다 (1+g)(1−f)를 곱한다). */
 function feeDrag(p,gross,fee,years){
  const withFee=p*Math.pow((1+pct(gross))*(1-pct(fee)),years),noFee=p*Math.pow(1+pct(gross),years);
  return {noFee,withFee,lost:noFee-withFee,lostShare:(1-withFee/noFee)*100};
