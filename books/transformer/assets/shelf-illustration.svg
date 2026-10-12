@@ -1,0 +1,52 @@
+<svg class="tf-ill" viewBox="0 0 340 180" role="img" aria-label="토큰 줄 목록 곰 꿀 숲 토끼 곰 끝에서 어텐션 호가 앞의 곰으로 뻗고, 그 다음 칸의 꿀이 밝아져 빈칸으로 옮겨 가며 토리가 꿀을 이어 쓰는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.tf-ill-tok{fill:#fbfcf8;stroke:#7d927f;stroke-width:1.3}
+.tf-ill-now{fill:#e2efe1;stroke:#2d7643;stroke-width:2}
+.tf-ill-slot{fill:#fff;stroke:#2d7643;stroke-width:1.6;stroke-dasharray:4 3}
+.tf-ill-word{font:600 11px sans-serif;fill:#1d2a20}
+.tf-ill-small{font:500 9px sans-serif;fill:#556457}
+.tf-ill-good{font:700 11px sans-serif;fill:#2d7643}
+.tf-ill-arc{fill:none;stroke:#2d7643;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:190;stroke-dashoffset:190;animation:tf-ill-draw 5s ease-in-out infinite}
+.tf-ill-arc2{fill:none;stroke:#9a560c;stroke-width:1.8;stroke-linecap:round;stroke-dasharray:3 4;opacity:0;animation:tf-ill-shift 5s ease-in-out infinite}
+.tf-ill-src{fill:#d7ead6;stroke:#2d7643;stroke-width:2;opacity:0;animation:tf-ill-glow 5s ease-in-out infinite}
+.tf-ill-hit{fill:#f6e3c6;stroke:#9a560c;stroke-width:2;opacity:0;animation:tf-ill-glow2 5s ease-in-out infinite}
+.tf-ill-fly{animation:tf-ill-fly 5s ease-in-out infinite;opacity:0}
+.tf-ill-chip{fill:#9a560c}
+.tf-ill-say{opacity:0;animation:tf-ill-say 5s ease-in-out infinite}
+.tf-ill-bar{fill:#2d7643;transform-origin:0 0;transform:scaleX(.08);animation:tf-ill-bar 5s ease-in-out infinite}
+.tf-ill-track{fill:#e6ece4}
+@keyframes tf-ill-draw{0%,8%{stroke-dashoffset:190}32%,86%{stroke-dashoffset:0}100%{stroke-dashoffset:190}}
+@keyframes tf-ill-glow{0%,26%{opacity:0}34%,86%{opacity:1}100%{opacity:0}}
+@keyframes tf-ill-shift{0%,36%{opacity:0}44%,86%{opacity:1}100%{opacity:0}}
+@keyframes tf-ill-glow2{0%,40%{opacity:0}48%,86%{opacity:1}100%{opacity:0}}
+@keyframes tf-ill-fly{0%,50%{transform:translate(0,0);opacity:0}54%{opacity:1}72%,86%{transform:translate(205px,0);opacity:1}100%{opacity:0}}
+@keyframes tf-ill-say{0%,70%{opacity:0}76%,90%{opacity:1}100%{opacity:0}}
+@keyframes tf-ill-bar{0%,66%{transform:scaleX(.08)}80%,90%{transform:scaleX(1)}100%{transform:scaleX(.08)}}
+html[data-motion=reduce] .tf-ill-arc{animation:none;stroke-dashoffset:0}
+html[data-motion=reduce] .tf-ill-arc2,html[data-motion=reduce] .tf-ill-src,html[data-motion=reduce] .tf-ill-hit,html[data-motion=reduce] .tf-ill-say{animation:none;opacity:1}
+html[data-motion=reduce] .tf-ill-fly{animation:none;opacity:0}
+html[data-motion=reduce] .tf-ill-bar{animation:none;transform:scaleX(1)}
+@media(prefers-reduced-motion:reduce){.tf-ill-arc{animation:none;stroke-dashoffset:0}.tf-ill-arc2,.tf-ill-src,.tf-ill-hit,.tf-ill-say{animation:none;opacity:1}.tf-ill-fly{animation:none;opacity:0}.tf-ill-bar{animation:none;transform:scaleX(1)}}
+</style>
+<text class="tf-ill-small" x="170" y="20" text-anchor="middle">앞에서 본 짝을 찾아 · 다음 낱말을 이어 쓰기</text>
+<text class="tf-ill-small" x="14" y="44">유도 헤드 1층</text>
+<path class="tf-ill-arc" d="M266 102Q168 22 70 102"/>
+<path class="tf-ill-arc2" d="M76 134Q92 150 106 134"/>
+<g>
+<rect class="tf-ill-tok" x="4" y="104" width="44" height="28" rx="5"/><text class="tf-ill-word" x="26" y="122" text-anchor="middle">목록</text>
+<rect class="tf-ill-tok" x="40" y="104" width="36" height="28" rx="5" transform="translate(12 0)"/>
+<rect class="tf-ill-src" x="52" y="104" width="36" height="28" rx="5"/><text class="tf-ill-word" x="70" y="122" text-anchor="middle">곰</text>
+<rect class="tf-ill-tok" x="92" y="104" width="36" height="28" rx="5"/>
+<rect class="tf-ill-hit" x="92" y="104" width="36" height="28" rx="5"/><text class="tf-ill-word" x="110" y="122" text-anchor="middle">꿀</text>
+<rect class="tf-ill-tok" x="132" y="104" width="36" height="28" rx="5"/><text class="tf-ill-word" x="150" y="122" text-anchor="middle">숲</text>
+<rect class="tf-ill-tok" x="172" y="104" width="44" height="28" rx="5"/><text class="tf-ill-word" x="194" y="122" text-anchor="middle">토끼</text>
+<rect class="tf-ill-now" x="220" y="104" width="44" height="28" rx="5" transform="translate(24 0)"/><text class="tf-ill-word" x="266" y="122" text-anchor="middle">곰</text>
+<rect class="tf-ill-slot" x="290" y="104" width="44" height="28" rx="5"/><text class="tf-ill-small" x="312" y="122" text-anchor="middle">?</text>
+</g>
+<g class="tf-ill-fly"><rect class="tf-ill-chip" x="100" y="138" width="20" height="8" rx="2"/></g>
+<text class="tf-ill-small" x="266" y="148" text-anchor="middle">지금</text>
+<g class="tf-ill-say"><text class="tf-ill-good" x="312" y="96" text-anchor="middle">꿀</text></g>
+<text class="tf-ill-small" x="14" y="168">다음 낱말 확률</text>
+<rect class="tf-ill-track" x="92" y="160" width="200" height="9" rx="2"/>
+<rect class="tf-ill-bar" x="92" y="160" width="200" height="9" rx="2" style="transform-box:fill-box"/>
+</svg>
