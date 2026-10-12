@@ -50,7 +50,7 @@
 
 <section id="chapter"><span class="no">05</span><h2>장 화면 (#장ID) 구성 순서</h2><p>모든 장은 같은 일곱 블록을 같은 순서로 보여 줍니다. 각 블록은 공통 학습 흐름(문제 → 예측 → 조작 → 관찰 → 설명 → 전이)의 한 역할을 맡습니다.</p><div class="table-wrap"><table><thead><tr><th>순서</th><th>블록 (클래스)</th><th>들어가는 것</th><th>학습 흐름</th></tr></thead><tbody>
 <tr><td>①</td><td>장 머리 <code>.chapter-head</code></td><td>"CHAPTER 06 / 언어 모델" 눈썹, 장 제목 <code>h1</code>, 한 문장 부제(<code>subtitle</code>), "N개 실험" 태그, "약 N분 · 확인 문제 1개"</td><td>문제</td></tr>
-<tr><td>②</td><td>먼저 개념 잡기 <code>section</code></td><td>문단 2개 → 핵심 관계 그림(<code>figure.concept-diagram</code>, "그림 N-1." 설명 포함) → 식 상자(<code>.formula</code>: 식 한 줄과 기호·가정·한계 설명)</td><td>설명(직관 → 변수 → 식)</td></tr>
+<tr><td>②</td><td>먼저 개념 잡기 <code>section</code></td><td>문단 2개 → 핵심 관계 그림(<code>figure.concept-diagram</code>, "그림 N-1." 설명 포함. 좁은 화면에서 그림이 옆으로 밀리는 <code>.figure-art</code> 상자는 <code>tabindex="0"</code>·<code>role="group"</code>·<code>aria-label</code>을 두어 키보드로도 밀 수 있게 합니다) → 식 상자(<code>.formula</code>: 식 한 줄과 기호·가정·한계 설명)</td><td>설명(직관 → 변수 → 식)</td></tr>
 <tr><td>③</td><td>실험 <code>article.lab</code> × 1~2</td><td><a href="#lab">실험 블록</a> 형식을 그대로 따름</td><td>예측 → 조작 → 관찰</td></tr>
 <tr><td>④</td><td>혼동하지 마세요 <code>.note</code></td><td>이 장에서 가장 흔한 오해 하나와 바른 이해</td><td>설명</td></tr>
 <tr><td>⑤</td><td>확인 문제 <code>section.quiz</code></td><td>"CHECK YOUR UNDERSTANDING", 질문, 보기 3개 버튼, 정답 여부와 해설을 알리는 <code>role="status" aria-live="polite"</code> 영역</td><td>전이</td></tr>

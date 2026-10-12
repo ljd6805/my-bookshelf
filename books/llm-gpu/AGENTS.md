@@ -1,4 +1,4 @@
-# GPU 속 LLM
+# LLM은 컴퓨터에서 어떻게 실행되는가
 루트 AGENTS.md와 docs/08-book-template.html을 따른다.
 - NVIDIA 분리형 GPU의 dense decoder-only 추론을 기본 범위로 삼는다.
 - 교육용 가정과 실제 측정을 구분한다. GB(10^9)와 GiB(2^30)를 섞지 않는다.

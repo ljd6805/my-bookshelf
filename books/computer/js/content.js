@@ -4,7 +4,7 @@
 window.CompBook = {
   sources: [
     ['Nand2Tetris · From NAND to Tetris', 'https://www.nand2tetris.org/', 'NAND 게이트에서 출발해 가산기, 메모리, CPU, 컴퓨터를 차례로 조립하는 공개 강좌'],
-    ['IETF · RFC 3629 UTF-8', 'https://www.rfc-editor.org/rfc/rfc3629', '유니코드 글자를 1~4바이트로 나타내는 UTF-8 규칙'],
+    ['IETF · RFC 3629 UTF-8', 'https://www.rfc-editor.org/rfc/rfc3629', '유니코드 글자를 1~4바이트로 나타내는 UTF-8 규칙 (확인 2026-10-12)'],
     ['MDN · TextEncoder', 'https://developer.mozilla.org/en-US/docs/Web/API/TextEncoder', '2장 실험이 글자를 UTF-8 바이트로 바꿀 때 쓰는 브라우저 기능'],
     ['Ben Eater · Build an 8-bit computer', 'https://eater.net/8bit', '브레드보드로 만드는 8비트 누산기 컴퓨터. 6·7장 CPU 모형과 같은 계열의 구조'],
     ['Ulrich Drepper · What every programmer should know about memory, Part 2: CPU caches (LWN, 2007)', 'https://lwn.net/Articles/252125/', '캐시 줄, 지역성, 접근 순서가 성능에 주는 영향']
