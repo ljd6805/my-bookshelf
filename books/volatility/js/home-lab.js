@@ -9,7 +9,7 @@ function mount(el){
   const a=Number(input.value)/100,R=M.flatVolatileReturns(a,125),idx=M.pathFromReturns(100,R),two=M.leveragedPath(R,2,{start:100});
   el.querySelector('#home-a-value').textContent=U.fmt(a*100,1);
   box.innerHTML=U.lines({series:[{values:U.pairEnds(idx),name:'지수 (이틀마다)'},{values:U.pairEnds(two),name:'날마다 2배'}],hlines:[[100,'처음 값 100']],xunit:'쌍',h:250,label:`하루 ${U.fmt(a*100,1)}% 흔들림. 250거래일 뒤 지수 ${U.fmt(idx[250],2)}, 2배 상품 ${U.fmt(two[250],2)}`});
-  out.innerHTML=`하루 ${U.fmt(a*100,1)}%씩 오르내린 지수는 250거래일 뒤 <b>${U.fmt(idx[250],2)}</b>${U.josa(U.fmt(idx[250],2),'으로','로')} 제자리입니다. 날마다 2배로 다시 맞춘 상품은 <b>${U.fmt(two[250],2)}</b>, 곧 <b>${U.ppct(two[250]/100-1)}</b>입니다. 오르내림만으로 깎인 몫입니다.`;
+  out.innerHTML=`하루 ${U.fmt(a*100,1)}%씩 오르내린 지수는 250거래일 뒤 <b>${U.fmt(idx[250],2)}</b>${U.josa(U.fmt(idx[250],2),'으로','로')} 제자리입니다. 날마다 2배로 다시 맞춘 상품은 <b>${U.fmt(two[250],2)}</b>, 곧 <b>${U.ppct(two[250]/100-1)}</b>입니다. 지수가 오르내리기만 했는데 이만큼 깎였습니다.`;
  }
  const click=e=>{const b=e.target.closest('[data-a]');if(b){input.value=b.dataset.a;update();}};
  input.addEventListener('input',update);el.addEventListener('click',click);update();

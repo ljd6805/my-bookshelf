@@ -27,7 +27,7 @@ VLabs.records=el=>{
  U.setup(el,U.select('fk','첫 장: 누리200 상품의 배율',[['2','2배'],['-2','인버스 2배 (−2배)'],['3','3배']],'2')+U.select('fpart','둘째 장: 새벽전자 구간',[['year','1년 전체 (250일)'],['first','앞 120일 (12권 시나리오)'],['gen','생성한 130일 (121~250일)']],'year')+U.select('fpaths','견줄 무작위 보행 수',[['200','200개'],['1000','1,000개']],'1000','시드 1부터, 기록과 같은 하루 σ'));
  U.bind(el,()=>{
   const k=Number(U.value(el,'fk')),part=U.value(el,'fpart'),N=Number(U.value(el,'fpaths')),a=nuriSheet(k),b=saebyeokSheet(part,N);
-  U.result(el,a.chart+b.chart,`${a.text}<br><br>${b.text}<br>지난 기록이 무작위 보행과 얼마나 다른지를 말할 뿐, 다음 해의 방향이나 모양을 말하지는 않습니다.${U.kind(['real','scenario','gen'],'누리200·누리200 2배·새벽전자는 모두 가상이고, 보수·비용은 넣지 않았습니다.')}`);
+  U.result(el,a.chart+b.chart,`${a.text}<br><br>${b.text}<br>이 숫자들은 지난 기록이 무작위 보행과 얼마나 다른지를 말할 뿐, 다음 해의 방향이나 모양은 말해 주지 않습니다.${U.kind(['real','scenario','gen'],'누리200·누리200 2배·새벽전자는 모두 가상이고, 보수·비용은 넣지 않았습니다.')}`);
  });
 };
 })();
