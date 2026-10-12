@@ -79,6 +79,7 @@
     "교과과정팀·교수법팀 추가와 팀 효율화(2026-10-12, 사용자 요청): 목차·선수 관계·범위·공통 사례를 맡는 교과과정팀(해원·가온·아린)과 장 학습 설계·예측·전이·복습·확인 문제를 맡는 교수법팀(지안·연우·보미·예린)을 더해 일곱 팀, 관문 G0~G7로 바꿨다. 팀은 팀장 포함 3~4명(검수팀 5명)으로 묶고 겹치던 하람·이든·우진 역할을 합쳐 27명. docs/10을 산출물 주인 표 중심으로 다시 쓰고 #lean 원칙을 더했으며, team_renderer.py가 팀 인원을 검사한다. 남긴 일: 장 기획서 양식에 학습 설계표 칸 추가 여부, 다음 책에서 새 편성 시험.",
     "전체 도서 보충(2026-10-12, 사용자 요청): 일곱 팀이 27권을 검토해 보충을 고르고(supplement-review/selection.md) 구현. 모든 장에 전이 문항(transfer)과 화면 보기 순서 돌리기(정답 자리 고르게), 책별 새 실험 15개·깊이 읽기, AI Book predict·remaining·next, 표지 실험 수 15권 정정. 집필하지 않은 새 세션 일곱 개가 검수(passed 4·fixed 23). tests/test_book_content.mjs 추가. 남긴 일: AI Book 마지막 과제 장, 확률과 통계 상관과 인과 장(이어서 진행), 검토서 2~4순위 제안.",
     "새 장 두 개(2026-10-12, 사용자 위임): AI Book 13장 현장 점검 도우미 설계하기(#final, 실험 fieldkit·alarmplan, 13장·21개 실험), 확률과 통계 9장 상관과 인과(#correlation, 9장·9개 실험). 장 색인·개념·읽기 노선·양방향 링크 갱신. 새 세션 두 개가 팩트·출처 검수(둘 다 fixed). 남긴 일: 확률과 통계 1~8장에 혼동하지 마세요(warning) 블록, 검토서 2~4순위 제안.",
+    "AI 문체 담당 지정(2026-10-12, 사용자 질문): 문체에서 AI 느낌을 빼는 일을 명시적으로 맡은 인물이 없어, 인원을 늘리지 않고 글작성팀 다온을 '쉬운 말·문체 편집자'로 넓혔다. 번역투·상투적 도입과 맺음·습관적 세 항목 나열·문단 틀 반복·굵은 글씨와 접속어 남발을 점검 목록에 넣고 AGENTS.md 문서와 이야기 규칙과 docs/10에 반영했다. 같은 날 사용자 요청으로 다온을 '문체 비평가 · 쉬운 말 편집자'로 바꿔, 원고를 비판적으로 읽고 장마다 문체 비평 메모(인용·진단·고친 문장)를 G4에 함께 넘기게 했다.",
     "지식 그래프 책 검수팀 검수(2026-10-12): 사실·용어·출처(유진), 수치·실험 계산(건우), 첫 독자 브라우저 확인(채원), 규칙 감사(현석). 출처 5개 추가·문장 보정, 장마다 '다른 상황에 써 보기' 전이 문제와 정답 위치 분산, 예제 버튼 3개로 정리, plum 색을 docs/05에 기록 (books/knowledge-graph/docs/fact-review.html)"
   ],
   "verification": "docs/07-book-integration.html#verification",
@@ -162,5 +163,15 @@
     "ci": "success: https://github.com/ljd6805/my-bookshelf/actions/runs/37741224761",
     "pages": "success: https://github.com/ljd6805/my-bookshelf/actions/runs/37741224491",
     "public_verification": "Chromium 1280/390/320px shelf, cover, routes, return and reduced motion; 4 numerical checks; example links; 0 page errors"
+  },
+  "book_theme": {
+    "date": "2026-10-12",
+    "status": "implemented_and_browser_verified_locally",
+    "rule": "docs/08-book-template.html#theme",
+    "source": "assets/book-theme.js",
+    "storage_key": "bookshelf:shelf:v1:book-theme",
+    "behavior": "모든 책은 시스템 설정과 관계없이 밝은 화면으로 열리고, 독자가 고른 어두운 화면은 서재 전체 책에서 기억한다",
+    "verified": "27권 첫 화면 밝음(시스템 어두운 모드 포함)·전환·새로고침·다른 책 유지·320px 머리말 확인(Chromium)",
+    "not_verified": "Safari·Firefox·실기기"
   }
 }

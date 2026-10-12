@@ -122,12 +122,11 @@
   }
 
   function setupChrome() {
-    const theme = document.getElementById('theme'), key = B.storageKey.replace(':progress', ':theme');
-    const apply = (t) => { document.documentElement.dataset.theme = t; theme.textContent = t === 'dark' ? '밝은 화면' : '어두운 화면'; theme.setAttribute('aria-label', `${theme.textContent}으로 전환`); };
-    let saved = null;
-    try { saved = localStorage.getItem(key); } catch (e) { saved = null; }
-    apply(saved === 'light' ? 'light' : 'dark');
-    theme.addEventListener('click', () => { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; apply(t); try { localStorage.setItem(key, t); } catch (e) { /* 무시 */ } });
+    // 처음 테마·저장·버튼 문구는 서재 공통 ../../assets/book-theme.js가 맡는다(기본은 밝은 화면).
+    document.getElementById('theme').addEventListener('click', () => {
+      const root = document.documentElement;
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+    });
     const menu = document.getElementById('menu');
     menu.addEventListener('click', () => { const open = document.body.classList.toggle('menu-open'); menu.setAttribute('aria-expanded', String(open)); });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && document.body.classList.contains('menu-open')) { document.body.classList.remove('menu-open'); menu.setAttribute('aria-expanded', 'false'); menu.focus(); } });
