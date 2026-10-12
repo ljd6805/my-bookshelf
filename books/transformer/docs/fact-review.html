@@ -5,7 +5,40 @@
 <h1>팩트·출처 검수 기록 · 트랜스포머 속을 열어 보기</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
-<section class="fact-review" id="review-2026-10-12" data-reviewer="Claude 검수 세션 (트랜스포머 책 독립 검수)" data-author="Claude 트랜스포머 책 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="14개 장 본문·공식·혼동 상자·확인 문제(js/content.js), 실험 안내 14개의 결과 읽기(js/lab-guides.js), 실험 결과 문장(js/labs-*.js), 그림 설명(js/figures.js), 표지 실험(js/home-lab.js), 학습 체크포인트(js/checkpoints.js)와 학습 스크립트 설정(tools/train_tori.py), 출처 23개" data-result="open">
+<section class="fact-review" id="review-2026-10-12-r2" data-reviewer="Claude 검수 세션 (트랜스포머 책 독립 검수)" data-author="Claude 트랜스포머 책 집필 세션 (2026-10-12)" data-date="2026-10-12" data-commit="3fee210" data-scope="1회차 지적 10건의 수정(커밋 3fee210: js/content.js, js/lab-guides.js, js/app.js, js/figures.js)과, 수정한 문장 안의 숫자 재확인, 같은 커밋이 바꾼 docs/index.html·docs/research.html 훑어보기" data-result="fixed">
+<h2>2026-10-12 재검수 (2회차)</h2>
+<p>검수자: Claude 검수 세션 (트랜스포머 책 독립 검수). 집필자: Claude 트랜스포머 책 집필 세션 (2026-10-12). 범위: 1회차 지적 10건의 수정(커밋 3fee210)과, 고친 문장에 새로 들어간 숫자.</p>
+<p>열 건 모두 고쳐졌습니다. 고친 문장에 새로 들어간 숫자는 1회차의 독립 numpy 계산과 다시 대조했습니다. 반복 목록 오답의 97.5%·98.9%, 뉴런 113 활성 1.5 이상(강아지 1.56, 토끼 2.52, 곰 2.40, 여우 2.13)과 약한 활성(펭귄 먹이 0.65, 곰 집 0.57, 강아지 집 0.37), U 무리 평균 0.23·0.20·0.11·0.11, OV 평균 순위 7.8·7.3, 체크포인트 손실 3.92→2.31, 렌즈 0.0023이 모두 맞습니다. 옛 문장이 본문·안내 상자·그림 설명에 남아 있지 않은 것도 검색으로 확인했습니다. tests/math.test.cjs는 수정 뒤에도 11개 모두 통과합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정 확인</td><td>9장 오답 설명이 계산과 맞습니다. 틀린 9칸은 모두 지금 낱말이 아닌 맥락 속 다른 목록 낱말을 고르고, 숲→곰 0.989, 고양이→꿀 0.975입니다. Kingma &amp; Ba 설명도 AdamW를 Loshchilov와 Hutter의 것으로 바르게 돌렸습니다.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정 확인</td><td>2장(U 무리 평균), 7장(렌즈 0.2%), 10장(113 활성 범위), 12장(3.92→2.31, 수천~수백만 배)의 새 숫자를 독립 계산·checkpoints.js와 대조했습니다. 크기 비교는 이제 js/app.js의 “수백만 배”와 어긋나지 않습니다.</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정 확인</td><td>계산 코드와 가중치는 바뀌지 않았습니다(math.js·weights.js 변경 없음). 안내 상자 superpose와 13장 둘째 문단이 “고정 씨앗에서는”이라고 범위를 밝혔고, 난수 방식에 따라 개수가 하나쯤 달라질 수 있다는 단서도 붙었습니다. 독립 재구현에서 정확한 정수 난수로 바꾸면 0.8→4개, 0.95→5개가 나오므로 이 단서가 맞습니다.</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>수정 확인</td><td>13장이 다의적(polysemantic)을 정의한 뒤, 토리가 뚜렷한 다의적 뉴런을 보여 주지 못한다고 밝힙니다. 뉴런 113은 “뉴런 하나와 뜻 하나가 일대일이 아니다”는 더 약한 주장의 예로만 씁니다. 용어의 뜻과 예가 맞습니다.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>출처 목록에서 바뀐 것은 sources[20]의 설명 한 줄뿐입니다. 링크는 그대로이고, 새로 이름이 나온 arXiv 1711.05101(Decoupled Weight Decay Regularization)은 AdamW 원 논문 번호와 맞습니다.</td></tr>
+</tbody></table></div>
+<h3>1회차 지적과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>1회차 지적</th><th>수정 내용(3fee210)</th><th>재확인</th></tr></thead><tbody>
+<tr><td>1. #induction 셋째 문단: 오답을 지금 낱말 반복으로 설명</td><td>“틀린 아홉 칸에서는 맥락에 있던 엉뚱한 목록 낱말을 고르고, 몇 칸에서는 그 오답에 97~99%를 줄 만큼 자신 있게 틀리기 때문입니다(숲 다음에 곰 98.9%).”</td><td>해결. 0.975·0.989와 맞습니다.</td></tr>
+<tr><td>2. #limits 첫째 문단: 뉴런 113을 다의적 뉴런의 예로 듦</td><td>토리가 뚜렷한 다의적 뉴런을 보여 주지 못한다고 밝히고, 113은 일대일 대응이 아니라는 예로만 씀</td><td>해결</td></tr>
+<tr><td>3. #mlp 셋째 문단: 113 활성 범위 누락</td><td>“강하게(활성 1.5 이상) 켜지고, 펭귄 먹이와 곰·강아지 집에서도 약하게 켜집니다”</td><td>해결. 강한 넷의 최솟값 1.56, 약한 셋 0.37~0.65</td></tr>
+<tr><td>4. #qkov·ov 안내·#multihead 혼동 상자: 헤드의 무리 분담 과장</td><td>“먹이는 헤드 0(7.8)과 헤드 1(7.3)이 비슷하게 맡습니다”, “잘 베끼는 낱말 무리가 조금씩 다릅니다”(세 곳)</td><td>해결</td></tr>
+<tr><td>5. #embed 셋째 문단: U 무리 구조 일반화</td><td>“U에서는 동물(0.23)과 숫자(0.20) 무리가 임베딩보다 뚜렷하게 모입니다(먹이·집은 0.11로 비슷)”</td><td>해결</td></tr>
+<tr><td>6. #training·timeline 안내·그림 aria-label: “2.31로 높게 머물다가”</td><td>“3.92에서 2.31로 천천히 내려오다가”(본문·안내), “천천히 내려오다가”(그림)</td><td>해결</td></tr>
+<tr><td>7. #stream 둘째 문단: 꿀 0.2% 표현</td><td>“1층 MLP 직전 단계에서 0.2%였던 꿀이…”(본문). lens 안내 상자도 같은 뜻으로 고침</td><td>해결. 안내 상자의 “1층 MLP를 지나서야 1층 MLP 직전 0.2%이던 꿀이”는 같은 말이 겹쳐 어색하므로 다듬기를 권합니다(사실 오류는 아님).</td></tr>
+<tr><td>8. #training 마지막 문단: “수만 배” ↔ “수백만 배”</td><td>“수천에서 수백만 배 큰 모델”</td><td>해결</td></tr>
+<tr><td>9. #limits 둘째 문단·superpose 안내: 씨앗에 기대는 개수</td><td>“실험의 고정 씨앗에서는…”, “이 씨앗에서는 … (난수 씨앗을 바꾸면 개수가 하나쯤 달라질 수 있습니다)”. 난수 방식은 그대로</td><td>해결</td></tr>
+<tr><td>10. sources[20] Kingma &amp; Ba의 AdamW 설명</td><td>“Adam 최적화기의 원 논문. 토리는 여기에 가중치 감쇠를 분리한 AdamW(Loshchilov와 Hutter, 2019, arXiv 1711.05101)를 더해 학습했습니다.”</td><td>해결</td></tr>
+</tbody></table></div>
+<h3>사실 검수 범위 밖에서 본 것</h3>
+<ul>
+<li>같은 커밋이 다시 만든 제작 문서 두 곳에 HTML 이중 이스케이프가 생겼습니다. docs/research.html과 docs/index.html에서 “&amp;amp;lt;s&amp;amp;gt;”가 화면에 “&amp;lt;s&amp;gt;”로 그대로 보입니다(3fee210 이전에는 없었음). 독자용 책 화면에는 영향이 없습니다.</li>
+<li>docs/index.html 49행의 제작 기록이 옛 설명(“틀린 칸에서 지금 낱말을 그대로 다시 내는 쪽으로 자신 있게 틀린다”)을 더했다고 적은 채 남아 있습니다. 이력으로 둔다면 1회차 검수에서 고쳤다는 메모를 덧붙이기를 권합니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<p>이번 회차도 브라우저에서 실험을 조작하지 않았고, 토리를 다시 학습시키지 않았습니다. 수정은 문장만 바꿨고 계산 코드와 가중치는 바뀌지 않았으므로, 1회차의 독립 계산 결과를 그대로 대조 기준으로 썼습니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12"data-reviewer="Claude 검수 세션 (트랜스포머 책 독립 검수)" data-author="Claude 트랜스포머 책 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="14개 장 본문·공식·혼동 상자·확인 문제(js/content.js), 실험 안내 14개의 결과 읽기(js/lab-guides.js), 실험 결과 문장(js/labs-*.js), 그림 설명(js/figures.js), 표지 실험(js/home-lab.js), 학습 체크포인트(js/checkpoints.js)와 학습 스크립트 설정(tools/train_tori.py), 출처 23개" data-result="open">
 <h2>2026-10-12 검수 (첫 독립 검수)</h2>
 <p>검수자: Claude 검수 세션 (트랜스포머 책 독립 검수). 집필자: Claude 트랜스포머 책 집필 세션 (2026-10-12). 범위: 14개 장 본문·공식·혼동 상자·확인 문제, 실험 안내 14개의 결과 읽기, 실험 결과 문장, 그림 설명, 표지 실험, 학습 체크포인트와 학습 스크립트 설정, 출처 23개.</p>
 <p>본문과 안내 상자에 나오는 토리의 숫자는 거의 모두 다시 계산한 값과 맞았습니다. js/math.js를 쓰지 않고 js/weights.js의 JSON만 읽어 numpy로 순전파를 따로 짰고(사전 LN, 학습 위치 임베딩, 헤드 4개×8차원, √8로 나눈 인과 softmax, ReLU MLP 128, 최종 LN, eps 1e-5), 절제·패칭·뉴런 끄기·로짓 렌즈·OV 순위도 그 위에 새로 구현했습니다. 다만 9장에는 계산과 정반대인 설명 문장이 하나 있고, 13장은 다의성의 예를 잘못 골랐습니다. 이 두 곳은 공개 전에 고쳐야 합니다. 그 밖의 항목은 표현을 다듬으면 되는 작은 문제입니다.</p>
