@@ -41,5 +41,5 @@ html[data-motion=reduce] .gr-ill-c2,html[data-motion=reduce] .gr-ill-c3{animatio
 <text class="gr-ill-small" x="318" y="36">비싼</text>
 <text class="gr-ill-small" x="318" y="150">싼</text>
 <text class="gr-ill-word" x="24" y="170">가격이 오르내리는 길</text>
-<text class="gr-ill-word" x="254" y="170">채워진 칸 = 매도 대기</text>
+<text class="gr-ill-word" x="330" y="170" text-anchor="end">채워진 칸 = 매도 대기</text>
 </svg>
