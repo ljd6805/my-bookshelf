@@ -1,0 +1,37 @@
+<svg class="vo-ill" viewBox="0 0 340 180" role="img" aria-labelledby="vo-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="vo-ill-title">하루 5% 오르고 다음 날 제자리로 돌아오는 지수가 같은 높이에서 오르내리는 동안, 날마다 그 두 배로 다시 맞춘 값은 더 크게 출렁이며 조금씩 아래로 밀려나 끝에는 처음 값보다 6.5% 낮아지는 과정</title>
+<style>
+.vo-ill-bg{fill:#f8f6fb}
+.vo-ill-level{stroke:#6a44b6;stroke-width:1;stroke-dasharray:3 3;opacity:.5}
+.vo-ill-word{font:600 10px sans-serif;fill:#231d2e}
+.vo-ill-small{font:500 9px sans-serif;fill:#5c5370}
+.vo-ill-index{fill:none;stroke:#231d2e;stroke-width:2;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;animation:vo-ill-draw 9s linear infinite}
+.vo-ill-two{fill:none;stroke:#6a44b6;stroke-width:2.6;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100;animation:vo-ill-draw 9s linear infinite}
+.vo-ill-end{opacity:0;animation:vo-ill-show 9s linear infinite}
+.vo-ill-gap{stroke:#9a4a12;stroke-width:1.6;fill:none}
+.vo-ill-violet{fill:#6a44b6}
+.vo-ill-gapword{font:700 9.5px sans-serif;fill:#9a4a12}
+@keyframes vo-ill-draw{0%{stroke-dashoffset:100;opacity:1}72%{stroke-dashoffset:0}94%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes vo-ill-show{0%,72%{opacity:0}78%,94%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.vo-ill-index,.vo-ill-two{animation:none;stroke-dashoffset:0}.vo-ill-end{animation:none;opacity:1}}
+html[data-motion=reduce] .vo-ill-index,html[data-motion=reduce] .vo-ill-two{animation:none;stroke-dashoffset:0}
+html[data-motion=reduce] .vo-ill-end{animation:none;opacity:1}
+</style>
+<rect class="vo-ill-bg" width="340" height="180" rx="10"/>
+<text class="vo-ill-small" x="170" y="17" text-anchor="middle">지수는 제자리, 날마다 2배로 맞춘 값은 밀려난다</text>
+<path class="vo-ill-level" d="M20 90.8H256"/>
+<text class="vo-ill-small" x="20" y="134">처음 값 100 (점선)</text>
+<path class="vo-ill-two" pathLength="100" d="M24.0 90.8L32.1 48.5L40.1 92.8L48.2 50.7L56.3 94.8L64.4 52.9L72.4 96.8L80.5 55.1L88.6 98.8L96.6 57.3L104.7 100.7L112.8 59.4L120.9 102.7L128.9 61.6L137.0 104.7L145.1 63.8L153.1 106.6L161.2 65.9L169.3 108.6L177.4 68.0L185.4 110.5L193.5 70.2L201.6 112.4L209.6 72.3L217.7 114.3L225.8 74.4L233.9 116.2L241.9 76.5L250.0 118.1"/>
+<path class="vo-ill-index" pathLength="100" d="M24.0 90.8L32.1 69.6L40.1 90.8L48.2 69.6L56.3 90.8L64.4 69.6L72.4 90.8L80.5 69.6L88.6 90.8L96.6 69.6L104.7 90.8L112.8 69.6L120.9 90.8L128.9 69.6L137.0 90.8L145.1 69.6L153.1 90.8L161.2 69.6L169.3 90.8L177.4 69.6L185.4 90.8L193.5 69.6L201.6 90.8L209.6 69.6L217.7 90.8L225.8 69.6L233.9 90.8L241.9 69.6L250.0 90.8"/>
+<g class="vo-ill-end">
+<circle cx="250" cy="90.8" r="4" fill="#231d2e"/>
+<circle cx="250" cy="118.1" r="4.4" fill="#6a44b6" stroke="#fff" stroke-width="1.2"/>
+<path class="vo-ill-gap" d="M262 92V116M258 92H266M258 116H266"/>
+<text class="vo-ill-word" x="272" y="94">지수 100</text>
+<text class="vo-ill-word" x="272" y="122">2배 93.5</text>
+<text class="vo-ill-gapword" x="272" y="108">−6.5%</text>
+</g>
+<text class="vo-ill-word" x="24" y="152">━ 지수</text>
+<text class="vo-ill-word vo-ill-violet" x="84" y="152">━ 날마다 2배</text>
+<text class="vo-ill-small" x="24" y="170">하루 +5%, 다음 날 제자리 · 14쌍 · 가상의 지수와 상품</text>
+</svg>

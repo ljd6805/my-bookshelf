@@ -277,6 +277,27 @@
       "증권사 멈춤 주문의 다른 주문 취소 여부",
       "11장 '박스권 · 20거래일' 단추가 예측 전에 눌리면 답이 보임(작은 개정 후보)"
     ],
-    "next": "제안서 순서대로 다음 권을 같은 절차로 시작"
+    "next": "8권 완료(price_volatility 참조)"
+  },
+  "price_volatility": {
+    "book": "books/volatility/",
+    "series": "finance-from-scratch 8권 (시리즈 네 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md",
+    "docs": "books/volatility/docs/index.html",
+    "research": "books/volatility/docs/research.html",
+    "fact_review": "books/volatility/docs/fact-review.html (1회차 fixed)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 50개",
+      "브라우저 1280/390/320 48개 화면·실험 30회·예측 질문 30회",
+      "validate.py·build_catalog.py --check"
+    ],
+    "remaining": [
+      "레버리지 ETP 거래 요건 공식 원문 대조(2026년 7월 강화 시행일)",
+      "실제 지수 데이터로 첨도·자기상관 계산",
+      "읽기 순서 도구가 사이 권이 비면 시리즈 근거를 못 쓰는 문제(reading_order.py series_reason)",
+      "공통 서가 펼침 화면의 삽화 최소 높이"
+    ],
+    "next": "제안서 순서대로 3권 「금리와 채권」을 같은 절차로 시작"
   }
 }

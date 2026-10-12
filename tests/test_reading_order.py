@@ -55,6 +55,17 @@ class ReadingOrderTests(unittest.TestCase):
         catalog['series'] = [{'id': 's', 'title': 'S', 'volumes': [{'number': 1, 'book_id': 'a'}, {'number': 2, 'book_id': 'b'}]}]
         self.assertEqual(order_books(['a', 'b'], votes_for(['a', 'b'], catalog)), ['a', 'b'])
 
+    def test_series_reason_skips_unpublished_volumes_and_names_the_gap(self):
+        volumes = [{'number': 1, 'book_id': 'a', 'next_why': 'a에서 2권으로'}, {'number': 2, 'status': 'planned'},
+                   {'number': 3, 'status': 'writing'}, {'number': 4, 'book_id': 'b'}]
+        catalog = {'books': [book('b', '금융'), book('a', '금융')], 'learning_paths': [],
+                   'series': [{'id': 's', 'title': 'S', 'volumes': volumes}]}
+        steps = field_orders(catalog)['금융']
+        self.assertEqual([s['book'] for s in steps], ['a', 'b'])
+        self.assertEqual(steps[1]['via']['kind'], 'series')
+        self.assertIn('2~3권', steps[1]['reason'])
+        self.assertNotIn('a에서 2권으로', steps[1]['reason'])
+
     def test_path_reason_names_the_path_and_the_previous_book(self):
         catalog = {'books': [book('a', '수학'), book('b', '수학')], 'learning_paths': [path('p', 'a', 'b')], 'series': []}
         steps = field_orders(catalog)['수학']

@@ -61,10 +61,21 @@ def order_books(members, votes):
 def series_reason(prev, book, catalog):
     for series in catalog.get('series', []):
         volumes = series.get('volumes', [])
-        for v, w in zip(volumes, volumes[1:]):
-            if v.get('book_id') == prev and w.get('book_id') == book:
-                return {'reason': v.get('next_why') or f'{series["title"]} {w["number"]}권으로 이어집니다.',
-                        'via': {'kind': 'series', 'title': series['title'], 'href': f'#series-{series["id"]}'}}
+        ids = [v.get('book_id') for v in volumes]
+        if prev in ids and book in ids and ids.index(prev) < ids.index(book):
+            i, j = ids.index(prev), ids.index(book)
+            between = volumes[i + 1:j]
+            if not any(v.get('book_id') for v in between):
+                via = {'kind': 'series', 'title': series['title'], 'href': f'#series-{series["id"]}'}
+                w = volumes[j]
+                if not between:
+                    return {'reason': volumes[i].get('next_why') or f'{series["title"]} {w["number"]}권으로 이어집니다.',
+                            'via': via}
+                gap = (f'{between[0]["number"]}권' if len(between) == 1
+                       else f'{between[0]["number"]}~{between[-1]["number"]}권')
+                return {'reason': f'「{series["title"]}」에서 서가에 나온 다음 권이 {w["number"]}권입니다. '
+                                  f'사이의 {gap}은 아직 준비 중이니 이 책으로 먼저 이어 가도 됩니다.',
+                        'via': via}
         if book and volumes and volumes[0].get('book_id') == book and prev is None:
             return {'reason': f'{series["title"]} 1권이자 시리즈의 출발점입니다. {series.get("summary", "")}'.strip(),
                     'via': {'kind': 'series', 'title': series['title'], 'href': f'#series-{series["id"]}'}}
