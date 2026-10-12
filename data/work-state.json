@@ -257,6 +257,26 @@
       "기준금리·소비자물가는 바뀔 때 재확인(다음 금통위 2026-10-22)",
       "irr()가 0에 닿기만 하고 넘지 않는 근은 찾지 못함(현재 예제와 무관)"
     ],
-    "next": "시리즈 12권 「격자 하나에서 손익이 갈리기까지」를 같은 절차로 시작"
+    "next": "12권 「격자 하나에서 손익이 갈리기까지」 완료(grid_trading 참조)"
+  },
+  "grid_trading": {
+    "book": "books/grid/",
+    "series": "finance-from-scratch 12권 (시리즈 세 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md",
+    "docs": "books/grid/docs/index.html",
+    "research": "books/grid/docs/research.html",
+    "fact_review": "books/grid/docs/fact-review.html (1회차 fixed)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 40개",
+      "브라우저 1280/390/320 57개 화면·실험 39회·예측 질문 39회",
+      "validate.py·build_catalog.py --check"
+    ],
+    "remaining": [
+      "증권거래세 시행령 원문 대조",
+      "증권사 멈춤 주문의 다른 주문 취소 여부",
+      "11장 '박스권 · 20거래일' 단추가 예측 전에 눌리면 답이 보임(작은 개정 후보)"
+    ],
+    "next": "제안서 순서대로 다음 권을 같은 절차로 시작"
   }
 }
