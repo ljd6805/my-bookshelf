@@ -104,9 +104,17 @@
     return (a !== 0 && (a < 1e-3 || a >= 1e7) ? v.toExponential(4) : String(v)).replace('-', '−');
   };
   const KIND = { zero: '0', subnormal: '비정규수(지수 칸 0)', normal: '정규수', inf: '무한대(지수 칸 모두 1, 가수 0)', nan: 'NaN(지수 칸 모두 1, 가수 0 아님)' };
+  /* 두 형식의 실제 간격을 비교해 문장을 고른다. 0 근처에서는 지수 칸이 넓은 BF16의 간격이 더 좁다. */
+  function spacing(fp, bf) {
+    if (!fp || !bf || fp.gap === null || bf.gap === null) return '';
+    if (bf.gap > fp.gap) return '다만 가수가 7비트라 이웃한 수 사이의 간격이 FP16보다 넓습니다.';
+    if (bf.gap < fp.gap) return '이 근처에서는 BF16의 지수 범위가 훨씬 넓어 이웃한 수 사이의 간격이 FP16보다 오히려 좁습니다.';
+    return '이웃한 수 사이의 간격도 같습니다.';
+  }
+
   function floatSummary(bits, fmt) {
     const d = M.decodeFloat(bits, fmt), n = M.floatNeighbor(bits, fmt), f = M.floatFields(bits, fmt);
-    const gap = n ? `${pow2(Math.log2(n.gap))} ≈ ${num(n.gap)}` : '없음';
+    const gap = !n ? '없음' : n.gap === null ? '더 큰 유한한 수 없음' : `${pow2(Math.log2(n.gap))} ≈ ${num(n.gap)}`;
     return { d, n, gap, fields: f.join(' | ') };
   }
 
@@ -137,7 +145,7 @@
         <div class="kv"><span>BF16로 옮긴 값</span><b>${num(bf.d.value)}</b></div>
         <div class="kv"><span>FP16 다음 수 · 간격</span><b>${h.n ? `${num(h.n.next)} · ${h.gap}` : '없음'}</b></div>
         <div class="kv"><span>BF16 다음 수 · 간격</span><b>${bf.n ? `${num(bf.n.next)} · ${bf.gap}` : '없음'}</b></div>
-        <div class="result-line">${note ? `${note} ` : ''}FP16 계산: ${formula}. ${same ? 'BF16도 이 값을 그대로 적습니다. 다만 가수가 7비트라 이웃한 수 사이의 간격이 더 넓습니다.' : `BF16에는 가수 칸이 7비트뿐이라 ${num(d.value)}이(가) ${num(bf.d.value)}(으)로 반올림됩니다.`}</div>`;
+        <div class="result-line">${note ? `${note} ` : ''}FP16 계산: ${formula}. ${same ? `BF16도 이 값을 그대로 적습니다. ${spacing(h.n, bf.n)}` : `BF16에는 가수 칸이 7비트뿐이라 ${num(d.value)}이(가) ${num(bf.d.value)}(으)로 반올림됩니다.`}</div>`;
     };
     const setValue = (x) => {
       const fp = M.encodeFloat(x, M.FP16);

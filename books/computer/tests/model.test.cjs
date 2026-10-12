@@ -114,6 +114,9 @@ test('FP16·BF16 부동소수점: 대표값·경계값·반올림 (2026-10-12 �
   assert.equal(M.encodeFloat(1, FP16), 0x3C00);
   assert.equal(M.floatNeighbor(0x3C00, FP16).gap, 2 ** -10);
   assert.equal(M.floatNeighbor(M.encodeFloat(2048, FP16), FP16).gap, 2);
+  const top = M.floatNeighbor(M.encodeFloat(65504, FP16), FP16);
+  assert.equal(top.next, Infinity);
+  assert.equal(top.gap, null);
   assert.equal(M.decodeFloat(0x7BFF, FP16).value, 65504);
   assert.equal(M.decodeFloat(0x0400, FP16).value, 2 ** -14);
   assert.equal(M.decodeFloat(0x0001, FP16).kind, 'subnormal');

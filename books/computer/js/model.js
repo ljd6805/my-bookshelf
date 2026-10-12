@@ -123,11 +123,13 @@
     return sign + rest;
   }
 
-  /* 같은 부호에서 0에서 먼 쪽으로 바로 다음에 적을 수 있는 수와 그 간격. 무한대·NaN이면 null. */
+  /* 같은 부호에서 0에서 먼 쪽으로 바로 다음에 적을 수 있는 수와 그 간격. 무한대·NaN이면 null.
+     최댓값처럼 다음 비트가 무한대이면 더 큰 유한한 수가 없으므로 next = ±∞, gap = null. */
   function floatNeighbor(bits, fmt) {
     const here = decodeFloat(bits, fmt);
     if (here.kind === 'inf' || here.kind === 'nan') return null;
     const next = decodeFloat(bits + 1, fmt);
+    if (next.kind === 'inf') return { next: next.value, gap: null };
     const e = Math.max(here.exponent, 1);
     return { next: next.value, gap: 2 ** (e - bias(fmt) - fmt.frac) };
   }
