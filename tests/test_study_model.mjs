@@ -60,9 +60,11 @@ test('앞 장 다시 꺼내기: 읽은 장 중 가장 오래 떠올리지 않은
   const order = ['a', 'b', 'c', 'd'];
   const review = { a: [{}, {}], b: [{}, {}], c: [{}, {}], d: [{}] };
   const s = emptyState();
-  markOpened(s, ch('a', 1), 4, 100);
-  markOpened(s, ch('b', 2), 4, 50);
-  markOpened(s, ch('c', 3), 4, 200);
+  markOpened(s, ch('a', 1), 4, 1);
+  assert.deepEqual(pickRecall(order, 'd', s, review), { id: 'c', index: 0 }, '펼쳐 보기만 한 장은 읽은 장이 아니다');
+  markRead(s, 'a', 100);
+  markRead(s, 'b', 50);
+  markRead(s, 'c', 200);
   assert.deepEqual(pickRecall(order, 'd', s, review), { id: 'b', index: 0 });
   recordRecall(s, 'b', true, 300);
   assert.deepEqual(pickRecall(order, 'd', s, review), { id: 'a', index: 0 });
@@ -75,7 +77,7 @@ test('앞 장 다시 꺼내기: 읽은 장 중 가장 오래 떠올리지 않은
 
 test('앞 장 다시 꺼내기: 복습 문항이 없는 장은 건너뛴다', () => {
   const s = emptyState();
-  markOpened(s, ch('a', 1), 3, 1);
+  markRead(s, 'a', 1);
   assert.deepEqual(pickRecall(['a', 'b', 'c'], 'c', s, { a: [{}], c: [{}] }), { id: 'a', index: 0 });
   assert.equal(pickRecall(['a', 'b'], 'b', s, { b: [{}] }), null);
 });

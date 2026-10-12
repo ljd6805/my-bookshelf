@@ -106,7 +106,7 @@ export function summary(state, total = state.total) {
 }
 
 /** 앞 장 다시 꺼내기: 현재 장보다 앞에 있고 복습 문항이 있는 장 중에서
-    읽은 적 있는 장을 먼저, 그중 가장 오래 떠올리지 않은 장을 고른다. 같으면 앞 장이 먼저다.
+    끝까지 읽었거나 복습한 장을 먼저(펼쳐 보기만 한 장은 세지 않는다), 그중 가장 오래 떠올리지 않은 장을 고른다. 같으면 앞 장이 먼저다.
     문항은 그 장을 맞힌 횟수만큼 돌아가며 고른다. 고를 장이 없으면 null. */
 export function pickRecall(order, currentId, state, review) {
   const at = order.indexOf(currentId);
@@ -116,7 +116,7 @@ export function pickRecall(order, currentId, state, review) {
     .filter(id => (review[id] || []).length > 0)
     .map((id, position) => ({ id, position, c: state.chapters[id] }));
   if (!candidates.length) return null;
-  const seen = candidates.filter(x => x.c && x.c.opened);
+  const seen = candidates.filter(x => x.c && (x.c.read || x.c.reviewed));
   const pool = seen.length ? seen : candidates.slice(-1);
   pool.sort((a, b) => touched(a.c) - touched(b.c) || a.position - b.position);
   const pick = pool[0];
