@@ -1,4 +1,4 @@
-import { setupAtlas, filterAtlas } from './atlas.js?v=20261012-order1';
+import { setupAtlas, filterAtlas } from './atlas.js?v=20261012-order2';
 
 export { setupAtlas };
 

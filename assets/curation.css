@@ -88,7 +88,7 @@
 .atlas-bridge{fill:none;stroke:#9fb3ab;stroke-linecap:round;opacity:.5;transition:opacity .25s,stroke .25s}
 .atlas-bridge.is-far{stroke-dasharray:3 8;opacity:0;pointer-events:none}
 .atlas-bridge.is-on{stroke:#365f69;opacity:.75}.atlas-bridge.is-far.is-on{opacity:.8}
-.atlas-bridge.is-dim{opacity:.16}
+.atlas-bridge.is-dim{opacity:.16}.atlas-bridge.is-far:not(.is-on){opacity:0}
 .isl-halo{fill:none;stroke:rgba(var(--edge),.28);stroke-width:1.2;stroke-dasharray:3 4}
 .isl-base{fill:#fbf7ec}
 .isl-land{fill:rgba(var(--glass),.17);stroke:rgba(var(--edge),.55);stroke-width:1.6;transition:stroke-width .2s,fill .2s}

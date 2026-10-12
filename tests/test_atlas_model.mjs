@@ -105,3 +105,21 @@ test('focus view separates concept labels from each other', () => {
     assert.ok(Math.abs(a.x - b.x) >= (a.w + b.w) / 2 + 7 || Math.abs(a.y - b.y) >= 33, `${a.id}·${b.id} 겹침`);
   }));
 });
+
+test('a bridge between far ring islands sails around the hub instead of crossing it or another island', () => {
+  const fields = [['허브', 6], ['동', 2], ['남', 2], ['서', 2], ['북', 2]];
+  const links = [['x', ['동0', '서0']], ['y', ['남0', '북0']], ['z', ['허브0', '동1', '남1', '서1', '북1']]];
+  for (const portrait of [false, true]) {
+    const layout = layoutIslands(buildGraph(payload(fields, links)), { portrait });
+    const far = layout.bridges.filter(b => !b.shown);
+    assert.ok(far.length >= 2);
+    far.forEach(b => {
+      const nums = b.d.match(/-?\d+(\.\d+)?/g).map(Number);
+      const pts = [];
+      for (let i = 2; i < nums.length - 2; i += 2) pts.push({ x: nums[i], y: nums[i + 1] });
+      layout.islands.filter(i => i.name !== b.a && i.name !== b.b).forEach(i => {
+        pts.forEach(p => assert.ok(Math.hypot(p.x - i.x, p.y - i.y) > i.r, `${b.id} enters ${i.name}`));
+      });
+    });
+  }
+});

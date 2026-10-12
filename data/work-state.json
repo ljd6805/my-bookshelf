@@ -82,7 +82,8 @@
     "AI 문체 담당 지정(2026-10-12, 사용자 질문): 문체에서 AI 느낌을 빼는 일을 명시적으로 맡은 인물이 없어, 인원을 늘리지 않고 글작성팀 다온을 '쉬운 말·문체 편집자'로 넓혔다. 번역투·상투적 도입과 맺음·습관적 세 항목 나열·문단 틀 반복·굵은 글씨와 접속어 남발을 점검 목록에 넣고 AGENTS.md 문서와 이야기 규칙과 docs/10에 반영했다. 같은 날 사용자 요청으로 다온을 '문체 비평가 · 쉬운 말 편집자'로 바꿔, 원고를 비판적으로 읽고 장마다 문체 비평 메모(인용·진단·고친 문장)를 G4에 함께 넘기게 했다.",
     "지식 그래프 책 검수팀 검수(2026-10-12): 사실·용어·출처(유진), 수치·실험 계산(건우), 첫 독자 브라우저 확인(채원), 규칙 감사(현석). 출처 5개 추가·문장 보정, 장마다 '다른 상황에 써 보기' 전이 문제와 정답 위치 분산, 예제 버튼 3개로 정리, plum 색을 docs/05에 기록 (books/knowledge-graph/docs/fact-review.html)",
     "트랜스포머 속을 열어 보기(2026-10-12): 직접 학습시킨 2층 트랜스포머 '토리'(28,064 파라미터)로 14장·14개 실험. 어텐션 기초는 3~6장. 장 색인·개념 8개+새 개념 '모델 속 들여다보기'·새 읽기 노선, aie-08 #multihead에서 들어오는 링크. 독립 검수 2회차 fixed (books/transformer/docs/fact-review.html)",
-    "지식 지도 섬마다 추천 읽기 순서 추가(사용자 요청 2026-10-12). scripts/reading_order.py가 시리즈 권 순서·읽기 노선 방문 순서·서가 순서로 분야별 순서와 이유를 계산하고, 섬을 고르면 설명판에 번호 단계와 근거 단추, 책등에 번호가 나옴. 목록 보기에도 분야별 순서. 테스트 tests/test_reading_order.py. 기록: docs/04-site-plan.html#reading-order, docs/03-verification.html#reading-order-check"
+    "지식 지도 섬마다 추천 읽기 순서 추가(사용자 요청 2026-10-12). scripts/reading_order.py가 시리즈 권 순서·읽기 노선 방문 순서·서가 순서로 분야별 순서와 이유를 계산하고, 섬을 고르면 설명판에 번호 단계와 근거 단추, 책등에 번호가 나옴. 목록 보기에도 분야별 순서. 테스트 tests/test_reading_order.py. 기록: docs/04-site-plan.html#reading-order, docs/03-verification.html#reading-order-check",
+    "지식 지도 건너편 다리 정리(사용자 지적 2026-10-12): 고리 건너편 점선이 가운데 섬을 가로지르며 가운데 섬 다리와 겹치던 것을 assets/atlas-model.mjs seaRoute로 가운데 섬 둘레 바닷길을 따라 돌게 하고 모든 다리를 섬 아래에 깖. 섬을 고르면 다리 이름표가 'AI공학과 개념 6'처럼 건너편 섬 이름을 붙여 같은 숫자 이름표를 구분. 기록: docs/04-site-plan.html#knowledge-map, docs/03-verification.html#far-bridge-check"
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": "AI 엔지니어링 시리즈는 완간. 시점에 민감한 사실(EU AI Act, MCP 규격, 모델 현황)은 다음 개정 때 공식 문서로 재확인. AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",

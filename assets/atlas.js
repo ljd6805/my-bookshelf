@@ -1,7 +1,7 @@
 /* 지식 지도의 동작: 섬 지도와 책 중심 보기를 오가고, 고른 섬·다리·개념을 밝히고, 옆 설명판을 채웁니다.
    계산은 atlas-model.mjs, 그리기는 atlas-view.js가 맡습니다. */
-import { buildGraph } from './atlas-model.mjs?v=20261012-order1';
-import { drawMap, drawFocus } from './atlas-view.js?v=20261012-order1';
+import { buildGraph } from './atlas-model.mjs?v=20261012-order2';
+import { drawMap, drawFocus, setBadgeText, andParticle } from './atlas-view.js?v=20261012-order2';
 
 function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
@@ -168,6 +168,7 @@ function highlight(ctx) {
     mark(all('[data-bridge]'), n => Boolean(t.bridges) && t.bridges.has(n.dataset.bridge), 'is-on');
     mark(all('[data-bridge]'), n => Boolean(t.bridges) && !t.bridges.has(n.dataset.bridge), 'is-dim');
     mark(all('.atlas-spine'), n => Boolean(t.books) && t.books.has(n.dataset.book), 'is-lit');
+    labelBadges(ctx, all('.atlas-badge'), s);
     return;
   }
   const c = s?.type === 'concept' ? ctx.graph.concepts.find(x => x.id === s.id) : null;
@@ -175,6 +176,15 @@ function highlight(ctx) {
   mark(all('[data-concept]'), n => Boolean(c) && n.dataset.concept !== c.id, 'is-dim');
   mark(all('.atlas-orbit'), n => Boolean(c) && c.books.includes(n.dataset.book), 'is-lit');
   mark(all('.atlas-orbit'), n => Boolean(c) && !c.books.includes(n.dataset.book), 'is-dim');
+}
+
+/* 섬을 고르면 그 섬의 다리 이름표에 건너편 섬 이름을 붙여, 같은 '개념 6'이 서로 다른 다리임을 보입니다. */
+function labelBadges(ctx, badges, s) {
+  badges.forEach(g => {
+    const b = ctx.graph.bridges.find(x => x.id === g.dataset.bridge);
+    const other = s?.type === 'island' && (b.a === s.id ? b.b : b.b === s.id ? b.a : null);
+    setBadgeText(g, other ? `${other}${andParticle(other)} 개념 ${b.concepts.length}` : `개념 ${b.concepts.length}`);
+  });
 }
 
 function select(ctx, sel, moveFocus = false) {
