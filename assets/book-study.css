@@ -20,6 +20,7 @@
 .study-q[data-kind=recall] .study-q-label{color:var(--muted)}
 .study-q-text{margin:0 0 10px;font-weight:600}
 .study-choices button{display:block;width:100%;text-align:left;margin:6px 0;white-space:normal}
+.study-choices button:disabled{opacity:1;cursor:default}
 .study-choices button[data-result=right]{border-color:var(--accent);color:var(--accent)}
 .study-choices button[data-result=right]::after{content:"  ✓ 정답"}
 .study-choices button[data-result=wrong]{opacity:.75;text-decoration:line-through}

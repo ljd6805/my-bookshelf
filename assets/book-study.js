@@ -80,9 +80,9 @@ function resumeBanner(list) {
   const box = document.createElement('aside');
   box.className = 'study-resume';
   box.setAttribute('aria-label', '이어 읽기');
-  box.innerHTML = `<p><b>이어 읽기</b> 지난번에 마지막으로 펼친 장은 ${pad(last.num)}장 「${esc(last.title)}」입니다. `
+  box.innerHTML = `<p><b>이어 읽기</b> 지난번에 마지막으로 펼친 장은 ${last.num}장 「${esc(last.title)}」입니다. `
     + `${s.total}장 중 ${s.read}장을 끝까지 읽었고, ${s.reviewed}장의 복습을 마쳤습니다.</p>`
-    + `<a class="button primary" href="#${encodeURIComponent(last.id)}">${pad(last.num)}장으로 돌아가기</a>`;
+    + `<a class="button primary" href="#${encodeURIComponent(last.id)}">${last.num}장으로 돌아가기</a>`;
   main.prepend(box);
 }
 
@@ -105,9 +105,9 @@ function reviewHtml(chapter, list) {
   }
   return `<section class="study-review" aria-labelledby="study-review-title"><div class="eyebrow">REVIEW · 복습 퀴즈</div>`
     + `<h2 id="study-review-title">덮기 전에 다시 꺼내 보기</h2>`
-    + `<p class="study-intro">책을 보지 않고 답을 떠올려 보세요. 이 장 문제를 모두 맞히면 목차에 ★ 복습 완료가 표시됩니다.`
+    + `<p class="study-intro">책을 보지 않고 답을 떠올려 보세요. 이 장 문제를 모두 처음 고른 답으로 맞히면 목차에 ★ 복습 완료가 표시됩니다.`
     + `${recall ? ' 마지막 문제는 앞에서 읽은 장 중 가장 오래 떠올리지 않은 장에서 나옵니다.' : ''}</p>`
-    + `<ol class="study-questions">${items.join('')}</ol><p class="study-status" role="status"></p>`
+    + `<ol class="study-questions">${items.join('')}</ol><p class="study-status"></p>`
     + `<button type="button" class="study-again">이 장 복습 처음부터 다시 하기</button></section>`;
 }
 
@@ -138,11 +138,13 @@ function answer(section, chapter, item, button) {
   button.dataset.result = correct ? 'right' : 'wrong';
   button.setAttribute('aria-pressed', 'true');
   const feedback = item.querySelector('.study-feedback');
-  if (correct) feedback.textContent = `✓ 정답입니다. ${q.why}`;
-  else if (tries >= 2) feedback.textContent = `✗ 다시 생각해 보세요. 답은 ${q.answer + 1}번입니다. ${q.why}`;
-  else feedback.textContent = `✗ ${pick + 1}번은 아닙니다. 다시 한 번 골라 보세요.`;
+  if (correct) feedback.textContent = tries === 1 ? `✓ 정답입니다. ${q.why}` : `✓ 맞습니다. 다시 고른 답이라 복습 완료에는 세지 않습니다. ${q.why}`;
+  else if (tries >= 2) feedback.textContent = `✗ 이번에도 아닙니다. 답은 ${q.answer + 1}번입니다. ${q.why}`;
+  else feedback.textContent = `✗ ${pick + 1}번은 아닙니다. 한 번 더 골라 보세요.`;
+  // 맞혔거나 답을 보여 준 문항은 잠근다. 복습 완료와 앞 장 기록은 첫 번째 고른 답만 센다.
+  if (correct || tries >= 2) item.querySelectorAll('[data-choice]').forEach(b => { b.disabled = true; });
   const now = Date.now();
-  if (kind === 'own') recordAnswer(state, id, index, correct, review[id].length, now);
+  if (kind === 'own') recordAnswer(state, id, index, correct && tries === 1, review[id].length, now);
   else if (correct && tries === 1) recordRecall(state, id, true, now);
   save();
   updateReviewStatus(section, chapter);
