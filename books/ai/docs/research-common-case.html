@@ -1,0 +1,28 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>공통 사례 조사 노트 · AI Book</title><link rel="stylesheet" href="../../../assets/project-docs.css"></head><body><main style="max-width:1050px;margin:auto;padding:32px">
+<p><a href="index.html#common-case-20261012">책 개발 문서로 돌아가기</a></p>
+<h1>공통 사례 조사 노트 (2026-10-12)</h1>
+<p>지식조사팀(은재 정리, 수아 계산, 태오 오해)이 1~12장 사례 문단의 주장과 숫자를 모은 노트입니다. 한빛 공장·서윤·모터 20대·16 GiB 노트북은 확률과 통계 책과 13장에서 이어 받은 가상의 사례라 외부 출처가 없습니다.</p>
+<h2>사실 주장 표</h2><table><thead><tr><th>장</th><th>주장</th><th>근거</th><th>변화가 잦은가</th></tr></thead><tbody>
+<tr><td>4</td><td>토큰 수는 토크나이저마다 다르고, byte 단위 BPE는 한글 한 글자(UTF-8 3 byte)를 여러 토큰으로 나누기도 한다</td><td>Hugging Face BPE 강의(책 출처 1)</td><td>아니요</td></tr>
+<tr><td>5</td><td>실제 임베딩은 수백 개가 넘는 차원을 쓰고 축에 사람이 붙일 이름이 있지 않다</td><td>Google MLCC 임베딩(책 출처 0)</td><td>아니요</td></tr>
+<tr><td>6</td><td>생성은 앞쪽 토큰만 보고, 학습 때 인과 마스크로 같은 조건을 맞추며, 앞 토큰의 Key·Value를 KV 캐시에 둔다</td><td>Vaswani 등 2017(책 출처 2), 6장 본문</td><td>아니요</td></tr>
+<tr><td>8</td><td>합성곱 커널은 학습되고 모든 위치에서 공유된다</td><td>PyTorch Conv2d 문서(책 출처 6)</td><td>아니요</td></tr>
+<tr><td>9</td><td>SFT는 질문·바람직한 답 예시로, 선호 정보는 보상 모델로 응답 방식을 조정한다</td><td>Ouyang 등 2022(책 출처 3)</td><td>아니요</td></tr>
+<tr><td>11</td><td>가중치에 없는 문서 지식을 검색해 입력에 넣는다</td><td>Lewis 등 2020(책 출처 4)</td><td>아니요</td></tr>
+</tbody></table>
+<h2>기준값 (수아, 책 코드와 따로 Python으로 계산)</h2><ul>
+<li>코사인 [0.9, 0.1]·[0.8, 0.3] = 0.9694, [0.9, 0.1]·[0.2, 0.9] = 0.3234</li>
+<li>softmax [2, 1, 0]: T=1 셋째 0.0900(약 11번에 1번), T=0.5 셋째 0.0159</li>
+<li>“베어링 진동이 기준을 넘으면 윤활유를 확인한다”: 공백 기준 6조각, 공백 뺀 글자 20개</li>
+<li>1장: z = 2×1 + (−1)×0.5 − 0.5 = 1, sigmoid(1) = 0.7311 (입력 이름만 바뀜)</li>
+<li>10장 가정: 16 GiB − 운영체제 여유 6 GiB = 모델 몫 10 GiB (13장 가정과 같음)</li></ul>
+<h2>오해 목록 (태오)</h2><ul>
+<li>온도를 낮추면 답이 맞아진다: 분포가 몰릴 뿐 점수가 높은 오답은 남는다(7장 확인 문제와 같음).</li>
+<li>생성 중에 마스크가 미래 토큰을 가린다: 생성 중에는 미래 토큰이 아직 없다. 마스크는 학습 때 같은 조건을 만드는 장치다(6장 검수에서 고친 부분).</li>
+<li>시험 자료에 맞춰 고른 설정의 적중률은 실제 성능이다: 시험 자료가 개발에 들어오면 숫자가 낙관적으로 나온다(3장).</li></ul>
+<section id="sources"><h2>출처</h2><ul>
+<li><a href="https://huggingface.co/learn/llm-course/chapter6/5">Hugging Face · Byte-Pair Encoding</a> (확인 2026-10-08, 책 출처 목록)</li>
+<li><a href="https://developers.google.com/machine-learning/crash-course">Google · Machine Learning Crash Course</a> (확인 2026-10-08)</li>
+<li><a href="https://arxiv.org/abs/1706.03762">Vaswani et al. 2017</a>, <a href="https://arxiv.org/abs/2203.02155">Ouyang et al. 2022</a>, <a href="https://arxiv.org/abs/2005.11401">Lewis et al. 2020</a> (확인 2026-10-08)</li>
+<li><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv2d.html">PyTorch · Conv2d</a> (확인 2026-10-08)</li></ul></section>
+</main></body></html>
