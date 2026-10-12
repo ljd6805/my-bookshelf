@@ -10,7 +10,7 @@
     const index = B.chapters.findIndex((c) => c.id === hash);
     closeMenu();
     UI.stopAll();
-    if (index >= 0) { UI.markRead(hash); H.side(); P.chapter(B.chapters[index], index); } else P.home();
+    if (index >= 0) { H.side(); P.chapter(B.chapters[index], index); } else P.home();
     document.querySelectorAll('[data-chapter]').forEach((a) => {
       const active = a.dataset.chapter === hash;
       a.classList.toggle('active', active);

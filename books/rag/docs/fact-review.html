@@ -5,6 +5,26 @@
 <h1>팩트·출처 검수 기록 · 검색과 RAG · 질문에서 근거까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-review-quiz" data-reviewer="Claude (복습 퀴즈 검수 세션)" data-author="Claude (복습 퀴즈 집필 세션)" data-date="2026-10-12" data-scope="review.json 복습 퀴즈 20문항(장 10개)" data-result="fixed">
+<h2>2026-10-12 검수 (복습 퀴즈)</h2>
+<p>검수자: Claude (복습 퀴즈 검수 세션). 집필자: Claude (복습 퀴즈 집필 세션). 범위: review.json 복습 퀴즈 20문항(장 10개). 문항마다 정답 번호, 다른 보기가 함께 정답이 될 여지, 장 본문·실험과의 일치, 해설의 참·거짓, 한국어 문장을 확인했습니다. 수치는 해설을 믿지 않고 Python과 책의 계산 모듈(Node)로 따로 다시 계산했습니다.</p>
+<p>정답 번호는 20개 모두 맞았습니다. 다만 문항 하나는 정답 보기가 기대는 가정(평균 문서 길이)이 빠져 있었고, 문항 하나는 실험 결과를 일부만 옮겨 해설이 사실과 어긋났습니다. 둘 다 고쳤고, 해설 낱말 하나를 문항과 맞췄습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>RAG가 가중치가 아니라 입력 문맥을 바꾼다는 점, AND ⊆ OR, 코사인은 방향만 본다는 점, 설정을 고른 질문과 확인 질문을 나눠야 한다는 점, 점수는 주제의 가까움일 뿐이라는 점을 본문과 대조</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>다시 계산: k1 = 1.2·b = 0 tf 항 8.8/5.2 = 1.692, 조각 1~3·3~5·5~7·7~9·9~10 = 14문장, cos A = 0.707·B = 0.816, P 0.55·Q 0.60, MRR 2.75/4 = 0.6875, 1,000,000 × 0.05초 = 13.89시간, 지시문 40 + 질문 9 + 조각 30 × 3 = 139 ≤ 150 < 169, 문턱 0.5에서 틀리게 답함 2개</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 수정</td><td>js/math.js를 Node로 실행: “책을 잃어버리면” 혼합 1위 D2(조각 말뭉치), OR “늦게 돌려주면” 0개, “반납할”·“반납합니다”는 다른 낱말, “기한을 넘겨 돌려주면” 벡터는 늦음·반납 축만, 재순위 N = 3에서 R3 없음·N = 5에서 R3 1위, 예산별 packContext(100: D2·D3 98토큰, 160: +D8·D9 147토큰, 180: +R2, 220 이상: +R5 202토큰)</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>역색인·OR/AND·BM25(k1, b)·조각·겹침·임베딩·코사인·α·MRR·재순위·N·KV 캐시·맞게 답함/틀리게 답함/놓침/바르게 보류가 본문·실험 표기와 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>복습 퀴즈는 외부 출처를 인용하지 않습니다. 사실 근거는 책 본문과 실험 코드입니다.</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>bm25 #0</td><td>정답 보기 “A, 평균보다 짧아…”가 말뭉치 평균 길이를 전제하는데 문항에 평균이 없었음(짧은 A가 이기는 결론은 b &gt; 0이면 평균과 무관하지만 “평균보다 짧다”는 판단할 수 없음)</td><td>BM25 길이 보정 1 − b + b·L/평균</td><td>문항에 평균 40어절과 k1 = 1.2를 적고, 보기를 “길이 보정에서 유리해서”로, 해설에 보정값 0.625·1.75와 tf 항 1.26·0.71을 더함</td></tr>
+<tr><td>context #0</td><td>예산 400으로 늘리면 실제로 D8·D9뿐 아니라 R2·R5도 들어옴. R2는 정답 표시 조각이라 해설의 “새로 온 것은 관련 없는 조각뿐”이 틀림</td><td>packContext 예산 100·160·180·220·400 결과</td><td>예산을 160으로 바꿈(정확히 D8·D9만 추가). 해설에 98 → 147토큰, KV 약 12.3 → 18.4 MiB를 적음</td></tr>
+<tr><td>chunking #0</td><td>문항은 “이 버튼”인데 해설은 “그 버튼”이라 가리키는 말이 어긋남</td><td>문항 원문</td><td>해설을 “이 버튼”으로 맞춤</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<ul><li>문항의 학습 효과(L4)는 독자 시험 없이 판단하지 않았습니다.</li><li>assets/book-study.js가 review.json을 화면에 그리는 동작(보기 순서·정답 표시)은 브라우저에서 확인하지 않았습니다. 이 회차는 문항 내용만 봅니다.</li><li>검수자와 집필자는 같은 대화에서 시작한 서로 다른 하위 에이전트 실행입니다. 집필 에이전트 넷이 문항을 끝낸 뒤 검수 에이전트를 새로 띄웠고, 검수 에이전트는 집필 지시와 결론을 받지 않았습니다. 다만 실행 id는 공개 저장소에 남기지 않아 이 기록만으로 세션이 달랐음을 확인할 수는 없습니다.</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="5장 #embedding·6장 #hybrid 확인 문제 교체, 10장 #final 깊이 읽기 “검색이 맞아도 답은 틀릴 수 있다: 근거와 답 대조하기”, 새 출처 Ragas(arXiv 2309.15217), tests/math.test.cjs 새 테스트, tests/browser.cjs 테마 단추" data-result="fixed">
 <h2>2026-10-12 검수 (2차 보충 검수 r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1)(검수팀 정민·유진·건우·채원·현석과 글작성팀 다온의 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 5장 #embedding·6장 #hybrid 확인 문제 교체, 10장 #final 깊이 읽기 “검색이 맞아도 답은 틀릴 수 있다: 근거와 답 대조하기”, 새 출처 Ragas(arXiv 2309.15217), tests/math.test.cjs 새 테스트, tests/browser.cjs 테마 단추.</p>

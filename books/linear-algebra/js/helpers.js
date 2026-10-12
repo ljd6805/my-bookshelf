@@ -37,9 +37,8 @@
   }
 
   function side() {
-    const read = UI.readState();
     document.querySelector('#sidebar').innerHTML = '<div class="sidebar-title">CONTENTS / 전체 목차</div><a href="#home">벡터와 행렬 처음으로</a>' +
-      B.chapters.map((c, i) => `<a href="#${c.id}" data-chapter="${c.id}" class="${read[c.id] ? 'visited' : ''}"><span>${pad(i + 1)}</span>${c.title}${read[c.id] ? '<em class="read-mark">읽음</em>' : ''}</a>`).join('');
+      B.chapters.map((c, i) => `<a href="#${c.id}" data-chapter="${c.id}"><span>${pad(i + 1)}</span>${c.title}</a>`).join('');
   }
 
   window.LAApp = { flow, sourceLinks, thumbnail, side, pad, LAST, main };

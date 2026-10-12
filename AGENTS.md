@@ -80,6 +80,7 @@
 - 머리말 메뉴 순서, 표지·읽기 두 모드와 왼쪽 장 목차, 장 화면 일곱 블록(장 머리 → 먼저 개념 잡기 → 실험 → 혼동하지 마세요 → 확인 문제 → 더 읽어 보기 → 이전·다음), 실험 블록 형식, content.js 장 데이터 필드를 그대로 유지한다.
 - 글꼴은 assets/type.css의 공통 체계(본문 Pretendard, 제목 Noto Serif KR, 숫자·코드 JetBrains Mono)를 쓴다. 책 index.html은 `<html data-typeset="book">`과 `../../assets/type.css`를 연결하고, 책 CSS는 var(--font-sans|serif|mono)만 쓴다. 기준은 docs/08-book-template.html#typography, validate.py가 검사한다.
 - 모든 책은 처음 열 때 밝은 화면이다. 책 index.html은 `<html data-theme="light">`, `#theme` 버튼 문구 "어두운 화면"으로 시작하고 `<head>`에서 `../../assets/book-theme.js`를 불러 독자가 고른 테마를 서재 전체에서 기억한다. 기준은 docs/08-book-template.html#theme, validate.py가 검사한다.
+- 모든 책은 장별 진도와 복습 퀴즈를 갖는다. 책 index.html `<head>`의 book-theme.js 뒤에 `<script type="module" src="../../assets/book-study.js?v=..." data-book-study data-review="review.json">`를 두고, books/주제/review.json에 모든 장(마지막 과제 포함)마다 두 문항 이상(보기 3~4개·정답 번호·이유)을 쓴다. 진도는 브라우저에만 bookshelf:책폴더:v1:study로 남고 서가가 같은 기록으로 이어 읽기를 보여 준다. 문항도 팩트·출처 검수 대상이다. 규칙 이전 책은 scripts/study_rules.py의 PENDING에 있고, 퀴즈를 더할 때 목록에서 지운다. 기준은 docs/08-book-template.html#study, validate.py가 검사한다.
 - 서가에서 펼쳤을 때 보이는 대표 삽화(assets/shelf-illustration.svg)는 반드시 움직인다. @keyframes와 animation(또는 SMIL)으로 책의 핵심 과정을 보여 주고, prefers-reduced-motion과 html[data-motion=reduce]에서 멈추며, 클래스·id는 책 접두어를 붙인다. 정지 그림이나 애니메이션 흔적만 있는 그림은 validate.py가 오류로 막는다. 등록 후 서가에서 직접 펼쳐 움직임을 눈으로 확인한다(docs/08-book-template.html#shelf-art).
 - 색·표지 실험·장과 실험 내용은 책마다 새로 만든다. 고정 항목을 바꿔야 하면 docs/08을 먼저 고치고 모든 책에 반영할지 사용자에게 확인한다.
 

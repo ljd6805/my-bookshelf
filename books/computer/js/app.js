@@ -2,7 +2,6 @@
 (() => {
   'use strict';
   const B = window.CompBook, Labs = window.CompLabs, main = document.querySelector('main');
-  const KEY = 'bookshelf:how-computers-work:v1:progress';
   const pad = (i) => String(i + 1).padStart(2, '0');
   let cleanups = [];
 
@@ -36,13 +35,10 @@
     return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer, (index + 1) % 3, 'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;
   }
   const figure = (key, label) => window.CompFigureView.render(key, label);
-  const progress = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
-  const saveProgress = (v) => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch { /* 저장할 수 없는 환경에서는 표시만 유지 */ } };
 
   function side() {
-    const read = progress();
     document.querySelector('#sidebar').innerHTML = '<div class="sidebar-title">CONTENTS / 전체 목차</div><a href="#home">컴퓨터 책 처음으로</a>'
-      + B.chapters.map((c, i) => `<a href="#${c.id}" data-chapter="${c.id}"><span>${pad(i)}</span>${c.title}${read[c.id] ? ' ✓' : ''}</a>`).join('');
+      + B.chapters.map((c, i) => `<a href="#${c.id}" data-chapter="${c.id}"><span>${pad(i)}</span>${c.title}</a>`).join('');
   }
 
   function home() {
@@ -71,7 +67,6 @@
   function chapter(c, index) {
     document.body.classList.add('reading');
     document.title = `${pad(index)}. ${c.title} · 컴퓨터는 어떻게 동작하는가`;
-    const read = !!progress()[c.id];
     main.innerHTML = `<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${pad(index)} / ${c.group}</div><h1>${c.title}</h1><p class="lead">${c.subtitle}</p><div class="chapter-meta"><span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 확인 문제 ${c.transfer ? 2 : 1}개</span></div></div>
       <section><h2>먼저 개념 잡기</h2>${c.paragraphs.map((p) => `<p>${p}</p>`).join('')}${c.aside || ''}${c.figure ? figure(c.figure, `그림 ${index + 1}-1.`) : ''}<figure class="concept-diagram">${flow(c.flow)}<figcaption class="caption">그림 ${index + 1}-${c.figure ? 2 : 1}. ${c.title}의 핵심 관계를 순서대로 정리했습니다.</figcaption></figure><div class="formula"><code>${c.formula}</code><p>${c.formulaNote}</p></div></section>
       <div class="predict"><strong>먼저 예측하기</strong><br>${c.predict}</div>
@@ -81,7 +76,7 @@
       ${c.extra || ''}
       <section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>${choices(c.quiz, index % 3, 'answer')}<div class="quiz-feedback" role="status" aria-live="polite"></div>${transferQuiz(c, index)}</section>
       ${c.remaining ? `<div class="remaining"><strong>해결한 것과 남은 질문</strong><br>${c.remaining}</div>` : ''}
-      <section><h2>더 읽어 보기</h2>${sourceLinks(c.source)}${crossLinks(c.cross)}<button class="read-toggle" aria-pressed="${read}">${read ? '✓ 읽은 장으로 표시됨' : '이 장을 읽었어요'}</button></section>
+      <section><h2>더 읽어 보기</h2>${sourceLinks(c.source)}${crossLinks(c.cross)}</section>
       ${chapterNav(index)}</div>`;
     c.labs.forEach((id) => {
       const el = main.querySelector(`[data-lab="${id}"]`);
@@ -95,11 +90,6 @@
       const correct = +b.dataset.transfer === c.transfer[2];
       main.querySelector('.transfer-feedback').textContent = `${correct ? '정답입니다.' : '다시 생각해 보세요.'} ${c.transfer[3]}`;
     }; });
-    main.querySelector('.read-toggle').onclick = (e) => {
-      const p = progress(); p[c.id] = !p[c.id]; saveProgress(p);
-      e.target.setAttribute('aria-pressed', String(p[c.id])); e.target.textContent = p[c.id] ? '✓ 읽은 장으로 표시됨' : '이 장을 읽었어요';
-      side(); markActive(c.id);
-    };
   }
 
   function markActive(hash) {
