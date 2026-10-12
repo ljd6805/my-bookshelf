@@ -1,0 +1,21 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="메시지 응 지금 가는 중의 글자들이 허프만 트리의 잎에 매달려 짧은 비트열 00과 100으로 바뀌고, 오른쪽에서 UTF-8 168비트 띠가 허프만 48비트 띠로 줄어드는 압축 그림" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="8" y="16">윤슬의 메시지 618글자</text>
+<rect class="cv-node" x="8" y="24" width="26" height="22" rx="4"/><text class="cv-text cv-bold" x="15" y="40">응</text>
+<rect class="cv-tint" x="38" y="24" width="18" height="22" rx="4"/>
+<rect class="cv-node" x="60" y="24" width="26" height="22" rx="4"/><text class="cv-text cv-bold" x="67" y="40">지</text>
+<rect class="cv-node" x="90" y="24" width="26" height="22" rx="4"/><text class="cv-text cv-bold" x="97" y="40">금</text>
+<rect class="cv-tint" x="120" y="24" width="18" height="22" rx="4"/>
+<path class="cv-hair" d="M8 56H150"/>
+<path class="cv-stroke" d="M78 64L48 88M78 64L110 88M48 88L30 114M48 88L66 114M110 88L94 114"/>
+<circle class="cv-fill" cx="78" cy="64" r="5"/><circle class="cv-fill" cx="48" cy="88" r="4"/><circle class="cv-fill" cx="110" cy="88" r="4"/>
+<circle class="cv-node" cx="30" cy="118" r="9"/><text class="cv-text cv-bold" x="26" y="122">␣</text>
+<circle class="cv-node" cx="94" cy="118" r="9"/><text class="cv-text cv-bold" x="90" y="122">↵</text>
+<text class="cv-text cv-muted" x="8" y="144">␣ 00 · ↵ 100 · 응 101100</text>
+<path class="cv-hair" d="M164 20V140"/>
+<text class="cv-text cv-muted" x="178" y="30">UTF-8</text>
+<rect class="cv-tint" x="178" y="38" width="134" height="16" rx="3"/><text class="cv-text cv-muted" x="270" y="50">168</text>
+<path class="cv-line cv-dash" d="M245 60L210 84"/>
+<text class="cv-text cv-muted" x="178" y="84">허프만</text>
+<rect class="cv-fill" x="178" y="92" width="38" height="16" rx="3"/><text class="cv-text cv-bold" x="222" y="104">48비트</text>
+<text class="cv-text cv-muted" x="178" y="134">한 글자 18.6 → 5.7비트</text>
+</svg>
