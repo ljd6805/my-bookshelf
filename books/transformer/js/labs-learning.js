@@ -30,6 +30,7 @@ TLabs.investigate=el=>{
  U.bind(el,()=>{
   const text=el.querySelector('#ip').value,ans=el.querySelector('#ia').value.trim(),t=M.tokenize(text);
   if(t.unknown.length||M.index(ans)<0)return U.result(el,'',`<strong>사전에 없는 낱말</strong> · ${[...t.unknown,...(M.index(ans)<0?[ans||'(빈칸)']:[])].map(esc).join(', ')}. 토리가 아는 낱말 32개 안에서 써 주세요.`);
+  if(t.cut)return U.result(el,'',`<strong>문장이 너무 깁니다</strong> · 토리는 맨 앞 &lt;s&gt;를 포함해 ${M.dims().T}토큰까지만 읽습니다. 낱말을 ${M.dims().T-1}개 이하로 줄여야 조사 결과가 그 문장의 것이 됩니다.`);
   const off=parts.map(p=>p[0]).filter(k=>el.querySelector('#i'+k.replace('.','-')).checked),a=M.ablate(text,ans,off);
   U.result(el,U.bars(a.top.map(x=>x.token),a.top.map(x=>x.p),{digits:3,max:1,mark:i=>a.top[i].token===ans}),`“${esc(ans)}”의 확률: 지우기 전 ${U.pct(a.before,1)} → 지운 뒤 <b>${U.pct(a.after,1)}</b> · 지운 부품: ${off.length?off.join(', '):'없음'}.<br>한 번에 하나씩 지워 보고, 그다음 여럿을 함께 지워 보세요. 하나씩은 별일 없는데 함께 지우면 무너진다면, 그 부품들은 같은 일을 나눠 맡은 것입니다. 실제 계산.`);
  });

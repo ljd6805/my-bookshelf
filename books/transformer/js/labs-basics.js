@@ -2,6 +2,7 @@
 (()=>{
 'use strict';
 const U=TUI,M=TMath,F=U.fmt,esc=U.esc;
+const cutMsg=()=>`<strong>문장이 너무 깁니다</strong> · 토리는 맨 앞 &lt;s&gt;를 포함해 ${M.dims().T}토큰까지만 읽습니다. 뒤쪽 낱말이 잘리면 다른 문장을 계산하게 되므로, 낱말을 ${M.dims().T-1}개 이하로 줄여 주세요.`;
 const unknownMsg=t=>`<strong>사전에 없는 낱말</strong> · ${t.unknown.map(esc).join(', ')}. 토리는 낱말 32개만 압니다: 동물 6, 먹이 6, 집 6, 숫자 1~9, 기호(&lt;s&gt; . 목록 먹이 집). 낱말 사이는 띄어 씁니다.`;
 const HEADS=[0,1].flatMap(l=>[0,1,2,3].map(h=>[`${l}.${h}`,`${l}층 헤드 ${h}`]));
 const PRESETS=[['목록 곰 꿀 숲 토끼 포도 곰 꿀','목록 · 곰 꿀 숲 토끼 포도 곰 꿀'],['곰 먹이 꿀 . 토끼 집','사실 · 곰 먹이 꿀 . 토끼 집'],['3 4 5 6 7','세기 · 3 4 5 6 7']];
@@ -10,6 +11,7 @@ TLabs.next=el=>{
  U.bind(el,()=>{
   const p=M.predict(el.querySelector('#prompt').value,U.value(el,'temp'));
   if(p.unknown.length)return U.result(el,'',unknownMsg(p));
+  if(p.cut)return U.result(el,'',cutMsg());
   const tgt=el.querySelector('#target').value.trim(),ti=M.index(tgt);
   const chart=U.chips(p.ids.map(i=>M.vocab()[i]))+U.bars(p.top.map(t=>t.token),p.top.map(t=>t.p),{mark:i=>p.top[i].token===tgt});
   const loss=ti>=0?`정답을 “${esc(tgt)}”${U.josa(tgt,'으로','로')} 보면 확률 ${U.pct(p.probs[ti],2)}, 교차 엔트로피 −ln p = <b>${F(M.crossEntropy(p.probs,ti),3)}</b> nat입니다.`:'정답 낱말 칸이 비었거나 사전에 없어 손실은 계산하지 않았습니다.';
