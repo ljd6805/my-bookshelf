@@ -1,0 +1,31 @@
+<svg class="al-ill" viewBox="0 0 340 180" role="img" aria-label="같은 서가에서 책 한 권을 찾는 두 방법. 위 줄의 손가락은 왼쪽부터 한 권씩 천천히 훑고, 아래 줄의 괄호는 가운데와 견줄 때마다 범위를 반으로 좁혀 네 번 만에 찾는 책에 닿는다" xmlns="http://www.w3.org/2000/svg">
+<style>
+.al-ill-book{fill:#e8eef7;stroke:#55627a;stroke-width:1}
+.al-ill-goal{fill:#cfe0ff;stroke:#2457b8;stroke-width:1.6}
+.al-ill-label{font:600 10.5px sans-serif;fill:#17233a}
+.al-ill-small{font:500 9px sans-serif;fill:#55627a}
+.al-ill-count{font:700 10px monospace;fill:#2457b8}
+.al-ill-scan{fill:#a3560c;animation:al-ill-scan 6s linear infinite}
+.al-ill-bracket{fill:none;stroke:#2457b8;stroke-width:2.4;stroke-linecap:round;transform-box:fill-box;animation:al-ill-halve 6s steps(1,end) infinite}
+.al-ill-found{opacity:0;animation:al-ill-found 6s ease-in-out infinite}
+.al-ill-shelf{stroke:#8a96a8;stroke-width:2}
+@keyframes al-ill-scan{0%{transform:translateX(0)}88%{transform:translateX(208px)}100%{transform:translateX(208px)}}
+@keyframes al-ill-halve{0%{transform:translateX(0) scaleX(1)}18%{transform:translateX(0) scaleX(1)}19%{transform:translateX(128px) scaleX(.5)}37%{transform:translateX(128px) scaleX(.5)}38%{transform:translateX(192px) scaleX(.25)}56%{transform:translateX(192px) scaleX(.25)}57%{transform:translateX(192px) scaleX(.125)}100%{transform:translateX(192px) scaleX(.125)}}
+@keyframes al-ill-found{0%,58%{opacity:0}64%,94%{opacity:1}100%{opacity:0}}
+html[data-motion=reduce] .al-ill-scan,html[data-motion=reduce] .al-ill-bracket{animation:none}
+html[data-motion=reduce] .al-ill-found{animation:none;opacity:1}
+@media(prefers-reduced-motion:reduce){.al-ill-scan,.al-ill-bracket{animation:none}.al-ill-found{animation:none;opacity:1}}
+</style>
+<text class="al-ill-label" x="14" y="22">앞에서부터 훑기</text><text class="al-ill-small" x="326" y="22" text-anchor="end">한 권씩 · n번</text>
+<g id="al-ill-row1">
+<rect class="al-ill-book" x="20" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="36" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="52" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="68" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="84" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="100" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="116" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="132" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="148" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="164" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="180" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="196" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="212" y="34" width="14" height="40" rx="2"/><rect class="al-ill-goal" x="228" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="244" y="34" width="14" height="40" rx="2"/><rect class="al-ill-book" x="260" y="34" width="14" height="40" rx="2"/>
+</g>
+<path class="al-ill-shelf" d="M14 75H282"/>
+<path class="al-ill-scan" d="M23 80l4 -6l4 6z"/>
+<text class="al-ill-label" x="14" y="99">가운데와 견주어 반씩</text><text class="al-ill-small" x="326" y="99" text-anchor="end">log₂ n번</text>
+<rect class="al-ill-book" x="20" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="36" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="52" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="68" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="84" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="100" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="116" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="132" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="148" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="164" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="180" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="196" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="212" y="118" width="14" height="40" rx="2"/><rect class="al-ill-goal" x="228" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="244" y="118" width="14" height="40" rx="2"/><rect class="al-ill-book" x="260" y="118" width="14" height="40" rx="2"/>
+<path class="al-ill-shelf" d="M14 159H282"/>
+<path class="al-ill-bracket" d="M20 112V108H274V112"/>
+<g class="al-ill-found"><circle cx="235" cy="170" r="5" fill="#2457b8"/><text class="al-ill-count" x="290" y="140">4번</text><text class="al-ill-small" x="290" y="152">찾음</text></g>
+<text class="al-ill-small" x="290" y="58">14번째</text>
+</svg>

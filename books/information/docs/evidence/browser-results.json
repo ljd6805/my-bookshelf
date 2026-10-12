@@ -1,0 +1,562 @@
+{
+  "url": "http://127.0.0.1:8781/books/information/",
+  "date": "2026-10-12",
+  "views": [
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "surprise",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "entropy",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "context",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "huffman",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "mismatch",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "arithmetic",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "dictionary",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "perplexity",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "channel",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "quantize",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "home",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "surprise",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "entropy",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "context",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "huffman",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "mismatch",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "arithmetic",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "dictionary",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "perplexity",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "channel",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "quantize",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "surprise",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "entropy",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "context",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "huffman",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "mismatch",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "arithmetic",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "dictionary",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "perplexity",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "channel",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "quantize",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "huffman",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "arithmetic",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "channel",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "dictionary",
+      "scroll": 320,
+      "returnVisible": true
+    }
+  ],
+  "labs": [
+    {
+      "width": 1280,
+      "id": "surprise",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "entropy",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "chain",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "huffman",
+      "controls": 6,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "kraft",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "mismatch",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "arithmetic",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "lz",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "bpe",
+      "controls": 1,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "perplexity",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "hamming",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "noisy",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "quantize",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "surprise",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "entropy",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "chain",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "huffman",
+      "controls": 6,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "kraft",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "mismatch",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "arithmetic",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "lz",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "bpe",
+      "controls": 1,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "perplexity",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "hamming",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "noisy",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "quantize",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "surprise",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "entropy",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "chain",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "huffman",
+      "controls": 6,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "kraft",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "mismatch",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "arithmetic",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "lz",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "bpe",
+      "controls": 1,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "perplexity",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "hamming",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "noisy",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "quantize",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}
