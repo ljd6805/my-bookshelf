@@ -20,6 +20,8 @@ class TeamGates(unittest.TestCase):
         with tempfile.TemporaryDirectory() as name:
             docs = Path(name) / 'books/new/docs'
             docs.mkdir(parents=True)
+            (Path(name) / 'data').mkdir()
+            (Path(name) / 'data/agent-team.json').write_text((ROOT / 'data/agent-team.json').read_text())
             if doc is not None:
                 (docs / 'index.html').write_text(doc)
             if review:
@@ -49,11 +51,19 @@ class TeamGates(unittest.TestCase):
         self.assertTrue(any('style critique memo' in e and '1 of 2' in e for e in errors))
 
     def test_writing_book_needs_gates_in_order(self):
-        rows = TEMPLATE.split('<tr data-gate="G3">')[0] + '</table></section>'
+        rows = TEMPLATE.split('<tr data-gate="G3"')[0] + '</table></section>'
         self.assertEqual(self.run_check(SECTIONS + rows, status='writing'), [])
         gap = rows.replace('data-gate="G1"', 'data-gate="G4"')
         self.assertTrue(self.run_check(SECTIONS + gap, status='writing'))
         self.assertTrue(self.run_check(SECTIONS + rows))
+
+    def test_each_gate_needs_its_leads_sign_off(self):
+        doc = SECTIONS + STYLE + TEMPLATE
+        errors = self.run_check(doc.replace('data-approved="은재 지안"', 'data-approved="은재"'))
+        self.assertEqual(len(errors), 1)
+        self.assertIn('G3 needs data-approved sign-off from 지안', errors[0])
+        self.assertTrue(self.run_check(doc.replace(' data-approved="정민"', '')))
+        self.assertTrue(self.run_check(doc.replace('data-approved="한결">', 'data-approved="서윤">')))
 
     def test_legacy_book_is_grandfathered_until_revised(self):
         bid = sorted(LEGACY)[0]

@@ -3,8 +3,10 @@
 Each book keeps its production record in books/<topic>/docs/index.html. One build or
 revision is one <table class="gate-round" data-kind="new|revision" data-date="YYYY-MM-DD">
 inside <section id="log">, with one <tr data-gate="Gn"> row per gate passed. The latest
-round decides. Format: templates/gate-log.html.
+round decides. Each row names the leads who signed it off in data-approved; the leads
+come from data/agent-team.json. Format: templates/gate-log.html.
 """
+import json
 import re
 from html.parser import HTMLParser
 
@@ -15,8 +17,18 @@ REQUIRED = {'new': GATES, 'revision': ('G2', 'G3', 'G4', 'G6', 'G7')}
 # A gate counts only when the artifact it hands over is in the production document.
 GATE_SECTIONS = {'new': {'G1': 'plan', 'G2': 'curriculum', 'G3': 'chapters', 'G4': 'rehearsal'},
                  'revision': {}}
+# Who signs off each gate: the lead of every team handing the artifact over (G0 and G7 are
+# the editor-in-chief's calls). Names are resolved from data/agent-team.json.
+APPROVERS = {'G0': ('chief',), 'G1': ('plan',), 'G2': ('curriculum',),
+             'G3': ('research', 'pedagogy'), 'G4': ('writing', 'visual'), 'G5': ('plan',),
+             'G6': ('review',), 'G7': ('chief',)}
+TEAM_FILE = 'data/agent-team.json'
 DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
 RULE_DATE = '2026-10-12'
+
+# Books whose gate rounds were recorded before lead sign-offs were required (2026-10-12).
+# Their rows need no data-approved; a later round of theirs does.
+APPROVAL_EXEMPT = {'transformer-inside'}
 
 # Books published before the gate rule. They need no production record. A legacy book is
 # checked once it records a gate round, or when a fact review newer than RULE_DATE shows a
@@ -48,6 +60,8 @@ class ProductionDocument(HTMLParser):
             self.rounds.append({'attrs': a, 'gates': {}})
         elif tag == 'tr' and self.rounds and a.get('data-gate'):
             self._row = self.rounds[-1]['gates'].setdefault(a['data-gate'], [])
+            self.rounds[-1].setdefault('approved', {})[a['data-gate']] = set(
+                (a.get('data-approved') or '').split())
         elif tag == 'td' and self._row is not None:
             self._row.append('')
 
@@ -58,6 +72,27 @@ class ProductionDocument(HTMLParser):
     def handle_data(self, data):
         if self._row:
             self._row[-1] += data.strip()
+
+
+def team_leads(root):
+    """Team id -> lead name, plus 'chief' for the editor-in-chief."""
+    data = json.loads((root / TEAM_FILE).read_text())
+    leads = {'chief': data['chief']['name']}
+    for team in data['teams']:
+        lead = next(m for m in team['members'] if m['role'].startswith('팀장'))
+        leads[team['id']] = lead['name']
+    return leads
+
+
+def approval_errors(record, leads):
+    """Every recorded gate needs the sign-off of each lead who hands it over."""
+    errors = []
+    for gate, signed in record.get('approved', {}).items():
+        need = [leads[t] for t in APPROVERS.get(gate, ())]
+        missing = [name for name in need if name not in signed]
+        if missing:
+            errors.append(f'{gate} needs data-approved sign-off from {", ".join(missing)}')
+    return errors
 
 
 def round_errors(doc, record, status, chapters):
@@ -96,7 +131,7 @@ def latest_review_date(root, folder):
     return max((x or y for x, y in dates), default='')
 
 
-def book_gate_errors(root, book, chapters):
+def book_gate_errors(root, book, chapters, leads):
     folder = book.get('url', '').split('#')[0].rstrip('/')
     path = root / folder / DOC_FILE
     doc = ProductionDocument(path.read_text()) if path.is_file() else None
@@ -111,6 +146,8 @@ def book_gate_errors(root, book, chapters):
         return [f'{folder}/{DOC_FILE}: needs <section id="log"> with a gate-round table (templates/gate-log.html)']
     latest = max(rounds, key=lambda r: r['attrs'].get('data-date', ''))
     errors = round_errors(doc, latest, book.get('status'), chapters)
+    if book['id'] not in APPROVAL_EXEMPT or len(rounds) > 1:
+        errors += approval_errors(latest, leads)
     if revised > RULE_DATE and latest['attrs'].get('data-date', '') < revised:
         errors.append(f'fact review of {revised} is newer than the latest gate round')
     return [f'{folder}/{DOC_FILE}: {e}' for e in errors]
@@ -119,11 +156,11 @@ def book_gate_errors(root, book, chapters):
 def validate_team_gates(root, catalog):
     """Books made or substantially revised under the team rule need every gate on record."""
     index = catalog.get('chapter_index', {})
-    errors = []
+    leads, errors = team_leads(root), []
     for book in catalog.get('books', []):
         if book.get('status') not in ('writing', 'published'):
             continue
         folder = book.get('url', '').split('#')[0]
         chapters = sum(1 for href in index if href.startswith(folder + '#'))
-        errors += book_gate_errors(root, book, chapters)
+        errors += book_gate_errors(root, book, chapters, leads)
     return errors

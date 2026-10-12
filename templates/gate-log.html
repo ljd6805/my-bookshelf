@@ -10,6 +10,7 @@
 <li><code>data-kind="new"</code>: 새 책이나 시리즈의 새 권. G0~G7 여덟 관문이 모두 있어야 합니다.</li>
 <li><code>data-kind="revision"</code>: 장 추가·재구성이나 실험 계산 변경처럼 크게 고친 경우. G2·G3·G4·G6·G7이 있어야 하고, 연결이 바뀌었다면 G1·G5도 적습니다.</li>
 <li>관문 하나가 한 행입니다. <code>&lt;tr data-gate="G4"&gt;</code>에 칸 세 개(관문 이름, 넘긴 산출물, 한 줄 기록)를 두고, 둘째·셋째 칸을 비우지 않습니다.</li>
+<li>관문마다 산출물을 넘기는 팀의 팀장이 승인하고, 그 이름을 <code>data-approved</code>에 공백으로 나눠 적습니다. G0과 G7은 편집장 한결, G1·G5는 기획·연결팀장 서윤, G2는 교과과정팀장 해원, G3는 지식조사팀장 은재와 교수법팀장 지안, G4는 글작성팀장 나래와 시각·실험팀장 리안, G6는 검수팀장 정민입니다. 이름은 <code>data/agent-team.json</code>에서 읽으므로 팀장이 바뀌면 검사도 따라갑니다. 승인은 그 팀장의 페르소나(점검 목록·멈추는 때)로 산출물을 실제로 점검한 뒤에 적고, 점검에서 멈출 이유가 나오면 고칠 때까지 적지 않습니다.</li>
 <li>집필 중(<code>writing</code>)인 책은 지나온 관문까지만 적으면 됩니다. 다만 G0부터 빈 관문 없이 차례로 있어야 합니다. 공개(<code>published</code>)하는 커밋에는 모든 관문이 있어야 합니다.</li>
 </ul>
 
@@ -25,14 +26,14 @@
 
 <section id="log"><h2>제작 기록 (관문 G0~G7)</h2>
 <table class="gate-round" data-kind="new" data-date="2026-10-12"><tr><th>관문</th><th>넘긴 산출물</th><th>기록</th></tr>
-<tr data-gate="G0"><td>G0 요청</td><td>사용자 요청</td><td>예시: 2026-10-12 사용자가 주제를 정함.</td></tr>
-<tr data-gate="G1"><td>G1 기획</td><td>1절 기획·반대 의견·연결 계획</td><td>예시: 기존 책과 범위가 겹치지 않음을 확인.</td></tr>
-<tr data-gate="G2"><td>G2 교과과정</td><td>2절 목차·선수 관계·범위 표</td><td>예시: 10장, 부 셋.</td></tr>
-<tr data-gate="G3"><td>G3 조사·교수 설계</td><td>research.html, 3절 학습 설계표</td><td>예시: 사실 표 40행, 기준값 12개.</td></tr>
-<tr data-gate="G4"><td>G4 원고</td><td>js/content.js, 4절 문체 비평 메모, 5절 학습 리허설</td><td>예시: 문체 비평 반영 7건, 책 테스트 통과.</td></tr>
-<tr data-gate="G5"><td>G5 연결</td><td>catalog.json 장 색인·개념·노선·링크</td><td>예시: build_catalog.py와 validate.py 통과.</td></tr>
-<tr data-gate="G6"><td>G6 검수</td><td>fact-review.html</td><td>예시: 새 세션 검수 1회차 fixed.</td></tr>
-<tr data-gate="G7"><td>G7 공개</td><td>PR과 CI</td><td>예시: CI 통과 후 병합.</td></tr>
+<tr data-gate="G0" data-approved="한결"><td>G0 요청</td><td>사용자 요청</td><td>예시: 2026-10-12 사용자가 주제를 정함.</td></tr>
+<tr data-gate="G1" data-approved="서윤"><td>G1 기획</td><td>1절 기획·반대 의견·연결 계획</td><td>예시: 기존 책과 범위가 겹치지 않음을 확인.</td></tr>
+<tr data-gate="G2" data-approved="해원"><td>G2 교과과정</td><td>2절 목차·선수 관계·범위 표</td><td>예시: 10장, 부 셋.</td></tr>
+<tr data-gate="G3" data-approved="은재 지안"><td>G3 조사·교수 설계</td><td>research.html, 3절 학습 설계표</td><td>예시: 사실 표 40행, 기준값 12개.</td></tr>
+<tr data-gate="G4" data-approved="나래 리안"><td>G4 원고</td><td>js/content.js, 4절 문체 비평 메모, 5절 학습 리허설</td><td>예시: 문체 비평 반영 7건, 책 테스트 통과.</td></tr>
+<tr data-gate="G5" data-approved="서윤"><td>G5 연결</td><td>catalog.json 장 색인·개념·노선·링크</td><td>예시: build_catalog.py와 validate.py 통과.</td></tr>
+<tr data-gate="G6" data-approved="정민"><td>G6 검수</td><td>fact-review.html</td><td>예시: 새 세션 검수 1회차 fixed.</td></tr>
+<tr data-gate="G7" data-approved="한결"><td>G7 공개</td><td>PR과 CI</td><td>예시: CI 통과 후 병합.</td></tr>
 </table>
 </section>
 </main></body></html>
