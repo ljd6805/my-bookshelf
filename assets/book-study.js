@@ -94,6 +94,14 @@ function questionHtml(q, meta) {
     + `</div><p class="study-feedback" role="status" aria-live="polite"></p></li>`;
 }
 
+function recallNote(recall) {
+  if (!recall) return '';
+  const c = state.chapters[recall.id];
+  return c && (c.read || c.reviewed)
+    ? ' 마지막 문제는 끝까지 읽은 앞 장 중 가장 오래 떠올리지 않은 장에서 나옵니다.'
+    : ' 아직 끝까지 읽은 앞 장이 없어서 마지막 문제는 바로 앞 장에서 나옵니다.';
+}
+
 function reviewHtml(chapter, list) {
   const own = review[chapter.id] || [];
   const items = own.map((q, index) => questionHtml(q, { id: chapter.id, index, kind: 'own', label: `이 장 · ${index + 1}` }));
@@ -106,7 +114,7 @@ function reviewHtml(chapter, list) {
   return `<section class="study-review" aria-labelledby="study-review-title"><div class="eyebrow">REVIEW · 복습 퀴즈</div>`
     + `<h2 id="study-review-title">덮기 전에 다시 꺼내 보기</h2>`
     + `<p class="study-intro">책을 보지 않고 답을 떠올려 보세요. 이 장 문제를 모두 처음 고른 답으로 맞히면 목차에 ★ 복습 완료가 표시됩니다.`
-    + `${recall ? ' 마지막 문제는 앞에서 읽은 장 중 가장 오래 떠올리지 않은 장에서 나옵니다.' : ''}</p>`
+    + `${recallNote(recall)}</p>`
     + `<ol class="study-questions">${items.join('')}</ol><p class="study-status"></p>`
     + `<button type="button" class="study-again">이 장 복습 처음부터 다시 하기</button></section>`;
 }
