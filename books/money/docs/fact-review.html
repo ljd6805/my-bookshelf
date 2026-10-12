@@ -4,7 +4,44 @@
 <h1>팩트·출처 검수 · 돈의 시간 가치</h1>
 <p>「돈의 시간 가치 · 이자와 복리에서 현재가치까지」(books/money/)를 집필 스레드와 다른 세션이 검수한 기록입니다. 기준은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>이고, 검수팀(정민·유진·건우)의 점검 목록으로 보았습니다. <a href="index.html">제작 문서로 돌아가기</a> · <a href="research.html">조사 노트</a></p>
 
-<section class="fact-review" id="review-2026-10-12" data-reviewer="Claude · 돈의 시간 가치 팩트 검수 세션" data-author="Claude · 금융 시리즈 집필 스레드" data-date="2026-10-12" data-scope="10개 장 본문(js/content.js의 모든 필드), 실험 10개(js/math.js·labs-*.js·lab-guides.js·home-lab.js·app.js 문구), review.json 21문항, 출처 17개" data-result="open">
+<section class="fact-review" id="review-2026-10-12-r2" data-reviewer="Claude · 돈의 시간 가치 팩트 재검수 세션" data-author="Claude · 금융 시리즈 집필 스레드" data-date="2026-10-12" data-scope="1회차 지적 8건과 권고 5건의 수정(커밋 d85ae51): js/content.js(본문·공식 설명·sources 19개·장 source 번호), js/app.js, js/lab-guides.js, review.json, docs/research.html. 새로 바뀐 출처 4개(7·16·17·18)와 6을 다시 열람하고, 고치며 새로 들어간 문장(1장 기준금리, 7장 물가지수 기준연도, 5장 연체 상한, 중도상환수수료 시점)을 확인" data-commit="d85ae51" data-result="fixed">
+<h2>2026-10-12 재검수 (2회차)</h2>
+<p>검수자: Claude · 돈의 시간 가치 팩트 재검수 세션(1회차 검수 세션과도, 집필 스레드와도 다른 세션). 집필자: Claude · 금융 시리즈 집필 스레드. 대상 커밋: d85ae51. 판정: facts는 fixed, numbers는 ok, experiments는 ok, terms는 fixed, sources는 fixed입니다. 1회차 지적 8건은 모두 고쳐졌고, 고치면서 새로 생긴 오류는 없습니다. 아래 권고는 공개를 막지 않습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>3건 수정 확인</td><td>app.js 참고 자료 문단, 9장 셋째 문단, review.json loan 4번 문항을 현재 파일에서 읽고 조사 노트 2-1·2-11·2-15·2-17과 대조했습니다. 새 문장 넷(1장 기준금리 날짜, 7장 기준연도 개편, 5장 연체 상한, 중도상환수수료 시점)도 출처 원문과 맞습니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>이번 수정은 숫자를 바꾸지 않았습니다. 바뀐 문장 안의 숫자(3.00%, 2018-04-30, 3%포인트, 0.20%, 2025년 1월·2026년 1월)는 출처와 같습니다. 9장 “4분의 1 남짓”은 계산값 26.0%와 맞습니다.</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td><code>npm test</code>(math·guides·routes, 34개)가 모두 통과했고, tests/browser.cjs도 39개 화면, 30개 실험에서 오류와 콘솔 메시지 없이 통과했습니다. lab-guides.js는 안내 문구만 바뀌었습니다.</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정 확인</td><td>용어 풀이의 현재가치는 “미래의 돈을 (1 + 할인율)로 기간만큼 거듭 나누어 오늘로 데려온 값”으로, 4장 실험 안내는 “(1 + 할인율)로 기간만큼 거듭 나누어”로 바뀌어 4장 식과 맞습니다. review.json discount 문항의 이유 문장도 같은 정의입니다.</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>4건 수정 확인</td><td>sources는 19개(0~18)이고 장 source 번호는 모두 이 범위 안에 있습니다. 새 출처 7·17·18과 출처 6·16을 WebFetch로 다시 열어 책이 인용한 내용을 원문에서 찾았습니다(아래 표).</td></tr>
+</tbody></table>
+
+<h3>1회차 지적의 수정 확인</h3>
+<table><thead><tr><th>1회차 위치</th><th>지금 문장</th><th>확인한 방법</th><th>판정</th></tr></thead><tbody>
+<tr><td>facts · app.js 참고 자료와 실험의 경계</td><td>“조사 노트에 확인일과 확인 수준을 함께 적었습니다. 공식 원문을 열 수 있었던 것(기준금리, 소비자물가)과 금융사 안내나 보도로만 확인한 것(세율, 신용점수제)을 나눠 두었습니다.”</td><td>조사 노트 2-1(보도로 확인), 2-15(보도로 확인), 2-4·2-6(KDI 재게시본으로 공식 원문 확인)과 같습니다.</td><td>fixed</td></tr>
+<tr><td>facts · 9장 셋째 문단</td><td>“2026년 증권거래세와 농어촌특별세를 합친 0.20%와 수수료”</td><td>조사 노트 2-17, 4권 표현과 같습니다.</td><td>fixed</td></tr>
+<tr><td>facts · review.json loan 4번 why</td><td>“2025년 1월부터 은행 등은, 2026년 1월부터 상호금융권은 이 수수료를 실제 비용 안에서만 받을 수 있습니다.”</td><td>출처 6 원문: “’25.1월부터 시행됨”(대부분 금융회사), 농협·수협·산림조합은 “’26.1월 1일부터 시행될 예정”.</td><td>fixed</td></tr>
+<tr><td>terms · 현재가치 정의 두 곳</td><td>위 용어 행과 같습니다.</td><td>app.js와 lab-guides.js를 직접 읽었고, “할인율로 나누”는 표현은 책 파일 어디에도 남아 있지 않습니다(grep).</td><td>fixed</td></tr>
+<tr><td>sources · 출처 6 설명의 13일</td><td>“2025년 1월 은행권에, 2026-01-01 상호금융권에 적용된다는 보도자료”. 13일을 뺐습니다.</td><td>원문에 13이라는 날짜가 없음을 다시 확인했습니다.</td><td>fixed</td></tr>
+<tr><td>sources · 4장 출처</td><td>4장 source가 [17, 1]이고, 17은 Wikipedia “Present value”입니다. 1장도 17을 씁니다.</td><td>원문: “A dollar today is worth more than a dollar tomorrow because the dollar can be invested and earn a day's worth of interest”, “evaluating the present value of a future amount of money—is called a discounting”. 1장의 시간 가치와 4장의 할인을 모두 받칩니다. 수식은 화면에 글자로 나오지 않는다고 설명에 밝혔습니다.</td><td>fixed</td></tr>
+<tr><td>sources · 1장 출처 16</td><td>1장 공식 설명에 “뉴스의 ‘기준금리’(2026년 8월 27일부터 연 3.00%, 다음 결정은 10월 22일)는 한국은행의 정책 금리이고, 하린이 받는 예금 금리는 은행이 따로 정합니다.”를 더했습니다.</td><td>출처 16 원문: “기준금리를 기존 2.75%에서 3.00%로 0.25%p 인상하기로 결정”. 10월 22일은 출처 16에는 없고, 조사 노트 S1(토스뱅크, 2026년 금통위 일정)에서 “10월 22일”을 확인했습니다.</td><td>fixed</td></tr>
+<tr><td>sources · 5장 연체 가산 금리</td><td>“연체 가산 금리(2018년 4월 30일부터 전 금융권에서 최대 3%포인트로 제한)”. 출처 7을 머니투데이 2018-04-13으로 바꿨습니다.</td><td>원문(2018-04-13): 연체 이자율을 “약정금리+3%포인트 이내”로 “오는 30일부터” “전 금융권”에 적용, “은행은 약정금리에 기존 6~9%포인트를 더해 최고 15%까지”. “보통”을 뺀 것도 확인했습니다.</td><td>fixed</td></tr>
+</tbody></table>
+<p>1회차 권고 가운데 9장 “4분의 1 남짓”, 5장 원리금균등 공식 출처(18 Amortization calculator, 5장 source에 들어감), 7장 기준연도 개편 문장, 8장 본문 ETF 정의(“대개 지수를 따라가게”), 조사 노트 원금균등 마지막 달(167,488원, 끝수를 맞추지 않으면 167,500원)이 반영되었습니다. 출처 18은 상환액 A, 원금 P, 기간 금리 i, 횟수 n을 정의하고 “If i = 0 then simply A = P / n”이라고 쓰지만, 식 자체는 화면에 글자로 나오지 않아 1회차처럼 따로 유도해 대조했습니다. 7장 기준연도 문장은 조사 노트 S12(국가데이터처 2026-07-07, KDI 재게시) 원문의 “’26.12.18. 발표”, “2025년 1월 ~ 2026년 11월의 소비자물가지수 및 물가상승률도 변경될 수 있음”과 맞습니다.</p>
+
+<h3>새 발견과 권고 (공개를 막지 않음)</h3>
+<table><thead><tr><th>위치</th><th>내용</th><th>권하는 고침</th></tr></thead><tbody>
+<tr><td>js/app.js 용어 풀이 “ETF”</td><td>8장 본문은 고쳤지만 용어 풀이는 아직 “여러 종목을 묶어 지수를 따라가게 만든 펀드로”입니다.</td><td>“여러 종목을 묶어 대개 지수를 따라가게 만든 펀드로”로 본문과 맞춥니다.</td></tr>
+<tr><td>review.json fees 문항 why</td><td>“1년이면 1%포인트 차이가 30년이면 쌓인 돈의 4분의 1이 됩니다.” 계산값은 26.0%입니다.</td><td>본문 경고처럼 “4분의 1 남짓”으로 고칩니다.</td></tr>
+<tr><td>content.js sources[6] 설명</td><td>“2025년 1월 은행권에”라고 쓰지만 원문은 2025년 1월 적용 대상을 “대부분 금융회사”로 적고, 은행만 따로 말하지 않습니다. 틀린 말은 아니지만 범위가 좁습니다.</td><td>“2025년 1월 은행 등 대부분 금융회사에”로 고칩니다.</td></tr>
+<tr><td>1장 “다음 결정은 10월 22일”, sources[16] 설명</td><td>날짜는 맞지만(토스뱅크 S1) 책의 sources에는 그 일정을 밝힌 자료가 없고, 출처 16 원문에는 다음 회의 날짜가 없습니다.</td><td>S1을 sources에 더하거나, 출처 16 설명의 10월 22일 근거를 “조사 노트 S1”로 밝힙니다. 2026-10-22 결정 뒤에는 1장 문장과 출처 16 설명을 다시 고쳐야 합니다.</td></tr>
+<tr><td>7장 기준연도 문장</td><td>근거 S12가 7장 source [10, 11, 12]에 없습니다.</td><td>출처 11 설명에 개편 예고를 덧붙이거나 S12를 sources에 더합니다.</td></tr>
+</tbody></table>
+
+<h3>확인하지 못한 것</h3>
+<p>1회차와 같이 법령 원문(소득세법 제129조, 대부업법 시행령, 금융소비자 보호에 관한 감독규정)은 열지 않았습니다. 2018년 연체 상한이 상호금융을 포함한 모든 업권에 같은 날 적용되었는지는 기사의 “전 금융권”이라는 표현까지만 확인했고, 금융위원회 원 보도자료와 대조하지 못했습니다. 기사 원문은 “오는 30일부터”라고만 써서 4월 30일은 기사 날짜(2018-04-13)로 읽은 것입니다. KDI 재게시본은 원 기관 누리집과 대조하지 않았습니다. 출처 17·18의 수식은 화면에 글자로 나오지 않습니다. 이번 회차는 바뀐 파일과 문장만 다시 보았고, 1회차에서 ok였던 숫자 약 120개를 다시 계산하지 않았습니다(테스트 통과로 대신했습니다). 학습 효과와 화면 폭별 사용성은 검수 범위가 아닙니다.</p>
+</section>
+
+<section class="fact-review" id="review-2026-10-12"data-reviewer="Claude · 돈의 시간 가치 팩트 검수 세션" data-author="Claude · 금융 시리즈 집필 스레드" data-date="2026-10-12" data-scope="10개 장 본문(js/content.js의 모든 필드), 실험 10개(js/math.js·labs-*.js·lab-guides.js·home-lab.js·app.js 문구), review.json 21문항, 출처 17개" data-result="open">
 <h2>2026-10-12 검수 (1회차)</h2>
 <p>검수자: Claude · 돈의 시간 가치 팩트 검수 세션. 집필자: Claude · 금융 시리즈 집필 스레드. 범위: 10개 장 본문(js/content.js의 모든 필드), 실험 10개, review.json 21문항, 출처 17개. 판정: facts는 open, numbers는 ok, experiments는 ok, terms는 open, sources는 open입니다. 계산은 모두 맞고, 고칠 것은 사실 표현 세 곳, 용어 한 곳, 출처 네 곳입니다.</p>
 <table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
