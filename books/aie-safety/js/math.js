@@ -162,7 +162,7 @@ function euObligations(month,kind){
 }
 
 /* 12장 · 출시 후 보고 진단. 앞 장의 함수를 그대로 다시 써서 처방이 지표를 움직이는지 본다. */
-const REMEDIES={userfilter:'사용자 입력 필터 강화',keyword:'검색 내용 키워드 필터',ifc:'정보 흐름 통제(IFC)',betadown:'KL 벌점 β를 0.3에서 0.1로 낮추기',agree:'동의 벌점 α = 0.5 추가',parity:'집단별 문턱으로 승인율 맞추기'};
+const REMEDIES={userfilter:'사용자 입력 필터 강화',keyword:'검색 내용 키워드 필터',ifc:'정보 흐름 통제(IFC)',betadown:'KL 벌점 β를 0.3에서 0.1로 낮추기',agree:'동의 벌점 α = 0.5 추가',parity:'집단별 문턱으로 승인율 맞추기',raise:'차단 문턱 τ를 2에서 2.5로 올리기',dpsgd:'잡음 σ를 1에서 10으로 키워 DP-SGD로 다시 학습',watermark:'답에 워터마크 넣기'};
 function diagnose(report,remedy){
  if(report==='leak'){
   const base={payload:'benign',userFilter:'off',retrievalFilter:'off',ifc:'off',render:'approved'};
@@ -172,6 +172,16 @@ function diagnose(report,remedy){
  if(report==='syc'){
   const before=klPolicy(0.3,0).syc,after=remedy==='betadown'?klPolicy(0.1,0).syc:remedy==='agree'?klPolicy(0.3,0.5).syc:before;
   return {metric:'맞장구 답의 비율',before,after,unit:'비율',fixed:after<before-0.05};
+ }
+ /* 보고 ④: 8장 조정 층(τ = 2, 입력 + 출력, 평문, 유해 1%). 문턱을 올리면 잘못 막음이 줄고 놓침이 는다. 입력 필터 강화는 τ 1.5로 본다 */
+ if(report==='block'){
+  const tau=remedy==='raise'?2.5:remedy==='userfilter'?1.5:2,b=moderation(2,'both','plain',0.01),a=moderation(tau,'both','plain',0.01);
+  return {metric:'요청 100만 건당 잘못 막힌 정상 고객',before:b.perMillion.falseBlocks,after:a.perMillion.falseBlocks,unit:'건',digits:0,fixed:a.perMillion.falseBlocks<b.perMillion.falseBlocks*0.5,precision:[b.precision,a.precision],miss:[b.miss,a.miss]};
+ }
+ /* 보고 ⑤: 10장 차등 프라이버시. 현재 학습은 σ = 1, T = 100(μ = 10). 처방은 σ = 10(μ = 1). 워터마크는 기억과 무관하다 */
+ if(report==='memo'){
+  const T=100,b=dpEpsilon(1,T),a=remedy==='dpsgd'?dpEpsilon(10,T):b;
+  return {metric:'오탐률 1%에서 멤버십 추론의 최대 탐지율',before:mia(b.mu),after:mia(a.mu),unit:'비율',fixed:mia(a.mu)<mia(b.mu)-0.05,eps:[b.eps,a.eps]};
  }
  const tA=1,baseB=0.3,before=fairness(tA,tA,baseB),tB=remedy==='parity'?parityThreshold(tA,baseB):tA,after=fairness(tA,tB,baseB);
  return {metric:'두 집단의 승인율 차이',before:before.dp,after:after.dp,unit:'승인율 차이',fixed:Math.abs(after.dp)<Math.abs(before.dp)-0.02,tprGapAfter:after.tprGap,tB};

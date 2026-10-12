@@ -90,6 +90,14 @@ test('gateway fallback: independence model and full outage',()=>{
  assert.equal(M.gatewayFallback(0,2,false).failRate,0);assert.equal(M.gatewayFallback(0.3,2,true).worst,3010);
 });
 
+test('gateway fallback: outage-type failures defeat retries and amplify calls',()=>{
+ near(M.gatewayFallback(0.3,2,false).calls,1.39,1e-9);near(M.gatewayFallback(0.3,2,false,{burst:0}).failRate,0.027,1e-9);
+ near(M.gatewayFallback(0.3,2,false,{burst:1}).failRate,0.3,1e-9);near(M.gatewayFallback(0.3,5,false,{burst:1}).failRate,0.3,1e-9);
+ near(M.gatewayFallback(0.3,2,false,{burst:1}).calls,1.6,1e-9);near(M.gatewayFallback(0.3,5,false,{burst:1}).calls,2.5,1e-9);
+ near(M.gatewayFallback(0.3,2,true,{burst:1}).failRate,0.006,1e-9);near(M.gatewayFallback(0.3,2,false,{burst:0.5}).failRate,0.1635,1e-9);
+ assert.equal(M.gatewayFallback(1,3,false,{burst:0.5}).failRate,1);assert.equal(M.gatewayFallback(0.3,0,false,{burst:1}).calls,1);
+});
+
 test('canary gate probabilities',()=>{
  const r=M.canary('refusal',1);near(r.stages[0].trip,0.218,1e-3);near(r.haltBy+r.reachFull,1,1e-9);
  near(M.canary('feedback',1).stages[0].trip,0.266,1e-3);near(M.canary('cost',1.3).stages[0].trip,0.70,1e-2);
@@ -106,10 +114,12 @@ test('burn rate and trace sampling',()=>{
 });
 
 test('final case: only the matching fix moves the failed metric',()=>{
- const fixes=['warm','reorder','chunk','route'],match={cold:'warm',cache:'reorder',tail:'chunk'};
+ const fixes=['warm','reorder','chunk','route','window','fallback','retry5'],match={cold:'warm',cache:'reorder',tail:'chunk',canary:'window',outage:'fallback'};
  for(const rep of Object.keys(match))for(const f of fixes){const r=M.finalCase(rep,f);
   if(f===match[rep]){assert.ok(r.matched);assert.ok(r.lowerBetter?r.after<r.before:r.after>r.before);}else assert.equal(r.after,r.before);}
  near(M.finalCase('cache','reorder').after,68.94);near(M.finalCase('tail','chunk').after,97,1e-6);
+ near(M.finalCase('canary','window').before,21.8,0.05);near(M.finalCase('canary','window').after,5.97,0.01);
+ near(M.finalCase('outage','fallback').before,30,1e-9);near(M.finalCase('outage','fallback').after,0.6,1e-9);
 });
 
 test('home decode: bandwidth floor and HBM limit',()=>{

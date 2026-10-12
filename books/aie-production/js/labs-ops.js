@@ -33,12 +33,13 @@ L.cascade=el=>{
 };
 
 L.fallback=el=>{
- U.setup(el,U.range('p429','첫 공급자 실패율 (429·5xx)',0,1,0.05,0.3)+U.select('retries','재시도 횟수',[[0,'0번'],[1,'1번'],[2,'2번'],[3,'3번']],2)+U.select('fb','대체 공급자',[['no','없음'],['yes','있음']],'no'));
+ U.setup(el,U.range('p429','첫 공급자 실패율 (429·5xx)',0,1,0.05,0.3)+U.range('burst','실패 가운데 장애형의 몫 (재시도해도 다시 실패)',0,1,0.1,0)+U.select('retries','재시도 횟수',[[0,'0번'],[1,'1번'],[2,'2번'],[3,'3번'],[5,'5번']],2)+U.select('fb','대체 공급자',[['no','없음'],['yes','있음']],'no'));
  U.bind(el,()=>{
-  const p=U.value(el,'p429'),k=U.value(el,'retries'),fb=U.text(el,'fb')==='yes',r=M.gatewayFallback(p,k,fb);
+  const p=U.value(el,'p429'),s=U.value(el,'burst'),k=U.value(el,'retries'),fb=U.text(el,'fb')==='yes',r=M.gatewayFallback(p,k,fb,{burst:s});
   const chart=`<p class="caption">점선은 전체 시간 목표 3,000ms</p>`+U.bars(['성공한 요청의 평균 지연','가장 늦게 성공한 경우'],[r.meanLatency,r.worst],'ms',3000,0);
   const lat=r.success>0?`성공한 요청의 평균 지연 ${U.fmt(r.meanLatency,0)}ms, 가장 늦게 성공한 경우 ${U.fmt(r.worst,0)}ms(점선은 전체 시간 목표 3,000ms)`:'성공한 요청이 없어 지연을 잴 수 없습니다';
-  U.result(el,chart,`손님이 보는 실패율 <b>${pct(r.failRate,3)}</b> · 첫 공급자에서 끝까지 실패할 확률 ${pct(r.allFail,3)}<br>${lat}.<br>실제 계산입니다. 매 시도의 실패가 서로 독립이고, 호출 900ms, 재시도 대기 250ms에서 두 배씩, 대체 공급자 실패율 2%라는 교육용 가정을 넣었습니다. 실제 장애는 몰려 오므로 독립 가정은 낙관적입니다.`);
+  const kind=s===0?'실패가 시도마다 독립이라고 둔 계산입니다. 실제 장애는 몰려 오므로 이 값은 낙관적인 쪽입니다.':(s===1?'실패가 모두 장애형이므로 재시도는 같은 실패를 다시 만날 뿐이고, 실패율은 재시도 횟수와 상관없이 첫 시도의 실패율과 같습니다.':`실패의 ${pct(s,0)}는 장애형, 나머지는 시도마다 독립이라고 둔 계산입니다.`);
+  U.result(el,chart,`손님이 보는 실패율 <b>${pct(r.failRate,3)}</b> · 첫 공급자에서 끝까지 실패할 확률 ${pct(r.allFail,3)}<br>첫 공급자에 보내는 호출은 요청 하나당 평균 <b>${U.fmt(r.calls,2)}번</b>(재시도로 불어난 부하)입니다. ${lat}.<br>${kind}<br>실제 계산입니다. 호출 900ms, 재시도 대기 250ms에서 두 배씩, 대체 공급자 실패율 2%는 교육용 가정입니다.`);
  });
 };
 
@@ -71,13 +72,15 @@ L.sampling=el=>{
 };
 
 L.diagnose=el=>{
- U.setup(el,U.select('report','월요일 운영 보고',[['cold','“주말 뒤 첫 손님이 몇 분을 기다렸다”'],['cache','“외부 API 청구서가 예상보다 크다”'],['tail','“답이 가끔 뚝뚝 끊긴다”']],'cold')+U.select('fix','처방',[['warm','웜 풀 1대'],['reorder','프롬프트 순서 바꾸기'],['chunk','청크 프리필 켜기'],['route','캐시를 아는 라우터']],'warm'));
+ const reports=[['cold','① “주말 뒤 첫 손님이 몇 분을 기다렸다”'],['cache','② “외부 API 청구서가 예상보다 크다”'],['tail','③ “답이 가끔 뚝뚝 끊긴다”'],['canary','④ “새 프롬프트를 1%에 올리자마자 거절률 관문이 울렸다”'],['outage','⑤ “공급자 429 장애 20분 동안 실패율이 30%였다”']];
+ const fixes=[['warm','웜 풀 1대'],['reorder','프롬프트 순서 바꾸기'],['chunk','청크 프리필 켜기'],['route','캐시를 아는 라우터'],['window','카나리 관찰 창을 1시간에서 4시간으로'],['fallback','대체 공급자 켜기'],['retry5','재시도를 2번에서 5번으로']];
+ U.setup(el,U.select('report','운영 보고',reports,'cold')+U.select('fix','처방',fixes,'warm'));
  U.bind(el,()=>{
   const rep=U.text(el,'report'),fix=U.text(el,'fix'),r=M.finalCase(rep,fix);
   const chart=`<p class="caption">${r.metric}</p>`+U.bars(['처방 전','처방 후'],[r.before,r.after],'',null,2);
   const moved=r.after!==r.before,good=r.lowerBetter?r.after<r.before:r.after>r.before;
   const msg=r.matched?'<b>지표가 움직였습니다.</b> 보고된 증상과 처방이 같은 원인을 겨눕니다.':(moved?'지표가 움직였지만 다른 원인입니다.':'<b>지표가 그대로입니다.</b> 이 처방은 다른 장의 문제를 겨눕니다.');
-  U.result(el,chart,`${r.metric}: ${U.fmt(r.before,2)} → <b>${U.fmt(r.after,2)}</b> ${good?'(개선)':''}<br>${msg}<br>실제 계산입니다. 7장(콜드 스타트), 8장(청구서), 4장(goodput)의 같은 함수를 다시 돌린 결과이며, 각 장의 교육용 가정을 그대로 씁니다.`);
+  U.result(el,chart,`${r.metric}: ${U.fmt(r.before,2)} → <b>${U.fmt(r.after,2)}</b> ${good?'(개선)':''}<br>${msg}<br>실제 계산입니다. 7장(콜드 스타트), 8장(청구서), 4장(goodput), 10장(카나리 관문), 9장(재시도와 대체)의 같은 함수를 다시 돌린 결과이며, 각 장의 교육용 가정을 그대로 씁니다.`);
  });
 };
 })();

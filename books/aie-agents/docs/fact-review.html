@@ -4,6 +4,26 @@
 <h1>팩트·출처 검수 기록 · 에이전트 엔지니어링</h1>
 <p>「AI 엔지니어링 처음부터」 15권 《에이전트 엔지니어링》(<code>books/aie-agents/</code>)을 쓰지 않은 검수 에이전트가 원본 Phase 14 레슨 54개, 레슨이 인용한 논문 초록과 공식 문서에 비추어 확인한 결과입니다. 기록 형식은 서재 공통 양식(<code>templates/fact-review.html</code>)을 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="2차 보충의 미커밋 변경: 12장 pilot 실험의 사건 수 n(20~500) 손잡이와 math.js wilson·pilotInterval, #final 식 설명·확인 문제·확률과 통계 06 링크 이유, #defend “세 능력이 한 에이전트에 모일 때”와 교체한 확인 문제, 새 출처 Willison·Meta AI, lab-guides 예제, tests/browser.cjs 테마 단추" data-result="fixed">
+<h2>2026-10-12 2차 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 2차 보충의 미커밋 변경: 12장 pilot 실험의 사건 수 n(20~500) 손잡이와 math.js wilson·pilotInterval, #final 식 설명·확인 문제·확률과 통계 06 링크 이유, #defend “세 능력이 한 에이전트에 모일 때”와 교체한 확인 문제, 새 출처 Willison·Meta AI, lab-guides 예제, tests/browser.cjs 테마 단추. 결과: 고침.</p>
+<p>검수팀 편성: 정민(팀장·사실), 유진(출처), 건우(수치·실험 재계산), 채원(첫 독자·문항), 현석(규칙 감사). 글작성팀 다온의 관점으로 새 문장의 문체도 한 번 보았습니다. 이번 2차 보충을 쓰지 않은 세션입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>Willison 글(2025-06-16)의 세 요소(비공개 데이터 접근·믿을 수 없는 내용 노출·바깥 통신)와 링크·이미지 요청으로 데이터가 새는 설명, Meta AI 글(2025-10-31)의 [A][B][C] 정의와 “셋이 필요하면 새 문맥으로 나누거나 사람 승인 같은 감독” 문장을 원문과 대조했습니다. 도구와 프로토콜 8장(#poison)에 둘의 규칙이 있음을 확인했습니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Wilson 95%를 Python으로 따로 계산: 0.86은 20건 0.651~0.953, 50건 0.738~0.931, 100건 0.779~0.915, 200건 0.805~0.901, 500건 0.827~0.888. 10건 중 10건 하한 0.7225. 본문·확인 문제·문서 값과 같습니다.</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>고침</td><td>pilotInterval의 여섯 자리 분류를 경계값(0.5·0.75·0.86·0.9·1 × 20·500건)으로 손 대조했습니다. 계산은 맞고, “0.9 위” 읽기 문장 하나를 고쳤습니다. n 최소 20·최대 500·초기화는 브라우저 시험이 확인했습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>lethal trifecta를 “치명적 삼박자”, Agents Rule of Two를 “에이전트 둘의 규칙”으로 옮기고 원어를 함께 적었습니다. 도구와 프로토콜의 “둘의 규칙”과 이름이 같습니다.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>simonwillison.net 글과 ai.meta.com 글을 WebFetch로 열어 제목·날짜·정의를 확인했습니다(확인일 2026-10-12). Willison 글의 정식 제목에는 부제(private data, untrusted content, and external communication)가 붙지만 줄인 제목도 같은 글을 가리킵니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/labs-judgment.js PLACE.above</td><td>“정답률 문턱은 표본 크기와 상관없이 믿을 만합니다”는 구간이 문턱 위에 있는 이유가 바로 표본 크기라는 점과 어긋납니다.</td><td>Wilson 구간의 뜻</td><td>“정답률이 통과 문턱을 넘는다는 판단을 표본의 우연으로 돌리기 어렵습니다”로 고침</td></tr>
+<tr><td>index.html</td><td>js 수정에 따른 캐시 무효화</td><td>저장소 규칙</td><td>?v=20261012-supp2를 모두 ?v=20261012-supp2r1로 올림</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>Wilson 구간은 사건마다 맞힘이 독립이라는 가정 위에 있으며, 실제 파일럿 자료로 대조하지 않았습니다.</li><li>슬랙 게시로 내용이 새는 경로는 Willison 글의 일반 설명에 기대며 슬랙에서 재현하지 않았습니다.</li><li>#final 확인 문제는 정답이 하나이고 해설이 보기를 문구로 가리킵니다(“건수가 많다고 통과로 바꾸면”). #defend 새 문항도 같습니다.</li><li>검사: npm test 통과, 루트 validate.py 오류 0, node --test tests/*.mjs 22개 통과, tests/browser.cjs(Chromium 1280·390·320px, views 42·labs 48·오류 0) 통과.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r6)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="보충 커밋 5f766a8의 12개 장 전이 문항, 9·10·11장 공통 사례 잇기(#workbench 문단·범위 계약 깊이 읽기·식 설명, #gates 문단·리뷰어 다섯 차원 예, #frame 문단), scope 실험의 CONTRACT·DIFFS와 그림·결과 읽기 문장, 정답 자리 돌리기" data-result="fixed">
 <h2>2026-10-12 보충 검수 (r6)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r6). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 보충 커밋 5f766a8의 12개 장 전이 문항, 9·10·11장 공통 사례 잇기(#workbench 문단·범위 계약 깊이 읽기·식 설명, #gates 문단·리뷰어 다섯 차원 예, #frame 문단), scope 실험의 CONTRACT·DIFFS와 그림·결과 읽기 문장, 정답 자리 돌리기. 문항 해설의 위치 표기 3곳(같은 위험 2곳 포함 5곳)과 전이 문항 1곳의 정답 유일성을 고쳤습니다.</p>

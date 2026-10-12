@@ -6,11 +6,12 @@ const U=A16UI,M=A16Math,R=U.range,S=U.select,F=U.fmt;
 const word={ask:'사람에게 묻기',auto:'자동 실행',deny:'거절'};
 
 A16Labs.ladder=el=>{
- U.setup(el,S('mode','권한 모드',[['plan','plan · 모든 행동 검토'],['default','default(Manual) · 읽기만 자동, 나머지는 묻기'],['acceptEdits','acceptEdits · 파일 쓰기 자동'],['auto','auto · 분류기가 행동 검토'],['dontAsk','dontAsk · 허락 안 된 것은 거절'],['bypass','bypassPermissions · 모두 허락']],'auto')+S('ws','작업 공간',[['repo','실제 저장소(운영 자격 증명 있음)'],['container','일회용 컨테이너(가짜 자격 증명)']],'repo'));
- U.bind(el,()=>{const m=U.text(el,'mode'),w=U.text(el,'ws'),r=M.ladder(m,w);
-  const rows=r.rows.map((a,i)=>[`${i+1}. ${a.name}`,a.risky?'위험':'일상',a.d==='auto'?`<b>${word[a.d]}</b>`:word[a.d]]);
+ U.setup(el,S('mode','권한 모드',[['plan','plan · 모든 행동 검토'],['default','default(Manual) · 읽기만 자동, 나머지는 묻기'],['acceptEdits','acceptEdits · 파일 쓰기 자동'],['auto','auto · 분류기가 행동 검토'],['dontAsk','dontAsk · 허락 안 된 것은 거절'],['bypass','bypassPermissions · 모두 허락']],'auto')+S('ws','작업 공간',[['repo','실제 저장소(운영 자격 증명 있음)'],['container','일회용 컨테이너(가짜 자격 증명)']],'repo')+S('taint','오염 추적 (이 책의 가정 규칙)',[['off','끔'],['on','켬 · 비밀을 읽은 뒤의 push·네트워크는 묻기']],'off'));
+ U.bind(el,()=>{const m=U.text(el,'mode'),w=U.text(el,'ws'),t=U.text(el,'taint')==='on',r=M.ladder(m,w,t),base=t?M.ladder(m,w,false):r;
+  const rows=r.rows.map((a,i)=>[`${i+1}. ${a.name}`,a.risky?'위험':'일상',(a.d==='auto'?`<b>${word[a.d]}</b>`:word[a.d])+(a.byTaint?' · 오염 추적이 바꿈':'')]);
+  const taintLine=!t?'오염 추적을 켜면 비밀을 읽은 세션의 바깥 행동을 모드와 상관없이 묻게 됩니다.':r.taintAsks?`오염 추적: .env를 자동으로 읽은 뒤의 바깥 행동 ${r.taintAsks}개를 묻기로 바꿔, 묻기가 ${base.asks}번에서 ${r.asks}번으로 늘었습니다. ${r.cutBy?`사슬은 “${r.cutBy}”에서 끊깁니다.`:''}`:'오염 추적: 이 모드에서는 비밀 읽기가 자동이 아니거나 뒤의 바깥 행동이 이미 묻기·거절이라 바뀐 판정이 없습니다.';
   U.result(el,U.table(['누리의 행동','종류','판정'],rows,`${m} 모드에서 하룻밤 행동 여덟 개의 판정`),
-  `모드 <b>${m}</b> · 사람에게 묻는 횟수 <strong>${r.asks}</strong>번, 자동 실행된 위험 행동 <strong>${r.riskyAuto}</strong>개, 거절 <b>${r.denied}</b>개<br>유출 사슬(.env 읽기 → 설정 파일에 적기 → 공개 저장소로 push) ${r.leak?'<strong>완성됨</strong>':'끊김'} · ${r.leak?(r.harm?'운영 자격 증명이 있어 실제 유출입니다.':'일회용 컨테이너라 가짜 자격 증명만 나갑니다.'):'사람 확인이나 거절이 사슬 중간을 끊었습니다.'}<br>모드별 규칙은 공식 문서의 설명을 단순화한 것이고, auto 모드가 삭제와 낯선 네트워크만 막는다는 판정은 원본 레슨의 정리를 따른 가정입니다.`);});
+  `모드 <b>${m}</b> · 사람에게 묻는 횟수 <strong>${r.asks}</strong>번, 자동 실행된 위험 행동 <strong>${r.riskyAuto}</strong>개, 거절 <b>${r.denied}</b>개<br>유출 사슬(.env 읽기 → 설정 파일에 적기 → 공개 저장소로 push) ${r.leak?'<strong>완성됨</strong>':'끊김'} · ${r.leak?(r.harm?'운영 자격 증명이 있어 실제 유출입니다.':'일회용 컨테이너라 가짜 자격 증명만 나갑니다.'):'사람 확인이나 거절이 사슬 중간을 끊었습니다.'}<br>${taintLine} 오염 추적은 행동 하나가 아니라 앞서 무엇을 읽었는지를 보는 규칙이라, 7장의 읽기-쓰기 경계와 같은 원리입니다. 실제 권한 모드의 기능이 아니라 이 책이 더한 가정 규칙입니다.<br>모드별 규칙은 공식 문서의 설명을 단순화한 것이고, auto 모드가 삭제와 낯선 네트워크만 막는다는 판정은 원본 레슨의 정리를 따른 가정입니다.`);});
 };
 
 A16Labs.inject=el=>{

@@ -37,6 +37,8 @@ test('wer: S, D, I counts and normalization',()=>{
  const i=M.wer(ref,ref+' 시청해 주셔서 감사합니다');assert.equal(i.I,3);near(i.wer,.5);
  const s=M.wer(ref,'솔아 타이머 오십 분 맞춰 줘');assert.equal(s.S,1);assert.equal(s.edits,1);
  assert.ok(M.wer('a b','c d e f g').wer>1,'insertions can push WER past 100%');
+ const sp=M.wer(ref,'솔아 타이머 오분 맞춰 줘');assert.equal(sp.S,1);assert.equal(sp.D,1);near(sp.wer,2/6);assert.equal(M.cer(ref,'솔아 타이머 오분 맞춰 줘').cer,0,'spacing alone is not a character error');
+ assert.equal(M.cer(ref,ref).N,10);near(M.cer(ref,'타이머 오 분 맞춰 줘').cer,.2);near(M.cer(ref,ref+' 시청해 주셔서 감사합니다').cer,1.1);assert.equal(M.cer('','abc').cer,0);
  assert.equal(M.normalize('솔아, 타이머 5분 맞춰 줘.'),ref);assert.equal(M.wer(ref,M.normalize('솔아, 타이머 5분 맞춰 줘.')).wer,0);
  for(const h of ['타이머','솔아 오 분','x y z 솔아 타이머']){const r=M.wer(ref,h);assert.equal(r.S+r.D+r.I,r.edits);}
 });

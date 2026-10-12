@@ -149,9 +149,10 @@ function gateStats(thr,base){
    문맥 조각 수별 한 번 통과율 3→0.30, 5→0.34, 10→0.35(모두 교육용 가정값).
    mode='seq'는 통과할 때까지 차례로 시도하고, 'par'는 k개를 한꺼번에 돌려 그중 통과한 것을 쓴다. */
 const CTX_PASS={3:0.30,5:0.34,10:0.35};
-function launchSheet(k,mode,ctx,thr,outLayer,traffic=2){
+/* o.outCatch: 출력 쪽 층이 입력 탐지기를 지나온 공격 가운데 더 잡는 비율(기본 0.6, 가정값) */
+function launchSheet(k,mode,ctx,thr,outLayer,traffic=2,o={}){
  const tasks=200*10*22*traffic,p=CTX_PASS[ctx],per=(6000+400*ctx)*3/1e6,one=12+0.15*ctx,t=tryUntilPass(p,k,per),g=gateStats(thr,0.01);
- const tries=mode==='par'?k:t.expTries,p95=mode==='par'?one:triesQuantile(p,k,0.95)*one,leak=(1-g.tpr)*(outLayer?0.4:1);
+ const tries=mode==='par'?k:t.expTries,p95=mode==='par'?one:triesQuantile(p,k,0.95)*one,catchOut=o.outCatch??0.6,leak=(1-g.tpr)*(outLayer?1-catchOut:1);
  return {tasks,p,pass:t.pass,tries,monthly:tasks*tries*per,p95,benignBlocked:g.fpr*0.99*tasks,attackNotBlocked:leak*0.01*tasks,tpr:g.tpr,fpr:g.fpr};
 }
 const LAUNCH_TARGET={monthly:4000,p95:30,pass:0.55,benignBlocked:1500,attackNotBlocked:300};

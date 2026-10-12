@@ -170,3 +170,4 @@ textarea{width:100%;font:inherit;padding:10px;border:1px solid var(--line);borde
 .cr-pt.lv1{fill:var(--gold)}
 .cr-pt.lv2{fill:var(--orange)}
 .confuse{border-left-color:var(--orange)}
+.multi-test{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.multi-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}

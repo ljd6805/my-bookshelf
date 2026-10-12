@@ -86,7 +86,10 @@
       const how = flat ? '<span class="status-bad">평면이 한 직선으로 납작해졌습니다. 직선에 수직인 방향의 차이는 모두 사라집니다.</span>'
         : d < 0 ? '넓이는 남았지만 앞뒤가 뒤집혔습니다(점선 테두리). 시계 방향과 반시계 방향이 바뀝니다.'
           : '넓이가 남아 있고 방향도 그대로입니다.';
-      out.innerHTML = `<p>M = ${mat(M, 2)}</p><p><strong>det M = ${fmt(d)}</strong> → 단위 정사각형의 넓이 1이 ${fmt(Math.abs(d))}가 됩니다.</p><p>${how}</p>`;
+      const rank = LA.rank2(M, 0.05);
+      const span = rank === 2 ? '두 열이 서로 다른 방향이라 평면 전체를 만듭니다' : '둘째 열이 첫째 열의 배수라 두 열이 한 직선만 만듭니다(일차종속)';
+      out.innerHTML = `<p>M = ${mat(M, 2)}</p><p><strong>det M = ${fmt(d)}</strong> → 단위 정사각형의 넓이 1이 ${fmt(Math.abs(d))}가 됩니다.</p><p>${how}</p>` +
+        `<p><strong>랭크 ${rank}</strong> · ${span}.</p>`;
     };
     UI.ranges(root, draw).update();
   });

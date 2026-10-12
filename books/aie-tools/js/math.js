@@ -34,6 +34,41 @@ function fanout(n,modelMs){
  return {lat,seqExec,parExec,seqTotal,parTotal,turnsSeq:lat.length+1,turnsPar:2,saving:seqTotal?1-parTotal/seqTotal:0};
 }
 
+/* 1장: 스트리밍으로 조각조각 오는 인자를 언제 완성으로 볼까. 인자 예시는 교육용이며, 조각 크기 k로 자르고
+   병렬 예시는 두 호출의 조각을 번갈아 보낸다. 끝 신호는 그 호출의 마지막 조각 바로 뒤에 온다고 가정한다. */
+const STREAM_CASES={
+ plain:[['call_a','{"query":"배포 회의","limit":5}']],
+ brace:[['call_a','{"query":"배포 }","limit":5}']],
+ parallel:[['call_a','{"query":"배포 회의","limit":5}'],['call_b','{"query":"장애 회고","sort":"recent"}']]
+};
+function streamEvents(caseKey,k){
+ const calls=STREAM_CASES[caseKey].map(([id,t])=>{const parts=[];for(let i=0;i<t.length;i+=k)parts.push(t.slice(i,i+k));return {id,parts};});
+ const out=[],longest=Math.max(...calls.map(c=>c.parts.length));
+ for(let i=0;i<longest;i++)for(const c of calls)if(i<c.parts.length){out.push({id:c.id,piece:c.parts[i]});if(i===c.parts.length-1)out.push({id:c.id,end:true});}
+ return out.map((e,i)=>({...e,step:i+1}));
+}
+const parses=t=>{try{JSON.parse(t);return true;}catch(e){return false;}};
+/* 세 판정기: 중괄호 세기(문자열을 모름), 문자열·이스케이프 상태를 아는 스캐너, 끝 신호 대기. 조각 하나가 올 때마다 판정한다. */
+function streamJudge(caseKey,k){
+ const events=streamEvents(caseKey,k),calls={};let mixed='';
+ for(const [id] of STREAM_CASES[caseKey])calls[id]={buf:'',brace:{depth:0,seen:false,at:null,ok:null,text:''},scan:{depth:0,seen:false,inStr:false,esc:false,at:null,ok:null,text:''},end:{at:null,ok:null,text:''}};
+ const mark=(j,c,step)=>{if(j.at===null&&j.seen&&j.depth<=0){j.at=step;j.text=c.buf;j.ok=parses(c.buf);}};
+ for(const e of events){
+  const c=calls[e.id];
+  if(e.end){c.end.at=e.step;c.end.text=c.buf;c.end.ok=parses(c.buf);continue;}
+  c.buf+=e.piece;mixed+=e.piece;
+  for(const ch of e.piece){
+   if(ch==='{'){c.brace.depth++;c.brace.seen=true;}else if(ch==='}')c.brace.depth--;
+   const s=c.scan;
+   if(s.inStr){if(s.esc)s.esc=false;else if(ch==='\\')s.esc=true;else if(ch==='"')s.inStr=false;}
+   else if(ch==='"')s.inStr=true;else if(ch==='{'){s.depth++;s.seen=true;}else if(ch==='}')s.depth--;
+  }
+  mark(c.brace,c,e.step);mark(c.scan,c,e.step);
+ }
+ const pieces=events.filter(e=>!e.end).length;
+ return {events,calls,pieces,mixedOk:STREAM_CASES[caseKey].length>1?parses(mixed):null};
+}
+
 /* 2장: 생성 후 검증하고 다시 시도하는 방식. 시도마다 유효할 확률 p가 독립이라고 가정한다. */
 function retryOdds(p,k){
  const fail=Math.pow(1-p,k),success=1-fail;
@@ -265,6 +300,6 @@ function triage(incident,order){
  return {root,done,minutes:sum(done.map(k=>CHECKS[k][1])),position:idx+1,worst:sum(seq.map(k=>CHECKS[k][1]))};
 }
 
-const A14Math={SEARCH_SCHEMA,validateArgs,TOOL_LATENCY,fanout,retryOdds,lintTool,LIFE_STAGES,lifecycle,wireMessage,MOVE_SHARE,replicaState,CACHE_REQS,CACHE_UPDATE,cacheRun,REBIND_CHECKS,rebind,TASK_STORIES,taskStep,deadline,canonical,fnv,APPROVED,descriptorVariant,admitDescriptor,SCOPE_FOR,checkToken,traceSpans,CAT_TOKENS,BODY_TOKENS,REF_TOKENS,CATALOG_SHARE,disclosure,ROUTE_CASES,routeEval,CHECKS,INCIDENTS,ORDERS,triage};
+const A14Math={SEARCH_SCHEMA,validateArgs,STREAM_CASES,streamEvents,streamJudge,TOOL_LATENCY,fanout,retryOdds,lintTool,LIFE_STAGES,lifecycle,wireMessage,MOVE_SHARE,replicaState,CACHE_REQS,CACHE_UPDATE,cacheRun,REBIND_CHECKS,rebind,TASK_STORIES,taskStep,deadline,canonical,fnv,APPROVED,descriptorVariant,admitDescriptor,SCOPE_FOR,checkToken,traceSpans,CAT_TOKENS,BODY_TOKENS,REF_TOKENS,CATALOG_SHARE,disclosure,ROUTE_CASES,routeEval,CHECKS,INCIDENTS,ORDERS,triage};
 if(typeof module!=='undefined')module.exports=A14Math;else root.A14Math=A14Math;
 })(typeof window!=='undefined'?window:globalThis);

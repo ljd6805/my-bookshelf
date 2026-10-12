@@ -155,3 +155,17 @@ test('확인 문제 보기 돌리기: 정답이 정한 자리로 간다', () => 
   }
   assert.throws(() => Q.order(3, 3, 0), RangeError);
 });
+
+test('같은 덧셈기로 빼기: a + (NOT b) + 1과 빌림 신호', () => {
+  for (let a = 0; a < 16; a += 1) for (let b = 0; b < 16; b += 1) {
+    const r = M.rippleSub(a, b, 4);
+    assert.equal(r.value, (a - b + 16) % 16);
+    assert.equal(r.carry, a >= b ? 1 : 0);
+    assert.equal(r.borrow, a < b);
+    assert.equal(r.steps[0].carryIn, 1);
+  }
+  const s73 = M.rippleSub(7, 3, 4), s37 = M.rippleSub(3, 7, 4);
+  assert.deepEqual([s73.inverted, s73.value, s73.carry], [12, 4, 1]);
+  assert.deepEqual([s37.value, s37.signed, s37.carry], [12, -4, 0]);
+  assert.throws(() => M.rippleSub(3, 16, 4), RangeError);
+});

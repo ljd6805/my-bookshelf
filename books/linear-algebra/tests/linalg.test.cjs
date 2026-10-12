@@ -93,3 +93,24 @@ test('least squares: exact records give zero residual, a wrong record leaves a r
   // 식이 둘뿐이면 최소제곱 답은 역행렬로 푼 답과 같습니다.
   nearVec(LA.leastSquares([[2, 1], [1, 1.5]], [5.5, 4.25]).x, LA.solve([[2, 1], [1, 1.5]], [5.5, 4.25]));
 });
+
+test('rank of 2×2: plane 2, line 1, origin 0; rotation is orthogonal', () => {
+  assert.equal(LA.rank2([[1.5, -0.75], [1.5, 1.3]]), 2);
+  assert.equal(LA.rank2([[1, 2], [2, 4]]), 1);
+  assert.equal(LA.rank2([[1, 0.5], [2, 1]]), 1);
+  assert.equal(LA.rank2([[0, 0], [0, 0]]), 0);
+  const c2 = LA.scale(1.5, LA.fromDeg(45));
+  assert.equal(LA.rank2([[1.5, c2[0]], [1.5, c2[1]]], 0.05), 1);
+  for (const deg of [30, 90, 135, -60]) {
+    const R = LA.rotation(deg), RtR = LA.matMul(LA.transpose(R), R);
+    near(RtR[0][0], 1); near(RtR[0][1], 0); near(RtR[1][0], 0); near(RtR[1][1], 1);
+    near(LA.det(R), 1);
+    const inv = LA.inverse(R), Rt = LA.transpose(R);
+    [0, 1].forEach((i) => [0, 1].forEach((j) => near(inv[i][j], Rt[i][j])));
+  }
+  const s = LA.matVec(LA.rotation(30), [1, 2]);
+  near(s[0], -0.1340, 1e-4); near(s[1], 2.2321, 1e-4); near(LA.norm(s), Math.sqrt(5));
+  const back = LA.matVec(LA.transpose(LA.rotation(30)), s);
+  near(back[0], 1); near(back[1], 2);
+  near(LA.det(LA.scaling(1, -1)), -1);
+});

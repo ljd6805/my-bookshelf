@@ -40,10 +40,17 @@ A17Labs.storm=el=>{
 
 const INC=[['poison','기억 오염: 보고서에 42%'],['storm','재시도 폭풍: 재고 서비스 과부하'],['mono','단일 문화: 같은 모델 셋의 합의']],FIX=[['more','에이전트나 자원을 더 붙임'],['verify','독립된 확인을 붙임'],['longer','더 오래, 더 많이 시도']];
 const FIXTEXT={poison:{more:'조사원을 더 붙여도 모두 같은 풀을 읽습니다.',verify:'읽기 전용 검증자가 원문과 대조합니다.',longer:'단계를 늘려도 오염된 기록이 그대로 남습니다.'},storm:{more:'요청량이 1.5배인 피크에서는 같은 재시도가 더 큰 폭풍을 만듭니다.',verify:'회로 차단기가 실패율을 보고 재시도를 멈춥니다.',longer:'재시도를 8번으로 늘리면 실패가 더 많은 시도를 부릅니다.'},mono:{more:'같은 모델을 7명으로 늘려도 같은 실수를 따라갑니다(ρ 0.8).',verify:'다른 모델 계열로 바꿔 서로 독립에 가깝게 만듭니다(ρ 0.1).',longer:'같은 셋이 더 토론해도 서로를 따라갈 뿐이라 이 모형에서는 그대로입니다.'}};
+/* 단일 문화 사고만 비율 지표라 질문 수에 따른 구간과 z를 붙인다. 다른 두 사고는 모형의 결정적 값이라 질문 수가 바꾸지 않는다. */
+function evidenceLine(i,x,n){
+ const e=M.evidence(i,x,n);
+ if(!e)return '평가 질문 수 n은 단일 문화 사고에서만 쓰입니다. 이 사고의 지표는 모형으로 계산한 하나의 값이라, 실제로는 같은 사고 조건을 몇 번 다시 돌려 보았는지가 이 숫자를 얼마나 믿을지 정합니다.';
+ if(e.after===e.before)return `질문 ${n}개 기준: 처방 전후 정확도가 같아 차이의 z는 0입니다.`;
+ return `질문 ${n}개로 쟀다면: 처방 전 95% 구간 ${F(e.a.lo,3)}~${F(e.a.hi,3)}, 처방 뒤 ${F(e.b.lo,3)}~${F(e.b.hi,3)}, 두 비율 차이의 z = <strong>${F(e.z,2)}</strong> · ${e.enough?'1.96을 넘어 우연만으로 보기 어려운 차이입니다.':'1.96에 못 미쳐 이 질문 수로는 “처방이 통했다”고 쓸 수 없습니다.'} 구간은 Wilson 식, z는 합동 비율의 정규 근사이며, 질문마다 맞힘이 독립이고 처방 전후를 서로 다른 질문 묶음으로 쟀다고 가정했습니다. 같은 질문으로 전후를 쟀다면 짝지은 비교(McNemar 검정)가 맞습니다.`;
+}
 A17Labs.diagnose=el=>{
- U.setup(el,S('incident','사고',INC,'poison')+S('fix','처방',FIX,'more'));
+ U.setup(el,S('incident','사고',INC,'poison')+S('fix','처방',FIX,'more')+S('qn','평가 질문 수 n (단일 문화 사고)',[50,200,500,1000].map(n=>[n,`${n}개`]),200));
  U.bind(el,()=>{const i=U.text(el,'incident'),x=U.text(el,'fix'),r=M.diagnose(i,x),all=FIX.map(([f])=>M.diagnose(i,f).after),d=i==='mono'?3:i==='poison'?1:2;
   U.result(el,sub(`${r.metric}: 처방 전과 처방별 결과`)+U.bars(['처방 전'].concat(FIX.map(f=>f[1])),[r.before].concat(all),r.unit||'확률',null,d),
-  `${INC.find(a=>a[0]===i)[1]} · 처방: ${FIX.find(a=>a[0]===x)[1]}<br>${r.metric} <b>${F(r.before,d)}${r.unit==='%'?'%':''}</b>에서 <strong>${F(r.after,d)}${r.unit==='%'?'%':''}</strong>로 · ${r.good?'<b>해결</b>':'<b>해결되지 않음</b>'}<br>${FIXTEXT[i][x]}<br>앞 장의 함수(${i==='poison'?'공유 기억 오염':i==='storm'?'재시도 폭풍':'다수결'})를 그대로 다시 불러 계산했습니다. 사고 설정은 미리 정한 시나리오입니다.`);});
+  `${INC.find(a=>a[0]===i)[1]} · 처방: ${FIX.find(a=>a[0]===x)[1]}<br>${r.metric} <b>${F(r.before,d)}${r.unit==='%'?'%':''}</b>에서 <strong>${F(r.after,d)}${r.unit==='%'?'%':''}</strong>로 · ${r.good?'<b>해결</b>':'<b>해결되지 않음</b>'}<br>${FIXTEXT[i][x]}<br>${evidenceLine(i,x,Number(U.text(el,'qn')))}<br>앞 장의 함수(${i==='poison'?'공유 기억 오염':i==='storm'?'재시도 폭풍':'다수결'})를 그대로 다시 불러 계산했습니다. 사고 설정은 미리 정한 시나리오입니다.`);});
 };
 })();

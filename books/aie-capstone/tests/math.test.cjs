@@ -85,3 +85,13 @@ test('launch sheet: current setting fails, a feasible combination exists, parall
  assert.equal(ok(M.launchSheet(2,'seq',5,0.9,1)),true);
  const par=M.launchSheet(3,'par',10,0.7,0);assert.ok(par.p95<now.p95&&par.monthly>now.monthly);near(par.pass,now.pass,1e-12);
 });
+test('launch sheet variants: weaker output layer and a 3,000-dollar budget leave no feasible combination',()=>{
+ const T=M.LAUNCH_TARGET,ok=(r,b=T.monthly)=>r.monthly<=b&&r.p95<=T.p95&&r.pass>=T.pass&&r.benignBlocked<=T.benignBlocked&&r.attackNotBlocked<=T.attackNotBlocked;
+ near(M.launchSheet(2,'seq',5,0.9,1).attackNotBlocked,253.44,1e-6);near(M.launchSheet(2,'seq',5,0.9,1,2,{outCatch:0.4}).attackNotBlocked,380.16,1e-6);
+ assert.equal(M.launchSheet(2,'seq',5,0.9,0,2,{outCatch:0.4}).attackNotBlocked,M.launchSheet(2,'seq',5,0.9,0).attackNotBlocked);
+ let feas40=0,feas3k=0,cheapest=Infinity;
+ for(const k of [1,2,3,4])for(const mode of ['seq','par'])for(const ctx of [3,5,10])for(let t=50;t<=95;t+=5)for(const out of [0,1]){
+  const thr=t/100,r=M.launchSheet(k,mode,ctx,thr,out),w=M.launchSheet(k,mode,ctx,thr,out,2,{outCatch:0.4});
+  if(ok(w))feas40++;if(ok(r,3000))feas3k++;if(r.pass>=T.pass&&r.p95<=T.p95&&r.benignBlocked<=T.benignBlocked&&r.attackNotBlocked<=T.attackNotBlocked)cheapest=Math.min(cheapest,r.monthly);}
+ assert.equal(feas40,0);assert.equal(feas3k,0);near(cheapest,3505.92,0.01);near(M.launchSheet(1,'seq',10,0.9,1).monthly,2640,1e-6);
+});

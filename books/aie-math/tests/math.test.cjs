@@ -10,6 +10,17 @@ test('DFT: 정수 주파수 성분은 자기 k에만 원래 진폭으로 나타�
  near(M.amplitudes(Array(8).fill(2))[0],2,1e-12,'DC');
  const y=M.synth([[6,.5,0],[6,.6,0]],64);near(M.amplitudes(y)[6],1.1,1e-9,'same k adds');
 });
+test('DFT 누출·한 창·에일리어싱: k=12.5는 번지고, 한 창은 먼 막대 누출을 줄이며, k=40은 24로 접힌다',()=>{
+ const w=M.hann(64);near(sum(w),32,1e-9,'Σw=N/2');near(w[0],0,1e-15);near(w[32],1,1e-15);
+ const x=M.synth([[3,1,0],[6,.5,0],[12,.6,0]],64),a=M.amplitudes(x,true);
+ near(a[3],1,1e-9,'Hann keeps integer-bin height');near(a[12],.6,1e-9);near(a[11],.3,1e-9,'Hann neighbour = half');
+ assert.equal(M.noiseLeak(12,64).leak<1e-20,true,'integer k: no leakage');
+ const raw=M.noiseLeak(12.5,64),win=M.noiseLeak(12.5,64,true);
+ near(raw.leak,.0982,5e-4,'k=12.5 raw');near(win.leak,.0009,2e-4,'k=12.5 Hann');assert.ok(win.leak<raw.leak/50);
+ near(raw.total,64*M.energy(M.synth([[12.5,1,0]],64)),1e-8,'Parseval on one-sided power');
+ assert.equal(M.foldBin(40,64),24);assert.equal(M.foldBin(32,64),32);assert.equal(M.foldBin(64,64),0);assert.equal(M.foldBin(40.5,64),23.5);
+ const al=M.amplitudes(M.synth([[40,.6,0]],64));near(al[24],.6,1e-9,'alias 40 to 24');
+});
 test('브로드캐스팅·보폭·파이프라인 모양',()=>{
  assert.deepEqual(M.broadcast([8,50,16],[16]),[8,50,16]);assert.deepEqual(M.broadcast([8,50,16],[50,1]),[8,50,16]);
  assert.equal(M.broadcast([8,50,16],[50]),null);assert.deepEqual(M.broadcast([1],[3,1]),[3,1]);

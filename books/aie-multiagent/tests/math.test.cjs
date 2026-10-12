@@ -108,3 +108,13 @@ test('poison inject: only privilege separation keeps an outside instruction out 
  assert.equal(M.poison('privilege',3,'inject').final,null);
  assert.equal(M.poison('privilege').final,42,'privilege separation does not fix an honest copying error');
 });
+test('evidence: how many questions a 0.769 to 0.834 claim needs',()=>{
+ const z=n=>M.evidence('mono','verify',n).z;
+ assert.ok(Math.abs(z(50)-0.82)<0.01);assert.ok(Math.abs(z(200)-1.65)<0.01);assert.ok(Math.abs(z(500)-2.60)<0.01);assert.ok(Math.abs(z(1000)-3.68)<0.01);
+ assert.equal(M.evidence('mono','verify',200).enough,false);assert.equal(M.evidence('mono','verify',500).enough,true);
+ assert.equal(M.evidence('mono','more',1000).enough,false);assert.equal(M.evidence('mono','longer',500).z,0);
+ assert.equal(M.evidence('poison','verify',500),null);assert.equal(M.evidence('storm','verify',500),null);
+ assert.ok(Math.abs(M.twoProp(0.80,0.86,50).z-0.80)<0.01);
+ const w=M.wilson(0.86,50);assert.ok(Math.abs(w.lo-0.7381)<5e-4&&Math.abs(w.hi-0.9305)<5e-4);
+ let prev=1;for(const n of [50,200,500,1000]){const e=M.evidence('mono','verify',n),wd=e.b.hi-e.b.lo;assert.ok(wd<prev);prev=wd;assert.ok(e.a.lo<e.before&&e.before<e.a.hi);}
+});

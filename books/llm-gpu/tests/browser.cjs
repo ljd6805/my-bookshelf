@@ -56,7 +56,7 @@ async function run(){
  await frame(page,1280,'home');await page.screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'home-desktop.png'),fullPage:false});
  await frame(page,1280,'hierarchy');await page.locator('#lab-hierarchy').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'gpu-map-desktop.png')});
  await frame(page,1280,'design');await page.locator('#lab-budget').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'budget-desktop.png')});
- await page.getByRole('button',{name:'밝은 화면으로 전환'}).click();await page.locator('#lab-budget').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'budget-light.png')});
+ await page.getByRole('button',{name:'어두운 화면으로 전환'}).click();await page.locator('#lab-budget').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'budget-dark.png')});
  await frame(page,320,'hierarchy');await page.locator('#lab-hierarchy').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'gpu-map-mobile.png')});
  await page.getByRole('button',{name:'목차',exact:true}).click();assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'false');
  await frame(page,320,'design');await page.locator('#lab-budget').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'budget-mobile.png')});

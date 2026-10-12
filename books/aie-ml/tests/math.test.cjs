@@ -30,6 +30,14 @@ test('confusion matrix counts add up and extremes behave',()=>{const D=M.scoreDa
  const all=M.rates(M.confusion(D,0));assert.equal(all.recall,1);const none=M.rates(M.confusion(D,1.01));assert.equal(none.recall,0);near(none.accuracy,0.97);});
 test('AUC is between 0.5 and 1 and ROC runs from (0,0) to (1,1)',()=>{const D=M.scoreData(),a=M.auc(D),r=M.rocCurve(D);assert.ok(a>0.9&&a<=1);assert.deepEqual(r[0],[0,0]);assert.deepEqual(r.at(-1),[1,1]);});
 test('MCC is 1 for a perfect table and 0 when nothing is flagged',()=>{near(M.rates({TP:5,FP:0,FN:0,TN:5}).mcc,1);assert.equal(M.rates({TP:0,FP:0,FN:3,TN:97}).mcc,0);});
+test('reliability bins cover every payment, Brier matches hand cases, and the cost rule 1/(1+r) differs from the data threshold',()=>{
+ const D=M.scoreData(),R=M.reliability(D);assert.equal(R.length,10);assert.equal(M.sum(R.map(b=>b.n)),1000);assert.equal(M.sum(R.map(b=>Math.round(b.rate*b.n||0))),30);
+ assert.equal(R[3].n,59);assert.ok(Math.abs(R[3].score-0.34)<0.01);assert.ok(Math.abs(R[3].rate-3/59)<1e-12,'0.3 bin: 3 frauds of 59');
+ assert.ok(Math.abs(M.brier(D)-0.0336)<5e-4);assert.equal(M.brier([{s:1,c:1},{s:0,c:0}]),0);assert.equal(M.brier([{s:0.5,c:1},{s:0.5,c:0}]),0.25);
+ assert.ok(Math.abs(M.calibratedThreshold(20)-1/21)<1e-15);assert.equal(M.calibratedThreshold(1),0.5);
+ assert.equal(M.bestThreshold(D).t,0.42,'data-chosen threshold for 20:1 costs');
+ const edge=M.reliability([{s:1,c:1},{s:0,c:0}]);assert.equal(edge[9].n,1);assert.equal(edge[0].n,1);assert.equal(edge[5].score,null);
+});
 test('stratified folds keep the same number of frauds',()=>{const D=M.scoreData(),s=M.stratifiedCounts(D,5,true),r=M.stratifiedCounts(D,5,false);assert.deepEqual(s.folds,[6,6,6,6,6]);assert.equal(M.sum(r.folds),30);});
 
 test('polynomial fit recovers an exact cubic',()=>{const xs=[-1,-0.5,0,0.5,1],w=M.polyFit(xs,xs.map(x=>1-2*x+3*x**3),3,0);[1,-2,0,3].forEach((c,i)=>near(w[i],c,1e-8));});

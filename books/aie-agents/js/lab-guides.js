@@ -18,7 +18,7 @@ const guides={
  rubric:['다섯 차원 점수와 판정 문턱의 관계를 봅니다.',[['고르게 좋음',{'rub-0':2,'rub-1':2,'rub-2':1,'rub-3':2,'rub-4':1}],['합계 8, 0점 하나',{'rub-0':2,'rub-1':2,'rub-2':2,'rub-3':2,'rub-4':0}],['모두 1점',{'rub-0':1,'rub-1':1,'rub-2':1,'rub-3':1,'rub-4':1}]],'합계만 보지 말고 0점 차원이 있는지 함께 보세요. 0점 하나는 다른 차원으로 메울 수 없습니다.'],
  risk:['위험 점수로 다음 실험 대상을 고르고, 검증을 마친 가정이 빠질 때 순서가 어떻게 바뀌는지 봅니다.',[['처음 상태',{'risk-tested':'none','risk-irr':4}],['안전 검증 뒤',{'risk-tested':'safety','risk-irr':4}],['되돌리기 쉬운 안전',{'risk-tested':'none','risk-irr':1}]],'“다음 실험” 줄이 지금 가장 위험한 열린 가정입니다. 되돌리기 어려움 하나만 바꿔도 순서가 바뀝니다.'],
  slice:['자격 관문이 점수보다 먼저 작동하는 모습을 봅니다.',[['사용성만',{'slice-need':'usability'}],['실현성 + 사용성',{'slice-need':'feasibility,usability'}],['안전까지',{'slice-need':'feasibility,usability,safety'}]],'점수가 가장 높은 대시보드도 필요한 증명을 빠뜨리면 “자격 없음”이 됩니다.'],
- pilot:['미리 정한 문턱으로 파일럿 결과를 판정하고 다음 행동을 정합니다.',[['정답률 0.86',{'pil-correct':0.86,'pil-median':95,'pil-writes':0}],['좋은 숫자 + 운영 쓰기',{'pil-correct':0.92,'pil-median':100,'pil-writes':1}],['통과',{'pil-correct':0.93,'pil-median':110,'pil-writes':0}]],'가드레일 줄이 “위반”이면 다른 줄이 모두 좋아도 실패입니다. 모호 판정에서 문턱을 옮기지 않는 것이 핵심입니다.']
+ pilot:['미리 정한 문턱으로 파일럿 결과를 판정하고 다음 행동을 정합니다.',[['정답률 0.86 · 50건',{'pil-correct':0.86,'pil-median':95,'pil-writes':0,'pil-n':50}],['같은 0.86 · 500건',{'pil-correct':0.86,'pil-median':95,'pil-writes':0,'pil-n':500}],['좋은 숫자 + 운영 쓰기',{'pil-correct':0.92,'pil-median':100,'pil-writes':1,'pil-n':50}],['통과',{'pil-correct':0.93,'pil-median':110,'pil-writes':0,'pil-n':50}]],'가드레일 줄이 “위반”이면 다른 줄이 모두 좋아도 실패입니다. 모호 판정에서 문턱을 옮기지 않는 것이 핵심입니다. 마지막 줄의 구간은 같은 정답률이 몇 건에서 나왔는지에 따라 “더 모을지, 방식을 바꿀지”를 가릅니다.']
 };
 function mount(id,el){
  const [purpose,presets,reading]=guides[id],box=document.createElement('div');box.className='lab-guide';

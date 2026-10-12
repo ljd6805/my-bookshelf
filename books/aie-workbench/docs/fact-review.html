@@ -4,6 +4,26 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>《AI 개발 작업대 · 환경 점검에서 디버깅까지》(「AI 엔지니어링 처음부터」 01권)의 사실과 출처를 집필하지 않은 별도 검수 에이전트가 확인한 기록입니다. 원본은 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 0 · Setup &amp; Tooling 레슨 12개입니다. <a href="index.html">제작 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="10장 #debug 깊이 읽기 “한 배치 과적합: 가장 싼 버그 검사”(pytest 예시 코드 포함), curve 실험의 버그 모드(js/math.js lossCurve labelBug, js/labs-habits.js, 예제 “배치 하나 · 짝 어긋남”), 새 출처 Karpathy(2019), assets/style.css .deep-reading pre, tests/math.test.cjs 새 테스트, tests/browser.cjs 테마 단추" data-result="fixed">
+<h2>2026-10-12 검수 (2차 보충 검수 r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1)(검수팀 정민·유진·건우·채원·현석과 글작성팀 다온의 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 10장 #debug 깊이 읽기 “한 배치 과적합: 가장 싼 버그 검사”(pytest 예시 코드 포함), curve 실험의 버그 모드(js/math.js lossCurve labelBug, js/labs-habits.js, 예제 “배치 하나 · 짝 어긋남”), 새 출처 Karpathy(2019), assets/style.css .deep-reading pre, tests/math.test.cjs 새 테스트, tests/browser.cjs 테마 단추.</p>
+<p>버그 모드의 대표값은 맞지만, 높은 학습률에서 결과 이름이 실제 곡선과 맞지 않았고 Karpathy 인용이 원문보다 조금 넓게 옮겨져 있어 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>Karpathy 글의 “Overfit a single batch of only a few examples (e.g. as little as two)”와 “verify loss @ init … -log(1/n_classes)”를 원문에서 확인. 원문은 최소 손실까지 내린 뒤 예측과 정답이 맞지 않으면 버그라고 하는데, 본문은 “가장 낮은 손실에 닿지 못하면 버그”로 옮겨 고침</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>−log(1/10) = ln 10 ≈ 2.303. 버그 모드 마지막 10단계 평균을 Node로 η 0.05~1.2 전 구간에서 출력: 0.05 1.083, 0.25 1.300, 0.5 2.000, 0.05~0.95 최솟값 1.083(모두 1 초과), 기대값 E[(w−y)²] = w² + 1 ≥ 1과 맞음</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>버그 모드에서 η 0.55~0.95를 “바닥에서 멈춤”으로 표시했지만 0.95는 마지막 10단계 평균 손실 46.3, 30단계 뒤 37.1로 크게 출렁임. 고친 뒤 Chromium 320px에서 0.05·0.25·0.95·1·1.2(바닥에서 멈춤·바닥에서 멈춤·크게 출렁임·발산 29단계 중단점·발산 10단계 중단점)와 정상 모드 기존 값, pre 가로 넘침 0px 확인. tests/browser.cjs 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>한 배치 과적합(overfit one batch), 조건부 중단점, zero_grad·step 이름이 책의 기존 용어와 일관됨</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>수정함</td><td>karpathy.github.io/2019/04/25/recipe/를 열어 제목·날짜(2019-04-25) 확인. 출처 설명의 “닿지 못하면 버그” 문구를 원문에 맞게 고침(확인일 2026-10-12)</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/math.js lossCurve kind</td><td>labelBug=true, 0.5 &lt; η &lt; 1에서도 “바닥에서 멈춤”: 0.95는 평균 손실 46.3</td><td>Node 출력(η 0.6 2.65 → 0.9 21.4 → 0.95 46.3)</td><td>0.5 초과면 “크게 출렁임”으로 바꾸고 tests/math.test.cjs에 0.95 검사를 더함. index.html 자산 버전 ?v=20261012-supp2r1</td></tr>
+<tr><td>#debug 깊이 읽기, 출처 34번 설명</td><td>“가장 낮은 손실에 닿지 못하면 버그”는 원문(최소 손실까지 내린 뒤 예측과 정답이 맞지 않으면 버그)보다 넓음</td><td>Karpathy 원문 “overfit one batch” 항목</td><td>“가장 낮은 손실(예: 0)까지 내려 본 뒤 예측과 정답이 딱 맞지 않으면 어딘가에 버그가 있으니”로 고침</td></tr>
+<tr><td>tests/browser.cjs 테마 화면 이름</td><td>기본 테마가 밝은 화면으로 바뀐 뒤 단추 이름은 “어두운 화면으로 전환”으로 고쳐졌지만, 누른 뒤 찍은 화면을 여전히 *-light.png로 저장해 이름과 내용이 반대였음</td><td>같은 줄에서 단추를 누른 뒤 찍음(기본 data-theme="light")</td><td>lab-dark.png로 저장하도록 고침</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<ul><li>pytest 예시 코드는 PyTorch로 실행해 보지 않았습니다(이 환경에 프로젝트 모델·로더가 없음)</li><li>버그 모드의 “1 아래로 내려가지 않음”은 시드 7 하나로 확인한 값입니다(기대값으로는 늘 1 이상이지만 다른 시드의 표본 평균은 따로 보지 않음)</li><li>학습 효과(L4)</li><li>이전에 커밋된 docs/evidence/lab-light.png는 지우지 않았습니다</li><li>Safari·Firefox·실기기·화면 읽기 프로그램</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r2)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="11개 장 전이 문항(stack~final), #data 깊이 읽기 “학습의 무작위성”, 새 실험 rerun(js/labs-habits.js, js/math.js rerun), #final 다섯째 보고 jitter(triage·보고 표), 새 출처 PyTorch Reproducibility, 표지·등록 실험 수 17, 보기 돌리기 코드" data-result="fixed" data-commit="5f766a8">
 <h2>2026-10-12 검수 (전체 도서 보충 검수 r2)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r2)(검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 더한 것 — 11개 장 전이 문항(stack~final), #data 깊이 읽기 “학습의 무작위성”, 새 실험 rerun(js/labs-habits.js, js/math.js rerun), #final 다섯째 보고 jitter(triage·보고 표), 새 출처 PyTorch Reproducibility, 표지·등록 실험 수 17, 보기 돌리기 코드.</p>

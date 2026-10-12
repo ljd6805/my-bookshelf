@@ -130,12 +130,14 @@ function stepTime(load,compute,workers){
  const loadEff=workers?load/workers:load,step=workers?Math.max(loadEff,compute):load+compute;
  return {loadEff,step,idle:step-compute,gpuUse:compute/step,bottleneck:loadEff>compute?'데이터 로딩':'계산'};
 }
-/* 10장: 손실 L = w² 에 경사하강 w ← w − η·2w 를 적용한다. 손실이 100을 넘는 첫 단계를 조건부 중단점으로 본다. */
-function lossCurve(lr,steps=30,w0=1){
- const out=[];let w=w0,stop=-1;
- for(let t=0;t<=steps;t++){const L=w*w;out.push(L);if(stop<0&&L>100)stop=t;w=w-lr*2*w;}
- const f=Math.abs(1-2*lr),kind=f>=1?(f>1?'발산':'제자리'):lr>0.5?'출렁이며 수렴':lr<0.15?'느린 수렴':'수렴';
- return {loss:out,factor:f,kind,stop,final:out[steps]};
+/* 10장: 손실 L = (w − y)² 에 경사하강 w ← w − η·2(w − y) 를 적용한다. 정상 코드는 같은 배치의 정답 y = 0을 계속 보고(L = w²),
+   labelBug=true는 입력과 정답 짝이 단계마다 어긋나 y가 시드 7의 난수로 −1 또는 +1이 되는 버그를 흉내 낸다. 손실이 100을 넘는 첫 단계를 조건부 중단점으로 본다. */
+function lossCurve(lr,steps=30,w0=1,labelBug=false){
+ const out=[],r=rng(7);let w=w0,stop=-1;
+ for(let t=0;t<=steps;t++){const y=labelBug?(r()<.5?-1:1):0,L=(w-y)**2;out.push(L);if(stop<0&&L>100)stop=t;w=w-lr*2*(w-y);}
+ const f=Math.abs(1-2*lr),tail=out.slice(-10).reduce((a,b)=>a+b,0)/10;
+ const kind=f>1||(labelBug&&f>=1)?'발산':labelBug?(lr>0.5?'크게 출렁임':'바닥에서 멈춤'):f===1?'제자리':lr>0.5?'출렁이며 수렴':lr<0.15?'느린 수렴':'수렴';
+ return {loss:out,factor:f,kind,stop,final:out[steps],tail};
 }
 /* 11장: 확인 순서 전략과 원인까지 걸리는 시간. 분 단위 시간은 교육용 가정값이다. */
 const CHECKS=[['사전 점검',3,'사전 점검'],['가상 환경·잠금 파일',5,'가상 환경'],['드라이버·CUDA 빌드',5,'CUDA'],['커밋·이미지 태그',3,'커밋·태그'],['분할·시드·누수',10,'분할·시드'],['구간별 시간·장치',15,'구간 시간'],['손실 곡선',20,'손실 곡선']];

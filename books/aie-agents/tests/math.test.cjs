@@ -84,3 +84,14 @@ test('stage choice and ratchet priority',()=>{
  assert.equal(M.ratchetPriority(4,3),12);assert.throws(()=>M.ratchetPriority(0,1));
 });
 test('compounding per-step success',()=>{near(M.compound(0.99,100),0.366,1e-3);near(M.compound(0.95,40),0.1285,1e-3);assert.equal(M.compound(1,400),1);assert.equal(M.compound(1.2,2),1);});
+test('wilson and pilotInterval: same 0.86, different sample sizes',()=>{
+ const near=(a,b)=>assert.ok(Math.abs(a-b)<5e-4,`${a} vs ${b}`);
+ let w=M.wilson(0.86,50);near(w.lo,0.7381);near(w.hi,0.9305);
+ w=M.wilson(0.86,500);near(w.lo,0.8268);near(w.hi,0.8877);
+ w=M.wilson(0.125,40);near(w.lo,0.0546);near(w.hi,0.2611);
+ assert.equal(M.pilotInterval(0.86,50).place,'both');assert.equal(M.pilotInterval(0.86,200).place,'pass');assert.equal(M.pilotInterval(0.86,500).place,'between');
+ assert.equal(M.pilotInterval(0.97,500).place,'above');assert.equal(M.pilotInterval(0.6,500).place,'below');
+ const b=M.wilson(1,10);near(b.hi,1);assert.ok(b.lo>0.69&&b.lo<0.73);const z=M.wilson(0,10);assert.equal(z.lo,0);
+ let prev=1;for(const n of [20,50,100,200,500]){const x=M.wilson(0.86,n),wd=x.hi-x.lo;assert.ok(wd<prev);assert.ok(x.lo<0.86&&x.hi>0.86);prev=wd;}
+ assert.throws(()=>M.wilson(0.5,0));
+});

@@ -113,3 +113,12 @@ test('EU 일정 조회와 진단',()=>{
  const s=M.diagnose('syc','betadown');assert.ok(s.after>s.before);near(M.diagnose('syc','agree').after,0.235,1e-3);
  const g=M.diagnose('gap','parity');assert.equal(g.fixed,true);assert.ok(g.tprGapAfter<-0.1);
 });
+
+test('진단 보고 ④ 잘못 막힘과 ⑤ 학습 기록 노출',()=>{
+ const b=M.diagnose('block','raise');near(b.before,44533,1);near(b.after,12257,1);assert.equal(b.fixed,true);near(b.precision[0],0.1596,1e-4);near(b.precision[1],0.348,1e-3);assert.ok(b.miss[1]>b.miss[0]);
+ const w=M.diagnose('block','userfilter');assert.ok(w.after>w.before);assert.equal(w.fixed,false);near(w.after,127860,1);
+ assert.equal(M.diagnose('block','watermark').after,b.before);
+ const m=M.diagnose('memo','dpsgd');near(m.before,1,1e-6);near(m.after,0.0924,1e-3);near(m.eps[0],91.8,0.1);near(m.eps[1],4.377,2e-3);assert.equal(m.fixed,true);
+ const n=M.diagnose('memo','watermark');assert.equal(n.after,n.before);assert.equal(n.fixed,false);
+ for(const r of Object.keys(M.REMEDIES))for(const rep of ['leak','syc','gap'])assert.ok(Number.isFinite(M.diagnose(rep,r).after),rep+r);
+});

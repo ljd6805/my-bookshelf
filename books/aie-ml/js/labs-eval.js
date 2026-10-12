@@ -13,11 +13,19 @@ L.scaling=el=>{
 
 function confusionTable(cm){return `<div class="kit-panel" role="img" aria-label="혼동 행렬: 잡은 사기 ${cm.TP}, 오경보 ${cm.FP}, 놓친 사기 ${cm.FN}, 정상 통과 ${cm.TN}"><div class="kit-grid" style="grid-template-columns:1fr 1fr;padding:0;border:0"><span style="--a:.9;--h:var(--accent)">잡은 사기 ${cm.TP}</span><span style="--a:.6;--h:var(--orange)">오경보 ${cm.FP}</span><span style="--a:.6;--h:var(--orange)">놓친 사기 ${cm.FN}</span><span style="--a:.15;--h:var(--accent)">정상 통과 ${cm.TN}</span></div></div>`;}
 
+const VIEWS=[['roc','ROC 곡선'],['cal','신뢰도 도표(점수 보정)']];
+function calibrationChart(D,t){const R=M.reliability(D).filter(b=>b.n),f2=v=>f(v,2);
+ return U.plot({lines:[{data:[[0,0],[1,1]],color:'var(--muted)',dashed:true},{data:R.map(b=>[b.score,b.rate])}],points:R.map(b=>[b.score,b.rate,b.lo<=t&&t<b.hi?'var(--orange)':'var(--blue)',Math.min(10,3+Math.sqrt(b.n)/3)]),xlabel:'칸의 평균 점수',ylabel:'칸의 실제 사기 비율',label:`신뢰도 도표: 점수 칸 ${R.length}개의 평균 점수와 실제 사기 비율. ${R.map(b=>`${f(b.lo,1)}~${f(b.hi,1)} 칸 ${b.n}건 점수 ${f2(b.score)} 실제 ${f2(b.rate)}`).join(', ')}. 점선은 완벽히 보정된 점수입니다.`});}
+function calibrationText(D,t){const R=M.reliability(D),b=R[Math.min(9,Math.floor(t*10))],best=M.bestThreshold(D),rule=M.calibratedThreshold(20),ruleCost=M.expectedCost(M.confusion(D,rule));
+ const here=b.n?`문턱 ${f(t,2)}이 든 ${f(b.lo,1)}~${f(b.hi,1)} 칸(${b.n}건)은 평균 점수 <b>${f(b.score,2)}</b>, 실제 사기 비율 <b>${f(b.rate,2)}</b>입니다${b.n<10?'(건수가 적어 흔들리는 칸)':''}.`:`문턱 ${f(t,2)}이 든 칸에는 결제가 없습니다.`;
+ return `${here} 브라이어 점수 <b>${f(M.brier(D),4)}</b>. 놓친 사기 비용을 오경보의 20배로 두면, 점수가 보정되어 있을 때의 최적 문턱은 1/(1+20) ≈ <b>${f(rule,3)}</b>입니다. 이 점수에 그 문턱을 쓰면 비용이 <b>${ruleCost}</b>이고, 데이터로 찾은 문턱 <b>${f(best.t,2)}</b>의 비용은 <strong>${best.cost}</strong>입니다. 두 문턱이 이렇게 다르면 점수가 확률로 보정되지 않았다는 뜻입니다.`;}
+
 L.threshold=el=>{
- U.setup(el,U.range('thr','경보 문턱(사기 점수 ≥)',0.05,0.95,0.05,0.5));
- U.bind(el,()=>{const t=U.value(el,'thr'),D=M.scoreData(),cm=M.confusion(D,t),r=M.rates(cm),roc=M.rocCurve(D),a=M.auc(D);
-  const chart=U.plot({lines:[{data:roc},{data:[[0,0],[1,1]],color:'var(--muted)',dashed:true}],points:[[r.fpr,r.recall,'var(--orange)',8]],xlabel:'오경보율(FPR)',ylabel:'재현율(TPR)',label:`ROC 곡선(AUC ${f(a,3)})과 문턱 ${f(t,2)}의 위치`})+confusionTable(cm);
-  U.result(el,chart,`문턱 <b>${f(t,2)}</b>, 결제 1,000건 중 사기 30건. 잡은 사기 <b>${cm.TP}</b>, 오경보 <b>${cm.FP}</b>, 놓친 사기 <b>${cm.FN}</b>. 정밀도 <strong>${p(r.precision)}</strong>, 재현율 <strong>${p(r.recall)}</strong>, F1 <b>${f(r.f1,3)}</b>, MCC <b>${f(r.mcc,3)}</b>, 정확도 <b>${p(r.accuracy)}</b>(“항상 정상”은 97.0%). AUC <b>${f(a,3)}</b>는 문턱과 상관없는 값입니다.<br><small>실제 계산 · 가상 사기 점수 1,000건</small>`);});
+ U.setup(el,U.range('thr','경보 문턱(사기 점수 ≥)',0.05,0.95,0.05,0.5)+U.select('view','아래 그림',VIEWS,'roc'));
+ U.bind(el,()=>{const t=U.value(el,'thr'),view=U.text(el,'view'),D=M.scoreData(),cm=M.confusion(D,t),r=M.rates(cm),a=M.auc(D);
+  const top=view==='cal'?calibrationChart(D,t):U.plot({lines:[{data:M.rocCurve(D)},{data:[[0,0],[1,1]],color:'var(--muted)',dashed:true}],points:[[r.fpr,r.recall,'var(--orange)',8]],xlabel:'오경보율(FPR)',ylabel:'재현율(TPR)',label:`ROC 곡선(AUC ${f(a,3)})과 문턱 ${f(t,2)}의 위치`});
+  const extra=view==='cal'?`<br>${calibrationText(D,t)}`:'';
+  U.result(el,top+confusionTable(cm),`문턱 <b>${f(t,2)}</b>, 결제 1,000건 중 사기 30건. 잡은 사기 <b>${cm.TP}</b>, 오경보 <b>${cm.FP}</b>, 놓친 사기 <b>${cm.FN}</b>. 정밀도 <strong>${p(r.precision)}</strong>, 재현율 <strong>${p(r.recall)}</strong>, F1 <b>${f(r.f1,3)}</b>, MCC <b>${f(r.mcc,3)}</b>, 정확도 <b>${p(r.accuracy)}</b>(“항상 정상”은 97.0%). AUC <b>${f(a,3)}</b>는 문턱과 상관없는 값입니다.${extra}<br><small>실제 계산 · 가상 사기 점수 1,000건${view==='cal'?' · 비용 비율 20:1은 가정':''}</small>`);});
 };
 
 L.biasvar=el=>{

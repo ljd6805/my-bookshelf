@@ -73,5 +73,17 @@
 <li><b>검증</b>: <code>npm test --prefix books/aie-deep</code>(전이 문항 형식, 보기 돌리기 대표값, 새 계산의 대표값·경계값 포함) 통과. <code>python3 scripts/validate.py</code> 0 errors, <code>python3 scripts/build_catalog.py --check</code> 최신. Chromium으로 1280·390·320px에서 모든 장을 열어 실험마다 예제 버튼·최솟값·최댓값·초기화, 확인 문제와 전이 문항의 정답·오답 피드백, 가로 넘침 없음, 콘솔 오류 없음을 확인했습니다(<code>tests/browser.cjs</code>, 결과 <code>docs/evidence/browser-results.json</code>).</li>
 <li><b>확인하지 못한 것</b>: 전이 문항이 실제 독자의 전이 능력을 높이는지(학습 효과)는 시험하지 않았습니다. 새 내용은 아직 집필자가 아닌 검수자의 팩트·출처 검수를 받지 않았습니다. 화면 낭독기로 새 피드백 영역을 직접 들어 보지 않았습니다.</li>
 </ul></section>
+<section id="supplement2-20261012"><h2>2026-10-12 2차 보충</h2>
+<p>편집장 선정(검토서 g3-foundations의 2~4순위 가운데 규모 S·M, 최대 두 개)에 따라 교과과정·지식조사·교수법·글작성·시각실험 역할로 더한 내용입니다. 장 ID·앵커·실험 ID는 바꾸지 않았고, 스크립트·스타일 버전은 <code>?v=20261012-supp2</code>로 올렸습니다. 팩트·출처 검수는 다른 세션이 맡습니다.</p>
+<ul>
+<li><b>8장 init · 실험 depthsignal</b>: "블록 구조" 선택(평범한 층 / 잔차 a+φ(Wa) / 잔차 + 1/√L 축소 / 층마다 LayerNorm)을 더했습니다(<code>blockStats</code>, <code>layerNorm</code>). 평범한 층은 기존 <code>deepStats</code>와 같은 값입니다. 대표값(50층, 폭 48, 시드 3): 작은 값+tanh 평범 3.7×10⁻⁵⁹, 잔차 1.16; Xavier+tanh 잔차 6.15(대략 √50배), 1/√L 축소 1.24; He+ReLU 잔차 8.2×10¹⁰(층마다 분산 두 배), LayerNorm은 모든 초기화·활성화에서 0.59~0.64. 깊이 읽기 "잔차 스케일링"에 이 숫자를 잇는 문단을 더했습니다. 실험 수는 그대로입니다.</li>
+<li><b>확인 문제 3개를 실험 판단형으로</b>: activation(He 30층 첫 층÷마지막 층: 시그모이드 1.9×10⁻¹⁵, ReLU 0.92), init(tanh 20층: Xavier 0.136, He 0.538), schedule(η=1.0: 상수 2~30단계 최대 손실 1.558·150단계 0.030, 워밍업+코사인 0.710·0.028, 시드 1). backprop 확인 문제는 02권 autodiff 쪽 문제를 바꾸어 중복이 풀렸으므로 그대로 두었습니다.</li>
+<li><b>새 출처</b>: He et al. 2015(ResNet, arXiv 1512.03385), Ba·Kiros·Hinton 2016(Layer Normalization). GPT-2 보고서의 “잔차 층 가중치를 1/√N(N은 잔차 층 수)로 줄인다” 문장도 다시 확인했습니다(모두 2026-10-12).</li>
+<li><b>건너뛴 제안</b>: 1순위 미니배치 실험은 이미 반영됨. 4순위 조기 종료 표시는 두 개 한도 때문에 다음으로 넘겼습니다. 9장 RMSNorm “약 10% 가볍다”는 Zhang &amp; Sennrich 원문 수치와 대조하지 못했습니다.</li>
+<li><b>검증</b>: <code>npm test --prefix books/aie-deep</code> 통과, <code>python3 scripts/validate.py</code> 0 errors, <code>node --test tests/*.mjs</code> 통과. Chromium으로 1280·390·320px에서 모든 장과 실험(새 손잡이의 모든 선택지와 경계값 포함)을 열어 가로 넘침·콘솔 오류가 없음을 확인했습니다(<code>tests/browser.cjs</code>). 밝은 화면이 기본값이 된 뒤 이 검사가 테마 단추 이름 때문에 멈추던 것을 <code>#theme</code> 단추를 누르도록 고쳤습니다.</li>
+<li><b>확인하지 못한 것</b>: 새 문항과 손잡이의 학습 효과(L4)는 독자로 시험하지 않았습니다. 화면 낭독기로 새 결과 문장을 들어 보지 않았습니다.</li>
+</ul>
+<h3>문체 비평 메모(다온)</h3>
+<ul><li>인용: “잔차 연결과 축소·정규화가 늘 함께 다니는 까닭입니다.”<br>이유: 앞 문장들이 숫자로 이미 보여 준 결론을 요약하는 맺음이라 남겼지만, ‘늘’은 과장입니다. 축소 없이 정규화만 쓰는 구조도 있습니다.<br>고친 문장: 그대로 두되, 바로 뒤에 “다만 정규화는 학습 중의 문제까지 모두 풀어 주지는 않으므로 9장에서 다시 다룹니다”로 범위를 줄였습니다.</li><li>인용: “잔차 길이 입력을 그대로 다음 층에 넘기므로”(실험 결과 문장 초안)<br>이유: ‘잔차 길’은 이 책에서 쓰지 않은 말이라 ‘잔차의 길이(length)’로도 읽힙니다.<br>고친 문장: “잔차 연결의 지름길이 입력을 그대로 다음 층에 넘기므로”</li></ul></section>
 <footer><a href="index.html">문서 허브</a> · <a href="../index.html">책 읽기</a> · <a href="../../../index.html">서가</a></footer>
 </main></body></html>

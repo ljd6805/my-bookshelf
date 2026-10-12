@@ -110,7 +110,10 @@ const A16Math={
   {name:'.env 파일 읽기',kind:'secret'},{name:'설정 파일에 값 적기',kind:'edit'},{name:'공개 저장소로 git push',kind:'push'},
   {name:'오래된 브랜치 지우기',kind:'delete'},{name:'처음 보는 주소로 curl',kind:'net'}
  ],
- ladder(mode,workspace){
+ /* taint(오염 추적, 이 책의 가정 규칙 · 실제 제품 기능이 아님): 비밀을 자동으로 읽은 세션에서는 그 뒤의 push·net을 모드와 상관없이 묻는다.
+    거절은 묻기보다 강하므로 그대로 둔다. */
+ ladder(mode,workspace,taint=false){
+  let tainted=false;
   const rows=A16Math.nightActions.map(a=>{
    const risky=['shell','push','delete','net','secret'].includes(a.kind);let d;
    if(mode==='plan')d='ask';
@@ -119,11 +122,14 @@ const A16Math={
    else if(mode==='auto')d=['delete','net'].includes(a.kind)?'ask':'auto';
    else if(mode==='dontAsk')d=['read','edit','shell'].includes(a.kind)?'auto':'deny';
    else d='auto';
-   return {...a,risky,d};
+   const byTaint=taint&&tainted&&['push','net'].includes(a.kind)&&d==='auto';
+   if(byTaint)d='ask';
+   if(a.kind==='secret'&&d==='auto')tainted=true;
+   return {...a,risky,d,byTaint};
   });
   const ran=k=>rows.some(x=>x.kind===k&&x.d==='auto');
-  const leak=ran('secret')&&ran('push');
-  return {rows,asks:rows.filter(x=>x.d==='ask').length,riskyAuto:rows.filter(x=>x.risky&&x.d==='auto').length,denied:rows.filter(x=>x.d==='deny').length,leak,harm:leak&&workspace==='repo'};
+  const leak=ran('secret')&&ran('push'),cut=rows.find(x=>x.byTaint&&x.kind==='push');
+  return {rows,asks:rows.filter(x=>x.d==='ask').length,riskyAuto:rows.filter(x=>x.risky&&x.d==='auto').length,denied:rows.filter(x=>x.d==='deny').length,leak,harm:leak&&workspace==='repo',taintAsks:rows.filter(x=>x.byTaint).length,cutBy:cut?cut.name:null};
  },
 
  /* 7장 · 브라우저 에이전트와 간접 프롬프트 주입. 공급 페이지 네 개와 방어 조합. 판정 규칙은 원본 레슨의 시나리오를 단순화한 것. */

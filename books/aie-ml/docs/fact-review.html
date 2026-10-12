@@ -4,6 +4,23 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「AI 엔지니어링 처음부터」 03권 《머신러닝 기초 · 데이터에서 믿을 만한 예측까지》(books/aie-ml/)의 팩트·출처 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 에이전트가 검수했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#metrics 실험 threshold의 그림 선택(view: ROC/신뢰도 도표, reliability·brier·calibratedThreshold)과 결과 읽기·안내 상자, #metrics 깊이 읽기 “점수는 확률일까”, #drift formulaNote 한 문장, #logistic·#trees·#neighbors·#clusters 확인 문제 4개, 새 출처 2개(scikit-learn Probability calibration, Niculescu-Mizil & Caruana 2005), AGENTS.md 입력 id" data-result="fixed">
+<h2>2026-10-12 검수 (2차 보충 · 검수 r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1), 검수팀 정민·유진·건우·채원·현석 관점과 글작성팀 다온의 문체 관점. 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: #metrics 실험 threshold의 그림 선택(view: ROC/신뢰도 도표, reliability·brier·calibratedThreshold)과 결과 읽기·안내 상자, #metrics 깊이 읽기 “점수는 확률일까”, #drift formulaNote 한 문장, #logistic·#trees·#neighbors·#clusters 확인 문제 4개, 새 출처 2개(scikit-learn Probability calibration, Niculescu-Mizil & Caruana 2005), AGENTS.md 입력 id. 이 보충의 미커밋 변경만 보았고, 계산은 책 코드와 따로 Python(numpy)으로 다시 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>기대 비용 비교 (1−p)·1 대 p·r에서 문턱 1/(1+r), 플랫 스케일링·등위 회귀의 성질(등위 회귀가 작은 데이터에서 과적합), 브라이어 점수에 보정과 분별력이 섞인다는 점, 나이브 베이즈는 0·1 쪽으로·부스팅은 0·1에서 멀어지게 민다는 점을 두 출처 원문과 대조. 확인 문제 넷은 정답이 하나뿐이고 해설이 오답을 문구로 가리킵니다.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>Python으로 scoreData 1,000건을 따로 집계: 0.3~0.4 칸 59건 평균 0.342 실제 사기 3건, 브라이어 0.0336, 문턱 0.05 비용 750(오경보 750), 1/21 비용 763, 0.01 격자 최적 0.42 비용 120. 지니: 부모 0.486, 4.5 기준 왼쪽 0.278·오른쪽 0.444·이득 0.125, 5.5 기준 0.320·0.346·가중 0.330·이득 0.1565. 안내 상자의 “0.05를 쓰면 750” 문장이 결과 문장의 1/21 문턱 비용 763과 어긋나 보이던 것을 고쳤습니다(아래 표).</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>node로 logisticLab(0·20·100·300번 손실 0.693·0.368·0.359·0.359, 80건 중 사기 40건, 정확도 85%), knnLab(k=1 시험 94.5%·학습 100%, k=29 65.5%·65%, 학습 60건 중 사기 26건), kmeans 8단계(K=3 관성 60.18·실루엣 0.658, K=4 52.90·0.525), 문턱 손잡이 0.05·0.95 끝값과 신뢰도 칸 강조를 확인했습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>보정(calibration), 신뢰도 도표, 브라이어 점수, 플랫 스케일링, 등위 회귀가 scikit-learn 문서의 용어와 맞습니다.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>scikit-learn Probability calibration 문서를 열어 신뢰도 도표·브라이어 분해·시그모이드(Platt 1999)·등위 회귀, Zadrozny·Elkan 2002와 Niculescu-Mizil·Caruana 2005 인용, “GaussianNB가 0 또는 1로 민다”, “등위 회귀는 작은 데이터에서 과적합하기 쉽다”를 확인. Cornell PDF를 열어 제목·저자·ICML 2005와 나이브 베이즈·부스팅 경향, 플랫·등위 보정의 신뢰도 도표를 확인했습니다(2026-10-12).</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/lab-guides.js threshold 결과 읽기</td><td>“1/21≈0.048이지만 이 점수에 0.05를 쓰면 비용 750”이라 했는데, 같은 화면의 결과 문장은 문턱 0.0476 그대로의 비용 763을 보여 줘 독자가 두 숫자를 비교하면 어긋납니다</td><td>node: confusion(D,1/21) 오경보 763, confusion(D,0.05) 오경보 750</td><td>“그 문턱을 그대로 쓰면 오경보 763건으로 비용이 763(슬라이더 최솟값 0.05에서는 750)”으로 고쳤습니다. 본문 깊이 읽기는 0.05라고 밝혀 맞으므로 그대로 둡니다. index.html 자산 버전을 ?v=20261012-supp2r1로 올렸습니다.</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>독자의 학습 효과는 시험하지 않았습니다.</li><li>화면 낭독기로 새 결과 문장을 들어 보지 않았습니다.</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r3)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항 12개, #trees 깊이 읽기(그래디언트 부스팅)·실험 boost(fitStump·boosting)·결과 읽기, 장 출처에 Friedman 2001(source 30) 추가, quizOrder" data-result="fixed" data-commit="5f766a8">
 <h2>2026-10-12 검수 (전체 도서 보충 · 검수 r3)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r3, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 12개 장 전이 문항 12개, #trees 깊이 읽기(그래디언트 부스팅)·실험 boost(fitStump·boosting)·결과 읽기, 장 출처에 Friedman 2001(source 30) 추가, quizOrder. 커밋 5f766a8이 이 책에 더한 것만 보았고, 계산은 책 코드와 따로 Python·Node 스크립트로 다시 했습니다.</p>

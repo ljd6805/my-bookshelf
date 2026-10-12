@@ -56,6 +56,20 @@ async function exercise(page, id) {
       assert.match(band, /띠\(.*\) 안의 평균 \d+개 = 9[45]\.\d% \(정규분포 이론값 95\.0%\)/, band);
       await page.getByRole('button', { name: '초기화' }).click();
       assert.ok(!(await page.locator('#clt-band').isChecked()), 'reset clears band');
+      // 7장 보충: 센서 20대를 한꺼번에 검정 → 이론 64.2%, 60일 정확 검정 24.2%, 동시 시험 반복, 본페로니, 초기화
+      await page.goto(`${target}#testing`);
+      const multi = page.locator('.multi-test');
+      await page.locator('#ts-r').fill('0.1');
+      await page.locator('#ts-k').fill('20');
+      assert.match(await multi.locator('[role=status]').innerText(), /64\.2%[\s\S]*1\.38%[\s\S]*24\.2%/);
+      await multi.getByRole('button', { name: '센서 k대 동시 시험 400번' }).click();
+      assert.match(await multi.innerText(), /적어도 한 대가 유의한 반복 2\d\.\d%[\s\S]*잘못된 경보/);
+      await multi.getByRole('button', { name: '본페로니 보정: 끔' }).click();
+      assert.equal(await multi.locator('button[aria-pressed]').getAttribute('aria-pressed'), 'true');
+      assert.match(await multi.locator('[role=status]').innerText(), /기준 0\.0025/);
+      await page.locator('.lab .buttons').getByRole('button', { name: '초기화' }).click();
+      assert.match(await multi.locator('[role=status]').innerText(), /센서 1대를 각각 기준 0\.0500/);
+      assert.match(await page.locator('.note.confuse').innerText(), /귀무가설이 참일 확률이 아닙니다/);
       // 9장: 기본 r 0.79 → 나눠 보기 예제는 단계별 r이 0 근처 → 무작위 예제는 전체 r 0 근처 → 직접 조작 → 초기화
       await page.goto(`${target}#correlation`);
       const status = page.locator('.lab .readout[role=status]');

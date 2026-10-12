@@ -24,10 +24,13 @@ A09Labs.vq=el=>{
   U.result(el,chart,`코드북 K = <b>${K}</b> · ${init==='data'?'데이터 점에서 출발':'구석에 몰아 둔 출발'} · 반복 ${it}번<br>양자화 오차(점과 가장 가까운 코드 사이 거리 제곱의 평균) <strong>${F(r.mse,4)}</strong> · 토큰 하나의 정보 log₂K = <b>${F(r.bits,0)}비트</b><br>한 번이라도 쓰인 코드 <b>${r.used}개</b>, 한 번도 쓰이지 않은 죽은 코드 <strong>${r.dead}개 (${pct(r.deadRatio)})</strong><br>${init==='corner'?'모든 코드가 한곳에 몰려 있으면 가장 가까운 몇 개만 점을 받아 움직이고, 나머지는 점을 하나도 받지 못해 제자리에 남습니다. K를 키워도 쓰이는 코드가 거의 늘지 않아 비트만 낭비됩니다.':'데이터에서 출발하면 거의 모든 코드가 점을 받고, K를 키울수록 오차가 줄어듭니다.'} 점 400개는 이 책의 두 봉우리 분포에서 시드를 고정해 뽑은 교육용 값이고, 배정·평균·오차는 실제 계산입니다. 실제 VQ-VAE는 인코더와 코드북을 손실로 함께 학습합니다.`);});
 };
 A09Labs.fid=el=>{
- U.setup(el,R('fshift','생성 특징의 평균 이동',0,2,0.1,0)+R('fsigma','생성 특징의 표준편차 σ (다양성)',0.2,1.5,0.05,1)+S('fn','표본 수 N (진짜·생성 각각)',[[50,'50장'],[200,'200장'],[1000,'1,000장'],[10000,'10,000장']],1000));
- U.bind(el,()=>{const sh=U.value(el,'fshift'),sg=U.value(el,'fsigma'),n=U.value(el,'fn'),r=M.fidLab(sh,sg,n);
-  const chart=U.scatter(r.real,{xmin:-4,xmax:5,ymin:-4,ymax:4,color:'var(--blue)',extra:[[r.gen,'var(--orange)']],label:`진짜 특징(파랑)과 생성 특징(주황) 각 150개. 정확한 FID ${F(r.exact,3)}`});
-  U.result(el,chart,`정확한 FID = 이동² + 2(1 − σ)² = ${F(sh,1)}² + 2(1 − ${F(sg,2)})² = <b>${F(r.exact,3)}</b><br>표본 ${n.toLocaleString('ko-KR')}장씩, 시드 5개로 추정한 FID: 평균 <strong>${F(r.est,3)}</strong>, 범위 ${F(r.min,3)} ~ ${F(r.max,3)} (치우침 ${r.bias>=0?'+':''}${F(r.bias,3)})<br>${n<=200?'표본이 적어 같은 모델도 시드에 따라 값이 크게 흔들립니다.':'표본이 많아 추정이 참값에 가깝습니다.'} ${sg<0.8?'다양성이 줄면(σ < 1) 평균이 맞아도 FID가 커집니다.':''}<br>2차원 가우스 특징으로 한 실제 계산입니다. 실제 FID는 2048차원이라 같은 N에서 흔들림이 훨씬 큽니다.`);});
+ U.setup(el,S('fmode','생성 방식',[['model','모델이 새로 뽑기 (평균 이동·σ 적용)'],['copy','학습 그림 베끼기 (학습 표본을 거의 그대로 내놓음)']],'model')+R('fshift','생성 특징의 평균 이동',0,2,0.1,0)+R('fsigma','생성 특징의 표준편차 σ (다양성)',0.2,1.5,0.05,1)+S('fn','표본 수 N (진짜·생성·학습 각각)',[[50,'50장'],[200,'200장'],[1000,'1,000장'],[10000,'10,000장']],1000));
+ U.bind(el,()=>{const mode=U.text(el,'fmode'),copy=mode==='copy',sh=U.value(el,'fshift'),sg=U.value(el,'fsigma'),n=U.value(el,'fn'),r=M.fidLab(sh,sg,n,mode);
+  const chart=U.scatter(r.real,{xmin:-4,xmax:5,ymin:-4,ymax:4,color:'var(--blue)',extra:[[r.gen,'var(--orange)']],label:`진짜 특징(파랑)과 생성 특징(주황) 각 150개. 정확한 FID ${F(r.exact,3)}, 근접 복제율 ${pct(r.copy)}`});
+  const head=copy?`생성 방식: <b>학습 그림 베끼기</b>. 학습 표본을 거리 0.0001 안쪽으로 거의 그대로 내놓습니다(평균 이동·σ 손잡이는 쓰지 않음). 학습 그림이 진짜와 같은 분포에서 왔으므로 정확한 FID = <b>0</b>`:`정확한 FID = 이동² + 2(1 − σ)² = ${F(sh,1)}² + 2(1 − ${F(sg,2)})² = <b>${F(r.exact,3)}</b>`;
+  const copyLine=`근접 복제율(가장 가까운 학습 표본까지 거리 ${r.tau} 이하인 생성 표본의 비율, 시드 5개 평균) <strong>${copy?'100%':F(r.copy*100,2)+'%'}</strong>`;
+  const note=copy?'FID는 새로 그리는 모델만큼 낮은데 생성 그림이 모두 학습 그림의 복제입니다. FID는 두 분포가 닮았는지만 재므로 베끼기를 벌하지 못합니다.':(n<=200?'표본이 적어 같은 모델도 시드에 따라 값이 크게 흔들립니다.':'표본이 많아 추정이 참값에 가깝습니다.')+(sg<0.8?' 다양성이 줄면(σ < 1) 평균이 맞아도 FID가 커집니다.':'')+(r.copy>0?' 새로 뽑았는데도 복제율이 0이 아닌 것은 2차원에 점이 빽빽하면 우연히 가까운 점이 생기기 때문입니다. 실제 복제 검사는 고차원 특징과 더 엄격한 기준을 씁니다.':'');
+  U.result(el,chart,`${head}<br>표본 ${n.toLocaleString('ko-KR')}장씩, 시드 5개로 추정한 FID: 평균 <strong>${F(r.est,3)}</strong>, 범위 ${F(r.min,3)} ~ ${F(r.max,3)} (치우침 ${r.bias>=0?'+':''}${F(r.bias,3)})<br>${copyLine}<br>${note}<br>2차원 가우스 특징으로 한 실제 계산입니다. 실제 FID는 2048차원이라 같은 N에서 흔들림이 훨씬 큽니다.`);});
 };
 const SYM={blur:'일부 샘플이 낮도 밤도 아닌 흐릿한 회색 그림이다',samey:'“밤의 도토리”가 거의 같은 그림만 나오고 색이 번들거린다',slow:'한 장에 15초가 걸린다',fid:'새 버전의 FID가 좋아졌다(표본 500장, 한 번 측정)'};
 const ACT={steps:'샘플링 단계 수를 늘린다',cfg:'가이던스 w를 3~7로 낮춘다',psi:'절단 ψ를 바꾼다',distill:'증류된 플로 모델(1~4단계)로 바꾼다',moreN:'표본 1만 장·시드 3개로 다시 잰다'};

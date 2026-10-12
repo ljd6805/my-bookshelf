@@ -185,14 +185,28 @@ function fid2(m1,S1,m2,S2){
  return (m1[0]-m2[0])**2+(m1[1]-m2[1])**2+S1[0][0]+S1[1][1]+S2[0][0]+S2[1][1]-2*trSqrt;
 }
 function moments(pts){const m=[mean(pts.map(p=>p[0])),mean(pts.map(p=>p[1]))],n=pts.length;const S=[[0,0],[0,0]];pts.forEach(p=>{for(let i=0;i<2;i++)for(let j=0;j<2;j++)S[i][j]+=(p[i]-m[i])*(p[j]-m[j])/(n-1);});return {m,S};}
-function fidOnce(shift,sigma,N,seed){
- const r=rng(seed),real=[],gen=[];for(let i=0;i<N;i++){real.push([gauss(r),gauss(r)]);gen.push([shift+sigma*gauss(r),sigma*gauss(r)]);}
- const a=moments(real),b=moments(gen);return {est:fid2(a.m,a.S,b.m,b.S),real,gen};
+function fidOnce(shift,sigma,N,seed,mode='model'){
+ const r=rng(seed),real=[],gen=[],train=[];for(let i=0;i<N;i++){real.push([gauss(r),gauss(r)]);gen.push([shift+sigma*gauss(r),sigma*gauss(r)]);}
+ for(let i=0;i<N;i++)train.push([gauss(r),gauss(r)]);
+ const out=mode==='copy'?train.map(p=>[p[0]+COPY_JITTER*gauss(r),p[1]+COPY_JITTER*gauss(r)]):gen;
+ const a=moments(real),b=moments(out);return {est:fid2(a.m,a.S,b.m,b.S),real,gen:out,copy:nearCopyRate(out,train,COPY_TAU)};
 }
-/* 진짜 특징 N(0, I), 생성 특징 N((shift,0), σ²I). 정확한 FID = shift² + 2(1−σ)². 시드 5개로 N장씩 뽑아 추정값의 평균과 범위를 본다. */
-function fidLab(shift,sigma,N){
- const runs=[1,2,3,4,5].map(s=>fidOnce(shift,sigma,N,s)),ests=runs.map(r=>r.est),exact=shift*shift+2*(1-sigma)**2,avg=mean(ests);
- return {shift,sigma,N,exact,est:avg,min:Math.min(...ests),max:Math.max(...ests),bias:avg-exact,real:runs[0].real.slice(0,150),gen:runs[0].gen.slice(0,150)};
+/* 11장: 생성 표본마다 가장 가까운 학습 표본까지의 거리가 tau 이하인 비율(근접 복제율). 칸 크기 tau의 격자로 이웃 9칸만 본다. */
+const COPY_TAU=0.001,COPY_JITTER=0.0001;
+function nearCopyRate(gen,train,tau){
+ if(!gen.length)return 0;const key=(x,y)=>Math.floor(x/tau)+','+Math.floor(y/tau),grid=new Map();
+ train.forEach(p=>{const k=key(p[0],p[1]);if(!grid.has(k))grid.set(k,[]);grid.get(k).push(p);});
+ let hit=0;
+ for(const g of gen){const cx=Math.floor(g[0]/tau),cy=Math.floor(g[1]/tau);let ok=false;
+  for(let dx=-1;dx<=1&&!ok;dx++)for(let dy=-1;dy<=1&&!ok;dy++)for(const p of grid.get((cx+dx)+','+(cy+dy))||[])if(Math.hypot(p[0]-g[0],p[1]-g[1])<=tau){ok=true;break;}
+  if(ok)hit++;}
+ return hit/gen.length;
+}
+/* 진짜 특징 N(0, I), 생성 특징 N((shift,0), σ²I). 정확한 FID = shift² + 2(1−σ)². 시드 5개로 N장씩 뽑아 추정값의 평균과 범위를 본다.
+   mode 'copy'는 같은 분포에서 따로 뽑은 학습 표본 N개를 거의 그대로(잡음 0.0001) 내놓는 모델이다. 학습 분포가 진짜 분포와 같으므로 정확한 FID는 0이다. */
+function fidLab(shift,sigma,N,mode='model'){
+ const runs=[1,2,3,4,5].map(s=>fidOnce(shift,sigma,N,s,mode)),ests=runs.map(r=>r.est),exact=mode==='copy'?0:shift*shift+2*(1-sigma)**2,avg=mean(ests);
+ return {shift,sigma,N,mode,exact,est:avg,min:Math.min(...ests),max:Math.max(...ests),bias:avg-exact,copy:mean(runs.map(r=>r.copy)),tau:COPY_TAU,real:runs[0].real.slice(0,150),gen:runs[0].gen.slice(0,150)};
 }
 const cosine=(a,b)=>{const d=a.reduce((s,x,i)=>s+x*b[i],0);return d/Math.hypot(...a)/Math.hypot(...b);};
 
@@ -216,6 +230,6 @@ function triage(symptom,action){const [verdict,why,need]=TRIAGE[symptom][action]
 /* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리(0부터)에 오도록 n개 보기를 돌린다.
    돌려받은 배열의 k번째 값은 화면 k번째 자리에 놓을 원래 보기 번호다. */
 function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
-const A09Math={quizOrder,rng,gauss,erf,Phi,npdf,mean,std,MIX,NIGHT,mixSamples,mixPdf,mixProb,density,LAMBDA,bottleneck,betaVae,ganSim,ganGrad,l1l2,truncation,T,alphaBars,schedule,epsStar,ddim,sampleStats,steps,cfg,latentSize,lora,sdedit,video,codec,splatMB,flowVel,flowPath,flow,ROW,varScales,VQ_DATA,vqAssign,vqFit,fid2,fidOnce,fidLab,cosine,forward,triage,TRIAGE};
+const A09Math={quizOrder,rng,gauss,erf,Phi,npdf,mean,std,MIX,NIGHT,mixSamples,mixPdf,mixProb,density,LAMBDA,bottleneck,betaVae,ganSim,ganGrad,l1l2,truncation,T,alphaBars,schedule,epsStar,ddim,sampleStats,steps,cfg,latentSize,lora,sdedit,video,codec,splatMB,flowVel,flowPath,flow,ROW,varScales,VQ_DATA,vqAssign,vqFit,fid2,fidOnce,fidLab,nearCopyRate,cosine,forward,triage,TRIAGE};
 if(typeof module!=='undefined')module.exports=A09Math;else root.A09Math=A09Math;
 })(typeof window!=='undefined'?window:globalThis);

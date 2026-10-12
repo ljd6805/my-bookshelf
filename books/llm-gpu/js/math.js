@@ -13,6 +13,10 @@ function weightBytes(params,bits){return nonnegative(params)*1e9*positive(bits)/
 function kvBytes({layers,kvHeads,headDim,tokens,batch=1,bits=16}){
  return 2*positive(layers)*positive(kvHeads)*positive(headDim)*nonnegative(tokens)*positive(batch)*positive(bits)/8;
 }
+/* 묶음 눈금: 가중치 group개마다 16bit scale 하나(zero=true면 16bit 영점도 하나)를 더 저장한다고 본 가상 형식의 원소당 실효 bit. group=0은 부가정보 없는 이상적 저장. */
+function effectiveBits(bits,group=0,zero=false){positive(bits);if(!nonnegative(group))return bits;return bits+16/positive(group)*(zero?2:1);}
+/* 한 단계에서 가중치 한 번 읽기를 함께 쓰는 토큰 위치 수: decode는 요청마다 1개(B), prefill은 요청마다 입력 T개(B×T). */
+function stepTokens({phase='decode',batch=1,prompt=1}){positive(batch);positive(prompt);if(phase==='decode')return batch;if(phase==='prefill')return batch*prompt;throw new RangeError('단계는 decode 또는 prefill입니다.');}
 function linearParams(input,output,layers=1){return positive(layers)*(positive(input)*positive(output)+output);}
 function quantize(values,bits){
  const levels=2**positive(bits)-1,rounded=values.map(x=>Math.round((Math.max(-1,Math.min(1,x))+1)*levels/2)*2/levels-1);
@@ -51,6 +55,6 @@ function budget({model='toy',bits=4,tokens=8192,batch=1,capacity=24,reserve=2,ov
 }
 /* 확인 문제 화면 순서(학습 내용의 계산이 아님): 원래 번호 answer인 보기가 화면 target번째(0부터)에 오도록 n개 보기를 돌린 원래 번호 목록. */
 function choiceOrder(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
-const api={choiceOrder,GiB,models,weightBytes,kvBytes,linearParams,quantize,matrix,phases,roofline,moe,transfer,budget};
+const api={choiceOrder,GiB,models,weightBytes,effectiveBits,stepTokens,kvBytes,linearParams,quantize,matrix,phases,roofline,moe,transfer,budget};
 if(typeof module!=='undefined')module.exports=api;else root.GMath=api;
 })(typeof window==='undefined'?globalThis:window);

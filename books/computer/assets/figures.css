@@ -87,3 +87,4 @@
 .opcode-table caption{caption-side:top;text-align:left;color:var(--muted);font-size:.85rem;padding:0 0 10px}
 .opcode-table th,.opcode-table td{padding:8px 12px}
 .opcode-table td:nth-child(-n+2){font-family:var(--font-mono);white-space:nowrap}
+.translate-table td:first-child code{white-space:normal}@media(max-width:600px){.translate-table th,.translate-table td{padding:6px 8px}.translate-table td:first-child{white-space:normal}}

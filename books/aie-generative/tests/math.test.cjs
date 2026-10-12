@@ -85,7 +85,7 @@ test('11장 FID: 같은 분포면 0, 이동과 다양성 손실에 따라 커지
  /* 대각이 아닌 공분산도 대칭: FID(a,b) = FID(b,a) */
  const S=[[1,0.5],[0.5,2]];near(M.fid2([0,0],S,[0.3,0],I),M.fid2([0.3,0],I,[0,0],S),1e-9);
  const small=M.fidLab(0,1,50),big=M.fidLab(0,1,10000);assert.ok(small.est>big.est);assert.ok(big.est<0.01);assert.ok(small.max-small.min>big.max-big.min);
- near(M.fidLab(1,0.6,50).exact,1+2*0.16,1e-12);near(M.cosine([1,0],[0,1]),0,1e-12);near(M.cosine([2,2],[1,1]),1,1e-12);
+ near(M.fidLab(1,0.6,50).exact,1+2*0.16,1e-12);const cp=M.fidLab(0,1,1000,'copy'),md=M.fidLab(0,1,1000);assert.equal(cp.exact,0);assert.equal(cp.copy,1);assert.ok(cp.est<0.01&&md.est<0.01,'copying is invisible to FID');assert.ok(md.copy<0.01);assert.equal(M.nearCopyRate([[0,0]],[[0.002,0]],0.001),0);assert.equal(M.nearCopyRate([[0,0]],[[0.0009,0]],0.001),1);assert.equal(M.nearCopyRate([],[[0,0]],0.001),0);near(M.cosine([1,0],[0,1]),0,1e-12);near(M.cosine([2,2],[1,1]),1,1e-12);
 });
 test('표지와 마지막 과제',()=>{
  assert.equal(M.forward(1).twoPeaks,true);assert.equal(M.forward(1000).twoPeaks,false);

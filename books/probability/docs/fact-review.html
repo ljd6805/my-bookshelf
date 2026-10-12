@@ -5,6 +5,25 @@
 <h1>팩트·출처 검수 기록 · 확률과 통계 · 경보가 울렸다, 정말 고장일까</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="7장 testing 본문 “여러 번 검정하기” 문단·실험 아래 “센서 여러 대” 칸(labs-b.js multiPanel)·explain·guides 결과 읽기, inference.js familywiseError·bonferroni·exactTestSize·anyRejectionRate, 1~8장 warning(혼동하지 마세요) 8개, 새 출처 NIST/SEMATECH e-Handbook 7.4.7.3" data-result="fixed">
+<h2>2026-10-12 2차 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할, 문체는 다온 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 7장 testing 본문 “여러 번 검정하기” 문단·실험 아래 “센서 여러 대” 칸(labs-b.js multiPanel)·explain·guides 결과 읽기, inference.js familywiseError·bonferroni·exactTestSize·anyRejectionRate, 1~8장 warning(혼동하지 마세요) 8개, 새 출처 NIST/SEMATECH e-Handbook 7.4.7.3.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>도박사의 오류, p값은 귀무가설이 참일 확률이 아님, 중간에 들여다보기(선택적 중단)가 1종 오류를 키움, 신뢰구간의 빈도 해석, 우도는 q의 확률분포가 아님(∫우도 dq = 1/(n+1) ≠ 1), 본페로니가 독립 가정 없이 전체 오류율을 α 이하로 묶음을 표준 정의와 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 따로 계산: B(20, 0.1) P(X = 5) = 0.0319, P(X ≥ 5) = 0.0432; (1 − 0.9545)/2 = 2.28%, P(|Z| ≥ 2.5) = 1.24%, 한쪽 0.62%; 90%·5%에서 기저율 1% → 15.4%, 10% → 66.7%; Wilson(5/40) = 5.46%~26.11%; 1 − 0.95²⁰ = 64.15%, 0.05/20 = 0.0025; P(X ≤ 1 | 60, 0.1) = 0.01378(P(X ≤ 2) = 0.0530 &gt; 0.05), 20대 24.23%; P(X = 0) = 0.00180, 20대 3.53%</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>node로 씨앗 33에서 anyRejectionRate를 실행: 초기화 뒤 보정 없이 400번 25.5%, 이어서 보정 켜고 400번 3.5%, 초기화 뒤 보정 먼저 켜고 400번 5.0%. 안내 문장 “5% 안팎(이론값 약 3.5%)”과 맞음. 경계: k = 1(5.0%), k = 20, 시험 20일·보정 시 실제 크기 0(기각 불가, 화면 0.0%), 500일 실제 크기 3.93%, 초기화가 k = 1·보정 끔으로 되돌림</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>표준편차·표준오차·양쪽/한쪽 꼬리·기저율·1종 오류·검정의 크기·본페로니 보정·우도</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>NIST/SEMATECH e-Handbook 7.4.7.3 Bonferroni&#39;s method를 2026-10-12에 열어 확인: 구간마다 신뢰계수 1 − α/g로 만들면 “the Bonferroni inequality insures that the overall confidence coefficient is at least 1 − α”. 참고 자료 설명과 일치</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>6장 interval 혼동하지 마세요</td><td>“진짜 불량률”: 같은 구간 5.5%~26.1%를 낸 본문 사례는 모터 40대 중 5대의 “이상 비율”</td><td>6장 problem·body·example</td><td>“진짜 이상 비율”로 고침(js/content.js), index.html ?v=20261012-supp2r1</td></tr>
+<tr><td>7장 본문 새 문단과 전이 보기 문항</td><td>오류는 아님. 새 문단이 1 − 0.95²⁰ ≈ 64%를 직접 보여 준 뒤 전이 문항(영양제 20가지)이 같은 계산을 물어 전이보다 회상에 가까워짐. 정답 유일, 해설은 오답을 문구(“5%”, “100%”)로 가리킴</td><td>—</td><td>수정 없음(교수법팀 참고 사항)</td></tr>
+<tr><td>1~8장 warning 8개, 새 문장 문체(다온)</td><td>수치 모두 일치. 상투적 도입·과장 없음</td><td>위 독립 계산</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>실제 독자의 풀이 결과. 다른 씨앗에서 400번 반복 결과가 흔들리는 폭은 따로 보지 않았습니다(테스트는 2,000번 반복이 이론값 ±4%포인트 안에 있음을 검사).</p>
+</section>
 <section class="fact-review" id="review-2026-10-12-correlation-ch9" data-reviewer="Claude 검수 세션 (9장 검수 r1)" data-author="Claude 새 장 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="새 9장 correlation(content.js 본문·식·숫자로 보기·예측·혼동하지 마세요·전이·확인 문제·더 읽어 보기), 8장 likelihood의 remaining·nextWhy, 실험 labs-c.js, stats.js normalSample·cosine·pearson, inference.js sensorDays·correlationTheory·correlationSummary, figures.js correlation, guides.js correlation, chapter.js warning 렌더링, index.html, 들어오는 링크 3개(linear-algebra similarity, aie-ml pipeline, ai generalization), 새 출처 Rodgers &amp; Nicewander (1988)" data-result="fixed">
 <h2>2026-10-12 9장 상관과 인과 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (9장 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할, 이 장을 쓰지 않은 세션). 집필자: Claude 새 장 집필 세션 (2026-10-12). 범위: 새 9장 <code>correlation</code>과 그 실험·계산·그림·안내, 8장의 다음 장 연결 문장, 9장으로 들어오는 링크 3개, 새 출처 1개.</p>

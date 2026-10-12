@@ -117,12 +117,38 @@
     return C.svg(s, `귀무가설(오경보율 10%)에서 ${n}일 중 오경보 일수의 분포${k !== null ? `, 관찰값 ${k}일 이하를 빗금으로 표시` : ''}`);
   }
 
+  /* 7장 보충: 센서 여러 대를 한꺼번에 검정하기. 계산은 inference.js에 있고 여기서는 문장으로 옮긴다. */
+  function multiPanel(rS, nS) {
+    let random = S.rng(33), bonf = false, sim = null;
+    const kS = U.slider({ id: 'ts-k', label: '한꺼번에 검정하는 센서 수 k', min: 1, max: 20, step: 1, value: 1, unit: '대' }, () => { sim = null; render(); });
+    const bBtn = U.button('본페로니 보정: 끔', () => { bonf = !bonf; sim = null; render(); }, 'ghost');
+    bBtn.setAttribute('aria-pressed', 'false');
+    const out = U.h('p', { class: 'readout', role: 'status', 'aria-live': 'polite' }), simOut = U.h('p', { class: 'readout' }), note = U.h('p', { class: 'reading' });
+    function render() {
+      const k = kS.get(), n = nS.get(), thr = bonf ? I.bonferroni(ALPHA, k) : ALPHA, size = I.exactTestSize(n, P0, thr);
+      bBtn.textContent = `본페로니 보정: ${bonf ? '켬' : '끔'}`; bBtn.setAttribute('aria-pressed', String(bonf));
+      out.textContent = `센서 ${k}대를 각각 기준 ${thr.toFixed(4)}로 검정합니다. 검정 하나가 정확히 ${thr.toFixed(4)}의 확률로 잘못 유의한다면, 모두 정상이어도 적어도 한 대가 유의할 확률은 1 − (1 − ${thr.toFixed(4)})^${k} = ${U.fmt.pct(I.familywiseError(thr, k))}입니다. 이 실험의 ${n}일 정확 이항검정은 실제로 ${U.fmt.pct(size, 2)}만 잘못 유의하므로 ${U.fmt.pct(I.familywiseError(size, k))}입니다.`;
+      simOut.hidden = !sim;
+      simOut.textContent = sim ? `센서 ${k}대 동시 시험 400번 반복(진짜 오경보율 ${Math.round(rS.get() * 100)}%) → 적어도 한 대가 유의한 반복 ${U.fmt.pct(sim.rate, 1)} · 한 번에 평균 ${sim.meanHits.toFixed(2)}대가 유의` : '';
+      note.textContent = !sim ? '진짜 오경보율을 10%(나아지지 않음)로 두고 k를 20으로 올린 뒤 동시 시험을 반복해 보세요.'
+        : rS.get() >= P0 ? `[잘못된 경보] 모든 센서가 나아지지 않았는데도 ${U.fmt.pct(sim.rate, 1)}의 반복에서 "나아진 센서"가 나왔습니다.${bonf ? ' 보정은 이 비율이 이론상 5%를 넘지 않게 묶습니다. 400번 반복이라 몇 %포인트는 흔들립니다.' : ' 본페로니 보정을 켜고 다시 반복해 보세요.'}`
+        : `[검정력] 실제로 나아진 센서가 섞였다면 이 비율은 차이를 잡아낸 비율입니다.${bonf ? ' 보정은 잘못된 경보를 막는 대신 진짜 개선도 덜 잡습니다.' : ''}`;
+    }
+    function run() { sim = I.anyRejectionRate(rS.get(), nS.get(), P0, bonf ? I.bonferroni(ALPHA, kS.get()) : ALPHA, kS.get(), 400, random); render(); }
+    function reset() { random = S.rng(33); bonf = false; sim = null; kS.set(1); render(); }
+    render();
+    const wrap = U.h('div', { class: 'multi-test' }, [U.h('h4', { text: '센서 여러 대를 한꺼번에 검정하면' }),
+      U.h('div', { class: 'controls' }, [kS.wrap, U.h('div', { class: 'multi-buttons' }, [bBtn, U.button('센서 k대 동시 시험 400번', run)])]), out, simOut, note]);
+    return { wrap, reset, refresh: () => { sim = null; render(); } };
+  }
+
   labs.testing = {
     title: '시험 기간과 검정력', kind: '정확한 계산(p값) + 시뮬레이션(반복 시험)',
-    units: '새 센서의 진짜 오경보율: 2~15% · 시험 일수: 20~500일 · 기준: 기존 10%, 유의수준 α = 0.05',
-    assumptions: '날마다 오경보 여부는 독립입니다. 한쪽 정확 이항검정 P(X ≤ k | 10%)를 씁니다.',
+    units: '새 센서의 진짜 오경보율: 2~15% · 시험 일수: 20~500일 · 한꺼번에 검정하는 센서: 1~20대 · 기준: 기존 10%, 유의수준 α = 0.05(본페로니 보정 시 α/k)',
+    assumptions: '날마다 오경보 여부는 독립입니다. 한쪽 정확 이항검정 P(X ≤ k | 10%)를 씁니다. 여러 대를 검정할 때는 센서끼리도 독립이고 진짜 오경보율이 모두 같다고 둡니다.',
     mount(root) {
       let random = S.rng(21), observed = null, power = null;
+      let multi = null;
       const rS = U.slider({ id: 'ts-r', label: '새 센서의 진짜 오경보율 (실제로는 모르는 값)', min: 0.02, max: 0.15, step: 0.01, value: 0.05, format: (v) => `${Math.round(v * 100)}%` }, reset);
       const nS = U.slider({ id: 'ts-n', label: '시험 일수', min: 20, max: 500, step: 10, value: 60, unit: '일' }, reset);
       const chart = U.h('div', { class: 'chart' }), readout = U.h('p', { class: 'readout', 'aria-live': 'polite' }), powerOut = U.h('p', { class: 'readout' }), note = U.h('p', { class: 'reading' });
@@ -138,11 +164,13 @@
       }
       function once() { const k = S.binomialSample(nS.get(), rS.get(), random); observed = { k, p: I.lowerTailTest(k, nS.get(), P0) }; render(); }
       function repeat() { power = { ...I.rejectionRate(rS.get(), nS.get(), P0, ALPHA, 400, random), reps: 400 }; render(); }
-      function reset() { random = S.rng(21); observed = null; power = null; render(); }
+      function reset() { random = S.rng(21); observed = null; power = null; render(); if (multi) multi.refresh(); }
       root.append(U.h('div', { class: 'controls' }, [rS.wrap, nS.wrap, U.h('div', { class: 'buttons' }, [
-        U.button('시험 1번 하기', once), U.button('같은 시험 400번 반복', repeat), U.button('초기화', () => { rS.set(0.05); nS.set(60); reset(); }, 'ghost')])]),
+        U.button('시험 1번 하기', once), U.button('같은 시험 400번 반복', repeat), U.button('초기화', () => { rS.set(0.05); nS.set(60); reset(); multi.reset(); }, 'ghost')])]),
         chart, U.h('p', { class: 'legend' }, [U.h('span', { class: 'key exact-key', text: '막대: 오경보율 10%를 가정한 확률' }), U.h('span', { class: 'key hot-key', text: '빗금: 관찰값 이하(합이 p값)' })]),
         readout, powerOut, note);
+      multi = multiPanel(rS, nS);
+      root.append(multi.wrap);
       render();
       return () => {};
     }

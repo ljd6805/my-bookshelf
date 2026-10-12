@@ -41,3 +41,15 @@ test('카탈로그의 목차 링크가 책 안의 경로로 이어진다', () =>
   for (const ch of entry.chapters) assert.ok(routes.includes(new URL(ch.url, base).hash.slice(1)), ch.url);
   assert.ok(html.includes('href="../../index.html#books"'));
 });
+
+test('7장 번역 표의 칸·명령·바이트가 실제 곱셈 프로그램과 같다', () => {
+  const C = require('../js/cpu.js');
+  const aside = book.chapters.find((c) => c.id === 'programs').aside;
+  const rows = [...aside.matchAll(/<td>(\d+)<\/td><td>([A-Z]+(?: \d+)?)<\/td><td>(\d+)<\/td>/g)];
+  assert.equal(rows.length, 11);
+  for (const [, cell, label, byte] of rows) {
+    const mem = C.PROGRAMS.multiply.memory[Number(cell)];
+    assert.equal(mem, Number(byte), `${cell}번 칸 바이트`);
+    assert.equal(C.decode(mem).label, label, `${cell}번 칸 명령`);
+  }
+});

@@ -5,6 +5,24 @@
 <h1>팩트·출처 검수 기록 · 검색과 RAG · 질문에서 근거까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="5장 #embedding·6장 #hybrid 확인 문제 교체, 10장 #final 깊이 읽기 “검색이 맞아도 답은 틀릴 수 있다: 근거와 답 대조하기”, 새 출처 Ragas(arXiv 2309.15217), tests/math.test.cjs 새 테스트, tests/browser.cjs 테마 단추" data-result="fixed">
+<h2>2026-10-12 검수 (2차 보충 검수 r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1)(검수팀 정민·유진·건우·채원·현석과 글작성팀 다온의 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 5장 #embedding·6장 #hybrid 확인 문제 교체, 10장 #final 깊이 읽기 “검색이 맞아도 답은 틀릴 수 있다: 근거와 답 대조하기”, 새 출처 Ragas(arXiv 2309.15217), tests/math.test.cjs 새 테스트, tests/browser.cjs 테마 단추.</p>
+<p>두 확인 문제는 실험 결과를 읽어야 풀리고 정답이 하나뿐이며, 해설은 보기를 문구로 가리킵니다. 본문·실험·출처에서 오류는 찾지 못했고, 테스트 화면 이름 하나를 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>D2 “연체료는 받지 않습니다”, D7 “노트북 사용은 B-1 열람실에서만 가능합니다”를 js/math.js DOCS 원문과 대조. 1장의 “하루 100원” 오답 사례와 이어짐</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 토큰화·사전 임베딩·BM25(k1 1.2, b 0.75)를 따로 구현해 계산: u2 의미 1위 D6 cos 0.914(2위 D9 0.705), “늦게 돌려주면” α=1 1위 D9(키워드 1.000·의미 0), α=0.5 D2 = 0.5×0.692 + 0.5×0.928 = 0.810, D9 0.500</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>embed 예제 “노트북 대여”와 hybrid 예제 “늦게 · 키워드만/반반”이 lab-guides.js에 있어 문항이 실제 실험 결과와 맞음. tests/browser.cjs(1280·390·320px) 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>충실도(faithfulness), 주장 단위 인용 검사가 Ragas 정의(F = |V|/|S|)와 맞고, 충실도와 “질문에 답하는가”(answer relevance)를 구분함</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>arXiv 2309.15217 초록·HTML 본문을 열어 저자 4명·2023·F = |V|/|S|·WikiEval 쌍 비교·Table 1 Ragas 충실도 0.95를 확인(확인일 2026-10-12)</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>tests/browser.cjs 테마 화면 이름</td><td>기본 테마가 밝은 화면으로 바뀐 뒤 단추 이름은 “어두운 화면으로 전환”으로 고쳐졌지만, 누른 뒤 찍은 화면을 여전히 *-light.png로 저장해 이름과 내용이 반대였음</td><td>같은 줄에서 단추를 누른 뒤 찍음(기본 data-theme="light")</td><td>abstain-dark.png로 저장하도록 고침</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<ul><li>새 문항의 학습 효과(L4)</li><li>이전에 커밋된 docs/evidence/abstain-light.png는 지우지 않았습니다(남길지 정리할지는 편집장 판단)</li><li>Safari·Firefox·실기기·화면 읽기 프로그램</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r2)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="10개 장 전이 문항(question~final), #embedding 깊이 읽기 “문서가 100만 개라면: 근사 최근접 탐색”, 새 출처 3개(HNSW arXiv 1603.09320, FAISS arXiv 1702.08734, FAISS wiki Faster search), 확인 문제·전이 문항 보기 돌리기 코드(js/math.js choiceOrder, js/app.js choices)" data-result="fixed" data-commit="5f766a8">
 <h2>2026-10-12 검수 (전체 도서 보충 검수 r2)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r2)(검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 더한 것 — 10개 장 전이 문항(question~final), #embedding 깊이 읽기 “문서가 100만 개라면: 근사 최근접 탐색”, 새 출처 3개(HNSW arXiv 1603.09320, FAISS arXiv 1702.08734, FAISS wiki Faster search), 확인 문제·전이 문항 보기 돌리기 코드(js/math.js choiceOrder, js/app.js choices).</p>

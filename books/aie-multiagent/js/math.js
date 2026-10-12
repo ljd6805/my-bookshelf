@@ -277,6 +277,12 @@ function diagnose(incident,fix){
  return {metric:'합의한 답이 맞을 확률',before,after,unit:'',good:after>=0.8};
 }
 
-const A17Math={rng,choose,ceiling,TASK_NEXT,TERMINAL,TASK_SCENARIOS,taskRun,orchestra,SUBQ,lpt,fanout,bestFanout,drift,verify,poison,injectPool,DOCS,schedule,QUAL,LAT,pheromone,majority,vote,topology,VOTES,clusters,median,consensus,bargain,coalitionValue,shapley,secondPrice,tom,MEMORIES,retrieval,storm,resume,diagnose};
+/* 마지막 장 · 같은 오답의 합의 사고에서 처방 전후 정확도를 질문 n개로 쟀다면. 각 비율의 Wilson 95% 구간과
+   두 비율 차이의 z(합동 비율, 정규 근사). 질문마다 맞힘이 독립이라고 가정하고, 처방 전후에 같은 수의 질문을 쓴다고 본다. */
+function wilson(p,n,z=1.96){if(!(n>0))throw new Error('n must be positive');const d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;return {lo:Math.max(0,c-h),hi:Math.min(1,c+h)};}
+function twoProp(p1,p2,n){const p=(p1+p2)/2,se=Math.sqrt(p*(1-p)*2/n),z=se>0?(p2-p1)/se:0;return {z,a:wilson(p1,n),b:wilson(p2,n),enough:Math.abs(z)>=1.96};}
+function evidence(incident,fix,n){if(incident!=='mono')return null;const r=diagnose(incident,fix);return {...twoProp(r.before,r.after,n),n,before:r.before,after:r.after};}
+
+const A17Math={rng,choose,ceiling,TASK_NEXT,TERMINAL,TASK_SCENARIOS,taskRun,orchestra,SUBQ,lpt,fanout,bestFanout,drift,verify,poison,injectPool,DOCS,schedule,QUAL,LAT,pheromone,majority,vote,topology,VOTES,clusters,median,consensus,bargain,coalitionValue,shapley,secondPrice,tom,MEMORIES,retrieval,storm,resume,diagnose,wilson,twoProp,evidence};
 if(typeof module!=='undefined')module.exports=A17Math;else root.A17Math=A17Math;
 })(typeof window!=='undefined'?window:globalThis);

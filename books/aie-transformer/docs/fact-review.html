@@ -4,6 +4,19 @@
 <h1>팩트·출처 검수 기록 · 트랜스포머 깊이 보기</h1>
 <p>「AI 엔지니어링 처음부터」 08권(books/aie-transformer/)을 쓰지 않은 검수 에이전트가 원본 Phase 7 레슨 16개, 원본이 인용한 논문 초록, 책의 계산 코드에 비추어 확인한 결과입니다. 규칙은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#why 더 읽어 보기 ../aie-nlp/#seq2seq, #encdec 더 읽어 보기 ../aie-generative/#latent, tests/browser.cjs 테마 단추" data-result="fixed">
+<h2>2026-10-12 2차 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1) — 검수팀 관점으로 점검했고 이번 보충을 쓰지 않았습니다. 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: #why 더 읽어 보기 ../aie-nlp/#seq2seq, #encdec 더 읽어 보기 ../aie-generative/#latent, tests/browser.cjs 테마 단추.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>새 사실 주장 없음. 이동 이유를 도착 장과 대조: aie-nlp #seq2seq는 인코더-디코더와 바다나우 어텐션 정렬 실험, aie-generative #latent는 이미지 특징을 쿼리·글 토큰을 키·값으로 쓰는 교차 어텐션과 가이던스 실험(cfg)이 있어 일치</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>새 수치 없음</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>실험 계산은 바뀌지 않음. npm test 28개 통과, Chromium 42화면·51실험·콘솔 오류 0</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>교차 어텐션의 쿼리·키·값 역할 표기가 두 책에서 같음</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>새 외부 출처 없음. 도착 앵커 두 개가 각 책 장 ID에 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#encdec 더 읽어 보기 이유</td><td>“…그림을 이끄는 실제 자리입니다”: 집필 기록의 다온 메모가 고쳤다고 한 ‘실제 자리’ 표현이 그대로 남아 있음</td><td>content.js 본문</td><td>“이 장에서 본 교차 어텐션이 글 프롬프트로 그림을 이끄는 데 그대로 쓰입니다.”로 고침. 자산 버전 20261012-supp2r1</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>없음(새 외부 사실 없음).</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r4)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12장 transfer 12개, #position 본문·깊이 읽기 “RoPE 문맥 늘리기”와 새 실험 ropelong(ropeExtend), #final 깊이 읽기 “답을 쓰는 틀”, #bertgpt 식의 x_&lt;t 수정, 새 출처 Chen et al. 2023(arXiv 2306.15595), 정답 자리 돌리기" data-result="passed">
 <h2>2026-10-12 보충 검수 (r4)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r4) — 검수팀(정민·유진·건우·채원·현석) 관점으로 점검했고 이번 보충을 쓰지 않았습니다. 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 바꾼 것 — 12장 transfer 12개, #position 본문·깊이 읽기 “RoPE 문맥 늘리기”와 새 실험 ropelong(ropeExtend), #final 깊이 읽기 “답을 쓰는 틀”, #bertgpt 식의 x_&lt;t 수정, 새 출처 Chen et al. 2023(arXiv 2306.15595), 정답 자리 돌리기.</p>
