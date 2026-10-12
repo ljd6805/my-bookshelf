@@ -4,16 +4,19 @@
 const U=A02UI,M=A02Math,R=U.range,S=U.select,V=U.value,F=U.fmt;
 
 A02Labs.spectrum=el=>{
- U.setup(el,R('sp-k','소음 주파수 k (64샘플당 주기 수)',4,30,1,12)+R('sp-a','소음 진폭',0,1.5,0.1,0.6));
+ U.setup(el,R('sp-k','소음 주파수 k (64샘플당 주기 수)',4,40,0.5,12)+R('sp-a','소음 진폭',0,1.5,0.1,0.6)+S('sp-w','창 함수',[[0,'창 없음 (구간을 그대로 자름)'],[1,'한(Hann) 창 적용']],0));
  U.bind(el,()=>{
-  const k=V(el,'sp-k'),a=V(el,'sp-a'),x=M.synth([[3,1,0],[6,.5,0],[k,a,0]],64),amp=M.amplitudes(x);
+  const k=V(el,'sp-k'),a=V(el,'sp-a'),win=V(el,'sp-w')===1,x=M.synth([[3,1,0],[6,.5,0],[k,a,0]],64),amp=M.amplitudes(x,win),nl=M.noiseLeak(k,64,win),f=nl.fold;
   const wave=x.map((v,n)=>`${40+n*6.6},${70-v*22}`).join(' ');
   const bars=amp.map((v,i)=>{const h=Math.min(v,2)*55,on=v>.01;return `<rect x="${36+i*12.6}" y="${250-h}" width="9" height="${Math.max(h,1)}" fill="${i===3||i===6?'var(--accent)':on?'var(--orange)':'var(--line)'}"/>`;}).join('');
   const ticks=[0,8,16,24,32].map(i=>`<text x="${40+i*12.6}" y="270" text-anchor="middle">${i}</text>`).join('');
-  const chart=U.svg(`<text x="8" y="16">시간 신호 (64샘플)</text><path d="M40 70H460" stroke="var(--line)"/><polyline points="${wave}" fill="none" stroke="var(--blue)" stroke-width="2"/><text x="8" y="146">DFT 진폭 |X[k]| (단측)</text><path d="M36 250H460" stroke="var(--line)"/>${bars}${ticks}`,`위는 64샘플 시간 신호, 아래는 k=0부터 32까지의 DFT 진폭 막대. k=3과 6은 ‘켜’ 성분, k=${k}은 소음입니다.`);
-  const peaks=amp.map((v,i)=>[v,i]).filter(p=>p[0]>.01).map(([v,i])=>`k=${i}: <b>${F(v)}</b>`).join(', ');
-  const merged=k===6?'<br>소음이 ‘켜’의 k=6 성분과 같은 주파수라 두 진폭이 한 막대에 더해졌습니다. 이 경우 주파수만으로는 소음을 떼어 낼 수 없습니다.':'';
-  U.result(el,chart,`0이 아닌 막대: ${peaks}<br>‘켜’의 k=3(진폭 1)과 k=6(진폭 0.5)은 소음과 상관없이 그대로이고, 소음은 k=${k}에 진폭 ${F(a,1)}로 따로 섭니다. 시간 신호의 에너지는 <strong>${F(M.energy(x))}</strong>입니다.${merged}<br>N=64 DFT를 정의대로 실제 계산했습니다.`);
+  const chart=U.svg(`<text x="8" y="16">시간 신호 (64샘플)</text><path d="M40 70H460" stroke="var(--line)"/><polyline points="${wave}" fill="none" stroke="var(--blue)" stroke-width="2"/><text x="8" y="146">DFT 진폭 |X[k]| (단측${win?', 한 창':''})</text><path d="M36 250H460" stroke="var(--line)"/>${bars}${ticks}`,`위는 64샘플 시간 신호, 아래는 k=0부터 32까지의 DFT 진폭 막대${win?'(한 창 적용)':''}. k=3과 6은 ‘켜’ 성분, 소음 k=${k}은 k=${f} 자리에 나타납니다.`);
+  const top=amp.map((v,i)=>[v,i]).filter(p=>p[0]>.01).sort((p,q)=>q[0]-p[0]).slice(0,6).sort((p,q)=>p[1]-q[1]).map(([v,i])=>`k=${i}: <b>${F(v)}</b>`).join(', ');
+  const lit=amp.filter(v=>v>.01).length;
+  const alias=k>32?`<br>k=${k}은 64샘플로 나타낼 수 있는 가장 빠른 k=32(나이퀴스트)보다 빨라서 <b>k=${f}</b> 자리로 접혀 보입니다(에일리어싱). 막대만 보고는 원래 k가 ${f}인지 ${k}인지 가릴 수 없습니다.`:'';
+  const near=[3,6].filter(c=>a>0&&Math.abs(f-c)<(win?2:1)),merged=near.length?`<br>소음이 ‘켜’의 k=${near.join('·')} 성분과 같은 자리(또는 ${win?'창이 넓힌 막대가 닿는 ':''}바로 옆)에 서서 두 성분이 섞였습니다. 이 경우 주파수만으로는 소음을 떼어 낼 수 없습니다.`:'';
+  const leakTxt=a===0?'소음 진폭이 0이라 번질 에너지가 없습니다.':Number.isInteger(f)&&!win?`소음이 구간 안에서 정수 바퀴를 돌아 막대 하나에만 섭니다(두 칸 이상 번진 비율 ${F(nl.leak*100,2)}%).`:`소음 에너지 가운데 두 칸 이상 떨어진 막대로 번진 비율(누출)은 <strong>${F(nl.leak*100,2)}%</strong>입니다.${!win&&!Number.isInteger(f)?' 구간 끝에서 파동이 이어지지 않아 없는 주파수로 에너지가 번졌습니다. 한 창을 켜고 같은 k를 비교해 보세요.':''}${win?' 한 창은 구간 양 끝을 0으로 줄여 먼 누출을 낮추는 대신, 막대 하나가 양옆 한 칸씩 넓어집니다.':''}`;
+  U.result(el,chart,`0.01보다 큰 막대 ${lit}개 · 큰 막대: ${top}<br>‘켜’ 성분: k=3 진폭 <b>${F(amp[3])}</b>(원래 1), k=6 진폭 <b>${F(amp[6])}</b>(원래 0.5)<br>${leakTxt}${alias}${merged}<br>시간 신호의 에너지는 ${F(M.energy(x))}입니다. N=64 DFT를 정의대로 실제 계산했고, 한 창은 창의 합으로 나누어 정수 k의 막대 높이를 맞췄습니다.`);
  });
 };
 

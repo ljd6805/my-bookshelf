@@ -66,6 +66,12 @@ function wer(ref,hyp){
  }
  return {S,D,I,N:r.length,edits:d[r.length][h.length],wer:r.length?(S+D+I)/r.length:0,ops};
 }
+/* 4장: 글자 오류율. 공백을 모두 뺀 글자 열의 편집 거리를 정답 글자 수로 나눈다. 띄어쓰기만 다른 결과는 CER 0이다. */
+function cer(ref,hyp){
+ const r=[...ref.replace(/\s+/g,'')],h=[...hyp.replace(/\s+/g,'')];let prev=Array.from({length:h.length+1},(_,j)=>j);
+ for(let i=1;i<=r.length;i++){const cur=[i];for(let j=1;j<=h.length;j++)cur[j]=Math.min(prev[j]+1,cur[j-1]+1,prev[j-1]+(r[i-1]===h[j-1]?0:1));prev=cur;}
+ return {edits:prev[h.length],N:r.length,cer:r.length?prev[h.length]/r.length:0};
+}
 /* 4장: 채점 전 정규화. 소문자, 문장부호 제거, 이 책의 작은 숫자 사전으로 숫자를 한글로 바꾼다. */
 const NUM={'5':'오','10':'십','30':'삼십','55':'오십오'};
 function normalize(s){return s.toLowerCase().replace(/[.,!?~]/g,' ').replace(/(\d+)/g,(m)=>NUM[m]?NUM[m]+' ':m+' ').replace(/\s+/g,' ').trim();}
@@ -165,6 +171,6 @@ function sliceWer(slices){const words=slices.reduce((s,x)=>s+x.share,0);const ov
 /* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리(0부터)에 오도록 n개 보기를 돌린다.
    돌려받은 배열의 k번째 값은 화면 k번째 자리에 놓을 원래 보기 번호다. */
 function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
-const A07Math={quizOrder,clamp,alias,quantize,stft,hzToMel,melToHz,melBank,classMetrics,ctcCollapse,wer,normalize,whisperChunks,audioTokens,loraParams,phi,verify,normalPdf,cosine,mixVoice,durations,RVQ_SIGNAL,rvq,CODEBOOK_BITS,codecBudget,STAGES,wakeWord,turnLatency,VAD_SCENE,vadRun,hangoverRun,binom,atLeast,watermark,sliceWer};
+const A07Math={quizOrder,clamp,alias,quantize,stft,hzToMel,melToHz,melBank,classMetrics,ctcCollapse,wer,cer,normalize,whisperChunks,audioTokens,loraParams,phi,verify,normalPdf,cosine,mixVoice,durations,RVQ_SIGNAL,rvq,CODEBOOK_BITS,codecBudget,STAGES,wakeWord,turnLatency,VAD_SCENE,vadRun,hangoverRun,binom,atLeast,watermark,sliceWer};
 if(typeof module!=='undefined')module.exports=A07Math;else root.A07Math=A07Math;
 })(typeof window!=='undefined'?window:globalThis);

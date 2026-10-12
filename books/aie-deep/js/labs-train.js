@@ -54,12 +54,14 @@ A04Labs.schedule=el=>{
 
 A04Labs.depthsignal=el=>{
  const INITS=[['small','작은 값 N(0, 0.01²)'],['std','표준정규 N(0, 1)'],['xavier','Xavier'],['he','He']];
- U.setup(el,S('ds-init','초기화',INITS,'small')+S('ds-act','활성화',[['tanh','tanh'],['relu','ReLU']],'tanh')+R('ds-depth','층 수',5,50,5,20));
- U.bind(el,()=>{const init=U.text(el,'ds-init'),a=U.text(el,'ds-act'),L=U.value(el,'ds-depth'),s=M.deepStats(a,init,L).fwd,lg=s.map(v=>Math.log10(Math.max(v,1e-300)));
+ const BLOCKS=[['plain','평범한 층 a ← φ(Wa)'],['residual','잔차 a ← a + φ(Wa)'],['scaled','잔차 + 1/√L 축소'],['layernorm','층마다 LayerNorm a ← φ(LN(Wa))']];
+ const NOTE={plain:'',residual:' 잔차 연결의 지름길이 입력을 그대로 다음 층에 넘기므로 φ(Wa)가 꺼져도 신호는 남습니다. 대신 층마다 더해지는 만큼 분산이 쌓입니다.',scaled:' 층마다 더하는 몫을 1/√L로 줄입니다(GPT-2의 잔차 축소). tanh처럼 출력이 ±1 안에 묶인 활성화라면 L번 더해도 분산이 대략 입력의 두 배 안에 머뭅니다. ReLU처럼 묶이지 않은 활성화는 더하는 몫이 신호와 함께 커지므로, 초기화가 크면 축소만으로는 모자랍니다.',layernorm:' 층마다 48개 값을 평균 0·표준편차 1로 다시 맞추므로, 초기화 크기와 상관없이 신호 크기가 거의 같습니다.'};
+ U.setup(el,S('ds-init','초기화',INITS,'small')+S('ds-act','활성화',[['tanh','tanh'],['relu','ReLU']],'tanh')+R('ds-depth','층 수',5,50,5,20)+S('ds-block','블록 구조',BLOCKS,'plain'));
+ U.bind(el,()=>{const init=U.text(el,'ds-init'),a=U.text(el,'ds-act'),L=U.value(el,'ds-depth'),blk=U.text(el,'ds-block'),s=M.blockStats(a,init,L,blk),lg=s.map(v=>Math.log10(Math.max(v,1e-300)));
   const lo=Math.min(-3,Math.floor(Math.min(...lg))),hi=Math.max(1,Math.ceil(Math.max(...lg))),mid=Math.floor(L/2);
-  const verdict=s[L-1]<1e-3?'신호가 사라졌습니다. 다음 층과 출력이 입력과 거의 무관해집니다.':s[L-1]>1e3?'신호가 폭발했습니다. 값이 커져 계산이 불안정해집니다.':s[L-1]<0.05?'신호가 꽤 줄었습니다. 층을 더 쌓으면 사라질 수 있습니다.':'신호 크기가 층을 지나도 유지됩니다.';
-  U.result(el,U.plot({lines:[{data:lg.map((v,i)=>[i+1,v]),color:'var(--accent)'}],xmin:1,xmax:L,ymin:lo,ymax:hi,xlabel:'층 번호',ylabel:'log₁₀ 활성값 표준편차',label:'층마다 활성값 표준편차(로그 눈금)'}),
-  `${INITS.find(x=>x[0]===init)[1]} · ${a==='relu'?'ReLU':'tanh'} · ${L}층<br>활성값 표준편차: 1층 <b>${sci(s[0])}</b>, ${mid+1}층 <b>${sci(s[mid])}</b>, ${L}층 <strong>${sci(s[L-1])}</strong><br>${verdict}<br>폭 48 정방 층에 표준정규 입력 12개를 흘려 실제로 잰 학습 전 값입니다.`);});
+  const verdict=s[L-1]<1e-3?'신호가 사라졌습니다. 다음 층과 출력이 입력과 거의 무관해집니다.':s[L-1]>1e3?'신호가 폭발했습니다. 값이 커져 계산이 불안정해집니다.':s[L-1]<0.05?'신호가 꽤 줄었습니다. 층을 더 쌓으면 사라질 수 있습니다.':s[L-1]>3?`신호가 ${F(s[L-1]/s[0],1)}배로 커졌습니다. 폭발은 아니지만 층을 더 쌓을수록 계속 커집니다.`:'신호 크기가 층을 지나도 유지됩니다.';
+  U.result(el,U.plot({lines:[{data:lg.map((v,i)=>[i+1,v]),color:'var(--accent)'}],xmin:1,xmax:L,ymin:lo,ymax:hi,xlabel:'층 번호',ylabel:'log₁₀ 활성값 표준편차',label:`층마다 활성값 표준편차(로그 눈금), ${BLOCKS.find(x=>x[0]===blk)[1]}`}),
+  `${INITS.find(x=>x[0]===init)[1]} · ${a==='relu'?'ReLU':'tanh'} · ${L}층 · ${BLOCKS.find(x=>x[0]===blk)[1]}<br>활성값 표준편차: 1층 <b>${sci(s[0])}</b>, ${mid+1}층 <b>${sci(s[mid])}</b>, ${L}층 <strong>${sci(s[L-1])}</strong><br>${verdict}${NOTE[blk]}<br>폭 48 정방 층에 표준정규 입력 12개를 흘려 실제로 잰 학습 전 값입니다. LayerNorm의 이득·이동은 학습 전 값(1·0)으로 두었습니다.`);});
 };
 
 A04Labs.dropout=el=>{

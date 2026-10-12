@@ -219,6 +219,18 @@ function pilotDecision(correct,median,writes){
  if(correct>=0.9&&median<=120)return {verdict:'pass',reason:'두 문턱을 모두 넘음'};
  return {verdict:'ambiguous',reason:'개선은 보이지만 문턱 하나가 모자람'};
 }
+/* 12장 · 파일럿 정답률의 Wilson 95% 구간(확률과 통계 06과 같은 식). 판정 규칙은 바꾸지 않고, 구간이 두 문턱(0.75·0.9)과
+   어떻게 놓이는지만 읽는다. p̂는 입력한 비율 그대로 쓰며 맞힌 건수로 반올림하지 않는다. */
+function wilson(phat,n,z=1.96){
+ if(!(n>0))throw new Error('n must be positive');
+ const p=clamp(phat,0,1),d=1+z*z/n,c=(p+z*z/(2*n))/d,h=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n))/d;
+ return {lo:Math.max(0,c-h),hi:Math.min(1,c+h)};
+}
+function pilotInterval(correct,n){
+ const w=wilson(correct,n),pass=0.9,fail=0.75;
+ const place=w.lo>=pass?'above':w.hi<fail?'below':w.hi<pass&&w.lo>=fail?'between':w.hi>=pass&&w.lo<fail?'both':w.hi>=pass?'pass':'fail';
+ return {...w,place};
+}
 /* 원본 레슨 53: 실제 사용자·데이터가 필요 없으면 프로토타입, 운영 준비 전이거나 결과의 무게 4 이상이거나 되돌릴 수 없으면 파일럿, 그 밖은 운영. */
 function chooseStage({realUsers,realData,consequence,reversible,ready}){
  if(!(consequence>=1&&consequence<=5))throw new Error('consequence must be from one to five');
@@ -232,6 +244,6 @@ function ratchetPriority(severity,frequency){if(severity<1||severity>5||frequenc
 /* 표지 · 단계마다 성공 확률 p가 독립이라 가정하면 n단계를 모두 성공할 확률은 pⁿ. */
 const compound=(p,n)=>Math.pow(clamp(p,0,1),n);
 
-const A15Math={clamp,round,LOOP_SCRIPTS,agentLoop,tokenCost,uct,HYPOTHESES,EVALUATORS,reflexion,debateOps,FACTS,QUESTIONS,PINNED,memoryRecall,RECORDS,fusion,PATTERNS,TASKS,patternCost,VOICE,voiceLatency,PATCHES,harness,CALLS,PVE_RULES,pveCheck,pve,globToRegex,globMatch,CONTRACT,DIFFS,scopeCheck,CLOSEOUTS,GATE_CHECKS,gate,RUBRIC,rubric,ASSUMPTIONS,riskScore,riskRank,SLICES,sliceScore,chooseSlice,pilotDecision,chooseStage,ratchetPriority,compound};
+const A15Math={clamp,round,LOOP_SCRIPTS,agentLoop,tokenCost,uct,HYPOTHESES,EVALUATORS,reflexion,debateOps,FACTS,QUESTIONS,PINNED,memoryRecall,RECORDS,fusion,PATTERNS,TASKS,patternCost,VOICE,voiceLatency,PATCHES,harness,CALLS,PVE_RULES,pveCheck,pve,globToRegex,globMatch,CONTRACT,DIFFS,scopeCheck,CLOSEOUTS,GATE_CHECKS,gate,RUBRIC,rubric,ASSUMPTIONS,riskScore,riskRank,SLICES,sliceScore,chooseSlice,pilotDecision,wilson,pilotInterval,chooseStage,ratchetPriority,compound};
 if(typeof module!=='undefined')module.exports=A15Math;else root.A15Math=A15Math;
 })(typeof window!=='undefined'?window:globalThis);

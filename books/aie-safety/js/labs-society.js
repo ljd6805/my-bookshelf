@@ -32,10 +32,15 @@ A19Labs.euact=el=>{
   `기준일 <b>${r.today}</b> · 적용 중 <strong>${r.active.length}</strong>개, 적용 전 <b>${r.upcoming.length}</b>개${k==='social'&&r.active.some(e=>e.kinds.includes('social'))?'<br>사회적 점수는 금지 관행이라 의무를 지키는 문제가 아니라 기능 자체를 내놓을 수 없습니다.':''}<br>한국 AI 기본법: ${r.koreaInForce?'2026년 1월 22일부터 시행 중':'2026년 1월 22일 시행 전'}<br>날짜는 원본 커리큘럼 기준에 AI 옴니버스 규정 (EU) 2026/1744의 고위험 연기를 반영했습니다(확인일 2026-10-08). 개정·일정 조정이 또 있을 수 있습니다. 실제 판단 전에는 EU와 국가법령정보센터의 공식 문서를 확인하세요. 날짜를 비교하는 단순 조회이고 법률 자문이 아닙니다.`);});
 };
 A19Labs.diagnose=el=>{
- U.setup(el,S('dg-report','출시 한 달 뒤 들어온 보고',[['leak','메일 요약 뒤 계좌 정보가 외부로 나갔다'],['syc','틀린 전제에도 “네, 맞습니다”라고 한다'],['gap','지역에 따라 대출 승인율이 다르다']],'leak')+S('dg-remedy','처방',Object.entries(M.REMEDIES).map(([k,v])=>[k,v]),'userfilter'));
- U.bind(el,()=>{const rep=U.text(el,'dg-report'),rem=U.text(el,'dg-remedy'),r=M.diagnose(rep,rem);
+ const reports=[['leak','① 메일 요약 뒤 계좌 정보가 외부로 나갔다'],['syc','② 틀린 전제에도 “네, 맞습니다”라고 한다'],['gap','③ 지역에 따라 대출 승인율이 다르다'],['block','④ 정상 고객이 막혔다는 민원이 하루 수백 건'],['memo','⑤ 상담 기록 속 문장이 답에 글자 그대로 나왔다']];
+ U.setup(el,S('dg-report','출시 뒤 들어온 보고',reports,'leak')+S('dg-remedy','처방',Object.entries(M.REMEDIES).map(([k,v])=>[k,v]),'userfilter'));
+ U.bind(el,()=>{const rep=U.text(el,'dg-report'),rem=U.text(el,'dg-remedy'),r=M.diagnose(rep,rem),d=r.digits??3;
   const worse=Math.abs(r.after)>Math.abs(r.before)+1e-9,same=Math.abs(r.after-r.before)<1e-9;
-  U.result(el,U.bars(['처방 전','처방 후'],[r.before,r.after],r.unit,null,3),
-  `${r.metric}: 처방 전 <b>${F(r.before,3)}</b> → 처방 후 <strong>${F(r.after,3)}</strong><br>${r.fixed?'<b>해결</b> · 이 처방이 원인을 겨눴습니다.':worse?'<b>악화</b> · 처방이 문제를 키웠습니다.':same?'<b>변화 없음</b> · 원인과 다른 곳을 고쳤습니다.':'<b>조금 움직였지만 충분하지 않음</b>.'}${rep==='leak'&&r.trace?` (사슬 ${r.trace.leaked?'끝까지 이어짐':`${r.trace.blockedAt+1}단계에서 끊김`})`:''}${rep==='gap'&&rem==='parity'?`<br>대신 TPR 차이가 ${F(r.tprGapAfter,3)}로 새로 생겼습니다. B 문턱 ${F(r.tB,3)}.`:''}<br>앞 장의 계산 함수(주입 상태 기계, KL 닫힌 해, 공정성 모형)를 그대로 다시 불러 계산했습니다. 보고와 처방의 짝은 이 책이 정한 시나리오입니다.`);});
+  const extra=rep==='leak'&&r.trace?` (사슬 ${r.trace.leaked?'끝까지 이어짐':`${r.trace.blockedAt+1}단계에서 끊김`})`:'';
+  const note=rep==='gap'&&rem==='parity'?`<br>대신 TPR 차이가 ${F(r.tprGapAfter,3)}로 새로 생겼습니다. B 문턱 ${F(r.tB,3)}.`:
+   rep==='block'?`<br>차단 정밀도 ${pct(r.precision[0])} → <b>${pct(r.precision[1])}</b> · 유해 요청을 놓치는 비율 ${pct(r.miss[0])} → <b>${pct(r.miss[1])}</b>. 잘못 막음을 줄인 값은 놓침으로 치르므로, 문턱을 올릴 때는 놓친 요청을 받아 줄 다른 층(사람 검토, 출력 뒤 감시)을 함께 적습니다.`:
+   rep==='memo'?`<br>δ = 10⁻⁵에서 ε ${F(r.eps[0],1)} → <b>${F(r.eps[1],1)}</b>. 대각선(추측)과 같은 값은 1%입니다.`:'';
+  U.result(el,U.bars(['처방 전','처방 후'],[r.before,r.after],r.unit,null,d),
+  `${r.metric}: 처방 전 <b>${F(r.before,d)}</b> → 처방 후 <strong>${F(r.after,d)}</strong><br>${r.fixed?'<b>해결</b> · 이 처방이 원인을 겨눴습니다.':worse?'<b>악화</b> · 처방이 문제를 키웠습니다.':same?'<b>변화 없음</b> · 원인과 다른 곳을 고쳤습니다.':'<b>조금 움직였지만 충분하지 않음</b>.'}${extra}${note}<br>앞 장의 계산 함수(주입 상태 기계, KL 닫힌 해, 공정성 모형, 조정 층, 가우스 DP)를 그대로 다시 불러 계산했습니다. 보고와 처방의 짝은 이 책이 정한 시나리오입니다.`);});
 };
 })();

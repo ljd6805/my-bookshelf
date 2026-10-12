@@ -137,17 +137,21 @@ function cascade(f,mode,o={}){
  return {cost,savings:1-cost,loss,esc,escRate:f>0?esc/f:0,complexRouted:cx};
 }
 
-/* 9장: 게이트웨이 재시도와 대체 공급자 */
+/* 9장: 게이트웨이 재시도와 대체 공급자.
+   o.burst(s): 실패 가운데 몇 분씩 이어지는 장애형의 몫. 장애형 실패는 재시도해도 같은 실패를 만나고,
+   나머지는 시도마다 독립이다. 첫 공급자에서 끝까지 실패할 확률 = s·p + (1−s)·p^(r+1).
+   calls: 첫 공급자에 보내는 기대 호출 수(재시도 증폭) = 1 + Σᵢ₌₁..ᵣ [s·p + (1−s)·pⁱ] */
 function gatewayFallback(p,retries,fallback,o={}){
- const L=o.call||900,fast=o.fast||120,q2=o.q2||0.02;
- let succ=0,lat=0,acc=0,worst=0;
+ const L=o.call||900,fast=o.fast||120,q2=o.q2||0.02,s=o.burst||0;
+ let succ=0,lat=0,acc=0,worst=0,calls=0;
  for(let i=0;i<=retries;i++){
-  const reach=Math.pow(p,i),t=acc+L;succ+=reach*(1-p);lat+=reach*(1-p)*t;if(reach*(1-p)>0)worst=t;
+  const reach=i===0?1:(1-s)*Math.pow(p,i),t=acc+L;calls+=i===0?1:s*p+(1-s)*Math.pow(p,i);
+  succ+=reach*(1-p);lat+=reach*(1-p)*t;if(reach*(1-p)>0)worst=t;
   acc+=fast+250*Math.pow(2,i);
  }
- const allFail=Math.pow(p,retries+1);
+ const allFail=s*p+(1-s)*Math.pow(p,retries+1);
  if(fallback){const t=acc+L;succ+=allFail*(1-q2);lat+=allFail*(1-q2)*t;if(allFail>0)worst=Math.max(worst,t);}
- return {success:succ,failRate:1-succ,meanLatency:succ>0?lat/succ:0,worst,allFail};
+ return {success:succ,failRate:1-succ,meanLatency:succ>0?lat/succ:0,worst,allFail,calls};
 }
 
 /* 10장: 카나리 단계별로 관문이 울릴 확률(정규 근사). 관찰 창 한 시간에 요청 3,000건 가정 */
@@ -176,6 +180,10 @@ function finalCase(report,fix){
  const SLO={ttft:800,tpot:25,e2e:3000};
  if(report==='cold'){const b=coldStart({node:'ca',image:'pull',weights:'plain',warm:0}).first,a=fix==='warm'?coldStart({node:'ca',image:'pull',weights:'plain',warm:1}).first:b;return {metric:'월요일 첫 요청의 대기(초)',before:b,after:a,matched:fix==='warm',lowerBetter:true};}
  if(report==='cache'){const b=dailyBill(0.07,'sync').day,a=fix==='reorder'?dailyBill(0.74,'sync').day:b;return {metric:'외부 API 하루 청구액($)',before:b,after:a,matched:fix==='reorder',lowerBetter:true};}
+ /* 보고 ④: 악화가 없는 새 프롬프트(비율 1배)에서 1% 단계 관문이 잡음만으로 울릴 확률. 관찰 창 1시간 → 4시간 */
+ if(report==='canary'){const b=canary('refusal',1).stages[0].trip*100,a=fix==='window'?canary('refusal',1,12000).stages[0].trip*100:b;return {metric:'1% 단계에서 잡음만으로 관문이 울릴 확률(%)',before:b,after:a,matched:fix==='window',lowerBetter:true};}
+ /* 보고 ⑤: 실패가 모두 장애형(s=1)인 20분. 재시도는 실패율을 바꾸지 못하고 대체 공급자만 바꾼다 */
+ if(report==='outage'){const g=(r,fb)=>gatewayFallback(0.3,r,fb,{burst:1}).failRate*100,b=g(2,false),a=fix==='fallback'?g(2,true):fix==='retry5'?g(5,false):b;return {metric:'장애 동안 손님이 보는 실패율(%)',before:b,after:a,matched:fix==='fallback',lowerBetter:true};}
  const b=goodput(SLO,false).goodput*100,a=fix==='chunk'?goodput(SLO,true).goodput*100:b;return {metric:'goodput(%)',before:b,after:a,matched:fix==='chunk',lowerBetter:false};
 }
 

@@ -59,7 +59,7 @@ async function run(){
  for(const [width,id,lab,file] of [[1280,'timeline','pipeline','timeline-desktop.png'],[1280,'coalescing','sectors','sectors-desktop.png'],[320,'paging','paging','paging-mobile.png'],[320,'review','decision','review-mobile.png']]){
   await frame(page,width,id);await page.locator('#lab-'+lab).screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,file)});
  }
- await frame(page,1280,'review');await page.getByRole('button',{name:'밝은 화면으로 전환'}).click();await page.locator('#lab-decision [data-preset="1"]').click();await page.locator('#lab-decision').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'review-light.png')});
+ await frame(page,1280,'review');await page.getByRole('button',{name:'어두운 화면으로 전환'}).click();await page.locator('#lab-decision [data-preset="1"]').click();await page.locator('#lab-decision').screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,'review-dark.png')});
  await frame(page,320,'review');await page.getByRole('button',{name:'목차',exact:true}).click();assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'false');
  await frame(page,320,'metrics');const before=await page.locator('.readout').innerText();await page.locator('#ttft').focus();await page.keyboard.press('ArrowRight');assert.notEqual(await page.locator('.readout').innerText(),before);
  await page.locator('header [data-shelf-return]').click();await page.waitForURL('**/index.html#books');

@@ -11,13 +11,13 @@ A07Labs.ctc=el=>{
   U.result(el,U.cells(items,`프레임 ${frames.length}개의 축약 과정`,`${MODES[mode]}`),`프레임: ${frames.join(' ')}<br>${mode==='both'?`반복을 합치면 <b>${merged.tokens.join(' ')}</b>, 공백을 지우면 `:''}결과 <strong>${r.text.replace(/_/g,'␣')||'(빈 문자열)'}</strong><br>${mode==='both'?(r.text==='55분'?'두 5 사이에 공백이 있어 둘 다 살아남았습니다.':'연달아 나온 5가 하나로 합쳐졌습니다.'):mode==='repeat'?'공백이 남아 있어 글자가 아닌 기호가 출력에 섞였습니다.':'반복을 합치지 않아 같은 글자가 프레임 수만큼 늘어났습니다.'} 탐욕 디코딩의 축약 규칙을 실제로 적용한 결과입니다.`);});
 };
 const REF='솔아 타이머 오 분 맞춰 줘';
-const HYPS={exact:['그대로 맞힘',REF],clip:['첫 단어 잘림','타이머 오 분 맞춰 줘'],sub:['숫자를 잘못 들음','솔아 타이머 오십 분 맞춰 줘'],ins:['침묵에서 지어낸 문장','솔아 타이머 오 분 맞춰 줘 시청해 주셔서 감사합니다'],format:['표기만 다름','솔아, 타이머 5분 맞춰 줘.']};
+const HYPS={exact:['그대로 맞힘',REF],clip:['첫 단어 잘림','타이머 오 분 맞춰 줘'],sub:['숫자를 잘못 들음','솔아 타이머 오십 분 맞춰 줘'],ins:['침묵에서 지어낸 문장','솔아 타이머 오 분 맞춰 줘 시청해 주셔서 감사합니다'],format:['표기만 다름','솔아, 타이머 5분 맞춰 줘.'],space:['띄어쓰기만 다름','솔아 타이머 오분 맞춰 줘']};
 A07Labs.wer=el=>{
  U.setup(el,S('hyp','음성 인식 결과',Object.entries(HYPS).map(([k,v])=>[k,`${v[0]} · ${v[1]}`]),'exact')+S('norm','채점 전 정규화',[['on','함 (문장부호 제거, 숫자 풀기)'],['off','안 함 (띄어쓰기로만 나눔)']],'on'));
- U.bind(el,()=>{const raw=HYPS[U.text(el,'hyp')][1],norm=U.text(el,'norm')==='on',hyp=norm?M.normalize(raw):raw,r=M.wer(REF,hyp);
+ U.bind(el,()=>{const raw=HYPS[U.text(el,'hyp')][1],norm=U.text(el,'norm')==='on',hyp=norm?M.normalize(raw):raw,r=M.wer(REF,hyp),c=M.cer(REF,hyp);
   const name={'=':'',S:'sub',D:'del',I:'ins'},lab={'=':'일치',S:'대체',D:'삭제',I:'삽입'};
   const items=r.ops.map(([op,a,b])=>[a||'·',`${b||'·'} (${lab[op]})`,name[op]]);
-  U.result(el,U.cells(items,'정답 단어(위)와 인식 단어(아래)의 정렬',`정답: ${REF}`),`인식: ${hyp}<br>대체 S = <b>${r.S}</b> · 삭제 D = <b>${r.D}</b> · 삽입 I = <b>${r.I}</b> · 정답 단어 N = <b>${r.N}</b><br>WER = (${r.S} + ${r.D} + ${r.I}) ÷ ${r.N} = <strong>${U.fmt(r.wer*100,1)}%</strong>${!norm&&U.text(el,'hyp')==='format'?' · 같은 말인데 표기 때문에 오류로 세어졌습니다.':''}<br>단어 단위 편집 거리를 실제로 계산했습니다. 숫자 정규화는 이 책의 작은 사전만 씁니다.`);});
+  U.result(el,U.cells(items,'정답 단어(위)와 인식 단어(아래)의 정렬',`정답: ${REF}`),`인식: ${hyp}<br>대체 S = <b>${r.S}</b> · 삭제 D = <b>${r.D}</b> · 삽입 I = <b>${r.I}</b> · 정답 단어 N = <b>${r.N}</b><br>WER = (${r.S} + ${r.D} + ${r.I}) ÷ ${r.N} = <strong>${U.fmt(r.wer*100,1)}%</strong>${!norm&&U.text(el,'hyp')==='format'?' · 같은 말인데 표기 때문에 오류로 세어졌습니다.':''}<br>CER(공백을 뺀 글자 ${c.N}개 기준) = 글자 편집 ${c.edits}개 ÷ ${c.N} = <strong>${U.fmt(c.cer*100,1)}%</strong>${r.wer>0&&c.edits===0?' · 글자는 모두 맞았고 띄어쓰기만 달라 WER에서만 오류가 생겼습니다.':''}<br>단어와 글자 단위 편집 거리를 실제로 계산했습니다. 숫자 정규화는 이 책의 작은 사전만 씁니다.`);});
 };
 function timeline(clip,r){
  const total=Math.max(clip,30,...r.windows.map(w=>w[0]+30)),x=v=>30+v/total*420;let b=`<text x="30" y="26">녹음 ${clip}초 · 30초 창 ${r.n}개</text><rect x="${x(0)}" y="44" width="${x(clip)-x(0)}" height="22" rx="4" fill="var(--blue)" opacity=".7"/><text x="30" y="86">말소리</text>`;

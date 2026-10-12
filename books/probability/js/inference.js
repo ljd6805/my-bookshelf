@@ -112,6 +112,35 @@
     return { rate: reps ? rejected / reps : 0, pvalues };
   }
 
+  /* 여러 번 검정하기. 검정 k개가 서로 독립이고 각각 정확히 alpha로 잘못 유의할 때, 적어도 하나가 유의할 확률.
+     본페로니 보정은 검정 하나의 기준을 alpha / k로 낮춰 이 확률을 alpha 이하로 묶는다. */
+  function familywiseError(alpha, k) {
+    S.assertProbability(alpha, '유의수준');
+    if (!Number.isInteger(k) || k < 1) throw new RangeError('검정 수는 1 이상의 정수여야 합니다.');
+    return 1 - (1 - alpha) ** k;
+  }
+  function bonferroni(alpha, k) { return alpha / k; }
+
+  /* 정확 이항검정은 개수가 정수라 실제로 잘못 유의할 확률(검정의 크기)이 alpha보다 작다. P(X <= c | p0) <= alpha인 가장 큰 값. */
+  function exactTestSize(n, p0, alpha) {
+    let size = 0;
+    for (let c = 0; c <= n; c += 1) { const p = lowerTailTest(c, n, p0); if (p > alpha) break; size = p; }
+    return size;
+  }
+
+  /* 센서 k대를 같은 n일 동안 동시에 시험하는 일을 reps번 반복한다. 반복마다 p값이 threshold 이하인 센서가
+     한 대라도 있었는지 센다. 모든 센서의 진짜 오경보율은 trueRate로 같다고 둔다. */
+  function anyRejectionRate(trueRate, n, p0, threshold, k, reps, random) {
+    let any = 0, hits = 0;
+    for (let i = 0; i < reps; i += 1) {
+      let found = 0;
+      for (let j = 0; j < k; j += 1) if (lowerTailTest(S.binomialSample(n, trueRate, random), n, p0) <= threshold) found += 1;
+      if (found) any += 1;
+      hits += found;
+    }
+    return { rate: reps ? any / reps : 0, meanHits: reps ? hits / reps : 0 };
+  }
+
   /* 성공 k번, 실패 n-k번을 본 뒤 후보 확률 q의 로그우도와 평균 교차 엔트로피 손실. */
   function logLikelihood(k, n, q) {
     S.assertProbability(q, '후보 확률');
@@ -173,5 +202,5 @@
 
   return { LOAD_LEVELS, SENSOR_MODEL, sensorDays, correlationTheory, correlationSummary,
     POPULATIONS, population, sampleMean, histogram, capTail, frequencies, shareWithin, bayes, wilson, intervalCovers,
-    lowerTailTest, rejectionRate, logLikelihood, crossEntropy, mle, LR95, likelihoodRegion };
+    lowerTailTest, rejectionRate, familywiseError, bonferroni, exactTestSize, anyRejectionRate, logLikelihood, crossEntropy, mle, LR95, likelihoodRegion };
 });

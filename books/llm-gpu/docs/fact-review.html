@@ -5,6 +5,24 @@
 <h1>팩트·출처 검수 기록 · LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="9장 #bottleneck roofline 실험 확장(단계 종류·입력 T·bit, GMath.stepTokens)과 본문·formulaNote, 3장 #weights 실험 확장(묶음 눈금·영점, GMath.effectiveBits)과 깊이 읽기 셋째 문단, 3장→llm-performance #evidence 링크, 예제 두 개, tests/math.test.cjs 새 테스트 2개, tests/browser.cjs 테마 단추" data-result="fixed">
+<h2>2026-10-12 검수 (2차 보충 검수 r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1)(검수팀 정민·유진·건우·채원·현석과 글작성팀 다온의 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 9장 #bottleneck roofline 실험 확장(단계 종류·입력 T·bit, GMath.stepTokens)과 본문·formulaNote, 3장 #weights 실험 확장(묶음 눈금·영점, GMath.effectiveBits)과 깊이 읽기 셋째 문단, 3장→llm-performance #evidence 링크, 예제 두 개, tests/math.test.cjs 새 테스트 2개, tests/browser.cjs 테마 단추.</p>
+<p>새 계산 두 개와 본문 대표값이 독립 계산과 모두 맞습니다. 테스트 화면 이름 하나를 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>묶음마다 scale을 두는 그룹 양자화 설명, prefill이 TTFT의 하한이라는 설명, 특정 파일 형식(GGUF·GPTQ·AWQ)을 재현하지 않는다는 표시를 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 따로 계산: 8B 16bit, 500 GB/s·50 TFLOP/s에서 T=1 이동 32 ms·계산 0.32 ms, T=100 둘 다 32 ms·집약도 100, T=3,000 FLOP 4.8×10¹³·계산 960 ms. decode 4bit 8 ms. 4bit 묶음 32/64/128 → 4.5/4.25/4.125bit, 128+영점 4.25bit, 8B 4.5bit 4.5 GB, 부가정보 (4.5−4)/4 = 12.5%</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>Chromium 320px에서 roofline의 decode 기본(8 ms·125 tokens/s), prefill 16bit T=1·100·3,000(32·32·960 ms, 제한 요인 메모리·메모리(동률)·연산), B=128·T=3,000 경계(384,000위치·122,880 ms), 초기화 후 decode 복귀를 확인. weights의 묶음 32·128·128+영점·없음+영점(4.50·4.13·4.25·4.00 GB)과 가로 넘침 0px. tests/browser.cjs 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>scale·영점(zero point)·prefill·decode·연산 집약도·기준점(ridge)이 책의 기존 용어와 일관됨</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>새 외부 출처가 없습니다. 새 링크 ../llm-performance/#evidence는 그 책 7장 “병목 주장에 근거 붙이기”로 열리고 이동 이유가 도착 절(“양자화를 속도 수단으로 볼 때”)과 맞음</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>tests/browser.cjs 테마 화면 이름</td><td>기본 테마가 밝은 화면으로 바뀐 뒤 단추 이름은 “어두운 화면으로 전환”으로 고쳐졌지만, 누른 뒤 찍은 화면을 여전히 *-light.png로 저장해 이름과 내용이 반대였음</td><td>같은 줄에서 단추를 누른 뒤 찍음(기본 data-theme="light")</td><td>budget-dark.png로 저장하도록 고침</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<ul><li>학습 효과(L4), 실제 장비 실측</li><li>화면 숫자는 소수 둘째 자리로 반올림되어 4.125 GB가 “4.13 GB”로 보입니다(본문·예제 설명의 4.125 GB와 반올림 차이, 오류 아님)</li><li>이전에 커밋된 docs/evidence/budget-light.png는 지우지 않았습니다</li><li>Safari·Firefox·실기기·화면 읽기 프로그램</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r2)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항(files~design), 회의 요약 공통 사례 숫자 문단 12곳(paragraphs), #design 실험 예제 “회의 요약 8명”(js/lab-guides.js budget), 보기 돌리기 코드(js/math.js choiceOrder, js/app.js choices)" data-result="fixed" data-commit="5f766a8">
 <h2>2026-10-12 검수 (전체 도서 보충 검수 r2)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r2)(검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 더한 것 — 12개 장 전이 문항(files~design), 회의 요약 공통 사례 숫자 문단 12곳(paragraphs), #design 실험 예제 “회의 요약 8명”(js/lab-guides.js budget), 보기 돌리기 코드(js/math.js choiceOrder, js/app.js choices).</p>

@@ -9,10 +9,12 @@ GLabs.cache=el=>{
  U.result(el,U.bars(['요청 하나','모든 요청'],[kv/b/M.GiB,kv/M.GiB]),`2 × 32층 × ${h} heads × 128 × ${t}토큰 × ${b}요청 × 2byte = <strong>${F(kv/M.GiB,3)} GiB</strong><br>가중치와 별도로 필요한 논리적 KV입니다. 가중치 정밀도를 바꾸는 실험과 독립적이며 KV는 16bit입니다.`);});
 };
 GLabs.roofline=el=>{
- U.setup(el,R('batch','한 단계의 배치 수 B',1,128,1,1)+R('bandwidth','유효 메모리 대역폭 (GB/s)',100,2000,100,500)+R('compute','유효 연산 처리량 (TFLOP/s)',10,200,10,50));
- U.bind(el,()=>{const r=M.roofline({batch:V(el,'batch'),bandwidth:V(el,'bandwidth'),compute:V(el,'compute')});
+ const phase=S('phase','단계 종류',[['decode','decode: 요청마다 새 토큰 1개'],['prefill','prefill: 요청마다 입력 T토큰을 한 번에']],'decode'),prompt=S('prompt','prefill 입력 토큰 수 T',[[1,'1'],[10,'10'],[100,'100'],[300,'300'],[1000,'1,000'],[3000,'3,000 (회의록)']],3000);
+ U.setup(el,phase+R('batch','동시 요청 수 B',1,128,1,1)+prompt+bits()+R('bandwidth','유효 메모리 대역폭 (GB/s)',100,2000,100,500)+R('compute','유효 연산 처리량 (TFLOP/s)',10,200,10,50));
+ U.bind(el,()=>{const ph=el.querySelector('#phase').value,b=V(el,'bits'),bw=V(el,'bandwidth'),c=V(el,'compute'),n=M.stepTokens({phase:ph,batch:V(el,'batch'),prompt:V(el,'prompt')}),r=M.roofline({bits:b,batch:n,bandwidth:bw,compute:c}),ridge=c*1e12/(bw*1e9);
+ const what=ph==='prefill'?`prefill: 한 단계에서 ${F(n,0)}위치(B × T)를 계산합니다. 이 단계가 끝나야 첫 출력 토큰이 나오므로 TTFT의 하한입니다. 입력 처리 상한 ${F(r.tokensPerSecond,0)} tokens/s.`:`decode: 한 단계에서 요청 ${F(n,0)}개가 토큰을 하나씩 만듭니다(입력 T = ${F(V(el,'prompt'),0)}은 prefill에서만 씁니다). 생성 처리량 상한 ${F(r.tokensPerSecond,1)} tokens/s.`;
  U.result(el,U.bars(['가중치 이동','선형 연산','단계 하한'],[r.memory*1000,r.math*1000,r.seconds*1000],'ms'),
- `<strong>${r.bottleneck} 제한</strong> · 이상적 단계 시간 ≥ ${F(r.seconds*1000,3)} ms.<br>가중치 4 GB를 단계마다 한 번 읽는 가상 8B 4bit 모델. 전체 처리량의 모형 상한 ${F(r.tokensPerSecond,1)} tokens/s.<br>연산 집약도 ${F(r.intensity,1)} FLOP/byte. KV·Attention·중간값·실행 비용을 생략한 값입니다.`);});
+ `<strong>${r.bottleneck} 제한</strong> · 이상적 단계 시간 ≥ ${F(r.seconds*1000,3)} ms.<br>${what}<br>가상 8B ${b}bit, 가중치 ${F(r.bytes/1e9,0)} GB를 단계마다 한 번 읽습니다. 연산 집약도 ${F(r.intensity,1)} FLOP/byte, 이 장비의 기준점 ${F(ridge,0)} FLOP/byte(넘으면 연산 제한).<br>KV·Attention(T² 항)·중간값·실행 비용을 생략한 값입니다.`);});
 };
 GLabs.moe=el=>{
  U.setup(el,S('experts','전체 expert 수',[[8,'8'],[16,'16'],[32,'32'],[64,'64']],16)+S('chosen','토큰당 선택 expert 수',[[1,'1'],[2,'2'],[4,'4'],[8,'8']],2));

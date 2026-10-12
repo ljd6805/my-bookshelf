@@ -14,9 +14,10 @@ GLabs.params=el=>{
  U.result(el,U.bars(['가중치','편향','전체'],[w,b,w+b],'개'),`층 하나: ${d}×${d}+${d} = <b>${d*d+d}개</b>.<br>${l}개 층의 합: <strong>${F(M.linearParams(d,d,l),0)}개</strong>. 입력·출력 폭을 같이 바꿉니다.`);});
 };
 GLabs.weights=el=>{
- U.setup(el,R('params','파라미터 수 (B)',1,70,1,8)+bits());
- U.bind(el,()=>{const p=V(el,'params'),b=V(el,'bits'),n=M.weightBytes(p,b);
- U.result(el,U.bars([16,8,4].map(x=>`${x}bit${x===b?' ◀':''}`),[16,8,4].map(x=>M.weightBytes(p,x)/M.GiB)),`${p}B × ${b}/8 = <strong>${F(n/1e9)} GB = ${F(n/M.GiB)} GiB</strong>.<br>위 막대는 같은 모델을 세 정밀도로 저장했을 때의 비교입니다. 선택 값은 ${b}bit입니다. 가중치 외의 추가 메모리는 포함하지 않습니다.`);});
+ U.setup(el,R('params','파라미터 수 (B)',1,70,1,8)+bits()+S('group','묶음 눈금: 가중치 몇 개마다 16bit scale 하나',[[0,'없음 (이상적 저장)'],[32,'32개마다'],[64,'64개마다'],[128,'128개마다']],0)+S('zero','묶음마다 16bit 영점(zero point)',[[0,'저장하지 않음'],[1,'함께 저장']],0));
+ U.bind(el,()=>{const p=V(el,'params'),b=V(el,'bits'),g=V(el,'group'),z=V(el,'zero')===1,e=M.effectiveBits(b,g,z),ideal=M.weightBytes(p,b),n=M.weightBytes(p,e);
+ const side=g?`묶음 ${g}개마다 16bit 눈금${z?'과 영점':''}을 더하면 원소당 <b>${F(e,3)}bit</b>(= ${b} + 16${z?' × 2':''}/${g})입니다. 이상적 ${F(ideal/1e9)} GB보다 <b>${F((n-ideal)/1e9)} GB(${F((e/b-1)*100,1)}%)</b> 큽니다.`:`묶음 눈금을 고르지 않아 부가정보 없는 이상적 저장량입니다. 영점 선택(${z?'함께 저장':'저장하지 않음'})은 묶음을 고를 때 계산에 들어갑니다.`;
+ U.result(el,U.bars([...[16,8,4].map(x=>`${x}bit${x===b?' ◀':''}`),'선택 · 눈금 포함'],[...[16,8,4].map(x=>M.weightBytes(p,x)/M.GiB),n/M.GiB]),`${p}B × ${F(e,3)}/8 = <strong>${F(n/1e9)} GB = ${F(n/M.GiB)} GiB</strong>.<br>${side}<br>위 세 막대는 같은 모델을 이상적으로 저장한 비교이고, 마지막 막대가 선택한 조건입니다. 묶음 눈금은 교육용 가상 형식이며 특정 파일 형식을 재현하지 않습니다. KV와 실행 공간은 포함하지 않습니다.`);});
 };
 GLabs.quant=el=>{
  const samples=[-.93,-.71,-.36,-.12,.14,.43,.68,.91];

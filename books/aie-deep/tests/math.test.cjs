@@ -103,3 +103,14 @@ test('minibatch SGD: updates per epoch, full batch never jitters, linear scaling
  assert.ok(Math.abs(small.trainLoss-0.493)<0.002);assert.ok(M.minibatch({B:1,lr:3}).trainLoss>small.trainLoss,'too large a step for one point');
  const again=M.minibatch({B:8,lr:0.3});assert.equal(again.trainLoss,small.trainLoss,'seeded and repeatable');
 });
+test('블록 구조: 잔차는 꺼지는 신호를 살리고, 축소 없이는 √L배 쌓이며, LayerNorm은 초기화와 무관하다',()=>{
+ const f=(i,a,b)=>M.blockStats(a,i,50,b);
+ assert.deepEqual(M.blockStats('tanh','small',20,'plain'),M.deepStats('tanh','small',20).fwd,'plain = deepStats');
+ assert.ok(f('small','tanh','plain')[49]<1e-50,'small tanh plain vanishes');
+ const res=f('small','tanh','residual')[49];assert.ok(res>1&&res<1.3,'small tanh residual keeps ~1: '+res);
+ const xr=f('xavier','tanh','residual')[49],xs=f('xavier','tanh','scaled')[49];
+ assert.ok(xr>5&&xr<7.5,'xavier tanh residual grows about sqrt(50): '+xr);assert.ok(xs>1&&xs<1.5,'scaled stays near 1: '+xs);
+ assert.ok(f('he','relu','residual')[49]>1e8,'he relu residual explodes (variance doubles)');
+ for(const i of ['small','std','xavier','he'])for(const a of ['tanh','relu']){const v=f(i,a,'layernorm')[49];assert.ok(v>0.4&&v<0.8,i+a+' LN '+v);}
+ const z=M.layerNorm([1,2,3,4]);assert.ok(Math.abs(z.reduce((s,v)=>s+v,0))<1e-12);assert.ok(Math.abs(z.reduce((s,v)=>s+v*v,0)/4-1)<1e-4);
+});

@@ -15,9 +15,29 @@ const CALLS={
  text:['객체가 아닌 글',"'배포 회의 찾아 줘'"]
 };
 const KIND={required:'필수 필드 없음',type:'타입이 다름',enum:'허용 목록 밖',minimum:'최솟값 미만',maximum:'최댓값 초과',minLength:'너무 짧음',additional:'선언하지 않은 필드'};
+const STREAM_NAMES={plain:'평범한 인자',brace:'query에 } 가 든 인자',parallel:'병렬 두 호출이 섞여 도착'};
+const JUDGES=[['brace','중괄호 세기'],['scan','문자열을 아는 스캐너'],['end','끝 신호 대기']];
+/* 스트리밍 모드: 조각 도착 순서와 세 판정기가 “완성”이라 말한 순간, 그때 JSON.parse가 되는지 그린다. */
+function streamView(el,mode){
+ const k=U.value(el,'vchunk'),r=M.streamJudge(mode,k),ids=Object.keys(r.calls);
+ const items=r.events.map(e=>[`${e.step}번째 도착 · ${e.id}`,e.end?'끝 신호':'조각',e.end?'이 호출의 인자는 여기서 끝':`“${e.piece}”`,e.end?true:null]);
+ for(const id of ids){const c=r.calls[id];
+  for(const [key,label] of JUDGES){const j=c[key];items.push([`${id} · ${label}`,`${j.at}번째 도착에서 완성 판정`,j.ok?'JSON.parse 성공':`JSON.parse 실패: ${j.text}`,j.ok]);}}
+ if(r.mixedOk!==null)items.push(['호출 id를 무시하고 한 버퍼에 모으면','섞인 글',r.mixedOk?'JSON.parse 성공':'JSON.parse 실패',r.mixedOk]);
+ const early=ids.filter(id=>!r.calls[id].brace.ok);
+ const checked=ids.map(id=>{const v=M.validateArgs(M.SEARCH_SCHEMA,JSON.parse(r.calls[id].end.text));return `${id} ${v.ok?'통과':'거절'}`;}).join(', ');
+ U.result(el,U.rows(items,'스트리밍 조각과 완성 판정',`${STREAM_NAMES[mode]} · 조각 ${k}자 · 조각 ${r.pieces}개`),
+  `“${STREAM_NAMES[mode]}”를 ${k}자씩 잘라 보냈습니다. `+
+  (early.length?`중괄호 세기는 문자열 안의 } 를 닫는 괄호로 읽어 <b>${r.calls[early[0]].brace.at}번째 도착에서 미완성 JSON을 완성으로 착각</b>했습니다. `:'이 예시에서는 세 판정기가 모두 해석에 성공했습니다. 판정이 맞은 것은 문자열 안에 괄호가 없었기 때문입니다. ')+
+  (r.mixedOk===false?'두 호출의 조각을 한 버퍼에 모으면 글이 섞여 해석할 수 없으므로 호출 id마다 버퍼를 따로 둡니다. ':'')+
+  `끝 신호 뒤에 해석한 인자를 notes_search 스키마로 검사하면 ${checked}입니다.<br>JSON.parse는 브라우저에서 실제로 돌린 결과이고, 인자 예시와 조각 크기는 교육용입니다. 스캐너도 맞을 수 있지만, 호출이 끝났다고 알려 주는 것은 제공자의 끝 신호뿐입니다.`);
+}
 A14Labs.validate=el=>{
- U.setup(el,U.select('vcall','모델이 만든 인자',Object.entries(CALLS).map(([k,v])=>[k,v[0]]),'ok')+U.select('vextra','additionalProperties',[['false','false (선언 밖 필드 거절)'],['true','지정 안 함 (선언 밖 필드 허용)']],'false'));
+ U.setup(el,U.select('vcall','모델이 만든 인자',Object.entries(CALLS).map(([k,v])=>[k,v[0]]),'ok')+U.select('vextra','additionalProperties',[['false','false (선언 밖 필드 거절)'],['true','지정 안 함 (선언 밖 필드 허용)']],'false')+
+  U.select('vstream','도착 방식',[['none','한 번에 도착 (스트리밍 없음)'],...Object.entries(STREAM_NAMES)],'none')+U.range('vchunk','스트리밍 조각 크기(글자)',4,20,1,8));
  U.bind(el,()=>{
+  const mode=U.text(el,'vstream');
+  if(mode!=='none')return streamView(el,mode);
   const [name,args]=CALLS[U.text(el,'vcall')],strict=U.text(el,'vextra')==='false';
   const schema={...M.SEARCH_SCHEMA,additionalProperties:strict?false:undefined},r=M.validateArgs(schema,args);
   const shown=typeof args==='string'?args:JSON.stringify(args);
@@ -28,7 +48,7 @@ A14Labs.validate=el=>{
   U.result(el,U.rows(items,'인자 검사 결과',`arguments = ${shown}`),
    `“${name}” 인자를 notes_search 스키마(query 문자열 필수, limit 정수 1~20, sort는 recent 또는 relevance)로 검사했습니다. 결과는 <b>${verdict}</b>입니다.<br>`+
    (strict?'선언 밖 필드를 거절하므로 모델이 지어낸 필드가 도구까지 가지 않습니다.':'선언 밖 필드를 막지 않으면 지어낸 필드가 검사를 지나 도구로 갑니다.')+
-   ' 검사 규칙은 JSON Schema 2020-12의 일부를 실제로 계산한 것이고, 인자 후보는 교육용 예시입니다.');
+   ' 검사 규칙은 JSON Schema 2020-12의 일부를 실제로 계산한 것이고, 인자 후보는 교육용 예시입니다. 도착 방식을 스트리밍으로 바꾸면 인자가 조각으로 올 때 언제 해석해도 되는지 볼 수 있습니다.');
  });
 };
 

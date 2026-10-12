@@ -137,6 +137,14 @@ function confusion(data,t){let TP=0,FP=0,FN=0,TN=0;data.forEach(d=>{const p=d.s>
 function rates(cm){const {TP,FP,FN,TN}=cm,n=TP+FP+FN+TN,precision=TP+FP?TP/(TP+FP):0,recall=TP+FN?TP/(TP+FN):0;
  const den=Math.sqrt((TP+FP)*(TP+FN)*(TN+FP)*(TN+FN));
  return {precision,recall,f1:precision+recall?2*precision*recall/(precision+recall):0,accuracy:(TP+TN)/n,fpr:FP+TN?FP/(FP+TN):0,mcc:den?(TP*TN-FP*FN)/den:0};}
+/* 신뢰도 도표: 점수를 [0,0.1), …, [0.9,1] 열 칸으로 나눠 칸마다 평균 점수와 실제 사기 비율을 비교한다.
+   보정된 점수라면 두 값이 대각선 위에 놓인다. 브라이어 점수는 (점수−정답)²의 평균. */
+function reliability(data,bins=10){const B=Array.from({length:bins},(_,i)=>({lo:i/bins,hi:(i+1)/bins,n:0,s:0,y:0}));
+ data.forEach(d=>{const b=B[Math.min(bins-1,Math.floor(d.s*bins))];b.n++;b.s+=d.s;b.y+=d.c;});
+ return B.map(b=>({lo:b.lo,hi:b.hi,n:b.n,score:b.n?b.s/b.n:null,rate:b.n?b.y/b.n:null}));}
+const brier=data=>mean(data.map(d=>(d.s-d.c)**2));
+/* 놓친 사기 비용이 오경보의 r배이고 점수가 보정되어 있다면, 기대 비용이 가장 작은 문턱은 1/(1+r). */
+const calibratedThreshold=r=>1/(1+r);
 function rocCurve(data){const pts=[[0,0]];for(let i=100;i>=0;i--){const r=rates(confusion(data,i/100));pts.push([r.fpr,r.recall]);}pts.push([1,1]);return pts;}
 function auc(data){const pos=data.filter(d=>d.c).map(d=>d.s),neg=data.filter(d=>!d.c).map(d=>d.s);let w=0;pos.forEach(p=>neg.forEach(q=>{w+=p>q?1:p===q?0.5:0;}));return w/(pos.length*neg.length);}
 function stratifiedCounts(data,K,stratified){const pos=data.filter(d=>d.c).length,r=rng(7),idx=data.map((_,i)=>i);
@@ -227,7 +235,7 @@ function driftLab(shift,policy){
 
 /* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
 function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
-const A03Math={quizOrder,rng,gauss,sum,mean,variance,std,quantile,sigmoid,accuracy,twoBlobs,centroids,centroidLab,bce,trainLogistic,logisticLab,
+const A03Math={quizOrder,reliability,brier,calibratedThreshold,rng,gauss,sum,mean,variance,std,quantile,sigmoid,accuracy,twoBlobs,centroids,centroidLab,bce,trainLogistic,logisticLab,
  gini,entropy,splitScores,bestSplit,SPLIT_DATA,knnData,knnPredict,knnLab,svmData,trainSVM,svmLab,clusterData,kmeans,silhouette,NB,naiveBayes,
  scaleData,scaler,scalingLab,pearson,mutualInfo,scoreData,confusion,rates,rocCurve,auc,stratifiedCounts,trueCurve,solve,polyFit,polyEval,biasVariance,
  majorityVote,ensembleAccuracy,fitStump,boostData,boosting,targetEncodingLab,orderSeries,forecasts,outlierLab,imbalanceData,smote,resample,imbalanceLab,expectedCost,bestThreshold,driftLab};

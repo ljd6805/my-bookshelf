@@ -64,11 +64,11 @@
   }
 
   /* 오른쪽(가장 낮은 자리)부터 자리올림을 넘기며 더한다. steps[i]는 i번째 자리 계산 기록이다. */
-  function rippleAdd(a, b, width) {
+  function rippleAdd(a, b, width, carryIn = 0) {
     const aBits = numberToBits(a, width).reverse();
     const bBits = numberToBits(b, width).reverse();
     const steps = [];
-    let carry = 0;
+    let carry = carryIn;
     for (let i = 0; i < width; i += 1) {
       const result = fullAdder(aBits[i], bBits[i], carry);
       steps.push({ position: i, a: aBits[i], b: bBits[i], carryIn: carry, sum: result.sum, carryOut: result.carry });
@@ -76,6 +76,17 @@
     }
     const sumBits = steps.map((s) => s.sum).reverse();
     return { steps, value: bitsToNumber(sumBits), carry, overflow: carry === 1 };
+  }
+
+  /* 4장 보충: 같은 덧셈기로 빼기. a − b = a + (NOT b) + 1. 제어 신호 SUB=1이 b의 각 비트 앞 XOR를 반전기로 만들고
+     첫 자리올림 c₀로도 들어간다. 마지막 자리올림 1은 "빌림 없음"(a ≥ b), 0은 "빌림 생김"(a < b)이다. */
+  function rippleSub(a, b, width) {
+    const mask = 2 ** width - 1;
+    if (!Number.isInteger(b) || b < 0 || b > mask) throw new RangeError(`${width}비트로 나타낼 수 없는 값: ${b}`);
+    const inverted = b ^ mask;
+    const r = rippleAdd(a, inverted, width, 1);
+    const signed = r.value >= 2 ** (width - 1) ? r.value - 2 ** width : r.value;
+    return { ...r, inverted, signed, borrow: r.carry === 0, overflow: false };
   }
 
   /* 5장: 클럭 가장자리에서만 값을 받아들이는 레지스터 */
@@ -140,5 +151,5 @@
     return [s.slice(0, 1), s.slice(1, 1 + fmt.exp), s.slice(1 + fmt.exp)];
   }
 
-  return { FP16, BF16, decodeFloat, encodeFloat, floatNeighbor, floatFields, roundHalfEven, bitsToNumber, numberToBits, toSigned, toAsciiLabel, utf8Bytes, hex, gate, truthTable, fullAdder, rippleAdd, clockRegister, GATE_NAMES: Object.keys(GATES) };
+  return { FP16, BF16, decodeFloat, encodeFloat, floatNeighbor, floatFields, roundHalfEven, bitsToNumber, numberToBits, toSigned, toAsciiLabel, utf8Bytes, hex, gate, truthTable, fullAdder, rippleAdd, rippleSub, clockRegister, GATE_NAMES: Object.keys(GATES) };
 });

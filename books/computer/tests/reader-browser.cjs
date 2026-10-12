@@ -53,8 +53,9 @@ async function checkReader(page) {
   await page.locator('.read-toggle').click();
   await page.reload();
   assert.equal(await page.locator('.read-toggle').getAttribute('aria-pressed'),'true');
-  await page.getByRole('button',{name:'밝은 화면',exact:true}).click();
-  assert.equal(await page.locator('html').getAttribute('data-theme'),'light');
+  const before = await page.locator('html').getAttribute('data-theme');
+  await page.locator('#theme').click();
+  assert.equal(await page.locator('html').getAttribute('data-theme'), before === 'dark' ? 'light' : 'dark');
   await page.emulateMedia({reducedMotion:'reduce'});
   assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');
   await page.locator('.skip').focus();

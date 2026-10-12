@@ -15,7 +15,20 @@ function dft(x){
  return {re,im,mag:re.map((r,k)=>Math.hypot(r,im[k]))};
 }
 /* 단측 진폭: k=0과 N/2는 |X|/N, 그 밖은 2|X|/N → 성분의 원래 진폭과 같다. */
-function amplitudes(x){const N=x.length,{mag}=dft(x);return mag.slice(0,N/2+1).map((m,k)=>(k===0||k===N/2?1:2)*m/N);}
+/* win=true면 주기형 한(Hann) 창 w[n]=½(1−cos 2πn/N)을 곱하고 창의 합 Σw=N/2로 나눈다.
+   그래야 구간 안에 정수 바퀴 도는 성분의 막대 높이가 창이 없을 때와 같다. */
+const hann=N=>Array.from({length:N},(_,n)=>.5*(1-Math.cos(2*Math.PI*n/N)));
+function windowed(x,win){if(!win)return {y:x,scale:x.length};const w=hann(x.length);return {y:x.map((v,n)=>v*w[n]),scale:sum(w)};}
+function amplitudes(x,win=false){const N=x.length,{y,scale}=windowed(x,win),{mag}=dft(y);return mag.slice(0,N/2+1).map((m,k)=>(k===0||k===N/2?1:2)*m/scale);}
+/* 표본 N개로는 N/2보다 빠른 떨림을 구분하지 못한다. k는 0..N/2 안의 겉보기 위치로 접힌다(에일리어싱). */
+function foldBin(k,N){const f=((k%N)+N)%N;return f>N/2?N-f:f;}
+/* 진폭 1인 소음 하나만 DFT했을 때, 에너지 가운데 겉보기 위치에서 두 칸 이상 떨어진 막대로 번진 비율(누출).
+   막대마다 에너지 |X[k]|²(0과 N/2 밖은 짝 막대까지 2배)를 쓰므로 합은 파스발 정리로 N·Σy²와 같다. */
+function noiseLeak(k,N,win=false){
+ const {y}=windowed(synth([[k,1,0]],N),win),{mag}=dft(y),f=foldBin(k,N);
+ const p=mag.slice(0,N/2+1).map((m,i)=>(i===0||i===N/2?1:2)*m*m),tot=sum(p);
+ return {fold:f,leak:sum(p.filter((_,i)=>Math.abs(i-f)>=2))/tot,total:tot};
+}
 function energy(x){return sum(x.map(v=>v*v));}
 
 /* ── 2장 텐서와 거리 ── */
@@ -190,6 +203,6 @@ function falseAlarms(base,sens,fpr){const post=posterior(base,sens,fpr);return {
 
 /* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
 function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
-const A02Math={quizOrder,COMMANDS,synth,dft,amplitudes,energy,prod,broadcast,strides,pipeline,norm,dot,cosine,distances,TEMPLATES,nearest,sigmoid,lossW,lossWGrad,numDiff,diffErrors,taylor,backprop,gradCheck,RAVINE,ravine,ravineGrad,descend,lrLimit,firstBelow,descend1d,log2,entropy,crossEntropy,kl,prediction,smoothTarget,toHalf,softmaxIn,logSumExp,isBad,broken,expFits,softmaxT,topP,rng,monteCarloPi,jacobiEigen,matmul,svd,lowRank,fro,spectrogram,compress,conditioning,commandChain,step,stationary,tv,evolve,mixingSteps,diffInterval,posterior,falseAlarms};
+const A02Math={quizOrder,COMMANDS,synth,dft,amplitudes,hann,foldBin,noiseLeak,energy,prod,broadcast,strides,pipeline,norm,dot,cosine,distances,TEMPLATES,nearest,sigmoid,lossW,lossWGrad,numDiff,diffErrors,taylor,backprop,gradCheck,RAVINE,ravine,ravineGrad,descend,lrLimit,firstBelow,descend1d,log2,entropy,crossEntropy,kl,prediction,smoothTarget,toHalf,softmaxIn,logSumExp,isBad,broken,expFits,softmaxT,topP,rng,monteCarloPi,jacobiEigen,matmul,svd,lowRank,fro,spectrogram,compress,conditioning,commandChain,step,stationary,tv,evolve,mixingSteps,diffInterval,posterior,falseAlarms};
 if(typeof module!=='undefined')module.exports=A02Math;else root.A02Math=A02Math;
 })(typeof window!=='undefined'?window:globalThis);

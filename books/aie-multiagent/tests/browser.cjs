@@ -49,7 +49,7 @@ async function run(){
   await frame(page,1280,'home');await page.screenshot({...hide,path:shot('home-desktop.png')});
   await frame(page,1280,chapters[0].id);await page.locator('.concept-diagram').screenshot({...hide,path:shot('figure-desktop.png')});
   await page.locator('.lab').first().screenshot({...hide,path:shot('lab-desktop.png')});
-  await page.getByRole('button',{name:'밝은 화면으로 전환'}).click();await page.locator('.lab').first().screenshot({...hide,path:shot('lab-light.png')});
+  await page.getByRole('button',{name:'어두운 화면으로 전환'}).click();await page.locator('.lab').first().screenshot({...hide,path:shot('lab-dark.png')});
   await frame(page,320,chapters[chapters.length-1].id);await page.locator('.lab').first().screenshot({...hide,path:shot('lab-mobile.png')});
   await page.getByRole('button',{name:'목차',exact:true}).click();assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'false');
   await page.locator('header [data-shelf-return]').click();await page.waitForURL('**/index.html#books');

@@ -121,3 +121,12 @@ test('wireMessage: the wire record marks the field each check saw and agrees wit
   JSON.parse(txt(w.request).replace(/^[\s\S]*?\n\n/,'').replace(/…\(토큰\)/,''));
  }
 });
+test('streamJudge: brace counting is fooled by a brace inside a string, end signal never is',()=>{
+ const b=M.streamJudge('brace',8).calls.call_a;
+ assert.equal(b.brace.at,2);assert.equal(b.brace.ok,false);assert.equal(b.scan.at,4);assert.equal(b.scan.ok,true);assert.equal(b.end.at,5);assert.equal(b.end.ok,true);
+ const p=M.streamJudge('plain',4).calls.call_a;assert.equal(p.brace.at,p.scan.at);assert.equal(p.brace.ok,true);
+ const par=M.streamJudge('parallel',8);assert.equal(par.mixedOk,false);assert.deepEqual(JSON.parse(par.calls.call_b.end.text),{query:'장애 회고',sort:'recent'});
+ for(const c of Object.keys(M.STREAM_CASES))for(let k=4;k<=20;k++){const r=M.streamJudge(c,k);
+  for(const x of Object.values(r.calls)){assert.equal(x.end.ok,true);assert.ok(x.scan.at<x.end.at);assert.ok(x.brace.at<=x.scan.at);}
+  assert.equal(r.events.filter(e=>e.end).length,M.STREAM_CASES[c].length);}
+});

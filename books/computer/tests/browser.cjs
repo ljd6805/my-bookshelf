@@ -11,6 +11,7 @@ const out = process.env.BOOK_SHOTS || os.tmpdir();
 async function checkLabs(page) {
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
+  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   await page.goto(target);
   assert.equal(await page.locator('.chapter-card').count(), 9);
   assert.equal(await page.locator('#home-bits .bit').count(), 8);
@@ -67,6 +68,20 @@ async function checkLabs(page) {
   await open(3);
   await lab(3).getByRole('button', { name: '15 + 1' }).click();
   assert.match(await lab(3).locator('.readout').innerText(), /15를 넘었습니다/);
+  // 4장 보충: 같은 덧셈기로 빼기. 7 − 3은 자리올림 1(빌림 없음), 3 − 7은 0(빌림, −4), 초기화하면 더하기로
+  await lab(3).getByRole('button', { name: '7 − 3' }).click();
+  assert.match(await lab(3).locator('.readout').innerText(), /0111 \+ 1100 \+ 1 = 합 비트 0100, 마지막 자리올림 1[\s\S]*빌림 없음/);
+  await lab(3).getByRole('button', { name: '3 − 7' }).click();
+  assert.match(await lab(3).locator('.readout').innerText(), /마지막 자리올림 0[\s\S]*빌림 생김[\s\S]*−4/);
+  assert.equal(await lab(3).locator('[data-k="op"]').getAttribute('aria-pressed'), 'true');
+  // 답이 −8보다 작으면 2의 보수 읽기가 답이 아님을 알린다(0 − 15 → 합 비트 0001)
+  await lab(3).locator('[data-k="a"]').fill('0'); await lab(3).locator('[data-k="b"]').fill('15');
+  assert.match(await lab(3).locator('.readout').innerText(), /실제 답\(−15\)은 4비트 2의 보수가 담는 −8~7을 벗어나/);
+  await lab(3).getByRole('button', { name: '실험 초기화' }).click();
+  assert.match(await lab(3).locator('.readout').innerText(), /3 \+ 4 → 합 비트 0111/);
+  // 7장 보충: 코드 한 줄과 명령 대응표
+  await open(6);
+  assert.equal(await page.locator('.translate-table tbody tr').count(), 11);
   // 5장: 쓰기 허용 없이 클럭 → 유지, 허용 후 클럭 → 저장
   await open(4);
   await lab(4).locator('.bit').nth(3).click();
@@ -108,7 +123,7 @@ async function checkLabs(page) {
   await page.screenshot({ path: path.join(out, 'computer-desktop.png') });
   for (const width of [390, 320]) {
     const p = await browser.newPage({ viewport: { width, height: 800 } });
-    for (const hash of ['#cpu', '#final', '#encoding']) {
+    for (const hash of ['#cpu', '#final', '#adder', '#programs', '#encoding']) {
       await p.goto(target + hash);
       await p.locator('[data-lab]').first().waitFor();
       const overflow = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);

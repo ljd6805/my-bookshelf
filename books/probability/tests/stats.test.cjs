@@ -248,3 +248,17 @@ test('9장: confounded sensor data — overall r near theory, r within load leve
   assert.throws(() => I.sensorDays({ strength: 1.5, days: 10 }), RangeError);
   for (const d of rows) assert.ok(d.vib > 0 && [0.4, 0.7, 1].includes(d.load));
 });
+
+test('여러 번 검정: 20번이면 적어도 하나 유의 약 64%, 본페로니 0.0025, 정확 검정의 실제 크기', () => {
+  assert.ok(Math.abs(I.familywiseError(0.05, 20) - 0.6415) < 1e-4);
+  near(I.familywiseError(0.05, 1), 0.05);
+  assert.ok(Math.abs(I.bonferroni(0.05, 20) - 0.0025) < 1e-12);
+  assert.ok(I.familywiseError(I.bonferroni(0.05, 20), 20) <= 0.05);
+  const size = I.exactTestSize(60, 0.1, 0.05);
+  assert.ok(Math.abs(size - 0.01378) < 1e-4);
+  assert.ok(size <= 0.05 && I.lowerTailTest(1, 60, 0.1) === size);
+  assert.ok(Math.abs(I.familywiseError(size, 20) - 0.2423) < 1e-3);
+  const sim = I.anyRejectionRate(0.1, 60, 0.1, 0.05, 20, 2000, S.rng(21));
+  assert.ok(Math.abs(sim.rate - 0.2423) < 0.04);
+  assert.throws(() => I.familywiseError(0.05, 0), RangeError);
+});

@@ -4,6 +4,17 @@
 <h1>팩트·출처 검수 기록 · LLM 엔지니어링</h1>
 <p>「AI 엔지니어링 처음부터」 12권 《LLM 엔지니어링 · 프롬프트에서 서비스까지》(books/aie-llm-apps)의 팩트·출처 검수 기록입니다. 이 책을 쓰지 않은 에이전트가 검수했습니다. 검수 절차는 <a href="../../../docs/03-verification.html#fact-review">서재 검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#retrieval 상세 절 “근거를 달고, 근거가 없으면 모른다고 답하기”와 rag #final 링크, #context·#graph 확인 문제 교체, index.html 자산 버전, tests/browser.cjs 테마 단추 이름" data-result="passed">
+<h2>2026-10-12 2차 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 관점, 새 문장은 글작성팀 다온의 관점으로 한 번 더 읽음). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 커밋되지 않은 2차 보충 변경 — #retrieval 상세 절 “근거를 달고, 근거가 없으면 모른다고 답하기”와 rag #final 링크, #context·#graph 확인 문제 교체, index.html 자산 버전, tests/browser.cjs 테마 단추 이름. 이 검수자는 보충을 쓰지 않았습니다.</p>
+<p>새 확인 문제 두 개는 정답이 하나이고, 해설은 보기를 문구(“하나로도 충분합니다”, “온도는 … 무관합니다”)로 가리킵니다. 새 상세 절의 0.5 문턱·0.41 예는 미리 정한 예시이며 그렇게 읽힙니다. 다온의 관점으로 새 문장에서 상투어·과장을 찾지 못했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody><tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>1장 다락 도우미가 정책에 없는 약속을 했다는 앞 장 본문, 3장 구조화 출력·8장 판정자 평가 장 번호, LangGraph에서 리듀서 없는 상태 필드가 덮어쓰기라는 설명을 대조. rag 책 #final이 질문 13개(답 없는 3개)와 기권 문턱 실험(abstain)을 가진 것을 확인</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>손으로 따로 계산: 기본 500 + 7,500 + 4,000 + 4,000 + 200 + 4,000 = 20,200. 가지치기 round(12.5) = 13개 × 150 = 1,950 → 14,650. 요약 3턴 × 200 + 100 = 700 → 16,900(16,000보다 900 넘침). 둘 다 11,350</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>책 math.js contextBudget·graphRun을 읽고 기본값(도구 50, 턴 20, 청크 10)과 창 선택지(32K·128K·200K, 16K 없음)를 확인. 덮어쓰기 리듀서에서 체크포인트 6(END)의 메시지가 1개임을 확인</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>기권·문턱·근거 충실도·리듀서·체크포인트 표기를 책 안 기존 용어와 대조</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>새 외부 출처 없음. 책 사이 링크 ../rag/#final의 장 ID가 rag 책 content.js에 있음을 확인</td></tr></tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody><tr><td colspan="4">고칠 오류를 찾지 못했습니다.</td></tr></tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>고칠 것이 없어 js·css와 자산 버전을 바꾸지 않았습니다.</li><li>실제 독자의 학습 효과(L4)는 재지 않았습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r5)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장의 전이 문항 12개, #guardrails 새 실험 layers(math.js ATTACKS·LAYERS·layeredDefense, labs-quality.js, lab-guides.js)와 formulaNote, docs/index.html 보충 절, app.js 정답 자리 돌리기(order)" data-result="fixed">
 <h2>2026-10-12 보충 검수 (r5)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r5, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 더한 것 — 12개 장의 전이 문항 12개, #guardrails 새 실험 layers(math.js ATTACKS·LAYERS·layeredDefense, labs-quality.js, lab-guides.js)와 formulaNote, docs/index.html 보충 절, app.js 정답 자리 돌리기(order). 이 검수자는 보충을 쓰지 않았습니다.</p>

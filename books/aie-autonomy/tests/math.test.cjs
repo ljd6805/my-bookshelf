@@ -92,3 +92,10 @@ test('checkedStep: detect-and-retry raises step reliability but keeps missed fai
  near(M.checkedStep(0.99,0).pe,0.99,1e-12,'no detection = no change');near(1-c.pe,c.missed+c.retryFail,1e-12,'failure splits into missed and failed retry');
  assert.ok(M.checkedStep(0.99,0.9).pe>M.checkedStep(0.99,0.5).pe);assert.ok(M.checkedStep(0.99,1).pe<1,'retry can still fail');
 });
+test('ladder taint rule: cuts the leak chain at push without touching other modes',()=>{
+ const off=M.ladder('auto','repo'),on=M.ladder('auto','repo',true);
+ assert.equal(off.leak,true);assert.equal(on.leak,false);assert.equal(on.asks,off.asks+1);assert.equal(on.cutBy,'공개 저장소로 git push');
+ const b=M.ladder('bypass','repo',true);assert.equal(b.taintAsks,2);assert.equal(b.leak,false);assert.equal(b.asks,2);
+ for(const m of ['plan','default','acceptEdits','dontAsk']){const x=M.ladder(m,'repo'),y=M.ladder(m,'repo',true);assert.equal(y.taintAsks,0);assert.equal(y.asks,x.asks);assert.equal(y.denied,x.denied);}
+ for(const m of ['plan','default','acceptEdits','auto','dontAsk','bypass'])assert.ok(M.ladder(m,'repo',true).asks>=M.ladder(m,'repo').asks);
+});

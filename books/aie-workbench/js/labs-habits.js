@@ -42,11 +42,12 @@ A01Labs.profile=el=>{
   `일꾼 ${w}명 · 한 단계 <strong>${F(r.step,1)} ms</strong> · GPU 사용률 <b>${F(r.gpuUse*100,0)}%</b><br>병목: <b>${r.bottleneck}</b>. 1,000단계 한 에폭은 약 ${F(r.step,0)}초입니다.<br>${w===0?'로딩과 계산이 차례로 이어져 GPU가 매 단계 60ms씩 기다립니다.':r.idle>0?'미리 읽기가 계산과 겹치지만 아직 로딩이 더 깁니다.':'로딩이 계산 뒤에 숨었습니다. 일꾼을 더 늘려도 한 단계는 계산 시간 아래로 줄지 않습니다.'}<br>로딩 60ms·계산 40ms(원본의 “로딩 60%” 예)를 가정한 실제 계산이며, 완벽한 겹침을 가정했습니다.`);});
 };
 A01Labs.curve=el=>{
- U.setup(el,R('lr','학습률 η',0.05,1.2,0.05,0.25));
- U.bind(el,()=>{const lr=U.value(el,'lr'),r=M.lossCurve(lr);el.querySelector('#lr-value').textContent=F(lr,2);
+ U.setup(el,R('lr','학습률 η',0.05,1.2,0.05,0.25)+S('mode','작은 배치 하나를 외우게 할 때의 코드',[['clean','정상: 같은 입력과 정답을 반복'],['bug','버그: 입력과 정답 짝이 단계마다 어긋남']],'clean'));
+ U.bind(el,()=>{const lr=U.value(el,'lr'),bug=U.text(el,'mode')==='bug',r=M.lossCurve(lr,30,1,bug);el.querySelector('#lr-value').textContent=F(lr,2);
+  const verdict=bug&&r.kind!=='발산'?`<br>마지막 10단계 평균 손실 <b>${F(r.tail,3)}</b>. 정답이 단계마다 바뀌어 외울 것이 없으므로 학습률을 어떻게 바꿔도 1 아래로 내려가지 않습니다. 작은 배치 하나도 못 외우면 학습률보다 코드·라벨을 먼저 의심합니다.`:!bug&&r.kind!=='발산'&&r.kind!=='제자리'?`<br>같은 배치를 반복하니 손실이 0 쪽으로 내려갑니다. 이것이 “한 배치 과적합” 확인을 통과한 모습입니다.`:'';
   const pts=r.loss.map((L,t)=>[t,Math.max(-8,Math.min(10,Math.log10(Math.max(L,1e-12))))]);
   U.result(el,U.plot({lines:[{data:pts},{data:[[0,2],[30,2]],color:'var(--orange)',dashed:true}],xmin:0,xmax:30,ymin:-8,ymax:10,xlabel:'학습 단계',ylabel:'log₁₀ 손실',label:`학습률 ${F(lr,2)}의 손실 곡선: ${r.kind}`}),
-  `학습률 <b>${F(lr,2)}</b> · 한 단계마다 w에 곱해지는 수 |1 − 2η| = <b>${F(r.factor,2)}</b> → <strong>${r.kind}</strong><br>30단계 뒤 손실 ${r.final<1e-4?'0.0001 미만':r.final>1e6?'백만 초과':F(r.final,4)} · 조건부 중단점(손실 > 100): ${r.stop<0?'걸리지 않음':`<b>${r.stop}단계</b>에서 멈춤`}<br>주황 점선이 손실 100입니다. L = w²에 경사하강을 실제로 반복한 계산이며, 실제 모델의 손실 지형은 이보다 복잡합니다.`);});
+  `학습률 <b>${F(lr,2)}</b> · 한 단계마다 w에 곱해지는 수 |1 − 2η| = <b>${F(r.factor,2)}</b> → <strong>${r.kind}</strong><br>30단계 뒤 손실 ${r.final<1e-4?'0.0001 미만':r.final>1e6?'백만 초과':F(r.final,4)} · 조건부 중단점(손실 > 100): ${r.stop<0?'걸리지 않음':`<b>${r.stop}단계</b>에서 멈춤`}${verdict}<br>주황 점선이 손실 100입니다. L = (w − 정답)²에 경사하강을 실제로 반복한 계산입니다. 버그 쪽 정답(−1 또는 +1)은 시드 7로 고정한 난수이며, 실제 모델의 손실 지형은 이보다 복잡합니다.`);});
 };
 const SCEN={importfail:'import torch 실패',nocuda:'CUDA가 보이지 않음',acc99:'평가 정확도 99%',slow:'학습이 세 배 느림',jitter:'정확도가 매번 조금씩 다름'};
 A01Labs.triage=el=>{

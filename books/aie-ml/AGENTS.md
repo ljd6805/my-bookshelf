@@ -8,6 +8,6 @@
 - 다른 책의 JavaScript를 가져오지 않는다. 다른 책으로는 `../폴더/#장ID` 링크와 이동 이유로만 잇는다.
 - 진도 저장 키: `bookshelf:aie-03-ml:v1:progress`. 서가 복귀 링크 `../../index.html#books`를 유지한다.
 - 검사: `npm test --prefix books/aie-ml`, `python3 scripts/validate.py`, 루트에서 `python3 -m http.server 8765` 후 `node books/aie-ml/tests/browser.cjs`.
-- 실험 입력 id(sep, epochs, cut, k, logc, kk, step, alpha, scale, thr, deg, n, rho, cats, win, inj, method, shift, policy, home-thr)는 lab-guides.js의 예제 키와 같아야 한다.
+- 실험 입력 id(sep, epochs, cut, k, logc, kk, step, alpha, scale, thr, deg, n, rho, cats, win, inj, method, shift, policy, view, home-thr)는 lab-guides.js의 예제 키와 같아야 한다.
 - 결과 문장과 안내의 숫자는 A03Math 계산값이다. 계산을 바꾸면 lab-guides.js의 결과 읽기 숫자도 다시 확인한다.
 - 시점에 민감한 사실은 원본 커리큘럼 범위에서만 쓰고 확인일(2026-10-08)을 밝힌다.

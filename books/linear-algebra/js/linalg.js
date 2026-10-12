@@ -125,9 +125,17 @@
     return { x, MtM, Mtb, fitted, residual, sse: dot(residual, residual), check };
   }
 
+  // 2×2 행렬의 랭크: 두 열이 만드는 범위(생성)가 평면이면 2, 한 직선이면 1, 원점 하나면 0입니다.
+  // tol은 행렬식을 0으로 볼 문턱입니다(실험은 5° 간격이라 0.05를 씁니다).
+  function rank2(M, tol = EPS) {
+    if (M.every((row) => row.every((x) => Math.abs(x) < EPS))) return 0;
+    return Math.abs(det(M)) < tol ? 1 : 2;
+  }
+  const transpose = (M) => [[M[0][0], M[1][0]], [M[0][1], M[1][1]]];
+
   const relu = (v) => v.map((x) => Math.max(0, x));
   const layer = (W, b, x) => add(W.map((row) => dot(row, x)), b);
 
   return { EPS, add, sub, scale, dot, norm, cosine, angleDeg, project, fromDeg, identity, matVec, matMul,
-    det, inverse, solve, leastSquares, rotation, scaling, shear, lerpMatrix, eigen2, mean, covariance, pca, relu, layer };
+    det, rank2, transpose, inverse, solve, leastSquares, rotation, scaling, shear, lerpMatrix, eigen2, mean, covariance, pca, relu, layer };
 });

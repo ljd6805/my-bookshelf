@@ -43,7 +43,8 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 /* AI 엔지니어링 시리즈 공통: 시리즈 안내와 숫자 격자 */
 .series-nav{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:.92rem}.series-nav .eyebrow{flex-basis:100%;margin:0}.series-nav a{color:var(--accent)}
 .kit-grid{display:grid;gap:4px;padding:12px;background:var(--chart);border:1px solid var(--line);border-radius:8px}.kit-grid span{position:relative;display:flex;align-items:center;justify-content:center;min-height:38px;border-radius:4px;font-family:var(--font-mono);font-size:.82rem;color:var(--text);background:color-mix(in srgb,var(--h) calc(var(--a)*55%),var(--panel2))}.kit-grid span.on{outline:2px solid var(--orange)}
-.chart>.stage-grid,.chart>.kit-grid,.chart>.kit-panel{width:100%}.kit-panel{padding:14px;background:var(--chart);border:1px solid var(--line);border-radius:8px;font-size:.95rem}.kit-panel code,.kit-panel pre{font-family:var(--font-mono);font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.chart>.stage-grid,.chart>.kit-grid,.chart>.kit-panel{width:100%}.kit-panel{padding:14px;background:var(--chart);border:1px solid var(--line);border-radius:8px;font-size:.95rem}.deep-reading pre{font-family:var(--font-mono);font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--panel2,transparent);padding:10px 12px;border-radius:6px;max-width:100%;overflow-x:auto}
+.kit-panel code,.kit-panel pre{font-family:var(--font-mono);font-size:.85rem;white-space:pre-wrap;overflow-wrap:anywhere}
 .chapter-nav a small{display:block;color:var(--muted);font-size:.85rem;line-height:1.5;margin-top:4px}
 .hero-lab svg text,.home-graphic svg text{fill:var(--text)}.home-graphic{padding:14px 18px 0}
 

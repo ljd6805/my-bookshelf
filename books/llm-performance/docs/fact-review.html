@@ -5,6 +5,24 @@
 <h1>팩트·출처 검수 기록 · LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="7장 #evidence 깊이 읽기 “양자화를 속도 수단으로 볼 때”와 앞 권 #weights 링크, 3장 #timeline·9장 #paging·10장 #batching 개념 그림(js/figures.js)과 그림 설명, assets/style.css data-motion 규칙, tests/browser.cjs 테마 단추와 docs/validation.html 증거 링크" data-result="fixed">
+<h2>2026-10-12 검수 (2차 보충 검수 r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1)(검수팀 정민·유진·건우·채원·현석과 글작성팀 다온의 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 7장 #evidence 깊이 읽기 “양자화를 속도 수단으로 볼 때”와 앞 권 #weights 링크, 3장 #timeline·9장 #paging·10장 #batching 개념 그림(js/figures.js)과 그림 설명, assets/style.css data-motion 규칙, tests/browser.cjs 테마 단추와 docs/validation.html 증거 링크.</p>
+<p>본문 수치와 세 그림의 값이 PMath 계산·독립 계산과 맞습니다. 테스트 화면 이름과 그 화면을 가리키는 검증 기록 링크를 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>복원(dequantization) 비용·4bit 커널 지원·연산 제한 구간에서 가중치 byte가 시간 하한을 바꾸지 않는다는 설명이 roofline 모형과 맞음. 12장 “4bit 전환” passed 18을 js/math.js에서 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>손계산: 4 GB/500 GB/s = 8 ms, 1 GB → 2 ms, 4×4.125/16 = 1.03125 GB → 2.0625 ms. 그림 값: 겹침 3+4×6 = 27 ms·직렬 4×9 = 36 ms, 129+257+513 = 899, 블록 9+17+33 = 59칸 × 16 = 944, 빈 자리 45, 블록 256이면 6칸 = 1,536·빈 자리 637, 슬롯 2개 고정 배치 60+50 = 110 ms·매 단계 투입 100 ms(요청 3이 20 ms에 슬롯 1로 들어감)</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>Node로 PMath.pipeline(4,3,6,true)·paging(513,16)·paging(513,256)·schedule(2,10,false/true)의 사건 목록을 출력해 그림 문구와 대조. Chromium 320px에서 세 그림의 fig-grow 막대 8·59·32개, 가로 넘침 0px, 동작 줄이기에서 animation none. tests/browser.cjs 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>dequantization·ITL·TTFT·블록·슬롯이 책의 기존 용어와 일관됨</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>새 외부 출처가 없습니다. 새 링크 ../llm-gpu/#weights는 앞 권 3장 “가중치가 차지하는 메모리”로 열리고 그 장의 묶음 눈금 실험과 이동 이유가 맞음</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>tests/browser.cjs 테마 화면 이름</td><td>기본 테마가 밝은 화면으로 바뀐 뒤 단추 이름은 “어두운 화면으로 전환”으로 고쳐졌지만, 누른 뒤 찍은 화면을 여전히 *-light.png로 저장해 이름과 내용이 반대였음</td><td>같은 줄에서 단추를 누른 뒤 찍음(기본 data-theme="light")</td><td>review-dark.png로 저장하고, docs/validation.html의 “밝은 화면의 최종 과제” 링크를 “어두운 화면의 최종 과제”(evidence/review-dark.png)로 고침</td></tr>
+</tbody></table></div>
+<h3>확인하지 못한 것</h3>
+<ul><li>학습 효과(L4), 4bit 커널 실측</li><li>이전에 커밋된 docs/evidence/review-light.png는 지우지 않았습니다</li><li>html[data-motion=reduce] 규칙에는 fig-turn·fig-pkt 처리가 없지만 이 책 그림은 그 클래스를 쓰지 않아 영향이 없습니다</li><li>Safari·Firefox·실기기·화면 읽기 프로그램</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r2)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항(metrics~review), #batching 깊이 읽기 “한 단계에 여러 토큰: 추측 디코딩”, 새 실험 speculate(js/labs-serving.js, js/math.js speculative, js/lab-guides.js), 새 출처 2개(Leviathan 외 arXiv 2211.17192, Chen 외 arXiv 2302.01318), 표지 실험 수 자동 집계, 보기 돌리기 코드" data-result="fixed" data-commit="5f766a8">
 <h2>2026-10-12 검수 (전체 도서 보충 검수 r2)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r2)(검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 더한 것 — 12개 장 전이 문항(metrics~review), #batching 깊이 읽기 “한 단계에 여러 토큰: 추측 디코딩”, 새 실험 speculate(js/labs-serving.js, js/math.js speculative, js/lab-guides.js), 새 출처 2개(Leviathan 외 arXiv 2211.17192, Chen 외 arXiv 2302.01318), 표지 실험 수 자동 집계, 보기 돌리기 코드.</p>

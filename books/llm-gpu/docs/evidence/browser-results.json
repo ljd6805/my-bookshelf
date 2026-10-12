@@ -1,5 +1,5 @@
 {
-  "url": "http://127.0.0.1:8792/books/llm-gpu/",
+  "url": "http://127.0.0.1:8793/books/llm-gpu/",
   "date": "2026-10-12",
   "views": [
     {
@@ -285,8 +285,8 @@
     {
       "width": 1280,
       "id": "weights",
-      "controls": 2,
-      "presets": 3,
+      "controls": 4,
+      "presets": 4,
       "reset": true
     },
     {
@@ -334,8 +334,8 @@
     {
       "width": 1280,
       "id": "roofline",
-      "controls": 3,
-      "presets": 3,
+      "controls": 6,
+      "presets": 4,
       "reset": true
     },
     {
@@ -383,8 +383,8 @@
     {
       "width": 390,
       "id": "weights",
-      "controls": 2,
-      "presets": 3,
+      "controls": 4,
+      "presets": 4,
       "reset": true
     },
     {
@@ -432,8 +432,8 @@
     {
       "width": 390,
       "id": "roofline",
-      "controls": 3,
-      "presets": 3,
+      "controls": 6,
+      "presets": 4,
       "reset": true
     },
     {
@@ -481,8 +481,8 @@
     {
       "width": 320,
       "id": "weights",
-      "controls": 2,
-      "presets": 3,
+      "controls": 4,
+      "presets": 4,
       "reset": true
     },
     {
@@ -530,8 +530,8 @@
     {
       "width": 320,
       "id": "roofline",
-      "controls": 3,
-      "presets": 3,
+      "controls": 6,
+      "presets": 4,
       "reset": true
     },
     {

@@ -4,6 +4,26 @@
 <h1>팩트·출처 검수 기록 · 멀티 에이전트</h1>
 <p>《멀티 에이전트 · 여럿이 나눠 맡고 서로 확인하기》(books/aie-multiagent)를 쓰지 않은 에이전트가 검수한 기록입니다. 형식과 절차는 서재의 <a href="../../../templates/fact-review.html">검수 기록 양식</a>과 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html#verification">프로젝트 문서의 검증 절</a>로 돌아갑니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="2차 보충의 미커밋 변경: 마지막 장 diagnose 실험의 질문 수 n(50~1,000) 손잡이와 math.js wilson·twoProp·evidence, 식 설명의 z 값, #social “시민 1,000명을 시뮬레이션하면 되지 않나?”와 교체한 확인 문제, 새 출처 Park 외 arXiv:2411.10109, lab-guides 예제, tests/browser.cjs 테마 단추" data-result="fixed">
+<h2>2026-10-12 2차 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 2차 보충의 미커밋 변경: 마지막 장 diagnose 실험의 질문 수 n(50~1,000) 손잡이와 math.js wilson·twoProp·evidence, 식 설명의 z 값, #social “시민 1,000명을 시뮬레이션하면 되지 않나?”와 교체한 확인 문제, 새 출처 Park 외 arXiv:2411.10109, lab-guides 예제, tests/browser.cjs 테마 단추. 결과: 고침.</p>
+<p>검수팀 편성: 정민(팀장·사실), 유진(출처), 건우(수치·실험 재계산), 채원(첫 독자·문항), 현석(규칙 감사). 글작성팀 다온의 관점으로 새 문장의 문체도 한 번 보았습니다. 이번 2차 보충을 쓰지 않은 세션입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>Park 외 v3(2026-06-28, 첫 제출 2024-11-15)의 제목, 미국인 1,052명, 두 시간 반구조화 인터뷰, 2주 재응답 일관성 대비 83%(인터뷰)·86%(인터뷰와 설문)·74%(인구 통계)를 원문과 대조했습니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 합동 비율 z를 따로 계산: 0.76875→0.834375는 n=50 0.823, 200 1.645, 500 2.602, 1,000 3.679. 같은 모델 7명 0.76875→0.78589는 n=1,000에서 0.921. 본문·안내·테스트 값과 같습니다.</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>고침</td><td>evidence가 단일 문화 사고에서만 값을 내고 다른 두 사고에서는 설명 문장을 내는 것, 처방 longer에서 z 0, n 최소 50·최대 1,000·초기화를 확인했습니다. 계산은 맞고, 결과 문장에 독립 표본 가정을 밝혔습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>Wilson 구간, 합동 비율의 정규 근사, 일반 사회 조사(GSS) 용어가 맞습니다.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>arxiv.org/abs/2411.10109v3을 WebFetch로 열어 서지와 수치를 확인했습니다(확인일 2026-10-12).</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/labs-field.js evidenceLine</td><td>두 비율 z는 처방 전후가 서로 다른 질문 묶음이라는 가정에서만 맞습니다. 같은 평가 질문으로 전후를 쟀다면 짝지은 검정이 맞는데, 이 가정이 적혀 있지 않았습니다.</td><td>통계 가정</td><td>결과 문장에 “처방 전후를 서로 다른 질문 묶음으로 쟀다고 가정했습니다. 같은 질문으로 전후를 쟀다면 짝지은 비교(McNemar 검정)가 맞습니다”를 더함</td></tr>
+<tr><td>index.html</td><td>js 수정에 따른 캐시 무효화</td><td>저장소 규칙</td><td>?v=20261012-supp2를 모두 ?v=20261012-supp2r1로 올림</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>n=200에서 z 1.645는 한쪽 검정 5% 문턱과 거의 같습니다. 책은 양쪽 1.96을 기준으로 삼아 “아직 가를 수 없다”고 읽으며, 이 선택은 그대로 두었습니다.</li><li>#social 확인 문제는 정답이 하나이고 해설이 보기를 문구로 가리킵니다(“에이전트를 더 늘리면”).</li><li>검사: npm test 통과, 루트 validate.py 오류 0, node --test tests/*.mjs 22개 통과, tests/browser.cjs(Chromium 1280·390·320px, views 42·labs 48·오류 0) 통과.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r6)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="보충 커밋 5f766a8의 12개 장 전이 문항, #roles 깊이 읽기 “풀에 들어온 남의 지시”, poison 실험의 새 시나리오(injectPool·권한 분리 모드)와 결과 읽기·안내 상자, 자율 시스템 #browser로 가는 새 링크, 정답 자리 돌리기" data-result="fixed">
 <h2>2026-10-12 보충 검수 (r6)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r6). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 보충 커밋 5f766a8의 12개 장 전이 문항, #roles 깊이 읽기 “풀에 들어온 남의 지시”, poison 실험의 새 시나리오(injectPool·권한 분리 모드)와 결과 읽기·안내 상자, 자율 시스템 #browser로 가는 새 링크, 정답 자리 돌리기. 전이 해설 1곳의 위치 표기를 고쳤습니다. 계산 오류는 찾지 못했습니다.</p>

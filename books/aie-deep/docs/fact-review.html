@@ -5,6 +5,25 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「AI 엔지니어링 처음부터」 4권 <b>딥러닝 핵심 · 퍼셉트론에서 나만의 작은 프레임워크까지</b>(<code>books/aie-deep/</code>)의 사실·수치·실험·용어·출처를 책을 쓰지 않은 에이전트가 확인한 기록입니다. 기록 형식은 서재 공통 양식(templates/fact-review.html)을 따릅니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#init 실험 depthsignal의 블록 구조 선택(BLOCKS·layerNorm·blockStats)과 결과 문장·안내 상자·formulaNote·깊이 읽기 “잔차 스케일링” 문단, #activation·#init·#schedule 확인 문제 3개, 새 출처 2개(ResNet arXiv 1512.03385, LayerNorm arXiv 1607.06450)" data-result="fixed">
+<h2>2026-10-12 검수 (2차 보충 · 검수 r1)</h2>
+<p>검수자: Claude 검수 세션 (2차 보충 검수 r1), 검수팀 정민·유진·건우·채원·현석 관점과 글작성팀 다온의 문체 관점. 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: #init 실험 depthsignal의 블록 구조 선택(BLOCKS·layerNorm·blockStats)과 결과 문장·안내 상자·formulaNote·깊이 읽기 “잔차 스케일링” 문단, #activation·#init·#schedule 확인 문제 3개, 새 출처 2개(ResNet arXiv 1512.03385, LayerNorm arXiv 1607.06450). 이 보충의 미커밋 변경만 보았고, 계산은 책 코드와 따로 Python(numpy)으로 다시 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>잔차 연결 x+F(x), GPT-2의 1/√N 잔차 축소(N은 잔차 층 수), LayerNorm이 한 표본 안의 값으로 정규화해 배치 크기와 무관함, He 분산 2/fan_in이 Xavier(정방 층에서 1/fan_in)의 두 배, Adam 초반 모멘트 추정 불안정을 원문·표준 정의와 대조. 확인 문제 셋은 정답이 하나뿐이고 해설이 오답을 문구로 가리킵니다.</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>수정함</td><td>numpy로 폭 48·50층을 시드 5개로 따로 흉내: 작은 값+tanh 평범 약 1e−58, 잔차 1.06~1.13, Xavier+tanh 잔차 5.98~6.33(√50≈7.07), 1/√L 1.11~1.23, He+ReLU 잔차 5e10~3e11, He+ReLU 1/√L 6.5~8.6, LayerNorm 0.47~0.65. He 30층 기울기 비율 시그모이드 1.6~3.8e−15, ReLU 0.5~1.6. 책 값과 자릿수가 일치합니다. 다만 “He+ReLU 잔차는 층마다 분산이 두 배”는 실제 증가(50층 8×10¹⁰, 두 배씩이면 약 3×10⁷)보다 작게 말하고, 시그모이드 해설은 0.25를 29번 곱한 값(3.5×10⁻¹⁸)이 2×10⁻¹⁵인 것처럼 읽혀 고쳤습니다(아래 표).</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>node로 blockStats·deepStats·train을 실행해 보고 값과 일치 확인: 3.70e−59, 1.163, 6.147, 1.244, 8.24e10, LayerNorm 0.624~0.631, tanh 20층 Xavier 0.136·He 0.538, 시그모이드 비율 1.89e−15·ReLU 0.916, η=1 상수 초반 최대 1.558·최종 0.0298, 워밍업+코사인 0.710·0.0276. 1/√L 축소의 결과 설명이 모든 조합에 “분산이 대략 입력의 두 배 안”이라 했지만 He+ReLU에서는 8.2배, 표준정규+ReLU에서는 4.5×10⁷로 맞지 않아 고쳤습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>잔차 연결, 잔차 축소, LayerNorm의 이득·이동, 기울기 소실이 책 안의 기존 용어와 맞습니다.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>arXiv 1512.03385(He·Zhang·Ren·Sun 2015, ImageNet 152층·CIFAR-10 1,000층 넘게)와 1607.06450(Ba·Kiros·Hinton 2016, 한 학습 사례의 통계로 정규화)을 열어 서지와 인용을 확인했습니다(2026-10-12).</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/content.js #init 깊이 읽기, js/lab-guides.js depthsignal</td><td>“He + ReLU에 잔차만 더하면 층마다 분산이 두 배가 되어 폭발”</td><td>평균장 근사로는 두 배지만, 실제 측정은 50층에서 8×10¹⁰으로 두 배씩(약 3×10⁷)보다 훨씬 큼(numpy 독립 계산도 같음)</td><td>“두 배 넘게 불어나 50층에서 10¹⁰을 넘깁니다”, 안내 상자는 “(50층 8×10¹⁰)”으로 고쳤습니다.</td></tr>
+<tr><td>js/labs-train.js depthsignal 결과 문장(scaled)</td><td>1/√L 축소의 설명이 활성화와 초기화에 상관없이 “L번 더해도 분산이 대략 입력의 두 배 안에 머문다”고 했습니다</td><td>He+ReLU 1/√L 50층 표준편차 8.2, 표준정규+ReLU 4.5×10⁷</td><td>tanh처럼 출력이 묶인 활성화에서만 그렇고, ReLU처럼 묶이지 않으면 초기화가 클 때 축소만으로 모자란다고 고쳤습니다. index.html 자산 버전을 ?v=20261012-supp2r1로 올렸습니다.</td></tr>
+<tr><td>js/content.js #activation 확인 문제 해설</td><td>“미분은 많아야 0.25라 층을 하나 지날 때마다 기울기가 그만큼 줄고, 29번을 거치면 2×10⁻¹⁵”</td><td>0.25²⁹=3.5×10⁻¹⁸. 실제 비율 1.9×10⁻¹⁵은 He 가중치를 함께 곱한 층당 약 0.31배</td><td>“He 초기화의 가중치를 곱해도 층을 하나 지날 때마다 기울기가 0.3배 안팎으로 줄고”로 고쳤습니다.</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>LayerNorm 값은 학습 전 한 순간이고, 학습 중 효과는 시험하지 않았습니다.</li><li>독자의 학습 효과는 시험하지 않았습니다.</li><li>화면 낭독기로 새 결과 문장을 들어 보지 않았습니다.</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r3)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항 12개, #optimizer 깊이 읽기(미니배치·선형 스케일링)·실험 minibatch와 결과 읽기, 장 출처에 Goyal et al. 2017(source 36) 추가, quizOrder" data-result="fixed" data-commit="5f766a8">
 <h2>2026-10-12 검수 (전체 도서 보충 · 검수 r3)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r3, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 12개 장 전이 문항 12개, #optimizer 깊이 읽기(미니배치·선형 스케일링)·실험 minibatch와 결과 읽기, 장 출처에 Goyal et al. 2017(source 36) 추가, quizOrder. 커밋 5f766a8이 이 책에 더한 것만 보았고, 계산은 책 코드와 따로 Python·Node 스크립트로 다시 했습니다.</p>

@@ -147,6 +147,22 @@ function deepStats(name,init,depth,width=48,seed=3,batch=12){
  }
  return {fwd,bwd};
 }
+/* 8장 실험의 블록 구조 선택. 순방향 활성값 표준편차만 잰다(학습 전 한 순간).
+   plain: a←φ(Wa) · residual: a←a+φ(Wa) · scaled: a←a+φ(Wa)/√L (GPT-2처럼 잔차 덧셈 수 L로 줄임)
+   layernorm: a←φ(LN(Wa)), LN은 한 표본의 48개 값을 평균 0·표준편차 1로 맞춘다(학습되는 이득·이동은 1·0으로 둠). */
+const BLOCKS=['plain','residual','scaled','layernorm'];
+function layerNorm(z,eps=1e-5){const m=z.reduce((s,v)=>s+v,0)/z.length,v=z.reduce((s,x)=>s+(x-m)**2,0)/z.length;return z.map(x=>(x-m)/Math.sqrt(v+eps));}
+function blockStats(name,init,depth,block='plain',width=48,seed=3,batch=12){
+ if(block==='plain')return deepStats(name,init,depth,width,seed,batch).fwd;
+ const r=rng(seed),Ws=[];for(let l=0;l<depth;l++){const s=initStd(init,width,width),W=new Float64Array(width*width);for(let i=0;i<W.length;i++)W[i]=s*normal(r);Ws.push(W);}
+ const fwd=new Array(depth).fill(0),k=block==='scaled'?1/Math.sqrt(depth):1;
+ for(let n=0;n<batch;n++){let a=Array.from({length:width},()=>normal(r));
+  Ws.forEach((W,l)=>{let z=new Array(width);for(let o=0;o<width;o++){let s=0;for(let i=0;i<width;i++)s+=W[o*width+i]*a[i];z[o]=s;}
+   if(block==='layernorm'){a=layerNorm(z).map(v=>act(name,v));}else{const f=z.map(v=>act(name,v));a=a.map((v,i)=>v+k*f[i]);}
+   fwd[l]+=std(a)/batch;});
+ }
+ return fwd;
+}
 function std(a){const m=a.reduce((s,v)=>s+v,0)/a.length;return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/a.length);}
 
 /* 5장: 정답이 1인 표본에서 예측 확률 p에 대한 손실과, 로짓 z에 대한 기울기 */
@@ -213,6 +229,6 @@ function gradCheck(eps,bug='none'){
 
 /* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
 function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
-const A04Math={quizOrder,rng,normal,sigmoid,act,dact,ACT,GATES,CORNERS,perceptron,xorForward,chain,dataset,initStd,build,forward,predict,workspace,lrAt,bce,evaluate,train,decisionGrid,deepStats,std,lossAt,smooth,valley,VALLEY,minibatch,autodiff,EXPR,mlpParams,memory,DTYPE,gradCheck,CIRCLE_R2,DEFAULT};
+const A04Math={BLOCKS,layerNorm,blockStats,quizOrder,rng,normal,sigmoid,act,dact,ACT,GATES,CORNERS,perceptron,xorForward,chain,dataset,initStd,build,forward,predict,workspace,lrAt,bce,evaluate,train,decisionGrid,deepStats,std,lossAt,smooth,valley,VALLEY,minibatch,autodiff,EXPR,mlpParams,memory,DTYPE,gradCheck,CIRCLE_R2,DEFAULT};
 if(typeof module!=='undefined')module.exports=A04Math;else root.A04Math=A04Math;
 })(typeof window!=='undefined'?window:globalThis);
