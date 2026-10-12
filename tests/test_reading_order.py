@@ -62,6 +62,12 @@ class ReadingOrderTests(unittest.TestCase):
         self.assertIn('a 다음에', steps[1]['reason'])
         self.assertIn('b로 간다.', steps[1]['reason'])
 
+    def test_first_step_counts_paths_that_cross_the_field_without_its_first_book(self):
+        catalog = {'books': [book('a', 'x'), book('b', 'x')], 'learning_paths': [path('p1', 'a', 'b'), path('p2', 'a'), path('p3', 'b')]}
+        first = field_orders(catalog)['x'][0]
+        self.assertEqual(first['book'], 'a')
+        self.assertIn('노선 3개 가운데 2개', first['reason'])
+
 
 if __name__ == '__main__':
     unittest.main()

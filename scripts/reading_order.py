@@ -86,9 +86,9 @@ def path_reason(prev, book, members, catalog):
     inside, starts, visiting, fallback, chosen = set(members), 0, 0, None, None
     for path, order, first in path_sequences(catalog):
         own = [b for b in order if b in inside]
+        visiting += bool(own)
         if book not in own:
             continue
-        visiting += 1
         at = own.index(book)
         via = {'kind': 'path', 'title': path.get('title') or path.get('question'), 'href': f'#path-{path["id"]}'}
         why = sentence(first[book]['why'])
@@ -103,6 +103,8 @@ def path_reason(prev, book, members, catalog):
         via, why = chosen
         if len(members) == 1:
             lead = f'이 분야의 책은 이 한 권입니다. 읽기 노선 {visiting}개가 이 책을 지납니다.'
+        elif visiting == 1:
+            lead = '이 분야를 지나는 읽기 노선 하나가 이 책에서 시작합니다.'
         elif starts == visiting:
             lead = f'이 분야를 지나는 읽기 노선 {visiting}개가 모두 이 책에서 시작합니다.'
         else:
