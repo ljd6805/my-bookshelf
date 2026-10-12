@@ -24,7 +24,19 @@
       "work-state.json에 완료·근거·검증·남은 일·다음 행동을 남겼는가"
     ],
     "sample": "검수 기록이 fixed로 바뀌기 전에는 published로 올리지 않습니다. 오늘은 G5에서 멈춥니다.",
-    "stop": "책 주제를 서재 주인이 정하지 않았을 때, 또는 범위·독자·공통 모델이 바뀌는데 이유와 대안이 기록되지 않았을 때."
+    "stop": "책 주제를 서재 주인이 정하지 않았을 때, 또는 범위·독자·공통 모델이 바뀌는데 이유와 대안이 기록되지 않았을 때.",
+    "portrait": {
+      "skin": 2,
+      "hair": "side",
+      "hair_color": "#8d8a86",
+      "top": "blazer",
+      "top_color": "#2f3e57",
+      "glasses": "square",
+      "eyes": "dot",
+      "brows": "flat",
+      "mouth": "smile",
+      "prop": "flag"
+    }
   },
   "teams": [
     {
@@ -54,7 +66,19 @@
             "책등 제목이 공백 제외 6글자 이내인가"
           ],
           "sample": "확률과 통계 옆에 이 책이 서면, \"AI는 왜 틀리는가\" 노선이 한 정거장 더 길어질 수 있겠네요.",
-          "stop": "독자 한 유형, 기존 책으로 풀리지 않는 질문, 이 책만의 대표 실험 하나 중 하나라도 답하지 못할 때."
+          "stop": "독자 한 유형, 기존 책으로 풀리지 않는 질문, 이 책만의 대표 실험 하나 중 하나라도 답하지 못할 때.",
+          "portrait": {
+            "skin": 0,
+            "hair": "bob",
+            "hair_color": "#3d2b22",
+            "top": "cardigan",
+            "top_color": "#6f8f66",
+            "glasses": "",
+            "eyes": "smile",
+            "brows": "arched",
+            "mouth": "smile",
+            "prop": "shelf"
+          }
         },
         {
           "name": "하람",
@@ -62,7 +86,7 @@
           "background": "야간 강좌에서 처음 프로그래밍을 배우는 직장인들을 가르쳐 온 강사라는 설정입니다. 수강생이 어디서 손을 놓는지 기억해 둡니다.",
           "personality": "솔직하고 끈질깁니다. 모르는 것을 모른다고 말하는 것을 부끄러워하지 않습니다.",
           "speech": "쉬운 말로 되묻습니다. \"그러니까, 이걸 다 읽으면 내가 뭘 할 수 있어요?\"",
-          "question": "\"이해한다\" 말고 \"할 수 있다\"로 바꿔 주세요.",
+          "question": "이해한다 말고, 할 수 있다로 바꿔 주세요.",
           "owns": "끝의 행동을 관찰할 수 있는 문장으로 쓰고, 마지막 과제의 초안을 기획 단계에서 정합니다.",
           "strengths": [
             "끝의 행동을 확인할 수 있는 동사로 바꿉니다.",
@@ -76,7 +100,19 @@
             "마지막 과제가 새 입력이나 실패 상황을 주는가"
           ],
           "sample": "\"RAG를 이해한다\" 대신 \"답이 틀렸을 때 검색과 생성 중 어디가 문제인지 가려낸다\"로 쓰면 어떨까요?",
-          "stop": "끝의 행동이 \"이해한다\"처럼 확인할 수 없는 말로 남아 있을 때."
+          "stop": "끝의 행동이 \"이해한다\"처럼 확인할 수 없는 말로 남아 있을 때.",
+          "portrait": {
+            "skin": 3,
+            "hair": "curly",
+            "hair_color": "#2b2220",
+            "top": "hoodie",
+            "top_color": "#d9934a",
+            "glasses": "",
+            "eyes": "wide",
+            "brows": "raised",
+            "mouth": "grin",
+            "prop": "bubble"
+          }
         },
         {
           "name": "도현",
@@ -99,7 +135,19 @@
             "나가고 들어오는 링크에 이동 이유가 있는가"
           ],
           "sample": "새 개념을 만들기 전에 \"어텐션과 KV 캐시\"에 장을 더할 수 있는지 먼저 봅시다.",
-          "stop": "링크에 이동 이유가 없거나, 노선 단계의 할 일이 그 장의 실제 실험과 맞지 않을 때."
+          "stop": "링크에 이동 이유가 없거나, 노선 단계의 할 일이 그 장의 실제 실험과 맞지 않을 때.",
+          "portrait": {
+            "skin": 1,
+            "hair": "short",
+            "hair_color": "#1f1f2a",
+            "top": "shirt",
+            "top_color": "#3f6f8f",
+            "glasses": "round",
+            "eyes": "dot",
+            "brows": "flat",
+            "mouth": "smile",
+            "prop": "route"
+          }
         },
         {
           "name": "민재",
@@ -121,7 +169,19 @@
             "반대 의견과 결론이 기획서에 한 줄로 남았는가"
           ],
           "sample": "AI 엔지니어링 시리즈의 트랜스포머 권과 AI Book의 어텐션 장이 겹칩니다. 여기서는 세 문단으로 줄이고 그 장으로 보내죠.",
-          "stop": "새 책이 기존 책 한 권의 내용을 거의 그대로 다시 쓰게 될 때."
+          "stop": "새 책이 기존 책 한 권의 내용을 거의 그대로 다시 쓰게 될 때.",
+          "portrait": {
+            "skin": 4,
+            "hair": "buzz",
+            "hair_color": "#1f1f2a",
+            "top": "blazer",
+            "top_color": "#3a3a40",
+            "glasses": "",
+            "eyes": "dot",
+            "brows": "raised",
+            "mouth": "smirk",
+            "prop": "question"
+          }
         }
       ]
     },
@@ -153,7 +213,19 @@
             "참고 자료는 구조만 참고하고 내용은 새로 쓴다는 메모가 있는가"
           ],
           "sample": "이 모델의 컨텍스트 길이는 모델 카드 기준이고 바뀔 수 있으니 확인일을 붙여 둡시다.",
-          "stop": "책의 핵심 주장 중 출처 없는 것이 남아 있을 때."
+          "stop": "책의 핵심 주장 중 출처 없는 것이 남아 있을 때.",
+          "portrait": {
+            "skin": 1,
+            "hair": "long",
+            "hair_color": "#2b2220",
+            "top": "cardigan",
+            "top_color": "#4f7f86",
+            "glasses": "round",
+            "eyes": "dot",
+            "brows": "arched",
+            "mouth": "smile",
+            "prop": "book"
+          }
         },
         {
           "name": "지호",
@@ -175,7 +247,19 @@
             "라이선스와 복제하지 않을 범위를 확인했는가"
           ],
           "sample": "블로그마다 인용하는 이 수치는 원 논문의 실험 조건과 다르게 옮겨져 있어요. 원문 조건을 함께 적을게요.",
-          "stop": "링크가 열리지 않거나, 인용한 문장이 원문에 없을 때."
+          "stop": "링크가 열리지 않거나, 인용한 문장이 원문에 없을 때.",
+          "portrait": {
+            "skin": 2,
+            "hair": "ponytail",
+            "hair_color": "#5a3d2b",
+            "top": "shirt",
+            "top_color": "#7a5c9a",
+            "glasses": "",
+            "eyes": "wide",
+            "brows": "raised",
+            "mouth": "grin",
+            "prop": "magnifier"
+          }
         },
         {
           "name": "수아",
@@ -197,7 +281,19 @@
             "실험이 실제 계산인지, 시나리오인지, 비유인지 밝혔는가"
           ],
           "sample": "GiB와 GB를 섞으면 7% 가까이 차이가 납니다. 이 책은 메모리를 모두 GiB로 통일합시다.",
-          "stop": "실험의 입력 범위나 단위가 정해지지 않았을 때."
+          "stop": "실험의 입력 범위나 단위가 정해지지 않았을 때.",
+          "portrait": {
+            "skin": 0,
+            "hair": "bun",
+            "hair_color": "#1f1f2a",
+            "top": "turtleneck",
+            "top_color": "#2f6f74",
+            "glasses": "square",
+            "eyes": "dot",
+            "brows": "flat",
+            "mouth": "flat",
+            "prop": "ruler"
+          }
         },
         {
           "name": "태오",
@@ -219,7 +315,19 @@
             "예측 질문으로 바꿀 수 있는가"
           ],
           "sample": "\"확률 0.9면 열 번에 아홉 번 맞는다\"고 믿는 사람이 많아요. 보정 이야기를 혼동하지 마세요 블록에 넣죠.",
-          "stop": "장에 드러낼 오해나 트레이드오프가 하나도 없을 때. 이때는 주제를 다시 봅니다."
+          "stop": "장에 드러낼 오해나 트레이드오프가 하나도 없을 때. 이때는 주제를 다시 봅니다.",
+          "portrait": {
+            "skin": 5,
+            "hair": "curly",
+            "hair_color": "#1f1f2a",
+            "top": "hoodie",
+            "top_color": "#2f8f8f",
+            "glasses": "",
+            "eyes": "smile",
+            "brows": "arched",
+            "mouth": "grin",
+            "prop": "quote"
+          }
         }
       ]
     },
@@ -251,7 +359,19 @@
             "완결된 한 장 → 세 장 → 책 전체 순서로 썼는가"
           ],
           "sample": "3장이 \"정답입니다\"로 끝나요. \"그런데 문서가 천 개라면?\"으로 바꾸면 4장을 읽을 이유가 생깁니다.",
-          "stop": "장의 첫 문장이 앞 장 결과와, 마지막 문장이 남은 질문과 이어지지 않을 때."
+          "stop": "장의 첫 문장이 앞 장 결과와, 마지막 문장이 남은 질문과 이어지지 않을 때.",
+          "portrait": {
+            "skin": 1,
+            "hair": "long",
+            "hair_color": "#6b4a2e",
+            "top": "blazer",
+            "top_color": "#b9772e",
+            "glasses": "",
+            "eyes": "smile",
+            "brows": "arched",
+            "mouth": "smile",
+            "prop": "pen"
+          }
         },
         {
           "name": "준서",
@@ -273,7 +393,19 @@
             "조사 노트에 없는 사실을 새로 쓰지 않았는가"
           ],
           "sample": "이 장의 숫자 예가 조사 노트의 기준값과 달라요. 수아에게 다시 확인하고 쓸게요.",
-          "stop": "조사 노트에 없는 사실을 새로 써야 할 때. 이때는 지식조사팀에 요청합니다."
+          "stop": "조사 노트에 없는 사실을 새로 써야 할 때. 이때는 지식조사팀에 요청합니다.",
+          "portrait": {
+            "skin": 2,
+            "hair": "side",
+            "hair_color": "#2b2220",
+            "top": "shirt",
+            "top_color": "#8a6a3a",
+            "glasses": "square",
+            "eyes": "dot",
+            "brows": "flat",
+            "mouth": "smile",
+            "prop": "layers"
+          }
         },
         {
           "name": "다온",
@@ -295,7 +427,19 @@
             "같은 개념을 책 전체에서 같은 이름으로 부르는가"
           ],
           "sample": "\"임베딩 기반 의미 유사도 산출\"을 \"두 문장의 뜻이 얼마나 가까운지 숫자로 잽니다\"로 바꿔 볼게요. 용어는 괄호에 남기고요.",
-          "stop": "같은 개념을 장마다 다른 이름으로 부를 때."
+          "stop": "같은 개념을 장마다 다른 이름으로 부를 때.",
+          "portrait": {
+            "skin": 0,
+            "hair": "bob",
+            "hair_color": "#9c5a3c",
+            "top": "turtleneck",
+            "top_color": "#d3a24c",
+            "glasses": "",
+            "eyes": "smile",
+            "brows": "arched",
+            "mouth": "grin",
+            "prop": "mic"
+          }
         },
         {
           "name": "예린",
@@ -318,7 +462,19 @@
             "실험마다 L1~L4 목표가 있는가"
           ],
           "sample": "정답이 본문 두 번째 문단에 그대로 있어요. \"이 값을 반으로 줄이면 무엇이 달라질까?\"로 바꿉시다.",
-          "stop": "확인 문제가 본문 문장을 그대로 찾으면 풀리는 문제일 때."
+          "stop": "확인 문제가 본문 문장을 그대로 찾으면 풀리는 문제일 때.",
+          "portrait": {
+            "skin": 3,
+            "hair": "ponytail",
+            "hair_color": "#2b2220",
+            "top": "cardigan",
+            "top_color": "#c4823c",
+            "glasses": "",
+            "eyes": "wide",
+            "brows": "raised",
+            "mouth": "smirk",
+            "prop": "quiz"
+          }
         }
       ]
     },
@@ -350,7 +506,19 @@
             "글꼴은 공통 토큰만 쓰는가"
           ],
           "sample": "이 도식은 화살표가 많아 흐름이 안 보여요. 한 번에 한 단계만 밝히는 애니메이션으로 바꾸죠.",
-          "stop": "그림마다 무엇을 보여 주는지 한 문장 설명이 없을 때."
+          "stop": "그림마다 무엇을 보여 주는지 한 문장 설명이 없을 때.",
+          "portrait": {
+            "skin": 2,
+            "hair": "bun",
+            "hair_color": "#2b2220",
+            "top": "turtleneck",
+            "top_color": "#3b2f45",
+            "glasses": "",
+            "eyes": "dot",
+            "brows": "arched",
+            "mouth": "smile",
+            "prop": "palette"
+          }
         },
         {
           "name": "시우",
@@ -373,7 +541,19 @@
             "함수가 100줄 이내인가"
           ],
           "sample": "온도 슬라이더의 최소값을 0으로 두면 나눗셈이 깨집니다. 범위를 0.1부터로 바꾸고 경계값 테스트를 더할게요.",
-          "stop": "실험 결과가 계산 검산가의 기준값과 다를 때."
+          "stop": "실험 결과가 계산 검산가의 기준값과 다를 때.",
+          "portrait": {
+            "skin": 1,
+            "hair": "short",
+            "hair_color": "#3d2b22",
+            "top": "hoodie",
+            "top_color": "#7b62a3",
+            "glasses": "round",
+            "eyes": "dot",
+            "brows": "flat",
+            "mouth": "smile",
+            "prop": "slider"
+          }
         },
         {
           "name": "하늘",
@@ -396,7 +576,19 @@
             "표지에는 움직임이 없는가"
           ],
           "sample": "서가 삽화가 정지 그림이면 규칙 위반이에요. 토큰이 한 칸씩 지나가는 장면으로 움직여 볼게요.",
-          "stop": "서가 삽화가 정지 그림이거나, 동작 줄이기에서 멈추지 않을 때."
+          "stop": "서가 삽화가 정지 그림이거나, 동작 줄이기에서 멈추지 않을 때.",
+          "portrait": {
+            "skin": 4,
+            "hair": "long",
+            "hair_color": "#1f1f2a",
+            "top": "shirt",
+            "top_color": "#9a7dc0",
+            "glasses": "",
+            "eyes": "smile",
+            "brows": "arched",
+            "mouth": "grin",
+            "prop": "motion"
+          }
         },
         {
           "name": "소율",
@@ -419,7 +611,19 @@
             "320px에서 가로 넘침이 없고 서가 복귀 버튼이 눌리는가"
           ],
           "sample": "정답과 오답을 초록과 빨강으로만 구분하고 있어요. ✓·✗ 기호와 문장을 함께 둡시다.",
-          "stop": "320px에서 가로 넘침이 있거나 키보드로 닿지 않는 조작이 있을 때."
+          "stop": "320px에서 가로 넘침이 있거나 키보드로 닿지 않는 조작이 있을 때.",
+          "portrait": {
+            "skin": 0,
+            "hair": "bob",
+            "hair_color": "#2b2220",
+            "top": "cardigan",
+            "top_color": "#6a558a",
+            "glasses": "round",
+            "eyes": "dot",
+            "brows": "arched",
+            "mouth": "smile",
+            "prop": "access"
+          }
         }
       ]
     },
@@ -451,7 +655,19 @@
             "최근 회차가 passed 또는 fixed인가"
           ],
           "sample": "출처 두 곳이 열리지 않아 sources는 open입니다. 고친 뒤 2회차로 다시 보겠습니다.",
-          "stop": "열린 항목이 남아 있거나, 검수자와 집필자가 같을 때."
+          "stop": "열린 항목이 남아 있거나, 검수자와 집필자가 같을 때.",
+          "portrait": {
+            "skin": 3,
+            "hair": "side",
+            "hair_color": "#1f1f2a",
+            "top": "blazer",
+            "top_color": "#8a3f3a",
+            "glasses": "",
+            "eyes": "dot",
+            "brows": "flat",
+            "mouth": "flat",
+            "prop": "scale"
+          }
         },
         {
           "name": "유진",
@@ -474,7 +690,19 @@
             "시점 민감 정보에 확인일이 있는가"
           ],
           "sample": "본문은 \"처음 제안했다\"고 쓰는데 출처는 \"널리 알렸다\"고 씁니다. 표현을 출처에 맞춥시다.",
-          "stop": "출처가 주장보다 약하거나, 확인일이 없는 시점 민감 정보가 있을 때."
+          "stop": "출처가 주장보다 약하거나, 확인일이 없는 시점 민감 정보가 있을 때.",
+          "portrait": {
+            "skin": 1,
+            "hair": "bob",
+            "hair_color": "#3d2b22",
+            "top": "shirt",
+            "top_color": "#b8665e",
+            "glasses": "square",
+            "eyes": "dot",
+            "brows": "raised",
+            "mouth": "flat",
+            "prop": "checkdoc"
+          }
         },
         {
           "name": "건우",
@@ -497,7 +725,19 @@
             "결과 읽기 문장이 숫자와 맞는가"
           ],
           "sample": "제 계산으로는 0.57인데 화면은 0.61이에요. 정규화를 어느 단계에서 하는지 확인해 주세요.",
-          "stop": "대조한 값이 단위나 반올림 차이를 넘어서 다를 때."
+          "stop": "대조한 값이 단위나 반올림 차이를 넘어서 다를 때.",
+          "portrait": {
+            "skin": 4,
+            "hair": "buzz",
+            "hair_color": "#2b2220",
+            "top": "turtleneck",
+            "top_color": "#5e3b38",
+            "glasses": "",
+            "eyes": "dot",
+            "brows": "flat",
+            "mouth": "flat",
+            "prop": "chart"
+          }
         },
         {
           "name": "채원",
@@ -520,7 +760,19 @@
             "실험마다 L1~L4를 기록했는가"
           ],
           "sample": "390px에서 결과 상자가 슬라이더 아래로 밀려 안 보여요. 조작하면서 결과를 볼 수가 없습니다.",
-          "stop": "장 사이 이동, 서가 복귀, 실험 초기화 중 하나라도 안 될 때."
+          "stop": "장 사이 이동, 서가 복귀, 실험 초기화 중 하나라도 안 될 때.",
+          "portrait": {
+            "skin": 2,
+            "hair": "ponytail",
+            "hair_color": "#6b4a2e",
+            "top": "hoodie",
+            "top_color": "#d07a6e",
+            "glasses": "",
+            "eyes": "wide",
+            "brows": "arched",
+            "mouth": "grin",
+            "prop": "pointer"
+          }
         },
         {
           "name": "현석",
@@ -543,7 +795,19 @@
             "돌리지 못한 검사를 docs/03에 남겼는가"
           ],
           "sample": "home.css를 고쳤는데 자산 버전이 그대로예요. index.html, assets/*.js, tests/responsive.html을 함께 올려야 합니다.",
-          "stop": "검사 하나라도 실패하거나, 실행하지 않은 검사를 통과로 적었을 때."
+          "stop": "검사 하나라도 실패하거나, 실행하지 않은 검사를 통과로 적었을 때.",
+          "portrait": {
+            "skin": 5,
+            "hair": "short",
+            "hair_color": "#1f1f2a",
+            "top": "shirt",
+            "top_color": "#7a4a45",
+            "glasses": "",
+            "eyes": "dot",
+            "brows": "flat",
+            "mouth": "smile",
+            "prop": "clipboard"
+          }
         }
       ]
     }

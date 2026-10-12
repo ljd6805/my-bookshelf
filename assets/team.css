@@ -15,7 +15,7 @@
 .person.lead{background:#fffdf8;border-color:rgba(var(--e),.5);border-top-color:rgb(var(--e))}
 .chief{max-width:560px}
 .person-head{display:flex;gap:14px;align-items:center;margin-bottom:12px}
-.avatar{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:700 19px var(--serif);color:#fff;background:rgb(var(--e))}
+
 .person h4{margin:0;font:700 18px var(--serif)}.person .role{font-size:12.5px}
 .person .temper{font-size:14px;margin-bottom:10px}
 .person blockquote{margin:0 0 10px;padding:8px 12px;border-left:3px solid rgb(var(--t));background:rgba(var(--t),.1);font:600 14px/1.6 var(--serif);color:var(--ink)}
@@ -40,3 +40,16 @@ html[data-motion=reduce] .team-flow .dot{animation:none}
 .persona-more .checks{list-style:none;padding-left:0}.persona-more .checks li{position:relative;padding-left:22px}.persona-more .checks li::before{content:"☐";position:absolute;left:0;color:rgb(var(--e))}
 .persona-more q{display:block;quotes:none;padding:8px 12px;border-radius:8px;background:rgba(var(--t),.12);font-family:var(--serif)}
 .persona-more q::before{content:"“"}.persona-more q::after{content:"”"}
+/* 인물 일러스트(scripts/portrait_renderer.py). 배경·소품 테두리는 팀 색을 따릅니다. */
+.portrait{display:block;flex:none;width:88px;height:88px;border-radius:22%;overflow:hidden;box-shadow:0 6px 16px rgba(var(--e),.22)}
+.portrait .pt-bg{fill:rgba(var(--t),.32)}.portrait .pt-glow{fill:#fffdf8;opacity:.4}
+.portrait .pt-prop>circle{fill:#fffdf8;stroke:rgb(var(--e));stroke-width:2}.portrait .pt-prop g{stroke:rgb(var(--e))}
+.person-head{gap:16px}.person h4{font-size:20px}
+.chief .portrait{width:120px;height:120px}
+.lineup{display:grid;grid-template-columns:repeat(auto-fill,minmax(62px,1fr));gap:12px 8px;margin-top:30px;max-width:900px}
+.lineup a{display:grid;justify-items:center;gap:4px;text-decoration:none;font-size:12px;color:var(--muted)}
+.lineup .portrait{width:56px;height:56px;box-shadow:0 3px 8px rgba(var(--e),.2);transition:transform .2s var(--ease)}
+.lineup a:hover .portrait,.lineup a:focus-visible .portrait{transform:translateY(-4px)}
+.person:target{outline:3px solid rgba(var(--e),.55);outline-offset:3px}
+@media(max-width:600px){.portrait{width:72px;height:72px}.chief .portrait{width:96px;height:96px}.lineup{grid-template-columns:repeat(auto-fill,minmax(54px,1fr))}.lineup .portrait{width:48px;height:48px}}
+@media(prefers-reduced-motion:reduce){.lineup .portrait{transition:none}}

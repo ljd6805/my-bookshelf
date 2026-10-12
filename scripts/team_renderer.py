@@ -6,6 +6,11 @@ index.html and the standalone introduction page team.html.
 """
 import html
 
+if __package__:
+    from .portrait_renderer import render_portrait, portrait_errors
+else:
+    from portrait_renderer import render_portrait, portrait_errors
+
 TONES = {'sage': ('120,157,111', '81,115,83'), 'aqua': ('25,143,146', '30,115,123'),
          'amber': ('221,154,63', '166,111,38'), 'violet': ('151,113,184', '110,80,142'),
          'rose': ('209,127,119', '161,90,80'), 'blue': ('75,130,203', '52,93,149')}
@@ -23,6 +28,9 @@ def check_team(data):
         bad = [f for f in LIST_FIELDS if not isinstance(p.get(f), list)]
         if missing or bad:
             raise ValueError(f"agent-team: {p.get('name', '?')} missing {missing or bad}")
+        art = portrait_errors(p['name'], p.get('portrait'))
+        if art:
+            raise ValueError(f'agent-team: {art[0]}')
     names = [p['name'] for p in people]
     if len(names) != len(set(names)):
         raise ValueError('agent-team: persona names must be unique')
@@ -55,7 +63,7 @@ def _details(p):
 def _card(p, tone, tag='li'):
     cls = 'person lead' if p['role'].startswith(('팀장', '편집장')) else 'person'
     return (f'<{tag} class="{cls}" style="{_style(tone)}" id="p-{e(p["name"])}"><div class="person-head">'
-            f'<span class="avatar" aria-hidden="true">{e(p["name"][0])}</span><div><h4>{e(p["name"])}</h4>'
+            f'{render_portrait(p["name"], p["portrait"])}<div><h4>{e(p["name"])}</h4>'
             f'<p class="role">{e(p["role"])}</p></div></div><p class="temper">{e(p["personality"])}</p>'
             f'<blockquote>“{e(p["question"])}”</blockquote><p class="does">{e(p["owns"])}</p>{_details(p)}</{tag}>')
 
@@ -65,6 +73,14 @@ def _team_block(i, t):
     return (f'<section class="team-block" id="{t["id"]}" style="{_style(t["tone"])}" aria-labelledby="{t["id"]}-title">'
             f'<div class="team-intro"><p class="team-no">0{i + 1} · {e(t["step"])}</p><h3 id="{t["id"]}-title">{e(t["name"])}</h3>'
             f'<p>{e(t["summary"])}</p><p class="count">모두 {len(t["members"])}명</p></div><ul class="people">{people}</ul></section>')
+
+
+def _lineup(data):
+    people = [('amber', data['chief'])] + [(t['tone'], p) for t in data['teams'] for p in t['members']]
+    faces = ''.join(f'<a href="#p-{e(p["name"])}" style="{_style(tone)}" title="{e(p["name"])} · {e(p["role"])}">'
+                    f'{render_portrait(p["name"], p["portrait"], "portrait mini", True)}<span>{e(p["name"])}</span></a>'
+                    for tone, p in people)
+    return f'<div class="lineup" role="group" aria-label="인물 {len(people)}명 바로 가기">{faces}</div>'
 
 
 def _flow(teams):
@@ -90,7 +106,7 @@ def render_team_page(data, version):
 <!-- 이 파일은 python3 scripts/build_catalog.py가 data/agent-team.json에서 만듭니다. 직접 고치지 마세요. -->
 <header class="site-header wrap"><a class="brand" href="./index.html" aria-label="Jdeok.Lee의 서재 홈">Jdeok.Lee의 서재<span>MY BOOKSHELF</span></a><nav aria-label="주요 메뉴"><a href="index.html#books">← 서가로</a><a href="#flow">만드는 순서</a><a href="#teams">팀 소개</a></nav></header>
 <main id="main" class="wrap">
-<section class="team-hero" aria-labelledby="team-title"><p class="eyebrow">THE MAKERS</p><h1 id="team-title">이 서재의 책은<br>다섯 팀이 함께 만듭니다.</h1><p>책 한 권에는 지켜야 할 약속이 많습니다. 독자가 끝에 무엇을 할 수 있어야 하는지, 장과 장이 어떻게 이어지는지, 숫자가 정말 맞는지. 그래서 이 일을 다섯 팀과 {count}명의 인물에게 나누어 맡겼습니다.</p><p>이들은 실제 사람이 아니라 책을 쓰는 AI 에이전트가 번갈아 맡는 <strong>가상의 역할</strong>입니다. 인물마다 지어낸 이력과 성격, 말투, 강점과 약점이 있고, 늘 던지는 질문에 답하지 못하면 다음 팀으로 넘기지 않습니다. 단 하나, 검수팀만은 책을 쓰지 않은 다른 에이전트가 맡습니다. 카드의 <strong>페르소나 자세히 보기</strong>를 열면 그 인물이 일할 때 쓰는 점검 목록과 자주 하는 말까지 볼 수 있습니다.</p></section>
+<section class="team-hero" aria-labelledby="team-title"><p class="eyebrow">THE MAKERS</p><h1 id="team-title">이 서재의 책은<br>다섯 팀이 함께 만듭니다.</h1><p>책 한 권에는 지켜야 할 약속이 많습니다. 독자가 끝에 무엇을 할 수 있어야 하는지, 장과 장이 어떻게 이어지는지, 숫자가 정말 맞는지. 그래서 이 일을 다섯 팀과 {count}명의 인물에게 나누어 맡겼습니다.</p><p>이들은 실제 사람이 아니라 책을 쓰는 AI 에이전트가 번갈아 맡는 <strong>가상의 역할</strong>입니다. 인물마다 지어낸 이력과 성격, 말투, 강점과 약점이 있고, 늘 던지는 질문에 답하지 못하면 다음 팀으로 넘기지 않습니다. 단 하나, 검수팀만은 책을 쓰지 않은 다른 에이전트가 맡습니다. 카드의 <strong>페르소나 자세히 보기</strong>를 열면 그 인물이 일할 때 쓰는 점검 목록과 자주 하는 말까지 볼 수 있습니다. 얼굴 그림은 성격과 하는 일을 떠올리게 하려고 그린 가상의 일러스트이며, 오른쪽 아래 표시는 그 인물이 맡은 일을 나타냅니다.</p>{_lineup(data)}</section>
 <section class="team-flow-wrap" id="flow" aria-labelledby="flow-title"><h2 id="flow-title">책 한 권이 지나가는 길</h2>{_flow(data['teams'])}</section>
 <section class="chief-wrap" aria-labelledby="chief-title"><h2 id="chief-title">다섯 팀을 이끄는 사람</h2>{chief}</section>
 <section id="teams" aria-labelledby="teams-title"><h2 id="teams-title" class="sr-only">팀 소개</h2>{blocks}</section>
@@ -103,7 +119,7 @@ def render_team_page(data, version):
 
 def render_team_section(data):
     count = check_team(data)
-    items = ''.join(f'<li style="{_style(t["tone"])}"><a href="team.html#{t["id"]}"><span class="dot" aria-hidden="true"></span>'
+    items = ''.join(f'<li style="{_style(t["tone"])}"><a href="team.html#{t["id"]}">{render_portrait(t["members"][0]["name"], t["members"][0]["portrait"], "portrait mini", True)}'
                     f'<span class="team-name">{e(t["name"])}</span><span class="team-lead">팀장 {e(t["members"][0]["name"])} · 모두 {len(t["members"])}명</span>'
                     f'<span class="team-q">{e(t["step"])}</span></a></li>' for t in data['teams'])
     return ('<section class="team-section wrap" id="team" aria-labelledby="team-section-title"><div><h2 id="team-section-title">이 책들은<br>누가 만들까요?</h2>'
