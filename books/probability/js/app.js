@@ -22,11 +22,10 @@
   const addTo = (list, id) => save((s) => { if (!s[list].includes(id)) s[list].push(id); });
 
   function renderSidebar() {
-    const tried = load().tried || [], current = location.hash.slice(1) || 'home';
-    const link = (id, num, title) => `<a href="#${id}" data-chapter="${id}"${current === id ? ' class="active" aria-current="page"' : ''}><span>${num}</span>${esc(title)}${tried.includes(id) ? '<i class="done" aria-hidden="true">✓</i><em class="sr-only"> (실험 완료)</em>' : ''}</a>`;
+    const current = location.hash.slice(1) || 'home';
+    const link = (id, num, title) => `<a href="#${id}" data-chapter="${id}"${current === id ? ' class="active" aria-current="page"' : ''}><span>${num}</span>${esc(title)}</a>`;
     sidebar.innerHTML = `<div class="sidebar-title">CONTENTS / 전체 목차</div><a href="#home">확률과 통계 처음으로</a>
-      ${B.chapters.map((c) => link(c.id, c.num, c.title)).join('')}${link('final', '끝', '마지막 과제')}
-      <p class="sidebar-legend">✓ 실험까지 해 본 장</p>`;
+      ${B.chapters.map((c) => link(c.id, c.num, c.title)).join('')}${link('final', '끝', '마지막 과제')}`;
   }
 
   /* ---- 공통 조각 ---- */

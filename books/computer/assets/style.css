@@ -221,7 +221,7 @@ tr.current{background:var(--panel2);font-weight:700}
 .source-list{padding-left:20px;font-size:.92rem}
 .source-list li{padding-left:6px;margin-bottom:18px}
 .source-list a{color:var(--accent);text-decoration:underline;text-underline-offset:4px}
-.read-toggle{margin-top:12px}
+
 .chapter-nav{display:grid;grid-template-columns:1fr 1fr;gap:28px;border-top:1px solid var(--line);padding-top:28px;margin-top:48px;font-size:.95rem}
 .chapter-nav a{color:var(--accent)}
 .chapter-nav a:last-child{text-align:right}

@@ -50,9 +50,8 @@ async function checkReader(page) {
   await page.locator('#sidebar a[href="#cpu"]').click();
   await page.locator('.chapter-head h1').filter({hasText:'명령을 하나씩 실행하기'}).waitFor();
   assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'false');
-  await page.locator('.read-toggle').click();
-  await page.reload();
-  assert.equal(await page.locator('.read-toggle').getAttribute('aria-pressed'),'true');
+  // 읽은 장 표시는 서재 공통 진도(assets/book-study.js)가 목차에 붙인다.
+  await page.locator('#sidebar a[href="#cpu"] .study-mark').waitFor({state:'attached'});
   const before = await page.locator('html').getAttribute('data-theme');
   await page.locator('#theme').click();
   assert.equal(await page.locator('html').getAttribute('data-theme'), before === 'dark' ? 'light' : 'dark');

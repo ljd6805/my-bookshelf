@@ -36,8 +36,8 @@ h1[tabindex]:focus,h1[tabindex]:focus-visible{outline:none}
 .chapter-card svg{display:block}
 .final-card{border-style:dashed;border-color:var(--orange)}
 .path a{display:inline-block}
-.sidebar-legend{font-size:.78rem;color:var(--muted);margin:16px 12px 0}
-#sidebar a i.done{margin-left:auto;font-style:normal;color:var(--accent)}
+
+
 .chapter-body .muted{color:var(--muted)}
 .example{background:color-mix(in srgb,var(--gold) 10%,transparent);padding:14px 18px;border-radius:6px;font-size:.95rem}
 .example b,.chapter-body p.muted b{color:var(--text);margin-right:8px}
