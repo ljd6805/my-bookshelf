@@ -107,7 +107,7 @@ F.training=()=>{
  const k400=S.findIndex(z=>z.step===400);s+=`<rect class="fig-pulse" x="${x(k400)-8}" y="24" width="16" height="200" fill="var(--orange)" fill-opacity=".15"/>`+t(x(k400),20,'400단계 무렵 급락',{size:12,fill:'var(--orange)'});
  S.forEach((z,k)=>{if([0,6,8,12,20].includes(k))s+=t(x(k),240,z.step,{size:11,fill:'var(--muted)'});});
  s+=t(320,266,'초록: 반복 구간 손실(nat) · 파랑 점선: 사실 오답률(위=100%)',{size:12,fill:'var(--muted)'});
- return {svg:svg('반복 구간 손실이 300단계까지 높다가 400~500단계에 급히 떨어지는 학습 곡선',s),caption:'가로축은 체크포인트 순서입니다(눈금 숫자가 학습 단계). 사실은 200단계 전에 익히지만, 반복 목록을 잇는 능력은 한참 뒤 짧은 구간에 갑자기 생깁니다. 이때 유도 헤드가 만들어집니다.'};
+ return {svg:svg('반복 구간 손실이 300단계까지 천천히 내려오다가 400~500단계에 급히 떨어지는 학습 곡선',s),caption:'가로축은 체크포인트 순서입니다(눈금 숫자가 학습 단계). 사실은 200단계 전에 익히지만, 반복 목록을 잇는 능력은 한참 뒤 짧은 구간에 갑자기 생깁니다. 이때 유도 헤드가 만들어집니다.'};
 };
 F.limits=()=>{
  const a=M.superposition(0,{steps:8000}),b=M.superposition(.95,{steps:8000}),draw=(r,cx,label)=>{let s=`<circle cx="${cx}" cy="140" r="80" fill="none" stroke="var(--line)" stroke-dasharray="3 4"/>`+t(cx,252,label,{size:13});r.cols.forEach((v,i)=>{const on=r.lengths[i]>.5;s+=`<path class="${on?'fig-draw':''}" style="animation-delay:${i*.3}s" d="M${cx} 140L${cx+v[0]*80} ${140-v[1]*80}" stroke="${on?'var(--accent)':'var(--muted)'}" stroke-width="${on?3:1.5}" ${on?'':'stroke-dasharray="3 3"'}/>`+t(cx+v[0]*96,140-v[1]*96+4,`f${i+1}`,{size:12});});return s;};
