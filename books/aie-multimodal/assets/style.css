@@ -51,3 +51,5 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 /* 13권 강조색: 청록(어두운 화면) · 짙은 청록(밝은 화면) */
 :root{--accent:#7fd8d0}[data-theme=light]{--accent:#0f6e68}
 .side-series{display:flex;flex-direction:column;gap:2px;margin:6px 0 10px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.85rem}.side-series span{color:var(--muted);font-size:.78rem;padding:0 12px}.side-series a{color:var(--accent)}
+/* 2026-10-12 보충: 확인 문제 안의 전이 문항. 버튼은 .quiz button 모양을 그대로 쓴다. */
+.transfer-quiz{margin-top:24px;padding-top:18px;border-top:1px dashed var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-quiz p{margin:0 0 6px}.transfer-feedback{margin-top:16px;color:var(--accent)}

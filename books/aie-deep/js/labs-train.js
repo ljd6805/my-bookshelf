@@ -33,6 +33,16 @@ A04Labs.valley=el=>{
   (o==='sgd'?'SGD는 학습률을 세로 방향에 맞춰 작게 잡아야 해서 가로 방향 진행이 느립니다.':o==='momentum'?'모멘텀은 부호가 바뀌는 세로 성분을 평균으로 지우고 가로 성분을 쌓아 속도를 냅니다.':'Adam은 방향마다 기울기 크기로 나누어 보폭을 학습률 근처로 맞춥니다. 그래서 η가 작으면 출발점에서 4만큼 떨어진 최솟값까지 오래 걸립니다.')+'<br>2차원 교육용 함수에서 실제로 계산한 경로입니다.');});
 };
 
+/* 6장: 미니배치 크기. 손실은 갱신마다 전체 학습점 80개로 다시 잰 값이며, 가로축은 epoch(= 갱신 수 / epoch당 갱신 수)다. */
+A04Labs.minibatch=el=>{
+ U.setup(el,S('mb-b','배치 크기 B (학습점 80개 중)',[[1,'1 (점 하나씩)'],[8,'8'],[16,'16'],[80,'80 (전체 배치)']],8)+S('mb-lr','학습률 η (SGD)',[[0.1,'0.1'],[0.3,'0.3'],[1,'1.0'],[3,'3.0']],0.3));
+ U.bind(el,()=>{const B=U.value(el,'mb-b'),lr=U.value(el,'mb-lr'),r=M.minibatch({B,lr}),full=M.minibatch({B:80,lr});
+  const line=x=>x.steps.map((v,k)=>[(k+1)/x.perEpoch,v]);
+  const chart=U.plot({lines:[{data:[[0,full.epochLoss[0]],...line(full)],color:'var(--muted)',dashed:true},{data:[[0,r.epochLoss[0]],...line(r)],color:'var(--accent)'}],xmin:0,xmax:30,ymin:0,ymax:1,xlabel:'epoch',ylabel:'전체 학습 손실',label:`배치 ${B}, 학습률 ${lr}의 손실 곡선(실선)과 같은 학습률의 전체 배치 곡선(점선). 30 epoch 뒤 손실 ${F(r.trainLoss,3)}`});
+  const verdict=!(r.trainLoss<5)?'손실이 크게 튀어 학습이 무너졌습니다. 점 하나로 낸 기울기에 큰 학습률을 곱하면 한 걸음이 너무 멀리 갑니다.':B===80?'전체 배치라 epoch마다 한 번만 갱신하고 곡선이 매끈합니다. 같은 30 epoch에서 갱신 수가 가장 적습니다.':r.trainLoss<full.trainLoss-0.05?`같은 epoch에 ${r.perEpoch}배 많이 갱신해 전체 배치(${F(full.trainLoss,3)})보다 빨리 내려갔지만, 곡선이 흔들립니다.`:'갱신은 많지만 학습률이 작아 아직 크게 내려가지 못했습니다.';
+  U.result(el,chart,`B = ${B} · η = ${lr} · epoch당 갱신 80/${B} = <b>${r.perEpoch}번</b> · 30 epoch 동안 <b>${r.updates}번</b> 갱신<br>30 epoch 뒤 학습 손실 <strong>${F(r.trainLoss,3)}</strong> (같은 η의 전체 배치 ${F(full.trainLoss,3)}) · 검증 정확도 <strong>${F(r.valAcc*100,1)}%</strong><br>손실이 직전 갱신보다 오히려 오른 갱신 <b>${F(r.upFrac*100,1)}%</b>${B===80?'':' (작은 배치의 기울기는 전체 기울기의 어림값이라 가끔 반대쪽으로 걷습니다)'}<br>${verdict}<br>은닉 8개 tanh 원 판별기를 SGD로 실제 학습한 한 번의 결과(시드 1, 섞는 순서 고정)입니다.`);});
+};
+
 A04Labs.schedule=el=>{
  const KINDS=[['const','상수'],['step','계단 감쇠'],['cosine','코사인'],['warmcos','워밍업 + 코사인'],['onecycle','1cycle']];
  U.setup(el,S('sc-kind','학습률 일정',KINDS,'const')+S('sc-peak','최대 학습률',[[0.02,'0.02'],[0.1,'0.1'],[0.3,'0.3'],[1,'1.0']],0.3));

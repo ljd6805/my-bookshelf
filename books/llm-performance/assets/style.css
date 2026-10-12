@@ -52,3 +52,6 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 @media(max-width:760px){.figure-art svg{min-width:0}.figure-art:after{content:none}.figure-art{overflow:visible}}
 
 @media(max-width:760px){.figure-art text{font-size:15px}}
+
+/* 2026-10-12 보충: 확인 문제 안의 전이 문항. 버튼은 .quiz button을 그대로 쓴다. */
+.transfer-quiz{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}

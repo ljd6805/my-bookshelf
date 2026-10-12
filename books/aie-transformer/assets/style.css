@@ -55,3 +55,4 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 .kit-panel+.responsive-bars{margin-top:10px}.kit-panel table{font-size:.9rem}.kit-panel td,.kit-panel th{padding:8px 10px}
 @media(max-width:760px){.a08-mat{padding:8px}.a08-mat-grid{gap:2px}.a08-mat-grid span{font-size:.68rem;padding:5px 0}.a08-mat-grid .head{font-size:.62rem}.a08-mat-grid .rowname{font-size:.66rem;padding-right:3px}.kit-panel td,.kit-panel th{padding:6px;font-size:.8rem}}
 .side-series{display:flex;flex-direction:column;gap:2px;margin:6px 0 10px;padding:8px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:.85rem}.side-series span{color:var(--muted);font-size:.78rem;padding:0 12px}.side-series a{color:var(--accent)}
+.transfer-quiz{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-quiz p{margin:0 0 6px}.transfer-feedback{margin-top:16px;color:var(--accent)}

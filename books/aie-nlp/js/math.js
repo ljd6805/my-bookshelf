@@ -168,7 +168,10 @@ function rouge(sys,ref){const s=sys.split(' '),r=ref.split(' '),rn=ngrams(r,1),s
 function qaScore(pred,gold){const p=pred.trim().split(/\s+/),g=gold.trim().split(/\s+/),gc={};g.forEach(x=>gc[x]=(gc[x]||0)+1);let common=0;p.forEach(x=>{if(gc[x]>0){common++;gc[x]--;}});const prec=common/p.length,rec=common/g.length;return {em:pred.trim()===gold.trim()?1:0,f1:common?2*prec*rec/(prec+rec):0};}
 
 /* 9장: 청킹. 약관 문장 12개의 토큰 수(교육용)와, 답이 걸친 문장 6·7(0부터). */
-const TERMS={lens:[40,55,30,60,45,35,50,70,40,30,55,45],answer:[6,7]};
+const TERMS={lens:[40,55,30,60,45,35,50,70,40,30,55,45],answer:[6,7],
+ /* 교육용 약관 문장. 토큰 수(lens)는 하위 낱말 기준 가정값이고, 낱말은 문장 안 토큰 자리에 고르게 놓인다고 가정한다. */
+ text:['이 약관은 마루책방에서 산 종이책과 전자책의 반품과 환불에 적용됩니다','주문을 취소하려면 배송이 시작되기 전에 고객센터에 알려 주세요','배송비는 단순 변심이면 손님이 내고 파본이면 책방이 냅니다','전자책은 내려받은 뒤에는 반품할 수 없습니다','사은품이 함께 온 주문은 사은품도 같이 돌려보내야 합니다','반품할 책은 받은 상태 그대로 포장해 보내 주세요','환불은 책을 받은 날부터 7일 안에 신청해야 합니다','단 파본이나 잘못 온 책은 30일 안에 환불을 신청할 수 있습니다','환불 금액은 결제한 수단으로 돌려드립니다','처리가 며칠 걸리는지는 문자로 알려 드립니다','카드 결제의 환불은 카드사 사정에 따라 늦어질 수 있습니다','궁금한 점은 고객센터 채팅으로 물어봐 주세요'],
+ query:'환불은 며칠 안에 신청해야 하나요',keys:['7일','30일']};
 function chunkDoc(size,strategy){
  const L=TERMS.lens,starts=[];let pos=0;const sStart=L.map(l=>{const s=pos;pos+=l;return s;}),total=pos;
  const chunks=[];
@@ -178,6 +181,22 @@ function chunkDoc(size,strategy){
  const holder=chunks.findIndex(([s,e])=>s<=a0&&e>=a1),touched=chunks.filter(([s,e])=>e>a0&&s<a1).length;
  const top3=sum(chunks.map(([s,e])=>e-s).sort((x,y)=>y-x).slice(0,3));
  return {chunks,total,answer:[a0,a1],holder,whole:holder>=0,touched,top3,starts:sStart};
+}
+
+/* 9장: 조각마다 질문과의 BM25 점수(2장과 같은 k1=1.5, b=0.75)를 실제로 계산해 상위 k개를 가져온다.
+   낱말 j(문장 i, 낱말 W개)의 자리 = 문장 시작 + floor(j × 문장 토큰 수 ÷ W). 그 자리가 든 조각에 낱말을 넣는다. */
+function chunkWords(r){
+ const words=r.chunks.map(()=>[]);
+ TERMS.text.forEach((t,i)=>{const w=tokenize(t,'josa');w.forEach((x,j)=>{const p=r.starts[i]+Math.floor(j*TERMS.lens[i]/w.length);words[r.chunks.findIndex(([s,e])=>p>=s&&p<e)].push(x);});});
+ return words;
+}
+function retrieveChunks(size,strategy,k,query=TERMS.query){
+ const r=chunkDoc(size,strategy),words=chunkWords(r),q=[...new Set(tokenize(query,'josa'))],N=r.chunks.length,avg=sum(words.map(w=>w.length))/N;
+ const scores=words.map(w=>sum(q.map(t=>{const tf=w.filter(x=>x===t).length;if(!tf)return 0;const df=words.filter(d=>d.includes(t)).length;return bm25(tf,df,N,w.length,avg);})));
+ const order=scores.map((_,i)=>i).sort((a,b)=>scores[b]-scores[a]||a-b),top=order.slice(0,Math.min(k,N)),[a0,a1]=r.answer;
+ const covered=sum(top.map(i=>Math.max(0,Math.min(r.chunks[i][1],a1)-Math.max(r.chunks[i][0],a0))));
+ const got=new Set(top.flatMap(i=>words[i]));
+ return {...r,words,query:q,scores,order,top,rank:r.holder>=0?order.indexOf(r.holder)+1:0,recall:covered/(a1-a0),cost:sum(top.map(i=>r.chunks[i][1]-r.chunks[i][0])),keys:TERMS.keys.map(x=>[x,got.has(x)])};
 }
 
 /* 10장: 개체 연결. 언급 '한강'의 후보와 사전 확률(교육용 가정값), 설명 낱말. */
@@ -222,6 +241,9 @@ function effectiveLength(task,th=0.9){let best=0;for(const L of LENGTHS)if(needl
 /* 12장 더 깊이: 다국어 토큰 비용 */
 const fertilityCost=(words,tokPerWord)=>words*tokPerWord;
 
-const A06Math={sum,round,softmax,dot,norm,cosine,INBOX,JOSA,stripJosa,tokenize,vocab,matchDocs,learnBpe,applyBpe,BPE_WORDS,idf,tfidfDoc,bm25,skipPairs,contextCounts,VEC,analogy,charNgrams,jaccard,TOPICS,topicMix,REVIEWS,negScope,nbTrain,nbClassify,f1Scores,majorityBaseline,HMM,viterbi,mostFrequentTag,bigramModel,perplexity,gradientFlow,ALIGN,attend,ngrams,bleu,lcs,rouge,qaScore,TERMS,chunkDoc,KB,linkEntity,DIALOG,dstStates,jga,jsonValidity,LENGTHS,needleAcc,needleGrid,effectiveLength,fertilityCost};
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리(0부터)에 오도록 n개 보기를 돌린다.
+   돌려받은 배열의 k번째 값은 화면 k번째 자리에 놓을 원래 보기 번호다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
+const A06Math={quizOrder,sum,round,softmax,dot,norm,cosine,INBOX,JOSA,stripJosa,tokenize,vocab,matchDocs,learnBpe,applyBpe,BPE_WORDS,idf,tfidfDoc,bm25,skipPairs,contextCounts,VEC,analogy,charNgrams,jaccard,TOPICS,topicMix,REVIEWS,negScope,nbTrain,nbClassify,f1Scores,majorityBaseline,HMM,viterbi,mostFrequentTag,bigramModel,perplexity,gradientFlow,ALIGN,attend,ngrams,bleu,lcs,rouge,qaScore,TERMS,chunkDoc,chunkWords,retrieveChunks,KB,linkEntity,DIALOG,dstStates,jga,jsonValidity,LENGTHS,needleAcc,needleGrid,effectiveLength,fertilityCost};
 if(typeof module!=='undefined')module.exports=A06Math;else root.A06Math=A06Math;
 })(typeof window!=='undefined'?window:globalThis);

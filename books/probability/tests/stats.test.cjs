@@ -150,3 +150,46 @@ test('frequencies divide by the total and stay zero before any count', () => {
   assert.deepEqual(I.frequencies([0, 0], 0), [0, 0]);
   assert.throws(() => I.frequencies([1], -1), RangeError);
 });
+
+test('z score and the 68·95·99.7 rule (2026-10-12 보충)', () => {
+  near(S.zScore(505, 500, 10, 16), 2);
+  near(S.zScore(2.5, 2, 2, 25), 1.25);
+  near(S.normalCoverage(1), 0.6827, 1e-4);
+  near(S.normalCoverage(2), 0.9545, 1e-4);
+  near(S.normalCoverage(3), 0.9973, 1e-4);
+  near(S.normalCoverage(1.96), 0.95, 1e-4);
+  near(S.normalCoverage(2.58), 0.99, 1e-3);
+  near(S.twoSidedTail(2.5), 0.0124, 1e-4);
+  near(S.twoSidedTail(0), 1, 1e-7);
+  near(S.normalCoverage(-1), S.normalCoverage(1)); // 부호와 무관
+  assert.throws(() => S.zScore(1, 0, 0, 4), RangeError);
+  assert.throws(() => S.zScore(1, 0, 1, 0), RangeError);
+});
+
+test('share of sample means inside μ ± 1.96·σ/√n is near 95% for n = 30', () => {
+  near(I.shareWithin([1, 2, 3, 4], 2.5, 1), 0.5);
+  assert.equal(I.shareWithin([], 0, 1), 0);
+  for (const name of ['skewed', 'uniform', 'dice']) {
+    const pop = I.population(name), random = S.rng(4), means = [];
+    for (let i = 0; i < 2000; i += 1) means.push(I.sampleMean(name, 30, random));
+    const share = I.shareWithin(means, pop.mean, 1.96 * pop.sd / Math.sqrt(30));
+    assert.ok(share > 0.93 && share < 0.97, `${name}: ${share}`);
+  }
+  // 균등 모집단에서 n = 1이면 모든 값이 띠 안이다(값 하나는 정규분포가 아니다).
+  const r = S.rng(4), ones = Array.from({ length: 200 }, () => I.sampleMean('uniform', 1, r));
+  assert.equal(I.shareWithin(ones, 5, 1.96 * I.population('uniform').sd), 1);
+});
+
+test('expected cost per motor-day for the final decision (가정값)', () => {
+  const cost = (sensitivity, falseAlarmRate) => S.expectedCost({ prevalence: 0.02, sensitivity, falseAlarmRate, falseAlarmCost: 5, missCost: 500 }).total;
+  near(cost(0.9, 0.1), 1.49, 1e-9);
+  near(cost(0.95, 0.04), 0.696, 1e-9);
+  near(cost(0.76, 0.04), 2.596, 1e-9);
+  near(I.wilson(19, 20).low, 0.764, 1e-3);
+  // 비용이 같아지는 감지율은 약 87%
+  const breakEven = 1 - (1.49 - 0.98 * 0.04 * 5) / (0.02 * 500);
+  near(breakEven, 0.8706, 1e-4);
+  near(cost(breakEven, 0.04), cost(0.9, 0.1), 1e-9);
+  assert.equal(S.expectedCost({ prevalence: 0, sensitivity: 0, falseAlarmRate: 0, falseAlarmCost: 5, missCost: 500 }).total, 0);
+  assert.throws(() => cost(1.2, 0.1), RangeError);
+});

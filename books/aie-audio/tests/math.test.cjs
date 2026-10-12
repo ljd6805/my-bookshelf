@@ -60,7 +60,7 @@ test('durations: speed divides frames and rounds; totals agree',()=>{
 test('rvq: each codebook shrinks the residual; codec budget matches the lesson',()=>{
  const e=M.rvq(M.RVQ_SIGNAL,8).errors;for(let i=1;i<e.length;i++)assert.ok(e[i]<e[i-1]);
  const q=M.rvq(M.RVQ_SIGNAL,8);M.RVQ_SIGNAL.forEach((x,i)=>near(q.recon[i],x,1e-4));
- assert.equal(M.codecBudget(12.5,8).tokens,1000);assert.equal(M.codecBudget(75,8).kbps,6);assert.equal(M.codecBudget(12.5,8).frames,125);
+ assert.equal(M.codecBudget(12.5,8).tokens,1000);assert.equal(M.codecBudget(75,8).kbps,6);assert.equal(M.codecBudget(12.5,8).frames,125);near(M.codecBudget(12.5,8).kbps,1.1,1e-12);near(M.codecBudget(12.5,32).kbps,4.4,1e-12);assert.equal(M.codecBudget(86,9).kbps,7.74);assert.equal(M.codecBudget(12.5,8,10,10).kbps,1);
 });
 test('turnLatency: lesson budget sums to 400 ms; waiting for tokens and chunked ASR add time',()=>{
  assert.equal(M.turnLatency({ttsAfter:1}).total,400);near(M.turnLatency({ttsAfter:20}).total,780,1e-9);
@@ -87,4 +87,10 @@ test('watermark: binomial probabilities, false alarm independent of p, monotone 
 test('sliceWer: weighted mean hides the worst slice',()=>{
  const r=M.sliceWer([{share:95,wer:4},{share:5,wer:30}]);near(r.overall,5.3,1e-9);assert.equal(r.worst,30);
  near(M.sliceWer([{share:100,wer:4},{share:0,wer:30}]).overall,4);
+});
+test('wake word: windows per hour times p^n, miss rate 1 - q^n',()=>{
+ const a=M.wakeWord({gap:20,p:1e-4,n:1,q:0.9});assert.equal(a.windows,180000);near(a.perHour,18,1e-9);near(a.perDay,432,1e-9);near(a.miss,0.1,1e-12);
+ const b=M.wakeWord({gap:20,p:1e-4,n:2,q:0.9});near(b.perHour,0.0018,1e-12);near(b.miss,0.19,1e-12);near(M.wakeWord({gap:100,p:1e-4,n:1}).perHour,3.6,1e-9);
+ for(const gap of [10,50,100])for(const n of [1,2,3,4]){const r=M.wakeWord({gap,p:1e-3,n,q:0.8}),s=M.wakeWord({gap,p:1e-3,n:n+1,q:0.8});assert.ok(s.perHour<r.perHour&&s.miss>r.miss,'n trades false wakes for misses');}
+ assert.equal(M.wakeWord({gap:20,p:1e-4,n:1,q:1}).miss,0);
 });

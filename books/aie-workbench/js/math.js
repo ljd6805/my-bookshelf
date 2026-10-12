@@ -116,6 +116,15 @@ function leak(n,oldSeed,newSeed){
  const overlap=nw.test.filter(i=>train.has(i)).length;
  return {sizes:[nw.train.length,nw.val.length,nw.test.length],overlap,rate:overlap/nw.test.length};
 }
+/* 9장: 같은 분할·같은 하이퍼파라미터로 다섯 번 다시 학습한 검증 정확도(%). 무작위성을 얼마나 고정했는지에 따른 교육용 시나리오 값이며 실측이 아니다.
+   평균·범위·표본 표준편차는 실제로 계산하고, 비교할 개선 폭이 다섯 번의 범위를 넘는지 판정한다. */
+const RERUNS={none:[86.2,87.1,85.8,86.9,86.5],seeded:[86.6,86.4,86.7,86.5,86.6],deterministic:[86.5,86.5,86.5,86.5,86.5]};
+function rerun(mode,diff){
+ const a=RERUNS[mode];if(!a)throw new RangeError('알 수 없는 고정 설정: '+mode);
+ const r2=v=>Math.round(v*100)/100,mean=r2(a.reduce((s,x)=>s+x,0)/a.length),spread=r2(Math.max(...a)-Math.min(...a));
+ const sd=Math.sqrt(a.reduce((s,x)=>s+(x-mean)**2,0)/(a.length-1));
+ return {runs:a,mean,spread,sd,diff,beyond:r2(diff)>spread};
+}
 /* 10장: 한 단계 시간(ms). 일꾼이 없으면 로딩과 계산이 이어지고, 있으면 미리 읽기가 계산과 겹친다고 가정한다. */
 function stepTime(load,compute,workers){
  const loadEff=workers?load/workers:load,step=workers?Math.max(loadEff,compute):load+compute;
@@ -130,13 +139,15 @@ function lossCurve(lr,steps=30,w0=1){
 }
 /* 11장: 확인 순서 전략과 원인까지 걸리는 시간. 분 단위 시간은 교육용 가정값이다. */
 const CHECKS=[['사전 점검',3,'사전 점검'],['가상 환경·잠금 파일',5,'가상 환경'],['드라이버·CUDA 빌드',5,'CUDA'],['커밋·이미지 태그',3,'커밋·태그'],['분할·시드·누수',10,'분할·시드'],['구간별 시간·장치',15,'구간 시간'],['손실 곡선',20,'손실 곡선']];
-const CAUSE={importfail:1,nocuda:2,acc99:4,slow:5};
-const SYMPTOM={importfail:[1,0,2,3,4,5,6],nocuda:[2,1,0,3,4,5,6],acc99:[4,3,6,0,1,2,5],slow:[5,2,1,0,3,4,6]};
+const CAUSE={importfail:1,nocuda:2,acc99:4,slow:5,jitter:4};
+const SYMPTOM={importfail:[1,0,2,3,4,5,6],nocuda:[2,1,0,3,4,5,6],acc99:[4,3,6,0,1,2,5],slow:[5,2,1,0,3,4,6],jitter:[4,3,1,0,2,5,6]};
 function triage(scenario,strategy){
  const order=strategy==='bottom'?[0,1,2,3,4,5,6]:strategy==='top'?[6,5,4,3,2,1,0]:SYMPTOM[scenario];
  const cause=CAUSE[scenario],k=order.indexOf(cause),path=order.slice(0,k+1);
  return {path:path.map(i=>CHECKS[i]),minutes:path.reduce((s,i)=>s+CHECKS[i][1],0),checks:k+1,cause:CHECKS[cause][0]};
 }
-const A01Math={ROUTES,preflight,resolveEnv,cudaCheck,gitMerge,FILES,ignoreRules,vramFit,cloudCost,survive,rwx,chmod,LAYERS,dockerBuild,keyLeak,runCells,kernel,rng,shuffle,split,leak,stepTime,lossCurve,CHECKS,triage};
+/* 확인 문제 화면 순서(학습 내용의 계산이 아님): 원래 번호 answer인 보기가 화면 target번째(0부터)에 오도록 n개 보기를 돌린 원래 번호 목록. */
+function choiceOrder(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+const A01Math={choiceOrder,ROUTES,preflight,resolveEnv,cudaCheck,gitMerge,FILES,ignoreRules,vramFit,cloudCost,survive,rwx,chmod,LAYERS,dockerBuild,keyLeak,runCells,kernel,rng,shuffle,split,leak,RERUNS,rerun,stepTime,lossCurve,CHECKS,triage};
 if(typeof module!=='undefined')module.exports=A01Math;else root.A01Math=A01Math;
 })(typeof window!=='undefined'?window:globalThis);

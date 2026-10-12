@@ -156,3 +156,11 @@ textarea{width:100%;font:inherit;padding:10px;border:1px solid var(--line);borde
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}
 .draw{stroke-dashoffset:0}
 }
+/* 2026-10-12 보충: 4장 실험의 띠 켜기, 새 상황에 옮기기의 보기 문항 */
+.check-label{display:flex;gap:8px;align-items:center;margin:10px 0;font-size:.9rem;cursor:pointer}
+.check-label input{width:18px;height:18px;accent-color:var(--accent)}
+.transfer-quiz{margin-top:20px;padding:22px 25px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.transfer-quiz h3{margin:8px 0 10px}
+.transfer-quiz button{display:block;width:100%;text-align:left;margin:8px 0}
+.transfer-quiz button[aria-pressed=true]{border-color:var(--accent)}
+.transfer-feedback{margin-top:14px;color:var(--accent)}

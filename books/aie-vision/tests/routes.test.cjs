@@ -31,3 +31,14 @@ test('book routes list every chapter and the home paths point to chapters',()=>{
 test('every local script and asset exists',()=>{for(const [,url] of html.matchAll(/(?:src|href)="([^"#]+)"/g)){if(/^(https?:|\.\.\/)/.test(url))continue;assert.ok(fs.existsSync(path.join(base,url.split('?')[0])),url);}});
 test('header keeps the standard shelf return and the original curriculum is credited',()=>{assert.match(html,/<header>[\s\S]*data-shelf-return href="\.\.\/\.\.\/index.html#books"[\s\S]*<\/header>/);assert.match(html,/rohitg00\/ai-engineering-from-scratch/);assert.ok(B.sources.some(s=>s[1].includes('rohitg00/ai-engineering-from-scratch')));});
 test('sources are HTTPS and cross links name a reason',()=>{B.sources.forEach(s=>assert.match(s[1],/^https:\/\//));for(const c of B.chapters)for(const x of c.cross||[]){assert.match(x[1],/^\.\.\/[a-z0-9-]+\/(#[a-z0-9-]+)?$/);assert.ok(x[2].length>8);}});
+test('every chapter has a transfer question: question, three options, answer 0-2, explanation',()=>{
+ for(const c of B.chapters){assert.ok(Array.isArray(c.transfer),c.id+' transfer');const [q,o,a,why]=c.transfer;
+  assert.ok(typeof q==='string'&&q.length>15,c.id+' question');assert.ok(Array.isArray(o)&&o.length===3&&o.every(x=>typeof x==='string'&&x),c.id+' options');
+  assert.ok(Number.isInteger(a)&&a>=0&&a<3,c.id+' answer');assert.ok(typeof why==='string'&&why.length>20,c.id+' explanation');assert.notEqual(q,c.quiz[0],c.id+' differs from quiz');}
+});
+test('quiz options rotate so the answer lands on the target slot and keeps its original number',()=>{
+ const M=ctx.window[prefix+'Math'];
+ assert.deepEqual([...M.quizOrder(3,0,0)],[0,1,2]);assert.deepEqual([...M.quizOrder(3,1,2)],[2,0,1]);assert.deepEqual([...M.quizOrder(3,0,2)],[1,2,0]);assert.deepEqual([...M.quizOrder(3,2,0)],[2,0,1]);
+ B.chapters.forEach((c,i)=>{const q=M.quizOrder(3,c.quiz[2],i%3),t=M.quizOrder(3,c.transfer[2],(i+1)%3);
+  assert.equal(q[i%3],c.quiz[2]);assert.equal(t[(i+1)%3],c.transfer[2]);assert.deepEqual([...q].sort().join(),"0,1,2");});
+});

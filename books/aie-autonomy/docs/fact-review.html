@@ -4,6 +4,21 @@
 <h1>팩트·출처 검수 기록 · 자율 시스템</h1>
 <p>「AI 엔지니어링 처음부터」 16권 《자율 시스템 · 밤새 혼자 일하는 에이전트에 울타리 치기》(books/aie-autonomy/)의 팩트·출처 검수 기록입니다. 형식은 저장소의 <code>templates/fact-review.html</code>을 따릅니다. 프로젝트 문서로 돌아가려면 <a href="index.html#verification">검증 절</a>을 여세요.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r6)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="보충 커밋 5f766a8의 12개 장 전이 문항, #horizon 깊이 읽기 “검사하고 다시 하기”와 식 설명, chain 실험의 셋째 손잡이(checkedStep)와 결과 읽기·안내 상자, 정답 자리 돌리기" data-result="fixed">
+<h2>2026-10-12 보충 검수 (r6)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r6). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 보충 커밋 5f766a8의 12개 장 전이 문항, #horizon 깊이 읽기 “검사하고 다시 하기”와 식 설명, chain 실험의 셋째 손잡이(checkedStep)와 결과 읽기·안내 상자, 정답 자리 돌리기. 전이 해설 1곳의 위치 표기를 고쳤습니다. 계산 오류는 찾지 못했습니다.</p>
+<p>검수팀 편성: 정민(팀장·사실), 유진(출처), 건우(수치·실험 재계산), 채원(첫 독자·문항), 현석(규칙 감사). 이번 보충(커밋 5f766a8)을 쓰지 않은 세션입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>새 문장은 교육용 가정(적발률 d, 다시 시도의 독립)을 가정으로 밝힌 계산 설명이고, dontAsk 규칙도 “이 책이 단순화한 규칙”으로 밝혀 두었습니다. 새 외부 사실 주장은 없습니다.</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>별도 Python 재계산: p′=0.99+0.01×0.8×0.99=0.99792, 0.99⁷⁰=49.5%, 0.99792⁷⁰=86.4%, n₅₀ 69.0→332.9단계, d=0.5에서 p′=0.99495·n₅₀ 136.9, 0.99²⁰⁰=13.4%, 0.999⁷⁰=93.2%, n₅₀(0.98)=34.3, 1−0.3²=0.91·1−0.3³=0.973, ln1.25÷ln(1.08/1.06)=11.94→12주기(1.08³=1.26), 0.5×0.4×0.5=0.1, σ 곡선 50% 지평 2⁸=256분·80% 지평 37.5분, 선형 증가 EWMA의 새 값−직전 EWMA가 c÷α=4로 수렴(<6).</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>checkedStep(p,d)를 대표값(d=0, 0.5, 0.8)과 경계값(d=0이면 p′=p, d=1이면 p′=2p−p²)에서 따로 계산해 결과 읽기의 p′·p′ⁿ·n₅₀·놓친 몫(1−p)(1−d)과 맞음을 확인했습니다. ladder의 dontAsk 판정(read·edit·shell 자동, 나머지 거절)이 전이 해설과 맞습니다. 전이 문항 12개마다 화면 순서를 책 코드와 따로(별도 node 스크립트) 다시 계산해, 정답이 장 번호에 따른 자리(확인 문제 index%3, 전이 (index+1)%3)에 오고 data-answer·data-transfer에는 원래 번호가 남아 판정이 맞는 것을 확인했습니다.</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>적발률 d, 실질 단계 신뢰도 p′, n₅₀이 문단·실험·안내 상자에서 같은 뜻으로 쓰입니다.</td></tr><tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>문제 없음</td><td>이번 보충에 새 출처가 없습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#star 전이 해설</td><td>“셋째 보기”라고 위치로 가리켰는데 화면 순서([2,0,1])에서는 그 보기가 첫째 자리에 보입니다.</td><td>별도 순서 재계산</td><td>보기 내용(‘고리가 저절로 걸러 낸다’)으로 가리키게 고침</td></tr><tr><td>index.html</td><td>바뀐 스크립트의 캐시 무효화</td><td>저장소 규칙</td><td>?v=20261012-supp1을 20261012-rev6으로 올림</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>브라우저에서 직접 눌러 보지는 않았고, 화면 순서는 정적 계산과 tests/browser.cjs가 아닌 별도 스크립트로만 확인했습니다. 학습 효과는 사람 독자로 시험하지 않았습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-autonomy)" data-date="2026-10-12" data-scope="12개 장 전체 본문·공식·더 알아보기·경고·확인 문제·다른 책 링크 17개, 실험 16개 계산과 안내 상자 결과 읽기, 출처 67개 중 핵심 수치 출처 약 30건(기억 대조), 브라우저 1280·390·320px" data-result="fixed">
 <h2>2026-10-12 편집팀 전체 도서 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-autonomy). 이 책을 쓰지 않은 새 세션이 docs/10-agent-team.html의 다섯 팀 관점과 data/agent-team.json의 인물 점검 목록으로 다시 읽었습니다. 범위: 12개 장 전체 본문·공식·더 알아보기·경고·확인 문제·다른 책 링크 17개, 실험 16개 계산과 안내 상자 결과 읽기, 출처 67개 중 핵심 수치 출처 약 30건(기억 대조), 브라우저 1280·390·320px.</p>

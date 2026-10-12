@@ -3,7 +3,7 @@ const {chromium}=require('playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const URL=process.env.BOOK_URL||'http://127.0.0.1:8765/books/llm-performance/';
 const output=process.env.BOOK_EVIDENCE||path.resolve(__dirname,'../docs/evidence');
-const report={url:URL,date:'2026-10-08',views:[],labs:[],errors:[]};
+const report={url:URL,date:'2026-10-12',views:[],labs:[],errors:[]};
 async function frame(page,width,id){
  await page.setViewportSize({width,height:900});await page.goto(URL+'#'+id);
  await page.locator(id==='home'?'.hero':'.chapter-head').waitFor();
@@ -12,7 +12,7 @@ async function frame(page,width,id){
  report.views.push({width,id,...dimensions});
 }
 async function labCheck(lab,width,id){
- const before=await lab.locator('.readout').innerText();assert.ok(before.length>20);const expected={metrics:'1,020',timing:'40.02',pipeline:'36 ms',mapping:'28개',sectors:'4개 sector',occupancy:'100%',roofline:'400.00',fusion:'32 MB',attention:'8.00 MiB',paging:'45자리',schedule:'110 ms',parallel:'18.00 ms',decision:'만족하지 못한'};assert.ok(before.includes(expected[id]),id+' expected baseline '+expected[id]);
+ const before=await lab.locator('.readout').innerText();assert.ok(before.length>20);const expected={metrics:'1,020',timing:'40.02',pipeline:'36 ms',mapping:'28개',sectors:'4개 sector',occupancy:'100%',roofline:'400.00',fusion:'32 MB',attention:'8.00 MiB',paging:'45자리',schedule:'110 ms',parallel:'18.00 ms',speculate:'3.36',decision:'만족하지 못한'};assert.ok(before.includes(expected[id]),id+' expected baseline '+expected[id]);
  const presetCount=await lab.locator('[data-preset]').count();
  for(let n=0;n<presetCount;n++){
   const button=lab.locator('[data-preset]').nth(n);await button.click();assert.equal(await button.getAttribute('aria-pressed'),'true');
@@ -43,15 +43,16 @@ async function run(){
  fs.mkdirSync(output,{recursive:true});const browser=await chromium.launch({headless:true,executablePath:process.env.PW_EXECUTABLE_PATH||undefined,args:["--no-sandbox"]});
  try{
  const page=await browser.newPage({reducedMotion:'reduce'});page.on('pageerror',e=>report.errors.push(String(e)));
- await page.goto(URL);const chapters=await page.evaluate(()=>PBook.chapters.map(c=>({id:c.id,answer:c.quiz[2],labs:c.labs})));
+ await page.goto(URL);const chapters=await page.evaluate(()=>PBook.chapters.map(c=>({id:c.id,answer:c.quiz[2],transfer:c.transfer?c.transfer[2]:null,labs:c.labs})));
  for(const width of [1280,390,320]){
   await frame(page,width,'home');
   const homeBefore=await page.locator('.home-result').innerText();await page.getByRole('button',{name:'대기 절반',exact:true}).click();assert.notEqual(await page.locator('.home-result').innerText(),homeBefore);
   for(const c of chapters){
    await frame(page,width,c.id);
    for(const id of c.labs)await labCheck(page.locator('#lab-'+id),width,id);
-   await page.locator('[data-answer]').nth(c.answer).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^정답입니다/);
-   await page.locator('[data-answer]').nth((c.answer+1)%3).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^다시 생각/);
+   await page.locator(`[data-answer="${c.answer}"]`).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^정답입니다/);
+   await page.locator(`[data-answer="${(c.answer+1)%3}"]`).click();assert.match(await page.locator('.quiz-feedback').innerText(),/^다시 생각/);
+   if(c.transfer!==null){await page.locator(`[data-transfer="${c.transfer}"]`).click();assert.match(await page.locator('.transfer-feedback').innerText(),/^정답입니다/);await page.locator(`[data-transfer="${(c.transfer+1)%3}"]`).click();assert.match(await page.locator('.transfer-feedback').innerText(),/^다시 생각/);assert.match(await page.locator('.chapter-head .caption').innerText(),/확인 문제 2개/);}
   }
  }
  await frame(page,1280,'home');await page.screenshot({path:path.join(output,'home-desktop.png')});

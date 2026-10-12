@@ -50,5 +50,7 @@ function rows(items,label,title=''){
 function waterfall(spans,total,label){
  return `<div class="a14-fall" role="group" aria-label="${esc(label)}">${spans.map(s=>`<div class="a14-span d${s.depth}${s.orphan?' orphan':''}"><span>${esc(s.name)}${s.orphan?' · 다른 트레이스':''}</span><div class="a14-track"><i style="left:${(s.start/total*100).toFixed(2)}%;width:${Math.max(.6,s.dur/total*100).toFixed(2)}%"></i></div><small>${fmt(s.dur,0)} ms</small></div>`).join('')}</div>`;
 }
-return {esc,fmt,value,text,range,select,setup,bind,result,svg,plot,bars,cards,grid,thumbnail,rows,waterfall};
+/* 보기 n개를 돌려 정답(answer)이 화면의 target번째 자리에 오게 하는 원래 번호 목록. 순서만 돌리므로 보기 사이의 차례는 유지된다. */
+function order(n,answer,target){const shift=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+shift)%n);}
+return {esc,fmt,value,text,range,select,setup,bind,result,svg,plot,bars,cards,grid,thumbnail,rows,waterfall,order};
 })();

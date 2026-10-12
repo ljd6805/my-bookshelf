@@ -31,3 +31,14 @@ test('book routes list every chapter and the home paths point to chapters',()=>{
 test('every local script and asset exists',()=>{for(const [,url] of html.matchAll(/(?:src|href)="([^"#]+)"/g)){if(/^(https?:|\.\.\/)/.test(url))continue;assert.ok(fs.existsSync(path.join(base,url.split('?')[0])),url);}});
 test('header keeps the standard shelf return and the original curriculum is credited',()=>{assert.match(html,/<header>[\s\S]*data-shelf-return href="\.\.\/\.\.\/index.html#books"[\s\S]*<\/header>/);assert.match(html,/rohitg00\/ai-engineering-from-scratch/);assert.ok(B.sources.some(s=>s[1].includes('rohitg00/ai-engineering-from-scratch')));});
 test('sources are HTTPS and cross links name a reason',()=>{B.sources.forEach(s=>assert.match(s[1],/^https:\/\//));for(const c of B.chapters)for(const x of c.cross||[]){assert.match(x[1],/^\.\.\/[a-z0-9-]+\/(#[a-z0-9-]+)?$/);assert.ok(x[2].length>8);}});
+test('every chapter has a transfer question [question, 3 options, answer 0-2, explanation]',()=>{
+ for(const c of B.chapters){const t=c.transfer;assert.ok(Array.isArray(t)&&t.length===4,c.id+' transfer');
+  assert.equal(typeof t[0],'string');assert.ok(t[0].length>15,c.id);assert.equal(t[1].length,3,c.id);t[1].forEach(o=>assert.ok(typeof o==='string'&&o.length>0,c.id));
+  assert.ok(Number.isInteger(t[2])&&t[2]>=0&&t[2]<3,c.id);assert.ok(typeof t[3]==='string'&&t[3].length>20,c.id);}
+});
+test('choice order rotates the answer to the target slot and keeps every option',()=>{
+ const ord=ctx.window[prefix+'UI'].order,order=(...a)=>Array.from(ord(...a));
+ assert.deepEqual(order(3,1,0),[1,2,0]);assert.deepEqual(order(3,1,2),[2,0,1]);assert.deepEqual(order(3,0,0),[0,1,2]);
+ B.chapters.forEach((c,i)=>{const o=order(3,c.quiz[2],i%3);assert.equal(o[i%3],c.quiz[2]);assert.deepEqual([...o].sort(),[0,1,2]);
+  if(c.transfer)assert.equal(order(3,c.transfer[2],(i+1)%3)[(i+1)%3],c.transfer[2]);});
+});

@@ -123,6 +123,23 @@ function storage(pages,vecs,dim,bytes){return pages*vecs*dim*bytes;}
 /* 12장: 에이전트 성공률. 단계 성공 p, 단계 n. 실패를 감지율 det로 알아채면 한 번 다시 시도 */
 function agentSuccess(p,n,det=0){const step=p+(1-p)*det*p;return {plain:p**n,retry:step**n,step};}
 
-const A13Math={sum,dot,norm,cos,logSumExp,sigmoid,patchTokens,vitParams,simMatrix,infoNCE,sigmoidLoss,qformer,gateTrain,contextBudget,GRIDS,bestGrid,anyres,squarePad,nativeTokens,pooled,videoBudget,eventCatch,imageTokens,quantize,maskSchedule,hybridMask,ttfab,talkerRate,actionBin,actionRate,maxSim,mean,pooledScore,storage,agentSuccess};
+/* 12장 마지막 과제 계산서: 6장 영상 예산·포착, 5장 해상도 전략, 11장 색인 저장량, 12장 성공률을 한 번에 계산한다.
+   가정: 영상 360초, 불꽃 0.3초, 프레임 27×27 격자, 예산 32,768토큰, 보증서 사진 3024×4032, 설명서 120쪽.
+   audio 모드는 소리로 사건이 든 10초 구간을 정확히 찾았다고 가정하고, 전체는 0.5 FPS로 훑은 뒤 그 구간만 고른 FPS로 읽는다. */
+const FINAL={seconds:360,event:0.3,budget:32768,scanFps:0.5,window:10,photo:[3024,4032],pages:120};
+function finalPlan({fps=1,pool=3,audio=false,doc='square',retr='maxsim',bytes=4,p=0.95,n=20,d=0}={},A=FINAL){
+ const per=pooled(27,pool),full=videoBudget(A.seconds,fps,per,A.budget);
+ const tokens=audio?Math.floor(A.seconds*A.scanFps)*per+Math.max(1,Math.floor(A.window*fps))*per:full.tokens;
+ const catchP=eventCatch(A.event,fps).p,[W,H]=A.photo,sq=squarePad(W,H),nat=nativeTokens(W,H);
+ const docInfo=doc==='native'?{tokens:nat.tokens,w:nat.w,h:nat.h}:{tokens:sq.tokens,w:Math.round(W*sq.scale),h:Math.round(H*sq.scale)};
+ const index=retr==='maxsim'?storage(A.pages,1030,128,bytes):storage(A.pages,1,768,4),agent=agentSuccess(p,n,d);
+ return {per,tokens,fits:tokens<=A.budget,share:tokens/A.budget,fpsMax:full.fpsMax,catchP,needFps:1/A.event,
+  doc:{...docInfo,scale:docInfo.h/H},index,agent,success:agent.retry};
+}
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리에 오도록 n개 보기를 돌린다.
+   반환값은 화면 순서대로 늘어놓은 원래 번호다. 정답 판정은 원래 번호로 하므로 데이터는 바뀌지 않는다. */
+function order(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+
+const A13Math={order,FINAL,finalPlan,sum,dot,norm,cos,logSumExp,sigmoid,patchTokens,vitParams,simMatrix,infoNCE,sigmoidLoss,qformer,gateTrain,contextBudget,GRIDS,bestGrid,anyres,squarePad,nativeTokens,pooled,videoBudget,eventCatch,imageTokens,quantize,maskSchedule,hybridMask,ttfab,talkerRate,actionBin,actionRate,maxSim,mean,pooledScore,storage,agentSuccess};
 if(typeof module!=='undefined')module.exports=A13Math;else root.A13Math=A13Math;
 })(typeof window!=='undefined'?window:globalThis);

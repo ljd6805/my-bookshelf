@@ -52,3 +52,5 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 :root{--accent:#ff8f8f}
 [data-theme=light]{--accent:#a62626}
 @media(max-width:560px){.lab .kit-panel.table-wrap table,.lab .kit-panel.table-wrap tbody,.lab .kit-panel.table-wrap tr,.lab .kit-panel.table-wrap td{display:block;width:100%}.lab .kit-panel.table-wrap tr:first-child{display:none}.lab .kit-panel.table-wrap tr{border:1px solid var(--line);border-radius:6px;margin:0 0 10px;padding:6px 0}.lab .kit-panel.table-wrap td{border:0;padding:3px 12px;display:grid;grid-template-columns:5.2em 1fr;gap:10px}.lab .kit-panel.table-wrap td::before{content:attr(data-label);color:var(--muted);font-size:.8rem;line-height:1.9}}
+/* 2026-10-12 보충: 확인 문제 안의 전이 문항. 버튼 모양은 .quiz button을 그대로 쓴다. */
+.transfer-quiz{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:.2em 0 .4em}.transfer-feedback{margin-top:14px;color:var(--accent)}

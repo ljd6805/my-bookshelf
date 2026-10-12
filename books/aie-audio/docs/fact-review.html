@@ -4,6 +4,28 @@
 <h1>팩트·출처 검수 기록 · 음성과 오디오</h1>
 <p>「AI 엔지니어링 처음부터」 07권 《음성과 오디오 · 파형에서 대화하는 목소리까지》의 팩트·출처 검수 기록입니다. 책을 쓰지 않은 에이전트가 검수했습니다. <a href="index.html#verification">프로젝트 문서의 검증 절</a>로 돌아갑니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r4)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12장 transfer 12개, #pipeline 깊이 읽기 “호출어 솔아를 늘 듣는 일”과 새 실험 wake(wakeWord), #codec 코드북 크기 정리(CODEBOOK_BITS·codecBudget·rvq 결과 문장·figures), 새 출처 openWakeWord·DAC(arXiv 2306.06546), 정답 자리 돌리기" data-result="fixed">
+<h2>2026-10-12 보충 검수 (r4)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r4) — 검수팀(정민·유진·건우·채원·현석) 관점으로 점검했고 이번 보충을 쓰지 않았습니다. 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8이 이 책에 바꾼 것 — 12장 transfer 12개, #pipeline 깊이 읽기 “호출어 솔아를 늘 듣는 일”과 새 실험 wake(wakeWord), #codec 코드북 크기 정리(CODEBOOK_BITS·codecBudget·rvq 결과 문장·figures), 새 출처 openWakeWord·DAC(arXiv 2306.06546), 정답 자리 돌리기.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>openWakeWord README를 열어 목표값(오거부 5% 미만·시간당 오수락 0.5회 미만)과 저자의 “subjective” 표현 확인. Mimi 2,048코드·12.5 Hz·8코드북 1.1 kbps, EnCodec 75 Hz·1,024코드 확인. SNAC 저장소가 코드북 크기를 밝히지 않는다는 문장은 README에서 사실로 확인(비트레이트 0.98 kbps만 표기)</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>전이 2건 수정</td><td>전이 해설 재계산: 접힘 3 kHz, 프레임 1+⌊659,452 ÷ 512⌋ = 1,288·빈 10.77 Hz, macro 재현율 0.855·정확도 95.5%, WER 2/5·CER 0, 창 129개, Φ(−2.1) ≈ 1.79%·Φ(−3) ≈ 0.135%·Φ(−1.2) ≈ 11.5%, 프레임 4·6·3·7 = 20·4,410샘플, DAC 3,870토큰·7.74·8.51 kbps, 576·0.576번, 워터마크 0.813·9/256 = 3.5%·0.9⁸ = 0.430, 가중 WER 5.8%</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>결과 문장 1건 수정</td><td>wakeWord를 따로 계산해 대조: 20 ms·10⁻⁴·n 1 → 180,000창·18/시간·432/일·놓침 10%, n 2 → 0.0018/시간·0.0432/일·19%, 100 ms → 36,000창·3.6/시간, 경계 10 ms·10⁻²·n 5·q 0.5 → 3.6×10⁻⁵/시간·놓침 96.9%, 100 ms·10⁻⁶·n 5 → 8.6×10⁻²⁵/일·4.9%. codecBudget 8코드북: 75 Hz 6 kbps·6,000토큰, 12.5 Hz 1.1 kbps·1,000토큰, 32개 4.4 kbps. 모두 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>오수락(false accept)·오거부(false reject)·놓침률, 코드북 크기·비트, RVQ의 쓰임이 장 안과 표준 용어에 맞음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>openWakeWord 저장소와 arXiv 2306.06546을 WebFetch로 열어 확인(DAC 초록: 44.1 kHz를 8 kbps 토큰으로). 두 출처에 확인일 2026-10-12가 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#mel 전이 해설</td><td>“43 Hz는 빈 간격을 홉으로 나눈 실수”: 43 Hz는 22,050 ÷ 512, 곧 샘플링 주파수를 창 길이 대신 홉으로 나눈 값</td><td>따로 계산 22,050 ÷ 512 = 43.07</td><td>“샘플링 주파수를 창 길이 대신 홉으로 나눈(22,050 ÷ 512) 실수”로 고침</td></tr>
+<tr><td>#safety 전이 오답·해설</td><td>오답 “검출 약 48%”가 “8개 모두 맞는 경우만 센 값”이라 했으나 0.9⁸ = 0.430이라 43%여야 함</td><td>따로 계산 0.9⁸ = 0.4305</td><td>오답을 “검출 약 43%, 오탐 약 0.4%”로, 해설을 “43%(0.9⁸)와 0.4%(1 ÷ 256)”로 고침. 정답·번호는 그대로</td></tr>
+<tr><td>labs-talk.js wake 결과 문장</td><td>n = 1인데 하루 오작동이 1번 미만인 설정(예: 100 ms·10⁻⁶)에서 “n을 늘린 만큼 진짜 호출도 더 자주 놓칩니다”가 나옴</td><td>경계값 실행</td><td>n = 1이면 “창 하나의 오작동 확률이 충분히 작아 하루 한 번 미만…”으로 나누어 적음. 자산 버전 20261012-supp1r4</td></tr>
+</tbody></table>
+<h3>전이 문항과 정답 자리</h3>
+<p>12장 전이 문항 모두 해설의 계산을 python3로 따로 다시 계산했고, 정답이 하나뿐이며 오답 둘이 각각 특정한 계산 실수나 오해로 분명히 틀린지 확인했습니다. 소재와 숫자가 본문과 달라 본문 문장을 찾아서는 풀리지 않습니다. 정답 자리 돌리기는 quizOrder(n, answer, target)[target] = answer이고 결과가 0~n−1의 순열임을 식으로 확인했으며, app.js가 버튼의 data-answer·data-transfer에 원래 보기 번호를 쓰고 c.quiz[2]·c.transfer[2]와 비교하므로 화면 자리와 무관하게 판정이 맞습니다(확인 문제 index % 3, 전이 (index + 1) % 3).</p>
+<h3>확인하지 못한 것</h3>
+<p>DAC 논문의 표 1(86 Hz·10비트 코드북 9개)은 초록만 열어 8 kbps를 확인했고 표 자체는 보지 않았습니다. SNAC 저장소의 0.98 kbps(12·23·47 Hz)는 12비트 코드북과 맞아 보이지만 저장소가 크기를 밝히지 않아 책의 10비트 가정 표기를 그대로 두었습니다. 실제 소음에서 창 사이 상관이 연속 창 기준의 효과를 얼마나 줄이는지는 확인하지 않았습니다. 실제 브라우저 확인은 하지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-audio)" data-date="2026-10-12" data-scope="12개 장 본문·식·세부 상자·주의·확인 문제·다른 책 연결, 16개 실험(js/math.js·lab-guides.js 결과 읽기), 출처 47개의 장별 번호, 카탈로그 장 색인·개념·읽기 노선 항목, 브라우저 1280·390·320px" data-result="fixed">
 <h2>2026-10-12 편집팀 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-audio). 범위: 12개 장 본문·식·세부 상자·주의·확인 문제·다른 책 연결, 16개 실험(js/math.js·lab-guides.js 결과 읽기), 출처 47개의 장별 번호, 카탈로그 장 색인·개념·읽기 노선 항목, 브라우저 1280·390·320px.</p>

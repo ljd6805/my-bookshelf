@@ -23,6 +23,20 @@ test('every chapter carries the full learning flow and links forward', () => {
   }
 });
 
+test('every chapter has a multiple-choice transfer question and the options rotate', () => {
+  const Q = require('../js/quiz.js');
+  for (const c of book.chapters) {
+    const [q, options, answer, why] = c.transfer.quiz || [];
+    assert.ok(typeof q === 'string' && q.length > 10, `${c.id} transfer question`);
+    assert.equal(options.length, 3, `${c.id} three options`);
+    assert.ok(Number.isInteger(answer) && answer >= 0 && answer <= 2, `${c.id} answer index`);
+    assert.ok(typeof why === 'string' && why.length > 20, `${c.id} explanation`);
+  }
+  assert.deepEqual(Q.order(3, 0, 1), [2, 0, 1]);
+  for (let a = 0; a < 3; a += 1) for (let t = 0; t < 3; t += 1) assert.equal(Q.order(3, a, t)[t], a);
+  assert.ok(book.final.questions.some((q) => q.q.includes('기대 비용')), 'final expected-cost question');
+});
+
 test('every lab has a guide with purpose, reading and challenge', () => {
   const ctx = { window: {} };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'js/guides.js'), 'utf8'), ctx);

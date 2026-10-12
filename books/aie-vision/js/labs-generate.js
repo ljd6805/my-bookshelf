@@ -40,6 +40,16 @@ A05Labs.flowsteps=el=>{
   `t = 1(잡음)에서 0(데이터)까지 h = 1/${n}씩 ${n}번 걸었습니다.<br>도착점 (${F(r.pts[n][0],3)}, ${F(r.pts[n][1],3)}), 데이터 (0.100, 0.500) → 오차 <strong>${F(r.err,4)}</strong><br>${verdict} 정확한 속도를 아는 장난감 모형의 실제 계산이며, 학습된 망의 속도 오차는 포함하지 않습니다.`);});
 };
 
+/* 12장: 낮·비 오는 밤의 점수 문턱. 점수 분포는 미리 정한 시나리오이고, 정밀도·재현율은 그 분포에서 실제로 계산한다. */
+A05Labs.nightscore=el=>{
+ U.setup(el,R('ns-t','검출 점수 문턱 (이 값 이상만 자전거로 셈)',0.3,0.9,0.05,0.5)+S('ns-model','모델',[['base','지금 모델 (지연을 맞춘 뒤)'],['retrain','야간 재학습 (시나리오)']],'base'));
+ U.bind(el,()=>{const t=V(el,'ns-t'),m=U.text(el,'ns-model'),r=M.nightScore(t,m),c=M.nightCurves(m,'night'),d=r.day,n=r.night,P=v=>F(v*100,1)+'%';
+  const chart=U.plot({lines:[{data:c.map(p=>[p[0],p[1]]),color:'var(--accent)'},{data:c.map(p=>[p[0],p[2]]),color:'var(--orange)',dashed:true},{data:[[t,0],[t,6]],color:'var(--text)'}],xmin:0,xmax:1,ymin:0,ymax:6,xlabel:'검출 점수',ylabel:'비 오는 밤 · 점수 0.01 칸당 후보 수',label:`비 오는 밤 실제 자전거(실선)와 젖은 바닥 반사(점선)의 점수 분포, 세로선은 문턱 ${F(t,2)}`});
+  const bars=U.bars(['낮 정밀도','낮 재현율','밤 정밀도','밤 재현율'],[d.precision*100,d.recall*100,n.precision*100,n.recall*100],'%',null,1);
+  const gap=d.precision-n.precision,word=n.recall<0.7?'밤 재현율이 70% 아래로 떨어져 실제 자전거를 많이 놓칩니다. 문턱만으로는 오탐과 놓침을 함께 줄이지 못합니다.':gap>0.2?`밤 정밀도가 낮보다 ${F(gap*100,1)}%p 낮습니다. 반사 후보의 점수가 실제 자전거와 겹쳐 있기 때문입니다.`:'낮과 밤의 정밀도 차이가 크지 않습니다.';
+  U.result(el,chart+bars,`문턱 <b>${F(t,2)}</b> · ${m==='base'?'지금 모델':'합성 야간 데이터로 다시 학습한 모델(시나리오)'}<br>낮: 자전거 100대 중 <b>${F(d.tp,1)}</b>대를 찾고 그림자 오탐 <b>${F(d.fp,1)}</b>건 → 정밀도 <strong>${P(d.precision)}</strong>, 재현율 ${P(d.recall)}<br>비 오는 밤: 자전거 100대 중 <b>${F(n.tp,1)}</b>대를 찾고 반사 오탐 <b>${F(n.fp,1)}</b>건 → 정밀도 <strong>${P(n.precision)}</strong>, 재현율 ${P(n.recall)}<br>${word}<br>점수 분포는 정규분포로 정한 시나리오이고, 숫자는 그 분포에서 계산한 기대 건수입니다. 지연 실험에서 입력 크기나 정밀도를 바꿔도 이 시나리오의 밤 정밀도는 그대로라고 가정했습니다. 실제 판단에는 비 오는 밤만 모은 라벨된 시험 세트가 필요합니다.`);});
+};
+
 const STAGE=[['decode','디코드'],['pre','전처리'],['det','검출'],['nms','NMS'],['cls','분류']];
 A05Labs.latency=el=>{
  U.setup(el,R('lside','모델 입력 한 변 (px)',320,1280,32,1280)+S('lprec','모델 정밀도',[['fp32','FP32'],['fp16','FP16'],['int8','INT8']],'fp32'));

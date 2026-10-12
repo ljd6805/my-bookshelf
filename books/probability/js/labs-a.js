@@ -157,13 +157,14 @@
     }
   };
 
-  function cltChart(values, pop, n, bins) {
+  function cltChart(values, pop, n, bins, band) {
     const counts = I.histogram(values, pop.min, pop.max, bins), total = values.length || 1;
     const width = (pop.max - pop.min) / bins, density = counts.map((c) => c / total / width);
     const se = pop.sd / Math.sqrt(n), peak = S.normalPdf(pop.mean, pop.mean, se);
     const maxY = Math.max(0.1, ...density, Math.min(peak, 6)) * 1.1;
     const x = C.scale(pop.min, pop.max, C.PAD.l, C.W - C.PAD.r), y = C.scale(0, maxY, C.H - C.PAD.b, C.PAD.t);
     let s = C.frame(C.ticks(pop.min, pop.max, 5, (v) => v.toFixed(1)), C.ticks(0, maxY, 3, (v) => v.toFixed(2)), x, y, { x: '표본 평균 x̄', y: '밀도' });
+    if (band) s += `<rect class="band" x="${Math.max(C.PAD.l, x(pop.mean - band))}" width="${Math.min(C.W - C.PAD.r, x(pop.mean + band)) - Math.max(C.PAD.l, x(pop.mean - band))}" y="${C.PAD.t}" height="${C.H - C.PAD.b - C.PAD.t}"/>`;
     density.forEach((d, i) => { s += `<rect class="bar" x="${x(pop.min + i * width) + 0.5}" width="${Math.max(1, x(pop.min + width) - x(pop.min) - 1)}" y="${y(d)}" height="${y(0) - y(d)}"/>`; });
     if (n >= 2 && values.length) {
       let d = '';
@@ -183,13 +184,17 @@
       const nS = U.slider({ id: 'clt-n', label: '표본 크기 n', min: 1, max: 50, step: 1, value: 1, unit: '개' }, () => reset());
       const choice = U.h('fieldset', { class: 'choice' }, [U.h('legend', { text: '모집단' }), ...Object.entries(I.POPULATIONS).map(([key, pop]) =>
         U.h('label', {}, [U.h('input', { type: 'radio', name: 'clt-pop', value: key, checked: key === popName, onchange: () => { popName = key; reset(); } }), U.h('span', { text: pop.label })]))]);
-      const chart = U.h('div', { class: 'chart' }), readout = U.h('p', { class: 'readout', 'aria-live': 'polite' }), note = U.h('p', { class: 'reading' });
+      const chart = U.h('div', { class: 'chart' }), readout = U.h('p', { class: 'readout', role: 'status', 'aria-live': 'polite' }), note = U.h('p', { class: 'reading' });
+      const bandBox = U.h('input', { type: 'checkbox', id: 'clt-band', onchange: () => render() });
+      const bandLabel = U.h('label', { class: 'check-label', for: 'clt-band' }, [bandBox, U.h('span', { text: ' μ ± 1.96 × σ/√n 띠 보기 (정규분포라면 95%가 이 안에)' })]);
       function render() {
-        const pop = I.population(popName), n = nS.get(), se = pop.sd / Math.sqrt(n);
-        chart.innerHTML = cltChart(means, pop, n, popName === 'dice' && n === 1 ? 6 : 30);
-        readout.textContent = means.length
+        const pop = I.population(popName), n = nS.get(), se = pop.sd / Math.sqrt(n), half = 1.96 * se;
+        chart.innerHTML = cltChart(means, pop, n, popName === 'dice' && n === 1 ? 6 : 30, bandBox.checked ? half : 0);
+        const share = I.shareWithin(means, pop.mean, half);
+        const bandText = bandBox.checked && means.length ? ` · 띠(${(pop.mean - half).toFixed(2)}~${(pop.mean + half).toFixed(2)}) 안의 평균 ${U.fmt.int(share * means.length)}개 = ${U.fmt.pct(share)} (정규분포 이론값 ${U.fmt.pct(S.normalCoverage(1.96))})` : '';
+        readout.textContent = (means.length
           ? `평균 ${U.fmt.int(means.length)}개 · 평균들의 평균 ${S.mean(means).toFixed(3)} (모집단 μ = ${pop.mean.toFixed(2)}) · 평균들의 표준편차 ${S.sd(means).toFixed(3)} (계산값 σ/√n = ${se.toFixed(3)})`
-          : `아직 평균을 만들지 않았습니다. 계산값 σ/√n = ${se.toFixed(3)}`;
+          : `아직 평균을 만들지 않았습니다. 계산값 σ/√n = ${se.toFixed(3)}`) + bandText;
         note.textContent = n === 1 ? 'n = 1이면 평균이 곧 값 하나라서 모집단 모양이 그대로 보입니다. n을 키운 뒤 다시 모아 보세요.'
           : n < 10 ? '모양이 가운데로 모이기 시작합니다. 곡선은 중심극한정리가 예측하는 정규분포입니다.'
           : '평균들이 좁은 종 모양으로 모였습니다. 원래 모집단이 치우쳐 있어도 마찬가지입니다.';
@@ -201,9 +206,11 @@
         cancel = U.animate(k, Math.max(1, Math.ceil(k / 40)), (i) => { means.push(I.sampleMean(popName, n, random)); if (i % Math.ceil(k / 40) === 0) render(); }, render);
       }
       function reset() { cancel(); random = S.rng(4); means = []; render(); }
-      root.append(U.h('div', { class: 'controls' }, [choice, nS.wrap, U.h('div', { class: 'buttons' }, [
-        U.button('평균 1개 만들기', () => run(1)), U.button('평균 500개 만들기', () => run(500)), U.button('초기화', () => { nS.set(1); reset(); }, 'ghost')])]),
-        chart, U.h('p', { class: 'legend' }, [U.h('span', { class: 'key sim-key', text: '막대: 모은 평균들의 분포' }), U.h('span', { class: 'key curve-key', text: '곡선: 정규분포 N(μ, σ/√n)' }), U.h('span', { class: 'key target-key', text: '세로 점선: 모집단 평균 μ' })]),
+      root.append(U.h('div', { class: 'controls' }, [choice, nS.wrap, bandLabel, U.h('div', { class: 'buttons' }, [
+        U.button('평균 1개 만들기', () => run(1)), U.button('평균 500개 만들기', () => run(500)),
+        U.button('예제: n = 30, 띠 켜고 500개', () => { nS.set(30); bandBox.checked = true; reset(); run(500); }),
+        U.button('초기화', () => { nS.set(1); bandBox.checked = false; reset(); }, 'ghost')])]),
+        chart, U.h('p', { class: 'legend' }, [U.h('span', { class: 'key sim-key', text: '막대: 모은 평균들의 분포' }), U.h('span', { class: 'key curve-key', text: '곡선: 정규분포 N(μ, σ/√n)' }), U.h('span', { class: 'key target-key', text: '세로 점선: 모집단 평균 μ' }), U.h('span', { class: 'key band-key', text: '띠: μ ± 1.96·σ/√n (켰을 때)' })]),
         readout, note);
       reset();
       return () => cancel();

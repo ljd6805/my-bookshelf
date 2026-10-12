@@ -49,6 +49,8 @@ function budget({model='toy',bits=4,tokens=8192,batch=1,capacity=24,reserve=2,ov
  const available=positive(capacity)*GiB;
  return {weights,metadata,kv,workspace,total,available,remaining:available-total,fits:total<=available};
 }
-const api={GiB,models,weightBytes,kvBytes,linearParams,quantize,matrix,phases,roofline,moe,transfer,budget};
+/* 확인 문제 화면 순서(학습 내용의 계산이 아님): 원래 번호 answer인 보기가 화면 target번째(0부터)에 오도록 n개 보기를 돌린 원래 번호 목록. */
+function choiceOrder(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+const api={choiceOrder,GiB,models,weightBytes,kvBytes,linearParams,quantize,matrix,phases,roofline,moe,transfer,budget};
 if(typeof module!=='undefined')module.exports=api;else root.GMath=api;
 })(typeof window==='undefined'?globalThis:window);

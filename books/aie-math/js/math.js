@@ -185,7 +185,11 @@ function mixingSteps(P,start,eps=1e-3){const pi=stationary(P);let p=start.slice(
 function diffInterval(p1,p2,n,z=1.96){const d=p2-p1,se=Math.sqrt(p1*(1-p1)/n+p2*(1-p2)/n);return {d,se,lo:d-z*se,hi:d+z*se,clear:d-z*se>0};}
 /* 오경보 문제: 기저율 base, 민감도 sens, 오경보율 fpr일 때 '켜'라고 판정된 소리 중 진짜 비율 */
 function posterior(base,sens,fpr){const t=base*sens,f=(1-base)*fpr;return t/(t+f);}
+/* 12장: ‘켜’ 판정 100번 가운데 진짜 명령과 잘못 켠 횟수. base·fpr은 비율(0~1), 민감도 sens 고정 가정값. */
+function falseAlarms(base,sens,fpr){const post=posterior(base,sens,fpr);return {post,real:100*post,wrong:100*(1-post),perRecording:(1-base)*fpr};}
 
-const A02Math={COMMANDS,synth,dft,amplitudes,energy,prod,broadcast,strides,pipeline,norm,dot,cosine,distances,TEMPLATES,nearest,sigmoid,lossW,lossWGrad,numDiff,diffErrors,taylor,backprop,gradCheck,RAVINE,ravine,ravineGrad,descend,lrLimit,firstBelow,descend1d,log2,entropy,crossEntropy,kl,prediction,smoothTarget,toHalf,softmaxIn,logSumExp,isBad,broken,expFits,softmaxT,topP,rng,monteCarloPi,jacobiEigen,matmul,svd,lowRank,fro,spectrogram,compress,conditioning,commandChain,step,stationary,tv,evolve,mixingSteps,diffInterval,posterior};
+/* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
+function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
+const A02Math={quizOrder,COMMANDS,synth,dft,amplitudes,energy,prod,broadcast,strides,pipeline,norm,dot,cosine,distances,TEMPLATES,nearest,sigmoid,lossW,lossWGrad,numDiff,diffErrors,taylor,backprop,gradCheck,RAVINE,ravine,ravineGrad,descend,lrLimit,firstBelow,descend1d,log2,entropy,crossEntropy,kl,prediction,smoothTarget,toHalf,softmaxIn,logSumExp,isBad,broken,expFits,softmaxT,topP,rng,monteCarloPi,jacobiEigen,matmul,svd,lowRank,fro,spectrogram,compress,conditioning,commandChain,step,stationary,tv,evolve,mixingSteps,diffInterval,posterior,falseAlarms};
 if(typeof module!=='undefined')module.exports=A02Math;else root.A02Math=A02Math;
 })(typeof window!=='undefined'?window:globalThis);

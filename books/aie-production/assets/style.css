@@ -51,3 +51,4 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 /* 18권 색: 운영 장부의 호박색. 경고는 붉은 주황으로 조금 더 짙게 */
 :root{--accent:#e9c48f;--orange:#ff8f7a}
 [data-theme=light]{--accent:#7b4f12;--orange:#b13a22}
+.transfer-quiz{margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}

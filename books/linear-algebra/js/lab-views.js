@@ -240,6 +240,45 @@ window.LAViews = {
    "d = 1.5이면 x = (2, 1.5), 아침 달리기입니다. d = 0.6이면 det M = 0.2로 답은 있지만 b₂를 한 칸만 움직여도 크게 이동합니다. d = 0.5이면 det M = 0이라 하나의 답을 정할 수 없습니다."
   ]
  },
+ "least-squares": {
+  "title": "기록이 셋, 미지수는 둘: 최소제곱",
+  "desc": "점수표가 세 장이면 직선도 셋입니다. 기록 하나에 오차가 섞이면 세 직선이 한 점에서 만나지 않습니다. 보라 점은 세 식의 오차 제곱합을 가장 작게 만드는 답 x̂입니다.",
+  "html": "<div class=\"lab-columns\"><div class=\"controls\"><label>점수표 세 장 <select name=\"rows\" id=\"ls-rows\"><option value=\"diff\" selected>서로 다른 방향: ① 2x + y ② x + 1.5y ③ x − y</option><option value=\"same\">모두 같은 방향: ① 2x + y ② 4x + 2y ③ x + 0.5y</option></select></label>\n<div class=\"field\"><label for=\"ls-b1\">기록 b₁</label><input type=\"range\" id=\"ls-b1\" name=\"b1\" min=\"-6\" max=\"6\" step=\"0.25\" value=\"5.5\" data-digits=\"2\"><output for=\"ls-b1\">5.50</output></div>\n<div class=\"field\"><label for=\"ls-b2\">기록 b₂</label><input type=\"range\" id=\"ls-b2\" name=\"b2\" min=\"-6\" max=\"6\" step=\"0.25\" value=\"4.25\" data-digits=\"2\"><output for=\"ls-b2\">4.25</output></div>\n<div class=\"field\"><label for=\"ls-b3\">기록 b₃</label><input type=\"range\" id=\"ls-b3\" name=\"b3\" min=\"-6\" max=\"6\" step=\"0.25\" value=\"1.5\" data-digits=\"2\"><output for=\"ls-b3\">1.50</output></div>\n</div><div class=\"stage\"><svg role=\"img\" aria-labelledby=\"lab-ls-svg\"><title id=\"lab-ls-svg\">세 식의 직선, 두 식씩 골라 푼 교점(빈 원), 최소제곱 답(보라 점). 수치는 아래 결과 문장에 있습니다.</title></svg></div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>기록 b = (5.5, 4.25, 1.5)이면 x̂ = (2.35, 1.06)이고 잔차 제곱합은 0.21입니다.</p></div><p class=\"caption lab-note\"><b>계산 조건</b> M은 3×2 행렬(행 하나가 점수표 한 장), x = (빠르기, 에너지), b₁~b₃는 −6~6(0.25 간격). x̂ = (MᵀM)⁻¹Mᵀb를 실제로 계산합니다. 붉은 점선은 식 ①, 보라 실선은 식 ②, 파란 점선은 식 ③입니다. MᵀM의 행렬식이 0이면 하나의 답을 정할 수 없다고 표시합니다. 아침 달리기 (2, 1.5)의 정확한 기록은 (5.5, 4.25, 0.5)입니다.</p>",
+  "task": "기본 값에서 b₃만 0.5 → 1.5 → 2.5로 바꿔 보세요. 잔차 제곱합은 어떻게 변하나요? 기록 오차를 두 배로 키우면 잔차 제곱합은 두 배일까요, 네 배일까요? 먼저 짐작한 뒤 확인하세요.",
+  "guide": [
+   "점수표 세 장의 기록 b에서 원래 노래 x를 되찾되, 세 식을 한꺼번에 가장 잘 맞추는 답 x̂를 찾습니다. 잔차 r = b − Mx̂가 M의 두 열과 직각(Mᵀr = 0)인지 확인합니다.",
+   [
+    [
+     "기록이 모두 맞을 때",
+     {
+      "rows": "diff",
+      "b1": 5.5,
+      "b2": 4.25,
+      "b3": 0.5
+     }
+    ],
+    [
+     "셋째 기록이 1만큼 틀렸을 때",
+     {
+      "rows": "diff",
+      "b1": 5.5,
+      "b2": 4.25,
+      "b3": 1.5
+     }
+    ],
+    [
+     "같은 방향 점수표 셋",
+     {
+      "rows": "same",
+      "b1": 5.5,
+      "b2": 4.25,
+      "b3": 1.5
+     }
+    ]
+   ],
+   "기록이 모두 맞으면 세 직선이 (2, 1.5)에서 만나고 잔차가 0입니다. 셋째 기록이 1 틀리면 세 직선이 작은 삼각형을 이루고, x̂ = (2.35, 1.06), 잔차 제곱합 0.21이 됩니다. 어느 두 식을 고르느냐에 따라 달라지는 교점(빈 원)과 달리 x̂는 하나로 정해지고, Mᵀr은 언제나 (0, 0)입니다. 점수표 세 장이 모두 같은 방향이면 MᵀM의 행렬식이 0이라 답을 하나로 정할 수 없습니다."
+  ]
+ },
  "eigen": {
   "title": "시험 화살표 돌리기",
   "desc": "파란 화살표 v(길이 1)의 방향 φ를 바꾸면 청록 화살표 Mv가 따라 움직입니다. 둘이 한 직선 위에 놓이는 φ를 찾으세요. ‘한 바퀴 돌리기’는 φ를 360° 자동으로 돌립니다.",

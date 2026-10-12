@@ -4,6 +4,24 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「AI 엔지니어링 처음부터」 03권 《머신러닝 기초 · 데이터에서 믿을 만한 예측까지》(books/aie-ml/)의 팩트·출처 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 에이전트가 검수했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r3)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항 12개, #trees 깊이 읽기(그래디언트 부스팅)·실험 boost(fitStump·boosting)·결과 읽기, 장 출처에 Friedman 2001(source 30) 추가, quizOrder" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 검수 (전체 도서 보충 · 검수 r3)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r3, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 12개 장 전이 문항 12개, #trees 깊이 읽기(그래디언트 부스팅)·실험 boost(fitStump·boosting)·결과 읽기, 장 출처에 Friedman 2001(source 30) 추가, quizOrder. 커밋 5f766a8이 이 책에 더한 것만 보았고, 계산은 책 코드와 따로 Python·Node 스크립트로 다시 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>부스팅이 잔차(제곱 오차의 음의 기울기)에 차례로 맞추는 편향 감소 앙상블이라는 설명, XGBoost·LightGBM의 2차 미분·규제·빠른 분할 설명을 Friedman(2001)·Chen &amp; Guestrin(2016)과 대조. 전이 문항마다 정답이 하나뿐인지, 오답 해설의 계산이 그 오답 값을 실제로 만드는지 확인했습니다. 정답 자리 돌리기(quizOrder)는 n=3의 모든 (정답, 목표 자리) 9쌍에서 목표 자리에 원래 정답이 오고 보기가 겹치지 않음을 따로 확인했고, 클릭 판정은 data-answer·data-transfer의 원래 번호를 c.quiz[2]·c.transfer[2]와 비교합니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>따로 계산: −ln0.01=4.605·(1−0.01)²=0.980, 지니 0.5−0.32=0.18, 1/1,500=0.000667·1/1,000=0.001, 정밀도 9/99=9.1%·재현율 90%, 1−0.9²⁰=0.878, SMOTE (1.5, 3), 비용 문턱 1/(1+9)=0.1·9/10=0.9</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>같은 데이터(boostData 시드 331)에 Python으로 따로 그루터기 부스팅을 구현해 대조: ν=1 최저 M=14·0.2342, M=10 0.2375, M=50 0.2507, M=200 0.2883·학습 0.0109, ν=0.1 M=50 0.3100, 최저 M=183·0.2213. 모두 일치. ν=0.05는 200라운드 안 최저가 0.2501로 ν=1보다 높아 "ν가 작으면 더 낮은 최저점" 읽기와 엇갈려 보이므로 결과 읽기에 한 문장을 더함</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>그루터기·학습률 ν·라운드 수 M·조기 종료가 책 안 용어와 같음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>Friedman 2001 DOI 10.1214/aos/1013203451이 Annals of Statistics 29(5) "Greedy function approximation: A gradient boosting machine"으로 열림(확인일 2026-10-12). 출처 목록 전체의 확인일은 content.js 머리말 2026-10-08</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/lab-guides.js boost 결과 읽기</td><td>ν=0.05를 고르면 200라운드 안 검증 최저(0.250)가 ν=1(0.234)보다 높아 본문 설명과 어긋나 보임</td><td>따로 계산한 ν=0.05 곡선이 M=200에서도 내려가는 중</td><td>"ν=0.05는 200라운드 끝에서도 아직 내려가는 중(0.250)이라 라운드도 늘려야 한다"는 문장 추가</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>실제 브라우저에서 전이 문항을 직접 눌러 보지는 않았습니다(집필 측 tests/browser.cjs 기록만 봄). 독자의 학습 효과는 시험하지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml)" data-date="2026-10-12" data-scope="12개 장 본문·식·식 설명·심화 상자·혼동 경고·확인 문제, 실험 16개(안내 상자 결과 읽기 숫자 전부를 math.js로 재계산하고 그중 6개 실험은 Python 독립 구현·손계산으로 대조), 참고 자료 50개 서지 대조, 다른 책 링크 19개의 도착 앵커, 브라우저 1280·390·320px" data-result="fixed">
 <h2>2026-10-12 편집팀 전체 도서 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-ml). 범위: 12개 장, 실험 16개, 참고 자료 50개, 다른 책 링크 19개, 브라우저 세 폭. 이 세션은 이 책을 쓰지 않았습니다.</p>

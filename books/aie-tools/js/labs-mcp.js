@@ -17,10 +17,17 @@ A14Labs.lifecycle=el=>{
   if(!http&&(d==='nameMismatch'||d==='noToken'))note=' stdio에는 HTTP 헤더와 베어러 토큰이 없으므로 이 결함은 생기지 않아 요청이 끝까지 갑니다.';
   if(d==='mismatchUnsupported')note=http?' 헤더와 본문 일치 검사가 버전 검사보다 먼저이므로 -32020이 먼저 나옵니다.':' stdio에는 헤더가 없으므로 본문 버전만 보고 -32022로 답합니다.';
   if(d==='toolFails')note=' 도구 실행 실패는 프로토콜 오류가 아니라 결과 안의 isError로 알려서, 모델이 읽고 고칠 수 있게 합니다.';
+  const w=M.wireMessage(d,tr),hot=w.request.concat(w.response).filter(x=>x[1]).map(x=>x[1]).filter((x,i,a)=>a.indexOf(x)===i);
   U.result(el,U.rows(items,'요청 검사 단계',`${status} · ${body}`),
-   `응답: <b>${status}</b>, <b>${body}</b>.${note}<br>검사 순서와 오류 코드는 원본 레슨 06·07·09가 정리한 MCP 2026-07-28 규칙을 실제로 계산한 것입니다(원본 커리큘럼 기준, 확인일 2026-10-08). 실제 서버는 부르지 않습니다.`);
+   `응답: <b>${status}</b>, <b>${body}</b>.${note}<br>걸린 줄: <b>${hot.length?hot.join(' · '):'없음(모든 검사 통과)'}</b>. 아래 선 위 기록에서 ◀ 표시가 붙은 줄입니다.<br>검사 순서와 오류 코드는 원본 레슨 06·07·09가 정리한 MCP 2026-07-28 규칙을 실제로 계산한 것입니다(원본 커리큘럼 기준, 확인일 2026-10-08). 메시지의 키 이름은 명세 원문 예와 대조했고(확인일 2026-10-12), id·노트·서버 이름은 시나리오 값입니다. 실제 서버는 부르지 않습니다.`);
+  wire(el,w,http);
  });
 };
+function wireBlock(title,lines){return `<div class="a14-wire-part"><b>${title}</b><pre tabindex="0" aria-label="${U.esc(title)}">${lines.map(([t,why])=>why?`<span class="hot">${U.esc(t)}<em> ◀ ${U.esc(why)}</em></span>`:`<span>${U.esc(t)||' '}</span>`).join('\n')}</pre></div>`;}
+function wire(el,w,http){
+ let box=el.querySelector('.a14-wire');if(!box){box=document.createElement('div');box.className='a14-wire';el.appendChild(box);}
+ box.innerHTML=`<p class="caption">선 위의 기록: ${http?'HTTP 요청 헤더와 본문':'stdio에서는 이 JSON을 줄바꿈 없이 한 줄로 쓰고 끝에 줄바꿈 하나를 붙입니다. 여기서는 읽기 쉽게 펼쳤습니다'}. ◀ 표시는 검사에 걸린 줄입니다.</p>${wireBlock('보낸 요청',w.request)}${wireBlock('받은 응답',w.response)}`;
+}
 
 const DESIGNS=[['memory','복제본 메모리에 초안 보관'],['sticky','고정 경로(sticky)로 같은 복제본에 보냄'],['shared','공유 저장소에 초안 보관']];
 A14Labs.replica=el=>{

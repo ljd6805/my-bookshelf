@@ -102,3 +102,22 @@ test('triage: minutes and bounds',()=>{
  assert.equal(M.triage('crossToken','trust').minutes,7);assert.equal(M.triage('slow','wire').minutes,18);assert.equal(M.triage('slow','time').minutes,6);
  for(const i of Object.keys(M.INCIDENTS))for(const o of Object.keys(M.ORDERS)){const r=M.triage(i,o);assert.ok(r.minutes<=r.worst);assert.equal(r.done.at(-1),r.root);}
 });
+test('wireMessage: the wire record marks the field each check saw and agrees with lifecycle',()=>{
+ const txt=lines=>lines.map(l=>l[0]).join('\n'),hot=lines=>lines.filter(l=>l[1]).map(l=>l[0]);
+ const ok=M.wireMessage('ok','http');
+ assert.match(txt(ok.request),/"io\.modelcontextprotocol\/protocolVersion": "2026-07-28"/);assert.match(txt(ok.request),/"io\.modelcontextprotocol\/clientCapabilities": \{\}/);
+ assert.match(txt(ok.request),/^MCP-Protocol-Version: 2026-07-28$/m);assert.match(txt(ok.request),/^Mcp-Name: notes_search$/m);
+ assert.equal(hot(ok.request).length,0);assert.match(txt(ok.response),/"isError": false/);assert.match(txt(ok.response),/"resultType": "complete"/);
+ const mm=M.wireMessage('nameMismatch','http');assert.deepEqual(hot(mm.request),['Mcp-Name: notes_delete','    "name": "notes_search",']);assert.match(txt(mm.response),/^HTTP\/1\.1 400/);assert.match(txt(mm.response),/"code": -32020/);
+ assert.doesNotMatch(txt(M.wireMessage('noMeta','http').request),/_meta/);
+ assert.doesNotMatch(txt(M.wireMessage('notification','http').request),/"id"/);assert.match(txt(M.wireMessage('notification','http').response),/202 Accepted/);
+ assert.match(txt(M.wireMessage('unsupported','http').response),/"supported": \["2026-07-28"\], "requested": "2027-01-01"/);
+ assert.match(hot(M.wireMessage('toolFails','http').response)[0],/"isError": true/);
+ const st=M.wireMessage('mismatchUnsupported','stdio');assert.doesNotMatch(txt(st.request),/HTTP|MCP-Protocol-Version/);assert.match(txt(st.response),/-32022/);
+ for(const d of ['ok','notification','noMeta','nameMismatch','mismatchUnsupported','unsupported','unknownMethod','missingCap','noToken','toolFails'])for(const t of ['http','stdio']){
+  const o=M.lifecycle(d,t).out,w=M.wireMessage(d,t),r=txt(w.response);
+  if(o.code!==null)assert.match(r,new RegExp('"code": '+o.code),d+t);else assert.doesNotMatch(r,/"code"/,d+t);
+  if(t==='http'&&o.http)assert.match(r,new RegExp('HTTP/1\\.1 '+o.http),d);
+  JSON.parse(txt(w.request).replace(/^[\s\S]*?\n\n/,'').replace(/…\(토큰\)/,''));
+ }
+});

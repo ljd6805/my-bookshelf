@@ -93,4 +93,12 @@
 <li>cross 링크의 대상 장 ID는 REFERENCE 목록과 대조했지만, 서재 전체 링크 검사기로는 아직 확인하지 않았습니다.</li>
 </ul>
 </section>
+<section id="supplement-20261012"><h2>2026-10-12 보충</h2>
+<p>편집장 선정(전체 도서 보충)에 따라 글작성·시각실험·교수법 역할로 더한 내용입니다. 장 ID·앵커·경로는 바꾸지 않았고, 스크립트·스타일 버전은 <code>?v=20261012-supp1</code>로 올렸습니다.</p>
+<ul>
+<li><b>공통</b>: 12장 모두에 전이 문항(<code>transfer</code>)을 더해 확인 문제 블록 안 "다른 상황에 써 보기"로 보입니다. 본문과 다른 소재(심박 센서, 일기예보, 공장 검사기, 날씨 사슬 등)에 그 장의 식을 적용해야 풀리며, 계산이 든 문항은 따로 검산했습니다. 보기 순서는 화면에서 돌려(<code>A02Math.quizOrder</code>) 확인 문제 정답이 (장 번호−1) % 3번째, 전이 문항 정답이 그다음 자리에 옵니다. <code>data-answer</code>·<code>data-transfer</code>는 원래 보기 번호입니다.</li>
+<li><b>12장 final · 실험 verdict</b>: 고정값으로 한 번 계산하던 오경보 문장을 손잡이 두 개로 바꿨습니다. 기저율(1~30%, 기본 5%)과 오경보율(1~10%, 기본 3%)을 움직이면 P(명령 | 켜 판정)과 ‘켜’ 판정 100번 중 잘못 켠 횟수를 실제로 계산합니다(<code>falseAlarms</code>). 대표값: 기저율 5%·민감도 95%·오경보 3%에서 0.625(잘못 켬 37.5번), 기저율 1%에서 0.242(75.8번). 세 값은 모두 가정값이라고 화면과 식 설명에 밝혔습니다. 실험 수는 15개 그대로입니다.</li>
+<li><b>검증</b>: <code>npm test --prefix books/aie-math</code>(전이 문항 형식, 보기 돌리기 대표값, 새 계산의 대표값·경계값 포함) 통과. <code>python3 scripts/validate.py</code> 0 errors, <code>python3 scripts/build_catalog.py --check</code> 최신. Chromium으로 1280·390·320px에서 모든 장을 열어 실험마다 예제 버튼·최솟값·최댓값·초기화, 확인 문제와 전이 문항의 정답·오답 피드백, 가로 넘침 없음, 콘솔 오류 없음을 확인했습니다(<code>tests/browser.cjs</code>, 결과 <code>docs/evidence/browser-results.json</code>).</li>
+<li><b>확인하지 못한 것</b>: 전이 문항이 실제 독자의 전이 능력을 높이는지(학습 효과)는 시험하지 않았습니다. 새 내용은 아직 집필자가 아닌 검수자의 팩트·출처 검수를 받지 않았습니다. 화면 낭독기로 새 피드백 영역을 직접 들어 보지 않았습니다.</li>
+</ul></section>
 </main></body></html>

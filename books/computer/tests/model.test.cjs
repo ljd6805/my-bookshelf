@@ -107,3 +107,51 @@ test('캐시: 순차 접근, 반복, 충돌의 대표값', () => {
   }
   assert.throws(() => K.simulate([1], 0, 4), RangeError);
 });
+
+test('FP16·BF16 부동소수점: 대표값·경계값·반올림 (2026-10-12 보충)', () => {
+  const { FP16, BF16 } = M;
+  // 기준값: 1의 간격 2⁻¹⁰, 2048 근처 간격 2, 최댓값 65504, 최소 정규수 2⁻¹⁴
+  assert.equal(M.encodeFloat(1, FP16), 0x3C00);
+  assert.equal(M.floatNeighbor(0x3C00, FP16).gap, 2 ** -10);
+  assert.equal(M.floatNeighbor(M.encodeFloat(2048, FP16), FP16).gap, 2);
+  const top = M.floatNeighbor(M.encodeFloat(65504, FP16), FP16);
+  assert.equal(top.next, Infinity);
+  assert.equal(top.gap, null);
+  assert.equal(M.decodeFloat(0x7BFF, FP16).value, 65504);
+  assert.equal(M.decodeFloat(0x0400, FP16).value, 2 ** -14);
+  assert.equal(M.decodeFloat(0x0001, FP16).kind, 'subnormal');
+  // 지수 칸이 모두 1이면 무한대 또는 NaN
+  assert.equal(M.decodeFloat(0x7C00, FP16).value, Infinity);
+  assert.equal(M.decodeFloat(0x7C01, FP16).kind, 'nan');
+  assert.equal(M.decodeFloat(0xFC00, FP16).value, -Infinity);
+  // 반올림: 2049는 가운데라 짝수 가수 쪽 2048, 65520은 넘쳐서 무한대 (Python struct 'e'와 대조한 비트)
+  assert.equal(M.encodeFloat(2049, FP16), 0x6800);
+  assert.equal(M.encodeFloat(65520, FP16), 0x7C00);
+  assert.equal(M.encodeFloat(0.1, FP16), 0x2E66);
+  assert.equal(M.encodeFloat(0.3, FP16), 0x34CD);
+  assert.equal(M.encodeFloat(1.5e-5, FP16), 0x00FC);
+  assert.equal(M.encodeFloat(-2, FP16), 0xC000);
+  // BF16: 1은 0x3F80, 간격 2⁻⁷, 0.1은 0x3DCD, FP16 최댓값은 65536으로, 70000은 70144로 반올림
+  assert.equal(M.encodeFloat(1, BF16), 0x3F80);
+  assert.equal(M.floatNeighbor(0x3F80, BF16).gap, 2 ** -7);
+  assert.equal(M.encodeFloat(0.1, BF16), 0x3DCD);
+  assert.equal(M.decodeFloat(M.encodeFloat(65504, BF16), BF16).value, 65536);
+  assert.equal(M.decodeFloat(M.encodeFloat(70000, BF16), BF16).value, 70144);
+  // 불변 조건: 유한한 모든 FP16 비트는 되돌려 적으면 같은 비트가 된다
+  for (let b = 0; b < 0x7C00; b += 1) assert.equal(M.encodeFloat(M.decodeFloat(b, FP16).value, FP16), b);
+  assert.deepEqual(M.floatFields(0x3C00, FP16), ['0', '01111', '0000000000']);
+  assert.throws(() => M.decodeFloat(65536, FP16), RangeError);
+});
+
+test('확인 문제 보기 돌리기: 정답이 정한 자리로 간다', () => {
+  const Q = require('../js/quiz.js');
+  assert.deepEqual(Q.order(3, 1, 0), [1, 2, 0]);
+  assert.deepEqual(Q.order(3, 1, 1), [0, 1, 2]);
+  assert.deepEqual(Q.order(3, 0, 2), [1, 2, 0]);
+  for (let a = 0; a < 3; a += 1) for (let t = 0; t < 3; t += 1) {
+    const o = Q.order(3, a, t);
+    assert.equal(o[t], a);
+    assert.deepEqual([...o].sort(), [0, 1, 2]);
+  }
+  assert.throws(() => Q.order(3, 3, 0), RangeError);
+});

@@ -148,8 +148,9 @@ function pve(level){
 /* 9장 · 범위 계약: 글롭(**, *, ?)으로 허용·금지 경로를 대조한다. 금지 = block, 허용 밖 = warn(엄격 모드면 block). */
 function globToRegex(g){let r='';for(let i=0;i<g.length;i++){const ch=g[i];if(ch==='*'&&g[i+1]==='*'){if(g[i+2]==='/'){r+='(?:.*/)?';i+=2;}else{r+='.*';i++;}}else if(ch==='*')r+='[^/]*';else if(ch==='?')r+='[^/]';else r+=ch.replace(/[.+^${}()|[\]\\]/g,'\\$&');}return new RegExp('^'+r+'$');}
 const globMatch=(path,glob)=>globToRegex(glob).test(path);
-const CONTRACT={allowed:['app/signup/**','tests/test_signup*.py'],forbidden:['scripts/**','migrations/**','config/prod/**']};
-const DIFFS={clean:['app/signup/validate.py','tests/test_signup.py'],docs:['app/signup/validate.py','tests/test_signup.py','README.md'],creep:['app/signup/validate.py','tests/test_signup.py','app/email/helper.py','scripts/release.sh']};
+/* 과업: 당직 도우미의 쓰기 도구에 출처 꼬리표·읽기 전용 검사를 넣기(원본 레슨 36의 가입 검증 예를 이 책 사례로 바꾼 시나리오). */
+const CONTRACT={allowed:['oncall/tools/**','tests/test_tools*.py'],forbidden:['scripts/**','migrations/**','config/prod/**']};
+const DIFFS={clean:['oncall/tools/guard.py','tests/test_tools_guard.py'],docs:['oncall/tools/guard.py','tests/test_tools_guard.py','README.md'],creep:['oncall/tools/guard.py','tests/test_tools_guard.py','oncall/notify/slack.py','config/prod/alerts.yaml']};
 function scopeCheck(files,strict,contract=CONTRACT){
  const rows=files.map(f=>{
   if(contract.forbidden.some(g=>globMatch(f,g)))return {file:f,status:'forbidden',severity:'block'};

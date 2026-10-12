@@ -21,19 +21,25 @@ A06Labs.bleu=el=>{
 };
 
 function chunkSvg(r){
- const X=v=>30+v/r.total*420,[a0,a1]=r.answer;
+ const X=v=>30+v/r.total*420,[a0,a1]=r.answer,top=new Set(r.top);
  let b=`<text x="30" y="34">약관 ${r.total}토큰과 문장 경계</text>`;
  r.starts.forEach(s=>{b+=`<path d="M${X(s)} 60V96" stroke="var(--muted)" stroke-width="1"/>`;});
  b+=`<rect x="30" y="64" width="420" height="28" rx="3" fill="var(--panel2)"/>`;
  b+=`<rect x="${X(a0)}" y="64" width="${X(a1)-X(a0)}" height="28" fill="var(--orange)" opacity=".75"/><text x="${(X(a0)+X(a1))/2}" y="83" text-anchor="middle" fill="#111">답 구간</text>`;
- r.chunks.forEach(([s,e],i)=>{const y=118+(i%2)*34,hit=e>a0&&s<a1,hold=i===r.holder;b+=`<rect x="${X(s)+1}" y="${y}" width="${Math.max(2,X(e)-X(s)-2)}" height="26" rx="3" fill="${hold?'var(--accent)':hit?'var(--blue)':'var(--panel2)'}" stroke="var(--line)"/>`;if(X(e)-X(s)>26)b+=`<text x="${(X(s)+X(e))/2}" y="${y+18}" text-anchor="middle" fill="${hold||hit?'#111':'var(--text)'}">${i+1}</text>`;});
- b+=`<text x="30" y="214">초록: 답 전체 · 파랑: 답 일부</text><text x="30" y="240">${r.whole?`답이 ${r.holder+1}번 조각에 온전히 있음`:`답이 조각 ${r.touched}개로 갈라짐`}</text>`;
- return U.svg(b,`조각 ${r.chunks.length}개, ${r.whole?'답이 한 조각에 온전히 들어감':'답이 '+r.touched+'개 조각으로 갈라짐'}`);
+ r.chunks.forEach(([s,e],i)=>{const y=118+(i%2)*34,hit=e>a0&&s<a1,hold=i===r.holder,got=top.has(i);b+=`<rect x="${X(s)+1}" y="${y}" width="${Math.max(2,X(e)-X(s)-2)}" height="26" rx="3" fill="${hold?'var(--accent)':hit?'var(--blue)':'var(--panel2)'}" stroke="${got?'var(--orange)':'var(--line)'}" stroke-width="${got?3:1}"/>`;if(X(e)-X(s)>26)b+=`<text x="${(X(s)+X(e))/2}" y="${y+18}" text-anchor="middle" fill="${hold||hit?'#111':'var(--text)'}">${i+1}</text>`;});
+ b+=`<text x="30" y="214">초록: 답 전체 · 파랑: 답 일부 · 주황 테두리: 가져온 상위 ${r.top.length}개</text><text x="30" y="240">${r.whole?`답이 ${r.holder+1}번 조각에 온전히 있음 (검색 순위 ${r.rank}위)`:`답이 조각 ${r.touched}개로 갈라짐`} · 답 구간 회수율 ${Math.round(r.recall*100)}%</text>`;
+ return U.svg(b,`조각 ${r.chunks.length}개, ${r.whole?'답이 한 조각에 온전히 들어감':'답이 '+r.touched+'개 조각으로 갈라짐'}, 가져온 조각 ${r.top.map(i=>i+1).join('·')}번, 답 구간 회수율 ${Math.round(r.recall*100)}%`);
+}
+function chunkReading(r,s,k){
+ const [a0,a1]=r.answer,off=r.top.filter(i=>r.chunks[i][1]<=a0||r.chunks[i][0]>=a1),miss=r.keys.filter(x=>!x[1]);
+ if(r.recall<1)return `가져온 조각에 답이 ${Math.round(r.recall*100)}%만 들어 있습니다. ${miss.length?`${miss.map(x=>`“${x[0]}”`).join('·')}${miss.length>1?'이 모두':'이'} 빠졌으므로 생성기는 ${miss.length>1?'두 기한을 모두':'기한 하나를'} 모른 채 답하게 됩니다.`:'“7일”·“30일”은 들어왔지만 답 구간 일부가 빠져 기한에 붙은 조건이 잘릴 수 있습니다.'} ${off.length?`답과 겹치지 않는 ${off.map(i=>i+1).join('·')}번 조각이 질문 낱말을 가져 답의 나머지 부분보다 높은 점수를 받았습니다.`:'답의 나머지 부분은 질문 낱말이 적어 순위 밖으로 밀렸습니다.'}`;
+ return r.whole?(r.cost>=300?'답은 온전히 가져왔지만 문맥에 들어가는 토큰이 많습니다. 답과 상관없는 문장도 함께 들어가 읽기 모형이 헷갈릴 수 있습니다.':'답을 담은 조각이 높은 점수로 올라와 적은 토큰으로 답 전체를 가져옵니다.'):`답이 ${r.touched}조각으로 갈라졌지만 가져온 상위 ${k}개가 갈라진 조각을 모두 덮었습니다. 대신 토큰이 늘었고, 가져올 조각 수를 줄이면 반쪽만 남습니다.`;
 }
 A06Labs.chunk=el=>{
- U.setup(el,R('size','조각 크기 (토큰)',50,400,10,150)+S('strategy','자르는 방식',[['fixed','고정 길이로 자르기'],['sentence','문장 경계에서 자르기']],'fixed'));
- U.bind(el,()=>{const s=U.value(el,'size'),st=U.text(el,'strategy'),r=M.chunkDoc(s,st);
+ U.setup(el,R('size','조각 크기 (토큰)',50,400,10,150)+S('strategy','자르는 방식',[['fixed','고정 길이로 자르기'],['sentence','문장 경계에서 자르기']],'fixed')+R('k','가져올 조각 수 k (BM25 상위)',1,3,1,2));
+ U.bind(el,()=>{const s=U.value(el,'size'),st=U.text(el,'strategy'),k=U.value(el,'k'),r=M.retrieveChunks(s,st,k);
+  const rank=r.order.slice(0,5).map((i,n)=>`${n+1}위 ${i+1}번 ${F(r.scores[i],2)}`).join(' · ');
   U.result(el,chunkSvg(r),
-  `약관 12문장(${r.total}토큰)을 ${st==='fixed'?'고정 길이':'문장 경계'}로 자르면 조각 <b>${r.chunks.length}개</b>가 됩니다. 답은 7~8번째 문장(${r.answer[0]}~${r.answer[1]}번째 토큰, ${r.answer[1]-r.answer[0]}토큰)에 걸쳐 있습니다.<br>판정: <strong>${r.whole?`답이 ${r.holder+1}번 조각 안에 온전히 있음`:`답이 조각 ${r.touched}개로 갈라짐`}</strong> · 상위 3개 조각을 넣으면 생성기에 들어가는 토큰은 최대 <b>${r.top3}</b>개입니다.<br>${r.whole?(s>=300?'조각이 크면 답은 온전하지만, 답과 상관없는 문장도 함께 들어가 검색 점수가 흐려집니다.':'답을 담을 만큼 크고 경계를 존중한 조각입니다.'):'답의 앞뒤 절반이 다른 조각으로 나뉘면 검색이 한쪽만 가져와 답이 반쪽이 됩니다.'} 문장 길이는 교육용 값이고, 경계 판정은 실제 계산입니다.`);});
+  `약관 12문장(${r.total}토큰)을 ${st==='fixed'?'고정 길이':'문장 경계'}로 자르면 조각 <b>${r.chunks.length}개</b>가 됩니다. 답은 7~8번째 문장(${r.answer[0]}~${r.answer[1]}번째 토큰, ${r.answer[1]-r.answer[0]}토큰)에 걸쳐 있습니다.<br>질문 “${M.TERMS.query}”의 BM25 점수 순위: ${rank}<br>판정: <strong>${r.whole?`답이 ${r.holder+1}번 조각 안에 온전히 있음 · 검색 순위 ${r.rank}위`:`답이 조각 ${r.touched}개로 갈라짐`}</strong> · 상위 ${r.top.length}개의 답 구간 회수율 <b>${Math.round(r.recall*100)}%</b> · 생성기에 들어가는 토큰 <b>${r.cost}</b>개 · 기한 ${r.keys.map(([w,g])=>`“${w}” ${g?'있음':'없음'}`).join(', ')}<br>${chunkReading(r,s,k)} 문장과 토큰 수는 교육용 값이고, 자르기·BM25 점수·회수율은 실제 계산입니다.`);});
 };
 })();

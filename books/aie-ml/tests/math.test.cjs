@@ -45,3 +45,10 @@ test('resampling raises recall over plain training; SMOTE makes points between m
  const mins=[{x:0,y:0,c:1},{x:2,y:0,c:1}],s=M.smote(mins,4,1);s.forEach(p=>{assert.equal(p.y,0);assert.ok(p.x>=0&&p.x<=2);});});
 test('drift: keeping the old threshold loses recall; retraining recovers more than retuning',()=>{const k0=M.driftLab(0,'keep'),k2=M.driftLab(2,'keep'),rt=M.driftLab(2,'retune'),rr=M.driftLab(2,'retrain');
  assert.ok(k2.recall<k0.recall);assert.ok(rr.cost<rt.cost&&rr.cost<k2.cost);assert.equal(M.driftLab(0,'retune').t,k0.t);});
+test('gradient boosting: training error never rises, small nu reaches a lower validation minimum, nu=1 overfits',()=>{
+ const a=M.boosting(50,0.1),b=M.boosting(50,1);for(let m=1;m<=200;m++){assert.ok(a.trainCurve[m]<=a.trainCurve[m-1]+1e-12);assert.ok(b.trainCurve[m]<=b.trainCurve[m-1]+1e-12);}
+ assert.ok(a.bestVal<b.bestVal,'nu 0.1 has the lower minimum');assert.ok(a.bestM>b.bestM,'and needs more rounds');assert.ok(b.valCurve[200]>b.bestVal+0.03,'nu 1 rises after its minimum');
+ near(a.valMSE,0.310,0.002);near(b.bestVal,0.234,0.002);assert.equal(b.bestM,14);assert.ok(a.valMSE>b.valMSE,'same M: small nu fits less');
+ const s=M.fitStump([0,1,2,3],[1,1,-1,-1]);near(s.t,1.5);near(s.l,1);near(s.r,-1);
+ assert.equal(M.boosting(0,0.1).predict(0.3),M.boosting(0,0.1).f0);
+});

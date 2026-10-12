@@ -101,3 +101,11 @@ test('redesign: baseline fails long context, GQA and SWA pass, spec passes speed
  assert.equal(M.redesign('quality','moe').pass,null);assert.equal(M.redesign('quality','tokens').pass,true);assert.equal(M.redesign('quality','gqa').pass,false);
  assert.ok(M.redesign('long','moe').total>M.redesign('long','none').total);near(M.design('none').active,M.design('none').total);
 });
+test('rope context extension: unseen-angle pairs for 4K to 32K',()=>{
+ const a=M.ropeExtend({dHead:128,lTrain:4096,lTarget:32768,method:'none'});
+ assert.equal(a.pairs.length,64);assert.equal(a.unseen,18);near(a.slow.theta,Math.pow(10000,-126/128),1e-15);near(a.slow.train,0.473,1e-3);near(a.slow.target,3.784,1e-3);near(a.worst,8,1e-9);
+ assert.ok(Math.abs(a.slow.wave-54410)<1);
+ assert.equal(M.ropeExtend({method:'pi'}).unseen,0);assert.equal(M.ropeExtend({method:'base10'}).unseen,12);assert.equal(M.ropeExtend({method:'base100'}).unseen,0);
+ assert.equal(M.ropeExtend({dHead:128,lTrain:4096,lTarget:4096}).unseen,0);
+ for(const d of [64,128])for(const m of ['none','pi','base10','base100']){const r=M.ropeExtend({dHead:d,method:m});assert.ok(r.pairs.every(p=>Number.isFinite(p.target)&&p.target>0));if(m==='pi')r.pairs.forEach(p=>near(p.target,p.train,1e-9));}
+});

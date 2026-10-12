@@ -108,3 +108,10 @@ test('80GB에 들어가는 최소 GPU 수',()=>{
  assert.equal(M.minGpus(70,3),14);assert.equal(M.minGpus(8,3),2);assert.equal(M.minGpus(8,0),Infinity);assert.equal(M.minGpus(0.124,0),1);
  for(const n of [1,2,4,8])assert.ok(M.trainMemory(8,3,n).total<=M.trainMemory(8,2,n).total);
 });
+test('order rotates options so the answer lands on the target slot and keeps every option once',()=>{
+ assert.deepEqual(M.order(3,1,0),[1,2,0]);assert.deepEqual(M.order(3,1,1),[0,1,2]);assert.deepEqual(M.order(3,0,2),[1,2,0]);
+ for(let a=0;a<3;a++)for(let t=0;t<3;t++){const o=M.order(3,a,t);assert.equal(o[t],a);assert.deepEqual([...o].sort(),[0,1,2]);}
+});
+test('rolling back the extension stage (long context and annealing) reruns SFT through serving: 1,446 assumed hours',()=>{
+ const r=M.rollback('scale');assert.deepEqual(r.stages.map(s=>s[0]),['scale','sft','rm','dpo','cai','eval','quant','serve']);assert.equal(r.hours,1446);
+});

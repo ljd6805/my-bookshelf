@@ -57,3 +57,4 @@ button,input,select{font-family:inherit}header{z-index:40}header .mark{font-size
 [data-theme=light]{--accent:#5b3cc4}
 [data-theme=light] button.primary,[data-theme=light] .button.primary{color:#fff}
 .chart>.a19-sub{margin:0;padding:12px 14px 0}
+.transfer-quiz{margin-top:24px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}

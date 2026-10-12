@@ -13,7 +13,7 @@ const guides={
  moe:['전체 expert 수와 토큰당 선택 수를 따로 바꿉니다.',[['16개 중 2개',{experts:16,chosen:2}],['64개 중 2개',{experts:64,chosen:2}],['64개 중 8개',{experts:64,chosen:8}]],'전체 expert를 늘려도 선택 수가 같으면 이 모형의 활성 파라미터는 같습니다. 전체 가중치 저장량은 증가합니다.'],
  transfer:['지정한 데이터를 한 번 옮기는 순수 시간 하한을 계산합니다.',[['4 GB·32 GB/s',{gb:4,link:32}],['전송량 두 배',{gb:8,link:32}],['전송 없음',{gb:0,link:32}]],'4/32초는 125 ms입니다. 전송량 0은 이 비용만 0이라는 뜻이며 전체 추론이 0 ms라는 뜻은 아닙니다.'],
  cards:['실제 사양에서 가중치와 KV를 각각 계산합니다.',[['Qwen3-8B',{model:'q8',bits:4,tokens:8192}],['Qwen3-30B-A3B',{model:'q30',bits:4,tokens:8192}]],'같은 문맥에서 KV는 1.125와 0.750 GiB입니다. 더 큰 모델이 더 작은 KV를 가질 수 있습니다. 가중치는 카드의 반올림 파라미터로 계산한 근사값입니다.'],
- budget:['같은 과제에서 조건 하나씩 바꾸며 초과 원인을 찾습니다.',[['과제 시작',{model:'toy',bits:16,tokens:32768,batch:4,capacity:24,reserve:2,extra:10}],['4bit 전환',{model:'toy',bits:4,tokens:32768,batch:4,capacity:24,reserve:2,extra:10}],['요청 한 개',{model:'toy',bits:16,tokens:32768,batch:1,capacity:24,reserve:2,extra:10}]],'과제 시작은 약 34.39 GiB로 초과합니다. 4bit 전환은 약 22.10 GiB로 예산을 만족합니다. 여유·부가정보는 가정이며 실제 실행 성공 보장은 아닙니다.']
+ budget:['같은 과제에서 조건 하나씩 바꾸며 초과 원인을 찾습니다.',[['과제 시작',{model:'toy',bits:16,tokens:32768,batch:4,capacity:24,reserve:2,extra:10}],['4bit 전환',{model:'toy',bits:4,tokens:32768,batch:4,capacity:24,reserve:2,extra:10}],['회의 요약 8명',{model:'toy',bits:16,tokens:4096,batch:8,capacity:24,reserve:2,extra:10}]],'과제 시작은 약 34.39 GiB로 초과합니다. 4bit 전환은 약 22.10 GiB로 예산을 만족합니다. 회의 요약 8명(16bit, 요청마다 4,096토큰)은 KV가 4 GiB라 약 22.39 GiB로 들어갑니다. 여유·부가정보는 가정이며 실제 실행 성공 보장은 아닙니다.']
 };
 function mount(id,el){
  const [purpose,presets,reading]=guides[id],box=document.createElement('div');box.className='lab-guide';

@@ -200,7 +200,11 @@ const DATA={
  lengths:[50,120,900,30,2600,410,75,1500,220,60,3300,180]
 };
 
-const A11Math={DATA,rng,gauss,sigmoid,softplus,utf8,chunks,bpeTrain,bpeEncode,tokenBytes,showBytes,shingles,jaccard,hash32,minhashSig,minhashEstimate,lshProb,packing,
+/* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리에 오도록 n개 보기를 돌린다.
+   반환값은 화면 순서대로 늘어놓은 원래 번호다. 정답 판정은 원래 번호로 하므로 데이터는 바뀌지 않는다. */
+function order(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+
+const A11Math={order,DATA,rng,gauss,sigmoid,softplus,utf8,chunks,bpeTrain,bpeEncode,tokenBytes,showBytes,shingles,jaccard,hash32,minhashSig,minhashEstimate,lshProb,packing,
  bigramData,bigramTrain,bigramLoss,bigramFloor,bigramGreedy,CH,chinchillaLoss,trainFlops,chinchillaOptimal,trainMemory,minGpus,activationLayer,checkpointPlan,gpipeSchedule,
  RESP,sftLoss,dpo,bradleyTerry,groupAdvantages,grpoGroup,grpoZeroSignal,grpoEmpirical,eloExpected,eloRun,demoWeights,quantize,weightGB,specDecode,specBestN,hogwild,
  MODELS,modelParams,kvPerToken,nsaKeys,diffAttention,STAGES,EDGES,rollback,budget};

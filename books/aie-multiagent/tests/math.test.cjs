@@ -100,3 +100,11 @@ test('resume: checkpoints bound the work to redo',()=>{
 test('diagnose: the independent check is the only fix that works in all three incidents',()=>{
  for(const i of ['poison','storm','mono']){assert.equal(M.diagnose(i,'verify').good,true,i);assert.equal(M.diagnose(i,'more').good,false,i);assert.equal(M.diagnose(i,'longer').good,false,i);}
 });
+test('poison inject: only privilege separation keeps an outside instruction out of the report',()=>{
+ for(const m of ['none','provenance','readonly','writer'])assert.equal(M.poison(m,5,'inject').final,'injected',m);
+ const p=M.poison('privilege',5,'inject');assert.equal(p.final,'clean');assert.equal(p.caught,true);assert.equal(p.carried,3);
+ assert.equal(M.poison('writer',5,'inject').carried,5);assert.equal(M.poison('none',5,'inject').traceSteps,4);assert.equal(M.poison('provenance',5,'inject').traceSteps,1);
+ assert.equal(M.poison('readonly',5,'inject').pool.filter(x=>x.side).length,1,'verifier reports on a side channel');
+ assert.equal(M.poison('privilege',3,'inject').final,null);
+ assert.equal(M.poison('privilege').final,42,'privilege separation does not fix an honest copying error');
+});

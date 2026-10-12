@@ -23,6 +23,16 @@ test('모든 장이 AI Book과 같은 필드를 갖고 실험·자료가 실제�
   }
 });
 
+test('장마다 전이 문항이 질문·보기 3개·정답 번호·해설 형식이다', () => {
+  for (const c of book.chapters) {
+    const [q, options, answer, why] = c.transfer || [];
+    assert.ok(typeof q === 'string' && q.length > 10, `${c.id} 전이 질문`);
+    assert.equal(options.length, 3, `${c.id} 전이 보기`);
+    assert.ok(Number.isInteger(answer) && answer >= 0 && answer <= 2, `${c.id} 전이 정답`);
+    assert.ok(typeof why === 'string' && why.length > 20, `${c.id} 전이 해설`);
+  }
+});
+
 test('카탈로그의 목차 링크가 책 안의 경로로 이어진다', () => {
   const catalog = JSON.parse(fs.readFileSync(path.join(root, '../../data/catalog.json'), 'utf8'));
   const entry = catalog.books.find((b) => b.id === 'how-computers-work');

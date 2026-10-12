@@ -4,6 +4,21 @@
 <h1>팩트·출처 검수 기록 · 에이전트 엔지니어링</h1>
 <p>「AI 엔지니어링 처음부터」 15권 《에이전트 엔지니어링》(<code>books/aie-agents/</code>)을 쓰지 않은 검수 에이전트가 원본 Phase 14 레슨 54개, 레슨이 인용한 논문 초록과 공식 문서에 비추어 확인한 결과입니다. 기록 형식은 서재 공통 양식(<code>templates/fact-review.html</code>)을 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r6)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="보충 커밋 5f766a8의 12개 장 전이 문항, 9·10·11장 공통 사례 잇기(#workbench 문단·범위 계약 깊이 읽기·식 설명, #gates 문단·리뷰어 다섯 차원 예, #frame 문단), scope 실험의 CONTRACT·DIFFS와 그림·결과 읽기 문장, 정답 자리 돌리기" data-result="fixed">
+<h2>2026-10-12 보충 검수 (r6)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r6). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 보충 커밋 5f766a8의 12개 장 전이 문항, 9·10·11장 공통 사례 잇기(#workbench 문단·범위 계약 깊이 읽기·식 설명, #gates 문단·리뷰어 다섯 차원 예, #frame 문단), scope 실험의 CONTRACT·DIFFS와 그림·결과 읽기 문장, 정답 자리 돌리기. 문항 해설의 위치 표기 3곳(같은 위험 2곳 포함 5곳)과 전이 문항 1곳의 정답 유일성을 고쳤습니다.</p>
+<p>검수팀 편성: 정민(팀장·사실), 유진(출처), 건우(수치·실험 재계산), 채원(첫 독자·문항), 현석(규칙 감사). 이번 보충(커밋 5f766a8)을 쓰지 않은 세션입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>새 문장은 책 시나리오(당직 도우미 쓰기 도구에 출처 꼬리표·읽기 전용 검사 넣기)이며 외부 사실 주장을 새로 더하지 않았습니다. 기존 Cloudflare·원본 커리큘럼 문장은 바뀌지 않았습니다. SWE-bench의 FAIL_TO_PASS·PASS_TO_PASS 용법은 기존 장 설명과 같습니다.</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>별도 Python 재계산: UCT N=5에서 A 0.917·B 1.134, 반성 누적 1−0.7×0.58×0.46=0.813·1−0.7³=0.657, 융합 점수 X 0.5416·Y 0.60, 연결 5회·15초·병렬 5회·6초, 음성 60+250+400+200+80=990ms(나머지 590ms), 해결률 4/9≈44%, 루브릭 합계 6→soft fail, 위험 3×5+1=16·4×3+5=17, 파일럿 0.93·140초→모호, 루프 6턴 필요·예산 5→max_turns.</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>scopeCheck를 새 계약으로 따로 돌려 clean 통과, docs 경고 1, creep(oncall/notify/slack.py 경고, config/prod/alerts.yaml 차단)이 결과 읽기·그림 캡션과 맞음을 확인했습니다. 전이 문항의 docs/legal/terms.md는 금지 글롭이 먼저라 차단됩니다. 전이 문항 12개마다 화면 순서를 책 코드와 따로(별도 node 스크립트) 다시 계산해, 정답이 장 번호에 따른 자리(확인 문제 index%3, 전이 (index+1)%3)에 오고 data-answer·data-transfer에는 원래 번호가 남아 판정이 맞는 것을 확인했습니다.</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>범위 계약 필드(task_id·goal·allowed_files·forbidden_files·acceptance_criteria·rollback_plan·approvals_required), 리뷰어 다섯 차원, 인계 패킷 일곱 필드가 9·10장과 실험에서 같은 이름입니다.</td></tr><tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>문제 없음</td><td>이번 보충에 새 출처가 없습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#plan·#patterns·#workbench 전이 해설</td><td>“첫째 보기·둘째 보기·셋째 보기”라고 위치로 가리켰는데 화면에서 보기 순서를 돌려 다른 자리에 보입니다(#plan [2,0,1], #patterns [1,2,0], #workbench [1,2,0]). #loop·#memory는 이번 배치에서는 맞지만 같은 위험이 있습니다.</td><td>별도 순서 재계산</td><td>다섯 해설 모두 위치 대신 보기 내용으로 가리키게 고침</td></tr><tr><td>#measure 전이 문항</td><td>누출 과제가 깨뜨리지 않은 5건 중 1건이라고만 하여, 다른 과제도 누출일 수 있다고 읽으면 정답(4/9)이 하나로 정해지지 않았습니다.</td><td>채원(첫 독자) 점검</td><td>“누출 과제는 이 1건뿐입니다”를 문제에 더함</td></tr><tr><td>index.html</td><td>바뀐 스크립트의 캐시 무효화</td><td>저장소 규칙</td><td>?v=20261012-supp1을 20261012-rev6으로 올림</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>브라우저에서 직접 눌러 보지는 않았고, 화면 순서는 정적 계산과 tests/browser.cjs가 아닌 별도 스크립트로만 확인했습니다. 학습 효과는 사람 독자로 시험하지 않았습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-agents)" data-date="2026-10-12" data-scope="12개 장 전체 본문·공식·자세히 보기·경고·확인 문제·다른 책 링크 17개, 실험 16개 계산과 안내 상자 결과 읽기, 출처 103개 중 핵심 수치 출처 약 30건(기억 대조), 브라우저 1280·390·320px" data-result="fixed">
 <h2>2026-10-12 편집팀 전체 도서 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-agents). 이 책을 쓰지 않은 새 세션이 docs/10-agent-team.html의 다섯 팀 관점과 data/agent-team.json의 인물 점검 목록으로 다시 읽었습니다. 범위: 12개 장 전체 본문·공식·자세히 보기·경고·확인 문제·다른 책 링크 17개, 실험 16개 계산과 안내 상자 결과 읽기, 출처 103개 중 핵심 수치 출처 약 30건(기억 대조), 브라우저 1280·390·320px.</p>

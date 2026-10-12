@@ -39,6 +39,24 @@ async function checkLabs(page) {
   await lab(1).locator('[data-k="num"]').fill('300');
   assert.match(await lab(1).locator('.readout').first().innerText(), /0부터 255/);
   assert.match(await lab(1).locator('[data-k="bytes"]').innerText(), /5글자 → 7바이트/);
+  // 2장 보충: FP16·BF16 실험, 전이 문항
+  const fl = page.locator('#lab-float');
+  await fl.getByRole('button', { name: '2048', exact: true }).click();
+  assert.match(await fl.locator('.readout').innerText(), /0 \| 11010 \| 0000000000[\s\S]*2050 · 2¹/);
+  await fl.locator('[data-k="num"]').fill('2049');
+  assert.match(await fl.locator('.readout').innerText(), /가장 가까운 2048로 반올림/);
+  await fl.getByRole('button', { name: '0.1', exact: true }).click();
+  assert.match(await fl.locator('.readout').innerText(), /0\.0999755859375[\s\S]*0\.10009765625/);
+  await fl.getByRole('button', { name: '실험 초기화' }).click();
+  await fl.locator('.bit[data-i="1"]').click(); // 1(01111)에서 지수 16 자리를 켜면 11111
+  assert.match(await fl.locator('.readout').innerText(), /무한대/);
+  await fl.locator('[data-k="num"]').fill('abc');
+  assert.match(await fl.locator('.readout').innerText(), /숫자를 넣어 주세요/);
+  await page.locator('[data-transfer="1"]').click();
+  assert.match(await page.locator('.transfer-feedback').innerText(), /정답입니다/);
+  await page.locator('[data-transfer="0"]').click();
+  assert.match(await page.locator('.transfer-feedback').innerText(), /다시 생각해 보세요/);
+  assert.match(await page.locator('.chapter-meta').innerText(), /2개 실험[\s\S]*확인 문제 2개/);
   // 3장: XOR 1,1 → 0
   await open(2);
   await lab(2).locator('select').selectOption('XOR');
@@ -90,10 +108,16 @@ async function checkLabs(page) {
   await page.screenshot({ path: path.join(out, 'computer-desktop.png') });
   for (const width of [390, 320]) {
     const p = await browser.newPage({ viewport: { width, height: 800 } });
+    for (const hash of ['#cpu', '#final', '#encoding']) {
+      await p.goto(target + hash);
+      await p.locator('[data-lab]').first().waitFor();
+      const overflow = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+      assert.ok(overflow <= 0, `${width}px ${hash}에서 가로 넘침 ${overflow}px`);
+    }
+    await p.locator('#lab-float').scrollIntoViewIfNeeded();
+    await p.screenshot({ path: path.join(out, `computer-float-${width}.png`), fullPage: false });
     await p.goto(target + '#cpu');
     await p.locator('[data-lab]').first().waitFor();
-    const overflow = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-    assert.ok(overflow <= 0, `${width}px에서 가로 넘침 ${overflow}px`);
     await p.locator('.lab').first().scrollIntoViewIfNeeded();
     await p.screenshot({ path: path.join(out, `computer-${width}.png`), fullPage: false });
   }

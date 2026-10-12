@@ -83,5 +83,62 @@
     return writeEnable ? inputs.slice() : stored.slice();
   }
 
-  return { bitsToNumber, numberToBits, toSigned, toAsciiLabel, utf8Bytes, hex, gate, truthTable, fullAdder, rippleAdd, clockRegister, GATE_NAMES: Object.keys(GATES) };
+
+  /* 2장 보충: 부동소수점. fmt = { exp: 지수 비트 수, frac: 가수 비트 수 }. bits는 0 ~ 2^(1+exp+frac)−1 정수이다. */
+  const FP16 = { name: 'FP16', exp: 5, frac: 10 };
+  const BF16 = { name: 'BF16', exp: 8, frac: 7 };
+  const bias = (fmt) => 2 ** (fmt.exp - 1) - 1;
+
+  function decodeFloat(bits, fmt) {
+    const width = 1 + fmt.exp + fmt.frac, top = 2 ** (width - 1), fracMax = 2 ** fmt.frac, expMax = 2 ** fmt.exp - 1;
+    if (!Number.isInteger(bits) || bits < 0 || bits >= 2 * top) throw new RangeError(`${width}비트로 나타낼 수 없는 값: ${bits}`);
+    const sign = bits >= top ? 1 : 0, rest = bits - sign * top;
+    const e = Math.floor(rest / fracMax), f = rest % fracMax, s = sign ? -1 : 1;
+    let kind, value;
+    if (e === expMax) { kind = f ? 'nan' : 'inf'; value = f ? NaN : s * Infinity; }
+    else if (e === 0) { kind = f ? 'subnormal' : 'zero'; value = s * f * 2 ** (1 - bias(fmt) - fmt.frac); }
+    else { kind = 'normal'; value = s * (1 + f / fracMax) * 2 ** (e - bias(fmt)); }
+    return { sign, exponent: e, fraction: f, kind, value };
+  }
+
+  /* 가장 가까운 값으로 반올림하고, 정확히 가운데이면 가수가 짝수인 쪽을 고른다(IEEE 754 기본 반올림). */
+  function roundHalfEven(v) {
+    const r = Math.floor(v), d = v - r;
+    return d > 0.5 || (d === 0.5 && r % 2 === 1) ? r + 1 : r;
+  }
+
+  function encodeFloat(x, fmt) {
+    const width = 1 + fmt.exp + fmt.frac, top = 2 ** (width - 1), fracMax = 2 ** fmt.frac, expMax = 2 ** fmt.exp - 1;
+    if (Number.isNaN(x)) return expMax * fracMax + fracMax / 2;
+    const sign = x < 0 || Object.is(x, -0) ? top : 0, a = Math.abs(x);
+    if (a === Infinity) return sign + expMax * fracMax;
+    if (a === 0) return sign;
+    let e = Math.floor(Math.log2(a));
+    if (2 ** e > a) e -= 1;
+    if (2 ** (e + 1) <= a) e += 1;
+    let rest;
+    if (e < 1 - bias(fmt)) rest = roundHalfEven(a / 2 ** (1 - bias(fmt) - fmt.frac)); // 비정규수: 지수 칸 0
+    else rest = (e + bias(fmt)) * fracMax + roundHalfEven((a / 2 ** e - 1) * fracMax); // 반올림 올림은 지수 칸으로 넘어간다
+    if (rest >= expMax * fracMax) rest = expMax * fracMax; // 범위를 넘으면 무한대
+    return sign + rest;
+  }
+
+  /* 같은 부호에서 0에서 먼 쪽으로 바로 다음에 적을 수 있는 수와 그 간격. 무한대·NaN이면 null.
+     최댓값처럼 다음 비트가 무한대이면 더 큰 유한한 수가 없으므로 next = ±∞, gap = null. */
+  function floatNeighbor(bits, fmt) {
+    const here = decodeFloat(bits, fmt);
+    if (here.kind === 'inf' || here.kind === 'nan') return null;
+    const next = decodeFloat(bits + 1, fmt);
+    if (next.kind === 'inf') return { next: next.value, gap: null };
+    const e = Math.max(here.exponent, 1);
+    return { next: next.value, gap: 2 ** (e - bias(fmt) - fmt.frac) };
+  }
+
+  /* 비트 문자열을 부호 | 지수 | 가수 칸으로 나눠 보여 준다. */
+  function floatFields(bits, fmt) {
+    const s = numberToBits(bits, 1 + fmt.exp + fmt.frac).join('');
+    return [s.slice(0, 1), s.slice(1, 1 + fmt.exp), s.slice(1 + fmt.exp)];
+  }
+
+  return { FP16, BF16, decodeFloat, encodeFloat, floatNeighbor, floatFields, roundHalfEven, bitsToNumber, numberToBits, toSigned, toAsciiLabel, utf8Bytes, hex, gate, truthTable, fullAdder, rippleAdd, clockRegister, GATE_NAMES: Object.keys(GATES) };
 });

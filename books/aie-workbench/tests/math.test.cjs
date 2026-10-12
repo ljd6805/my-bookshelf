@@ -82,7 +82,10 @@ test('lossCurve: |1-2η| decides convergence; breakpoint fires above 100',()=>{
  assert.equal(M.lossCurve(0.75).kind,'출렁이며 수렴');assert.equal(M.lossCurve(0.05).kind,'느린 수렴');assert.equal(M.lossCurve(0.05).stop,-1);
 });
 test('triage: symptom-first is never slower than bottom-up or top-down here',()=>{
- for(const s of ['importfail','nocuda','acc99','slow']){const sym=M.triage(s,'symptom');assert.equal(sym.checks,1);
+ for(const s of ['importfail','nocuda','acc99','slow','jitter']){const sym=M.triage(s,'symptom');assert.equal(sym.checks,1);
   assert.ok(sym.minutes<=M.triage(s,'bottom').minutes&&sym.minutes<=M.triage(s,'top').minutes);}
  assert.equal(M.triage('slow','bottom').minutes,41);assert.equal(M.triage('importfail','top').minutes,58);
 });
+test('choiceOrder rotates choices so the answer lands on the target slot and keeps every original index once',()=>{assert.deepEqual(M.choiceOrder(3,1,0),[1,2,0]);assert.deepEqual(M.choiceOrder(3,0,2),[1,2,0]);assert.deepEqual(M.choiceOrder(3,2,2),[0,1,2]);for(let a=0;a<3;a++)for(let t=0;t<3;t++){const o=M.choiceOrder(3,a,t);assert.equal(o[t],a);assert.deepEqual([...o].sort(),[0,1,2]);}});
+test('rerun: spread and mean from the five scenario runs, and the 0.4%p gain sits inside the unfixed spread only',()=>{const n=M.rerun('none',.4);assert.equal(n.mean,86.5);assert.equal(n.spread,1.3);assert.ok(Math.abs(n.sd-Math.sqrt(1.1/4))<1e-9);assert.equal(n.beyond,false);assert.equal(M.rerun('none',1.3).beyond,false);assert.equal(M.rerun('none',1.4).beyond,true);assert.equal(M.rerun('seeded',.4).spread,.3);assert.equal(M.rerun('seeded',.4).beyond,true);assert.equal(M.rerun('deterministic',0).spread,0);assert.throws(()=>M.rerun('x',.4),RangeError);});
+test('triage: the jitter report points to the split/seed check',()=>{assert.equal(M.triage('jitter','symptom').minutes,10);assert.equal(M.triage('jitter','bottom').minutes,26);assert.equal(M.triage('jitter','top').minutes,45);assert.equal(M.triage('jitter','symptom').cause,'분할·시드·누수');});

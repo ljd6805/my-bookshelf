@@ -41,5 +41,7 @@ function thumbnail(c,i){
  const colors=['var(--accent)','var(--blue)','var(--orange)'],labels=c.thumb||c.flow.slice(0,3).map(x=>x.split('|')[0]),bar=[70,45,25];
  return `<svg viewBox="0 0 300 100" aria-hidden="true">${labels.map((s,k)=>`<rect x="${8+k*99}" y="18" width="86" height="62" rx="6" fill="var(--panel2)" stroke="${colors[k]}"/><rect x="${16+k*99}" y="67" width="${bar[(k+i)%3]}" height="3" fill="${colors[k]}"/><text x="${51+k*99}" y="51" text-anchor="middle" fill="var(--text)" font-size="${String(s).length>5?12:15}">${esc(s)}</text>`).join('')}${labels.slice(1).map((_,k)=>`<path d="M${94+k*99} 49h13" stroke="var(--muted)"/>`).join('')}</svg>`;
 }
-return {esc,fmt,value,text,range,select,setup,bind,result,svg,plot,bars,cards,grid,thumbnail};
+/* 보기 n개를 돌려 원래 정답 번호 answer가 화면 자리 target에 오게 하는 원래 번호 목록 */
+function order(n,answer,target){const k=((answer-target)%n+n)%n;return Array.from({length:n},(_,i)=>(i+k)%n);}
+return {order,esc,fmt,value,text,range,select,setup,bind,result,svg,plot,bars,cards,grid,thumbnail};
 })();

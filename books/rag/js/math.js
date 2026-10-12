@@ -160,6 +160,8 @@ function decide(threshold,{alpha=.5,reranked=false,n=5}={}){
  const count=o=>rows.filter(r=>r.outcome===o).length;
  return {rows,correct:count('correct'),wrong:count('wrong'),missed:count('missed'),abstain:count('abstain')};
 }
-const api={RULES,DOCS,QUESTIONS,AXES,TOKENS_PER_WORD,KV_PER_TOKEN,tokenize,sentences,chunk,corpus,index,idf,bm25,match,embed,cosine,semantic,hybrid,search,evaluate,benchmark,rerankScore,rerank,rerankBenchmark,tokens,packContext,bestSentence,decide};
+/* 확인 문제 화면 순서(학습 내용의 계산이 아님): 원래 번호 answer인 보기가 화면 target번째(0부터)에 오도록 n개 보기를 돌린 원래 번호 목록. */
+function choiceOrder(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+const api={choiceOrder,RULES,DOCS,QUESTIONS,AXES,TOKENS_PER_WORD,KV_PER_TOKEN,tokenize,sentences,chunk,corpus,index,idf,bm25,match,embed,cosine,semantic,hybrid,search,evaluate,benchmark,rerankScore,rerank,rerankBenchmark,tokens,packContext,bestSentence,decide};
 if(typeof module!=='undefined')module.exports=api;else root.RMath=api;
 })(typeof window==='undefined'?globalThis:window);

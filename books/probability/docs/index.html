@@ -101,6 +101,16 @@
 <li>요약은 루트 <a href="../../../docs/03-verification.html#probability-book">검증 기록</a>에도 남겼다.</li>
 </ul>
 </section>
+<section id="supplement-20261012">
+<h2>07 2026-10-12 보충</h2>
+<ul>
+<li><strong>4장 clt.</strong> “z와 68·95·99.7” 두 문단을 더했습니다(z = (x̄ − μ) ÷ (σ/√n), ±1·2·3에 68.27·95.45·99.73%, 95%는 ±1.96, 99%는 ±2.58, z = 2.5의 양쪽 꼬리 약 1.24%). 실험 <code>clt</code>에 “μ ± 1.96 × σ/√n 띠 보기”와 예제 버튼(n = 30, 띠 켜고 500개)을 더해 띠 안에 든 평균의 비율과 이론값 95%를 나란히 보여 줍니다. 씨앗 4, 평균 500개에서 n = 30이면 치우침 94.8%, 균등 95.8%, 주사위 95.6%이고, 균등·주사위 n = 1이면 100%입니다. 계산은 <code>stats.js</code>의 <code>zScore</code>·<code>normalCoverage</code>·<code>twoSidedTail</code>, <code>inference.js</code>의 <code>shareWithin</code>입니다. 정규분포 비율은 기존 출처(A&amp;S 7.1.26 근사, NIST 핸드북) 범위 안의 값이라 새 출처를 더하지 않았습니다.</li>
+<li><strong>마지막 과제.</strong> 다섯째 질문으로 “기댓값으로 비용 비교하기”를 더했습니다(질문 6개). 가정값: 오경보 점검비 5만 원, 놓친 고장 500만 원, 고장률 2%. 모터 한 대·하루당 기존 센서 1.49만 원, 새 센서(95%·4%) 0.696만 원, 감지율 Wilson 하한 76%이면 2.596만 원, 비용이 같아지는 감지율 약 87%. 계산은 <code>stats.js</code>의 <code>expectedCost</code>이고 테스트로 지킵니다. 비용 수치는 실제 자료가 아니라 설명용 가정입니다.</li>
+<li><strong>공통.</strong> 장마다 “새 상황에 옮기기”에 보기 문항(<code>transfer.quiz</code>)을 붙였습니다. 이 책의 확인 문제는 보기 없는 서술형이라 돌릴 보기가 없고, 보기 문항만 화면에서 돌려(<code>js/quiz.js</code>) 정답 자리가 (장 번호 + 1) % 3에 오게 했습니다. 예측 질문의 정답 자리는 이미 1·2·3번에 고르게 있어 바꾸지 않았습니다.</li>
+<li><strong>검증.</strong> <code>npm test</code> 25개 통과. 실제 Chromium으로 1280·390·320px에서 모든 경로를 열어 가로 넘침·콘솔 오류 없음, 실험 8개 조작·초기화, 4장 예제 버튼의 띠 비율과 초기화, 8개 장 보기 문항의 오답·정답 피드백, 마지막 과제 질문 6개를 확인했습니다(<code>tests/browser.cjs</code>).</li>
+<li><strong>확인하지 못한 것.</strong> 밝은 화면, 실제 독자의 풀이 결과. 팩트·출처 재검수는 집필하지 않은 세션이 새 회차로 해야 합니다.</li>
+</ul>
+</section>
 <p><a href="fact-review.html">팩트·출처 검수 기록 (2026-10-08)</a></p>
 </main>
 </body>

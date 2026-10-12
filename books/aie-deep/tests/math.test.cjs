@@ -95,3 +95,11 @@ test('gradient check flags buggy backprop and tolerates good ε',()=>{
  assert.ok(M.gradCheck(1e-5,'none').max<1e-7);assert.ok(M.gradCheck(1e-5,'sign').max>0.9);assert.ok(M.gradCheck(1e-5,'factor').max>0.3);
  assert.ok(M.gradCheck(0.1,'none').max>M.gradCheck(1e-5,'none').max);
 });
+test('minibatch SGD: updates per epoch, full batch never jitters, linear scaling matches B=8',()=>{
+ const full=M.minibatch({B:80,lr:0.3}),small=M.minibatch({B:8,lr:0.3}),scaled=M.minibatch({B:80,lr:3});
+ assert.equal(full.updates,30);assert.equal(small.updates,300);assert.equal(M.minibatch({B:1,lr:0.1,epochs:2}).updates,160);
+ assert.equal(full.upFrac,0);assert.ok(small.upFrac>0.2,'small batches sometimes step uphill');
+ assert.ok(small.trainLoss<full.trainLoss-0.1,'more updates per epoch');assert.ok(Math.abs(scaled.trainLoss-small.trainLoss)<0.03,'10x batch with 10x learning rate');
+ assert.ok(Math.abs(small.trainLoss-0.493)<0.002);assert.ok(M.minibatch({B:1,lr:3}).trainLoss>small.trainLoss,'too large a step for one point');
+ const again=M.minibatch({B:8,lr:0.3});assert.equal(again.trainLoss,small.trainLoss,'seeded and repeatable');
+});
