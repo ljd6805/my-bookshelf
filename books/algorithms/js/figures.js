@@ -70,7 +70,7 @@ function mapBase(highlight=[],labels={}){
 F.graph=()=>{
  const r=M.traverse(0,'bfs'),{s,S,T}=mapBase();let b=s;
  r.order.forEach((v,k)=>{const [nm,x,y]=M.BRANCHES[v],lv=r.level[v];b+=blink(`<circle cx="${S(x)}" cy="${T(y)}" r="20" fill="var(--panel2)" stroke="${['var(--orange)','var(--accent)','var(--blue)','var(--muted)'][lv]}" stroke-width="3"/>`+t(S(x),T(y)+5,nm,{size:13,w:700})+t(S(x),T(y)+36,`${k+1}번째 · ${lv}단계`,{size:13,fill:'var(--muted)'}),k*.35);});
- return {svg:svg('본관에서 너비 우선 탐색으로 분관을 돈 순서. 본관에서 도로 한 개 거리인 강변과 시장이 먼저, 두 개 거리인 학교·공원·역앞이 그다음에 방문된다',b,300),caption:`실제 BFS 결과입니다. 큐는 먼저 넣은 분관부터 꺼내므로 본관에서 도로 1개 거리(강변·시장), 2개 거리(학교·공원·역앞), 3개 거리(언덕·호수) 순으로 퍼져 나갑니다. 상자를 스택으로 바꾸면 같은 코드가 DFS가 됩니다.`};
+ return {svg:svg('본관에서 너비 우선 탐색으로 분관을 돈 순서. 본관에서 도로 한 개 거리인 강변과 시장이 먼저, 두 개 거리인 학교·공원·역앞이 그다음에 방문된다',b,300),caption:`실제 BFS 결과입니다. 큐는 먼저 넣은 분관부터 꺼내므로 본관에서 도로 1개 거리(강변·시장), 2개 거리(학교·공원·역앞), 3개 거리(언덕·호수) 순으로 퍼져 나갑니다. 상자를 스택으로 바꾸고 방문 표시를 꺼낼 때로 옮기면 같은 코드가 DFS가 되어 ${M.traverse(0,'dfs').order.map(v=>M.BRANCHES[v][0]).join(' → ')} 순으로 돕니다.`};
 };
 F.shortest=()=>{
  const d=M.dijkstra(0,7),{s,S,T}=mapBase(d.path);let b=s;

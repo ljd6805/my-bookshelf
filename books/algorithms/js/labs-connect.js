@@ -18,10 +18,10 @@ ALLabs.graph=el=>{
  U.setup(el,U.select('gr-start','출발 분관',branchOptions,0)+U.select('gr-kind','차례를 정하는 상자',[['bfs','큐 · 너비 우선 탐색 (BFS)'],['dfs','스택 · 깊이 우선 탐색 (DFS)']],'bfs')+U.range('gr-step','방문한 분관 수',1,8,1,1));
  U.bind(el,()=>{
   const s=U.value(el,'gr-start'),kind=el.querySelector('#gr-kind').value,k=U.value(el,'gr-step'),r=M.traverse(s,kind),vis=r.order.slice(0,k);
-  const frontier=r.order.slice(k).filter(v=>vis.includes(r.parent[v]));
+  const frontier=r.waiting[k-1]||[];
   const chart=U.svg(map({visited:vis,frontier}),`${name(s)}에서 ${kind.toUpperCase()}로 ${k}곳을 방문한 지도. 방문 순서 ${vis.map(name).join(', ')}`);
-  const lv=kind==='bfs'?`<br>BFS가 붙인 단계(출발점에서 건너간 도로 수): ${r.order.map(v=>`${name(v)} ${r.level[v]}`).join(' · ')}`:`<br>DFS는 한 길을 끝까지 들어갔다가 막히면 돌아옵니다. 같은 지도에서도 방문 순서가 BFS와 다릅니다.`;
-  U.result(el,chart,`${kind.toUpperCase()} · 출발 <b>${name(s)}</b> · 방문 순서 <strong>${vis.map(name).join(' → ')}</strong>${k<8?` (다음 차례를 기다리는 곳: ${frontier.map(name).join(', ')||'없음'})`:''}${lv}<br>모든 분관을 도는 데 도로를 ${r.edges}번 확인했습니다(도로 12개 × 양쪽). 주황 테두리는 상자에 들어가 차례를 기다리는 분관입니다. 실제로 탐색한 결과입니다.`);
+  const lv=kind==='bfs'?`<br>BFS가 붙인 단계(출발점에서 건너간 도로 수): ${r.order.map(v=>`${name(v)} ${r.level[v]}`).join(' · ')}`:`<br>DFS는 한 길을 끝까지 들어갔다가 막히면 돌아옵니다. 스택에서 꺼낼 때 방문 표시를 하므로, 이미 들른 분관이 다시 나오면 건너뜁니다.`;
+  U.result(el,chart,`${kind.toUpperCase()} · 출발 <b>${name(s)}</b> · 방문 순서 <strong>${vis.map(name).join(' → ')}</strong>${k<8?` (다음 차례를 기다리는 곳, 꺼낼 순서대로: ${frontier.map(name).join(', ')||'없음'})`:''}${lv}<br>모든 분관을 도는 데 도로를 ${r.edges}번 확인했습니다(도로 12개 × 양쪽). 주황 테두리는 상자에 들어가 차례를 기다리는 분관입니다. 실제로 탐색한 결과입니다.`);
  });
 };
 ALLabs.route=el=>{
