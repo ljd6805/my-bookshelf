@@ -114,3 +114,4 @@ test('ch9 transfer: 3만 원 a month for 10 years at 3%',()=>{
  const s=M.savings(3e4,120,3,0);assert.equal(Math.round((s.principal+s.interest)/1e4),414);
  assert.equal(R(1.2e7*.06/12),60000);near(M.npv(10,[-100,55,60.5]),0,1e-9);
 });
+test('irr records a root at the upper bound and returns none for an all-zero flow',()=>{const r=M.irr([-1,11]);assert.equal(r.length,1);near(r[0],1000,1e-6);assert.deepEqual(M.irr([0,0]),[]);});

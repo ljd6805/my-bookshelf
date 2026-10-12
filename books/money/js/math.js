@@ -42,8 +42,10 @@ const lumpInterest=(amount,r,months)=>amount*pct(r)*months/12;
 const npv=(r,flows)=>flows.reduce((s,c,t)=>s+c/Math.pow(1+pct(r),t),0);
 /* 내부수익률(%): NPV가 0이 되는 할인율. 부호가 바뀌는 구간을 −99%~1000%에서 촘촘히 찾고 이분법으로 좁힌다. 근이 여럿이면 모두, 없으면 빈 목록. */
 function irr(flows){
+ if(flows.every(x=>x===0))return [];
  const roots=[],f=r=>npv(r,flows);let a=-99,fa=f(a);
  for(let b=-98.5;b<=1000;b+=0.5){const fb=f(b);if(fa===0)roots.push(a);else if(fa*fb<0){let lo=a,hi=b;for(let k=0;k<80;k++){const m=(lo+hi)/2;(f(lo)*f(m)<=0)?hi=m:lo=m;}roots.push((lo+hi)/2);}a=b;fa=fb;}
+ if(fa===0)roots.push(a);
  return roots;
 }
 /* 실질 수익률(%): (1+명목)/(1+물가)−1. tax는 명목 이자에 붙는 세율(%). 어림식 명목−물가도 함께 돌려준다. */

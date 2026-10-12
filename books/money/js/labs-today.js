@@ -38,13 +38,13 @@ MLabs.schedule=el=>{
   U.result(el,chart,`${methodName(method)}: ${head} ${first} ${n}개월 동안 낸 이자는 모두 <b>${W(s.totalInterest)}</b>이고, 마지막 달에 남은 원금 ${W(s.last.left)}이 됩니다.<br>같은 조건에서 이자 합계는 ${all.map(([key,x])=>`${methodName(key)} ${W(x.totalInterest)}`).join(', ')}입니다.${prepayText(s,k,fee)}${U.kind('real','이자는 달마다 남은 원금 × 연 금리 ÷ 12를 원 단위로 반올림했고, 마지막 달에 끝수를 맞췄습니다. 실제 대출의 일수 계산과 다를 수 있습니다.')}`);
  });
 };
-/* 현금흐름 글 읽기: "−100, 60, 60" → [-100,60,60]. 수학 기호 −도 받는다. 2~31개, 각 값은 ±1,000,000 안. */
-function parseFlows(s){const parts=s.replace(/−/g,'-').split(/[,\s]+/).filter(Boolean),v=parts.map(Number);return v.length>=2&&v.length<=31&&v.every(x=>Number.isFinite(x)&&Math.abs(x)<=1e6)?v:null;}
+/* 현금흐름 글 읽기: "−100, 60, 60" → [-100,60,60]. 수학 기호 −도 받는다. 2~31개, 각 값은 ±1,000,000 안, 모두 0인 흐름은 받지 않는다(어떤 할인율에서도 NPV가 0이라 IRR을 정할 수 없음). */
+function parseFlows(s){const parts=s.replace(/−/g,'-').split(/[,\s]+/).filter(Boolean),v=parts.map(Number);return v.length>=2&&v.length<=31&&v.every(x=>Number.isFinite(x)&&Math.abs(x)<=1e6)&&v.some(x=>x!==0)?v:null;}
 MLabs.npv=el=>{
  U.setup(el,U.text('nflows','현금흐름 (만 원, 오늘부터 해마다, 쉼표로)','-100, 60, 60','내면 −, 받으면 +. 예: -100, 230, -132')+U.range('nrate','할인율 (연 %)',0,40,.5,5));
  U.bind(el,()=>{
   const flows=parseFlows(el.querySelector('#nflows').value),r=U.value(el,'nrate');
-  if(!flows)return U.result(el,'',U.problem('현금흐름','숫자 2~31개를 쉼표로 나눠 넣어야 합니다. 예: -100, 60, 60'));
+  if(!flows)return U.result(el,'',U.problem('현금흐름','숫자 2~31개를 쉼표로 나눠 넣어야 하고, 모두 0이면 수익률을 정할 수 없습니다. 예: -100, 60, 60'));
   const value=M.npv(r,flows),roots=M.irr(flows),grid=Array.from({length:81},(_,i)=>i*.5);
   const chart=U.lines([{name:'NPV',points:grid.map(x=>[x,M.npv(x,flows)]),color:'var(--accent)'}],{label:`현금흐름 ${flows.join(', ')}의 할인율별 순현재가치. 할인율 ${r}%에서 ${F(value,2)}만 원.`,xName:'할인율 (%)',yName:'NPV (만 원)',yFmt:v=>U.sfmt(v,0),zero:true,marks:[[r,value,`${r}% → ${U.sfmt(value,2)}만`],...roots.filter(x=>x>=0&&x<=40).map(x=>[x,0,''])]});
   const parts=flows.map((c,t)=>`${U.sfmt(c/Math.pow(1+r/100,t),1)}`).join(' + ').replace(/\+ −/g,'− ');
