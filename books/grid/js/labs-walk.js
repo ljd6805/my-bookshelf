@@ -11,7 +11,7 @@ GLabs.box=el=>{
   const prices=box?U.PATH.BOX().flat():U.PATH.SWING;
   const chart=U.pathChart({prices,perDay:box?8:0,levels:lv,fills:r.fills,label:`${step}원 간격 ${lv.length-1}칸 격자가 ${box?'80거래일 박스권':'세 번 오가는 경로'}에서 ${r.roundTrips}번 왕복.`});
   const end=r.shares?`<br>끝에 ${r.heldCells}칸 ${r.shares}주가 남아 평가 손익 ${S(r.unrealized)}이 더해지므로 이 경로의 손익은 <b>${S(r.pnl)}</b>입니다.`:'<br>끝에 주식이 남지 않아 실현 손익이 그대로 이 경로의 손익입니다.';
-  U.result(el,chart,`${step}원 간격(${lv.length-1}칸)으로 ${box?'80거래일 박스권 경로':'19,900원에서 17,900원과 22,100원 사이를 세 번 오가는 경로'}를 지나면 칸이 <b>${r.roundTrips}번</b> 왕복하고 실현 손익은 <b>${S(r.realized)}</b>입니다. 그동안 수수료 ${W(r.fees)}, 거래세 ${W(r.taxes)}를 냈습니다.${end}<br>이 격자가 최대로 묶을 수 있는 돈은 ${W(r.capital)}입니다.${U.kind('scenario','지어낸 경로이며, 하루 안에서는 가격이 점과 점 사이를 빠짐없이 지나간다고 봅니다.')}`);
+  U.result(el,chart,`${step}원 간격(${lv.length-1}칸)으로 ${box?'80거래일 박스권 경로':'19,900원에서 17,900원과 22,100원 사이를 세 번 오가는 경로'}를 지나면 칸이 <b>${r.roundTrips}번</b> 왕복하고 실현 손익은 <b>${S(r.realized)}</b>입니다. 그동안 수수료 ${W(r.fees)}, 거래세 ${W(r.taxes)}을 냈습니다.${end}<br>이 격자가 최대로 묶을 수 있는 돈은 ${W(r.capital)}입니다.${U.kind('scenario','지어낸 경로이며, 하루 안에서는 가격이 점과 점 사이를 빠짐없이 지나간다고 봅니다.')}`);
  });
 };
 GLabs.rally=el=>{

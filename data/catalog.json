@@ -2158,6 +2158,74 @@
         }
       ],
       "short_title": "돈의 시간 가치"
+    },
+    {
+      "id": "grid-trading",
+      "title": "격자 하나에서 손익이 갈리기까지 · 그리드 매매의 원리",
+      "spine_title": "그리드 매매",
+      "spine_category": "금융",
+      "color": "rose",
+      "description": "가상의 인물 하린이 가상의 회사 새벽전자 주식에 18,000~22,000원 · 200원 · 20칸 격자를 깔고, 칸 하나의 손익과 최소 간격, 등차·등비 격자, 범위와 자금, 박스권·상승·하락·갭에서의 장부, 실현·평가 손익, 보유·적립식·리밸런싱과의 비교, 범위를 벗어났을 때의 멈춤 규칙을 13개 장과 13개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/grid/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 가격선이 격자를 오르내리며 칸을 채우고 비웁니다.",
+      "cover_art": "books/grid/assets/cover-art.svg",
+      "cover_meta": "13장 · 13개 실험",
+      "status": "published",
+      "url": "books/grid/",
+      "keywords": [
+        "그리드 매매",
+        "격자 매매",
+        "grid trading",
+        "분할 매매",
+        "분할 매수",
+        "등차 격자",
+        "등비 격자",
+        "호가단위",
+        "수수료",
+        "거래세",
+        "최소 간격",
+        "박스권",
+        "횡보장",
+        "추세장",
+        "갭",
+        "가격제한폭",
+        "실현 손익",
+        "평가 손익",
+        "평균 단가",
+        "물타기",
+        "최대 낙폭",
+        "MDD",
+        "연환산 수익률",
+        "자금 배분",
+        "적립식",
+        "리밸런싱",
+        "손절",
+        "손실 한도",
+        "처분 효과"
+      ],
+      "chapters": [
+        {
+          "title": "전체 13개 장",
+          "url": "books/grid/#chapters"
+        },
+        {
+          "title": "02 · 격자 한 칸의 손익과 최소 간격",
+          "url": "books/grid/#cell"
+        },
+        {
+          "title": "05 · 박스권: 오르내릴수록 쌓이는 칸",
+          "url": "books/grid/#box"
+        },
+        {
+          "title": "07 · 내리기만 하는 장: 재고가 쌓인다",
+          "url": "books/grid/#slide"
+        },
+        {
+          "title": "마지막 과제 · 하린의 6개월 격자 장부",
+          "url": "books/grid/#final"
+        }
+      ],
+      "short_title": "그리드 매매"
     }
   ],
   "learning_paths": [
@@ -3112,6 +3180,62 @@
         "NPV가 0보다 크다는 뜻을 할인율과 함께 설명할 수 있는가",
         "금융의 할인율과 강화학습의 γ가 같은 일을 하는지 다른 일을 하는지 말할 수 있는가"
       ]
+    },
+    {
+      "id": "grid-box-trend",
+      "title": "내 그리드는 왜 횡보장에서 벌고 추세장에서 잃을까",
+      "question": "같은 격자가 박스권에서는 칸 몫을 쌓고, 한쪽으로만 가는 장에서는 덜 벌거나 재고를 안는 까닭은 무엇일까?",
+      "audience": "분할 매수·매도를 해 봤거나 격자 매매를 시작하려는 독자",
+      "prerequisites": "백분율 계산, 수수료와 거래세가 무엇인지",
+      "start": "하린은 새벽전자 주식에 200원 간격 격자를 깔았다. 석 달 동안 오르내리던 가격이 어느 날부터 한쪽으로만 움직이자 장부가 낯설어진다.",
+      "steps": [
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#spread",
+          "task": "아홉 개 측정값 중 하나를 30으로 바꾸며 평균·중앙값·표준편차가 각각 얼마나 움직이는지 본다",
+          "minutes": 15,
+          "why": "격자가 버는 것은 가격의 방향이 아니라 오르내리는 폭이므로, 먼저 흩어짐을 재는 법을 익힌다",
+          "record": "값 하나를 바꾸기 전후의 표준편차"
+        },
+        {
+          "book_id": "securities-market",
+          "url": "books/market/#cost",
+          "task": "한 칸 판정 실험에서 19,970원에 사서 30원 위에 파는 칸이 눈금과 비용을 넘는지 판정한다",
+          "minutes": 14,
+          "why": "칸 하나가 남기는 몫은 간격에서 왕복 비용을 뺀 값이다",
+          "record": "그 칸의 판정과 남는 돈"
+        },
+        {
+          "book_id": "grid-trading",
+          "url": "books/grid/#box",
+          "task": "박스권 실험에서 간격을 100·200·400원으로 바꾸며 왕복 횟수와 실현 손익을 비교한다",
+          "minutes": 16,
+          "why": "범위 안에서 오르내리면 칸들이 사고팔기를 되풀이하며 몫을 쌓는다",
+          "record": "간격별 왕복 횟수와 실현 손익"
+        },
+        {
+          "book_id": "grid-trading",
+          "url": "books/grid/#rally",
+          "task": "오르는 길에서 채워서 시작과 비워서 시작을 바꾸며 격자와 보유의 끝 손익을 견준다",
+          "minutes": 14,
+          "why": "오르기만 하면 칸이 팔려 비고, 처음부터 들고 있던 사람보다 덜 번다",
+          "record": "두 시작 방식의 실현 손익과 보유 손익"
+        },
+        {
+          "book_id": "grid-trading",
+          "url": "books/grid/#slide",
+          "task": "내리는 길에서 들고 있는 칸 수, 평균 단가, 평가 손익을 날짜별로 따라간다",
+          "minutes": 16,
+          "why": "내리기만 하면 칸이 사져 재고가 쌓이고 평가 손실이 커진다",
+          "record": "마지막 날의 보유 칸 수와 평가 손익"
+        }
+      ],
+      "challenge": "박스권·오르는 길·내리는 길 세 장부를 나란히 놓고, 같은 격자의 결과가 왜 이렇게 갈리는지 흩어짐과 방향이라는 두 말로 설명한다.",
+      "checks": [
+        "격자의 실현 손익이 왕복한 칸 몫의 합이라는 것을 말할 수 있는가",
+        "오르는 장에서 보유보다 덜 버는 까닭을 칸이 비는 과정으로 설명할 수 있는가",
+        "내리는 장에서 평균 단가가 내려가도 손실이 남는 까닭을 말할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -3315,8 +3439,8 @@
         {
           "number": 12,
           "title": "격자 하나에서 손익이 갈리기까지",
-          "status": "planned",
-          "next_why": "격자를 설계했으니, 그 설계가 운이었는지 검증하고 프로그램에 맡기는 법을 배웁니다."
+          "next_why": "격자를 설계했으니, 그 설계가 운이었는지 검증하고 프로그램에 맡기는 법을 배웁니다.",
+          "book_id": "grid-trading"
         },
         {
           "number": 13,
@@ -3709,7 +3833,20 @@
     "books/money/#inflation": "07 · 물가가 갉아먹는 이자: 실질 수익률",
     "books/money/#cagr": "08 · 평균은 0%인데 왜 줄었을까: 연환산 수익률",
     "books/money/#fees": "09 · 수수료 1%가 30년에 하는 일",
-    "books/money/#final": "마지막 과제 · 하린의 1,000만 원, 상환과 투자의 저울"
+    "books/money/#final": "마지막 과제 · 하린의 1,000만 원, 상환과 투자의 저울",
+    "books/grid/#rule": "01 · 떨어지면 사고 오르면 판다: 감을 규칙으로",
+    "books/grid/#cell": "02 · 격자 한 칸의 손익과 최소 간격",
+    "books/grid/#spacing": "03 · 같은 원이냐 같은 %냐: 등차 격자와 등비 격자",
+    "books/grid/#range": "04 · 어디서 어디까지 깔까: 범위 정하기",
+    "books/grid/#box": "05 · 박스권: 오르내릴수록 쌓이는 칸",
+    "books/grid/#rally": "06 · 오르기만 하는 장: 팔고 나면 따라가지 못한다",
+    "books/grid/#slide": "07 · 내리기만 하는 장: 재고가 쌓인다",
+    "books/grid/#gap": "08 · 건너뛰는 가격: 갭과 가격제한폭",
+    "books/grid/#ledger": "09 · 장부 읽기: 실현 손익과 평가 손익",
+    "books/grid/#capital": "10 · 얼마를 맡길까: 자금 배분과 최대 손실 한도",
+    "books/grid/#compare": "11 · 다른 방법과 견주기: 보유·적립식·리밸런싱",
+    "books/grid/#exit": "12 · 범위를 벗어났을 때 내가 정하는 규칙",
+    "books/grid/#final": "마지막 과제 · 하린의 6개월 격자 장부"
   },
   "concepts": [
     {
@@ -3852,7 +3989,9 @@
         "books/aie-rl/#mc",
         "books/aie-rl/#pg",
         "books/probability/#correlation",
-        "books/money/#cagr"
+        "books/money/#cagr",
+        "books/grid/#box",
+        "books/grid/#range"
       ]
     },
     {
@@ -4270,7 +4409,9 @@
       "chapters": [
         "books/market/#limits",
         "books/aie-autonomy/#budget",
-        "books/aie-autonomy/#durable"
+        "books/aie-autonomy/#durable",
+        "books/grid/#exit",
+        "books/grid/#capital"
       ]
     },
     {

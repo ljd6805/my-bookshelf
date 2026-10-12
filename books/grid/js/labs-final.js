@@ -27,8 +27,8 @@ GLabs.final6m=el=>{
   if([lo,hi].some(x=>x===null||Number.isNaN(x))||lo>=hi)return U.result(el,'',U.problem('격자 범위','하단은 5,000~30,000원, 상단은 5,000~40,000원 사이의 눈금에 맞는 가격이고, 하단이 상단보다 낮아야 합니다.'));
   const days=U.PATH.FINAL(),lv=M.arithmeticLevels(lo,hi,20),f=M.simulate({days,levels:lv,qty:5}),D=decisions(days,lo,hi,f),R=ruleRun(days,lv,rule),mf=months(f),mr=R?months(R):null;
   D.geo.text=`같은 6개월 경로를 같은 범위의 등비 격자로 처음부터 걸었다면 합은 ${S(D.geo.pnl)}이었습니다. 등비 격자는 2만 원 위 일부 칸이 250원으로 벌어집니다(3장).`;
-  const head=['달','월말 가격','장부의 합','왕복','갭 체결',...(R?['규칙 장부의 합']:[])];
-  const rows=mf.map((m,i)=>[`${i+1}월`,F(m.price),S(m.pnl),F(m.trips),F(m.gaps),...(R?[S(mr[i].pnl)]:[])]);
+  const head=['달','달 끝 가격','장부의 합','왕복','갭 체결',...(R?['규칙 장부의 합']:[])];
+  const rows=mf.map((m,i)=>[`${i+1}달째`,F(m.price),S(m.pnl),F(m.trips),F(m.gaps),...(R?[S(mr[i].pnl)]:[])]);
   const dRows=DECIDE.map(([k,n])=>[`${n}${k===dec?' ✓':''}`,W(D[k].extra),D[k].worst!=null?S(D[k].worst)+' (15,000원)':k==='geo'?S(D.geo.pnl)+' (등비)':'—',D[k].now!=null?S(D[k].now):'—']);
   const chart=U.pathChart({prices:days.flat(),perDay:8,levels:lv,band:[lo,hi],fills:f.fills,label:`120거래일 가상 경로와 ${F(lo)}~${F(hi)}원 격자. 끝 장부의 합 ${S(f.pnl)}.`})+U.table(head,rows,'달마다 장부 (20거래일 = 한 달)')+U.table(['결정','더 드는 돈','최악·비교 손익','지금 확정'],dRows,'결정마다 적을 숫자');
   const ruleText=!R?'처음부터 붙여 둔 규칙이 없습니다.':R.stopped?`“${RULES.find(x=>x[0]===rule)[1]}”를 처음부터 붙였다면 ${R.series[R.stopped.t].day+1}거래일째 ${W(R.stopped.price)}에서 멈춰 합은 <b>${S(R.pnl)}</b>였습니다. ${dec==='stop'?'지금 멈추는 결정은 이 규칙과 같은 쪽입니다.':'지금 고른 결정이 이 규칙과 어긋난다면 왜 어긋나는지 적어 두어야 합니다.'}`:`“${RULES.find(x=>x[0]===rule)[1]}” 규칙은 이 범위에서는 한 번도 쓰이지 않아 끝 장부와 같은 ${S(R.pnl)}입니다.`;

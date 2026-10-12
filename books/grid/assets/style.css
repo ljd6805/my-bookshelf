@@ -102,3 +102,4 @@ html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-m
 .home-book svg text.axis{font-size:10px;fill:var(--muted)}
 .lab .table-wrap td:nth-child(n+2){white-space:nowrap}
 @media(max-width:760px){.chart svg text.cell-t{font-size:10px}.lab .chart svg text.price{font-size:12px}}
+.lab .table-wrap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}

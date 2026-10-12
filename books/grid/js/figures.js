@@ -43,7 +43,7 @@ F.cell=()=>{
 F.spacing=()=>{
  const G=M.geometricLevels(18000,22000,20),rows=[['등차',LV,'var(--blue)'],['등비',G,'var(--accent)']];
  let s='';
- rows.forEach(([n,lv,c],r)=>{const y=r?200:100,steps=lv.slice(1).map((p,i)=>p-lv[i]);s+=t(56,y-20,n,{a:'end',size:13,w:700});steps.forEach((v,i)=>{const h=v/250*70,odd=r&&(v===250);s+=up(70+i*26,y-h,20,h,odd?'var(--orange)':c,i*.04)+(odd?t(80+i*26,y-h-6,'◆ 250',{size:11,fill:'var(--orange)',w:700}):'');});s+=t(600,y-20,`${Math.min(...steps)}~${Math.max(...steps)}원`,{a:'end',size:12,fill:'var(--muted)'});});
+ rows.forEach(([n,lv,c],r)=>{const y=r?200:100,steps=lv.slice(1).map((p,i)=>p-lv[i]);s+=t(56,y-20,n,{a:'end',size:13,w:700});steps.forEach((v,i)=>{const h=v/250*70,odd=r&&(v===250);s+=up(70+i*26,y-h,20,h,odd?'var(--orange)':c,i*.04)+(odd?t(80+i*26,y-h-6,'◆ 250',{size:11,fill:'var(--orange)',w:700}):'');});s+=t(600,y-20,(Math.min(...steps)===Math.max(...steps)?`${steps[0]}원`:`${Math.min(...steps)}~${Math.max(...steps)}원`),{a:'end',size:12,fill:'var(--muted)'});});
  s+=t(70,222,'18,000원',{a:'start',size:11,fill:'var(--muted)'})+t(330,222,'20,000원 (눈금 10원 → 50원)',{size:11,fill:'var(--muted)'})+t(600,222,'22,000원',{a:'end',size:11,fill:'var(--muted)'});
  return {svg:svg('18,000~22,000원 20칸을 등차로 나누면 칸마다 200원, 등비로 나눠 눈금에 맞추면 180원에서 250원까지 벌어지고 2만 원 위 두 칸이 250원으로 튀는 막대그래프',s+note('막대 높이는 칸의 간격(원)입니다.',246)),caption:'등차 격자는 칸마다 200원입니다. 등비 격자는 아래 칸 180원에서 시작해 2만 원 근처에서 200원이 되고, 2만 원 위 50원 눈금에서는 20,900원과 21,550원 칸이 250원으로 튑니다.'};
 };
@@ -114,8 +114,8 @@ F.exit=()=>{
 F.final=()=>{
  const d=FINAL(),r=M.simulate({days:d,levels:LV,qty:5}),{s:base,X,Y}=plot(d.flat(),{lo:16000,hi:22200});
  let s=base;[1,2,3,4,5].forEach(m=>{s+=`<path d="M${X(m*160)} 30V210" stroke="var(--line)" stroke-dasharray="3 4"/>`;});
- [0,1,2,3,4,5].forEach(m=>{s+=t(X(m*160+80),226,`${m+1}월`,{size:11,fill:'var(--muted)'});});
- s+=`<circle class="fig-pulse" cx="${X(640)}" cy="${Y(18400)}" r="6" fill="var(--orange)"/>`+t(X(640)+8,Y(18400)+20,'5월 첫날 시가 18,400원 · 일곱 칸 체결',{a:'start',size:12,fill:'var(--orange)',w:700})+t(600,44,`끝 장부의 합 ${won(r.pnl)}원`,{a:'end',size:13,w:700});
+ [0,1,2,3,4,5].forEach(m=>{s+=t(X(m*160+80),226,`${m+1}달째`,{size:11,fill:'var(--muted)'});});
+ s+=`<circle class="fig-pulse" cx="${X(640)}" cy="${Y(18400)}" r="6" fill="var(--orange)"/>`+t(X(640)+8,Y(18400)+20,'5달째 첫날 시가 18,400원 · 일곱 칸 체결',{a:'start',size:12,fill:'var(--orange)',w:700})+t(600,44,`끝 장부의 합 ${won(r.pnl)}원`,{a:'end',size:13,w:700});
  return {svg:svg('120거래일 6개월 가상 경로. 넉 달은 박스권, 다섯째 달 첫날 18,400원 갭 뒤 범위 아래로 빠지고 여섯째 달은 옆으로 간다. 끝 장부의 합 −125,006원',s+note('넉 달 동안 +77,967원이던 장부가 마지막 두 달에 뒤집힙니다.',248)),caption:`넉 달 동안 132번 왕복해 쌓은 장부가 다섯째 달 갭과 하락으로 뒤집혀, 120거래일 끝에 합 ${won(r.pnl)}원이 되었습니다. 들고 있는 주식은 ${r.shares}주입니다.`};
 };
 })(typeof window!=='undefined'?window:this);

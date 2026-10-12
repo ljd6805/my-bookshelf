@@ -31,7 +31,7 @@ function result(el,chart,textHtml){el.querySelector('.chart').innerHTML=chart;el
 const KINDS={real:'규칙대로 실제 계산',scenario:'미리 정한 가상 경로',example:'정해 둔 예시 가격'};
 const kind=(k,more='')=>`<br><span class="kind-tag">${KINDS[k]}</span>${more?` ${more}`:''}`;
 const svg=(label,body,h=280)=>`<svg viewBox="0 0 480 ${h}" role="img" aria-label="${esc(label)}">${body}</svg>`;
-function table(head,rows,caption=''){return `<div class="table-wrap"><table>${caption?`<caption>${esc(caption)}</caption>`:''}<thead><tr>${head.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+function table(head,rows,caption=''){return `<div class="table-wrap" tabindex="0" role="region" aria-label="${esc(caption||'결과 표')} · 좁은 화면에서는 옆으로 밀어 볼 수 있습니다"><table>${caption?`<caption>${esc(caption)}</caption>`:''}<thead><tr>${head.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
 /* 막대: 데스크톱은 SVG, 좁은 화면은 같은 값을 HTML 막대로. mark(i)가 참이면 강조색과 ✓ 표시. signed면 가운데 0선 양쪽으로 그린다. */
 function bars(labels,values,{unit='',digits=0,max=null,mark=()=>false,signed=false,show=null}={}){
  const top=max??Math.max(...values.map(Math.abs),1e-6),left=150,width=220,gap=Math.max(24,Math.min(44,232/values.length)),bh=Math.min(24,gap-8);
