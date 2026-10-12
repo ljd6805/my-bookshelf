@@ -5,6 +5,31 @@
 <h1>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-final-ch13" data-reviewer="Claude 검수 세션 (13장 검수 r1)" data-author="Claude 새 장 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="13장 final 본문(문단 4개·식·식 설명·주의·예측·남은 질문), 실험 fieldkit·alarmplan과 lab-guides 안내·프리셋, math.js inferenceMemory·fieldBudget·alarmBudget, 확인 문제 1개·전이 문항 1개, 새 출처 2개(Kaplan 2020, Pope 2022), 나가는 링크 3개와 들어오는 링크(LLM 시스템 #design → ../ai/#final), 3장 generalization의 새 교차 링크 4개, 10·11·12장에 더한 13장 연결 문장" data-result="fixed">
+<h2>2026-10-12 13장 현장 점검 도우미 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (13장 검수 r1, 검수팀 정민·유진·건우 역할). 집필자: Claude 새 장 집필 세션 (2026-10-12). 범위: 13장 final 본문(문단 4개·식·식 설명·주의·예측·남은 질문), 실험 fieldkit·alarmplan과 lab-guides 안내·프리셋, math.js inferenceMemory·fieldBudget·alarmBudget, 확인 문제 1개·전이 문항 1개, 새 출처 2개(Kaplan 2020, Pope 2022), 나가는 링크 3개와 들어오는 링크(LLM 시스템 #design → ../ai/#final), 3장 generalization의 새 교차 링크 4개, 10·11·12장에 더한 13장 연결 문장.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>prefill·decode 설명, 장 번호 참조(1·7·9·10·11·12장), 한빛 공장·서윤 공통 사례, 6400 MT/s × 16 byte = 102.4 GB/s를 대조. 생성 시간 항을 “상한”이라 부른 표현을 고침</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>책 코드와 따로 Python으로 계산: 8B·4 bit 가중치 3.725 GiB, KV 131072 byte × 1912 = 0.2334 GiB, 합계 3.959 GiB; prefill 2 × 8×10⁹ × 1712 ÷ 5×10¹² = 5.48 s, decode 200 × 4.25×10⁹ ÷ 10¹¹ = 8.50 s, 합계 13.98 s; 14B·4 bit 6.753 GiB·24.09 s; 14B·8 bit 13.27 GiB·38.09 s; 14B·k=1 19.40 s·적중 3/8; 8B·k=7 19.52 s·8/8, k=8 20.90 s·8/8</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>node로 math.js를 실행해 위 값과 소수 둘째 자리까지 일치. alarmBudget을 Python으로 따로 구현해 문턱 0~1 대조: 기존 0.45 → TP 4·FP 3·FN 0, 105분; 새 센서 0.45 → 12건 180분; 새 센서 0.60 → 7건 105분; 경계값 문턱 0(20건 300분)·1(기존 0건, 새 센서는 1.06을 1로 자른 1건), 문턱과 같은 점수는 경보(≥). 실험 과제의 답(새 센서 0.60, 기존 0.45, fieldkit k=7)이 0.05·1 단위 슬라이더에서 유일함을 확인. 잘못된 입력은 RangeError</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>prefill·decode, KV 캐시, 정밀도·재현율 TP/(TP+FN), GiB(2³⁰)와 GB/s(10⁹)의 구분을 10·12장과 표준 정의에 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>WebFetch로 arXiv 2001.08361(Kaplan, McCandlish, Henighan, Brown, Chess, Child, Gray, Radford, Wu, Amodei)과 2211.05102(Pope, Douglas, Chowdhery, Devlin, Bradbury, Levskaya, Heek, Xiao, Agrawal, Dean)의 제목·저자를 열어 확인. Kaplan 2.1절 식 (2.2) “C_forward ≈ 2N + 2 n_layer n_ctx d_model”, Pope 2절 “At small batch sizes and sequence lengths, the time to load weights dominates”, 4.4절 “low-batch-size cost is dominated by weight loading time”을 원문에서 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#final formulaNote, js/math.js fieldBudget 주석</td><td>생성 시간 항(답 토큰 × 읽을 byte ÷ 대역폭)을 “상한”이라고 씀. 대역폭을 최대치로 쓴다고 보는 식이라 실제 시간은 더 길 수 있어 상한이 아님(KV를 마지막 길이로 세는 부분만 넉넉함)</td><td>Pope 등(2022)은 이 시간을 가중치 읽기에 드는 최소 시간으로 다룸</td><td>“단순화한 어림”으로 바꾸고, KV는 넉넉히 세지만 대역폭은 최대치로 보므로 실제 시간이 더 길 수 있다고 덧붙임. 자산 버전을 ?v=20261012-ch1r1로 올림</td></tr>
+<tr><td>#final 확인 문제</td><td>정답 하나(8B로 줄이기) 확인. 해설이 보기를 자리 번호가 아닌 내용(8 bit·8B·조각 1개)으로 가리켜 보기 순서를 돌려도 맞음</td><td>세 보기를 각각 계산: 38.09 s·13.27 GiB / 13.98 s·75% / 19.40 s·37.5%</td><td>수정 없음</td></tr>
+<tr><td>#final 전이 문항</td><td>정답 하나(실제 이상 여부를 붙여 분포 비교) 확인. 해설이 보기를 내용으로 가리킴</td><td>재현율 계산에 FN이 필요하다는 정의</td><td>수정 없음</td></tr>
+<tr><td>링크</td><td>나가는 링크 3개(../probability/#final, ../llm-gpu/#design, ../rag/#final), 들어오는 링크 LLM 시스템 12 #design → ../ai/#final, 3장의 ../probability/#correlation·#interval·#testing, ../aie-ml/#tradeoff의 장 번호·제목이 도착 장과 맞음. 확률과 통계 9장 r = 0.79도 그 책 본문과 같음</td><td>각 책 content.js 대조</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>5 TFLOPS·100 GB/s·운영체제 여유 6 GiB는 책이 밝힌 가정이며, 실제 노트북 측정값과는 대조하지 않았습니다.</li>
+<li>브라우저에서 두 실험의 입력·출력·초기화를 직접 조작하는 화면 확인은 하지 않았고, 계산은 node·Python 대조와 npm test로 대신했습니다. 학습 효과(L4)는 측정하지 않았습니다.</li>
+<li>시험 질문 순위와 모터 20대 자료는 가상 자료라 외부 출처가 없습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r1)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장의 새 필드(predict·remaining·next·transfer 12문항), 장마다 더한 숫자로 따라가기 문단 12개, 2장 역전파 문단 2개와 새 실험 backprop, 정답 자리 돌리기(app.js choices·math.js choiceOrder). 새 출처 없음" data-result="fixed" data-commit="5f766a8">
 <h2>2026-10-12 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할). 집필자: Claude 보충 집필 세션 (2026-10-12, 커밋 5f766a8). 범위: 12개 장의 새 필드(predict·remaining·next·transfer 12문항), 장마다 더한 숫자로 따라가기 문단 12개, 2장 역전파 문단 2개와 새 실험 backprop, 정답 자리 돌리기(app.js choices·math.js choiceOrder). 새 출처 없음.</p>

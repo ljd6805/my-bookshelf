@@ -45,7 +45,7 @@ async function exercise(page, id) {
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
       assert.ok(overflow <= 1, `${route} @${viewport.width}: horizontal overflow ${overflow}px`);
       if (ids.includes(route) && viewport.width === 1280) results.push(await exercise(page, route));
-      if (viewport.width !== 1280 && ['home', 'bayes', 'clt'].includes(route)) await page.screenshot({ path: path.join(shots, `prob-${route}-${viewport.width}.png`), fullPage: false });
+      if (viewport.width !== 1280 && ['home', 'bayes', 'clt', 'correlation'].includes(route)) await page.screenshot({ path: path.join(shots, `prob-${route}-${viewport.width}.png`), fullPage: false });
     }
     if (viewport.width === 1280) {
       // 4장 보충: 예제 버튼(n = 30, 띠 켜고 500개) → 띠 안 비율과 이론값 95%, 초기화하면 띠가 꺼진다
@@ -56,6 +56,28 @@ async function exercise(page, id) {
       assert.match(band, /띠\(.*\) 안의 평균 \d+개 = 9[45]\.\d% \(정규분포 이론값 95\.0%\)/, band);
       await page.getByRole('button', { name: '초기화' }).click();
       assert.ok(!(await page.locator('#clt-band').isChecked()), 'reset clears band');
+      // 9장: 기본 r 0.79 → 나눠 보기 예제는 단계별 r이 0 근처 → 무작위 예제는 전체 r 0 근처 → 직접 조작 → 초기화
+      await page.goto(`${target}#correlation`);
+      const status = page.locator('.lab .readout[role=status]');
+      assert.match(await status.innerText(), /관찰 기록 200개 · 전체 r = 0\.79/);
+      await page.getByRole('button', { name: '예제: 부하 단계로 나눠 보기' }).click();
+      const groups = [...(await status.innerText()).matchAll(/\)\s(-?\d\.\d\d)/g)].map((m) => Number(m[1]));
+      assert.equal(groups.length, 3, await status.innerText());
+      for (const g of groups) assert.ok(Math.abs(g) < 0.1, `within-load r ${g}`);
+      assert.equal(await page.locator('.lab .chart rect.cr-pt.lv1').count() > 0, true, 'square marks for mid load');
+      await page.getByRole('button', { name: '예제: 온도를 무작위로 정하기' }).click();
+      assert.match(await status.innerText(), /무작위 실험 200개 · 전체 r = -?0\.0\d/);
+      await page.getByRole('button', { name: '예제: 부하 영향 없음(강도 0%)' }).click();
+      assert.match(await status.innerText(), /전체 r = -?0\.0\d \(모델의 기대값 0\.00\)/);
+      await page.locator('#cr-days').focus();
+      await page.keyboard.press('ArrowRight');
+      assert.match(await status.innerText(), /관찰 기록 300개/);
+      await page.locator('#cr-split').check();
+      assert.match(await status.innerText(), /부하 단계별 r/);
+      await page.getByRole('button', { name: '초기화' }).click();
+      assert.ok(!(await page.locator('#cr-split').isChecked()) && !(await page.locator('#cr-rand').isChecked()), 'reset clears toggles');
+      assert.match(await status.innerText(), /^관찰 기록 200개 · 전체 r = 0\.79 \(모델의 기대값 0\.79\)$/);
+      assert.match(await page.locator('.note.confuse').innerText(), /혼동하지 마세요/);
       // 전이 보기 문항: 오답 → 정답 피드백
       for (const id of ids) {
         await page.goto(`${target}#${id}`);

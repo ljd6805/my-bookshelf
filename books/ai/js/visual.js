@@ -36,6 +36,7 @@ function thumbnail(index){
  else if(index===4){content=line([70,75],[235,35])+line([70,75],[140,20],'var(--orange)')+dot(235,35)+`<circle cx="140" cy="20" r="4" fill="var(--orange)"/>`;}
  else if(index===5||index===7){for(let r=0;r<4;r++)for(let c=0;c<8;c++)content+=`<rect x="${30+c*30}" y="${8+r*21}" width="25" height="17" rx="2" fill="var(--accent)" opacity="${index===5?(c>r+2?.07:.2+(c%3)*.3):((r+c)%3? .25:.8)}"/>`;}
  else if(index===6||index===8){[65,43,28,16,8].forEach((h,i)=>content+=`<rect x="${40+i*47}" y="${85-h}" width="27" height="${h}" rx="3" fill="${i?'var(--accent)':'var(--orange)'}"/>`);}
+ else if(index===12){content=`<rect x="40" y="18" width="120" height="62" rx="5" fill="var(--panel2)" stroke="var(--accent)"/><path d="M28 86H172" stroke="var(--accent)" stroke-width="3"/>`+line([52,62],[80,48])+line([80,48],[104,56])+line([104,56],[148,30],'var(--orange)')+`<path d="M52 40H148" stroke="var(--line)" stroke-dasharray="4 4"/>`;[[196,22],[196,46],[196,70]].forEach(([x,y],i)=>content+=`<rect x="${x}" y="${y}" width="${[80,56,68][i]}" height="12" rx="3" fill="${i?'var(--accent)':'var(--orange)'}" opacity=".75"/>`);}
  else{for(let i=0;i<4;i++){content+=`<rect x="${20+i*70}" y="${25+(i%2)*18}" width="48" height="35" rx="5" fill="var(--panel2)" stroke="var(--accent)"/>`;if(i<3)content+=line([68+i*70,43+(i%2)*18],[90+i*70,43+((i+1)%2)*18],'var(--line)');}}
  return `<svg viewBox="0 0 300 100" aria-hidden="true">${content}</svg>`;
 }

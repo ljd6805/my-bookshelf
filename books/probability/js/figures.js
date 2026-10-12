@@ -83,6 +83,22 @@
         <line class="fig-target" x1="${40 + ((0.05 - 0.005) / 0.008) * 6.5}" x2="${40 + ((0.05 - 0.005) / 0.008) * 6.5}" y1="14" y2="186"/>
         <circle class="fig-dot hot roll" cx="${40 + ((0.05 - 0.005) / 0.008) * 6.5}" cy="180" r="7"/>
         <text class="fig-note strong" x="${46 + ((0.05 - 0.005) / 0.008) * 6.5}" y="112">q = k/n = 0.05</text>`);
+    },
+    correlation() {
+      const box = (x, y, label, cls) => `<g class="${cls || ''}"><rect class="fig-box" x="${x}" y="${y}" width="72" height="30" rx="6"/><text class="fig-note strong" x="${x + 36}" y="${y + 20}" text-anchor="middle">${label}</text></g>`;
+      const cluster = (cx, cy, shape) => [[-14, 6], [-6, -4], [2, 8], [9, -6], [15, 3], [-10, -10], [6, 0]].map(([dx, dy]) => {
+        const x = cx + dx, y = cy + dy;
+        return shape === 0 ? `<circle class="cr-pt lv0" cx="${x}" cy="${y}" r="3.4"/>` : shape === 1 ? `<rect class="cr-pt lv1" x="${x - 3}" y="${y - 3}" width="6" height="6"/>` : `<path class="cr-pt lv2" d="M${x},${y - 4}l3.6,6.6h-7.2z"/>`;
+      }).join('');
+      return wrap('부하가 진동과 온도를 함께 올려 두 값이 같이 움직이고, 부하 단계로 나누면 각 무리 안에서는 관계가 보이지 않는 그림',
+        `${box(74, 14, '부하', 'good')}${box(10, 134, '온도')}${box(138, 134, '진동')}
+        <path class="fig-link" d="M100 44 L52 132 M120 44 L170 132"/><path class="fig-arrow" d="M46 122 l6 10 l4 -11 M176 121 l-6 11 l-4 -11"/>
+        <line class="fig-target" x1="84" x2="136" y1="149" y2="149"/><text class="fig-note strong" x="110" y="142" text-anchor="middle">?</text>
+        <text class="fig-note" x="110" y="190" text-anchor="middle">교란 변수가 두 값을 함께 움직인다</text>
+        <line class="fig-axis" x1="250" x2="466" y1="170" y2="170"/><line class="fig-axis" x1="250" x2="250" y1="14" y2="170"/>
+        <text class="fig-note" x="466" y="188" text-anchor="end">온도 →</text><text class="fig-note" x="256" y="26">진동</text>
+        <g class="drop-in" style="--i:0">${cluster(290, 140, 0)}</g><g class="drop-in" style="--i:3">${cluster(355, 100, 1)}</g><g class="drop-in" style="--i:6">${cluster(420, 58, 2)}</g>
+        <path class="fig-line alt draw" d="M270 156 L450 44"/>`);
     }
   };
 

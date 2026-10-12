@@ -14,6 +14,14 @@ test('declared hash routes match chapter IDs and entry routes', () => {
   assert.deepEqual([...routes].sort(), ['home', 'chapters', 'sources', 'final', ...book.chapters.map((c) => c.id)].sort());
 });
 
+test('chapter IDs keep their order and numbers; the new chapter 09 sits after likelihood', () => {
+  assert.deepEqual([...book.chapters.map((c) => c.id)], ['chance', 'binomial', 'spread', 'clt', 'bayes', 'interval', 'testing', 'likelihood', 'correlation']);
+  book.chapters.forEach((c, i) => assert.equal(c.num, String(i + 1).padStart(2, '0'), c.id));
+  const corr = book.chapters[8];
+  assert.ok(corr.warning && corr.warning.length > 20, 'correlation warning block');
+  assert.ok(corr.deeper.some((d) => d.href.startsWith('../linear-algebra/')), 'correlation links to vectors book');
+});
+
 test('every chapter carries the full learning flow and links forward', () => {
   for (const c of book.chapters) {
     for (const key of ['prev', 'problem', 'figureCaption', 'explain', 'remaining', 'nextWhy']) assert.ok(c[key] && c[key].length > 10, `${c.id}.${key}`);

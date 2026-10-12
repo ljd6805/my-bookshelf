@@ -5,6 +5,35 @@
 <h1>팩트·출처 검수 기록 · 확률과 통계 · 경보가 울렸다, 정말 고장일까</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-correlation-ch9" data-reviewer="Claude 검수 세션 (9장 검수 r1)" data-author="Claude 새 장 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="새 9장 correlation(content.js 본문·식·숫자로 보기·예측·혼동하지 마세요·전이·확인 문제·더 읽어 보기), 8장 likelihood의 remaining·nextWhy, 실험 labs-c.js, stats.js normalSample·cosine·pearson, inference.js sensorDays·correlationTheory·correlationSummary, figures.js correlation, guides.js correlation, chapter.js warning 렌더링, index.html, 들어오는 링크 3개(linear-algebra similarity, aie-ml pipeline, ai generalization), 새 출처 Rodgers &amp; Nicewander (1988)" data-result="fixed">
+<h2>2026-10-12 9장 상관과 인과 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (9장 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할, 이 장을 쓰지 않은 세션). 집필자: Claude 새 장 집필 세션 (2026-10-12). 범위: 새 9장 <code>correlation</code>과 그 실험·계산·그림·안내, 8장의 다음 장 연결 문장, 9장으로 들어오는 링크 3개, 새 출처 1개.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>고침</td><td>상관≠인과, 교란 변수, 층화(알고 측정한 교란만 지움), 무작위 배정(모르는 교란도 평균적으로 고르게 나눔), r의 단위 불변(양의 선형 변환), r은 직선 관계만 잰다는 서술을 표준 통계 서술(OpenIntro Statistics 범위)과 대조. 더 읽어 보기 두 곳의 과장 표현을 고침</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>코드가 부하 단계를 Math.floor(random()×3)으로 같은 확률로 뽑는 것을 확인하고 Var(부하) = (0.09 + 0 + 0.09)/3 = 0.06을 직접 유도. Cov = 4c·30c·0.06 = 7.2c², Var(진동) = 0.96c² + 0.36, Var(온도) = 54c² + 9. Python으로 c = 1 → 0.78954, c = 0.5 → 0.48990, c = 0.25 → 0.19739, c = 0 → 0. 몬테카를로 200만 개 r = 0.7900. 숫자로 보기: 편차곱 합 6.8, 제곱합 68·0.692, r = 6.8/√47.056 = 0.99129, 화씨 변환 후에도 0.99129. 단계별 흔들림 1/√(n − 1) ≈ 0.12</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>고침</td><td>Node로 책 코드를 따로 실행해 대조: 씨앗 112·10일·c = 1에서 전체 r 0.7914, 단계별 0.0208(56개)·−0.0385(72개)·0.0086(72개), 무작위 0.0049, c = 0.5 → 0.4969, c = 0 → −0.0093. 경계: 5일(100개) 0.8004, 30일(600개) 0.7887, 단계별 r은 c와 무관하게 같음(같은 난수 순서). pearson은 분산 0·값 1개·빈 배열에서 NaN, 완전 역상관 −1, 영벡터 cosine NaN, 강도 1.2는 오류. 30일에서 진동 하한 0.1 자르기가 실제로 일어남(이론상 약 0.08%)을 찾아 가정에 적음. tests/browser.cjs 1280·390·320px 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>피어슨 상관계수(Pearson correlation coefficient), 산점도, 교란 변수(confounder), 층화, 무작위 대조 시험 표기 대조. 본문은 심프슨 역설이라고 부르지 않으며, 층화 후 상관이 0으로 사라지는 경우로만 서술해 정확함</td></tr>
+<tr data-check="sources" data-status="fixed"><td>출처 링크·인용</td><td>고침</td><td>Crossref 서지(WebFetch, 2026-10-12): Joseph Lee Rodgers, W. Alan Nicewander, “Thirteen Ways to Look at the Correlation Coefficient”, The American Statistician 42(1): 59–66, 1988년 2월, DOI 10.1080/00031305.1988.10475524 일치. 공개 사본(stat.berkeley.edu)에서 여덟째 방법이 “Correlation as a function of the angle between the two variable vectors”(중심화한 변수에서 r = cos α)임을 확인. 책 개발 문서의 “(2026-10-12 확인)”이 집필 세션이 DOI를 열지 않은 사실과 달라 고침</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>9장 전이 보기 문항 해설</td><td>“셋째 보기는… 둘째 보기는…”으로 보기를 자리 번호로 가리킴. 화면에서 보기 순서를 돌리므로 번호가 실제 자리와 어긋남</td><td>quiz.js가 보기 순서를 섞음, 서재 규칙(해설은 보기 문구로 가리킨다)</td><td>보기 문구로 가리키도록 고침</td></tr>
+<tr><td>9장 전이 보기 정답 문구</td><td>“학년마다 r이 0 근처로”는 학년 안에서도 남는 나이 차이·개인차를 생각하면 지나친 단정</td><td>교란을 고정하면 겉보기 상관이 줄지만 학년 안 나이 차이는 남음</td><td>“0.6보다 크게 줄어든다”, 해설은 “크게 줄어듭니다”로 고침</td></tr>
+<tr><td>9장 더 읽어 보기 → AI Book 03</td><td>“허위 상관을 배운 모델”: 그 장은 우연한 관계를 외우는 과적합을 다루며, 교란이 만든 상관은 같은 조건의 검증 데이터에서도 되풀이되어 과적합으로 드러나지 않음</td><td>AI Book generalization 장 내용, 이 장의 교란 설명</td><td>“우연한 관계를 외운 모델”로 바꾸고, 교란 상관은 검증 점수만으로 가려지지 않는다는 문장을 더함</td></tr>
+<tr><td>9장 더 읽어 보기 → 머신러닝 기초 10</td><td>“이 장의 교란 변수가 모델 점수를 부풀린다”: 그 장은 누설을 다루며 누설은 교란 변수와 같은 것이 아님</td><td>aie-ml pipeline 장의 실험(leak·timeseries)</td><td>“교란 변수처럼 원인이 아닌 관계가 검증 점수를 어떻게 부풀리는지”로 고침</td></tr>
+<tr><td>labs-c.js 가정 문장</td><td>부하 단계가 같은 확률이라는 점과 진동 하한 0.1 자르기가 가정에 없었음(30일 기록에서 실제로 발생)</td><td>inference.js sensorDays의 Math.floor(random()×3), Math.max(0.1, …)</td><td>두 가정을 문장에 더하고, 산점도 접근성 이름의 전체 r도 fmtR로 NaN을 처리하게 맞춤</td></tr>
+<tr><td>guides.js 결과 읽기</td><td>“약 65개면 1/√65”는 기본 설정의 평균(200 ÷ 3 ≈ 67)과 표본 상관의 흔들림 1/√(n − 1)에 어긋남(값 0.12는 같음)</td><td>귀무 상관에서 E[r²] = 1/(n − 1)</td><td>“n개면 약 1/√(n − 1), 약 67개면 1/√66 ≈ 0.12”로 고침</td></tr>
+<tr><td>docs/index.html 9장 출처 줄</td><td>집필 세션이 DOI를 열지 않았는데 “(2026-10-12 확인)”으로 적힘. 검수 대기 문장도 남아 있었음</td><td>집필 세션의 인계 내용</td><td>검수 세션이 Crossref와 공개 사본으로 확인했다고 고치고 이 회차로 연결. 부하 분산 0.06과 진동 하한도 적음</td></tr>
+<tr><td>index.html</td><td>JS를 고쳐 자산 버전 갱신 필요</td><td>서재 규칙</td><td>?v=20261012-ch1 → ?v=20261012-ch1r1 (13곳)</td></tr>
+<tr><td>들어오는 링크: books/ai/js/content.js generalization cross</td><td>“모델이 외운 우연한 관계는 숨은 원인이 만든 겉보기 상관일 때가 많습니다”는 우연한 관계(과적합)와 교란 상관을 섞은 근거 없는 단정</td><td>위 AI Book 03 항목과 같은 이유</td><td>다른 검수자가 같은 파일을 고치는 중이라 고치지 않고 편집장에게 보고함(제안: “숨은 원인이 만든 겉보기 상관도 모델이 붙잡을 수 있습니다”)</td></tr>
+<tr><td>들어오는 링크: books/aie-ml/js/content.js pipeline cross</td><td>“누설과 허위 상관은 교란 변수와 같은 구조입니다”는 과장(누설은 미래·시험 정보가 섞이는 것)</td><td>aie-ml pipeline 장 내용</td><td>이 회차의 수정 범위(books/probability) 밖이라 보고함(제안: “누설은 교란 변수처럼 원인이 아닌 관계를 점수에 끌어들입니다”)</td></tr>
+<tr><td>들어오는 링크: books/linear-algebra similarity cross</td><td>오류 없음. 평균을 뺀 두 기록의 코사인이 r이라는 설명이 정확함</td><td>stats.js pearson 구현, Rodgers &amp; Nicewander 여덟째 방법</td><td>수정 없음</td></tr>
+<tr><td>9장 예측·확인 문제, 8장 remaining·nextWhy, 그림·혼동하지 마세요</td><td>오류 없음. 예측 정답 하나(“0 근처로 떨어진다”), 해설 수치가 실행 결과와 일치</td><td>위 독립 계산</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>doi.org 주소 자체는 이 환경에서 출판사 페이지로 열리지 않아(가져오기 오류), DOI는 Crossref 서지 기록으로, 본문은 stat.berkeley.edu의 공개 사본으로 대조했습니다. OpenIntro Statistics의 해당 절은 다시 열지 않았습니다. 화면은 tests/browser.cjs(Chromium 1280·390·320px)로만 확인했고 Safari·Firefox·실기기·화면 읽기 프로그램, 학습 효과(L4)는 확인하지 않았습니다. 들어오는 링크 두 곳(AI Book, 머신러닝 기초)의 표현 문제는 범위 밖이라 고치지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r1)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="4장 z와 68·95·99.7 문단 2개와 CLT 실험의 1.96 띠(inference.js shareWithin, stats.js zScore·normalCoverage·twoSidedTail), 마지막 과제의 기대 비용 질문(stats.js expectedCost), 8개 장 전이 보기 문항, 정답 자리 돌리기(quiz.js order). 새 출처 없음" data-result="passed" data-commit="5f766a8">
 <h2>2026-10-12 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할). 집필자: Claude 보충 집필 세션 (2026-10-12, 커밋 5f766a8). 범위: 4장 z와 68·95·99.7 문단 2개와 CLT 실험의 1.96 띠(inference.js shareWithin, stats.js zScore·normalCoverage·twoSidedTail), 마지막 과제의 기대 비용 질문(stats.js expectedCost), 8개 장 전이 보기 문항, 정답 자리 돌리기(quiz.js order). 새 출처 없음.</p>
