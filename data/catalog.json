@@ -2809,6 +2809,14 @@
       "start": "도서관이 1만 권에서 100만 권으로 통합된다. 사서는 검색이 100배 느려질지 묻는다.",
       "steps": [
         {
+          "book_id": "how-computers-work",
+          "url": "books/computer/#programs",
+          "task": "곱셈 프로그램의 남은 횟수 칸(15번)을 4에서 8로 바꿔 다시 실행하고, 실행한 명령 수가 어떻게 늘어나는지 센다",
+          "minutes": 12,
+          "why": "반복을 한 번 더 돌 때마다 같은 명령 묶음이 다시 실행된다. 일의 양을 반복 횟수로 세는 습관이 다음 정거장의 비교 횟수 세기로 이어진다",
+          "record": "남은 횟수 4와 8일 때 실행한 명령 수, 횟수가 두 배일 때 명령 수도 두 배가 되는지"
+        },
+        {
           "book_id": "algorithms-lab",
           "url": "books/algorithms/#search",
           "task": "이진 탐색 실험에서 서가를 1만 권과 100만 권으로 바꾸고, 찾는 자리를 0%·50%·100%로 옮기며 비교 횟수를 센다",
@@ -3610,8 +3618,7 @@
         "books/aie-safety/#jailbreak",
         "books/aie-safety/#scheming",
         "books/aie-capstone/#verify",
-        "books/aie-capstone/#evals",
-        "books/information/#final"
+        "books/aie-capstone/#evals"
       ]
     },
     {
