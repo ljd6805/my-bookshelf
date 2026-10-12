@@ -114,6 +114,21 @@ def validate_typography(root):
     return errors
 
 
+def validate_book_theme(root):
+    """Every book opens in the light theme and remembers the reader's choice through assets/book-theme.js."""
+    errors = []
+    for page in sorted(root.glob('books/*/index.html')):
+        text, name = page.read_text(), page.relative_to(root)
+        head = text.split('</head>', 1)[0]
+        if not re.search(r'<html[^>]*\bdata-theme="light"', text):
+            errors.append(f'{name}: <html> must start with data-theme="light"')
+        if not re.search(r'<script src="\.\./\.\./assets/book-theme\.js\?v=[\w-]+"></script>', head):
+            errors.append(f'{name}: <head> needs <script src="../../assets/book-theme.js?v=...">')
+        if not re.search(r'<button id="theme"[^>]*>어두운 화면</button>', text):
+            errors.append(f'{name}: #theme button must start as "어두운 화면"')
+    return errors
+
+
 def validate_cross_links(root):
     """Links from one book's scripts to another book (../topic/#chapter) must hit a known route."""
     routes, errors = {}, []
@@ -238,6 +253,7 @@ def main():
     errors += validate_catalog(catalog)
     errors += validate_shelf_return(ROOT)
     errors += validate_typography(ROOT)
+    errors += validate_book_theme(ROOT)
     errors += validate_cross_links(ROOT)
     errors += validate_illustrations(ROOT, catalog)
     errors += validate_covers(ROOT, catalog)
