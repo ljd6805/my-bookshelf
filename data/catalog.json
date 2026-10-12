@@ -2085,6 +2085,79 @@
         }
       ],
       "short_title": "증권시장"
+    },
+    {
+      "id": "money-time-value",
+      "title": "돈의 시간 가치 · 이자와 복리에서 현재가치까지",
+      "spine_title": "돈의 시간가치",
+      "spine_category": "금융",
+      "color": "sage",
+      "description": "가상의 인물 하린의 1,000만 원과 신용대출 600만 원을 시간 저울에 올리며 단리·복리, 72의 법칙과 실효 금리, 현재가치와 할인, 적금·대출 상환표, 순현재가치와 내부수익률, 물가와 세금을 뺀 실질 수익률, 산술 평균과 연환산 수익률, 수수료의 복리, 상환과 투자의 비교를 10개 장과 10개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/money/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 동전이 복리 곡선을 따라 불어나고, 할인을 거쳐 오늘로 돌아옵니다.",
+      "cover_art": "books/money/assets/cover-art.svg",
+      "cover_meta": "10장 · 10개 실험",
+      "status": "published",
+      "url": "books/money/",
+      "keywords": [
+        "돈의 시간 가치",
+        "시간 가치",
+        "이자",
+        "단리",
+        "복리",
+        "72의 법칙",
+        "실효 금리",
+        "EAR",
+        "현재가치",
+        "할인율",
+        "미래가치",
+        "적금",
+        "연금",
+        "대출 상환",
+        "원리금균등",
+        "원금균등",
+        "만기일시",
+        "중도상환수수료",
+        "신용점수",
+        "연체",
+        "NPV",
+        "순현재가치",
+        "IRR",
+        "내부수익률",
+        "물가",
+        "실질 수익률",
+        "피셔",
+        "이자소득세",
+        "CAGR",
+        "연환산 수익률",
+        "기하 평균",
+        "수수료",
+        "보수",
+        "그리드 매매"
+      ],
+      "chapters": [
+        {
+          "title": "전체 10개 장",
+          "url": "books/money/#chapters"
+        },
+        {
+          "title": "02 · 이자에 이자가 붙을 때: 단리와 복리",
+          "url": "books/money/#compound"
+        },
+        {
+          "title": "04 · 미래를 오늘로: 할인과 현재가치",
+          "url": "books/money/#discount"
+        },
+        {
+          "title": "08 · 평균은 0%인데 왜 줄었을까: 연환산 수익률",
+          "url": "books/money/#cagr"
+        },
+        {
+          "title": "마지막 과제 · 하린의 1,000만 원, 상환과 투자의 저울",
+          "url": "books/money/#final"
+        }
+      ],
+      "short_title": "돈의 시간 가치"
     }
   ],
   "learning_paths": [
@@ -2991,6 +3064,54 @@
         "역색인의 일이 목록 길이를 따른다는 것을 흔한 낱말과 드문 낱말의 예로 설명할 수 있다",
         "빠른 검색과 좋은 순위가 다른 질문이라는 것을 BM25 예로 말할 수 있다"
       ]
+    },
+    {
+      "id": "discount-today",
+      "title": "오늘의 1만 원과 내일의 보상은 왜 다르게 셀까",
+      "question": "금융은 미래의 돈을, 강화학습은 미래의 보상을 왜 똑같이 할인해서 오늘의 값으로 바꿀까?",
+      "audience": "이자 계산은 해 봤고, 미래의 값을 오늘과 비교하는 원리가 궁금한 독자",
+      "prerequisites": "백분율과 거듭제곱 계산",
+      "start": "하린은 오늘 1,000만 원과 1년 뒤 1,030만 원 사이에서 망설이고, 같은 날 강화학습 책의 로봇 나르미는 가까운 보상과 먼 보상 사이에서 길을 고른다.",
+      "steps": [
+        {
+          "book_id": "money-time-value",
+          "url": "books/money/#today",
+          "task": "시간 저울에서 금리를 2%, 3%, 4%로 바꾸며 오늘 1,000만 원과 1년 뒤 1,030만 원 중 무거운 쪽을 찾는다",
+          "minutes": 12,
+          "why": "할인은 오늘의 돈이 이자를 벌 수 있다는 데서 시작한다",
+          "record": "두 제안이 같아지는 금리"
+        },
+        {
+          "book_id": "money-time-value",
+          "url": "books/money/#discount",
+          "task": "할인율을 3%에서 5%로 올리며 3년 뒤와 30년 뒤 금액의 현재가치가 얼마나 줄어드는지 비교한다",
+          "minutes": 14,
+          "why": "할인은 복리를 거꾸로 돌린 계산이고, 먼 미래일수록 할인율에 민감하다",
+          "record": "할인율 5%에서 30년 뒤 1,000만 원의 현재가치"
+        },
+        {
+          "book_id": "aie-10-rl",
+          "url": "books/aie-rl/#mdp",
+          "task": "할인율과 무작위 정책의 가치표 실험에서 γ만 0.9와 0.99로 바꿔 먼 칸의 가치가 어떻게 달라지는지 본다(강화학습이 처음이면 건너뛰어도 된다)",
+          "minutes": 10,
+          "why": "강화학습의 γ도 먼 보상을 오늘의 값으로 줄이는 같은 할인이다",
+          "record": "γ를 0.9에서 0.99로 올렸을 때 먼 칸 가치의 변화 방향"
+        },
+        {
+          "book_id": "money-time-value",
+          "url": "books/money/#npv",
+          "task": "현금흐름 [−100, 60, 60]의 NPV 곡선에서 할인율을 바꾸며 NPV가 0이 되는 IRR을 찾는다",
+          "minutes": 16,
+          "why": "해마다 다른 돈을 모두 할인해 더하면 선택 하나를 숫자 하나로 비교할 수 있다",
+          "record": "할인율 5%의 NPV와 IRR"
+        }
+      ],
+      "challenge": "3년 뒤 330만 원을 주는 약속과 오늘 300만 원을 고르는 상황, 그리고 가까운 보상 1과 열 걸음 뒤 보상 2를 고르는 로봇을 같은 할인 계산으로 설명한다.",
+      "checks": [
+        "할인율이 높을수록 먼 미래의 값이 왜 작아지는지 말할 수 있는가",
+        "NPV가 0보다 크다는 뜻을 할인율과 함께 설명할 수 있는가",
+        "금융의 할인율과 강화학습의 γ가 같은 일을 하는지 다른 일을 하는지 말할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -3128,8 +3249,8 @@
         {
           "number": 1,
           "title": "돈의 시간 가치",
-          "status": "planned",
-          "next_why": "돈을 시간으로 비교하는 법을 알았으니, 그 돈의 가치를 흔드는 물가·경기·환율로 시야를 넓힙니다."
+          "next_why": "돈을 시간으로 비교하는 법을 알았으니, 그 돈의 가치를 흔드는 물가·경기·환율로 시야를 넓힙니다.",
+          "book_id": "money-time-value"
         },
         {
           "number": 2,
@@ -3578,7 +3699,17 @@
     "books/algorithms/#shortest": "08 · 최단 경로와 탐욕법",
     "books/algorithms/#edit": "09 · 동적 계획법: 오타 난 제목 찾기(편집 거리)",
     "books/algorithms/#index": "10 · 색인: 역색인과 근사 최근접 이웃 (심화)",
-    "books/algorithms/#final": "마지막 · 100만 권 도서관의 검색 설계 고치기"
+    "books/algorithms/#final": "마지막 · 100만 권 도서관의 검색 설계 고치기",
+    "books/money/#today": "01 · 오늘의 1만 원과 1년 뒤의 1만 원",
+    "books/money/#compound": "02 · 이자에 이자가 붙을 때: 단리와 복리",
+    "books/money/#rule72": "03 · 두 배가 되는 데 걸리는 해: 72의 법칙과 복리 주기",
+    "books/money/#discount": "04 · 미래를 오늘로: 할인과 현재가치",
+    "books/money/#loan": "05 · 나눠 갚는 돈: 적금, 연금, 대출 상환표와 신용",
+    "books/money/#npv": "06 · 여러 해의 돈을 한 숫자로: 순현재가치와 내부수익률",
+    "books/money/#inflation": "07 · 물가가 갉아먹는 이자: 실질 수익률",
+    "books/money/#cagr": "08 · 평균은 0%인데 왜 줄었을까: 연환산 수익률",
+    "books/money/#fees": "09 · 수수료 1%가 30년에 하는 일",
+    "books/money/#final": "마지막 과제 · 하린의 1,000만 원, 상환과 투자의 저울"
   },
   "concepts": [
     {
@@ -3720,7 +3851,8 @@
         "books/aie-generative/#ddpm",
         "books/aie-rl/#mc",
         "books/aie-rl/#pg",
-        "books/probability/#correlation"
+        "books/probability/#correlation",
+        "books/money/#cagr"
       ]
     },
     {
@@ -4165,6 +4297,21 @@
         "books/aie-math/#entropy",
         "books/aie-audio/#codec",
         "books/aie-llm-build/#tokenizer"
+      ]
+    },
+    {
+      "id": "discounting",
+      "name": "할인과 현재가치",
+      "aliases": [
+        "discounting",
+        "present value",
+        "discount factor"
+      ],
+      "summary": "먼 미래의 돈과 보상은 할인율만큼 가볍게 쳐서 오늘의 값으로 바꾼다",
+      "chapters": [
+        "books/money/#discount",
+        "books/money/#npv",
+        "books/aie-rl/#mdp"
       ]
     }
   ]

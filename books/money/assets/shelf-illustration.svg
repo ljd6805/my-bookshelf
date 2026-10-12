@@ -1,0 +1,48 @@
+<svg class="mn-ill" viewBox="0 0 340 180" role="img" aria-labelledby="mn-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="mn-ill-title">오늘의 동전 1,000만 원이 연 3% 복리 곡선을 따라 10년 동안 올라가며 1,344만 원으로 쌓이고, 다시 할인 화살표를 따라 오늘로 돌아와 1,000만 원의 현재가치가 되는 과정</title>
+<style>
+.mn-ill-bg{fill:#f7f9f4}
+.mn-ill-axis{stroke:#7d8c80;stroke-width:1.2}
+.mn-ill-word{font:600 10px sans-serif;fill:#22302a}
+.mn-ill-small{font:500 8.5px sans-serif;fill:#5b6a5f}
+.mn-ill-num{font:700 9.5px monospace;fill:#2f6b3d}
+.mn-ill-curve{fill:none;stroke:#3c7548;stroke-width:2.6;stroke-linecap:round;stroke-dasharray:320;stroke-dashoffset:320;animation:mn-ill-draw 7s ease-in-out infinite}
+.mn-ill-bar{fill:#cfe3d1;stroke:#6b9a74;stroke-width:.8;transform-box:fill-box;transform-origin:bottom center;transform:scaleY(0);animation:mn-ill-grow 7s ease-out infinite}
+.mn-ill-b0{animation-delay:0.00s}.mn-ill-b2{animation-delay:0.44s}.mn-ill-b4{animation-delay:0.88s}.mn-ill-b6{animation-delay:1.32s}.mn-ill-b8{animation-delay:1.76s}.mn-ill-b10{animation-delay:2.20s}
+.mn-ill-coin{animation:mn-ill-travel 7s ease-in-out infinite}
+.mn-ill-coin-f{fill:#e9c46a;stroke:#9a7420;stroke-width:1.2}
+.mn-ill-back{fill:none;stroke:#a24a17;stroke-width:1.6;stroke-dasharray:4 4;opacity:0;animation:mn-ill-back 7s ease-in-out infinite}
+.mn-ill-ghost{opacity:0;animation:mn-ill-return 7s ease-in-out infinite}
+.mn-ill-ghost-f{fill:#f6dfa4;stroke:#a24a17;stroke-width:1.2}
+.mn-ill-future{opacity:0;animation:mn-ill-show 7s ease-in-out infinite}
+.mn-ill-today{opacity:0;animation:mn-ill-today 7s ease-in-out infinite}
+@keyframes mn-ill-draw{0%{stroke-dashoffset:320;opacity:1}46%,92%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:.2}}
+@keyframes mn-ill-grow{0%,4%{transform:scaleY(0)}20%,92%{transform:scaleY(1)}100%{transform:scaleY(0)}}
+@keyframes mn-ill-travel{0%{transform:translate(0,0);opacity:0}2%{opacity:1}4%{transform:translate(0.0px,0.0px)}8%{transform:translate(26.0px,-6.0px)}12%{transform:translate(52.0px,-12.2px)}16%{transform:translate(78.0px,-18.5px)}20%{transform:translate(104.0px,-25.1px)}24%{transform:translate(130.0px,-31.9px)}28%{transform:translate(156.0px,-38.8px)}32%{transform:translate(182.0px,-46.0px)}36%{transform:translate(208.0px,-53.4px)}40%{transform:translate(234.0px,-61.0px)}44%{transform:translate(260.0px,-68.8px)}48%{transform:translate(260px,-68.8px);opacity:1}52%,100%{transform:translate(260px,-68.8px);opacity:0}}
+@keyframes mn-ill-back{0%,52%{opacity:0}58%,92%{opacity:1}100%{opacity:0}}
+@keyframes mn-ill-return{0%,54%{opacity:0;transform:translate(260px,-68.8px)}58%{opacity:1;transform:translate(260px,-68.8px)}82%,92%{opacity:1;transform:translate(0,0)}100%{opacity:0;transform:translate(0,0)}}
+@keyframes mn-ill-show{0%,44%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}
+@keyframes mn-ill-today{0%,80%{opacity:0}86%,94%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.mn-ill-curve{animation:none;stroke-dashoffset:0}.mn-ill-bar{animation:none;transform:none}.mn-ill-coin,.mn-ill-ghost{animation:none;opacity:1;transform:none}.mn-ill-back,.mn-ill-future,.mn-ill-today{animation:none;opacity:1}}
+html[data-motion=reduce] .mn-ill-curve{animation:none;stroke-dashoffset:0}
+html[data-motion=reduce] .mn-ill-bar{animation:none;transform:none}
+html[data-motion=reduce] .mn-ill-coin,html[data-motion=reduce] .mn-ill-ghost{animation:none;opacity:1;transform:none}
+html[data-motion=reduce] .mn-ill-back,html[data-motion=reduce] .mn-ill-future,html[data-motion=reduce] .mn-ill-today{animation:none;opacity:1}
+</style>
+<rect class="mn-ill-bg" width="340" height="180" rx="10"/>
+<text class="mn-ill-small" x="170" y="16" text-anchor="middle">복리로 미래에 보내고, 할인으로 오늘에 데려온다 (연 3%)</text>
+<path class="mn-ill-axis" d="M28 140H318M28 30V140"/>
+<text class="mn-ill-small" x="40" y="154" text-anchor="middle">오늘</text>
+<text class="mn-ill-small" x="170" y="154" text-anchor="middle">5년</text>
+<text class="mn-ill-small" x="300" y="154" text-anchor="middle">10년</text>
+<rect class="mn-ill-bar mn-ill-b0" x="33.0" y="126.0" width="14" height="14.0" rx="2"/><rect class="mn-ill-bar mn-ill-b2" x="85.0" y="113.8" width="14" height="26.2" rx="2"/><rect class="mn-ill-bar mn-ill-b4" x="137.0" y="100.9" width="14" height="39.1" rx="2"/><rect class="mn-ill-bar mn-ill-b6" x="189.0" y="87.2" width="14" height="52.8" rx="2"/><rect class="mn-ill-bar mn-ill-b8" x="241.0" y="72.6" width="14" height="67.4" rx="2"/><rect class="mn-ill-bar mn-ill-b10" x="293.0" y="57.2" width="14" height="82.8" rx="2"/>
+<path class="mn-ill-curve" d="M40.0 120.0 L66.0 114.0 L92.0 107.8 L118.0 101.5 L144.0 94.9 L170.0 88.1 L196.0 81.2 L222.0 74.0 L248.0 66.6 L274.0 59.0 L300.0 51.2"/>
+<path class="mn-ill-back" d="M292 39.2Q170 11.2 48 106.0"/>
+<path class="mn-ill-back" d="M56 100.0L48 106.0L57 110.0"/>
+<g class="mn-ill-future"><text class="mn-ill-num" x="300" y="33.2" text-anchor="end">1,344만</text><text class="mn-ill-small" x="200" y="60" text-anchor="middle">÷ 1.03¹⁰ 할인</text></g>
+<g class="mn-ill-coin"><ellipse class="mn-ill-coin-f" cx="40" cy="116.0" rx="9" ry="5"/></g>
+<g class="mn-ill-ghost"><ellipse class="mn-ill-ghost-f" cx="40" cy="116.0" rx="9" ry="5"/></g>
+<g class="mn-ill-today"><text class="mn-ill-num" x="54" y="134.0">현재가치 1,000만</text></g>
+<text class="mn-ill-word" x="40" y="172" text-anchor="middle">1,000만</text>
+<text class="mn-ill-word" x="300" y="172" text-anchor="middle">미래가치</text>
+</svg>

@@ -218,7 +218,7 @@
       "66개 출처 링크 전체 상태 점검",
       "시간에 민감한 규칙(애프터마켓, 거래세, NXT 시간)은 개정 때 재확인"
     ],
-    "next": "시리즈 1권 「돈의 시간 가치」를 같은 절차로 시작, 그다음 12권 그리드"
+    "next": "1권 공개 완료(money_time_value). 다음은 12권 그리드"
   },
   "new_books_2026_10_12": {
     "books": [
@@ -238,5 +238,25 @@
       "고전 논문 원문 일부와 DOI 페이지는 열지 못함(fact-review 확인하지 못한 것)"
     ],
     "next": "병합 후 공개 페이지에서 서가 펼침·표지·실험 확인"
+  },
+  "money_time_value": {
+    "book": "books/money/",
+    "series": "finance-from-scratch 1권 (시리즈 두 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md",
+    "docs": "books/money/docs/index.html",
+    "research": "books/money/docs/research.html",
+    "fact_review": "books/money/docs/fact-review.html (2회차)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 34개",
+      "브라우저 1280/390/320 39개 화면·30회 실험 조작",
+      "validate.py·build_catalog.py --check"
+    ],
+    "remaining": [
+      "법령 원문 대조(소득세법·금소법 감독규정·대부업법 시행령)",
+      "기준금리·소비자물가는 바뀔 때 재확인(다음 금통위 2026-10-22)",
+      "irr()가 0에 닿기만 하고 넘지 않는 근은 찾지 못함(현재 예제와 무관)"
+    ],
+    "next": "시리즈 12권 「격자 하나에서 손익이 갈리기까지」를 같은 절차로 시작"
   }
 }
