@@ -1,6 +1,6 @@
 /* 지식 지도 화면. 좌표는 atlas-model.mjs가 계산하고, 여기서는 SVG를 그리고 고른 것을 밝히고
    옆 설명판을 채웁니다. 스크립트가 없으면 build_catalog.py가 만든 개념 목록이 그대로 보입니다. */
-import { buildGraph, layoutIslands, layoutFocus, blob } from './atlas-model.mjs?v=20261012-kg1';
+import { buildGraph, layoutIslands, layoutFocus, blob } from './atlas-model.mjs?v=20261012-order1';
 
 const NS = 'http://www.w3.org/2000/svg';
 
@@ -46,6 +46,14 @@ function drawIsland(parent, island, ctx) {
   label(g, island.x, island.titleY, island.name, 'isl-name');
   label(g, island.x, island.countY, `${island.count}권 · 개념 ${concepts}개`, 'isl-count');
   island.spines.forEach(s => drawSpine(g, s, ctx.graph.bookById.get(s.book), island.big));
+  const order = (ctx.graph.fields.find(f => f.name === island.name).order || []).map(step => step.book);
+  island.spines.forEach(s => {
+    const n = order.indexOf(s.book) + 1;
+    if (!n) return;
+    const step = svg('g', { class: 'atlas-step', 'aria-hidden': 'true' }, g);
+    svg('circle', { cx: s.x + s.w / 2, cy: s.y + 1, r: 8 }, step);
+    label(step, s.x + s.w / 2, s.y + 4.5, String(n), 'step-text');
+  });
 }
 
 function drawBadge(parent, bridge) {

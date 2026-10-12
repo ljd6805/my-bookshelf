@@ -10,8 +10,10 @@ import json
 
 if __package__:
     from .shelf_renderer import esc, safe_book_url
+    from .reading_order import field_orders
 else:
     from shelf_renderer import esc, safe_book_url
+    from reading_order import field_orders
 
 TONES = ['aqua', 'blue', 'violet', 'sage', 'amber', 'rose']
 
@@ -49,8 +51,9 @@ def atlas_payload(concepts, catalog):
     books = catalog['books']
     index = catalog.get('chapter_index', {})
     order = fields_in_order(books)
+    reading = field_orders(catalog)
     return {
-        'fields': [{'name': f, 'tone': TONES[i % len(TONES)]} for i, f in enumerate(order)],
+        'fields': [{'name': f, 'tone': TONES[i % len(TONES)], 'order': reading.get(f, [])} for i, f in enumerate(order)],
         'books': [{'id': b['id'], 'title': b['title'], 'short': short_name(b), 'spine': b.get('spine_title') or short_name(b),
                    'field': field_of(b), 'color': b.get('color', 'aqua'), 'url': safe_book_url(b['url'])} for b in books],
         'concepts': [{'id': c['id'], 'name': c['name'], 'aliases': c.get('aliases', []), 'summary': c.get('summary', ''),
@@ -64,7 +67,21 @@ def payload_script(payload):
     return f'<script type="application/json" data-atlas-data>{text}</script>'
 
 
-def render_atlas_list(concepts, books, card):
+def render_reading_orders(catalog):
+    """Each field's recommended reading order as numbered steps with their reasons."""
+    names = {b['id']: short_name(b) for b in catalog['books']}
+    urls = {b['id']: safe_book_url(b['url']) for b in catalog['books']}
+    parts = []
+    for field, steps in field_orders(catalog).items():
+        items = ''.join(f'<li><a href="{esc(urls[s["book"]])}">{esc(names[s["book"]])}</a>'
+                        f'<p>{esc(s["reason"])} <small>근거 · {esc(s["via"]["title"])}</small></p></li>' for s in steps)
+        parts.append(f'<section class="atlas-order" data-field="{esc(field)}"><h4><b>{esc(field)}</b> 섬의 읽는 순서 '
+                     f'<small>{len(steps)}권</small></h4><ol>{items}</ol></section>')
+    return (f'<div class="atlas-orders"><p class="stop-kicker">분야별 추천 읽기 순서</p>'
+            f'<div class="atlas-order-grid">{"".join(parts)}</div></div>')
+
+
+def render_atlas_list(concepts, books, card, before=''):
     """Concept cards grouped under the field where each concept is taught most."""
     groups = {}
     for concept in concepts:
@@ -78,7 +95,7 @@ def render_atlas_list(concepts, books, card):
         cards = ''.join(f'<div class="atlas-item" data-fields="{esc("|".join(fs))}">{card(c)}</div>' for c, fs in members)
         parts.append(f'<section class="atlas-list-group" data-field="{esc(field)}"><h4><b>{esc(field)}</b>에서 주로 다루는 개념 '
                      f'<small>{len(members)}개</small></h4><div class="atlas-cards">{cards}</div></section>')
-    return f'<div class="atlas-list" data-atlas-list>{"".join(parts)}</div>'
+    return f'<div class="atlas-list" data-atlas-list>{before}{"".join(parts)}</div>'
 
 
 def book_picker(books):
