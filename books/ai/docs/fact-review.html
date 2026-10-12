@@ -5,6 +5,79 @@
 <h1>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-common-case-r3" data-reviewer="Claude 검수 세션 (공통 사례 검수 r3)" data-author="Claude 공통 사례 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="r2에서 열린 10장 inference 넷째 문단 마지막 문장(13장 KV 길이 설명)의 수정과 자산 버전 case3 갱신, 세 화면 폭과 브라우저 실험 재확인" data-result="passed" data-commit="d84be5b">
+<h2>2026-10-12 공통 사례 검수 (r3)</h2>
+<p>검수자: Claude 검수 세션 (공통 사례 검수 r3, 검수팀 정민·건우·유진·채원 역할). 집필자: Claude 공통 사례 집필 세션 (2026-10-12, 커밋 d84be5b). 범위: r2에서 연 10장 문장의 수정과 자산 버전 갱신. 이 세션은 이 원고를 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>고친 문장 “13장에서는 KV 캐시를 지시·질문·매뉴얼 조각에 답까지 더한 실제 길이로 다시 세고, 응답 시간까지 따져 서윤의 점검 도우미를 설계합니다.”를 13장 셋째 문단(입력 512 + 3×400 = 1712토큰, 답까지 1912토큰, KV 1912 × 131072 byte), labs-final.js 설명(기본 지시와 질문 512토큰, 답 200토큰), math.js fieldBudget(KV 길이 prompt + answer)과 대조해 맞음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장에는 숫자가 없음. r2에서 따로 계산한 1912토큰 KV 0.2334 GiB·합계 3.959 GiB가 고친 문장이 가리키는 길이와 이제 맞음</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>git show d84be5b --stat으로 바뀐 파일이 js/content.js 한 문장과 index.html 자산 버전(case2 → case3, 11곳 모두 case3)뿐임을 확인. tests/browser.cjs 21개 모두 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>‘지시·질문·매뉴얼 조각·답’이 13장과 labs-final.js의 낱말(기본 지시와 질문, 조각, 답)과 같은 뜻으로 쓰임</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>새 출처·인용 없음, source 번호 변경 없음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#inference 넷째 문단 마지막 문장</td><td>r2의 열린 항목: “질문과 매뉴얼 조각을 더한 실제 입력 길이”가 13장의 KV 길이(답까지 더한 1912토큰)와 맞지 않았음</td><td>13장 셋째 문단, math.js fieldBudget</td><td>집필자가 d84be5b에서 “지시·질문·매뉴얼 조각에 답까지 더한 실제 길이”로 고침. 검수에서 맞음을 확인해 닫음</td></tr>
+</tbody></table>
+<h3>세 화면 폭 재확인 (채원)</h3>
+<p>python3 -m http.server 8764로 띄운 books/ai를 Chromium(Playwright)으로 1280·390·320px에서 다시 열고 처음 화면과 13개 장을 넘겼습니다. 세 폭 모두 가로 넘침이 없고 콘솔·페이지 오류는 0건이었으며, 10장 첫 문단은 16px로 화면 폭 안에 놓였습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>실제 휴대전화와 Safari·Firefox에서는 보지 않았고, 이번 회차는 화면을 측정값으로만 확인했습니다.</li>
+<li>학습 효과는 측정하지 않았습니다. 사례와 13장 수치는 가정에서 나온 값이라 외부 근거가 없습니다.</li>
+</ul>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-common-case-r2" data-reviewer="Claude 검수 세션 (공통 사례 검수 r2)" data-author="Claude 공통 사례 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="커밋 fdb48b9에서 고친 네 문장(8장 vision 첫 문단 “4장부터 도우미가 읽고 쓰던 것은 글이었습니다”, 7장 generation 남은 질문 “4장부터 입력은 모두 글자였습니다”, 10장 inference 마지막 문단의 13장 연결 문장, 3장 generalization 첫 문단의 13장 시험 질문 10개 문장)과 r1이 건너뛴 1280·390·320px 화면 확인" data-result="open" data-commit="fdb48b9">
+<h2>2026-10-12 공통 사례 검수 (r2)</h2>
+<p>검수자: Claude 검수 세션 (공통 사례 검수 r2, 검수팀 정민·건우·유진·채원 역할). 집필자: Claude 공통 사례 집필 세션 (2026-10-12, 커밋 fdb48b9). 범위: fdb48b9에서 고친 7·8·10·3장의 네 문장과 r1이 하지 않은 세 화면 폭 확인. 이 세션은 이 원고를 쓰지 않았고, 검수팀은 고치지 않고 찾은 것만 남깁니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="open"><td>사실 주장</td><td>1건 열림</td><td>각 장 본문을 node로 꺼내 대조: 3장까지 입력은 센서 숫자(3장 남은 질문·4장 첫 문단), 4~7장은 매뉴얼 문장·질문·토큰을 읽고 7장에서 글을 씀, 8장에서 처음 사진이 들어옴이 맞아 7·8장의 “4장부터” 두 문장은 맞음. 3장 문장의 “13장에서 도우미의 적중률을 잴 시험 질문 10개”는 13장 셋째 문단(가상의 시험 질문 10개, 답이 있는 8개 중 6개, 75%)과 맞음. 10장 마지막 문장은 13장과 어긋남(아래 발견)</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 따로 계산: 토큰당 KV 2×32×8×128×2 = 131072 byte; 8192토큰 2³⁰ byte = 1 GiB, 가중치 4×10⁹ byte = 3.725 GiB, 합계 4.725 GiB(10장의 약 4.73과 맞음); 1912토큰 0.2334 GiB, 합계 3.959 GiB(13장의 약 3.96과 맞음); 입력 512 + 3×400 = 1712; prefill 5.48 s, decode 200 × (4×10⁹ + 1912×131072) ÷ 10¹¹ = 8.50 s</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>git show fdb48b9 --stat으로 바뀐 파일이 js/content.js·index.html(자산 버전 case1 → case2)·docs/index.html뿐이고 실험·계산 코드는 그대로임을 확인. math.js fieldBudget이 KV를 입력 + 답(prompt + answer) 길이로 센다는 것을 코드에서 확인. 브라우저 실험 검사 tests/browser.cjs 21개 모두 통과(fieldkit 대표 예산·k=7/8 경계, alarmplan 0.45 → 0.60 포함)</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>‘글’·‘글자’·‘입력’·‘시험 질문’·‘적중률’·‘KV 캐시’가 1~13장에서 같은 뜻으로 쓰임. 7장은 ‘글자’, 8장은 ‘글’로 낱말이 다르지만 둘 다 텍스트 입력을 가리켜 혼동은 없음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>새 출처·인용 없음. 바뀐 문장은 책 안의 다른 장을 가리킬 뿐이고 source 번호가 바뀌지 않음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#inference 넷째 문단 마지막 문장</td><td>“13장에서는 KV 캐시를 질문과 매뉴얼 조각을 더한 실제 입력 길이로 다시 세고, 응답 시간까지 따져 서윤의 점검 도우미를 설계합니다.” 13장은 KV를 입력 길이 1712토큰이 아니라 답 200토큰까지 더한 1912토큰으로 셉니다(1912 × 131072 byte ≈ 0.23 GiB). 입력 길이 1712로 세면 0.209 GiB가 나와 13장 숫자와 맞지 않습니다. 또 512토큰은 질문만이 아니라 기본 지시와 질문입니다</td><td>13장 셋째 문단 “입력은 512 + 3×400 = 1712토큰, 답까지 1912토큰 … KV는 1912 × 131072 byte”, labs-final.js 설명 “기본 지시와 질문 512토큰, 답 200토큰”, math.js fieldBudget의 KV 길이 prompt + answer</td><td>열림. 고칠 문장 제안: “13장에서는 KV 캐시를 지시·질문·매뉴얼 조각에 답까지 더한 실제 길이로 다시 세고, 응답 시간까지 따져 서윤의 점검 도우미를 설계합니다.”</td></tr>
+<tr><td>#vision 첫 문단, #generation 남은 질문</td><td>“4장부터 도우미가 읽고 쓰던 것은 글이었습니다”, “4장부터 입력은 모두 글자였습니다”: 1~3장의 센서 숫자와 겹치던 r0 문장(“7장까지”, “지금까지”)을 바로잡은 것이 맞음</td><td>3장 남은 질문, 4장 첫 문단 “3장까지 서윤이 다룬 입력은 센서가 낸 숫자뿐”</td><td>수정 없음</td></tr>
+<tr><td>#generalization 첫 문단</td><td>“나중에 13장에서 도우미의 적중률을 잴 시험 질문 10개도 사정이 같습니다”: 13장에서 적중률은 10개 중 답이 있는 8개로 재지만, 시험 자료 묶음은 10개라 문장이 틀리지 않음</td><td>13장 셋째 문단</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>세 화면 폭 확인 (채원)</h3>
+<p>python3 -m http.server 8764로 띄운 books/ai를 Chromium(Playwright)으로 1280·390·320px에서 열고 처음 화면과 13개 장을 모두 넘겼습니다. 세 폭 모두 문서 scrollWidth가 화면 폭과 같아 가로 넘침이 없었고, 콘솔 오류와 페이지 오류는 0건이었습니다. 장마다 ‘먼저 개념 잡기’ 첫 사례 문단은 16px·줄 간격 28.8px, 보이는 상태로 390px에서 20~370px, 320px에서 20~300px 안에 놓였습니다. 320px 8장 화면을 캡처해 고친 문장이 잘리지 않고 읽히는 것을 눈으로 확인했습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>실제 휴대전화와 다른 브라우저(Safari·Firefox)에서는 보지 않았습니다. 화면 캡처는 320px 8장만 눈으로 보았고, 나머지 장과 폭은 측정값(넘침·글자 크기·위치)으로 대신했습니다.</li>
+<li>학습 효과(독자가 4장부터 글이라는 흐름을 따라가는지)는 측정하지 않았습니다.</li>
+<li>사례와 13장 수치는 가정에서 나온 값이라 외부 근거가 없습니다.</li>
+</ul>
+</section>
+
+<section class="fact-review" id="review-2026-10-12-common-case" data-reviewer="Claude 검수 세션 (공통 사례 검수 r1)" data-author="Claude 공통 사례 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="1~12장에 더한 한빛 공장·서윤 사례 문단과 고친 문장(1장 입력 이름과 숫자 예시, 1·2·3·4·7·8·9·10장 남은 질문, 10장 마지막 문장, 13장 두 문장), app.js 처음 화면 흐름 문구. 실험·계산 코드와 출처 변경 없음" data-result="fixed" data-commit="3079bf2">
+<h2>2026-10-12 공통 사례 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (공통 사례 검수 r1, 검수팀 정민·유진·건우·현석 역할). 집필자: Claude 공통 사례 집필 세션 (2026-10-12, 커밋 3079bf2). 범위: 1~12장에 더한 한빛 공장·서윤 사례 문단과 고친 문장(1장 입력 이름과 숫자 예시, 1·2·3·4·7·8·9·10장 남은 질문, 10장 마지막 문장, 13장 두 문장), app.js 처음 화면 흐름 문구. 이 세션은 이 원고를 쓰지 않았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>바이트 단위 BPE에서 한글 한 글자가 여러 토큰이 될 수 있다는 점, 임베딩 차원이 보통 수백~수천이라는 점, CNN 커널을 학습하고 모든 위치에 함께 쓴다는 점, SFT와 선호 정보에 따른 보상, KV 캐시가 앞 토큰의 Key·Value를 저장한다는 점, prefill·decode를 표준 설명과 대조. 13장의 가정(16 GiB, 운영체제 여유 6 GiB, 예산 10 GiB, 조각 400토큰, 모터 20대, 시험 질문 10개)과 장 번호 참조(5→11장, 11→10장, 12→1장 등)가 13장 본문·labs-final.js 설명과 맞음. 확률과 통계 책의 한빛 공장(모터 20대마다 진동 센서, 설비 담당자 서윤, 매일 아침 경보 기록)과도 어긋나지 않음. 6장의 인과 마스크 문장 하나를 고침</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>Python으로 따로 계산: [0.9, 0.1]과 [0.8, 0.3]의 코사인 0.9694, [0.2, 0.9]와 0.3234; 로짓 [2, 1, 0]의 셋째 후보 확률 T=1에서 0.0900(약 11.1번에 한 번, “열한 번에 한 번꼴”과 맞음), T=0.5에서 0.0159; “베어링 진동이 기준을 넘으면 윤활유를 확인한다”는 공백 제외 20글자·공백으로 나누면 6조각; 1장 z = 2×1 − 1×0.5 − 0.5 = 1, sigmoid(1) = 0.7311로 입력 이름을 바꾼 뒤에도 그대로임</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>git show 3079bf2 --stat으로 labs-*.js·math.js·lab-guides.js가 바뀌지 않았음을 확인. 사례 문단이 가리키는 실험 설명을 코드와 대조: 9장 reward의 A(유용성 3·간결성 0)·B(2·2)·C(0·3), 7장 실험의 “오늘 날씨는” 후보, 8장 Sobel 커널, 2장 회귀의 다섯 점, 11장 terms()가 정확히 같은 낱말만 세므로 “덜덜 떨려요”와 “진동이 기준을 넘으면”은 겹침 0으로 0점</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>한빛 공장·서윤·정비 매뉴얼·점검 도우미·매뉴얼 조각·KV 캐시·검증/테스트·문턱을 1~13장에서 같은 이름으로 씀. 1장 입력을 온도·진동에서 진동·냉각 팬 속도로 바꾼 뒤 본문 안에서 이름이 섞이지 않음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>새 출처 없음. 사례 문단을 더한 장의 source 번호가 바뀌지 않았고, 새 문단의 주장은 기존 출처(장마다 [0]~[9])가 다루는 범위 안에 있음. 사례는 가상이라 외부 출처가 필요 없음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#attention 사례 문단</td><td>“도우미가 점검 순서를 한 토큰씩 쓸 때는 인과 마스크가 아직 쓰지 않은 뒤쪽을 가립니다”: 한 토큰씩 생성할 때는 뒤쪽 토큰이 아직 없어 가릴 것이 없음. 인과 마스크는 학습과 입력을 한꺼번에 읽는 단계에서 쓰며, 같은 장 둘째 문단도 “학습 중 미래 토큰의 정답을 미리 보지 못하도록”이라고 설명함</td><td>같은 장 본문, 디코더 트랜스포머의 표준 설명</td><td>“도우미는 점검 순서를 한 토큰씩 쓰므로 토큰마다 앞쪽만 볼 수 있고, 학습할 때도 인과 마스크로 뒤쪽을 가려 같은 조건을 맞춥니다. 한 토큰씩 쓰는 동안 앞 토큰들의 Key와 Value를 저장해 두는 곳이 …”로 고침(js/content.js)</td></tr>
+<tr><td>#neuron 숫자 예시</td><td>입력을 진동·냉각 팬 속도로 바꾸고 팬 속도에 음수 가중치를 준 이유(열이 잘 빠짐)를 확인. 값은 그대로라 계산과 실험 안내(w₂=−0.5로 같은 z=1)가 여전히 맞음</td><td>Python 재계산</td><td>수정 없음</td></tr>
+<tr><td>#generation 사례 문단</td><td>‘켠다’가 로짓 0인 셋째 후보라 9.0%·1.6%와 top-k=1에서 ‘차단한다’만 나온다는 문장이 맞음</td><td>softmax 재계산</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>실제 토크나이저로 예시 문장의 토큰 수를 세지는 않았습니다. 본문도 토크나이저마다 다르다고만 말하므로 숫자를 적지 않았습니다.</li>
+<li>사례(모터 20대, 3번·7번 모터, 배관 공사, 매뉴얼 문장)는 가상이라 외부 근거가 없습니다.</li>
+<li>브라우저에서 바뀐 문단이 화면에 어떻게 보이는지는 직접 보지 않았고, npm test와 validate.py로 대신했습니다. 학습 효과는 측정하지 않았습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-final-ch13" data-reviewer="Claude 검수 세션 (13장 검수 r1)" data-author="Claude 새 장 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="13장 final 본문(문단 4개·식·식 설명·주의·예측·남은 질문), 실험 fieldkit·alarmplan과 lab-guides 안내·프리셋, math.js inferenceMemory·fieldBudget·alarmBudget, 확인 문제 1개·전이 문항 1개, 새 출처 2개(Kaplan 2020, Pope 2022), 나가는 링크 3개와 들어오는 링크(LLM 시스템 #design → ../ai/#final), 3장 generalization의 새 교차 링크 4개, 10·11·12장에 더한 13장 연결 문장" data-result="fixed">
 <h2>2026-10-12 13장 현장 점검 도우미 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (13장 검수 r1, 검수팀 정민·유진·건우 역할). 집필자: Claude 새 장 집필 세션 (2026-10-12). 범위: 13장 final 본문(문단 4개·식·식 설명·주의·예측·남은 질문), 실험 fieldkit·alarmplan과 lab-guides 안내·프리셋, math.js inferenceMemory·fieldBudget·alarmBudget, 확인 문제 1개·전이 문항 1개, 새 출처 2개(Kaplan 2020, Pope 2022), 나가는 링크 3개와 들어오는 링크(LLM 시스템 #design → ../ai/#final), 3장 generalization의 새 교차 링크 4개, 10·11·12장에 더한 13장 연결 문장.</p>
