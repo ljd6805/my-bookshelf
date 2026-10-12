@@ -18,7 +18,7 @@ test('binary search: worst case floor(log2 n)+1 at 1e4 and 1e6, finds every key 
 test('ch2: array vs linked list costs for n=1000, and bad input is rejected',()=>{
  const tot=(k,op)=>M.listCost(k,op,1000).total;
  assert.deepEqual([tot('array','front'),tot('linked','front')],[1001,1]);assert.deepEqual([tot('array','back'),tot('linked','back')],[1,1000]);
- assert.deepEqual([tot('array','read'),tot('linked','read')],[1,501]);assert.deepEqual([tot('array','remove'),tot('linked','remove')],[499,500]);
+ assert.deepEqual([tot('array','read'),tot('linked','read')],[1,501]);assert.deepEqual([tot('array','remove'),tot('linked','remove')],[500,500]);
  assert.equal(M.listCost('linked','remove',1).total,1);assert.throws(()=>M.listCost('array','front',0),RangeError);assert.throws(()=>M.listCost('tree','front',5),RangeError);
 });
 test('ch2: queue serves first-come first; stack with arrive 2 / serve 1 never serves book 1; equal rates make them alike',()=>{
@@ -58,10 +58,14 @@ test('ch6: top-k — all three methods agree; comparison counts at n=2000',()=>{
 test('ch7: BFS and DFS orders from 본관, BFS levels from 호수, both check every road twice',()=>{
  const name=v=>M.BRANCHES[v][0];
  assert.equal(M.traverse(0,'bfs').order.map(name).join(' '),'본관 강변 시장 학교 공원 역앞 언덕 호수');
- assert.equal(M.traverse(0,'dfs').order.map(name).join(' '),'본관 강변 학교 언덕 호수 역앞 공원 시장');
+ assert.equal(M.traverse(0,'dfs').order.map(name).join(' '),'본관 강변 시장 학교 언덕 호수 역앞 공원');
+ /* 표준 DFS(꺼낼 때 방문 표시)와 4곳 방문 뒤 기다리는 분관(꺼낼 순서) */
+ assert.deepEqual(['bfs','dfs'].map(k=>M.traverse(0,k).waiting[3].map(name).join(' ')),['공원 역앞 언덕','언덕 역앞 공원']);
+ assert.deepEqual(['bfs','dfs'].map(k=>name(M.traverse(0,k).order[4])),['공원','언덕']);
+ for(let s=0;s<8;s++){const r=M.traverse(s,'dfs');assert.equal(new Set(r.order).size,8);for(const v of r.order.slice(1))assert.ok(M.neighbors(r.parent[v]).some(e=>e.to===v));}
  const lv=M.traverse(7,'bfs').level;assert.deepEqual([5,6,3,2,4,1,0].map(v=>lv[v]),[1,1,2,2,2,3,3]);
  for(const k of ['bfs','dfs'])for(let s=0;s<8;s++){const r=M.traverse(s,k);assert.equal(r.order.length,8);assert.equal(r.edges,2*M.ROADS.length);}
- assert.equal(M.pathTo(M.traverse(0,'dfs').parent,7).length-1,4);assert.equal(M.pathTo(M.traverse(0,'bfs').parent,7).length-1,3);
+ assert.equal(M.pathTo(M.traverse(0,'dfs').parent,7).length-1,5);assert.equal(M.pathMinutes(M.pathTo(M.traverse(0,'dfs').parent,7)),30);assert.equal(M.pathTo(M.traverse(0,'bfs').parent,7).length-1,3);
  assert.throws(()=>M.traverse(9,'bfs'),RangeError);
 });
 test('ch8: Dijkstra 본관→호수 26 min, BFS path 27, greedy 31; 본관→학교 14 vs greedy 43; Dijkstra is never beaten',()=>{
@@ -94,8 +98,11 @@ test('ledger and ch11 design: scale rows and daily totals for the all-scan and b
  const r=M.ledgerRow('search');assert.deepEqual([r.small,r.large],[14,20]);assert.equal(M.ledgerRow('steps').ratio,100);close(M.ledgerRow('hash').ratio,1);
  const scan={call:'scan',word:'scan',typo:'all',top:'sort',route:'bfs'},best=Object.fromEntries(M.DESIGN.map(q=>[q.id,q.fix]));
  close(M.designCost(scan,1e6).total,3.1997e10,1e7);close(M.designCost(scan,1e4).seconds,3.17,.01);close(M.designCost({...scan,typo:'filter'},1e6).total,1.2097e10,1e7);
- close(M.designCost(best,1e6).total,2.6832e8,1e5);assert.ok(M.designCost(best,1e6).rows.every(x=>x.best));
- const rows=M.designCost(best,1e6).rows,daily=id=>rows.find(x=>x.id===id).daily;close(daily('top'),1.661e8,1e5);close(daily('typo'),1.002e8,1);assert.ok(rows.every(x=>x.daily<=daily('top')));
+ close(M.designCost(best,1e6).total,1.5222e8,1e5);assert.ok(M.designCost(best,1e6).rows.every(x=>x.best));
+ const rows=M.designCost(best,1e6).rows,daily=id=>rows.find(x=>x.id===id).daily;close(daily('top'),5e7,1);close(daily('typo'),1.002e8,1);assert.ok(rows.every(x=>x.daily<=daily('typo')));
+ /* 힙 장부 줄은 실측 꼴 ≈ n: 실제 힙 비교 횟수가 n과 n(1+2·log₂10) 사이이고 n에 가깝다 */
+ for(const n of [1e4,1e5]){const c=M.topK(M.borrowCounts(n),10,'heap').comparisons;assert.ok(c>=n-1&&c<=1.05*n,String(c));assert.equal(M.ledgerRow('heap',n,n).small,n);}
+ assert.equal(M.topK(M.borrowCounts(1e4),10,'heap').comparisons,10297);
  for(const q of M.DESIGN)assert.ok(q.options[q.fix][1](1e6)<=Object.values(q.options)[0][1](1e6)||q.id==='route');
 });
 test('choiceOrder puts the answer on the target slot and keeps each index once',()=>{for(let a=0;a<3;a++)for(let t=0;t<3;t++){const o=M.choiceOrder(3,a,t);assert.equal(o[t],a);assert.deepEqual([...o].sort(),[0,1,2]);}});

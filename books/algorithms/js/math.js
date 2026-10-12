@@ -43,7 +43,8 @@ function listCost(kind,op,n){
   else if(op==='read'){reads=1;}
   else if(op==='remove'){for(let i=mid;i<n-1;i++){a[i]=a[i+1];moves++;}a.length=n-1;}
   else throw new RangeError('unknown op');
-  return {moves,follows:0,reads,total:moves+reads+(op==='back'||op==='front'?1:0)};
+  /* 바꾸는 일(끼우기·붙이기·빼기)은 연결 리스트의 연결 고치기와 같게 마지막 쓰기 1을 더한다: 새 책 놓기, 또는 길이 한 칸 줄이기. */
+  return {moves,follows:0,reads,total:moves+reads+(op==='read'?0:1)};
  }
  if(kind==='linked'){
   let head=null;for(let i=n-1;i>=0;i--)head={v:i,next:head};let follows=0,writes=0;
@@ -167,12 +168,16 @@ const ROADS=[[0,1,4],[0,2,9],[1,2,6],[1,3,10],[2,3,8],[2,4,5],[2,6,11],[3,5,7],[
 function neighbors(v){return ROADS.filter(e=>e[0]===v||e[1]===v).map(e=>({to:e[0]===v?e[1]:e[0],w:e[2]})).sort((a,b)=>a.to-b.to);}
 function traverse(start,kind){
  if(!(start>=0&&start<BRANCHES.length))throw new RangeError('bad start');
- const seen=new Set([start]),order=[],level={[start]:0},parent={[start]:null},box=[start];let edges=0;
- while(box.length){const v=kind==='bfs'?box.shift():box.pop();order.push(v);
-  const ns=neighbors(v);for(const {to} of (kind==='bfs'?ns:ns.slice().reverse())){edges++;if(!seen.has(to)){seen.add(to);level[to]=level[v]+1;parent[to]=v;box.push(to);}}}
- return {order,level,parent,edges};
+ /* BFS는 큐에 넣을 때, DFS는 스택에서 꺼낼 때 방문 표시를 한다(표준 반복형 DFS). 상자에는 [분관, 넣은 분관]을 담는다. */
+ const bfs=kind==='bfs',seen=new Set(bfs?[start]:[]),order=[],level={[start]:0},parent={[start]:null},box=[[start,null]],waiting=[];let edges=0;
+ while(box.length){const [v,from]=bfs?box.shift():box.pop();
+  if(!bfs){if(seen.has(v))continue;seen.add(v);parent[v]=from;level[v]=from===null?0:level[from]+1;}
+  order.push(v);
+  const ns=neighbors(v);for(const {to} of (bfs?ns:ns.slice().reverse())){edges++;if(!seen.has(to)){if(bfs){seen.add(to);level[to]=level[v]+1;parent[to]=v;}box.push([to,v]);}}
+  const ids=box.map(e=>e[0]).filter(x=>!order.includes(x));waiting.push([...new Set(bfs?ids:ids.reverse())]);}
+ return {order,level,parent,edges,waiting};
 }
-/* DFS는 쌓아 두는 상자를 스택으로 바꾼 것. 위 traverse가 둘 다 처리한다. 경로는 parent를 거슬러 올라 만든다. */
+/* DFS는 쌓아 두는 상자를 스택으로 바꾼 것. 위 traverse가 둘 다 처리한다. waiting[k]는 k+1곳을 방문한 뒤 다음 차례를 기다리는 분관(꺼낼 순서). 경로는 parent를 거슬러 올라 만든다. */
 function pathTo(parent,goal){const p=[];for(let v=goal;v!==null&&v!==undefined;v=parent[v])p.unshift(v);return p;}
 const pathMinutes=p=>p.slice(1).reduce((s,v,i)=>s+ROADS.find(e=>(e[0]===p[i]&&e[1]===v)||(e[1]===p[i]&&e[0]===v))[2],0);
 function dijkstra(start,goal){
@@ -242,7 +247,7 @@ const LEDGER={
  sorting:['청구기호 순으로 정렬 · 병합 정렬',n=>n*log2(n)],
  search:['정렬된 서가에서 이진 탐색',n=>Math.floor(log2(n))+1],
  hash:['청구기호로 해시 찾기 · 부하율 0.75',()=>1+0.75/2],
- heap:['가장 많이 빌린 10권 · 크기 10 힙',n=>n*log2(10)],
+ heap:['가장 많이 빌린 10권 · 크기 10 힙 (실측 꼴 ≈ n)',n=>n],
  graph:['함께 빌린 책 그래프 한 바퀴 · BFS (책마다 이웃 5권)',n=>n+2.5*n],
  shortest:['같은 그래프의 최단 경로 · 힙 다익스트라',n=>3.5*n*log2(n)],
  edit:['오타 제목을 모든 제목과 비교 · 10글자×10글자',n=>100*n],
@@ -254,7 +259,7 @@ const DESIGN=[
  {id:'call',label:'청구기호로 한 권 찾기',daily:5000,options:{scan:['처음부터 훑기',n=>n],binary:['정렬 + 이진 탐색',n=>Math.floor(log2(n))+1],hash:['해시 표',()=>1.375]},fix:'hash'},
  {id:'word',label:'제목 낱말로 찾기',daily:2000,options:{scan:['모든 제목 훑기',n=>3*n],index:['역색인',n=>n/1000+3]},fix:'index'},
  {id:'typo',label:'오타 난 제목 찾기',daily:200,options:{all:['모든 제목과 편집 거리',n=>100*n],filter:['역색인으로 후보를 줄인 뒤 편집 거리',n=>100*(n/200)+n/1000]},fix:'filter'},
- {id:'top',label:'인기 10권 보여 주기',daily:50,options:{sort:['매번 전체 정렬',n=>n*log2(n)],heap:['크기 10 힙',n=>n*log2(10)]},fix:'heap'},
+ {id:'top',label:'인기 10권 보여 주기',daily:50,options:{sort:['매번 전체 정렬',n=>n*log2(n)],heap:['크기 10 힙 (실측 꼴 ≈ n)',n=>n]},fix:'heap'},
  {id:'route',label:'분관 배송 경로',daily:100,options:{bfs:['환승이 가장 적은 길 (BFS)',()=>8+12],dijkstra:['가장 빠른 길 (다익스트라)',()=>8*8+12]},fix:'dijkstra'}
 ];
 const STEPS_PER_SECOND=1e8;/* 어림 가정: 노트북 한 코어가 1초에 단순 비교를 약 1억 번 한다고 본다. */
