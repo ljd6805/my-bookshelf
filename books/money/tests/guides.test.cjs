@@ -1,0 +1,10 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f),'utf8');
+const LABS=['scale','compound','double','discount','schedule','npv','real','cagr','fees','decide'];
+const ctx={window:{},document:{}};vm.runInNewContext(read('js/lab-guides.js'),ctx);const G=ctx.window.MGuides.guides;
+const labSrc=['labs-grow','labs-today','labs-weigh'].map(f=>read(`js/${f}.js`)).join('');
+test('guides have a purpose, 2–4 presets and a reading with numbers',()=>{for(const id of LABS){const [purpose,presets,reading]=G[id];assert.ok(purpose.length>10,id);assert.ok(presets.length>=2&&presets.length<=4,id);assert.match(reading,/\d/,id);for(const [name,values] of presets){assert.ok(name,id);assert.ok(Object.keys(values).length>0,id);}}});
+test('preset input ids exist in the lab code',()=>{for(const id of LABS)for(const [,values] of G[id][1])for(const key of Object.keys(values))assert.match(labSrc,new RegExp(`['"]${key}['"]`),`${id}:${key}`);});
+test('readings render collapsed in <details> under an echo of the reader guess',()=>{const src=read('js/lab-guides.js');assert.match(src,/<details class="guide-reading"><summary>[\s\S]*<p class="guess-echo" hidden><\/p>/);assert.match(src,/getElementById\('guess-'\+id\)/);});
+test('readings speak in assumptions, never advice',()=>{for(const id of LABS)assert.doesNotMatch(G[id][2],/(갚으세요|투자하세요|사세요|파세요|추천)/,id);});
+test('the CAGR lab shows mean, CAGR and end amount but not the volatility approximation (vol. 8)',()=>{const cagrLab=read('js/labs-weigh.js').split('MLabs.cagr')[1].split('MLabs.fees')[0];assert.doesNotMatch(cagrLab,/approx|분산|σ/);assert.match(cagrLab,/r\.mean/);assert.match(cagrLab,/r\.cagr/);assert.match(cagrLab,/r\.end/);});

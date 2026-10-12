@@ -1,0 +1,32 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="시간 축 위에 세운 저울의 왼쪽 접시에는 오늘의 동전 몇 닢이, 오른쪽 접시에는 이자가 붙어 더 높이 쌓인 미래의 동전 더미가 놓여 균형을 이루는 그림" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M18 132H302"/>
+<path class="cv-hair cv-dash" d="M18 120H302"/>
+<circle class="cv-dot" cx="60" cy="132" r="3.2"/>
+<circle class="cv-dot" cx="260" cy="132" r="3.2"/>
+<text class="cv-text cv-muted" x="48" y="146">오늘</text>
+<text class="cv-text cv-muted" x="238" y="146">10년 뒤</text>
+<path class="cv-line cv-thin" d="M66 132H252"/>
+<path class="cv-stroke" d="M246 128L253 132L246 136"/>
+<path class="cv-bus" d="M160 30V114"/>
+<path class="cv-bus" d="M138 116H182"/>
+<path class="cv-stroke cv-bold" d="M70 30L250 30"/>
+<circle class="cv-node" cx="160" cy="30" r="5"/>
+<path class="cv-hair" d="M70 30L46 74M70 30L94 74M250 30L226 74M250 30L274 74"/>
+<path class="cv-stroke" d="M40 74Q70 86 100 74"/>
+<path class="cv-stroke" d="M220 74Q250 86 280 74"/>
+<ellipse class="cv-fill" cx="70" cy="70" rx="15" ry="4"/>
+<ellipse class="cv-fill" cx="70" cy="64" rx="15" ry="4"/>
+<ellipse class="cv-fill" cx="70" cy="58" rx="15" ry="4"/>
+<ellipse class="cv-tint" cx="250" cy="70" rx="15" ry="4"/>
+<ellipse class="cv-tint" cx="250" cy="64" rx="15" ry="4"/>
+<ellipse class="cv-tint" cx="250" cy="58" rx="15" ry="4"/>
+<ellipse class="cv-tint" cx="250" cy="52" rx="15" ry="4"/>
+<ellipse class="cv-tint" cx="250" cy="46" rx="15" ry="4"/>
+<ellipse class="cv-tint" cx="250" cy="40" rx="15" ry="4"/>
+<path class="cv-stroke" d="M235 70V40M265 70V40"/>
+<path class="cv-line cv-dash" d="M92 108Q160 100 228 108"/>
+<path class="cv-stroke" d="M221 104L228 108L221 112"/>
+<text class="cv-text" x="170" y="96">× (1 + r)ⁿ</text>
+<text class="cv-text cv-muted" x="14" y="20">현재가치</text>
+<text class="cv-text cv-muted" x="252" y="20">미래가치</text>
+</svg>

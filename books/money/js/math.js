@@ -65,9 +65,10 @@ function feeDrag(p,gross,fee,years){
 /* 마지막 과제: 같은 돈 a를 남은 대출 상환에 쓸 때와 투자에 둘 때, years년 뒤 순자산 차이.
    상환하면 대출 금리만큼의 이자를 확실히 아낀다(원리금균등 남은 기간 동안 아낀 이자를 그 자리에서 다시 같은 금리로 갚는 것으로 보아 복리로 근사).
    투자하면 가정한 수익률 scenarios(%)마다 결과가 달라지고, 이자·배당이면 세율, 비용률을 뺀다. */
+/* 세금은 이익이 났을 때만 뗀다(손실에는 돌려받는 세금이 없다고 가정). */
 function repayVsInvest(a,loanRate,years,scenarios,fee=0,tax=0){
  const repay=a*Math.pow(1+pct(loanRate),years);
- return {repay,invest:scenarios.map(s=>{const net=(1+pct(s))*(1-pct(fee))-1,gain=Math.pow(1+net,years)-1,end=a*(1+gain*(1-pct(tax)));return {rate:s,end,diff:end-repay};}),breakEven:((1+pct(loanRate))/(1-pct(fee))-1)*100};
+ return {repay,invest:scenarios.map(s=>{const net=(1+pct(s))*(1-pct(fee))-1,gain=Math.pow(1+net,years)-1,end=a*(1+(gain>0?gain*(1-pct(tax)):gain));return {rate:s,end,diff:end-repay};}),breakEven:((1+pct(loanRate))/(1-pct(fee))-1)*100};
 }
 /* 보기 순서: 정답 원래 번호 answer를 target 자리에 오게 돌린다. */
 function choiceOrder(n,answer,target){const order=[...Array(n).keys()];const k=((answer-target)%n+n)%n;return order.slice(k).concat(order.slice(0,k));}
