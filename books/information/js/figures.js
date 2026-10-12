@@ -59,7 +59,7 @@ const draw={
   const body=t(320,30,'표를 거칠게 적을수록 압축이 길어진다, 하지만 4비트까지는 거의 그대로',{w:700,size:14})+line(`M60 ${Y(base)}H600`,'var(--muted)')+t(64,Y(base)+18,`점선: 원래 표 ${f(base,3)}비트`,{a:'start',size:12,fill:'var(--muted)'})+`<path class="fig-draw" d="${v.map((x,i)=>`${i?'L':'M'}${X(i)} ${Y(x)}`).join('')}" fill="none" stroke="var(--accent)" stroke-width="3"/>`+v.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x)}" r="5" fill="var(--accent)"/>`+t(X(i),Y(x)-10,f(x,3),{size:11})+t(X(i),258,`${bs[i]}비트`,{size:12,fill:'var(--muted)'})).join('');
   return {svg:svg('한 칸의 비트 수에 따른 시험 자료 압축 길이',body),caption:'앞 글자 표(윤슬 앞 50개, α = 0.1)를 칸마다 b비트로 반올림했을 때 뒤 20개를 적는 비트/글자입니다.'};},
  final(){const tr=M.corpus.yunseul()+'\n'+M.corpus.doyoonA(),t2=M.corpus.doyoonB(),n=M.chars(t2).length,ms=[-1,0,1].map(o=>M.model(o,tr,0.01)),v=ms.map(m=>M.codeLength(m,t2).bits/n),cost=ms.map(m=>M.tableBits(m,8));
-  const body=t(320,30,'메시지만 보내면 C, 모델까지 보내면 A',{w:700})+columns(v,['A 고정 길이','B 글자 빈도','C 앞 글자'],['var(--muted)','var(--blue)','var(--accent)'],{x0:110,scale:20,w:100})+cost.map((c,i)=>t(160+i*163,266,`표 ${c.toLocaleString('en-US')}비트`,{size:12,fill:'var(--orange)'})).join('');
+  const body=t(320,30,'메시지만 보내면 C, 모델까지 보내면 A',{w:700})+columns(v,['A 균등 모델','B 글자 빈도','C 앞 글자'],['var(--muted)','var(--blue)','var(--accent)'],{x0:110,scale:20,w:100})+cost.map((c,i)=>t(160+i*163,266,`표 ${c.toLocaleString('en-US')}비트`,{size:12,fill:'var(--orange)'})).join('');
   return {svg:svg('도윤 새 메시지를 세 모델로 적은 비트 수와 표 크기',body,280),caption:`도윤 뒤 15개(${n}글자)를 윤슬 70개와 도윤 앞 15개로 센 모델(α = 0.01)로 적은 길이입니다. 아래 주황 숫자는 그 모델의 표를 칸당 8비트로 함께 보낼 때 더해지는 비트입니다.`};}
 };
 function render(id){const r=draw[id]?draw[id]():null;if(r)r.caption+=' 그림의 숫자는 브라우저에서 실제로 계산한 값입니다.';return r;}

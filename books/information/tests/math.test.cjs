@@ -61,7 +61,7 @@ test('arithmetic coding round-trips and stays within 2 bits of the ideal length'
 });
 test('LZ78 and BPE',()=>{
  const r=M.lz78(Y);assert.equal(r.bits,R.lz78_bits);assert.equal(r.phrases.length,R.lz78_phrases);assert.equal(r.phrases.map(p=>p.text).join(''),Y);
- const d=M.lz78(Y+'\n'+Y);near(d.perChar,6.81,5e-3);assert.equal(d.longest,5);near(M.lz78(M.corpus.first(5)).perChar,8.69,5e-3);
+ const d=M.lz78(Y+'\n'+Y),one=M.lz78(Y);near(d.perChar,6.81,5e-3);near((d.bits-one.bits)/(d.n-one.n),6.08,5e-3);assert.equal(d.longest,5);near(M.lz78(M.corpus.first(5)).perChar,8.69,5e-3);
  let prev=Infinity;for(const k of [0,10,20,40,60,80]){const b=M.bpe(Y,k);assert.ok(b.n<prev);prev=b.n;assert.equal(b.tokens.join(''),Y);assert.equal(b.vocab,143+b.merges.length);}
  assert.equal(M.bpe(Y,80).n,369);{const m=M.bpe(Y,10).merges;assert.equal(m[8].a+m[8].b,'알겠');assert.equal(m[9].a+m[9].b,'알겠어');}assert.equal(M.bpe(Y,1).merges[0].a+M.bpe(Y,1).merges[0].b,'ㅋㅋ');assert.equal(M.bpe(Y,1).merges[0].count,12);
 });

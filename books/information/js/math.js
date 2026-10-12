@@ -56,7 +56,7 @@ function canonical(lengths){
 }
 function encodeWith(codes,t){return chars(t).map(ch=>codes.get(ch)).join('');}
 function decodeWith(codes,bits){const inv=new Map([...codes].map(([k,v])=>[v,k]));let out='',cur='';for(const b of bits){cur+=b;if(inv.has(cur)){out+=inv.get(cur);cur='';}}return {text:out,rest:cur};}
-/* n-그램 모델: q(x | 앞 k글자) = (c(문맥,x) + α) / (c(문맥) + αV). k = -1은 고정 길이(모든 글자 1/V). */
+/* n-그램 모델: q(x | 앞 k글자) = (c(문맥,x) + α) / (c(문맥) + αV). k = -1은 균등 모델(모든 글자 1/V). */
 function model(order,train,alpha=1,abc=alphabet()){
  const V=abc.length,known=new Set(abc),c=[...'\n\n'.slice(0,Math.max(order,0)),...chars(train)],table=new Map(),tot=new Map();
  if(order>=0)for(let i=order;i<c.length;i++){const ctx=c.slice(i-order,i).join(''),key=ctx+'\u0000'+c[i];table.set(key,(table.get(key)||0)+1);tot.set(ctx,(tot.get(ctx)||0)+1);}
@@ -71,7 +71,7 @@ function codeLength(m,t){
  return {bits,n:c.length,perChar:c.length?bits/c.length:0,per,unknown:[...new Set(unknown)],zero:[...new Set(zero)]};
 }
 /* 산술 부호(정수 빈도, BigInt로 정확히 계산). 빈도는 100·c + round(100·α)라서 모델의 확률 (c+α)/(n+αV)와 같고(α는 0.01 단위),
-   고정 길이는 모두 1.
+   균등 모델은 모두 1.
    구간 [L/D, (L+W)/D) 안에 들어가는 가장 짧은 2진 구간 [m/2^k, (m+1)/2^k)를 부호로 낸다. 글자 수는 따로 안다고 가정한다. */
 function freqTable(m,ctx){const a=Math.round(m.alpha*100),f=m.abc.map(x=>BigInt(m.order<0?1:m.count(ctx,x)*100+a));let cum=0n;const cums=f.map(v=>{const c=cum;cum+=v;return c;});return {f,cums,T:cum};}
 function arithEncode(m,t){
