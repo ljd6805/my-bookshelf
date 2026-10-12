@@ -13,9 +13,11 @@ CATEGORIES = {'analysis', 'guide', 'template'}
 if __package__:
     from .shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url, check_shelf_harmony
     from .curation_renderer import render_curation, concept_terms
+    from .team_renderer import render_team_page, render_team_section
 else:
     from shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url, check_shelf_harmony
     from curation_renderer import render_curation, concept_terms
+    from team_renderer import render_team_page, render_team_section
 
 
 def render_books(books):
@@ -66,14 +68,20 @@ def main():
     args = parser.parse_args()
     path = ROOT / 'index.html'
     source = path.read_text()
-    result = build(source, json.loads((ROOT / 'data/catalog.json').read_text()))
+    team = json.loads((ROOT / 'data/agent-team.json').read_text())
+    result = replace_section(build(source, json.loads((ROOT / 'data/catalog.json').read_text())),
+                             'TEAM', render_team_section(team))
+    version = re.search(r'assets/home\.js\?v=([\w-]+)', result)[1]
+    team_path = ROOT / 'team.html'
+    team_page = render_team_page(team, version)
     if args.check:
-        if source != result:
+        if source != result or not team_path.exists() or team_path.read_text() != team_page:
             raise SystemExit('Catalog HTML is stale. Run python scripts/build_catalog.py')
         print('Catalog HTML is current')
     else:
         path.write_text(result)
-        print('Catalog rendered into index.html')
+        team_path.write_text(team_page)
+        print('Catalog rendered into index.html and team.html')
 
 
 if __name__ == '__main__':

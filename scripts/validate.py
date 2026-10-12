@@ -10,10 +10,12 @@ if __package__:
     from .curation_rules import validate_knowledge_links
     from .cover_renderer import cover_errors, COVER_FILE, COVER_META
     from .fact_review import validate_fact_reviews
+    from .team_renderer import render_team_page, render_team_section
 else:
     from build_catalog import build, safe_book_url
     from curation_rules import validate_knowledge_links
     from cover_renderer import cover_errors, COVER_FILE, COVER_META
+    from team_renderer import render_team_page, render_team_section
     from fact_review import validate_fact_reviews
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -189,6 +191,20 @@ def validate_covers(root, catalog):
     return errors
 
 
+
+def validate_team(root, home):
+    """team.html and the shelf #team section must match data/agent-team.json (docs/10-agent-team.html)."""
+    try:
+        team = json.loads((root / 'data/agent-team.json').read_text())
+        section = render_team_section(team)
+    except (OSError, ValueError, KeyError) as error:
+        return [f'data/agent-team.json: {error}']
+    version = re.search(r'assets/home\.js\?v=([\w-]+)', home)
+    page = root / 'team.html'
+    if section not in home or not version or not page.exists() or page.read_text() != render_team_page(team, version[1]):
+        return ['team.html or index.html #team is stale: run python scripts/build_catalog.py']
+    return []
+
 def validate_asset_versions(root):
     """Every asset URL shares index.html's release version, including transitive JS imports."""
     match = re.search(r'assets/home\.js\?v=([\w-]+)', (root / 'index.html').read_text())
@@ -230,6 +246,7 @@ def main():
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:
         errors.append('Catalog HTML is stale: run python scripts/build_catalog.py')
+    errors += validate_team(ROOT, home)
     errors += validate_python(ROOT)
     errors += validate_asset_versions(ROOT)
     pages = json.loads((ROOT / 'data/page-audit.json').read_text())
