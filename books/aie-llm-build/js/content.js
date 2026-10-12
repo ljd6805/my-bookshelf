@@ -64,7 +64,7 @@ sources:[
  ['Leviathan et al. (2023) · Fast Inference from Transformers via Speculative Decoding','https://arxiv.org/abs/2211.17192','결과 분포를 바꾸지 않는 거절 규칙과 기대 속도 향상 분석.'],
  ['Li et al. (2025) · EAGLE-3','https://arxiv.org/abs/2503.01840','학습 때 자기 예측을 다시 넣는 초안 학습(training-time test).'],
  ['DeepSeek-AI (2024) · DeepSeek-V3 Technical Report','https://arxiv.org/abs/2412.19437','MLA, MoE, MTP, DualPipe를 함께 쓴 모델의 설계.'],
- ['Ye et al. (2025) · Differential Transformer','https://arxiv.org/abs/2410.05258','두 softmax 지도의 차로 잡음 바닥을 지우는 어텐션.'],
+ ['Ye et al. (arXiv 2024, ICLR 2025) · Differential Transformer','https://arxiv.org/abs/2410.05258','두 softmax 지도의 차로 잡음 바닥을 지우는 어텐션.'],
  ['Yuan et al. (2025) · Native Sparse Attention','https://arxiv.org/abs/2502.11089','압축·선택·창 세 갈래의 희소 어텐션.'],
  ['Lieber et al. (2024) · Jamba: A Hybrid Transformer-Mamba Language Model','https://arxiv.org/abs/2403.19887','Mamba와 어텐션을 섞은 하이브리드와 256K 문맥.'],
  ['Rodionov et al. (2025) · Hogwild! Inference','https://arxiv.org/abs/2504.06261','KV 캐시를 공유하는 병렬 생성.'],

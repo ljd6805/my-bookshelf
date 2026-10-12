@@ -30,7 +30,7 @@ function renderLab(id,index){const [title,desc,task]=info[id];return `<article c
 function cross(c){if(!c.cross)return '';return `<h3>다른 책으로 이어 읽기</h3><ul class="source-list">${c.cross.map(([name,url,why])=>`<li><a href="${url}">${name}</a><p>${why}</p></li>`).join('')}</ul>`;}
 function figure(c,index){
  const art=RFigures.render(c.id),caption=art?art.caption:`${c.subtitle} 위치와 크기를 단순화한 개념도입니다.`;
- return `<figure class="concept-diagram">${art?`<div class="figure-art">${art.svg}</div>`:''}${flow(c.flow)}<figcaption class="caption">그림 ${index+1}-1. ${caption} 아래 상자는 같은 흐름을 글로 적은 것입니다.</figcaption></figure>`;
+ return `<figure class="concept-diagram">${art?`<div class="figure-art" tabindex="0" role="group" aria-label="그림 ${index+1}-1. 좁은 화면에서는 방향키로 옆으로 밀어 볼 수 있습니다">${art.svg}</div>`:''}${flow(c.flow)}<figcaption class="caption">그림 ${index+1}-1. ${caption} 아래 상자는 같은 흐름을 글로 적은 것입니다.</figcaption></figure>`;
 }
 function chapter(c,index){
  document.body.classList.add('reading');document.title=`${String(index+1).padStart(2,'0')}. ${c.title} · 검색과 RAG`;

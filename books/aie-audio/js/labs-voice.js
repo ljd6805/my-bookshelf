@@ -16,6 +16,6 @@ A07Labs.rvq=el=>{
  U.bind(el,()=>{const fr=Number(U.text(el,'codec')),k=U.value(el,'books'),q=M.rvq(M.RVQ_SIGNAL,k),all=M.rvq(M.RVQ_SIGNAL,8),b=M.codecBudget(fr,k);
   const line=all.errors.map((e,i)=>[i+1,Math.log10(e)]);
   const chart=U.plot({lines:[{data:line,color:'var(--accent)'}],points:[[k,Math.log10(q.rms),'var(--orange)',7]],xmin:1,xmax:8,ymin:-6,ymax:0,xlabel:'코드북 수',ylabel:'log₁₀ 잔차 RMS',label:`코드북 수에 따른 잔차 오차. 지금 ${k}개에서 RMS ${q.rms.toExponential(1)}입니다.`});
-  U.result(el,chart,`${CODECS[U.text(el,'codec')]} · 코드북 ${k}개<br>비트레이트 ${fr} × ${k} × 10비트 = <strong>${U.fmt(b.kbps,2)} kbps</strong> · 10초당 프레임 ${U.fmt(b.frames,0)}개, 토큰 <strong>${U.fmt(b.tokens,0)}개</strong><br>장난감 RVQ의 잔차 RMS <b>${q.rms.toExponential(2)}</b> · 예: 원래 값 0.91 → 복원 ${U.fmt(q.recon[2],4)}<br>코드북을 하나 더하면 오차는 약 4분의 1로 줄고 토큰은 ${U.fmt(fr*10,0)}개 늘어납니다. 비트레이트와 토큰 수는 코드북 크기 1,024를 가정한 실제 계산, 오차는 2비트 양자화기 장난감 RVQ의 실제 계산입니다.`);});
+  U.result(el,chart,`${CODECS[U.text(el,'codec')]} · 코드북 ${k}개<br>비트레이트 ${fr} × ${k} × 10비트 = <strong>${U.fmt(b.kbps,2)} kbps</strong> · 10초당 프레임 ${U.fmt(b.frames,0)}개, 토큰 <strong>${U.fmt(b.tokens,0)}개</strong><br>장난감 RVQ의 잔차 RMS <b>${q.rms.toExponential(2)}</b> · 예: 원래 값 0.91 → 복원 ${U.fmt(q.recon[2],4)}<br>코드북을 하나 더하면 오차는 약 4분의 1로 줄고 토큰은 ${U.fmt(fr*10,0)}개 늘어납니다. 비트레이트와 토큰 수는 코드북 크기 1,024를 가정한 실제 계산, 오차는 2비트 양자화기 장난감 RVQ의 실제 계산입니다.${fr===12.5?' 실제 Mimi는 코드북 크기가 2,048(11비트)이라 코드북 8개면 Moshi 논문 기준 1.1 kbps입니다.':''}`);});
 };
 })();

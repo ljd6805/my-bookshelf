@@ -21,7 +21,7 @@ function home(){
  cleanup=A20Home.mount(document.querySelector('#home-lab'));
 }
 function renderLab(id,index){const [title,desc,task]=info[id];return `<article class="lab" id="lab-${id}"><div class="lab-heading"><span>EXPERIMENT ${two(index)}</span><h3>${title}</h3></div><p class="lab-desc">${desc}</p><div class="lab-inner" data-lab="${id}"></div><div class="challenge"><b>직접 해 보기</b>${task}</div></article>`;}
-function figure(c,index){const art=A20Figures.render(c);return `<figure class="concept-diagram"><div class="figure-art">${art.svg}</div>${flow(c.flow)}<figcaption class="caption">그림 ${index+1}-1. ${art.caption} 아래 상자는 같은 흐름을 글로 적은 것입니다.</figcaption></figure>`;}
+function figure(c,index){const art=A20Figures.render(c);return `<figure class="concept-diagram"><div class="figure-art" tabindex="0" role="group" aria-label="그림 ${index+1}-1. 좁은 화면에서는 방향키로 옆으로 밀어 볼 수 있습니다">${art.svg}</div>${flow(c.flow)}<figcaption class="caption">그림 ${index+1}-1. ${art.caption} 아래 상자는 같은 흐름을 글로 적은 것입니다.</figcaption></figure>`;}
 function chapter(c,index){
  document.body.classList.add('reading');document.title=`${two(index)}. ${c.title} · ${M.short}`;
  const prev=index?`<a href="#${B.chapters[index-1].id}">이전 · ${B.chapters[index-1].title}</a>`:'<a href="#home">이전 · 표지</a>';

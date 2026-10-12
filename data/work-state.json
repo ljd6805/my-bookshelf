@@ -73,7 +73,8 @@
     "서가에 책 제작 팀 소개 추가(2026-10-12): 서가 아래 '이 책들은 누가 만들까요?' 구역(다섯 팀·팀장·인원, team.html 앵커 링크)과 독자용 소개 페이지 team.html(팀이 차례로 빛나는 흐름 애니메이션·편집장·21명 인물 카드·팀 사이 약속, docs/10으로 연결). 자산 버전 20261012-team1, 1280·390·320px 가로 넘침 없음, 420px 이하 머리말에서는 '만드는 팀' 메뉴를 숨김",
     "책 제작 팀 22명의 페르소나 구체화(2026-10-12): data/agent-team.json을 원본으로 인물마다 가상 이력·성격·말투·늘 묻는 질문·맡는 일·강점·조심할 점·함께 일하는 방식·점검 목록·예시 한마디·멈추는 때를 둠. scripts/team_renderer.py가 형식을 검사하고 build_catalog.py가 서가 #team 구역과 team.html을 생성(--check로 최신 여부 검사). team.html 카드마다 '페르소나 자세히 보기' 펼침. AGENTS.md·docs/10에 역할을 맡을 때 페르소나를 읽는 규칙 추가. 자산 버전 20261012-team2",
     "팀 소개를 가상 인물 프로필 페이지처럼 개편(2026-10-12): scripts/portrait_renderer.py가 data/agent-team.json의 portrait 설정(피부·머리·옷·안경·눈·눈썹·입·하는 일 소품)으로 22명의 SVG 얼굴 일러스트를 그림. team.html 머리에 22명 단체 그림(인물 바로 가기), 카드마다 큰 얼굴 그림, 서가 팀 구역에는 팀장 얼굴. check_team이 그림 설정도 검사. 자산 버전 20261012-team3, 1280·390·320px 가로 넘침 없음",
-    "편집팀 전체 도서 검수(2026-10-12): 공개 27권을 아홉 개의 새 검수 세션이 다섯 팀 관점으로 점검. passed 7권·fixed 20권·open 0. 강화학습 마지막 과제 처방, MCP 실험 HTTP 상태, CUDA 호환 규칙, 각종 수치·출처·링크 이름 수정과 노선 정거장 3곳 정정. 기록: books/*/docs/fact-review.html#review-2026-10-12-editorial, docs/03-verification.html#editorial-review-2026-10-12"
+    "편집팀 전체 도서 검수(2026-10-12): 공개 27권을 아홉 개의 새 검수 세션이 다섯 팀 관점으로 점검. passed 7권·fixed 20권·open 0. 강화학습 마지막 과제 처방, MCP 실험 HTTP 상태, CUDA 호환 규칙, 각종 수치·출처·링크 이름 수정과 노선 정거장 3곳 정정. 기록: books/*/docs/fact-review.html#review-2026-10-12-editorial, docs/03-verification.html#editorial-review-2026-10-12",
+    "편집팀 검수 후속 처리(2026-10-12, 사용자가 편집장 판단에 위임): 23권 개념 그림 상자 키보드 접근(docs/08 반영), 링크 없는 장 14곳과 수학·딥러닝·비전 들어오는 링크 보강, 확인 문제 5개 재작성, METR 수치를 pⁿ 계산으로 교체, 원본 기준 수치 표시. 남긴 일: AI Book 예측·남은 질문 필드 표준 개편, 원본 기준 수치의 1차 출처 재조사, 음성 RVQ 코드북 크기 계산."
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": "AI 엔지니어링 시리즈는 완간. 시점에 민감한 사실(EU AI Act, MCP 규격, 모델 현황)은 다음 개정 때 공식 문서로 재확인. AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
