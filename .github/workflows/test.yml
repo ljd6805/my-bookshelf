@@ -49,4 +49,5 @@ jobs:
       - run: npm test --prefix books/aie-capstone
       - run: npm test --prefix books/information
       - run: npm test --prefix books/algorithms
+      - run: npm test --prefix books/market
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v
