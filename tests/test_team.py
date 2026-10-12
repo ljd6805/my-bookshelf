@@ -24,6 +24,16 @@ class TeamPersonaTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             check_team(broken)
 
+    def test_oversized_team_is_rejected(self):
+        broken = copy.deepcopy(DATA)
+        team = next(t for t in broken['teams'] if t['id'] != 'review')
+        while len(team['members']) < 5:
+            extra = copy.deepcopy(team['members'][-1])
+            extra['name'] += str(len(team['members']))
+            team['members'].append(extra)
+        with self.assertRaises(ValueError):
+            check_team(broken)
+
     def test_shelf_section_links_every_team(self):
         section = render_team_section(DATA)
         for team in DATA['teams']:
