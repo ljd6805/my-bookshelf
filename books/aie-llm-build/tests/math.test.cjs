@@ -115,3 +115,23 @@ test('order rotates options so the answer lands on the target slot and keeps eve
 test('rolling back the extension stage (long context and annealing) reruns SFT through serving: 1,446 assumed hours',()=>{
  const r=M.rollback('scale');assert.deepEqual(r.stages.map(s=>s[0]),['scale','sft','rm','dpo','cai','eval','quant','serve']);assert.equal(r.hours,1446);
 });
+test('오염 검사: 어절 n-gram 겹침률, 0.1% 게이트, 바꿔 쓴 오염은 n이 클수록 빠져나간다',()=>{
+ /* 기대값은 같은 문항·조각을 파이썬(re로 문장부호 제거, split)으로 따로 세어 맞춘 값이다. */
+ const D=M.DATA.contam,pick=k=>D.train.filter(t=>D.sets[k].includes(t.id)),run=(k,n)=>M.contamination(D.items,pick(k),n);
+ assert.deepEqual(D.items.map(it=>M.words(it.text).length),[17,21,19,14,20,10]);
+ const a13=run('all',13);assert.deepEqual(a13.rows.map(r=>r.hits),[5,0,0,0,0,0]);assert.equal(a13.grams,31);near(a13.overall,5/31);assert.equal(a13.pass,false);
+ assert.equal(a13.rows[5].flag,null);assert.equal(a13.unchecked,1);assert.equal(a13.missed,2);
+ const a8=run('all',8);assert.deepEqual(a8.rows.map(r=>r.hits+'/'+r.grams),['10/10','5/14','3/12','0/7','1/13','3/3']);near(a8.overall,22/59);assert.equal(a8.falseAlarm,1);assert.equal(a8.missed,0);
+ const n13=run('nocopy',13);assert.equal(n13.overall,0);assert.equal(n13.pass,true);assert.equal(n13.missed,2);
+ const n8=run('nocopy',8);near(n8.overall,9/59);assert.equal(n8.pass,false);
+ assert.deepEqual([8,9,10,11,12,13].map(n=>run('nocopy',n).rows[1].hits),[5,4,3,2,1,0]);
+ assert.deepEqual([8,9,10,11,12,13].map(n=>run('nocopy',n).rows[2].hits),[3,2,1,0,0,0]);
+ assert.equal(run('clean',8).rows[4].hits,1);assert.equal(run('clean',9).pass,true);
+ /* 경계: 게이트 기준과 같으면 통과, 넘으면 실패. 짧은 문항은 n과 어절 수가 같을 때 조각 1개 */
+ assert.equal(M.contamination([{text:'a b c',src:null}],[{id:'x',text:'a b c'}],3,1).pass,true);
+ assert.equal(run('all',10).rows[5].grams,1);assert.equal(run('all',11).rows[5].grams,0);
+ assert.ok(M.contamination(D.items,pick('all'),0).error);assert.ok(M.contamination(D.items,pick('all'),8.5).error);
+ /* 불변: 학습 조각이 늘면 겹침이 줄지 않고, 겹침률은 0~1이며 n이 커질수록 같은 묶음의 문항별 겹친 조각 수는 늘지 않는다 */
+ for(let n=8;n<=13;n++){const c=run('clean',n),m=run('nocopy',n),f=run('all',n);assert.ok(c.hits<=m.hits&&m.hits<=f.hits);for(const r of f.rows)if(r.rate!==null)assert.ok(r.rate>=0&&r.rate<=1);
+  if(n>8)f.rows.forEach((r,i)=>assert.ok(r.hits<=run('all',n-1).rows[i].hits));}
+});

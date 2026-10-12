@@ -43,6 +43,30 @@ const A05Math={
    if(by<0)kept.push(i);else removed.push({i,by,iou:best});}
   return {kept,removed,below:cands.map((c,i)=>i).filter(i=>cands[i].score<minScore)};
  },
+ /* 4장: 검출 AP. 예측 dets(점수 내림차순으로 정렬해 씀)를 하나씩 정답 gts에 탐욕적으로 맞춘다.
+    아직 짝이 없는 정답 가운데 IoU가 가장 큰 것과 IoU ≥ thr이면 TP, 아니면 FP. 정답 하나는 한 번만 짝지어진다.
+    AP는 모든 점 보간(VOC 2010 이후 방식): 정밀도를 오른쪽에서부터 누적 최댓값으로 바꾼 포락선 아래 넓이.
+    예측이 없으면 정밀도는 NaN(정의되지 않음), 재현율·AP는 0. 정답이 없으면 재현율·AP는 NaN. */
+ detAP(dets,gts,thr){
+  const order=dets.map((d,i)=>i).sort((i,j)=>dets[j].score-dets[i].score),used=new Set(),rows=[];let tp=0;
+  for(const i of order){let best=-1,bi=0;
+   gts.forEach((g,k)=>{if(used.has(k))return;const v=A05Math.iou(dets[i].box,g);if(v>bi){bi=v;best=k;}});
+   const hit=best>=0&&bi>=thr;if(hit){used.add(best);tp++;}
+   rows.push({i,score:dets[i].score,gt:hit?best:-1,iou:bi,tp:hit,precision:tp/(rows.length+1),recall:gts.length?tp/gts.length:NaN});}
+  const env=rows.map(r=>r.precision);for(let k=env.length-2;k>=0;k--)env[k]=Math.max(env[k],env[k+1]);
+  let ap=0,prev=0;rows.forEach((r,k)=>{if(r.recall>prev){ap+=(r.recall-prev)*env[k];prev=r.recall;}});
+  const n=rows.length;
+  return {rows,env,tp,fp:n-tp,fn:gts.length-tp,precision:n?tp/n:NaN,recall:gts.length?tp/gts.length:NaN,ap:gts.length?ap:NaN};
+ },
+ /* 점수 문턱 → (선택) NMS → 정답과 맞추기. nmsThr가 null이면 NMS를 건너뛴다. */
+ detEval(cands,gts,{match=0.5,minScore=0,nmsThr=null}={}){
+  const pass=cands.map((c,i)=>i).filter(i=>cands[i].score>=minScore);
+  const kept=nmsThr===null?pass:A05Math.nms(cands,nmsThr,minScore).kept;
+  const r=A05Math.detAP(kept.map(i=>cands[i]),gts,match),hit=new Set(r.rows.filter(x=>x.tp).map(x=>x.gt));
+  /* NMS가 지운 상자 가운데, 끝내 놓친 정답과 IoU ≥ match였던 것(“위치가 더 맞는 상자를 지운 경우”) */
+  const lost=pass.filter(i=>!kept.includes(i)).filter(i=>gts.some((g,k)=>!hit.has(k)&&A05Math.iou(cands[i].box,g)>=match));
+  return {...r,kept,pass,lost,rows:r.rows.map(x=>({...x,i:kept[x.i]}))};
+ },
  /* 5장: 픽셀 수로 센 분할 지표. 정의되지 않는 0/0은 완전 일치(1)로 둔다. */
  segMetrics(total,fg,tp,fp){const fn=fg-tp,tn=total-fg-fp,den=tp+fp+fn;
   return {acc:(tp+tn)/total,iou:den?tp/den:1,dice:den?2*tp/(2*tp+fp+fn):1,fn,tn};},

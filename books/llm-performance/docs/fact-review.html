@@ -5,6 +5,33 @@
 <h1>팩트·출처 검수 기록 · LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-lab-tail" data-reviewer="Claude · 큰 실험 반영 검수 세션(llm-performance)" data-author="Claude · 큰 실험 반영 집필 세션(llm-performance)" data-date="2026-10-12" data-scope="10장 #batching 새 실험 tail “부하가 오르면 꼬리가 먼저 무너진다”(js/labs-serving.js L.tail, js/math.js seeded·queue·histogram·tailSweep, js/lab-guides.js 예제 네 개, js/app.js 예측 질문), 같은 이름의 깊이 읽기, 새 출처 Little(1961), tests/math.test.cjs·routes.test.cjs·browser.cjs, docs/index.html 3차 보충 기록, 표지 실험 수 15개" data-result="fixed">
+<h2>2026-10-12 검수 (꼬리 지연 실험 tail)</h2>
+<p>검수자: Claude · 큰 실험 반영 검수 세션(llm-performance)(검수팀 정민·유진·건우·채원·현석과 글작성팀 다온의 관점). 집필자: Claude · 큰 실험 반영 집필 세션(llm-performance). 범위: 10장 #batching의 새 실험 tail, 그 계산 코드와 테스트, 깊이 읽기 “부하가 오르면 꼬리가 먼저 무너진다”, 새 출처 Little(1961), 개발 문서 3차 보충 기록.</p>
+<p>대기열 시뮬레이션의 장기 평균은 대기행렬 이론값과 맞고, 본문·안내·화면의 대표값은 책 함수의 고정 시드 결과와 일치합니다. 같은 장의 schedule 실험과 입력 id가 겹쳐 라벨이 엉뚱한 슬라이더를 가리키던 접근성 오류 하나와, ρ = 1의 설명·본문 한 문장의 사실 표현을 고쳤습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>수정함</td><td>사용률 ρ = λS/c, ρ ≥ 1이면 대기열이 끝없이 자란다는 설명, 리틀의 법칙 L = λW, 배치가 커지면 S가 늘어 ρ가 계산보다 빨리 1에 다가간다는 한계 설명을 표준 대기행렬 이론과 대조. “ρ가 1에 닿으면 들어오는 일이 끝내는 일보다 많아”(ρ = 1이면 같음)와 “요청 대부분은 여전히 금방 슬롯을 얻지만”(ρ 0.9에서는 79%가 기다림)을 고침</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>손계산·Python: 4×1 s에서 λ 2 → ρ 0.5, 3.6 → 0.9, 4.2 → 1.05. 테스트 이론값 M/M/1 ρ0.5 Wq 1,000 ms, M/D/1 ρ0.8 2,000 ms, M/G/1 균등 E[S²] = 13/12·S² → 0.7×13/12/0.6 = 1,263.9 ms, M/M/4 a = 2 Erlang C = 4/23 = 0.1739 → 86.96 ms 모두 다시 유도. 본문 차이 916 ms(“900 ms쯤”)·2,412 ms(“2,400 ms쯤”), 비 2.6배 확인</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>수정함</td><td>Python으로 따로 짠 FIFO c-슬롯 시뮬레이션(다른 난수, 40만 요청): 균등 흔들림 ρ0.5 평균 54·p95 415 ms, ρ0.9 평균 1,092·p95 3,753 ms, 지수 ρ0.9 평균 1,991·p95 7,142 ms, 지수 ρ0.5 평균 89 ms(M/M/4 이론 87 ms·p95 623 ms). 책 PMath.queue 20만 요청은 이론과 0.2~2.9% 차이. 책 고정 시드 4,000개 값 47·364·963·2,776·7,108 ms는 Node로 재현했고 시드 30개의 분포 안(ρ0.9 균등 평균 688~1,579 ms)에 있음. 화면: Chromium 1280·390·320px에서 예제 네 개, 초기화, 방향키·Home, 흔들림 선택, 경계(λ6·S2000·c1 → ρ 12 불안정, λ0.5·S200·c8 → p95 0, ρ = 1 불안정), 가로 넘침 0px, 콘솔 오류 0. 고친 것: 입력 id 중복, ρ = 1 문장</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>사용률(utilization) ρ, 도착률 λ, 포아송 도착, FIFO, p50·p95, TTFT, 리틀의 법칙(Little's law), Erlang C·Pollaczek–Khinchine(테스트 주석)이 표준 용법과 같고 책의 기존 용어와 일관됨</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음(원문 열람은 확인하지 못함)</td><td>Little, “A Proof for the Queuing Formula: L = λW”, Operations Research 9(3), 1961, 383–387쪽, doi 10.1287/opre.9.3.383은 검수자가 아는 표준 서지와 일치하고, 인용한 내용(L = λW)은 이 논문의 주제와 맞음. 이 환경에서 doi.org·Crossref가 프록시 403으로 막혀 링크와 원문을 직접 열지는 못함. 출처 설명은 “서지 기재”로 적어 확인일을 과장하지 않음</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<div class="table-wrap"><table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/labs-serving.js L.tail, js/lab-guides.js tail 예제</td><td>슬롯 슬라이더 id <code>slots</code>가 같은 장 schedule 실험의 <code>slots</code>와 겹침. 문서에 id가 둘이라 tail의 라벨 <code>for="slots"</code>가 schedule 슬라이더를 가리키고 tail 슬라이더는 접근 이름을 잃음</td><td>Chromium에서 #batching의 중복 id 검사: slots·slots-value 각 2개</td><td>tail의 id를 <code>servers</code>로 바꾸고 예제 네 개의 키도 맞춤. tests/browser.cjs의 화면 검사에 중복 id가 없어야 한다는 단언을 더함(47화면 통과)</td></tr>
+<tr><td>js/content.js #batching 깊이 읽기 둘째 문단</td><td>“ρ가 1에 닿으면 들어오는 일이 끝내는 일보다 많아”: ρ = 1에서는 둘이 같음</td><td>ρ = λS/c의 정의</td><td>“ρ가 1에 닿거나 넘으면 슬롯이 쉬지 않고 일해도 들어오는 일을 따라잡지 못해”로 고침</td></tr>
+<tr><td>같은 문단</td><td>“요청 대부분은 여전히 금방 슬롯을 얻지만”은 ρ 0.9 시나리오(기다린 요청 79%, p50 688 ms)와 맞지 않음</td><td>PMath.queue(3.6, 1000, 4, 1)</td><td>“ρ 0.5에서는 요청의 85%가 기다리지 않고 ρ 0.9에서도 절반은 0.7초 안에 슬롯을 얻지만, 붐비는 순간에 도착한 요청은 몇 초씩 기다리기 때문입니다.”로 고침</td></tr>
+<tr><td>js/labs-serving.js 불안정 결과 문장</td><td>λS = c(ρ = 1)일 때도 “슬롯은 1개뿐입니다”라고 써서 부족한 것처럼 읽힘</td><td>λ1·S1000·c1 화면</td><td>λS가 c보다 클 때만 “뿐입니다”를 쓰고, 같을 때는 “한순간도 쉬지 않아야 겨우 맞먹으므로 … 여유가 없습니다”로 나눔</td></tr>
+</tbody></table></div>
+<h3>제안(고치지 않음)</h3>
+<ul><li>4,000개 요청 한 번의 값은 시드에 따라 크게 흔들립니다(ρ 0.9 균등 p95: 시드 30개에서 2,386~7,868 ms, 이 책 시드 2,776 ms는 낮은 편이고 긴 실행은 약 3,750 ms). 본문은 “고정 시드로 만든 이 책의 시나리오”라고 밝혀 틀리지는 않지만, 흔들림을 한 줄 더 알려 주면 독자가 숫자를 일반값으로 읽을 위험이 줄어듭니다.</li><li>표본 경로에서 처음과 끝에 대기열이 비면 리틀의 법칙은 정확히 성립하므로 두 값이 늘 소수 셋째 자리까지 같습니다. “검산”이 우연히 맞는 것이 아니라는 점을 한 문장 덧붙일 수 있습니다.</li><li>ρ 0.5에서는 기다리지 않은 요청 막대(3,387개)가 너무 커서 꼬리 막대가 거의 보이지 않습니다. 320px에서는 SVG 글자도 약 7px로 작아집니다(다른 실험과 같은 공통 SVG 방식이며 aria-label로 같은 숫자를 제공).</li></ul>
+<h3>문체 비평(다온의 관점)</h3>
+<p>번역투나 뜻 없는 도입은 거의 없습니다. 깊이 읽기 마지막 문장 “처리량과 지연을 따로 재야 하는 이유가 하나 더 생긴 셈입니다”는 맺음 상투구에 가깝지만 앞 문장과 이어져 남겼습니다. 사실과 어긋났던 일반화 한 문장(“요청 대부분은 여전히 금방”)을 숫자로 바꿨습니다.</p>
+<h3>G6 판정</h3>
+<p>정민(검수팀장): facts는 fixed, numbers는 ok, experiments는 fixed, terms는 ok, sources는 ok(원문 열람은 확인하지 못함)입니다. 열린 항목이 없고 검수자와 집필자가 다르므로 G6 <b>승인</b>합니다. 편집장에게 넘깁니다. 루트 catalog의 cover_meta(15개 실험) 갱신은 책 폴더 밖이라 편집장 몫입니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul><li>Little(1961) 원문과 doi.org 링크 열람(프록시 403)</li><li>실제 엔진에서 배치 크기에 따른 단계 시간 변화·prefill 간섭, GPU 실측</li><li>학습 효과(L4), Safari·Firefox·실기기·화면 읽기 프로그램</li><li>docs/evidence의 브라우저 결과 파일은 집필 세션의 것이며, 이번 검수의 브라우저 실행 결과는 저장소 밖에 저장함</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="7장 #evidence 깊이 읽기 “양자화를 속도 수단으로 볼 때”와 앞 권 #weights 링크, 3장 #timeline·9장 #paging·10장 #batching 개념 그림(js/figures.js)과 그림 설명, assets/style.css data-motion 규칙, tests/browser.cjs 테마 단추와 docs/validation.html 증거 링크" data-result="fixed">
 <h2>2026-10-12 검수 (2차 보충 검수 r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1)(검수팀 정민·유진·건우·채원·현석과 글작성팀 다온의 관점). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 7장 #evidence 깊이 읽기 “양자화를 속도 수단으로 볼 때”와 앞 권 #weights 링크, 3장 #timeline·9장 #paging·10장 #batching 개념 그림(js/figures.js)과 그림 설명, assets/style.css data-motion 규칙, tests/browser.cjs 테마 단추와 docs/validation.html 증거 링크.</p>

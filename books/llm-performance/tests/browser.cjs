@@ -7,12 +7,12 @@ const report={url:URL,date:'2026-10-12',views:[],labs:[],errors:[]};
 async function frame(page,width,id){
  await page.setViewportSize({width,height:900});await page.goto(URL+'#'+id);
  await page.locator(id==='home'?'.hero':'.chapter-head').waitFor();
- const dimensions=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,returnVisible:!!document.querySelector('header [data-shelf-return]')?.getBoundingClientRect().width}));
- assert.ok(dimensions.scroll<=width,`${id}: overflow ${dimensions.scroll}/${width}`);assert.ok(dimensions.returnVisible);
+ const dimensions=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth,returnVisible:!!document.querySelector('header [data-shelf-return]')?.getBoundingClientRect().width,duplicateIds:[...document.querySelectorAll('[id]')].map(e=>e.id).filter((x,i,a)=>a.indexOf(x)!==i)}));
+ assert.ok(dimensions.scroll<=width,`${id}: overflow ${dimensions.scroll}/${width}`);assert.ok(dimensions.returnVisible);assert.deepEqual(dimensions.duplicateIds,[],id+': duplicate element ids break label for');delete dimensions.duplicateIds;
  report.views.push({width,id,...dimensions});
 }
 async function labCheck(lab,width,id){
- const before=await lab.locator('.readout').innerText();assert.ok(before.length>20);const expected={metrics:'1,020',timing:'40.02',pipeline:'36 ms',mapping:'28개',sectors:'4개 sector',occupancy:'100%',roofline:'400.00',fusion:'32 MB',attention:'8.00 MiB',paging:'45자리',schedule:'110 ms',parallel:'18.00 ms',speculate:'3.36',decision:'만족하지 못한'};assert.ok(before.includes(expected[id]),id+' expected baseline '+expected[id]);
+ const before=await lab.locator('.readout').innerText();assert.ok(before.length>20);const expected={metrics:'1,020',timing:'40.02',pipeline:'36 ms',mapping:'28개',sectors:'4개 sector',occupancy:'100%',roofline:'400.00',fusion:'32 MB',attention:'8.00 MiB',paging:'45자리',schedule:'110 ms',parallel:'18.00 ms',tail:'ρ = 0.50',speculate:'3.36',decision:'만족하지 못한'};assert.ok(before.includes(expected[id]),id+' expected baseline '+expected[id]);
  const presetCount=await lab.locator('[data-preset]').count();
  for(let n=0;n<presetCount;n++){
   const button=lab.locator('[data-preset]').nth(n);await button.click();assert.equal(await button.getAttribute('aria-pressed'),'true');

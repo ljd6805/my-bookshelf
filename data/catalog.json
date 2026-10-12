@@ -117,7 +117,7 @@
       "spine_title": "추론 최적화",
       "spine_category": "인공지능",
       "color": "rose",
-      "description": "같은 요약 요청의 시간을 재고, CUDA 스레드와 메모리 접근, KV 할당·배치·통신을 조사합니다. 12장·14개 실험과 PyTorch·CUDA 예제로 성능·메모리·품질을 함께 검증합니다.",
+      "description": "같은 요약 요청의 시간을 재고, CUDA 스레드와 메모리 접근, KV 할당·배치·통신을 조사합니다. 12장·15개 실험과 PyTorch·CUDA 예제로 성능·메모리·품질을 함께 검증합니다.",
       "illustration": "books/llm-performance/assets/shelf-illustration.svg",
       "illustration_caption": "개념 애니메이션: 커널 사이의 빈 구간을 찾고, 변경한 타임라인에서 결과와 시간을 다시 확인합니다. 실제 소요 시간의 축척이 아닙니다.",
       "status": "published",
@@ -166,7 +166,7 @@
         }
       ],
       "cover_art": "books/llm-performance/assets/cover-art.svg",
-      "cover_meta": "12장 · 14개 실험"
+      "cover_meta": "12장 · 15개 실험"
     },
     {
       "id": "transformer-inside",
@@ -292,11 +292,11 @@
       "spine_title": "벡터와 행렬",
       "spine_category": "수학",
       "color": "violet",
-      "description": "노래 여덟 곡으로 작은 추천기를 만들며 벡터, 내적, 투영, 행렬 변환, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층까지. 11개 장과 12개 실험으로 공간이 움직이는 모습을 직접 조작합니다.",
+      "description": "노래 여덟 곡으로 작은 추천기를 만들며 벡터, 내적, 투영, 행렬 변환, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층까지. 11개 장과 13개 실험으로 공간이 움직이는 모습을 직접 조작합니다.",
       "illustration": "books/linear-algebra/assets/shelf-illustration.svg",
       "illustration_caption": "실제 계산: 행렬 [1.2, 0.5 ; −0.3, 0.9]가 노래 여덟 곡이 놓인 격자 전체를 기울이고 늘였다가 되돌립니다. 원점과 직선은 그대로 남습니다.",
       "cover_art": "books/linear-algebra/assets/cover-art.svg",
-      "cover_meta": "11장 · 12개 실험",
+      "cover_meta": "11장 · 13개 실험",
       "status": "published",
       "url": "books/linear-algebra/",
       "keywords": [
@@ -786,11 +786,11 @@
       "spine_title": "컴퓨터 비전",
       "spine_category": "AI공학",
       "color": "sage",
-      "description": "역 앞 공공자전거 대여소 카메라 한 대를 따라가며 픽셀 전처리, 합성곱과 ViT 백본, 분류, 검출과 NMS, 분할 지표, 추적, 자기지도·CLIP, OCR, 깊이와 3D, 확산 생성, 엣지 지연 예산을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 phases/04-computer-vision의 레슨 28개를 모두 재구성했습니다.",
+      "description": "역 앞 공공자전거 대여소 카메라 한 대를 따라가며 픽셀 전처리, 합성곱과 ViT 백본, 분류, 검출과 NMS, 분할 지표, 추적, 자기지도·CLIP, OCR, 깊이와 3D, 확산 생성, 엣지 지연 예산을 직접 계산합니다. 12장 18개 실험으로 원본 커리큘럼 phases/04-computer-vision의 레슨 28개를 모두 재구성했습니다.",
       "illustration": "books/aie-vision/assets/shelf-illustration.svg",
       "illustration_caption": "대여소 카메라 화면에서 자전거마다 겹쳐 뜬 후보 상자 중 NMS가 중복을 지워 하나만 남기는 과정을 보여 주는 시각적 비유입니다(좌표는 예시).",
       "cover_art": "books/aie-vision/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
+      "cover_meta": "12장 · 18개 실험",
       "status": "published",
       "url": "books/aie-vision/",
       "keywords": [
@@ -1193,11 +1193,11 @@
       "spine_title": "LLM 만들기",
       "spine_category": "AI공학",
       "color": "rose",
-      "description": "서재의 책을 추천하는 작은 LLM \"서재봇\"을 바이트 BPE 토크나이저에서 시작해 데이터 정제, 사전학습과 규모의 법칙, 학습 메모리와 병렬화, SFT·DPO·GRPO 정렬, 평가, 양자화와 추측 디코딩, 오픈 모델 설정 읽기까지 만들어 갑니다. 12장 16개 실험으로 단계마다 비용과 품질을 정하는 숫자를 직접 계산하고, 마지막에 출시 직전 실패의 되돌리기 범위를 판단합니다.",
+      "description": "서재의 책을 추천하는 작은 LLM \"서재봇\"을 바이트 BPE 토크나이저에서 시작해 데이터 정제, 사전학습과 규모의 법칙, 학습 메모리와 병렬화, SFT·DPO·GRPO 정렬, 평가, 양자화와 추측 디코딩, 오픈 모델 설정 읽기까지 만들어 갑니다. 12장 17개 실험으로 단계마다 비용과 품질을 정하는 숫자를 직접 계산하고, 마지막에 출시 직전 실패의 되돌리기 범위를 판단합니다.",
       "illustration": "books/aie-llm-build/assets/shelf-illustration.svg",
       "illustration_caption": "바이트가 토큰으로 합쳐지고, 손실 곡선이 내려간 뒤, 정렬과 서빙을 거쳐 답이 나가는 LLM 제작 과정을 보여 주는 시각적 비유입니다.",
       "cover_art": "books/aie-llm-build/assets/cover-art.svg",
-      "cover_meta": "12장 · 16개 실험",
+      "cover_meta": "12장 · 17개 실험",
       "status": "published",
       "url": "books/aie-llm-build/",
       "keywords": [
@@ -1655,11 +1655,11 @@
       "spine_title": "인프라운영",
       "spine_category": "AI공학",
       "color": "violet",
-      "description": "상담 챗봇 누리봇 하나를 70B 모델로 내보내며 토큰과 GPU의 손익분기, HBM 예산, 청크 프리필, goodput, 추측 디코딩, 캐시를 아는 라우팅, 콜드 스타트, 청구서, 게이트웨이 재시도, 카나리 관문, 오류 예산을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 17의 레슨 28개를 모두 재구성했습니다.",
+      "description": "상담 챗봇 누리봇 하나를 70B 모델로 내보내며 토큰과 GPU의 손익분기, HBM 예산, 청크 프리필, goodput, 추측 디코딩, 캐시를 아는 라우팅, 콜드 스타트, 청구서, 게이트웨이 재시도, 카나리 관문, A/B 표본 크기, 오류 예산을 직접 계산합니다. 12장 18개 실험으로 원본 커리큘럼 Phase 17의 레슨 28개를 모두 재구성했습니다.",
       "illustration": "books/aie-production/assets/shelf-illustration.svg",
       "illustration_caption": "누리봇의 요청이 라우터를 지나 같은 접두부를 가진 GPU로 모이고, 요청이 몰리면 GPU가 하나 더 켜지며 운영 장부가 차오르는 흐름을 보여 주는 그림입니다. 실제 계산이 아닌 시각적 비유입니다.",
       "cover_art": "books/aie-production/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
+      "cover_meta": "12장 · 18개 실험",
       "status": "published",
       "url": "books/aie-production/",
       "keywords": [

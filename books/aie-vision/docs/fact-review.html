@@ -4,6 +4,35 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>《컴퓨터 비전 · 픽셀에서 장면 이해까지》(「AI 엔지니어링 처음부터」 05권, books/aie-vision/)의 팩트·출처 검수 기록입니다. 검수 회차마다 섹션 하나를 두고, 새 회차는 위에 더합니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-lab-ap" data-reviewer="Claude · 큰 실험 반영 검수 세션(aie-vision)" data-author="Claude · 큰 실험 반영 집필 세션(aie-vision)" data-date="2026-10-12" data-scope="#detect 둘째 실험 ap(검출 AP 직접 계산하기): A05Math.detAP·detEval, labs-scene.js A05Labs.ap, lab-guides.js ap 결과 읽기, detect 문단 2·formulaNote·깊이 읽기 지표 항목, 참고 자료 COCO Detection Evaluation, visual.js plot 눈금, tests/math.test.cjs 새 두 묶음, docs/index.html 3차 보충 기록" data-result="fixed">
+<h2>2026-10-12 검수 (4장 검출 AP 실험)</h2>
+<p>검수자: Claude · 큰 실험 반영 검수 세션(aie-vision), 검수팀 정민·유진·건우·채원·현석 관점과 글작성팀 다온의 문체 관점. 집필자: Claude · 큰 실험 반영 집필 세션(aie-vision). 범위: 커밋 전 작업 트리에서 books/aie-vision/에 생긴 변경만 보았습니다. 이 세션은 이 변경을 쓰지 않았고, 집필 보고서는 읽지 않고 파일로만 판단했습니다. 계산은 책 코드와 따로 Python 분수(fractions)로 IoU·NMS·맞춤·모든 점 보간 AP를 다시 구현해 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>“정답 하나는 예측 하나와만 짝, 중복은 FP”, “점수 순서대로 아직 짝이 없는 정답 가운데 IoU가 가장 큰 것과 맞춤”, “COCO는 같은 계단을 재현율 0, 0.01, …, 1의 101점에서 읽어 평균”, “IoU 0.50~0.95를 0.05 간격으로 평균”을 COCO 공식 평가 코드(github.com/cocodataset/cocoapi, PythonAPI/pycocotools/cocoeval.py의 iouThrs [.5:.05:.95], recThrs [0:.01:1] R=101, 정밀도 포락선 루프, gtm으로 이미 맞춘 정답을 건너뛰는 맞춤 루프)와 대조했습니다. 모든 점 보간을 VOC 2010 이후 방식(그 전 VOC 2007은 11점)이라고 한 것은 표준 지식과 맞지만 VOC devkit 원문은 이번에 열지 못했습니다. 12장 본문의 “4장의 점수 문턱”이 오탐 처방 후보로 실제로 적혀 있어 결과 읽기의 연결 문장이 맞습니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>따로 계산: IoU b1–B 0.6539, b2–B 0.8488, b1–b2 0.7674, a1–b1 0.0625, a1–A 0.9177, p1–P 0.9188, a3–A 0.6943, p2–P 0.7482. 점수 문턱 0.3: 판정 0.5·NMS 끔 TP 3·FP 4·AP 11/12 = 0.917·정밀도 3/7 = 0.429, 판정 0.5·NMS 0.45 AP 1, 판정 0.75·NMS 끔 AP 2/3, 판정 0.75·NMS 0.45 TP 2·FP 1·FN 1·AP 5/9 = 0.556. 점수 문턱 0.5·판정 0.5·NMS 끔 AP 11/12·정밀도 3/5 = 0.600. 본문·결과 읽기·docs/index.html의 숫자(0.917, 1.000, 0.65, 0.85, 0.556, 0.429→0.600)가 모두 일치합니다.</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 수정</td><td>독립 계산 20가지(판정 0.5·0.75 × 점수 문턱 0.1·0.3·0.5·0.8·0.95 × NMS 끔·0.45)의 TP·FP·FN·AP·정밀도가 detEval·화면과 모두 일치(경계: 점수 문턱 0.95는 예측 없음, 정밀도 정의되지 않음·재현율·AP 0; 0.1은 0.3과 같음). Playwright(1280px)로 실험을 직접 조작해 순위 목록·TP·FP·FN·AP 문장을 읽고, 1280·390·320px 가로 넘침 없음, 세 입력 모두 라벨, 점수 슬라이더 방향키 조작(0.5→0.55), 그래프 눈금 0.25·0.75 표시, 콘솔 오류 없음을 확인했습니다. 책의 tests/browser.cjs(42개 화면, 54개 실험 점검)도 수정 전후 통과. 결과 문장 한 곳이 숫자와 어긋나 고쳤습니다(아래).</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>TP·FP·FN, 정밀도·재현율, AP50·AP75, 모든 점 보간, 포락선, 판정 IoU 문턱과 NMS 임계값의 구분이 4장 본문·5장·12장의 쓰임과 같습니다. “운영점”은 처음 나오는 곳에 풀이를 붙였습니다(아래).</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음(접속은 확인하지 못함)</td><td>새 출처 COCO Detection Evaluation(https://cocodataset.org/#detection-eval)은 이 환경의 프록시가 cocodataset.org 접속을 막아(403) 열어 보지 못했습니다. 설명 문장(AP·AP50·AP75 정의, 0.50~0.95를 0.05 간격 평균)은 같은 COCO 팀의 공식 평가 코드 cocoapi의 cocoeval.py로 확인했습니다. 집필 기록대로 확인일을 적지 않은 것은 맞는 처리입니다. sources 배열 69번째(색인 68)로 들어가 detect 장 source에 연결된 것을 node로 확인했습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>js/labs-scene.js A05Labs.ap 결과 문장(판정 0.75·NMS 끔, 점수 문턱 0.1~0.55)</td><td>“판정 전에 NMS로 중복을 지우면 이 손실이 사라집니다”라고 하지만, 이 설정에서 NMS 0.45를 켜면 AP75가 0.667에서 0.556으로 오히려 내려갑니다(b2가 지워져 정답 B를 놓침). 독자가 문장대로 NMS를 켜면 반대 결과를 봅니다.</td><td>독립 계산: 판정 0.75·점수 0.3에서 NMS 끔 2/3, 켬 5/9</td><td>NMS 끔 상태에서는 NMS 0.45를 켠 결과를 함께 계산해, 켰을 때 놓친 정답과 맞던 상자가 지워지면 “NMS 0.45를 켜면 이 중복은 사라지지만, 이 판정 문턱에서는 NMS가 정답과 더 잘 맞던 b2까지 지워 AP가 오히려 0.556까지 내려갑니다.”로 말하게 고쳤습니다. 판정 0.5에서는 원래 문장을 그대로 씁니다.</td></tr>
+<tr><td>같은 결과 문장(FP가 1개일 때, 예: 판정 0.5·점수 0.8)</td><td>“FP 1개는 모두 …”로 어색한 문장</td><td>화면 확인</td><td>FP가 1개면 “FP 1개는 …”으로 씁니다.</td></tr>
+<tr><td>js/lab-guides.js ap 결과 읽기 마지막 문장</td><td>“운영점의 정밀도·재현율을 고르는 손잡이입니다”: 풀이 없는 용어와 설명 없는 은유(다온 규칙)</td><td>AGENTS.md 문서와 이야기 규칙</td><td>“AP를 올리는 값이 아니라, 실제로 알림을 낼 지점(운영점)의 정밀도와 재현율을 고르는 값입니다.”로 고쳤습니다.</td></tr>
+<tr><td>index.html</td><td>스크립트를 고쳤으므로 자산 버전 갱신 필요</td><td>책 구성 표준</td><td>이 책의 ?v=를 20261012-ap1에서 20261012-ap2로 함께 올렸습니다.</td></tr>
+</tbody></table>
+<h3>검수팀 관점별 점검</h3>
+<ul>
+<li><b>유진(팩트 체커)</b>: 맞춤 규칙과 101점 보간은 COCO 공식 코드와 같고, 책이 쓰는 모든 점 보간이 COCO 방식이 아니라는 점을 본문이 분명히 밝힙니다. 실제 COCO 평가는 영상 여러 장·클래스별로 모아 계산하고 crowd·면적 범위를 따로 다루지만, 실험은 “정답이 셋뿐인 장면 하나”라고 밝혀 범위를 넘지 않습니다.</li>
+<li><b>건우(수치 검증가)</b>: 기대값·화면값·차이 모두 0(소수 셋째 자리 반올림 안). 점수 문턱을 올려도 AP가 늘지 않는다는 테스트의 불변 조건은 일반적으로도 성립합니다(점수 순 목록의 앞부분만 남고, NMS는 낮은 점수 상자가 높은 점수 상자를 지우지 못하므로).</li>
+<li><b>채원(첫 독자 시험자)</b>: 예제 세 버튼, 경계값, 초기화가 되고 320px에서 순위 목록이 넘치지 않습니다. 예측 없음 상태에서 “점수 문턱을 내려 보세요”로 다음 행동을 알려 줍니다. 고치기 전에는 판정 0.75에서 결과 문장을 따라 NMS를 켜면 AP가 떨어져 막혔습니다.</li>
+<li><b>현석(규칙 감사관)</b>: <code>npm test --prefix books/aie-vision</code> 26/26 통과(수정 후), tests/browser.cjs 통과(수정 후, 증거 파일은 검수 작업 폴더에 따로 남김), <code>python3 scripts/validate.py</code> 결과는 아래 기록.</li>
+<li><b>다온(문체)</b>: 새 본문 문단과 formulaNote는 자연스럽습니다. 결과 읽기의 “손잡이” 은유 1건만 고쳤습니다.</li>
+<li><b>정민(검수팀장) G6 판정</b>: facts ok, numbers ok, experiments fixed, terms ok, sources ok(접속 미확인은 아래에 남김). 열린 항목이 없으므로 <b>승인</b>합니다. 단, 서재 카탈로그 cover_meta(17 → 18개 실험)는 이 책 폴더 밖이라 편집장 쪽에서 맞춰야 합니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul><li>cocodataset.org/#detection-eval 페이지 자체는 프록시가 막아 열지 못했습니다(내용은 cocoapi 코드로만 대조).</li><li>VOC 2010 devkit의 모든 점 보간 설명 원문은 열지 않았습니다(표준 지식으로만 대조).</li><li>390·320px에서는 가로 넘침과 책 브라우저 검사만 보았고, 조작 결과 문장은 1280px에서만 직접 읽었습니다.</li><li>화면 낭독기로 순위 목록과 그래프 설명을 들어 보지 않았고, 독자의 학습 효과(L4)는 시험하지 않았습니다.</li><li>data/catalog.json의 cover_meta 불일치는 이 책 범위 밖이라 고치지 않았습니다.</li></ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#backbone 깊이 읽기(torchvision ResNet-18·VGG-16, DeiT-B·증류 DeiT-B⚗), #transfer·#vlm·#capstone의 “원본 레슨의 어림” 표시, #selfsup 선형 프로브 수치와 확인 문제, #generate·#world 확인 문제, 새 출처 2개(DeiT arXiv 2012.12877, DINOv2 arXiv 2304.07193)와 torchvision 출처 설명" data-result="passed">
 <h2>2026-10-12 검수 (2차 보충 · 검수 r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1), 검수팀 정민·유진·건우·채원·현석 관점과 글작성팀 다온의 문체 관점. 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: #backbone 깊이 읽기(torchvision ResNet-18·VGG-16, DeiT-B·증류 DeiT-B⚗), #transfer·#vlm·#capstone의 “원본 레슨의 어림” 표시, #selfsup 선형 프로브 수치와 확인 문제, #generate·#world 확인 문제, 새 출처 2개(DeiT arXiv 2012.12877, DINOv2 arXiv 2304.07193)와 torchvision 출처 설명. 이 보충의 미커밋 변경만 보았고, 계산은 책 코드와 따로 Python(numpy)으로 다시 했습니다.</p>

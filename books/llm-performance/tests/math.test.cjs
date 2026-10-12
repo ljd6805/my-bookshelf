@@ -31,3 +31,30 @@ test('invalid divisor and missing variant produce explicit error',()=>{assert.th
 test('choiceOrder rotates choices so the answer lands on the target slot and keeps every original index once',()=>{assert.deepEqual(M.choiceOrder(3,1,0),[1,2,0]);assert.deepEqual(M.choiceOrder(3,0,2),[1,2,0]);assert.deepEqual(M.choiceOrder(3,2,2),[0,1,2]);for(let a=0;a<3;a++)for(let t=0;t<3;t++){const o=M.choiceOrder(3,a,t);assert.equal(o[t],a);assert.deepEqual([...o].sort(),[0,1,2]);}});
 test('speculative decoding: expected tokens per verification and theoretical speedup (Leviathan et al. 2023, eq. 1 and thm 3.8)',()=>{const r=M.speculative(.8,4,.05);close(r.expected,(1-.8**5)/.2);close(r.expected,3.3616);close(r.speedup,3.3616/1.2);close(M.speculative(.8,1,0).expected,1.8);close(M.speculative(0,5,0).expected,1);});
 test('speculative decoding: low acceptance makes long proposals lose, and expected tokens never exceed gamma+1',()=>{const low=M.speculative(.5,8,.05);assert.equal(low.best.gamma,3);assert.ok(low.speedup<low.best.speedup);for(const a of [.5,.7,.9,.95])for(let g=1;g<=8;g++){const r=M.speculative(a,g,.1);assert.ok(r.expected>=1&&r.expected<=g+1);}assert.ok(M.speculative(.8,4,.5).speedup<1.2);assert.throws(()=>M.speculative(1,4,.1),RangeError);});
+/* 10장 꼬리 지연 실험(tail). 이론값은 구현과 따로 계산했다: M/M/1 Wq = ρS/(1−ρ), M/D/1 Wq = ρS/(2(1−ρ)),
+   M/G/1(Pollaczek–Khinchine) Wq = λE[S²]/(2(1−ρ)) with 균등 0.5~1.5S → E[S²] = (13/12)S², M/M/4 Erlang C(a=2) = 4/23 → Wq = (4/23)/(4−2) s ≈ 86.96 ms. */
+const within=(a,b,rel)=>assert.ok(Math.abs(a-b)<=rel*b,`${a} vs theory ${b}`);
+test('tail queue: long runs agree with queueing theory within 5%',()=>{
+ const long={count:200000};
+ within(M.queue(.5,1000,1,2,long).mean,1000,.05);
+ within(M.queue(.8,1000,1,0,long).mean,2000,.05);
+ within(M.queue(.7,1000,1,1,long).mean,.7*1000*(13/12)/(2*.3),.05);
+ within(M.queue(2,1000,4,2,long).mean,4/23/2*1000,.05);
+});
+test('tail queue: same seed gives the same run, another seed differs',()=>{const a=M.queue(3.6,1000,4,1),b=M.queue(3.6,1000,4,1);assert.deepEqual(a.waits,b.waits);assert.equal(a.p95,b.p95);assert.notDeepEqual(M.queue(3.6,1000,4,1,{seed:7}).waits,a.waits);});
+test('tail queue: utilization, Little law and order invariants while rho < 1',()=>{
+ close(M.queue(3.6,1000,4,1).rho,.9);close(M.queue(2,1000,4,1).rho,.5);
+ for(const [rate,S,c,spread] of [[2,1000,4,1],[3.6,1000,4,0],[3.6,1000,4,2],[.4,2000,1,1],[6,1000,8,2]]){
+  const r=M.queue(rate,S,c,spread);assert.ok(r.stable&&r.rho<1);
+  assert.ok(r.waits.every(w=>w>=0));assert.ok(r.p50<=r.p95&&r.p95<=r.max);
+  assert.ok(Math.abs(r.queued-r.littleQueued)<1e-9*Math.max(1,r.queued));assert.ok(Math.abs(r.inSystem-r.littleSystem)<1e-9*Math.max(1,r.inSystem));
+  assert.ok(r.inSystem>=r.queued);const h=M.histogram(r.waits);assert.equal(h.zero+h.counts.reduce((a,b)=>a+b,0),r.count);
+ }
+});
+test('tail queue: from rho 0.5 to 0.9 p95 grows by more ms than the mean; rho >= 1 is flagged unstable and keeps growing',()=>{
+ for(const spread of [0,1,2]){const [low,,high]=M.tailSweep(1000,4,spread);assert.ok(high.p95-low.p95>2*(high.mean-low.mean),'spread '+spread);}
+ const edge=M.queue(1,1000,1,0);assert.equal(edge.stable,false);close(edge.rho,1);
+ const over=M.queue(4.2,1000,4,1);assert.equal(over.stable,false);assert.ok(over.late>3*over.early);
+ const idle=M.queue(.5,200,8,0);assert.ok(idle.waited<.001&&idle.p95===0);
+ assert.throws(()=>M.queue(2,1000,0,1),RangeError);assert.throws(()=>M.queue(2,1000,4,3),RangeError);assert.throws(()=>M.queue(0,1000,4,1),RangeError);
+});

@@ -15,8 +15,10 @@ function svg(body,label){return `<svg viewBox="0 0 480 280" role="img" aria-labe
 /* 선 그래프: lines=[{data:[[x,y]],color,dashed}], points=[[x,y,color,r]] */
 function plot({lines=[],points=[],xmin=0,xmax=1,ymin=0,ymax=1,xlabel='x',ylabel='y',label}){
  const L=52,W=400,x=v=>L+(v-xmin)/(xmax-xmin)*W,y=v=>235-(v-ymin)/(ymax-ymin)*210,cl=v=>Math.max(-1000,Math.min(1000,v));
+ /* 눈금: 0.25처럼 소수 한 자리로 반올림하면 값이 달라지는 눈금은 두 자리로 적는다 */
+ const tick=v=>fmt(v,Math.abs(v*10-Math.round(v*10))>1e-9?2:1);
  let out='';
- for(let i=0;i<=4;i++){const xx=L+i*W/4,yy=25+i*52.5;out+=`<path d="M${xx} 25V235M${L} ${yy}H${L+W}" stroke="var(--line)" stroke-width=".6"/><text x="${xx}" y="254" text-anchor="middle">${fmt(xmin+(xmax-xmin)*i/4,1)}</text><text x="${L-8}" y="${yy+4}" text-anchor="end">${fmt(ymax-(ymax-ymin)*i/4,1)}</text>`;}
+ for(let i=0;i<=4;i++){const xx=L+i*W/4,yy=25+i*52.5;out+=`<path d="M${xx} 25V235M${L} ${yy}H${L+W}" stroke="var(--line)" stroke-width=".6"/><text x="${xx}" y="254" text-anchor="middle">${tick(xmin+(xmax-xmin)*i/4)}</text><text x="${L-8}" y="${yy+4}" text-anchor="end">${tick(ymax-(ymax-ymin)*i/4)}</text>`;}
  const id='clip'+Math.random().toString(36).slice(2);
  out+=`<defs><clipPath id="${id}"><rect x="${L}" y="25" width="${W}" height="210"/></clipPath></defs><g clip-path="url(#${id})">`;
  for(const l of lines)out+=`<polyline points="${l.data.map(([a,b])=>`${x(a)},${cl(y(b))}`).join(' ')}" fill="none" stroke="${l.color||'var(--accent)'}" stroke-width="2.5"${l.dashed?' stroke-dasharray="6 5"':''}/>`;

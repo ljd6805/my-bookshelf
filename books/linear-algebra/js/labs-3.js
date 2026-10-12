@@ -41,6 +41,73 @@
     ctl.update();
   });
 
+  // 8장 두 번째 실험: 같은 행렬을 거듭 곱하면(거듭제곱법) 방향이 가장 큰 고윳값의 고유벡터로 끌려갑니다.
+  const POWER_PRESETS = {
+    sym: [[2, 1], [1, 2]],
+    close: [[2.95, 0.05], [0.05, 2.95]],
+    rotate: LA.rotation(45)
+  };
+  // 큰 수는 지수 표기로 줄입니다(3³⁰ ≈ 2×10¹⁴까지 나옵니다).
+  const SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+  const sup = (k) => String(k).split('').map((c) => SUP[c]).join('');
+  const powName = (k) => (k === 0 ? 'v' : k === 1 ? 'Mv' : `M${sup(k)}v`);
+  const big = (x) => {
+    if (Math.abs(x) < 1e5) return fmt(x, Math.abs(x) < 100 ? 2 : 0);
+    const e = Math.floor(Math.log10(Math.abs(x)));
+    return `${fmt(x / 10 ** e, 2)}×10${sup(e)}`;
+  };
+  const bigVec = (v) => `(${v.map(big).join(', ')})`;
+  // 두 방향이 이루는 직선 사이 각도(0°~90°). 고유벡터는 방향이 아니라 직선이므로 부호를 따지지 않습니다.
+  const lineGap = (a, b) => { const c = Math.abs(LA.cosine(a, b)); return (Math.acos(Math.min(1, c)) * 180) / Math.PI; };
+
+  function powerVerdict(M, steps, n) {
+    const last = steps[steps.length - 1], pairs = LA.eigen2(M).sort((p, q) => Math.abs(q.value) - Math.abs(p.value));
+    if (n === 0) return '<p>아직 한 번도 곱하지 않았습니다. 곱하는 횟수 n을 늘려 보세요.</p>';
+    if (!pairs.length) return `<p><strong>수렴하지 않습니다.</strong> 곱할 때마다 ${fmt(last.turn, 0)}°씩 돌기만 하고 길이 배율은 ${fmt(last.ratio)}입니다. 실수 고유벡터가 없어 끌려갈 방향이 없습니다.</p>`;
+    const [p1, p2] = pairs, d1 = (Math.atan2(p1.vector[1], p1.vector[0]) * 180) / Math.PI;
+    const gap = lineGap(last.v, p1.vector), q = p2 ? Math.abs(p2.value / p1.value) : 0;
+    if (gap < 0.5) return `<p class="status-ok"><strong>방향이 자리를 잡았습니다.</strong> ${powName(n)}는 가장 큰 고윳값 λ₁ = ${fmt(p1.value)}의 고유벡터 직선(${fmt(((d1 % 180) + 180) % 180, 0)}°)에서 ${fmt(gap, 1)}° 안에 있고, 배율 ${fmt(last.ratio)}도 λ₁에 다가갔습니다.</p>`;
+    if (p2 && lineGap(steps[0].v, p2.vector) < 1e-6) return `<p><strong>처음부터 λ₂ = ${fmt(p2.value)}인 고유벡터 위에서 시작해 방향이 끝까지 바뀌지 않습니다.</strong> λ₁ 방향 성분이 정확히 0이라 거듭 곱해도 끌려갈 것이 없습니다.</p>`;
+    return `<p><strong>아직 움직이는 중입니다.</strong> 마지막 한 번에 ${fmt(Math.abs(last.turn), 1)}° 돌았고, λ₁ = ${fmt(p1.value)}의 고유벡터 직선까지 ${fmt(gap, 1)}° 남았습니다. ` +
+      `둘째 방향 성분은 곱할 때마다 λ₂/λ₁ = ${fmt(q)}배로 상대적으로 줄어듭니다.</p>`;
+  }
+
+  UI.lab('power', (root) => {
+    const p = new Plane(root.querySelector('svg'), { range: 3 });
+    const out = root.querySelector('.readout'), tbl = root.querySelector('.ranking');
+    let stop = () => {};
+    const draw = (v) => {
+      const M = POWER_PRESETS[v.preset] || POWER_PRESETS.sym, steps = LA.powerSteps(M, [v.v1, v.v2], v.n);
+      p.clear().grid().axes();
+      for (const e of LA.eigen2(M)) p.line(LA.scale(-6, e.vector), LA.scale(6, e.vector), 'axis-pc');
+      if (!steps) {
+        p.render(); tbl.innerHTML = '';
+        out.innerHTML = '<p class="status-bad"><strong>시작 벡터가 (0, 0)입니다.</strong> 길이가 0인 화살표에는 방향이 없어서 몇 번을 곱해도 (0, 0)입니다. v₁이나 v₂를 0이 아닌 값으로 바꾸세요.</p>';
+        return;
+      }
+      const dir = (s) => LA.scale(2.2 / LA.norm(s.v), s.v), last = steps[steps.length - 1];
+      steps.slice(0, -1).forEach((s) => p.point(dir(s), 'dim', '', 3.5));
+      p.arrow(dir(steps[0]), 'a', 'v');
+      if (last.k) p.arrow(dir(last), 'b', powName(last.k));
+      p.render();
+      const shown = steps.length > 9 ? [...steps.slice(0, 3), null, ...steps.slice(-4)] : steps;
+      KIT.table(tbl, ['k', 'Mᵏv', '방향', '돈 각도', '배율'], shown.map((s) => (s ? {
+        top: s === last, cells: [String(s.k), bigVec(s.v), `${fmt(s.angle, 1)}°`, s.turn === null ? '—' : `${fmt(s.turn, 1)}°`, s.ratio === null ? '—' : fmt(s.ratio)]
+      } : { cells: ['…', '', '', '', ''] })), [0, 2, 3, 4]);
+      out.innerHTML = `<p>M = ${mat(M, 2)}, 시작 v = ${vec([v.v1, v.v2])}, ${v.n}번 곱함</p>` +
+        `<p>${powName(last.k)} = ${bigVec(last.v)} · 방향 <strong>${fmt(last.angle, 1)}°</strong>${last.ratio === null ? '' : ` · 마지막 배율 <strong>${fmt(last.ratio)}</strong>`}</p>` +
+        powerVerdict(M, steps, v.n);
+    };
+    const ctl = UI.ranges(root, draw);
+    root.querySelector('[data-play]').addEventListener('click', () => {
+      stop();
+      const max = Number(root.querySelector('[name=n]').max);
+      stop = UI.animate(8000, (t) => { ctl.set('n', Math.round(t * max)); ctl.update(); });
+    });
+    root.addEventListener('lab-reset', () => stop());
+    ctl.update();
+  });
+
   // 9장: 방향 θ로 투영했을 때 점수의 분산. 가장 큰 분산의 방향이 첫째 주성분입니다.
   UI.lab('pca', (root) => {
     const [svg, chart] = root.querySelectorAll('svg');

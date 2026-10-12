@@ -1,8 +1,8 @@
 {
-  "url": "http://127.0.0.1:8791/books/aie-production/",
+  "url": "http://127.0.0.1:8773/books/aie-production/",
   "date": "2026-10-12",
   "views": 42,
-  "labs": 51,
+  "labs": 54,
   "errors": [],
   "success": true
 }

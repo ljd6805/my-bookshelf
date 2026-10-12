@@ -55,7 +55,7 @@
 </ul></section>
 
 <section id="verification"><h2>4. 검증</h2>
-<p><b>구조</b>: <code>npm test --prefix books/aie-llm-build</code>(경로·필드·실험 표·그림·출처 검사, 계산 검사 19개). <b>동작</b>: <code>tests/browser.cjs</code>를 Chromium으로 1280·390·320px에서 실행해 표지와 12장, 16개 실험의 예제·최솟값·최댓값·초기화, 확인 문제, 가로 넘침, 서가로 버튼을 확인합니다(<a href="evidence/browser-results.json">browser-results.json</a>). 스크린샷 <a href="evidence/home-desktop.png">표지</a>, <a href="evidence/figure-desktop.png">그림</a>, <a href="evidence/lab-mobile.png">320px 실험</a>.</p>
+<p><b>구조</b>: <code>npm test --prefix books/aie-llm-build</code>(경로·필드·실험 표·그림·출처 검사, 계산 검사 22개). <b>동작</b>: <code>tests/browser.cjs</code>를 Chromium으로 1280·390·320px에서 실행해 표지와 12장, 17개 실험의 예제·최솟값·최댓값·초기화, 확인 문제, 가로 넘침, 서가로 버튼을 확인합니다(<a href="evidence/browser-results.json">browser-results.json</a>). 스크린샷 <a href="evidence/home-desktop.png">표지</a>, <a href="evidence/figure-desktop.png">그림</a>, <a href="evidence/lab-mobile.png">320px 실험</a>.</p>
 <table><tr><th>실험</th><th>L1 접근</th><th>L2 반응</th><th>L3 모형</th><th>L4 학습</th></tr>
 <tr><td>bpe</td><td>확인</td><td>확인</td><td>병합 후 디코딩이 원문 바이트와 같음, 한국어 398바이트 → 병합 49회 뒤 149토큰, 영어 표로 한국어 문장 53토큰</td><td>미확인</td></tr>
 <tr><td>minhash</td><td>확인</td><td>확인</td><td>같은 집합 Jaccard 1, k가 클수록 추정 오차 감소, LSH 확률 단조 증가</td><td>미확인</td></tr>
@@ -69,6 +69,7 @@
 <tr><td>dpo</td><td>확인</td><td>확인</td><td>m = 0에서 ln 2, 손실이 m에 대해 감소</td><td>미확인</td></tr>
 <tr><td>grpo</td><td>확인</td><td>확인</td><td>이점 평균 0, 신호 없음 확률 식과 표본 비율 근접</td><td>미확인</td></tr>
 <tr><td>elo</td><td>확인</td><td>확인</td><td>점수 합 보존, 기대 승률 식</td><td>미확인</td></tr>
+<tr><td>contam</td><td>확인</td><td>확인</td><td>문항 어절 수 17·21·19·14·20·10, 전체 묶음 13-gram 5/31 실패, 복사본 지운 묶음 13-gram 0/31 통과(바꿔 쓴 문항 2개 놓침)·8-gram 9/59, 문항 2의 겹친 조각 n = 8~13에서 5·4·3·2·1·0, 학습 조각이 늘면 겹침이 줄지 않음</td><td>미확인</td></tr>
 <tr><td>quant</td><td>확인</td><td>확인</td><td>4비트 SNR 텐서 11.3dB·채널 21.4dB, 비트가 늘수록 오차 감소</td><td>미확인</td></tr>
 <tr><td>specdec</td><td>확인</td><td>확인</td><td>α → 0이면 기대 토큰 1, N = 1 식</td><td>미확인</td></tr>
 <tr><td>config</td><td>확인</td><td>확인</td><td>Mixtral 46.70B·12.88B, DeepSeek-V3 671.03B·37.55B, Llama 3 8B 128K KV 17.2GB</td><td>미확인</td></tr>
@@ -82,4 +83,11 @@
 <li><b>#preference·#selfimprove 확인 문제</b>(검토서 4순위의 남은 부분): 검토서가 제안한 계산 문항은 1차 보충에서 전이 문항으로 이미 들어가 있어, 확인 문제는 실험 판단형으로 새로 썼습니다. #preference: β 0.5에서 m 0 → 6일 때 기울기 크기 0.25 → 약 0.0237, β 0.1·m 6이면 약 0.0354. #selfimprove: G 16에서 p 0.5 → 0.95일 때 신호 없는 집단 약 0.003% → 약 44.0%(0.95¹⁶ + 0.05¹⁶ ≈ 0.4401).</li>
 <li><b>건너뛴 것</b>: 1순위 확장 학습 절은 1차 보충에 반영되어 있습니다. 3순위 오염 검사 실험은 규모 L이고, 2순위의 증류 실험도 L이라 넣지 않았습니다. #tokenizer 확인 문제는 이미 판단형이라 그대로 두었습니다.</li>
 <li><b>다온의 문체 메모</b>: ① "사람 손은 비싸서 공개된 지시 데이터 가운데 상당수는 모델이 썼습니다" → 비율 근거가 없어 "모델에게 지시 데이터를 쓰게 하는 방법이 널리 퍼졌습니다"로 고쳤습니다. ② 증류 문단을 "지식 증류는 매우 강력한 기법입니다"로 시작하지 않고, 무엇을 목표로 삼는지(문장 대신 분포)부터 썼습니다. ③ 해설 끝의 "꼭 기억하세요"류 맺음을 빼고 틀린 보기가 어디서 나오는 오해인지로 끝냈습니다.</li></ul></section>
+<section id="supplement3-20261012"><h2>2026-10-12 3차 보충: 평가 문항 오염 검사 실험</h2><ul>
+<li><b>#eval</b>: 둘째 실험 <code>contam</code>("평가 문항 오염 검사")을 더했습니다. 보충 검토서(g5-llm, aie-llm-build 제안 3)를 따른 것입니다. 서재봇 평가 문항 6개를 SFT 학습 조각 6개(그대로 복사 2, 조금·많이 바꿔 씀 2, 무관 2)와 어절 n-gram(n = 8~13)으로 대조해 문항별 겹침률, 오염 의심·겹침 없음·검사 불가, 전체 겹침률과 마지막 장 #final이 적은 게이트 기준 0.1%의 통과·실패, n별 놓침과 헛경보를 보여 줍니다. 한국어는 문장부호를 지우고 띄어쓰기로 나눈 어절을 한 단위로 셉니다. 계산은 <code>math.js</code>의 <code>contamination</code>이 하고, 2장의 <code>shingles</code>와 같은 정규화(<code>words</code>로 분리)를 씁니다. 문항과 조각은 미리 정한 교육용 예시입니다.</li>
+<li><b>본문</b>: 첫 문단에 사용자 평가 세트도 오염될 수 있다는 문장과 실험 안내를 넣고, 상세 절 "평가 문항이 학습 데이터에 섞였는지 재기"(예측 질문, 관찰할 것, 겹침 검사가 놓치는 번역·뜻 바꿈)를 더했습니다. 공식 칸에 겹침률 식을 더했습니다. 확인 문제는 바꾸지 않았습니다.</li>
+<li><b>출처</b>: Brown 등(2020) GPT-3 논문(arXiv 2005.14165)을 더했습니다. 2.2절의 겹침 제거와 버그, 4절의 13-gram 겹침 기준과 13-gram보다 짧은 문항 처리를 원문 PDF에서 확인했습니다(확인일 2026-10-12). 부록 C의 N 선택 방법은 열지 못해 본문에 쓰지 않았습니다. 원본 13강 연습 문제의 0.1% 기준은 이 책 #final의 기존 서술을 그대로 따랐고 다시 확인하지 않았습니다.</li>
+<li><b>검증</b>: <code>npm test</code> 30개 통과(새 검사는 문항·조각을 파이썬으로 따로 세어 맞춘 대표값, 게이트 경계, n &gt; 어절 수의 검사 불가, 잘못된 n의 오류, 학습 조각 포함 관계와 n에 대한 단조성). <code>tests/browser.cjs</code>로 1280·390·320px에서 17개 실험 51회 확인, 콘솔 오류 0. Playwright로 새 실험의 예제 세 개, 방향키 조작, 문항 6 검사 불가, 무관한 글 묶음의 헛경보, 초기화, 1280·320px 가로 넘침 없음을 따로 확인했습니다. 실험 수 16 → 17, 스크립트 버전 20261012-supp3.</li>
+<li><b>확인 못 한 것</b>: 학습 효과(L4), 화면 낭독기로 읽는 경험. 서가 카탈로그의 cover_meta("12장 · 17개 실험")는 이 책 폴더 밖이라 고치지 않았습니다(registration.json만 갱신).</li>
+<li><b>다온의 문체 메모</b>: ① 결과 문장의 "✓ 깨끗함"은 바꿔 쓴 오염 문항에도 붙어 검사기의 판정을 사실처럼 읽히게 했습니다 → "✓ 겹침 없음"으로 고쳤습니다. ② 상세 절을 "오염은 매우 중요한 문제입니다"로 열지 않고 GPT-3가 실제로 한 일부터 썼습니다. ③ 셋째 문단을 요약으로 맺지 않고 남는 질문(번역·뜻 바꿈)으로 끝냈습니다.</li></ul></section>
 </main></body></html>

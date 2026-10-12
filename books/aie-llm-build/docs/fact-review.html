@@ -4,6 +4,33 @@
 <h1>팩트·출처 검수 기록 · LLM 직접 만들기</h1>
 <p>「AI 엔지니어링 처음부터」 11권(books/aie-llm-build)을 쓴 에이전트가 아닌 별도 검수 에이전트가 원본 레슨(phases/10-llms-from-scratch, MIT)과 인용 논문에 비추어 확인한 결과입니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-lab-contam" data-reviewer="Claude · 큰 실험 반영 검수 세션(aie-llm-build)" data-author="Claude · 큰 실험 반영 집필 세션(aie-llm-build)" data-date="2026-10-12" data-scope="#eval 둘째 실험 contam(평가 문항 오염 검사): math.js의 words·contamination과 DATA.contam, labs-align.js 화면, lab-guides.js 안내, #eval 첫 문단·상세 절 “평가 문항이 학습 데이터에 섞였는지 재기”·공식 칸, 출처 52(Brown 등 2020), math.test.cjs 새 검사, docs/index.html 3차 보충 절과 검증 표, registration.json·index.html의 실험 수 17" data-result="fixed">
+<h2>2026-10-12 큰 실험 반영 검수: 평가 문항 오염 검사(contam)</h2>
+<p>검수자: Claude · 큰 실험 반영 검수 세션(aie-llm-build), 검수팀 정민·유진·건우·채원·현석 관점, 새 문장은 글작성팀 다온의 관점으로 한 번 더 읽음. 집필자: Claude · 큰 실험 반영 집필 세션(aie-llm-build). 범위: 커밋되지 않은 변경 <code>git diff -- books/aie-llm-build</code> 전체. 집필 측 보고서는 읽지 않고 파일만 보고 판정했습니다.</p>
+<p>독립 계산: 문항 6개와 학습 조각 6개를 python3(<code>re</code>로 문장부호 제거, 소문자, 공백 분리)로 따로 세었습니다. 어절 수 17·21·19·14·20·10. 묶음 셋 × n = 8~13의 18가지 조합 모두에서 문항별 겹친 조각/전체 조각, 전체 겹침률, 게이트 판정, 놓침·헛경보·검사 불가 수가 책 함수와 화면 결과 문장과 같았습니다. 대표값: 전체 묶음 13-gram 5/31 = 16.13% 실패(놓침 2, 문항 6 검사 불가), 8-gram 22/59 = 37.29%(헛경보 1); 복사본 지운 묶음 13-gram 0/31 = 0% 통과(놓침 2), 11-gram 2/41 = 4.88%, 8-gram 9/59 = 15.25%; 무관한 글 묶음 8-gram 1/59 = 1.69% 실패, 9-gram 0/53 통과. 문항 2의 겹친 조각 n = 8~13에서 5·4·3·2·1·0, 문항 3은 3·2·1·0·0·0(n = 11부터 놓침). 경계: 문항 6은 n = 10에서 조각 1개, n = 11부터 검사 불가. 게이트는 겹침률이 0.001과 같으면 통과. 문항 5의 끝맺음 “책 제목과 장 번호를 함께 적어 답해 주세요”는 8어절이고 앞 어절이 학습 조각과 달라 n = 8에서만 걸림. 불변 조건(n이 커지면 문항별 겹친 조각 수가 늘지 않음)은 n-gram이 겹치면 같은 자리의 (n−1)-gram도 겹치므로 성립.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>GPT-3 논문 2.2절의 겹침 제거 시도와 필터 버그 문장(“a bug in the filtering caused us to ignore some overlaps”)을 Hugging Face 논문 본문(hf://papers/2005.14165/paper.md)으로 대조. 원본 13강 en.md 연습 문제 2(“exact string match or 13-gram match … fails if overlap exceeds 0.1%”)를 raw.githubusercontent.com에서 열어 대조. #eval이 이 기준을 “마지막 장의 출시 게이트”로 적은 부분을 #final 서술(원본의 연습 문제)에 맞춰 고침</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>겹침률 식과 전체 겹침률(검사한 문항의 조각 합으로 나눔)을 코드와 대조, 위 대표값을 python3로 따로 계산. 3차 보충 절과 검증 표의 수치(17·21·19·14·20·10, 5/31, 0/31, 9/59, 5·4·3·2·1·0) 일치. docs/index.html 검증 문단의 “계산 검사 19개”가 실제 math.test.cjs 22개와 달라 고침</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>Playwright(Chromium, 포트 8785)로 #eval을 열어 묶음·n·문항 7가지 조합, 예제 세 개, 방향키(←← 로 n 13 → 11), 초기화(n 13·전체 묶음으로 복귀), 칩의 aria-label을 확인. 화면 값이 독립 계산과 모두 같음. 1280·390·320px에서 문서 가로 넘침 없음(scrollWidth = 폭), 입력 세 개 모두 라벨 있음, 콘솔 오류 0. 수정 뒤 <code>npm test</code> 30개 통과, <code>tests/browser.cjs</code> 42화면·51회 실험 확인 성공</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>n-gram·어절·오염(contamination)·헛경보·게이트 표기가 2장 shingles 설명, #final 게이트 서술과 일관됨. “어절 = 띄어쓰기 단위, 조사가 붙음” 정의가 맞음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음(일부 확인하지 못함)</td><td>출처 52의 서지(Brown et al. 2020, Language Models are Few-Shot Learners, arXiv 2005.14165)와 2.2절 인용은 확인. 장의 source 번호 [10, 36, 13, 52]가 원본 10강·Zheng 등·원본 13강·Brown 등을 가리킴을 node로 확인. 4절 인용은 아래 “확인하지 못한 것”</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#eval 상세 절 첫 문단 (js/content.js)</td><td>“마지막 장의 출시 게이트도 같은 생각에서 ‘13-gram 겹침이 0.1%를 넘으면 실패’를 둡니다”라고 써서, 원본 연습 문제의 기준을 이 책 출시 게이트의 규칙처럼, 그리고 GPT-3와 같은 동기로 만든 것처럼 읽힘</td><td>#final “plan · run · gate” 상자는 “원본의 연습 문제는 … 오염 게이트를 만들게 합니다”라고 씀. 원본 13강 en.md 연습 문제 2도 같은 내용이며 GPT-3를 근거로 들지 않음</td><td>“마지막 장에서 소개하는 원본 13강의 연습 문제도 ‘13-gram 겹침이 0.1%를 넘으면 실패’하는 오염 게이트를 만들게 합니다.”로 고침</td></tr>
+<tr><td>docs/index.html #verification</td><td>“계산 검사 19개”가 실제 개수와 다름(변경 전 21개, 변경 뒤 22개)</td><td><code>grep -c "^test(" tests/math.test.cjs</code> = 22</td><td>“계산 검사 22개”로 고침</td></tr>
+</tbody></table>
+<h3>고치지 않은 관찰</h3>
+<ul><li>공식 칸의 식은 집합 크기 |G_n(문항) ∩ G_n(학습 조각)| / |G_n(문항)|로 쓰였지만 코드는 자리별 조각 수(어절 수 − n + 1)를 셉니다. 한 문항 안에 같은 n-gram이 되풀이될 때만 달라지며, 이 실험의 문항(n ≥ 8)에는 되풀이가 없어 값이 같습니다.</li>
+<li>전체 묶음에서 n ≥ 11이면 그대로 복사한 문항 6이 검사 불가로 빠지는데, 놓침 수에는 들어가지 않고 그 경우 결과 읽기 문장도 놓친 바꿔 쓴 문항만 말합니다. 문항별 목록에 “– 검사 불가”가 보이고 공식 칸이 이를 설명하므로 오류로 보지 않았습니다. 다음 보충 때 결과 읽기에 한 문장을 더할 만합니다.</li></ul>
+<p>다온의 관점: 새 상세 절은 GPT-3가 한 일에서 시작하고, 예측 질문 뒤에 관찰할 것을 구체적인 문항 번호로 짚으며, 남는 질문(번역·뜻 바꿈)으로 끝납니다. 상투적 도입·맺음이나 습관적 세 항목 나열은 찾지 못했습니다. “확인할 것은 두 가지입니다”는 실제로 두 가지를 짚어 남겼습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul><li>GPT-3 논문 4절의 “13-gram 겹침 문항을 뺀 깨끗한 세트”와 “13-gram보다 짧으면 문항 전체가 겹치는지로 판단”은 확인하지 못함. arxiv.org·ar5iv·NeurIPS 사본은 이 세션의 네트워크에서 막혔고, Hugging Face 논문 본문은 3.9절 그림 3.17에서 끝나 4절과 부록 C가 없었습니다. 검수자가 기억하는 원문 내용과는 어긋나지 않지만 원문 대조로 적지 않습니다.</li>
+<li>실험의 n 범위 8~13이 GPT-3 부록 C의 데이터셋별 N 선택 범위와 관련 있는지(본문은 이를 주장하지 않음).</li>
+<li>실제 독자의 학습 효과(L4), 화면 낭독기로 읽는 경험.</li></ul>
+<p><b>G6 판정 (검수팀장 정민)</b>: 승인. facts는 fixed, numbers는 fixed, experiments·terms는 ok, sources는 ok(4절 인용 한 곳은 확인하지 못함으로 남김)입니다. 찾은 두 오류는 이 회차에서 고쳤고 열린 항목이 없으며, 검수자와 집필자가 다른 세션입니다. 4절 인용은 원문을 열 수 있는 환경에서 다음 회차에 다시 봅니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#sft 상세 절 “SFT 데이터는 어디서 오나: 사람·합성·증류”와 출처 49~51(Self-Instruct, Stanford Alpaca, Hinton 외 2015), #preference·#selfimprove 확인 문제 교체, index.html 자산 버전, tests/browser.cjs 테마 단추 이름" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 관점, 새 문장은 글작성팀 다온의 관점으로 한 번 더 읽음). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 커밋되지 않은 2차 보충 변경 — #sft 상세 절 “SFT 데이터는 어디서 오나: 사람·합성·증류”와 출처 49~51(Self-Instruct, Stanford Alpaca, Hinton 외 2015), #preference·#selfimprove 확인 문제 교체, index.html 자산 버전, tests/browser.cjs 테마 단추 이름. 이 검수자는 보충을 쓰지 않았습니다.</p>

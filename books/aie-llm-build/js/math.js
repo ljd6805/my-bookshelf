@@ -36,7 +36,9 @@ function tokenBytes(id,merges){if(id<256)return [id];const m=merges.find(x=>x.id
 function showBytes(bytes){const s=decodeStrict(bytes);return s!==null?s.replace(/ /g,'·'):'‹'+bytes.map(b=>b.toString(16).toUpperCase().padStart(2,'0')).join(' ')+'›';}
 
 /* ---------- 2장: MinHash 중복 탐지와 시퀀스 패킹 ---------- */
-function shingles(text,n=3){const w=text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/).filter(Boolean),out=new Set();for(let i=0;i+n<=w.length;i++)out.add(w.slice(i,i+n).join(' '));return out;}
+/* 소문자로 바꾸고 문장부호를 지운 뒤 공백으로 나눈 낱말(한국어는 어절) 목록 */
+const words=text=>text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ').split(/\s+/).filter(Boolean);
+function shingles(text,n=3){const w=words(text),out=new Set();for(let i=0;i+n<=w.length;i++)out.add(w.slice(i,i+n).join(' '));return out;}
 function jaccard(a,b){let inter=0;for(const x of a)if(b.has(x))inter++;const uni=a.size+b.size-inter;return uni?inter/uni:0;}
 /* FNV-1a 32비트 해시에 해시 함수 번호를 씨앗으로 섞는다. */
 function hash32(str,seed){let h=(2166136261^Math.imul(seed+1,16777619))>>>0;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}h^=h>>>13;h=Math.imul(h,0x5bd1e995)>>>0;h^=h>>>15;return h>>>0;}
@@ -131,6 +133,25 @@ function eloRun(trueR,K,games,seed){
  return {R,hist};
 }
 
+/* ---------- 9장: 평가 문항 오염 검사(어절 n-gram 겹침) ---------- */
+/* items=[{text,src}], train=[{id,text}]. 문항의 어절 n-gram 가운데 학습 조각 어디에든 있는 것의 비율을 센다.
+   n-gram이 하나라도 겹치면 오염 의심, 어절이 n개보다 적으면 검사 불가(flag null). 정답(truth)은 문항의 출처 조각이 묶음에 있는지다.
+   전체 겹침률 = 겹친 n-gram 합 ÷ 검사한 문항의 n-gram 합. gate(비율)를 넘으면 실패. */
+function contamination(items,train,n,gate=0.001){
+ if(!Number.isInteger(n)||n<1)return {error:'n은 1 이상의 정수여야 합니다.'};
+ const T=new Set(),ids=new Set(train.map(t=>t.id));for(const t of train)for(const g of shingles(t.text,n))T.add(g);
+ const rows=items.map(it=>{
+  const w=words(it.text),truth=!!it.src&&ids.has(it.src);
+  if(w.length<n)return {words:w.length,grams:0,hits:0,rate:null,flag:null,truth,cover:w.map(()=>false)};
+  const cover=w.map(()=>false);let hits=0;
+  for(let i=0;i+n<=w.length;i++)if(T.has(w.slice(i,i+n).join(' '))){hits++;for(let k=i;k<i+n;k++)cover[k]=true;}
+  const grams=w.length-n+1;return {words:w.length,grams,hits,rate:hits/grams,flag:hits>0,truth,cover};
+ });
+ const grams=rows.reduce((a,r)=>a+r.grams,0),hits=rows.reduce((a,r)=>a+r.hits,0),overall=grams?hits/grams:null;
+ return {rows,grams,hits,overall,gate,pass:overall===null?null:overall<=gate,
+  missed:rows.filter(r=>r.truth&&r.flag===false).length,falseAlarm:rows.filter(r=>!r.truth&&r.flag).length,unchecked:rows.filter(r=>r.flag===null).length};
+}
+
 /* ---------- 10장: 양자화 ---------- */
 /* 16행×64열 가중치(표준편차 0.02). 3번 행은 크기가 12배인 이상치 채널이다. */
 function demoWeights(seed=11){const r=rng(seed);return Array.from({length:16},(_,i)=>Array.from({length:64},()=>gauss(r)*0.02*(i===3?12:1)));}
@@ -197,14 +218,34 @@ const DATA={
   b:'지금 가입하면 첫 달 무료! 서재에 새 책이 들어왔습니다. 이번 책은 언어 모델을 처음부터 만드는 과정을 다룹니다. 토크나이저에서 시작해 데이터 정제와 사전학습을 거쳐 정렬과 서빙까지 이어집니다. 각 장에는 직접 조작하는 실험이 있고 확인 문제가 하나씩 붙어 있습니다. 서재봇은 독자의 질문에 맞는 장을 골라 안내합니다.',
   c:'오늘 저녁 메뉴는 김치찌개입니다. 돼지고기와 두부를 넣고 오래 끓이면 국물이 깊어집니다. 밥은 미리 지어 두고 반찬으로 계란말이를 곁들입니다. 설거지는 식사가 끝난 뒤 함께 합니다.'
  },
- lengths:[50,120,900,30,2600,410,75,1500,220,60,3300,180]
+ lengths:[50,120,900,30,2600,410,75,1500,220,60,3300,180],
+ /* 9장 오염 검사: 서재봇 평가 문항 6개와 SFT 학습 조각 6개(교육용으로 미리 정한 예시). src는 그 문항을 담은 조각이다. */
+ contam:{
+  items:[
+   {text:'확률 책에서 화재 경보가 울렸을 때 실제로 불이 났을 확률을 구하는 장은 몇 장이고, 실험에서는 무엇을 바꾸나요?',src:'c1',kind:'그대로 복사'},
+   {text:'선형대수 책을 처음 읽는 독자가 벡터의 내적을 손으로 계산해 볼 수 있는 실험을 추천하고, 그 실험이 있는 장의 제목을 알려 주세요.',src:'p1',kind:'조금 바꿔 씀'},
+   {text:'언어 모델 책의 사전학습 장 실험에서 학습률을 너무 크게 잡으면 손실 곡선이 어떻게 흔들리는지 설명하고, 적당한 값을 제안해 주세요.',src:'p2',kind:'많이 바꿔 씀'},
+   {text:'양자화 장에서 4비트로 줄인 서재봇이 8비트보다 얼마나 가벼워지고 어떤 행에서 오차가 커지는지 알려 주세요.',src:null,kind:'학습 데이터에 없음'},
+   {text:'광고 문장이 붙은 공지문을 거의 같은 글로 찾아내는 방법은 어느 책에 있나요? 책 제목과 장 번호를 함께 적어 답해 주세요.',src:null,kind:'흔한 끝맺음만 같음'},
+   {text:'서재봇이 추천한 장을 끝까지 읽는 데 보통 걸리는 시간은 얼마인가요?',src:'c2',kind:'짧은 문항 그대로 복사'}
+  ],
+  train:[
+   {id:'c1',kind:'copy',text:'사용자: 확률 책에서 화재 경보가 울렸을 때 실제로 불이 났을 확률을 구하는 장은 몇 장이고, 실험에서는 무엇을 바꾸나요? 서재봇: 베이즈 정리를 다루는 장에서 사전확률을 바꿔 보세요.'},
+   {id:'c2',kind:'copy',text:'사용자: 서재봇이 추천한 장을 끝까지 읽는 데 보통 걸리는 시간은 얼마인가요? 서재봇: 장마다 15분에서 20분쯤 걸립니다.'},
+   {id:'p1',kind:'para',text:'사용자: 선형대수 책을 처음 읽는 독자가 벡터의 내적을 손으로 계산해 볼 수 있는 연습을 골라 주고, 그 실험이 있는 장의 제목을 알려 주세요. 서재봇: 벡터를 다루는 장의 내적 실험을 권합니다.'},
+   {id:'p2',kind:'para',text:'사용자: 언어 모델 책의 사전학습 장 실험에서 학습률을 너무 크게 잡으면 손실이 어떻게 흔들리는지 말하고, 적당한 값을 제안해 주세요. 서재봇: 손실이 오르내리면 학습률을 줄여 보세요.'},
+   {id:'u1',kind:'other',text:'사용자: 오늘 새로 들어온 책 가운데 강화학습을 다루는 책을 골라 주세요. 책 제목과 장 번호를 함께 적어 답해 주세요. 서재봇: 강화학습 책의 첫 장부터 읽어 보세요.'},
+   {id:'u2',kind:'other',text:'사용자: 김치찌개를 맛있게 끓이는 방법을 알려 주세요. 서재봇: 저는 서재의 책과 실험을 안내합니다. 요리 질문은 다른 곳에 물어 주세요.'}
+  ],
+  sets:{all:['c1','c2','p1','p2','u1','u2'],nocopy:['p1','p2','u1','u2'],clean:['u1','u2']}
+ }
 };
 
 /* 확인 문제 보기 순서: 원래 번호 answer인 정답이 화면의 target번째 자리에 오도록 n개 보기를 돌린다.
    반환값은 화면 순서대로 늘어놓은 원래 번호다. 정답 판정은 원래 번호로 하므로 데이터는 바뀌지 않는다. */
 function order(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
 
-const A11Math={order,DATA,rng,gauss,sigmoid,softplus,utf8,chunks,bpeTrain,bpeEncode,tokenBytes,showBytes,shingles,jaccard,hash32,minhashSig,minhashEstimate,lshProb,packing,
+const A11Math={order,DATA,rng,gauss,sigmoid,softplus,utf8,chunks,bpeTrain,bpeEncode,tokenBytes,showBytes,words,shingles,contamination,jaccard,hash32,minhashSig,minhashEstimate,lshProb,packing,
  bigramData,bigramTrain,bigramLoss,bigramFloor,bigramGreedy,CH,chinchillaLoss,trainFlops,chinchillaOptimal,trainMemory,minGpus,activationLayer,checkpointPlan,gpipeSchedule,
  RESP,sftLoss,dpo,bradleyTerry,groupAdvantages,grpoGroup,grpoZeroSignal,grpoEmpirical,eloExpected,eloRun,demoWeights,quantize,weightGB,specDecode,specBestN,hogwild,
  MODELS,modelParams,kvPerToken,nsaKeys,diffAttention,STAGES,EDGES,rollback,budget};

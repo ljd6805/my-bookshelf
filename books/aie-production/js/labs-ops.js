@@ -53,6 +53,21 @@ L.canary=el=>{
  });
 };
 
+L.abpower=el=>{
+ U.setup(el,U.range('abp','기준 만족률 p (0.05~0.95)',0.05,0.95,0.01,0.6)+U.range('abdelta','최소 검출 차이 δ (%p, 0.5~10)',0.5,10,0.5,3)
+  +U.select('abalpha','유의수준 α (양측)',[[0.01,'0.01'],[0.05,'0.05'],[0.1,'0.10']],0.05)+U.select('abpow','검정력 1 − β',[[0.8,'80%'],[0.9,'90%']],0.8)
+  +U.range('abdaily','하루 요청 (건, 1만~20만)',10000,200000,10000,50000)+U.range('abfeed','피드백 비율 (가정, 0.01~0.5)',0.01,0.5,0.01,0.05)
+  +U.range('abrho','CUPED 상관 ρ (0~0.9)',0,0.9,0.05,0));
+ U.bind(el,()=>{
+  const o={p:U.value(el,'abp'),delta:U.value(el,'abdelta')/100,alpha:U.value(el,'abalpha'),power:U.value(el,'abpow'),daily:U.value(el,'abdaily'),feedback:U.value(el,'abfeed'),rho:U.value(el,'abrho')},r=M.abSample(o);
+  if(!r.valid){U.result(el,'<p class="caption">계산할 수 없어 그래프를 비웠습니다.</p>',`<b>계산할 수 없습니다.</b> 새 버전의 만족률 p + δ = ${pct(o.p+o.delta,1)}가 100%에 닿거나 넘습니다. 비율은 100%를 넘을 수 없으므로 기준 만족률을 낮추거나 δ를 줄이세요.`);return;}
+  const days=[r.days,r.daysCuped],chart=`<p class="caption">50:50으로 나눌 때 필요한 날 수 · 점선은 7일</p>`+U.bars(['CUPED 없이',`CUPED 뒤 (ρ ${U.fmt(o.rho,2)})`],days,'일',7,1);
+  const week=r.days<=7?`일주일 안에 끝납니다.`:(r.daysCuped<=7?`CUPED 없이는 일주일을 넘기지만 CUPED로 일주일 안에 들어옵니다.`:`일주일을 넘깁니다. δ를 키우거나, 피드백을 더 모으거나, CUPED 상관을 높여야 줄어듭니다.`);
+  const cu=o.rho>0?`ρ ${U.fmt(o.rho,2)}이면 분산이 (1 − ρ²) = ${pct(r.saved,0)}로 줄어 집단당 <b>${U.fmt(r.nCuped,0)}명</b>, <b>${U.fmt(r.daysCuped,1)}일</b>입니다.`:'CUPED 상관이 0이면 표본은 줄지 않습니다.';
+  U.result(el,chart,`집단당 필요한 표본 <b>${U.fmt(r.n,0)}명</b> · 하루 집단당 ${U.fmt(r.perDay,0)}명 · 필요한 기간 <b>${U.fmt(r.days,1)}일</b> (날짜로 세면 ${r.wholeDays}일)<br>만족률 ${pct(o.p,0)}에서 ${pct(r.p2,1)}로 나아진 것을 알아채려는 계산입니다(z ${U.fmt(r.zA,3)} + ${U.fmt(r.zB,3)}). ${cu} ${week}<br>실제 계산입니다(두 비율 양측 검정의 정규 근사, p₂ = p + δ). 피드백 비율과 CUPED 상관은 교육용 가정이고, 원본이 권한 비결정성 여유(1.3~1.5배)와 여러 번 들여다보는 순차 검정의 보정은 넣지 않았습니다.`);
+ });
+};
+
 L.burnrate=el=>{
  U.setup(el,U.select('blast','영향 범위 (트래픽 비율)',[[0.01,'1%'],[0.05,'5%'],[0.2,'20%'],[1,'100%']],0.05)+U.range('inj','주입한 오류율',0,1,0.05,0.2));
  U.bind(el,()=>{
