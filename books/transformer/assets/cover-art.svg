@@ -1,0 +1,18 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="토큰 줄 목록 곰 꿀 숲 곰 위로 두 층의 헤드 격자가 놓이고, 마지막 곰에서 앞의 곰으로 이어진 어텐션 선이 꿀을 다음 낱말로 내놓는 토리의 회로 그림" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="8" y="18">1층 헤드</text>
+<rect class="cv-tint" x="62" y="8" width="36" height="16" rx="3"/><rect class="cv-tint" x="102" y="8" width="36" height="16" rx="3"/><rect class="cv-tint" x="142" y="8" width="36" height="16" rx="3"/><rect class="cv-fill" x="182" y="8" width="36" height="16" rx="3"/><text class="cv-text cv-inverse" x="188" y="20">유도</text>
+<text class="cv-text cv-muted" x="8" y="46">0층 헤드</text>
+<rect class="cv-tint" x="62" y="36" width="36" height="16" rx="3"/><rect class="cv-tint" x="102" y="36" width="36" height="16" rx="3"/><rect class="cv-fill" x="142" y="36" width="36" height="16" rx="3"/><text class="cv-text cv-inverse" x="148" y="48">이전</text><rect class="cv-tint" x="182" y="36" width="36" height="16" rx="3"/>
+<path class="cv-hair" d="M8 62H312"/>
+<path class="cv-stroke" d="M246 96Q160 60 74 96"/>
+<path class="cv-line cv-dash" d="M86 112Q100 124 112 112"/>
+<rect class="cv-node" x="8" y="96" width="44" height="28" rx="5"/><text class="cv-text" x="16" y="114">목록</text>
+<rect class="cv-node" x="56" y="96" width="36" height="28" rx="5"/><text class="cv-text" x="66" y="114">곰</text>
+<rect class="cv-fill" x="96" y="96" width="36" height="28" rx="5"/><text class="cv-text cv-inverse" x="106" y="114">꿀</text>
+<rect class="cv-node" x="136" y="96" width="36" height="28" rx="5"/><text class="cv-text" x="146" y="114">숲</text>
+<rect class="cv-node" x="176" y="96" width="44" height="28" rx="5"/><text class="cv-text" x="184" y="114">토끼</text>
+<rect class="cv-node" x="228" y="96" width="36" height="28" rx="5"/><text class="cv-text cv-bold" x="238" y="114">곰</text>
+<path class="cv-line" d="M264 110H276"/>
+<rect class="cv-node" x="276" y="92" width="38" height="36" rx="6"/><text class="cv-text cv-bold" x="286" y="110">꿀</text><text class="cv-text cv-muted" x="282" y="122">다음</text>
+<text class="cv-text cv-muted" x="8" y="144">예측 · 어텐션 · 회로 · 패칭 · 학습</text>
+</svg>

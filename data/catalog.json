@@ -169,6 +169,72 @@
       "cover_meta": "12장 · 14개 실험"
     },
     {
+      "id": "transformer-inside",
+      "title": "트랜스포머 속을 열어 보기 · 학습된 작은 모델의 회로를 추적하다",
+      "spine_title": "트랜스포머 속",
+      "spine_category": "인공지능",
+      "color": "sage",
+      "description": "브라우저에서 직접 돌아가는 학습된 2층 트랜스포머 ‘토리’를 열어 봅니다. 다음 낱말 확률, 임베딩, 어텐션의 질문·열쇠·값과 인과 마스크, 헤드, 잔차 스트림, 유도 헤드, MLP 뉴런, 활성 패칭, 학습 중 회로가 생기는 순간과 중첩까지 14개 장과 14개 실험으로 추적합니다.",
+      "illustration": "books/transformer/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 마지막 ‘곰’에서 어텐션 호가 앞의 ‘곰’으로 뻗고, 그 다음 칸의 ‘꿀’이 빈칸으로 옮겨 갑니다. 실제 어텐션 값과 확률은 책 안의 실험이 학습된 가중치로 계산합니다.",
+      "cover_art": "books/transformer/assets/cover-art.svg",
+      "cover_meta": "14장 · 14개 실험",
+      "status": "published",
+      "url": "books/transformer/",
+      "keywords": [
+        "트랜스포머",
+        "transformer",
+        "어텐션",
+        "attention",
+        "셀프 어텐션",
+        "Query Key Value",
+        "QKV",
+        "인과 마스크",
+        "causal mask",
+        "멀티헤드",
+        "multi-head",
+        "잔차 스트림",
+        "residual stream",
+        "로짓 렌즈",
+        "logit lens",
+        "유도 헤드",
+        "induction head",
+        "MLP",
+        "뉴런",
+        "활성 패칭",
+        "activation patching",
+        "기계적 해석",
+        "mechanistic interpretability",
+        "중첩",
+        "superposition",
+        "임베딩",
+        "소프트맥스"
+      ],
+      "chapters": [
+        {
+          "title": "전체 14개 장",
+          "url": "books/transformer/#chapters"
+        },
+        {
+          "title": "03 · 부드럽게 찾는 사전: 어텐션의 출발",
+          "url": "books/transformer/#lookup"
+        },
+        {
+          "title": "09 · 앞에서 본 것을 이어 쓰기: 유도 헤드",
+          "url": "books/transformer/#induction"
+        },
+        {
+          "title": "11 · 지우고 바꿔 끼워 원인 찾기",
+          "url": "books/transformer/#patch"
+        },
+        {
+          "title": "마지막 과제 · 토리는 어떻게 세는가",
+          "url": "books/transformer/#final"
+        }
+      ],
+      "short_title": "트랜스포머 속"
+    },
+    {
       "id": "how-computers-work",
       "title": "컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지",
       "spine_title": "컴퓨터 원리",
@@ -2490,6 +2556,78 @@
           "record": "고른 다섯 손잡이 값, 다섯 줄의 계산값과 목표, 가장 의심스러운 가정과 그것을 다시 잴 기록 이름"
         }
       ]
+    },
+    {
+      "id": "inside-transformer",
+      "title": "트랜스포머는 안에서 무엇을 계산할까",
+      "question": "챗봇이 앞에서 나온 이름을 정확히 다시 쓸 때, 모델 안의 어떤 부품이 그 일을 할까?",
+      "audience": "어텐션 그림은 봤지만 학습된 모델 안에서 실제로 무슨 계산이 일어나는지 직접 확인하고 싶은 독자",
+      "prerequisites": "벡터의 내적과 확률 분포의 뜻",
+      "start": "긴 대화에서 앞에 한 번 나온 낯선 이름을 모델이 철자까지 그대로 이어 썼다.",
+      "steps": [
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#similarity",
+          "task": "거리 순위와 코사인 유사도 순위를 비교한다",
+          "minutes": 14,
+          "why": "어텐션 점수는 질문과 열쇠의 내적이라 방향이 닮을수록 커진다",
+          "record": "거리 1위와 코사인 1위가 다른 노래"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#attention",
+          "task": "Query를 바꾸며 가중치가 어느 Key로 몰리는지 본다",
+          "minutes": 12,
+          "why": "직관으로 어텐션 가중치를 먼저 만나 두면 학습된 모델의 숫자를 읽기 쉽다",
+          "record": "Query [3, 3]에서 가장 큰 가중치를 받은 Key"
+        },
+        {
+          "book_id": "transformer-inside",
+          "url": "books/transformer/#qkv",
+          "task": "토리의 실제 질문·열쇠 점수를 풀어 보고 √8로 나누기를 켜고 끈다",
+          "minutes": 15,
+          "why": "교육용 모형이 아닌 학습된 가중치에서 점수 → 소프트맥스 → 가중합을 직접 확인한다",
+          "record": "두 번째 목록의 7번 위치에서 1층 헤드 1이 3번 칸에 주는 가중치(나눌 때와 안 나눌 때)"
+        },
+        {
+          "book_id": "transformer-inside",
+          "url": "books/transformer/#multihead",
+          "task": "반복 목록에서 헤드 여덟 개의 이전 칸 점수와 유도 점수를 비교한다",
+          "minutes": 15,
+          "why": "헤드마다 맡는 관계가 다르다는 것을 숫자로 본다",
+          "record": "이전 칸 점수가 가장 높은 헤드와 유도 점수가 가장 높은 헤드"
+        },
+        {
+          "book_id": "transformer-inside",
+          "url": "books/transformer/#induction",
+          "task": "반복 목록에서 헤드를 하나씩 지우며 두 번째 구간의 손실을 잰다",
+          "minutes": 18,
+          "why": "이전 칸 헤드와 유도 헤드가 이어져야 앞에서 본 것을 이어 쓸 수 있다",
+          "record": "0층 헤드 2를 지웠을 때와 1층 헤드 1을 지웠을 때의 두 번째 구간 손실"
+        },
+        {
+          "book_id": "transformer-inside",
+          "url": "books/transformer/#patch",
+          "task": "“곰 먹이”와 “토끼 먹이”로 부품 하나씩 바꿔 끼워 회복률을 잰다",
+          "minutes": 18,
+          "why": "지우기는 거친 도구라서, 바꿔 끼우기로 어느 부품이 답의 차이를 나르는지 가른다",
+          "record": "회복률이 가장 높은 부품 두 개"
+        },
+        {
+          "book_id": "aie-08-transformer",
+          "url": "books/aie-transformer/#multihead",
+          "task": "d_model을 고정하고 헤드 수를 바꿀 때 d_head와 파라미터가 어떻게 되는지 계산한다",
+          "minutes": 12,
+          "why": "작은 모델에서 본 헤드의 역할을 큰 모델의 설계 숫자로 옮겨 본다",
+          "record": "d_model 1024에서 헤드 8개와 16개의 d_head"
+        }
+      ],
+      "challenge": "큰 언어 모델이 긴 문서 속 사람 이름을 정확히 다시 쓰는 일을 이전 칸 헤드와 유도 헤드로 설명하고, 그 설명이 맞는지 확인하려면 어떤 부품을 지우거나 바꿔 끼워야 하는지 실험 하나를 설계한다.",
+      "checks": [
+        "어텐션 점수가 질문과 열쇠의 내적이며 √d로 나누는 이유를 말할 수 있는가",
+        "유도 헤드가 혼자서는 이어 쓰지 못하는 이유를 이전 칸 헤드와 함께 설명할 수 있는가",
+        "지우기와 바꿔 끼우기가 각각 무엇을 알려 주는지 구분할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -2944,7 +3082,21 @@
     "books/knowledge-graph/#query": "06 · 그래프에 질문하기",
     "books/knowledge-graph/#extraction": "07 · 글에서 트리플 뽑기",
     "books/knowledge-graph/#embedding": "08 · 관계를 벡터로 옮기기",
-    "books/knowledge-graph/#graphrag": "09 · 그래프와 언어 모델을 함께"
+    "books/knowledge-graph/#graphrag": "09 · 그래프와 언어 모델을 함께",
+    "books/transformer/#predict": "01 · 다음 낱말 하나를 고르는 기계",
+    "books/transformer/#embed": "02 · 낱말이 벡터가 될 때",
+    "books/transformer/#lookup": "03 · 부드럽게 찾는 사전: 어텐션의 출발",
+    "books/transformer/#qkv": "04 · 질문·열쇠·값과 √d로 나누기",
+    "books/transformer/#mask": "05 · 미래를 가리는 인과 마스크",
+    "books/transformer/#multihead": "06 · 헤드 여덟 개가 나눠 보는 것",
+    "books/transformer/#stream": "07 · 잔차 스트림과 로짓 렌즈",
+    "books/transformer/#qkov": "08 · 어디를 볼지와 무엇을 옮길지",
+    "books/transformer/#induction": "09 · 앞에서 본 것을 이어 쓰기: 유도 헤드",
+    "books/transformer/#mlp": "10 · MLP는 사실을 꺼낸다",
+    "books/transformer/#patch": "11 · 지우고 바꿔 끼워 원인 찾기",
+    "books/transformer/#training": "12 · 학습하는 동안 회로가 생기는 순간",
+    "books/transformer/#limits": "13 · 뉴런 하나에 뜻 하나가 아니다: 중첩",
+    "books/transformer/#final": "마지막 · 토리는 어떻게 세는가"
   },
   "concepts": [
     {
@@ -3006,7 +3158,9 @@
         "books/llm-gpu/#transformer",
         "books/rag/#hybrid",
         "books/aie-vision/#pixels",
-        "books/aie-transformer/#selfattn"
+        "books/aie-transformer/#selfattn",
+        "books/transformer/#lookup",
+        "books/transformer/#qkv"
       ]
     },
     {
@@ -3034,7 +3188,9 @@
         "books/aie-generative/#eval",
         "books/aie-multimodal/#clip",
         "books/probability/#correlation",
-        "books/knowledge-graph/#embedding"
+        "books/knowledge-graph/#embedding",
+        "books/transformer/#embed",
+        "books/transformer/#stream"
       ]
     },
     {
@@ -3056,7 +3212,9 @@
         "books/aie-math/#tensor",
         "books/aie-deep/#forward",
         "books/aie-transformer/#block",
-        "books/aie-transformer/#position"
+        "books/aie-transformer/#position",
+        "books/transformer/#qkov",
+        "books/transformer/#mlp"
       ]
     },
     {
@@ -3096,7 +3254,9 @@
         "books/ai/#embeddings",
         "books/aie-math/#svd",
         "books/aie-nlp/#topics",
-        "books/aie-generative/#vae"
+        "books/aie-generative/#vae",
+        "books/transformer/#embed",
+        "books/transformer/#limits"
       ]
     },
     {
@@ -3119,7 +3279,8 @@
         "books/aie-generative/#var",
         "books/aie-rl/#games",
         "books/aie-llm-build/#selfimprove",
-        "books/aie-llm-apps/#prompt"
+        "books/aie-llm-apps/#prompt",
+        "books/transformer/#predict"
       ]
     },
     {
@@ -3151,7 +3312,9 @@
         "books/aie-generative/#vae",
         "books/aie-rl/#rlhf",
         "books/aie-llm-build/#pretrain",
-        "books/aie-llm-build/#sft"
+        "books/aie-llm-build/#sft",
+        "books/transformer/#predict",
+        "books/transformer/#training"
       ]
     },
     {
@@ -3317,7 +3480,10 @@
         "books/aie-llm-apps/#cache",
         "books/aie-multimodal/#bridge",
         "books/aie-production/#engine",
-        "books/aie-production/#speculative"
+        "books/aie-production/#speculative",
+        "books/transformer/#qkv",
+        "books/transformer/#mask",
+        "books/transformer/#multihead"
       ]
     },
     {
@@ -3367,7 +3533,8 @@
         "books/aie-deep/#backprop",
         "books/aie-deep/#activation",
         "books/aie-deep/#debug",
-        "books/aie-rl/#pg"
+        "books/aie-rl/#pg",
+        "books/transformer/#training"
       ]
     },
     {
@@ -3444,6 +3611,26 @@
         "books/computer/#gates",
         "books/knowledge-graph/#ontology",
         "books/knowledge-graph/#reasoning"
+      ]
+    },
+    {
+      "id": "model-internals",
+      "name": "모델 속 들여다보기",
+      "aliases": [
+        "interpretability",
+        "mechanistic interpretability",
+        "probing",
+        "ablation",
+        "activation patching"
+      ],
+      "summary": "학습된 모델의 부품을 지우고 바꿔 끼우며 어떤 계산이 답을 만드는지 원인을 찾는다",
+      "chapters": [
+        "books/transformer/#stream",
+        "books/transformer/#induction",
+        "books/transformer/#patch",
+        "books/transformer/#limits",
+        "books/aie-deep/#debug",
+        "books/aie-safety/#deception"
       ]
     }
   ]
