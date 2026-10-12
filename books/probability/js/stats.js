@@ -138,7 +138,31 @@
     return { falseAlarm, missed, total: falseAlarm + missed };
   }
 
+  /* 9장: 표준정규 난수(Box–Muller). 같은 씨앗의 random이면 같은 값이 나온다. */
+  function normalSample(random) {
+    const u = 1 - random(), v = random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
+  /* 두 벡터의 코사인. 한쪽 길이가 0이면 방향이 없으므로 NaN이다. */
+  function cosine(a, b) {
+    if (a.length !== b.length) throw new RangeError('두 벡터의 길이가 같아야 합니다');
+    let dot = 0, aa = 0, bb = 0;
+    for (let i = 0; i < a.length; i += 1) { dot += a[i] * b[i]; aa += a[i] * a[i]; bb += b[i] * b[i]; }
+    return aa && bb ? dot / Math.sqrt(aa * bb) : NaN;
+  }
+
+  /* 피어슨 상관계수 r = 평균을 뺀(중심화한) 두 벡터의 코사인. 값이 2개 미만이거나 한쪽이 일정하면 NaN이다. */
+  function pearson(xs, ys) {
+    if (xs.length !== ys.length) throw new RangeError('두 변수의 개수가 같아야 합니다');
+    if (xs.length < 2) return NaN;
+    const mx = mean(xs), my = mean(ys);
+    const r = cosine(xs.map((x) => x - mx), ys.map((y) => y - my));
+    return Number.isNaN(r) ? r : Math.max(-1, Math.min(1, r));
+  }
+
   return {
+    normalSample, cosine, pearson,
     zScore, normalCoverage, twoSidedTail, expectedCost,
     rng, sum, mean, variance, sd, median, flips, runningProportion,
     binomialPmf, binomialDistribution, binomialUpper, binomialLower, binomialSample,

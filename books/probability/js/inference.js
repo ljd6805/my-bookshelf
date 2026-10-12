@@ -134,6 +134,44 @@
     return { best, gap, inside: gap <= threshold };
   }
 
-  return { POPULATIONS, population, sampleMean, histogram, capTail, frequencies, shareWithin, bayes, wilson, intervalCovers,
+  /* 9장 가상 데이터: 한빛 공장 모터 20대의 하루 기록. 부하(가동률)가 진동과 온도를 함께 올리고,
+     온도는 진동에 아무 영향도 주지 않는다. 단위: 진동 mm/s(RMS 속도), 온도 °C, 부하 0~1.
+     randomized이면 온도를 부하와 상관없이 무작위 단계로 맞춘다(이상적인 개입). */
+  const LOAD_LEVELS = [{ id: 'low', label: '부하 낮음', load: 0.4 }, { id: 'mid', label: '부하 보통', load: 0.7 }, { id: 'high', label: '부하 높음', load: 1.0 }];
+  const SENSOR_MODEL = { motors: 20, vibBase: 3.0, vibPerLoad: 4, vibNoise: 0.6, tempBase: 45, tempPerLoad: 30, tempNoise: 3, loadMean: 0.7, seed: 112 };
+
+  function sensorDays({ strength, days, randomized = false, seed = SENSOR_MODEL.seed }) {
+    S.assertProbability(strength, '교란 강도');
+    S.assertCount(days, '일수');
+    const M = SENSOR_MODEL, random = S.rng(seed), rows = [];
+    for (let motor = 1; motor <= M.motors; motor += 1) {
+      for (let day = 1; day <= days; day += 1) {
+        const level = Math.floor(random() * 3), set = Math.floor(random() * 3);
+        const zv = S.normalSample(random), zt = S.normalSample(random);
+        const load = LOAD_LEVELS[level].load, heat = LOAD_LEVELS[randomized ? set : level].load;
+        const vib = Math.max(0.1, M.vibBase + M.vibPerLoad * strength * (load - M.loadMean) + M.vibNoise * zv);
+        const temp = M.tempBase + M.tempPerLoad * strength * (heat - M.loadMean) + M.tempNoise * zt;
+        rows.push({ motor, day, level, load, temp, vib });
+      }
+    }
+    return rows;
+  }
+
+  /* 모델에서 기대하는 r(관찰 기록): 공분산 a·b·c²·Var(부하)를 두 표준편차로 나눈다. 부하 단계 안에서는 0이다. */
+  function correlationTheory(strength) {
+    const M = SENSOR_MODEL, varLoad = 0.06, a = M.vibPerLoad * strength, b = M.tempPerLoad * strength;
+    const cov = a * b * varLoad, sv = Math.sqrt(a * a * varLoad + M.vibNoise ** 2), st = Math.sqrt(b * b * varLoad + M.tempNoise ** 2);
+    return cov / (sv * st);
+  }
+
+  /* 전체 r과 부하 단계별 r. 단계에 기록이 2개 미만이면 그 단계의 r은 NaN이다. */
+  function correlationSummary(rows) {
+    const r = (list) => S.pearson(list.map((d) => d.temp), list.map((d) => d.vib));
+    const groups = LOAD_LEVELS.map((lv, i) => { const list = rows.filter((d) => d.level === i); return { ...lv, n: list.length, r: r(list) }; });
+    return { n: rows.length, r: r(rows), groups };
+  }
+
+  return { LOAD_LEVELS, SENSOR_MODEL, sensorDays, correlationTheory, correlationSummary,
+    POPULATIONS, population, sampleMean, histogram, capTail, frequencies, shareWithin, bayes, wilson, intervalCovers,
     lowerTailTest, rejectionRate, logLikelihood, crossEntropy, mle, LR95, likelihoodRegion };
 });

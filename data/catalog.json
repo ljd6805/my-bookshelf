@@ -10,11 +10,11 @@
       "spine_title": "AI 원리 실험",
       "spine_category": "인공지능",
       "color": "aqua",
-      "description": "신경망의 기초부터 언어 모델, RAG와 에이전트까지. 12개 챕터와 19개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.",
+      "description": "신경망의 기초부터 언어 모델, RAG와 에이전트, 현장 점검 도우미 설계까지. 13개 챕터와 21개 인터랙티브 실험으로 AI의 원리를 직접 확인합니다.",
       "illustration": "books/ai/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 입력 신호가 층을 건너며 출력 확률로 바뀝니다. 실제 계산 결과가 아닙니다.",
       "cover_art": "books/ai/assets/cover-art.svg",
-      "cover_meta": "12장 · 19개 실험",
+      "cover_meta": "13장 · 21개 실험",
       "status": "published",
       "url": "books/ai/",
       "keywords": [
@@ -45,6 +45,10 @@
         {
           "title": "12 · 도구를 쓰고 결과를 확인하기",
           "url": "books/ai/#agents"
+        },
+        {
+          "title": "13 · 현장 점검 도우미 설계하기",
+          "url": "books/ai/#final"
         }
       ],
       "short_title": "AI Book"
@@ -274,11 +278,11 @@
       "spine_title": "확률과 통계",
       "spine_category": "수학",
       "color": "sage",
-      "description": "공장 진동 센서의 경보 하나를 따라가며 확률, 분포, 베이즈, 신뢰구간, 가설검정, 우도를 배웁니다. 8개 장과 8개 실험, 마지막 판단 과제로 불확실한 숫자를 믿을 만한 결론으로 바꾸는 법을 익힙니다.",
+      "description": "공장 진동 센서의 경보 하나를 따라가며 확률, 분포, 베이즈, 신뢰구간, 가설검정, 우도, 상관과 인과를 배웁니다. 9개 장과 9개 실험, 마지막 판단 과제로 불확실한 숫자를 믿을 만한 결론으로 바꾸는 법을 익힙니다.",
       "illustration": "books/probability/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 센서 20대가 각각 10% 확률로 경보를 울릴 때 하루 경보 개수를 모으면 2번 근처가 가장 높고, 5번 이상은 약 4%입니다.",
       "cover_art": "books/probability/assets/cover-art.svg",
-      "cover_meta": "8장 · 8개 실험",
+      "cover_meta": "9장 · 9개 실험",
       "status": "published",
       "url": "books/probability/",
       "keywords": [
@@ -316,6 +320,10 @@
         {
           "title": "08 · 데이터에 가장 잘 맞는 확률 찾기",
           "url": "books/probability/#likelihood"
+        },
+        {
+          "title": "09 · 진동과 온도는 함께 움직일까: 상관과 인과",
+          "url": "books/probability/#correlation"
         },
         {
           "title": "마지막 과제 · 새 센서를 들일까",
@@ -1760,6 +1768,14 @@
           "minutes": 12,
           "why": "표본의 흔들림을 외워 버리면 새 데이터에서 틀린다",
           "record": "검증 오차가 가장 작은 복잡도"
+        },
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#correlation",
+          "task": "부하 단계로 나눠 보기와 온도를 무작위로 정하기 예제로 전체 r 0.79가 0 근처로 떨어지는 것을 확인한다",
+          "minutes": 20,
+          "why": "모델이 찾은 관계도 교란 변수가 만든 겉보기 상관일 수 있다",
+          "record": "전체 r, 부하 단계별 r 세 개, 무작위 실험의 r"
         }
       ],
       "challenge": "두 모델의 검증 정확도가 91%와 93%이고 검증 데이터는 200개다. 어느 모델을 고를지, 그리고 결론을 내리려면 무엇이 더 필요한지 설명한다.",
@@ -1944,6 +1960,14 @@
           "minutes": 18,
           "why": "추론 입문에서 어림한 용량을 동시 요청과 실행 여유까지 포함한 예산으로 확장한다",
           "record": "가정한 실행 조건, 항목별 GiB, 용량을 맞추기 위해 바꾼 조건과 실측할 지표"
+        },
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#final",
+          "task": "모델 크기·정밀도·매뉴얼 조각 수를 바꾸며 16 GiB 노트북의 메모리·응답 시간·근거 적중률 예산표를 맞춘다",
+          "minutes": 20,
+          "why": "앞에서 따로 잰 가중치·KV·대역폭을 한 설계 안에서 함께 저울질한다",
+          "record": "적중 100%를 지키며 20초 안에 드는 가장 큰 k와 14B가 막히는 항목"
         }
       ],
       "challenge": "16GB 노트북에 70억 파라미터 모델을 올릴 때 4비트와 8비트 중 무엇을 고를지, 문맥 길이를 늘리면 무엇이 부족해지는지, 메모리 계산 말고 어떤 증거를 더 확인해야 하는지 설명한다.",
@@ -2819,7 +2843,9 @@
     "books/aie-capstone/#multimodal": "09 · 그림과 소리를 토큰 예산에 넣기",
     "books/aie-capstone/#evals": "10 · 두 버전 중 무엇이 나은지 판정하기",
     "books/aie-capstone/#safety": "11 · 막을 것과 지나갈 것 사이의 문턱",
-    "books/aie-capstone/#final": "마지막 · 출시 사양표를 한 장으로 맞추기"
+    "books/aie-capstone/#final": "마지막 · 출시 사양표를 한 장으로 맞추기",
+    "books/ai/#final": "13 · 현장 점검 도우미 설계하기",
+    "books/probability/#correlation": "09 · 진동과 온도는 함께 움직일까: 상관과 인과"
   },
   "concepts": [
     {
@@ -2906,7 +2932,8 @@
         "books/aie-nlp/#vectors",
         "books/aie-audio/#speaker",
         "books/aie-generative/#eval",
-        "books/aie-multimodal/#clip"
+        "books/aie-multimodal/#clip",
+        "books/probability/#correlation"
       ]
     },
     {
@@ -2949,7 +2976,8 @@
         "books/aie-deep/#init",
         "books/aie-generative/#ddpm",
         "books/aie-rl/#mc",
-        "books/aie-rl/#pg"
+        "books/aie-rl/#pg",
+        "books/probability/#correlation"
       ]
     },
     {
@@ -3096,7 +3124,8 @@
         "books/aie-production/#incident",
         "books/aie-safety/#guard",
         "books/aie-safety/#fairness",
-        "books/aie-capstone/#safety"
+        "books/aie-capstone/#safety",
+        "books/ai/#final"
       ]
     },
     {
@@ -3154,7 +3183,8 @@
         "books/aie-agents/#memory",
         "books/aie-production/#precision",
         "books/aie-production/#locality",
-        "books/aie-capstone/#scale"
+        "books/aie-capstone/#scale",
+        "books/ai/#final"
       ]
     },
     {
@@ -3210,7 +3240,8 @@
         "books/aie-multimodal/#docs",
         "books/aie-agents/#memory",
         "books/aie-safety/#injection",
-        "books/aie-capstone/#rag"
+        "books/aie-capstone/#rag",
+        "books/ai/#final"
       ]
     },
     {

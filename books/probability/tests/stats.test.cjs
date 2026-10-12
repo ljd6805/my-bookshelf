@@ -193,3 +193,58 @@ test('expected cost per motor-day for the final decision (가정값)', () => {
   assert.equal(S.expectedCost({ prevalence: 0, sensitivity: 0, falseAlarmRate: 0, falseAlarmCost: 5, missCost: 500 }).total, 0);
   assert.throws(() => cost(1.2, 0.1), RangeError);
 });
+
+test('9장: pearson r on hand values, bounds and invariants', () => {
+  const T = [40, 42, 45, 48, 50], V = [2.1, 2.4, 2.6, 3.0, 3.1];
+  near(S.pearson(T, V), 6.8 / Math.sqrt(68 * 0.692), 1e-12);
+  near(S.pearson(T, V), 0.9913, 1e-4);
+  // 단위를 바꿔도(°C → °F), 순서를 바꿔도 같다. 한쪽 부호를 뒤집으면 r도 뒤집힌다.
+  near(S.pearson(T.map((t) => t * 1.8 + 32), V), S.pearson(T, V), 1e-12);
+  near(S.pearson(V, T), S.pearson(T, V), 1e-12);
+  near(S.pearson(T.map((t) => -t), V), -S.pearson(T, V), 1e-12);
+  // 직선 위의 점은 ±1, 곡선(U자) 관계는 원인이 분명해도 0
+  assert.equal(S.pearson([1, 2, 3], [2, 4, 6]), 1);
+  assert.equal(S.pearson([1, 2, 3], [3, 2, 1]), -1);
+  near(S.pearson([-2, -1, 0, 1, 2], [4, 1, 0, 1, 4]), 0, 1e-12);
+  // r = 중심화한 두 벡터의 코사인
+  const c = (xs) => xs.map((x) => x - S.mean(xs));
+  near(S.pearson(T, V), S.cosine(c(T), c(V)), 1e-12);
+  // 경계: 값이 하나뿐이거나 한쪽이 일정하면 계산할 수 없다
+  assert.ok(Number.isNaN(S.pearson([1], [2])));
+  assert.ok(Number.isNaN(S.pearson([1, 1, 1], [1, 2, 3])));
+  assert.throws(() => S.pearson([1, 2], [1]), RangeError);
+});
+
+test('9장: seeded normal samples have mean 0 and sd 1', () => {
+  const r = S.rng(3), xs = Array.from({ length: 20000 }, () => S.normalSample(r));
+  assert.ok(Math.abs(S.mean(xs)) < 0.03);
+  assert.ok(Math.abs(S.sd(xs) - 1) < 0.03);
+});
+
+test('9장: confounded sensor data — overall r near theory, r within load levels near 0', () => {
+  near(I.correlationTheory(1), 7.2 / Math.sqrt(1.32 * 63), 1e-12); // ≈ 0.7895
+  near(I.correlationTheory(0.5), 1.8 / Math.sqrt(0.6 * 22.5), 1e-12); // ≈ 0.4899
+  assert.equal(I.correlationTheory(0), 0);
+  const rows = I.sensorDays({ strength: 1, days: 10 });
+  assert.equal(rows.length, 200);
+  assert.deepEqual(I.sensorDays({ strength: 1, days: 10 }), rows, 'same seed, same data');
+  const s = I.correlationSummary(rows);
+  near(s.r, 0.791, 1e-3); // 씨앗 112 기준값(본문·예측 해설과 같다)
+  assert.deepEqual(s.groups.map((g) => g.n), [56, 72, 72]);
+  for (const g of s.groups) assert.ok(Math.abs(g.r) < 0.05, `${g.id}: ${g.r}`);
+  // 교란 강도가 0이거나 온도를 무작위로 정하면 전체 r도 0 근처
+  assert.ok(Math.abs(I.correlationSummary(I.sensorDays({ strength: 0, days: 10 })).r) < 0.05);
+  assert.ok(Math.abs(I.correlationSummary(I.sensorDays({ strength: 1, days: 10, randomized: true })).r) < 0.05);
+  // 여러 씨앗의 평균: 전체 r은 이론값, 단계 안 r은 0
+  let all = 0, inside = 0, k = 0;
+  for (let seed = 1; seed <= 200; seed += 1) {
+    const t = I.correlationSummary(I.sensorDays({ strength: 1, days: 10, seed }));
+    all += t.r; inside += t.groups.reduce((a, g) => a + g.r, 0); k += 3;
+  }
+  assert.ok(Math.abs(all / 200 - 0.79) < 0.01, `mean overall ${all / 200}`);
+  assert.ok(Math.abs(inside / k) < 0.02, `mean within ${inside / k}`);
+  // 경계: 기록 0일이면 r을 계산할 수 없고, 강도는 0~1만 받는다
+  assert.ok(Number.isNaN(I.correlationSummary(I.sensorDays({ strength: 1, days: 0 })).r));
+  assert.throws(() => I.sensorDays({ strength: 1.5, days: 10 }), RangeError);
+  for (const d of rows) assert.ok(d.vib > 0 && [0.4, 0.7, 1].includes(d.load));
+});

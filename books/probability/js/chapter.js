@@ -52,6 +52,7 @@
       <div class="formula"><code>${esc(ch.formula.expr)}</code><p>${esc(ch.formula.read)}</p></div><p class="example"><b>숫자로 보기</b> ${esc(ch.example)}</p></section>
       ${predictBlock(ch)}${labBlock(ch)}
       <section><h2>실험에서 본 것</h2><p>${esc(ch.explain)}</p></section>
+      ${ch.warning ? `<div class="note confuse"><strong>혼동하지 마세요</strong><br>${esc(ch.warning)}</div>` : ''}
       <section><h2>새 상황에 옮기기</h2><p>${esc(ch.transfer.q)}</p><details><summary>생각을 정리한 뒤 펼치기</summary><p>${esc(ch.transfer.a)}</p></details>${transferQuiz(ch)}</section>
       <section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${esc(ch.check.q)}</h2><details><summary>답 보기</summary><p>${esc(ch.check.a)}</p></details></section>
       <section><h2>더 읽어 보기</h2>${A.sourceLinks(deeper)}<p class="caption">개념의 출처는 <a href="#sources">참고 자료</a>에 모아 두었습니다.</p></section>

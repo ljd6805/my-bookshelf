@@ -164,3 +164,9 @@ textarea{width:100%;font:inherit;padding:10px;border:1px solid var(--line);borde
 .transfer-quiz button{display:block;width:100%;text-align:left;margin:8px 0}
 .transfer-quiz button[aria-pressed=true]{border-color:var(--accent)}
 .transfer-feedback{margin-top:14px;color:var(--accent)}
+/* 2026-10-12 새 장: 9장 상관 산점도(모양으로도 부하 단계를 구분) */
+.cr-pt{fill:var(--accent);fill-opacity:.75}
+.cr-pt.lv0{fill:var(--accent)}
+.cr-pt.lv1{fill:var(--gold)}
+.cr-pt.lv2{fill:var(--orange)}
+.confuse{border-left-color:var(--orange)}

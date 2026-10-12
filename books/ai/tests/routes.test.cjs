@@ -40,3 +40,12 @@ test('every chapter has predict, remaining, next reason and a transfer question 
   assert.ok(typeof why==='string'&&why.length>20,`${c.id}.transfer explanation`);
  });
 });
+
+test('final capstone chapter closes the book and the previous chapter leads into it',()=>{
+ const chapters=context.window.AIBook.chapters,last=chapters[chapters.length-1];
+ assert.equal(last.id,'final');assert.ok(/^[a-z]+$/.test(last.id));
+ assert.match(chapters[chapters.length-2].next,/마지막 장/);
+ assert.ok(last.cross.some(([,url])=>url.startsWith('../')),'cross link to another book');
+ assert.ok(last.labs.length>=1&&last.labs.length<=2);
+ assert.ok(html.includes('js/labs-final.js'));
+});
