@@ -10,6 +10,7 @@ if __package__:
     from .curation_rules import validate_knowledge_links
     from .cover_renderer import cover_errors, COVER_FILE, COVER_META
     from .fact_review import validate_fact_reviews
+    from .study_rules import validate_study
     from .team_gates import validate_team_gates
     from .team_renderer import render_team_page, render_team_section
 else:
@@ -18,6 +19,7 @@ else:
     from cover_renderer import cover_errors, COVER_FILE, COVER_META
     from team_renderer import render_team_page, render_team_section
     from fact_review import validate_fact_reviews
+    from study_rules import validate_study
     from team_gates import validate_team_gates
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -261,6 +263,7 @@ def main():
     errors += validate_covers(ROOT, catalog)
     errors += validate_knowledge_links(ROOT, catalog)
     errors += validate_fact_reviews(ROOT, catalog)
+    errors += validate_study(ROOT, catalog)
     errors += validate_team_gates(ROOT, catalog)
     home = (ROOT / 'index.html').read_text()
     if build(home, catalog) != home:

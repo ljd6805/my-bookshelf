@@ -1,7 +1,6 @@
 /* 공통 화면 도우미: 숫자 표시, 슬라이더 연결, 애니메이션, 예측 버튼, 읽은 장 기록, 실험 연결. */
 (function () {
   'use strict';
-  const KEY = 'bookshelf:linear-algebra-world:v1:progress';
   const labs = {};
   const running = new Set();
 
@@ -74,17 +73,6 @@
     }));
   }
 
-  // 읽은 장 기록. 저장할 수 없는 환경에서도 읽기는 계속됩니다.
-  function readState() {
-    try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; }
-  }
-  function markRead(id) {
-    const state = readState();
-    state[id] = true;
-    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* 무시 */ }
-    return state;
-  }
-
   const lab = (name, fn) => { labs[name] = fn; };
 
   // root[data-lab] 안의 마크업에 실험을 연결합니다. 실패하면 오류 문장을 보여 줍니다.
@@ -102,5 +90,5 @@
     }
   }
 
-  window.UI = { fmt, vec, mat, animate, stopAll, ranges, lab, mount, predict, readState, markRead, reducedMotion };
+  window.UI = { fmt, vec, mat, animate, stopAll, ranges, lab, mount, predict, reducedMotion };
 })();

@@ -1,4 +1,4 @@
-import { shelfCapacity, packShelves } from './shelf-model.mjs?v=20261012-order2';
+import { shelfCapacity, packShelves } from './shelf-model.mjs?v=20261012-study1';
 
 /**
  * Stack the learning-book shelf like real furniture: as many spines as the width holds

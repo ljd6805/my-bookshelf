@@ -22,8 +22,8 @@ header nav>a.shelf-return{display:inline-flex;align-items:center;gap:6px;min-hei
 :root{--a:#91adff;--b:#75e2ce;--me:#ff8b6e;--res:#c39bff;--song:#ffad66;--warn:#ff8b6e;--grid:#253041;--axis:#5d6b80;--soft:var(--panel2);--coral:var(--me);--violet:var(--res)}
 [data-theme=light]{--a:#3154b2;--b:#087466;--me:#b8432a;--res:#7b3fb8;--song:#a54d12;--warn:#a8321f;--grid:#d5dde6;--axis:#8a96a5}
 .mark{font-size:1.25rem;padding:0 6px}
-#sidebar a.visited span{color:var(--accent)}#sidebar .read-mark{margin-left:auto;font-style:normal;font-size:.72rem;color:var(--muted);align-self:center}
-.tag.read{color:var(--blue);background:color-mix(in srgb,var(--blue) 12%,transparent)}
+
+
 .chapter-body h3{font-size:1.15rem;margin:26px 0 10px}
 .chapter-body .math{font-size:1.05rem;text-align:center;margin:18px 0;padding:14px;background:var(--panel);border-radius:6px;overflow-x:auto;color:var(--accent)}
 .concept-diagram .diagram{border:1px solid var(--line);background:var(--chart);border-radius:8px;padding:16px;color:var(--text)}
@@ -93,7 +93,7 @@ details p:last-child{margin-bottom:0}
 @media(max-width:760px){.predict{margin:0 18px}.lab .stage.two-planes{grid-template-columns:1fr}.hero-controls{padding:14px 18px 0}.chapter-nav{flex-direction:column}.chapter-nav a:last-child{text-align:left}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.draw{stroke-dashoffset:0!important}}
 .chapter-body .lab-heading h3{margin:0}.concept-diagram .diagram svg{max-width:680px;margin:auto}
-#sidebar .read-mark{flex:none;white-space:nowrap}
+
 .lab .readout .status-bad,.lab .readout .status-bad strong{color:var(--warn)}.predict-note{min-height:0}.predict-note:empty{margin:0!important}
 .docs{max-width:1100px;padding-top:36px;padding-bottom:60px}.docs h2{margin-top:40px}.docs .kicker{color:var(--accent);font:600 .8rem var(--font-mono);letter-spacing:.1em}.brand small{color:var(--muted);font-size:.85rem;margin-left:10px}
 /* 2026-10-12 보충: 새 상황에 써 보기의 보기 문항, 7장 최소제곱 실험의 셋째 직선과 두 식 교점 */
