@@ -41,3 +41,11 @@ test('cross links to other books carry a reason and use ../topic/#chapter',()=>{
  for(const c of book.chapters)for(const [label,url,why] of c.cross||[]){assert.match(url,/^\.\.\/[a-z-]+\/#[\w-]+$/,url);assert.ok(label&&why.length>20,url);}
  assert.ok(book.chapters.filter(c=>c.cross).length>=5);
 });
+
+test('every chapter has a transfer question with three options and a valid answer',()=>{
+ for(const c of book.chapters){
+  assert.ok(Array.isArray(c.transfer),`${c.id} needs transfer`);
+  const [q,options,answer,why]=c.transfer;
+  assert.ok(q&&why,`${c.id} transfer text`);assert.equal(options.length,3);assert.ok(answer>=0&&answer<3);
+ }
+});

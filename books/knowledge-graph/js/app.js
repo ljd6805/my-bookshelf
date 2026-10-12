@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 /* 해시 경로를 읽어 표지 또는 장 화면을 그린다. 화면 구조는 AI Book(books/ai/js/app.js)과 같다. */
-const U=KGUI,B=KGBook,main=document.querySelector('main'),NAME='지식 그래프와 온톨로지';let cleanup=()=>{};
+const U=KGUI,G=KGGraph,B=KGBook,main=document.querySelector('main'),NAME='지식 그래프와 온톨로지';let cleanup=()=>{};
 const info={
 triples:['문장을 하나씩 더해 그래프 만들기','퀴리 가족에 관한 문장을 하나씩 트리플로 더하며 점·간선·떨어진 덩어리의 수를 셉니다.','문장 5개에서 6개로 늘릴 때 떨어진 덩어리 수가 어떻게 될지 먼저 예측하고 확인해 보세요.'],
 walk:['몇 걸음이면 닿을까','출발점과 걸음 수를 정하고, 닿는 점과 찾을 점까지의 가장 짧은 길을 봅니다.','이렌에서 출발하면 바르샤바까지 몇 걸음일까요? 예측한 뒤 출발점을 바꿔 확인하세요.'],
@@ -30,11 +30,14 @@ function chapterNav(index){
  const prev=B.chapters[index-1],next=B.chapters[index+1];
  return `<nav class="chapter-nav" aria-label="이전·다음 챕터">${prev?`<a href="#${prev.id}">이전 · ${prev.title}</a>`:'<a href="#home">책 표지로</a>'}${next?`<a href="#${next.id}">다음 · ${next.title}<br><span class="caption">이동 이유: ${next.desc}</span></a>`:'<a href="#chapters">목차로 돌아가기</a>'}</nav>`;
 }
+function choices(q,target,attr){return G.choiceOrder(q[1].length,q[2],target).map((i,k)=>`<button type="button" data-${attr}="${i}">${k+1}. ${q[1][i]}</button>`).join('');}
+function transferQuiz(c,index){if(!c.transfer)return '';return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer,(index+1)%3,'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;}
 function chapter(c,index){
  document.body.classList.add('reading');document.title=`${num(index)}. ${c.title} · ${NAME}`;
- main.innerHTML=`<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${num(index)} / ${c.group}</div><h1>${c.title}</h1><p class="lead">${c.subtitle}</p><span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 확인 문제 1개</span></div><section><h2>먼저 개념 잡기</h2>${c.paragraphs.map(p=>`<p>${p}</p>`).join('')}<figure class="concept-diagram">${KGFigures.render(c.id,index)}${flow(c.flow)}</figure><div class="formula"><code>${c.formula}</code><p>${c.formulaNote}</p></div></section>${c.labs.map(renderLab).join('')}<div class="note"><strong>혼동하지 마세요</strong><br>${c.warning}</div><section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>${c.quiz[1].map((a,i)=>`<button data-answer="${i}">${i+1}. ${a}</button>`).join('')}<div class="quiz-feedback" role="status" aria-live="polite"></div></section><section><h2>더 읽어 보기</h2>${sourceLinks(c.source)}${crossLinks(c.cross)}</section>${chapterNav(index)}</div>`;
+ main.innerHTML=`<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${num(index)} / ${c.group}</div><h1>${c.title}</h1><p class="lead">${c.subtitle}</p><span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 확인 문제 ${c.transfer?2:1}개</span></div><section><h2>먼저 개념 잡기</h2>${c.paragraphs.map(p=>`<p>${p}</p>`).join('')}<figure class="concept-diagram">${KGFigures.render(c.id,index)}${flow(c.flow)}</figure><div class="formula"><code>${c.formula}</code><p>${c.formulaNote}</p></div></section>${c.labs.map(renderLab).join('')}<div class="note"><strong>혼동하지 마세요</strong><br>${c.warning}</div><section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>${choices(c.quiz,index%3,'answer')}<div class="quiz-feedback" role="status" aria-live="polite"></div>${transferQuiz(c,index)}</section><section><h2>더 읽어 보기</h2>${sourceLinks(c.source)}${crossLinks(c.cross)}</section>${chapterNav(index)}</div>`;
  c.labs.forEach(id=>{const el=main.querySelector(`[data-lab="${id}"]`);KGLabs[id](el);KGGuides.mount(id,el);});
  main.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{const correct=+b.dataset.answer===c.quiz[2];main.querySelectorAll('[data-answer]').forEach(x=>x.removeAttribute('aria-pressed'));b.setAttribute('aria-pressed','true');main.querySelector('.quiz-feedback').textContent=`${correct?'정답입니다.':'다시 생각해 보세요.'} ${c.quiz[3]}`;});
+ main.querySelectorAll('[data-transfer]').forEach(b=>b.onclick=()=>{const ok=+b.dataset.transfer===c.transfer[2];main.querySelectorAll('[data-transfer]').forEach(x=>x.removeAttribute('aria-pressed'));b.setAttribute('aria-pressed','true');main.querySelector('.transfer-feedback').textContent=`${ok?'정답입니다.':'다시 생각해 보세요.'} ${c.transfer[3]}`;});
 }
 function route(){
  cleanup();cleanup=()=>{};const hash=location.hash.slice(1)||'home',index=B.chapters.findIndex(c=>c.id===hash);

@@ -56,3 +56,4 @@ html[data-motion=reduce] .kg-fig-edge,html[data-motion=reduce] .kg-fig-fade,html
 #home-graph .network-result{display:block;line-height:1.75}
 .compare section{margin:0}
 @media(max-width:520px){.brand strong{display:none}}
+.transfer-quiz{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}.transfer-quiz h3{margin:4px 0 8px}.transfer-feedback{margin-top:16px;color:var(--accent)}

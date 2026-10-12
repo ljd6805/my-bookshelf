@@ -135,6 +135,8 @@ function meanOffset(pairs){const n=pairs.length;return [pairs.reduce((s,[h,t])=>
 // 키워드 검색: 질문 낱말이 문장에 몇 개 들어 있는지 세고, 같은 점수는 원래 순서를 지킨다.
 function keywordRank(chunks,words){return chunks.map((c,i)=>({...c,i,score:words.filter(w=>c.text.includes(w)).length})).sort((a,b)=>b.score-a.score||a.i-b.i);}
 function chainComplete(list){return match(list,[['?x','discovered','polonium'],['?y','childOf','?x'],['?y','awarded','?z']]);}
-const api={entities,predicates,triples,extra,classes,schema,key,stats,reach,path,norm,jaccard,resolve,ancestors,typesOf,check,ruleBook,infer,match,prf,transe,transeScore,embedding,meanOffset,keywordRank,chainComplete};
+// 보기 순서를 돌려 정답이 target 자리에 오게 한다. 반환값은 화면 순서대로 놓을 원래 보기 번호다.
+function choiceOrder(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
+const api={choiceOrder,entities,predicates,triples,extra,classes,schema,key,stats,reach,path,norm,jaccard,resolve,ancestors,typesOf,check,ruleBook,infer,match,prf,transe,transeScore,embedding,meanOffset,keywordRank,chainComplete};
 if(typeof module!=='undefined')module.exports=api;else root.KGGraph=api;
 })(typeof window!=='undefined'?window:globalThis);

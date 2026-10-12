@@ -91,3 +91,10 @@ test('keyword ranking keeps document order for ties',()=>{
  const r=G.keywordRank([{text:'가 나'},{text:'나'},{text:'가 나 다'}],['가','나']);
  assert.deepEqual(r.map(x=>x.i),[0,2,1]);
 });
+
+test('choiceOrder puts the answer at the target position and keeps every option once',()=>{
+ for(let answer=0;answer<3;answer++)for(let target=0;target<3;target++){
+  const order=G.choiceOrder(3,answer,target);
+  assert.equal(order[target],answer);assert.deepEqual([...order].sort(),[0,1,2]);
+ }
+});
