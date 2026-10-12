@@ -5,6 +5,26 @@
 <h1>팩트·출처 검수 기록 · 컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r1)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="2장 부동소수점 문단 2개·깊이 읽기·혼동하지 마세요, 새 실험 float(FP16·BF16)과 model.js encodeFloat·decodeFloat·floatNeighbor, 9개 장 전이 문항, 정답 자리 돌리기(quiz.js order), 새 출처 4개(IEEE 754-2019, Python struct, Google Cloud BF16, MDN Number)" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할). 집필자: Claude 보충 집필 세션 (2026-10-12, 커밋 5f766a8). 범위: 2장 부동소수점 문단 2개·깊이 읽기·혼동하지 마세요, 새 실험 float(FP16·BF16)과 model.js encodeFloat·decodeFloat·floatNeighbor, 9개 장 전이 문항, 정답 자리 돌리기(quiz.js order), 새 출처 4개(IEEE 754-2019, Python struct, Google Cloud BF16, MDN Number).</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>1건 수정</td><td>FP16·BF16·binary64 구조와 0.1 + 0.2 결과를 출처 원문과 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>FP16 최댓값 65,504, 최소 정규수 2⁻¹⁴, 1 근처 간격 2⁻¹⁰, 2048 근처 간격 2, BF16 간격 2⁻⁷(8배), 70,000→BF16 70,144, 9+9=1 0010, 68,400−65,536=2,864, 300 mod 256=44를 따로 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>numpy float16과 float32→bfloat16 반올림을 기준으로 encodeFloat를 1, 0.1, 2048, 2049, 65504, 65519, 65520, 70000, 2⁻¹⁴, 2⁻²⁴, 2⁻²⁵, 1.5·2⁻²⁵, 1e−8, −0, NaN, ∞에서 대조해 모두 일치(0.1→0.0999755859375, BF16 0.10009765625; 65520 이상 무한대; 2049→2048). cpu.js run으로 곱셈 프로그램 n=4 37개, n=10 85개 명령, 90→LDI 10 확인. cache.js로 8바이트 줄 순차 64바이트 87.5%, 4바이트 줄 75% 확인</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>1건 수정</td><td>부동소수점·비정규수·정규수·NaN·binary16/bfloat16 용어 대조</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>네 링크를 2026-10-12에 열어 확인: IEEE 쪽 제목과 발행일 2019-07-22, Python struct 주석(부호 1, 지수 5, 정밀도 11비트·10비트 저장, 약 6.1e−05~6.5e+04), Google 블로그(1·8·7비트, 범위 FP32와 같음), MDN(64비트, 1·11·52비트). 확인일 표기 있음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#encoding 넷째 문단</td><td>“지수 칸이 00000이면 아주 작은 수(비정규수)”: 지수 00000·가수 0은 0이라 0이 빠짐</td><td>IEEE 754 binary16 부호화, model.js decodeFloat의 zero 분기</td><td>“0과 아주 작은 수(비정규수)”로 고침(js/content.js)</td></tr>
+<tr><td>#bits 전이 해설</td><td>9비트 오답 설명 “칸 수를 2로 나누며 줄어든다고 착각”은 그 오답이 나오는 이유를 설명하지 못함</td><td>2⁹ = 512 &lt; 1,000</td><td>“2⁹ = 512가 1,000에 못 미친다는 것을 확인하지 않은 답”으로 고침</td></tr>
+<tr><td>전이 문항 9개</td><td>정답 유일성·오답 확인. 오류 없음</td><td>문항마다 따로 계산; quiz.js order가 원래 번호를 data-*에 두고 판정은 원래 번호로 함</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>IEEE 754-2019 본문은 유료라 소개 쪽만 확인했습니다. 실험 화면은 1 근처 간격을 “2⁻¹⁰ ≈ 9.7656e−4” 형식으로 보여 주며 안내 문장의 0.000977과 값은 같고 표기만 다릅니다. 실제 브라우저 조작 확인은 npm test로 대신했고, 브라우저 검사 tests/browser.cjs는 실행하지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · 컴퓨터 책 집필·개편 스레드" data-date="2026-10-12" data-scope="9개 장 본문(마지막 과제 포함), 9개 실험 계산(게이트·가산기·레지스터·CPU 4개 프로그램·캐시 4패턴), 출처 5개(웹 2개 확인), 나가는 링크 10개·들어오는 링크 29개, 브라우저 1280·390·320px" data-result="fixed">
 <h2>2026-10-12 편집팀 전체 도서 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · 컴퓨터 책 집필·개편 스레드. 범위: 9개 장 본문(마지막 과제 포함), 9개 실험 계산(게이트·가산기·레지스터·CPU 4개 프로그램·캐시 4패턴), 출처 5개(웹 2개 확인), 나가는 링크 10개·들어오는 링크 29개, 브라우저 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다.</p>

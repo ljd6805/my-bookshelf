@@ -5,6 +5,25 @@
 <h1>팩트·출처 검수 기록 · 벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r1)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="7장 최소제곱 절(문단 3개)·확인 질문·깊이 읽기와 새 실험 least-squares(linalg.js leastSquares), 11개 장 전이 보기 문항, 정답 자리 돌리기(quiz.js order), AI Book #learning으로 가는 링크. 새 출처 없음" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 보충 검수 (r1)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r1, 검수팀 정민·유진·건우·채원·현석 역할). 집필자: Claude 보충 집필 세션 (2026-10-12, 커밋 5f766a8). 범위: 7장 최소제곱 절(문단 3개)·확인 질문·깊이 읽기와 새 실험 least-squares(linalg.js leastSquares), 11개 장 전이 보기 문항, 정답 자리 돌리기(quiz.js order), AI Book #learning으로 가는 링크. 새 출처 없음.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>정규방정식·잔차 직교·투영 해석을 표준 선형대수 서술과 대조</td></tr>
+<tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정(설명 문장)</td><td>numpy로 따로 계산: MᵀM=[6, 2.5; 2.5, 4.25], b₃=0.5에서 (2, 1.5)·잔차 0, b₃=1.5에서 x̂=(2.3506, 1.0584)·잔차 제곱합 0.2078, 두 식 교점 (2,1.5)·(2.333,0.833)·(2.6,1.1), b₃=2.5에서 0.8312(4배); 전이 문항 √17, 0.707, 7/√2=4.95, (5,1), (0,1), 30 km², 22 °C·제곱합 2, 고윳값 16/3·0(n으로 나눈 공분산, 책 규칙과 같음), ReLU 0, 코사인 0.5</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>leastSquares 결과와 Mᵀr=0, 같은 방향 행([2,1],[4,2],[1,0.5])에서 det(MᵀM)=0 → 답 없음을 독립 계산과 대조. 안내 문장 수치 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>최소제곱·정규방정식·잔차·주성분 용어 대조</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>새 외부 출처 없음. 새 내부 링크 ../ai/#learning은 AI Book 2장(직선 맞추기, 같은 다섯 점)으로 열리고 수치 1.96·1.02가 그 장과 맞음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#inverse 확인 질문(오차 두 배)</td><td>“x̂는 기록 b에 비례해 움직이므로 잔차도 오차에 비례”: x̂는 b에 선형이지 비례하지 않고, 잔차가 오차에 비례하는 이유는 정확한 기록의 잔차가 0이기 때문</td><td>r = (I − M(MᵀM)⁻¹Mᵀ)b, 정확한 b에서 r=0</td><td>“정확한 기록에서는 잔차가 0이고 잔차는 기록에 대해 선형이므로, 기록의 오차를 두 배로 키우면 잔차도 두 배”로 고침(js/content.js)</td></tr>
+<tr><td>전이 문항 11개</td><td>정답 유일성·오답 확인. 오류 없음</td><td>문항마다 따로 계산; quiz.js order와 page-chapter.js 판정이 원래 번호를 씀</td><td>수정 없음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>실험 화면의 그림(직선·빈 원·보라 점) 배치는 눈으로 보지 않고 계산값과 npm test로만 확인했고, tests/browser.cjs는 실행하지 않았습니다. 학습 효과는 측정하지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · 벡터와 행렬 책 집필 스레드" data-date="2026-10-12" data-scope="11개 장 본문(마지막 과제 포함), 11개 실험과 본문 숫자 예시 약 60개, 출처 8개(웹 1개 확인), 나가는 링크 16개·들어오는 링크 40개, 브라우저 1280·390·320px" data-result="fixed">
 <h2>2026-10-12 편집팀 전체 도서 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · 벡터와 행렬 책 집필 스레드. 범위: 11개 장 본문(마지막 과제 포함), 11개 실험과 본문 숫자 예시 약 60개, 출처 8개(웹 1개 확인), 나가는 링크 16개·들어오는 링크 40개, 브라우저 1280·390·320px. 이 세션은 이 책을 쓰지 않았습니다.</p>

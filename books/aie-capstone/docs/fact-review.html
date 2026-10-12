@@ -4,6 +4,20 @@
 <h1>팩트·출처 검수 기록 · AI 엔지니어링 처음부터 20권 캡스톤</h1>
 <p>이 책을 쓰지 않은 검수 에이전트가 원본 단계 <code>phases/19-capstone-projects</code>의 프로젝트 85개 레슨 문서와 책의 12개 장, 실험 계산, 출처 목록을 대조한 결과입니다. 검수 절차는 서재의 검증 문서(docs/03-verification.html#fact-review)를 따랐습니다. <a href="index.html">책 문서 목차로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r7)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="커밋 5f766a8의 보충: 12개 장 전이 문항(transfer), 02~10장 사양표 연결 문장 9개, 12장 심화 상자 “장마다 채운 칸” 표, 보기 돌리기(js/visual.js order, js/app.js choices)" data-result="fixed" data-commit="5f766a8">
+<h2>2026-10-12 보충 검수 (검수팀 정민·유진·건우·채원·현석)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r7). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 커밋 5f766a8의 보충: 12개 장 전이 문항(transfer), 02~10장 사양표 연결 문장 9개, 12장 심화 상자 “장마다 채운 칸” 표, 보기 돌리기(js/visual.js order, js/app.js choices). 결과: fixed. 수치는 책 코드와 따로 python3 스크립트로 다시 계산해 책 함수 결과와 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>새 문장은 책 안 계산과 가정값을 옮긴 것이고 외부 사실은 06장 “평가 데이터 1% 유출” 하나로, 기존 본문이 원본 캡스톤 07을 출처로 든 문장과 같음.</td></tr><tr data-check="numbers" data-status="fixed"><td>수식·수치</td><td>1건 수정</td><td>따로 계산: 01장 1 − 0.3³ = 0.973, 1 − 0.3⁴ = 0.992; 02장 1 − C(16,2)/C(20,2) = 1 − 120/190 = 0.368, 0.03 ÷ 0.35 = 0.0857; 03장 3.2 대 3.556, (2/0.55)/(1/0.3) = 1.091; 04장 UCB 1.106 대 1.917; 05장 12 × 512² + 13 × 512 = 3,152,384, ×8 = 25,219,072; 124M bf16 0.249GB·Adam 1.99GB; 06장 ln(0.25) + 2 = 0.614, σ = 0.649; 07장 5/(M + 5) < 0.1 → M = 46, M = 6이면 0.455, ZeRO-1 (4 + 12/8) × 7e9 = 38.5GB; 08장 R 0.5·P 0.2, 7조각 × 0.15초 = 1.05초; 09장 24² = 576, 28² = 784, 785²/197² = 15.9; 11장 0.00475/0.02465 = 0.193; 12장 사양표 표 행 01의 p95 5.9초가 시간 제한 5초에서만 나오는데 제한이 빠져 있었음.</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>새 실험은 없고, 새 문장·표가 인용한 실험 값을 책 함수로 다시 돌려 대조: retryStats(0.2, 3, 5) 성공 0.992·p95 5.925초, tryUntilPass k = 1·5 모두 0.0857달러, ucbRun(1.4, 30) 13/30, zeroMem·bubble, ragRun base 4,000토큰·rerank 1,200토큰, patchTokens, bootstrapDiff 50 보류·120 나아짐·130 보류·150 나아짐(폭 50개 0.059, 200개 0.034), gateStats(0.7, 0.01) 정밀도 0.086·594건, launchSheet 사용량 2배 $5,471·p95 40.5초, 1배 $2,736·차단 2,614건·공격 194건(전이 문항 12의 “두 줄만 넘는다”와 일치). 정답 자리 돌리기 12장 모두 원래 번호 유지.</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>pass@k(비편향 추정), UCB1, 파이프라인 거품, ZeRO-1, 재현율·정밀도, 패치 토큰, 부트스트랩 구간, 차단의 정밀도가 책 식·표준 용법과 일치.</td></tr><tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>새 출처 없음</td><td>이번 보충은 출처를 더하지 않았습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#final 심화 상자 “장마다 채운 칸” 01장 행</td><td>“시간 초과 확률 0.2에서 3번 시도: p95 약 5.9초” — p95는 시간 제한에 따라 달라짐(제한 2초면 2.9초, 5초면 5.9초). 01장 그림은 제한 5초를 씀</td><td>retryStats 따로 대조</td><td>“시간 초과 확률 0.2, 제한 5초로 3번 시도”로 조건을 밝힘 (js/content.js)</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>새 문장의 화면 배치를 브라우저에서 직접 열어 보지는 않았습니다(npm test의 browser.cjs와 함수 대조만). 06장 “1% 유출” 문장의 원본 캡스톤 07 원문은 이번에 다시 열지 않았습니다(기존 본문과 같은 출처).</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-capstone)" data-date="2026-10-12" data-scope="12개 장 본문과 더 깊이 보기, 실험 15종과 표지 실험(js/math.js·js/lab-guides.js 결과 읽기), 다른 책 링크 31개와 들어오는 링크 2개, 원본 프로젝트 요약은 수치가 있는 문장 위주로 표본 확인, 1280·390·320px 브라우저(표지와 12개 장, 실험 45회 조작)" data-result="fixed">
 <h2>2026-10-12 편집팀 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-capstone). 범위: 12개 장 본문과 더 깊이 보기, 실험 15종과 표지 실험(js/math.js·js/lab-guides.js 결과 읽기), 다른 책 링크 31개와 들어오는 링크 2개, 원본 프로젝트 요약은 수치가 있는 문장 위주로 표본 확인, 1280·390·320px 브라우저(표지와 12개 장, 실험 45회 조작). 결과: fixed.</p>

@@ -31,8 +31,8 @@ function chunkSvg(r){
  return U.svg(b,`조각 ${r.chunks.length}개, ${r.whole?'답이 한 조각에 온전히 들어감':'답이 '+r.touched+'개 조각으로 갈라짐'}, 가져온 조각 ${r.top.map(i=>i+1).join('·')}번, 답 구간 회수율 ${Math.round(r.recall*100)}%`);
 }
 function chunkReading(r,s,k){
- const [a0,a1]=r.answer,off=r.top.filter(i=>r.chunks[i][1]<=a0||r.chunks[i][0]>=a1);
- if(r.recall<1)return `가져온 조각에 답이 ${Math.round(r.recall*100)}%만 들어 있습니다. ${r.keys.filter(x=>!x[1]).map(x=>`“${x[0]}”`).join('·')}이 빠졌으므로 생성기는 기한 하나를 모른 채 답하게 됩니다. ${off.length?`답과 겹치지 않는 ${off.map(i=>i+1).join('·')}번 조각이 질문 낱말(“며칠”·“환불”)을 가져 답의 나머지 반쪽보다 높은 점수를 받았습니다.`:'답의 나머지 반쪽은 질문 낱말이 적어 순위 밖으로 밀렸습니다.'}`;
+ const [a0,a1]=r.answer,off=r.top.filter(i=>r.chunks[i][1]<=a0||r.chunks[i][0]>=a1),miss=r.keys.filter(x=>!x[1]);
+ if(r.recall<1)return `가져온 조각에 답이 ${Math.round(r.recall*100)}%만 들어 있습니다. ${miss.length?`${miss.map(x=>`“${x[0]}”`).join('·')}${miss.length>1?'이 모두':'이'} 빠졌으므로 생성기는 ${miss.length>1?'두 기한을 모두':'기한 하나를'} 모른 채 답하게 됩니다.`:'“7일”·“30일”은 들어왔지만 답 구간 일부가 빠져 기한에 붙은 조건이 잘릴 수 있습니다.'} ${off.length?`답과 겹치지 않는 ${off.map(i=>i+1).join('·')}번 조각이 질문 낱말을 가져 답의 나머지 부분보다 높은 점수를 받았습니다.`:'답의 나머지 부분은 질문 낱말이 적어 순위 밖으로 밀렸습니다.'}`;
  return r.whole?(r.cost>=300?'답은 온전히 가져왔지만 문맥에 들어가는 토큰이 많습니다. 답과 상관없는 문장도 함께 들어가 읽기 모형이 헷갈릴 수 있습니다.':'답을 담은 조각이 높은 점수로 올라와 적은 토큰으로 답 전체를 가져옵니다.'):`답이 ${r.touched}조각으로 갈라졌지만 가져온 상위 ${k}개가 갈라진 조각을 모두 덮었습니다. 대신 토큰이 늘었고, 가져올 조각 수를 줄이면 반쪽만 남습니다.`;
 }
 A06Labs.chunk=el=>{

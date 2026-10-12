@@ -72,3 +72,16 @@ test('catalog cover_meta matches chapter and experiment counts in content.js', (
     assert.equal(book.cover_meta, `${data.chapters.length}장 · ${labs.size}개 실험`, `${book.id} cover_meta`);
   }
 });
+
+test('quiz explanations name options by wording, not by position (options are rotated on screen)', () => {
+  const position = /(첫째|둘째|셋째|첫 번째|두 번째|세 번째|[123]번) ?(보기|답|선택지)|보기 ?[123①②③]/;
+  const found = [];
+  for (const id of books) {
+    for (const c of loadBook(id).chapters) {
+      for (const key of ['quiz', 'transfer']) {
+        if (Array.isArray(c[key]) && position.test(JSON.stringify(c[key]))) found.push(`${id}#${c.id}.${key}`);
+      }
+    }
+  }
+  assert.deepEqual(found, []);
+});

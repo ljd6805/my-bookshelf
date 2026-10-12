@@ -24,7 +24,7 @@ A07Labs.wake=el=>{
  U.setup(el,R('gap','판정 간격 (ms)',10,100,10,20)+R('pexp','창 하나의 오작동 확률 p (10의 거듭제곱)',-6,-2,0.5,-4)+R('wn','연속으로 넘어야 할 창 수 n',1,5,1,1)+R('wq','진짜 “솔아”에서 창 하나가 넘을 확률 q',0.5,0.99,0.01,0.9));
  U.bind(el,()=>{const gap=U.value(el,'gap'),e=U.value(el,'pexp'),n=U.value(el,'wn'),q=U.value(el,'wq'),r=M.wakeWord({gap,p:Math.pow(10,e),n,q});
   el.querySelector('#pexp-value').textContent='10^'+U.fmt(e,1);
-  U.result(el,wakeView(r,n),`판정 간격 ${gap} ms이면 한 시간에 창 <b>${U.fmt(r.windows,0)}개</b>를 판정합니다. 창 하나의 오작동 확률 p = 10^${U.fmt(e,1)}, 연속 ${n}창 기준<br>오작동 기대값: 시간당 <strong>${tiny(r.perHour)}번</strong> · 하루 <strong>${tiny(r.perDay)}번</strong> · 진짜 호출을 놓칠 확률 <strong>${U.fmt(r.miss*100,1)}%</strong><br>${r.perDay>=1?'창 하나로는 작아 보이던 확률이 하루 동안의 창 수와 곱해져 여러 번 깨어납니다.':'오작동은 드물어졌지만 n을 늘린 만큼 진짜 호출도 더 자주 놓칩니다.'} 창 수와 곱셈은 실제 계산이고, 창끼리 독립이라는 가정은 교육용입니다. 실제 소음은 여러 창에 이어지므로 n을 늘린 효과가 이보다 작습니다.`);});
+  U.result(el,wakeView(r,n),`판정 간격 ${gap} ms이면 한 시간에 창 <b>${U.fmt(r.windows,0)}개</b>를 판정합니다. 창 하나의 오작동 확률 p = 10^${U.fmt(e,1)}, 연속 ${n}창 기준<br>오작동 기대값: 시간당 <strong>${tiny(r.perHour)}번</strong> · 하루 <strong>${tiny(r.perDay)}번</strong> · 진짜 호출을 놓칠 확률 <strong>${U.fmt(r.miss*100,1)}%</strong><br>${r.perDay>=1?'창 하나로는 작아 보이던 확률이 하루 동안의 창 수와 곱해져 여러 번 깨어납니다.':(n>1?'오작동은 드물어졌지만 n을 늘린 만큼 진짜 호출도 더 자주 놓칩니다.':'창 하나의 오작동 확률이 충분히 작아 하루 한 번 미만으로 깨어납니다. 이 p를 실제 소음에서 얻을 수 있는지가 관건입니다.')} 창 수와 곱셈은 실제 계산이고, 창끼리 독립이라는 가정은 교육용입니다. 실제 소음은 여러 창에 이어지므로 n을 늘린 효과가 이보다 작습니다.`);});
 };
 function vadView(scene,r,t){
  const w=440/60,x=i=>20+i*w,y=p=>200-p*160;let b='';

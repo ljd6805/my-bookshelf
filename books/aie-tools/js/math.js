@@ -106,9 +106,10 @@ function wireResponse(defect,http,o){
  if(o.kind==='notification')return http?[['HTTP/1.1 202 Accepted',''],['(본문 없음)','']]:[['(아무것도 보내지 않음)','알림에는 응답하지 않음']];
  if(o.kind==='auth')return [['HTTP/1.1 401 Unauthorized','토큰이 없어 JSON-RPC 처리 전에 거절'],['(JSON-RPC 본문 없음)','']];
  if(o.kind==='error'){
-  const msg={'-32602':'Invalid params','-32020':defect==='nameMismatch'?"Header mismatch: Mcp-Name header value 'notes_delete' does not match body value 'notes_search'":"Header mismatch: MCP-Protocol-Version header value '2026-07-28' does not match body value '2027-01-01'",'-32022':'Unsupported protocol version','-32601':'Method not found','-32021':'Missing required client capability'}[o.code];
-  const status=o.http===404?'404 Not Found':'400 Bad Request',data=o.code===-32022;
-  return [...head(status),['{',''],['  "jsonrpc": "2.0",',''],['  "id": 7,',''],['  "error": {',''],[`    "code": ${o.code},`,'검사가 멈춘 단계의 오류 코드'],[`    "message": "${msg}"${data?',':''}`,'']].concat(data?[['    "data": { "supported": ["2026-07-28"], "requested": "2027-01-01" }','클라이언트는 supported에서 버전을 골라 새 id로 다시 보냄']]:[],[['  }',''],['}','']]);
+  const msg={'-32602':'Invalid params','-32020':defect==='nameMismatch'?"Header mismatch: Mcp-Name header value 'notes_delete' does not match body value 'notes_search'":"Header mismatch: MCP-Protocol-Version header value '2026-07-28' does not match body value '2027-01-01'",'-32022':'Unsupported protocol version','-32601':'Method not found','-32021':'Server requires the elicitation capability for this request'}[o.code];
+  /* -32022와 -32021은 명세 스키마에서 data가 필수다(확인일 2026-10-12): supported·requested, requiredCapabilities. */
+  const status=o.http===404?'404 Not Found':'400 Bad Request',dataLine={'-32022':['    "data": { "supported": ["2026-07-28"], "requested": "2027-01-01" }','클라이언트는 supported에서 버전을 골라 새 id로 다시 보냄'],'-32021':['    "data": { "requiredCapabilities": { "elicitation": {} } }','빠진 기능 목록: 클라이언트가 이 기능을 지원하면 선언해 다시 보냄']}[o.code],data=!!dataLine;
+  return [...head(status),['{',''],['  "jsonrpc": "2.0",',''],['  "id": 7,',''],['  "error": {',''],[`    "code": ${o.code},`,'검사가 멈춘 단계의 오류 코드'],[`    "message": "${msg}"${data?',':''}`,'']].concat(data?[dataLine]:[],[['  }',''],['}','']]);
  }
  const fail=o.kind==='toolError',text=fail?'노트 저장소에 연결하지 못했습니다. 잠시 뒤 다시 시도하세요.':'노트 2개: 3월 TPS 보고서, 4월 TPS 보고서';
  return [...head('200 OK'),['{',''],['  "jsonrpc": "2.0",',''],['  "id": 7,',''],['  "result": {',''],['    "resultType": "complete",',''],[`    "content": [{ "type": "text", "text": "${text}" }],`,''],[`    "isError": ${fail},`,fail?'도구가 실패: 프로토콜 오류가 아니라 정상 결과 안의 표시':''],['    "_meta": { "io.modelcontextprotocol/serverInfo": { "name": "notes-server", "version": "2.1.0" } }',''],['  }',''],['}','']];

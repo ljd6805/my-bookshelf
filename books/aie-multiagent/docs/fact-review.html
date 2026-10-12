@@ -4,6 +4,21 @@
 <h1>팩트·출처 검수 기록 · 멀티 에이전트</h1>
 <p>《멀티 에이전트 · 여럿이 나눠 맡고 서로 확인하기》(books/aie-multiagent)를 쓰지 않은 에이전트가 검수한 기록입니다. 형식과 절차는 서재의 <a href="../../../templates/fact-review.html">검수 기록 양식</a>과 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html#verification">프로젝트 문서의 검증 절</a>로 돌아갑니다.</p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r6)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="보충 커밋 5f766a8의 12개 장 전이 문항, #roles 깊이 읽기 “풀에 들어온 남의 지시”, poison 실험의 새 시나리오(injectPool·권한 분리 모드)와 결과 읽기·안내 상자, 자율 시스템 #browser로 가는 새 링크, 정답 자리 돌리기" data-result="fixed">
+<h2>2026-10-12 보충 검수 (r6)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r6). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 보충 커밋 5f766a8의 12개 장 전이 문항, #roles 깊이 읽기 “풀에 들어온 남의 지시”, poison 실험의 새 시나리오(injectPool·권한 분리 모드)와 결과 읽기·안내 상자, 자율 시스템 #browser로 가는 새 링크, 정답 자리 돌리기. 전이 해설 1곳의 위치 표기를 고쳤습니다. 계산 오류는 찾지 못했습니다.</p>
+<p>검수팀 편성: 정민(팀장·사실), 유진(출처), 건우(수치·실험 재계산), 채원(첫 독자·문항), 현석(규칙 감사). 이번 보충(커밋 5f766a8)을 쓰지 않은 세션입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>새 문단은 가상 시나리오임을 밝혔고, 혼동된 대리인(confused deputy)과 간접 프롬프트 주입은 표준 용법과 맞게 쓰였습니다. PBFT의 n ≥ 3f + 1은 표준 결과입니다.</td></tr><tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>별도 Python 재계산: 2,000+19×10,000=192,000·20번째 202,000(7,000토큰이면 29번째), 0.7²=0.49·0.7³=0.343, 0.95⁸=0.663·0.95⁴=0.815, 0.5×0.4=0.20, max(40÷5,4)=8분, 다섯 다수결 0.6에서 0.6826·혼합 0.6413, 3×2+1=7, 섀플리 0.4·0.6, 기억 점수 1.5·e⁻²+1.7=1.835, 시도 1.875·넘친 몫 0.36, 두 비율 z=0.06÷0.0751=0.80.</td></tr><tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>poison을 두 시나리오×다섯 모드로 따로 돌려 대조: 실수 시나리오에서 읽기 전용만 4.2%로 고침(기록 3개), 권한 분리는 실수를 막지 못함(42%), 남의 지시 시나리오에서 읽기 전용은 “원문과 같음”을 확인할 뿐 보고서에 지시가 들어가고(실린 기록 4개), 풀에 쓰는 검증자는 5개, 권한 분리만 깨끗한 보고서(3개). 결과 읽기·안내 상자·깊이 읽기 문장과 맞습니다. 전이 문항 12개마다 화면 순서를 책 코드와 따로(별도 node 스크립트) 다시 계산해, 정답이 장 번호에 따른 자리(확인 문제 index%3, 전이 (index+1)%3)에 오고 data-answer·data-transfer에는 원래 번호가 남아 판정이 맞는 것을 확인했습니다.</td></tr><tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>출처 꼬리표, 읽기 전용 검증자, 권한 분리가 문단·실험 선택지·안내 상자에서 같은 이름이고, 자율 시스템 7장의 읽기-쓰기 경계와 구분해 씁니다.</td></tr><tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>새 출처는 없고, 새 책 사이 링크 ../aie-autonomy/#browser의 앵커와 장 제목(“읽은 글이 명령이 될 때”)이 자율 시스템 목차와 맞습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>#market 전이 해설</td><td>“첫째 보기·셋째 보기”라고 위치로 가리켰는데 화면 순서([1,2,0])에서는 각각 셋째·둘째 자리에 보입니다.</td><td>별도 순서 재계산</td><td>보기 내용(‘0.5와 0.5’, ‘0.2와 0.4’)으로 가리키게 고침</td></tr><tr><td>index.html</td><td>바뀐 스크립트의 캐시 무효화</td><td>저장소 규칙</td><td>?v=20261012-supp1을 20261012-rev6으로 올림</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>A2A 전이표(입력 필요 → 작업 중·취소만)는 이 책의 단순화된 표를 기준으로 낸 문항이며 이번 회차에 A2A 명세를 다시 열지 않았습니다.</li><li>브라우저에서 직접 눌러 보지는 않았고, 화면 순서는 정적 계산과 tests/browser.cjs가 아닌 별도 스크립트로만 확인했습니다. 학습 효과는 사람 독자로 시험하지 않았습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-multiagent)" data-date="2026-10-12" data-scope="12개 장 전체 본문·공식·세부 상자·경고·확인 문제·다른 책 링크 9개, 실험 16개 계산과 안내 상자 결과 읽기, 출처 86개 중 핵심 수치 출처 약 25건(기억 대조), 브라우저 1280·390·320px" data-result="fixed">
 <h2>2026-10-12 편집팀 전체 도서 검수</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-multiagent). 이 책을 쓰지 않은 새 세션이 docs/10-agent-team.html의 다섯 팀 관점과 data/agent-team.json의 인물 점검 목록으로 다시 읽었습니다. 범위: 12개 장 전체 본문·공식·세부 상자·경고·확인 문제·다른 책 링크 9개, 실험 16개 계산과 안내 상자 결과 읽기, 출처 86개 중 핵심 수치 출처 약 25건(기억 대조), 브라우저 1280·390·320px.</p>

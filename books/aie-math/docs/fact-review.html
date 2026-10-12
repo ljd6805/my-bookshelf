@@ -4,6 +4,24 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「AI 엔지니어링 처음부터」 02권 《모델을 움직이는 수학 · 미분에서 푸리에까지》(<code>books/aie-math/</code>)의 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 검수 에이전트가 사실과 출처를 확인했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-12-supplement" data-reviewer="Claude 검수 세션 (보충 검수 r3)" data-author="Claude 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="12개 장 전이 문항(transfer) 12개, #final 실험 verdict의 기저율·오경보율 손잡이(falseAlarms)와 결과 읽기, verdict 식 설명, quizOrder 보기 돌리기" data-result="passed" data-commit="5f766a8">
+<h2>2026-10-12 검수 (전체 도서 보충 · 검수 r3)</h2>
+<p>검수자: Claude 검수 세션 (보충 검수 r3, 검수팀 정민·유진·건우·채원·현석 관점). 집필자: Claude 보충 집필 세션 (2026-10-12). 범위: 12개 장 전이 문항(transfer) 12개, #final 실험 verdict의 기저율·오경보율 손잡이(falseAlarms)와 결과 읽기, verdict 식 설명, quizOrder 보기 돌리기. 커밋 5f766a8이 이 책에 더한 것만 보았고, 계산은 책 코드와 따로 Python·Node 스크립트로 다시 했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>전이 문항 해설의 사실(브로드캐스팅은 오른쪽 축부터, 앞 차분 O(h)·가운데 차분 O(h²), 수렴 한계 2/λmax, 표준오차 1/√n)을 표준 정의와 대조. 전이 문항마다 정답이 하나뿐인지, 오답 해설의 계산이 그 오답 값을 실제로 만드는지 확인했습니다. 정답 자리 돌리기(quizOrder)는 n=3의 모든 (정답, 목표 자리) 9쌍에서 목표 자리에 원래 정답이 오고 보기가 겹치지 않음을 따로 확인했고, 클릭 판정은 data-answer·data-transfer의 원래 번호를 c.quiz[2]·c.transfer[2]와 비교합니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>따로 계산: 1.25Hz×8초=10(k=10), (2.1³−8)/0.1=12.61·(2.1³−1.9³)/0.2=12.01, b+2a=8, 2/50=0.04·|1−2.5|=1.5, 2−1=1비트, −800+ln2=−799.307, 0.4→0.1은 n×16=1,600, ⌊8000/181⌋=44(7,964), 정상 분포 π비=0.1/0.6=0.167, 공장 검사 0.00495/(0.00495+0.0199)=0.199</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>diffInterval·falseAlarms를 따로 계산해 대조: n=200 구간 −3.48~+9.48%p, n=2,000 +0.95~+5.05%p, 기저율 5%·오경보 3%에서 0.625(잘못 켬 37.5), 1%에서 0.2423(75.8), 30%에서 0.931. 결과 읽기 문장과 일치</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>놀람·오경보율·기저율·민감도가 책 안의 기존 용어와 같고, 사후확률 P(명령 | 켜 판정) 표기도 식과 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>해당 없음</td><td>이 보충은 새 출처를 더하지 않았습니다(기존 출처 목록 그대로)</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>수정</th></tr></thead><tbody>
+<tr><td>—</td><td>오류를 찾지 못했습니다</td><td>—</td><td>—</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>실제 브라우저에서 전이 문항을 직접 눌러 보지는 않았습니다(집필 측 tests/browser.cjs 기록만 봄). 독자의 학습 효과는 시험하지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-editorial" data-reviewer="Claude · 편집팀 전체 도서 검수 세션 (2026-10-12)" data-author="Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-math)" data-date="2026-10-12" data-scope="12개 장 본문·식·세부·경고·확인 문제, 15개 실험과 안내 상자 결과 읽기의 대표값·경계값(numpy로 따로 계산), 출처 48개 중 1개 웹 재확인, 교차 링크(나가는 22개·들어오는 3개) 도착 앵커, 1280·390·320px 브라우저" data-result="passed">
 <h2>2026-10-12 검수 (편집팀 전체 도서 검수)</h2>
 <p>검수자: Claude · 편집팀 전체 도서 검수 세션 (2026-10-12). 집필자: Claude · AI 엔지니어링 시리즈 집필 에이전트 (aie-math). 이 책을 쓰지 않은 새 세션이 다섯 팀 관점으로 다시 읽었습니다. 사실·수치·실험 계산 오류는 찾지 못했고 책 본문은 고치지 않았습니다.</p>
