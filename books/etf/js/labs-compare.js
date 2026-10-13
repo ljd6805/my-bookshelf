@@ -5,7 +5,8 @@
 'use strict';
 const U=EUI,M=EMath,F=U.fmt,W=U.won0,E=M.ETFS;
 const banner=more=>`<p class="rate-banner"><b>${U.ADVICE_NOTE}</b>${more?`<br>${more}`:''}</p>`;
-/* 9장: 금액·보유 햇수·왕복 횟수(기간 전체 또는 한 달)·비용 전 수익률 → 보유 비용 차, 거래 비용 차, 더 큰 항목, 순서가 뒤집히는 왕복 수. */
+/* 9장: 금액·보유 햇수·왕복 횟수(기간 전체 또는 한 달)·비용 전 수익률 → 보유 비용 차, 거래 비용 차, 더 큰 항목, 순서가 뒤집히는 왕복 수.
+   한 달 단위로 세면 왕복 수 × 12 × 햇수를 보유 기간 전체의 왕복으로 보고 같은 기간끼리 견주며, 한 달 몫(전체 ÷ 12n)은 표의 따로 된 행에 둔다. */
 function fiveTable(){
  const c=k=>M.etfCost(k);
  return U.table(['ETF','기초지수','비용','괴리율','거래량·스프레드','세금(매매차익)'],[[E.nuri.name,`${E.nuri.index}(유동주식 가중 200종목)`,`총보수 ${U.pct(E.nuri.fee)}, 총비용 ${U.pct(c('nuri').total)}`,'평균과 최근 공시를 적는 칸',`스프레드 ${E.nuri.spread}원`,'비과세(국내주식형)'],[E.garam.name,E.garam.index,`총보수 ${U.pct(E.garam.fee)}, 총비용 ${U.pct(c('garam').total)}`,'평균과 최근 공시를 적는 칸',`거래가 적음, 스프레드 ${E.garam.spread}원`,'비과세(국내주식형)'],[E.overseas.name,E.overseas.index,'기초지수가 달라 비용 비교 전에 담을 것을 정함','해외 기초자산(공시 기준 2%, 보도 기준)','이 책에서 정하지 않음',`${U.pct(M.RULES.tax.kother,1)} 배당소득`]],'다섯 항목 비교표 (가상의 ETF, 값은 가정)');
@@ -17,12 +18,12 @@ ELabs['compare-table']=el=>{
   if(a===null)return U.result(el,'',U.problem('투자 금액','3에서 100,000 사이의 숫자(만 원)를 넣어야 합니다.'));
   if(n===null||!Number.isInteger(n))return U.result(el,'',U.problem('보유 햇수','1에서 50 사이의 정수(년)를 넣어야 합니다.'));
   if(trips===null||!Number.isInteger(trips))return U.result(el,'',U.problem('왕복 횟수','0에서 1,000 사이의 정수(번)를 넣어야 합니다.'));
-  const P=a*1e4,c=M.comparePurpose({amount:P,years:n,trips,r}),sh=M.shares(P,30000),month=per==='month',tlabel=month?'한 달 거래 비용':'거래 비용';
+  const P=a*1e4,month=per==='month',months=12*n,all=month?trips*months:trips,c=M.comparePurpose({amount:P,years:n,trips:all,r}),sh=M.shares(P,30000),tlabel=`${F(n)}년 거래 비용`;
   const chart=U.columns({labels:[`보유 비용 차(${F(n)}년)`,`${tlabel} 차`],values:[c.hold.diff,c.trade.diff],mark:i=>(i===0)===(c.bigger==='hold'),fmt:v=>F(v),tick:v=>F(v),title:'두 ETF의 비용 차이 (원) · ▲ 더 큰 항목',h:230,label:`보유 비용 차 ${W(c.hold.diff)}, ${tlabel} 차 ${W(c.trade.diff)}`});
-  const cmp=U.table(['항목',E.nuri.name,E.garam.name,'차이'],[[`${F(n)}년 뒤 금액(연 ${F(r*100,1)}%)`,W(c.hold.a),W(c.hold.b),`<b>${W(c.hold.diff)}</b>`],[`${tlabel}(${F(sh)}주 × 스프레드 × ${F(trips)}번)`,W(c.trade.a),W(c.trade.b),`<b>${W(c.trade.diff)}</b>`]],`${U.man(P,'원')} · ${F(n)}년 · ${month?'한 달':'기간 전체'} ${F(trips)}번 왕복`);
+  const cmp=U.table(['항목',E.nuri.name,E.garam.name,'차이'],[[`${F(n)}년 뒤 금액(연 ${F(r*100,1)}%)`,W(c.hold.a),W(c.hold.b),`<b>${W(c.hold.diff)}</b>`],[`${tlabel}(${F(sh)}주 × 스프레드 × ${F(all)}번)`,W(c.trade.a),W(c.trade.b),`<b>${W(c.trade.diff)}</b>`],...(month?[[`한 달 거래 비용(${F(sh)}주 × 스프레드 × ${F(trips)}번, 전체 ÷ ${F(months)}개월)`,W(c.trade.a/months),W(c.trade.b/months),W(c.trade.diff/months)]]:[])],`${U.man(P,'원')} · ${F(n)}년 · ${month?'한 달':'기간 전체'} ${F(trips)}번 왕복`);
   const big=c.bigger==='hold'?'보유 비용 쪽이 큽니다':'거래 비용 쪽이 큽니다';
-  const cross=c.crossTrips?` 같은 금액·기간에서 ${month?'한 달 ':''}왕복이 <b>${F(c.crossTrips)}번</b>이 되면 거래 비용 차가 보유 비용 차보다 커집니다.`:'';
-  U.result(el,chart+cmp+fiveTable(),`${U.man(P,'원')}을 ${F(n)}년 두고 비용 전 수익률을 연 ${F(r*100,1)}%로 놓으면 ${F(n)}년 뒤 ${E.nuri.name}${U.josa(E.nuri.name,'은','는')} <b>${W(c.hold.a)}</b>, ${E.garam.name}${U.josa(E.garam.name,'은','는')} <b>${W(c.hold.b)}</b>${U.josa(W(c.hold.b),'으로','로')} 보유 비용 차가 <b>${W(c.hold.diff)}</b>입니다. 30,000원에 ${F(sh)}주를 사고 ${month?'한 달에 ':''}${F(trips)}번 왕복하면 ${tlabel}은 ${E.nuri.name} <b>${W(c.trade.a)}</b>, ${E.garam.name} <b>${W(c.trade.b)}</b>입니다.<br>이 목적에서는 ${big}.${month?` 한 달 거래 비용 차만으로 ${F(n)}년 보유 비용 차와 견준 것입니다.`:''}${cross} ${E.overseas.name}은 기초지수가 달라 비용을 견주기 전에 무엇을 담을지부터 정합니다.${U.kind(['real','scenario'],'총비용·스프레드·시장가 30,000원·비용 전 수익률은 가정이고, 수수료·세금·시장가 주문이 여러 칸을 먹는 경우는 넣지 않았습니다. 계산 편의, 권유 아님.')}`);
+  const cross=c.crossTrips?` 같은 금액·기간에서 ${month?'한 달 ':''}왕복이 <b>${F(month?Math.ceil(c.crossTrips/months):c.crossTrips)}번</b>이 되면 거래 비용 차가 보유 비용 차보다 커집니다.`:'';
+  U.result(el,chart+cmp+fiveTable(),`${U.man(P,'원')}을 ${F(n)}년 두고 비용 전 수익률을 연 ${F(r*100,1)}%로 놓으면 ${F(n)}년 뒤 ${E.nuri.name}${U.josa(E.nuri.name,'은','는')} <b>${W(c.hold.a)}</b>, ${E.garam.name}${U.josa(E.garam.name,'은','는')} <b>${W(c.hold.b)}</b>${U.josa(W(c.hold.b),'으로','로')} 보유 비용 차가 <b>${W(c.hold.diff)}</b>입니다. 30,000원에 ${F(sh)}주를 사고 ${month?`한 달에 ${F(trips)}번씩 ${F(n)}년 동안 모두 ${F(all)}번`:`${F(trips)}번`} 왕복하면 ${tlabel}은 ${E.nuri.name} <b>${W(c.trade.a)}</b>, ${E.garam.name} <b>${W(c.trade.b)}</b>입니다${month?`(한 달에는 ${W(c.trade.a/months)}과 ${W(c.trade.b/months)})`:''}.<br>이 목적에서는 ${big}.${month?` 한 달 왕복을 ${F(n)}년 내내 이어 간다고 보고, 같은 ${F(n)}년 동안의 거래 비용 차와 보유 비용 차를 견준 것입니다.`:''}${cross} ${E.overseas.name}은 기초지수가 달라 비용을 견주기 전에 무엇을 담을지부터 정합니다.${U.kind(['real','scenario'],'총비용·스프레드·시장가 30,000원·비용 전 수익률은 가정이고, 수수료·세금·시장가 주문이 여러 칸을 먹는 경우는 넣지 않았습니다. 계산 편의, 권유 아님.')}`);
  });
 };
 /* 10장 마지막 과제: 매수 금액·ETF·예상 체결가·iNAV·시점 (가)(나)(다)·다음 거래일 지수 변화, 확인 순서표 6칸. */

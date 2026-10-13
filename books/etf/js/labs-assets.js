@@ -48,10 +48,11 @@ function treeChart(list,isK,type){
  return U.svg(`과세 유형 가리기: ${TYPES[type][0]}, ${TYPES[type][2]}`,s,216);
 }
 ELabs['etf-tax-type']=el=>{
- U.setup(el,`<p class="rate-banner"><b>과세 유형과 세율은 ${M.CHECKED} 보도·안내 기준입니다(국세청·법령 원문 미확인).</b> 금액과 공제는 이 실험에서 계산하지 않습니다.</p>`+U.select('xunder','담은 기초자산',UNDERS,'kstock')+U.select('xlist','상장된 거래소',[['domestic','국내 거래소'],['foreign','해외 거래소']],'domestic')+U.number('xshare','국내 주식 비중 (%)',0,100,1,100,'기초자산이 국내 주식일 때만 씁니다. 60% 이상이면 국내주식형'));
+ U.setup(el,`<p class="rate-banner"><b>과세 유형과 세율은 ${M.CHECKED} 보도·안내 기준입니다(국세청·법령 원문 미확인).</b> 금액과 공제는 이 실험에서 계산하지 않습니다.</p>`+U.select('xunder','담은 기초자산',UNDERS,'kstock')+U.select('xlist','상장된 거래소',[['domestic','국내 거래소'],['foreign','해외 거래소']],'domestic')+U.number('xshare','국내 주식 비중 (%)',0,100,1,100,'기초자산이 국내 주식일 때만 씁니다. 60% 이상이면 국내주식형(보도 기준)'));
  U.bind(el,()=>{
-  const under=U.value(el,'xunder'),list=U.value(el,'xlist'),share=U.num(el,'xshare');
-  if(share===null)return U.result(el,'',U.problem('국내 주식 비중','0에서 100 사이의 숫자(%)를 넣어야 합니다.'));
+  const under=U.value(el,'xunder'),list=U.value(el,'xlist'),share=U.num(el,'xshare'),box=el.querySelector('#xshare');
+  box.disabled=under!=='kstock';box.closest('.control')?.classList.toggle('dim',box.disabled);
+  if(under==='kstock'&&share===null)return U.result(el,'',U.problem('국내 주식 비중','0에서 100 사이의 숫자(%)를 넣어야 합니다.'));
   const low=under==='kstock'&&share<60,isK=under==='kstock'&&!low,t=M.taxType(low?'fstock':under,list),T=TYPES[t.type],uname=UNDERS.find(u=>u[0]===under)[1];
   const tbl=U.table(['유형','조건','매매차익','팔 때 거래세'],Object.entries(TYPES).map(([k,v])=>[(k===t.type?'▲ ':'')+v[0],v[1],`<b>${v[2]}</b>`,'0원']),'ETF 과세 유형 세 가지 (보도 기준)');
   const extra=t.type==='kequity'?' 매매차익이 비과세인 국내주식형이라도 분배금에는 15.4%가 붙는다는 안내가 있습니다.':t.type==='foreign'?' 해외 상장 ETF의 250만 원 공제와 세금 금액은 11권이 계산합니다.':'';

@@ -32,7 +32,7 @@ test('every chapter has the tax-book field set with the right shapes',()=>{
 });
 test('chapter recall equals the L1 cell of the design table (6장 keeps the “8권을 먼저 읽었다면” aside in details)',()=>{
  for(const c of B.chapters){const l1=cell(c.id,'L1');assert.ok(l1,c.id);
-  if(c.id==='leverage'){const [main,aside]=l1.split('<br>');assert.equal(c.recall,main);assert.ok(c.details.some(d=>d[0]==='8권을 먼저 읽었다면'&&d[1].includes(aside.replace(/^<i>8권을 먼저 읽었다면<\/i>: /,''))));}
+  if(c.id==='leverage'){const [main,aside]=l1.split('<br>');assert.equal(c.recall,main);assert.ok(c.details.some(d=>d[0]==='8권을 먼저 읽었다면'&&d[1].includes(aside.replace(/^<i>(곁글\(details로 옮김\) · )?8권을 먼저 읽었다면<\/i>: /,''))));}
   else assert.equal(c.recall,l1,c.id);}
 });
 test('every source is opened research with HTTPS, a check date and a grade',()=>{

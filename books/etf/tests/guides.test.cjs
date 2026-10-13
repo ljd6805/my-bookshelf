@@ -30,3 +30,10 @@ test('L2 answers in the guides equal the answers in the design table',()=>{
  const first={'index-level':'96.50',weighting:'−2.50%','creation-unit':'540만 좌','gap-lab':'+2.25%','tracking-cost':'923,933원',rebalance:'10억 원',underlying:'12,036원','etf-tax-type':'3개','compare-table':'22,500원','final-gap':'−121,800원'};
  IDS.forEach((ch,i)=>{const cell=rows[ch].match(/<b>L2<\/b> (.*?)<\/td>/)[1],ans=cell.slice(cell.lastIndexOf('? (')+3);assert.ok(ans.includes(first[LABS[i]]),`${ch}: ${ans}`);assert.ok(G[LABS[i]][2].includes(first[LABS[i]]),LABS[i]);});
 });
+test('9장 한 달 모드는 같은 기간끼리 견주고, 한 달 몫과 한 달 단위의 역전 횟수를 따로 보인다',()=>{
+ const M=require('../js/math.js'),src=read('js/labs-compare.js');
+ const y=M.comparePurpose({amount:3e6,years:1,trips:20*12,r:0.05});assert.equal(y.hold.diff,2835);assert.equal(y.trade.a,120000);assert.equal(y.trade.b,720000);assert.equal(y.trade.a/12,10000);assert.equal(y.trade.b/12,60000);
+ const l2=M.comparePurpose({amount:4.5e6,years:10,trips:30*120,r:0.05});assert.equal(l2.trade.a/120,22500);assert.equal(l2.trade.b/120,135000);assert.equal(Math.ceil(l2.crossTrips/120),1);
+ assert.match(src,/trips:all/);assert.match(src,/Math\.ceil\(c\.crossTrips\/months\)/);assert.match(src,/한 달 거래 비용\(/);assert.doesNotMatch(src,/한 달 거래 비용 차만으로/);
+ const last=G['compare-table'][2];assert.match(last,/120,000원과 720,000원[\s\S]*2,835원/);
+});

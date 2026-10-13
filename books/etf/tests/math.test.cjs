@@ -170,6 +170,8 @@ test('every number in content.js and review.json is computed above or given in t
  const computed=new Set();const add=v=>{if(typeof v==='number'&&Number.isFinite(v)){computed.add(won(v));for(const d of [0,1,2,3,4])computed.add(Math.abs(v*100).toFixed(d)),computed.add(Math.abs(v).toFixed(d));}};
  const walk=o=>{if(Array.isArray(o))o.forEach(walk);else if(o&&typeof o==='object')Object.values(o).forEach(walk);else add(o);};walk(C);
  for(const v of [C.rebase/1e8,C.rebase2/1e8,C.g10.diff,C.auc1000.ap.perCU/1e4,C.b3.p0,C.b3.p1,12000*0.99*1.02,1e7*0.0009*30,M.comparePurpose({amount:6e6,years:10,trips:18}).trade.diff,M.comparePurpose({amount:6e6,years:10,trips:17}).trade.diff,M.spreadCost(9e6,30000,30),M.spreadCost(3e6,30000,30,20),M.spreadCost(3e6,30000,5,20),M.spreadCost(6e6,30000,30)])add(v);
+ /* 9장 본문: 300만 원 · 한 달 20번을 1년(240번) 이어 갈 때의 거래 비용과 1년 보유 비용 차. */
+ {const y=M.comparePurpose({amount:3e6,years:1,trips:240});for(const v of [y.hold.diff,y.trade.a,y.trade.b,y.trade.diff/12])add(v);}
  for(const [v,d] of [[C.b3.p0,2],[C.b3.p1,2],[12000*0.99*1.02,1]])computed.add(v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d}));
  const allowed=new Set([...computed,...GIVEN]),strip=s=>String(s).replace(/<[^>]+>/g,' ');
  const text=strip(JSON.stringify(B.chapters.map(c=>[c.subtitle,c.desc,c.recall,c.paragraphs,c.formula,c.formulaNote,c.flow,c.details,c.warning,c.quiz,c.transfer]))+JSON.stringify(R.chapters));

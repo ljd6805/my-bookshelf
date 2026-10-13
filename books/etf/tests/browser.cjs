@@ -29,7 +29,7 @@ const PRESETS={
  'index-level':[[0,['100.00']],[1,['약 4,476억 원','117.50']],[2,['117.50']],[3,['102.50']]],
  weighting:[[0,['36.07%','33.33%']],[1,['+1.75%','+2.00%','+2.33%']],[3,['유동시가총액 가중 +3.75%']]],
  'creation-unit':[[0,['980만 좌','2,940억 원']],[1,['1,050만 좌','3,150억 원']],[2,['변화 없음']]],
- 'gap-lab':[[0,['30,410원','30,405원','+0.16%']],[1,['31,275원','30,985.50원','+3.01%','915원','9,150만 원']],[2,['2,100주','900주','+5.01%']],[3,['30,515원','+0.51%','LP 호가 의무 면제']],[4,['31,275원','+3.01%']]],
+ 'gap-lab':[[0,['30,410원','30,405원','+0.16%']],[1,['31,275원','30,985.50원','+3.01%','915원','9,150만 원']],[2,['30,515원','+0.51%','LP 호가 의무 면제']],[3,['31,275원','+3.01%']]],
  'tracking-cost':[[0,['0.79%p']],[1,['1,109,162원']],[2,['0.09%','0.14%']]],
  rebalance:[[0,['20억 원어치를 팝니다']],[1,['20억 원어치를 더 팝니다']],[2,['4억 원어치를 팝니다','96억 원','46억 원','92억 원']]],
  underlying:[[0,['12,240원']],[1,['12,118원']],[2,['거래상대방 위험 있음']],[3,['발행사 신용위험 있음']]],
@@ -175,6 +175,8 @@ async function extras(page,url){
  await page.keyboard.press('Home');assert.match(await gap.locator('.readout').innerText(),/09:00[\s\S]*LP 호가 의무 면제/,'keyboard slider home (opening exemption)');
  await frame(page,url,390,'final');assert.match(await page.locator('#lab-final-gap .rate-banner').innerText(),/계산 편의, 권유 아님[\s\S]*2026-10-13 보도·안내 기준/);
  await frame(page,url,390,'choose');assert.match(await page.locator('#lab-compare-table .rate-banner').innerText(),/계산 편의, 권유 아님/);await page.fill('#guess-compare-table','22,500원 / 135,000원');await page.locator('#lab-compare-table summary').click();await page.waitForFunction(()=>/내 예측: 22,500원/.test(document.querySelector('#lab-compare-table .guess-echo').innerText),null,{timeout:3000});
+ await frame(page,url,390,'tax');const tx=page.locator('#lab-etf-tax-type');assert.equal(await page.locator('#xshare').isDisabled(),false);await setValue(tx,'xunder','bond');assert.equal(await page.locator('#xshare').isDisabled(),true,'share input disabled unless 국내 주식');
+ await frame(page,url,390,'choose');const ct=page.locator('#lab-compare-table');await ct.locator('[data-preset]').nth(1).click();const mt=await allText(ct);has(mt,['120,000원','720,000원','2,835원','10,000원','60,000원','한 달 왕복을 1년 내내 이어 간다고 보고'],'compare-table month mode');
  await frame(page,url,320,'cost');await page.getByRole('button',{name:'목차',exact:true}).click();assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'false');
  await page.locator('header [data-shelf-return]').click();await page.waitForURL('**/index.html#books');
 }

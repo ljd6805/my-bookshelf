@@ -123,7 +123,7 @@ function grow(principal,r,c,years){money(principal,'principal');rate(r,'r');need
 function costGap(principal,r,cA,cB,years){const a=grow(principal,r,cA,years),b=grow(principal,r,cB,years);return {a:Math.round(a),b:Math.round(b),diff:Math.round(Math.abs(b-a))};}
 
 /* ── 6장 레버리지·인버스 재조정 ── 노출 = 배수 × 순자산. 하루 뒤 노출 = 노출 × (1 + r), 새 순자산 = 순자산 × (1 + 배수 × r).
-   재조정 매매 = 배수 × 새 순자산 − 하루 뒤 노출 = 배수 × (배수 − 1) × r × 순자산. 양수면 노출을 늘리는 매수(인버스는 되삼).
+   재조정 매매 = 배수 × 새 순자산 − 하루 뒤 노출 = 배수 × (배수 − 1) × r × 순자산. 양수면 사는 쪽(2배는 매수, 인버스는 판 것을 되사 매도 노출을 줄임), 음수면 파는 쪽(2배는 매도, 인버스는 더 팔아 매도 노출을 늘림).
    비용·차입 이자·추적 괴리는 넣지 않는다. 감쇠의 크기는 8권 #drag가 계산한다. */
 function rebalance(nav0,multiple,r){
  money(nav0,'nav');num(multiple,'multiple');need(multiple!==0,'multiple must not be 0');rate(r,'index return');
