@@ -1,7 +1,7 @@
 /* 책의 모든 글. 화면 코드는 없다. 원본: rohitg00/ai-engineering-from-scratch (MIT, 확인일 2026-10-08)의 Phase 19 · Capstone Projects를 한국어로 재구성했다. 원문과 코드를 옮기지 않았다. */
 window.A20Book={
 meta:{
- short:'캡스톤',title:'캡스톤 · 배운 도구로 제품 하나를 끝까지',eyebrow:'AI ENGINEERING FROM SCRATCH / 20',
+ short:'캡스톤',title:'캡스톤 · 배운 도구로 제품 하나를 끝까지 만들어 보기',eyebrow:'AI ENGINEERING FROM SCRATCH / 20',
  hero:['개발 도우미 하나를 출시하며','예산·지연·품질·위험을 맞바꿉니다.'],
  lead:'개발자 200명이 쓰는 사내 AI 개발 도우미 “모루”를 여섯 명의 팀이 시제품에서 출시까지 끌고 갑니다. 앞 권들에서 배운 에이전트, 모델 학습, 검색, 멀티모달, 평가, 안전을 하나의 제품에 엮으면서, 장마다 사양표의 네 칸인 월 예산, p95 지연, 통과율, 위험 가운데 무엇을 얼마나 내줄지 직접 계산합니다.',
  feature:['final','출시 사양표 맞추기'],stat:['85','원본 프로젝트 재구성'],

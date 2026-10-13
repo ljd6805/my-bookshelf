@@ -1,4 +1,4 @@
-# AI 인프라와 운영 · 모델 서버에서 운영 장부까지 작업 규칙
+# AI 인프라와 운영 · 모델 서버에서 비용·장애 관리까지 작업 규칙
 
 - 이 책의 개발 원본은 `my-bookshelf/books/aie-production/`이다. 루트 `AGENTS.md`와 `docs/08-book-template.html`을 따른다.
 - 「AI 엔지니어링 처음부터」 시리즈 18권이다. 원본 커리큘럼 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 17 · Infrastructure and Production(레슨 28개)를 한국어로 재구성했다. 원문과 코드를 옮기지 않는다.
