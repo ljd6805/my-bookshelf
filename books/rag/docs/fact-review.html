@@ -5,6 +5,28 @@
 <h1>팩트·출처 검수 기록 · 검색과 RAG · 질문에서 근거까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-titles" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (제목·설명·머리글 점검 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="제목·설명·머리글 점검(커밋 e638d09)으로 바뀐 글 4곳: js/app.js 1곳(화면 머리글), js/content.js 3곳(다른 책 링크 이름). index.html은 자산 버전만 바뀜. 장 제목·책 설명·실험 계산·출처 목록·장 ID는 바뀌지 않음" data-commit="ff884c4" data-result="passed">
+<h2>2026-10-13 제목·설명·머리글 뜻 보존 검수</h2>
+<p>검수자는 제목을 고치지 않은 유진 세션이고, 집필자는 다온 문체 개정 세션입니다. 기준 커밋 fd860a3과 HEAD(ff884c4) 사이의 <code>books/rag/</code>와 <code>data/catalog.json</code> 변경을 보았습니다. 바뀐 화면 머리글이 흐름도와 설명보다 넓거나 좁아지지 않았는지 대조했고, 다른 책 링크 이름은 그 책 content.js의 장 제목과 맞춰 보았습니다. 이 책의 장 제목과 catalog 항목은 바뀌지 않았습니다.</p>
+<p>뜻이 달라진 곳은 찾지 못해 되돌린 것이 없습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>“한 도우미를 끝까지 만듭니다”→“도서관 안내 도우미 하나를 단계별로 만듭니다”는 바로 아래 설명(한빛시립도서관 안내 문서 13개)과 흐름도의 네 단계(찾기·의미·평가·답하기, 1~10장)와 맞음. 새 범위가 생기지 않음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>바뀐 글에 수치가 없고 링크의 장 번호 01·08·09 그대로</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>app.js는 h2 하나만, content.js는 cross 링크 이름만, index.html은 ?v= 자산 버전만 바뀜. 책 테스트 33개, 루트 tests/test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>“도우미”는 책 전체가 쓰는 이름과 같음. 장 ID·앵커 변경 없음. catalog의 이 책 장 색인·장 목록·description은 바뀌지 않았고 content.js 제목과 같음(마지막 과제는 “마지막 과제 · ” 머리를 붙인 표기)</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>대조한 글 4곳, 되돌린 곳 0</td><td>메모 style-k-titles의 반영함 행 2개(머리글 1, 링크 표기 3곳)가 diff와 하나씩 맞고 메모에 없는 변경은 없음. 링크 이름 3개(AI Book 01 · 뉴런 하나의 계산, 컴퓨터 원리 08 · 캐시로 기다리는 시간 줄이기, 지식 그래프 09 · 그래프에서 모은 근거로 답하기)가 대상 장 제목과 같음</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<p>없음. 뜻이 달라진 곳이 없어 되돌리지 않았습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>9장 더 읽어 보기의 “도구와 프로토콜 · 행동, 읽을거리, 틀을 나누기”는 HEAD의 aie-tools #context 제목과 같습니다. 다만 검수 시점의 작업 트리에는 다른 세션이 aie-tools content.js에서 이 제목을 “도구, 자원, 프롬프트를 나누기”로 바꾸는 미완료 변경이 있습니다. 그 변경이 커밋되면 이 링크 이름과 catalog 장 색인도 맞춰야 합니다.</li>
+<li>이번에 바뀌지 않은 링크 이름 “찾고 정렬하고 잇기 10 · 색인: 역색인과 근사 최근접 이웃”은 대상 장 제목 끝의 “(심화)”를 뺀 형태입니다. 이전부터 있던 표기라 두었습니다.</li>
+<li>브라우저에서 바뀐 머리글이 표지 화면에 보이는 모습은 확인하지 않았습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 6781da6)으로 바뀐 문장 17개: js/content.js 15개, js/lab-guides.js 1개, review.json 1개. index.html은 content.js·lab-guides.js 자산 버전(20261012-supp2 → 20261013-k)만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="6781da6" data-result="passed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자: Claude · 유진 뜻 보존 검수 세션. 집필자(문체 개정): Claude · 다온 문체 개정 세션. 기준 커밋 401b057과 개정 커밋 6781da6 사이의 <code>books/rag/</code> diff를 글자 단위로 펼쳐, 바뀐 문장 17개를 원래 문장과 하나씩 대조했습니다. 이 책에는 사실 수정이 없고 문체 손질만 있습니다. 다온의 메모(<code>docs/index.html</code>의 2026-10-13 한국어 문장 지침 대조)에 있는 "반영함" 17행과 diff의 17곳을 맞춰 보았습니다.</p>

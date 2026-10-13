@@ -4,6 +4,29 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>《컴퓨터 비전 · 픽셀에서 장면 이해까지》(「AI 엔지니어링 처음부터」 05권, books/aie-vision/)의 팩트·출처 검수 기록입니다. 검수 회차마다 섹션 하나를 두고, 새 회차는 위에 더합니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-13-titles" data-reviewer="Claude · 유진 제목·설명 뜻 보존 검수 세션 (2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="제목·설명·머리글 점검(커밋 79c7981)으로 바뀐 문장 5개: js/content.js 5개(flow 1·장 제목 4). 커밋 ff884c4에서 다른 책 링크 이름 2개(aie-deep#init, aie-generative#flow)와 catalog.json 장 색인 4개가 따라 바뀜. 실험 계산·출처 목록·장 ID는 바뀌지 않음" data-commit="79c7981" data-result="passed">
+<h2>2026-10-13 제목·설명·머리글 뜻 보존 검수</h2>
+<p>검수자는 문장을 고친 다온 세션과 다른 유진 검수 세션이고, 집필자는 다온 문체 개정 세션입니다. 본문 문체 개정은 앞 회차(review-2026-10-13-style)에서 검수를 마쳤으므로, 이번에는 <code>git diff 089050f HEAD -- books/aie-vision/</code>에서 바뀐 책 설명·장 제목·부제·화면 머리글·실험 제목만 뽑아 원래 문장과 나란히 읽었습니다. 다온 메모 <code>docs/index.html#style-k-titles</code>의 “(반영함)” 행과 diff를 하나씩 맞춰 보았고, 메인 세션이 커밋 ff884c4에서 옮긴 catalog.json 장 색인·책 설명과 다른 책 “더 읽어 보기” 링크 이름도 이 책 content.js의 장 제목과 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 바뀐 제목·설명이 장의 실제 내용을 넘거나 좁히지 않음</td><td>고친 제목을 해당 장의 부제·본문·실험과 맞춰 읽음. 11장 “비디오 세계 모형”은 본문(“시간 축으로 넓힌 비디오 모델은 행동에 반응하는 세계 모형”)과, 10장·flow의 “데이터에 보태기”는 본문(“드문 상황의 주행 영상을 만들어 학습 데이터를 보탭니다”)과 같음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음. 고친 문장에 숫자가 없고, 장 번호가 그대로임</td><td>고친 문장의 숫자·단위를 원래 문장과 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff는 content.js의 글 필드, index.html의 자산 버전 문자열(content.js ?v=20261013-k → -t)과 꼬리말, docs/index.html 메모에만 있음. 책 테스트 26개, 루트 test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음. “세계 모형”은 본문의 표기(9곳)와 같고 “세계 모델”은 쓰이지 않음. “자기지도 학습”·“CLIP”은 7장 부제의 낱말과 같음</td><td>장 ID 12개와 링크 주소가 그대로인지 diff로 확인. catalog.json의 장 색인·책 장 목록을 content.js 장 제목과 대조(“마지막 과제 ·”를 “마지막 ·”로 줄이는 카탈로그 관례만 다름). 이 책에서 나가는 링크 이름을 가리키는 책의 장 제목과 대조해 모두 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. “더 읽어 보기”는 링크 이름만 바뀌고 주소와 이동 이유는 그대로임</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>바뀐 문장 5개를 대조해 되돌린 문장 없음</td><td>바뀐 문장마다 대상·조건·범위·가능성의 정도(K3)·인과·용어를 원래 문장과 대조. 메모의 “(반영함)” 행과 diff의 바뀐 곳이 하나씩 짝을 이룸. 커밋 ff884c4의 링크 이름 변경은 메모 밖의 옮겨 적기라 따로 대조함</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>없음. 뜻이나 범위가 달라져 되돌린 문장이 없습니다.</p>
+<p>비고</p>
+<ul>
+<li>2장 제목: “깊이 쌓아도 배우는 백본” → “깊이 쌓아도 학습되는 백본”. 주어가 백본에서 학습으로 옮겨 갔을 뿐 “깊어도 학습이 된다”는 뜻은 같습니다.</li>
+<li>다른 책에서 이 책으로 오는 링크 가운데 HEAD 기준으로 옛 장 제목이 남은 곳이 있습니다: aie-multimodal의 #backbone·#selfsup·#generate·#world 링크 네 곳. 이 책 폴더 밖이라 고치지 않았고 메인 세션에 넘깁니다.</li>
+<li>작업 트리에서 다른 세션이 aie-multimodal의 장 제목을 고치는 중입니다(커밋 전). 그대로 커밋되면 이 책의 #bridge 링크 이름(“얼린 두 모델 사이에 다리 놓기”)이 새 제목(“얼린 두 모델을 Q-Former와 게이트로 잇기”)과 어긋납니다. HEAD에서는 맞으므로 이번 회차의 발견으로 두지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul><li>바뀐 제목을 서가와 책 화면에서 1280·390·320px로 직접 열어 줄바꿈과 잘림을 보지 않았습니다.</li><li>제목 변경이 독자의 장 선택에 주는 차이는 시험하지 않았습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 8d5cdc5)으로 바뀐 문장 20개: js/content.js 17개(문체 15, 사실 수정 2), js/lab-guides.js 3개. index.html은 두 스크립트의 ?v= 값만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="8d5cdc5" data-result="passed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자는 문장을 고치지 않은 새 세션의 유진이고, 집필자는 다온 문체 개정 세션입니다. <code>git diff 856513a 8d5cdc5 -- books/aie-vision/</code>에서 바뀐 문장을 원래 문장과 하나씩 대조했습니다. 문체로 고친 문장 18개(<code>js/content.js</code> 15개, <code>js/lab-guides.js</code> 3개)는 wording 항목에서, 다온이 “그대로 둠: 사실 확인 필요”로 넘긴 뒤 집필 쪽이 고친 문장 2개(5장·6장)는 facts 항목에서 원본 레슨·같은 책의 다른 문장·그림 코드와 맞춰 보았습니다. 기준은 <a href="../../../docs/11-korean-writing.html">한국어 문장 지침</a> K3·K5·K6입니다.</p>

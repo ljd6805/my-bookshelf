@@ -4,6 +4,28 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「지식 그래프와 온톨로지 · 의미를 구조로」를 쓰지 않은 에이전트가 검수한 결과입니다. 규칙은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">책 개발 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-13-titles" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (제목·설명·머리글 점검 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="제목·설명·머리글 점검(커밋 e638d09)과 카탈로그 반영(커밋 ff884c4)으로 바뀐 글 1곳: js/content.js 9장 제목. index.html은 자산 버전만 바뀜. 책 설명·실험 계산·출처 목록·장 ID는 바뀌지 않음" data-commit="ff884c4" data-result="passed">
+<h2>2026-10-13 제목·설명·머리글 뜻 보존 검수</h2>
+<p>검수자는 제목을 고치지 않은 유진 세션이고, 집필자는 다온 문체 개정 세션입니다. 기준 커밋 fd860a3과 HEAD(ff884c4) 사이의 <code>books/knowledge-graph/</code>와 <code>data/catalog.json</code> 변경을 보았습니다. 바뀐 9장 제목이 그 장의 부제·본문·흐름도·실험 설명보다 넓거나 좁아지지 않았는지 대조했고, catalog의 장 색인·책 장 목록과 이 장으로 오는 다른 책 링크 이름을 새 제목과 맞춰 보았습니다.</p>
+<p>뜻이 달라진 곳은 찾지 못해 되돌린 것이 없습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>“그래프와 언어 모델을 함께”→“그래프에서 모은 근거로 답하기”. 부제 “그래프를 걸으며 근거 사슬을 모으고, 그 사슬을 언어 모델에 함께 건넵니다”, 흐름도 마지막 단계 “언어 모델|사슬을 근거로 답 쓰기”, 장 질문(세 단계 질문에 답하기)과 맞음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>바뀐 글에 수치가 없고 장 번호 09 그대로</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>content.js의 title 문자열만, index.html은 ?v= 자산 버전만 바뀜. 책 테스트 19개, 루트 tests/test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>“근거”는 부제·본문의 “근거 사슬”과 같은 말. 장 ID(graphrag) 변경 없음. catalog 장 색인과 책 장 목록이 “09 · 그래프에서 모은 근거로 답하기”로 같고, rag 책의 링크 이름 “지식 그래프 09 · 그래프에서 모은 근거로 답하기”도 같음. 책 description은 바뀌지 않음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>대조한 글 1곳, 되돌린 곳 0</td><td>메모 style-k-titles의 반영함 행 1개가 diff와 맞고 메모에 없는 변경은 없음</td></tr>
+</tbody></table></div>
+<h3>발견과 수정</h3>
+<p>없음. 뜻이 달라진 곳이 없어 되돌리지 않았습니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>새 제목은 “답하기”를 말하지만, 공식 설명에 적힌 대로 이 장의 실험은 언어 모델을 실행하지 않고 문맥 안에서 근거 사슬이 완성되는지만 확인합니다. 장 전체(흐름도의 마지막 단계)는 답 쓰기까지 다루므로 제목이 장 범위를 넘지는 않는다고 보았지만, 실험만 보는 독자에게는 조금 앞서 나간 제목으로 읽힐 수 있습니다.</li>
+<li>표지 소개 문장 “마지막에는 그래프와 언어 모델을 함께 써서…”(js/app.js)는 바뀌지 않았고, 새 장 제목과 뜻이 어긋나지 않습니다.</li>
+<li>브라우저에서 바뀐 제목이 장 목차·서가 목록에 보이는 모습은 확인하지 않았습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 6781da6)으로 바뀐 문장 8개: js/content.js 6개, js/lab-guides.js 2개. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="6781da6" data-result="passed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자: Claude · 유진 뜻 보존 검수 세션. 문장을 고친 다온 세션과는 다른 새 세션이고, 다온의 결론을 건네받지 않은 채 <code>git diff 401b057 6781da6 -- books/knowledge-graph/</code>에서 원래 문장과 고친 문장을 직접 꺼내 대조했습니다. 집필자(문체 개정): Claude · 다온 문체 개정 세션. 범위는 개정 커밋에서 바뀐 문장 8개(js/content.js 6개, js/lab-guides.js 2개)와 index.html의 자산 버전 두 곳이며, 다온이 사실 확인을 넘긴 2장 더 읽어 보기의 A² 문장도 함께 확인했습니다.</p>

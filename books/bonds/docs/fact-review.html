@@ -4,6 +4,33 @@
 <h1>팩트·출처 검수 · 금리와 채권</h1>
 <p>「금리와 채권 · 기준금리에서 채권 가격까지」(books/bonds/)를 집필 세션과 다른 세션이 검수한 기록입니다. 기준은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>이고, 검수팀의 점검 목록으로 보았습니다. <a href="index.html">제작 문서로 돌아가기</a> · <a href="research.html">조사 노트</a></p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 6843ef2)으로 바뀐 문장 34곳: js/content.js 16(장 제목 6, 부제 3, 질문 1, 떠올리기 3, 본문 3), js/app.js 14(실험 제목 8, 표지 소개 1, 화면 머리글 2, 흐름 상자 2, 읽기 경로 1), js/lab-guides.js 1, index.html 3(책 설명 두 구절, 머리말 아래 한 줄 소개). 커밋 ff884c4가 바꾼 다른 책 링크 이름 4개와 data/catalog.json의 책 설명·장 색인 6개도 함께 대조함. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="6843ef2" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 이 책을 쓰지도, 이번 문체 개정을 하지도 않은 유진 세션입니다. 집필자는 다온 문체 개정 세션이며, 그 세션의 결론은 건네받지 않았습니다. <code>git diff fd860a3 HEAD -- books/bonds/ data/catalog.json</code>(HEAD는 ff884c4)으로 원래 문장과 고친 문장을 하나씩 맞대어 읽었고, 고친 제목·설명·머리글은 그 장의 부제·본문·떠올리기·실험 안내와 함께 읽어 장이 실제로 다루는 범위를 넘거나 좁히지 않는지 보았습니다. 대조 기준은 <a href="../../../docs/11-korean-writing.html">한국어 문장 지침</a> K3·K5·K6입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>새 사실이 더해지거나 원래 주장이 바뀐 문장은 없습니다. 2장 부제의 “은행 창구”를 “은행의 예금·대출 금리”로 밝힌 것은 본문 둘째 문단(“은행 예금과 대출의 금리는 이런 시장 금리를 따라 정해집니다”)과 2.3절 이름에 있는 내용입니다. 9장 떠올리기의 “어디서 사고, 만기까지 들 때와 중간에 팔 때”는 9장 부제와 본문 셋째 문단의 장외·장내 비교에 있는 내용입니다. 책 설명의 “개인이”도 9장 제목에 있는 말입니다.</td><td>고친 문장마다 그 장의 부제·본문 첫 문단·떠올리기와 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>고친 문장 안의 숫자는 3장 떠올리기의 3.00%, 5장 실험 제목의 1%p 둘이며 그대로입니다. 바뀐 문장에 새 숫자는 없습니다.</td><td>고친 문장의 숫자·단위를 원래 문장과 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>diff에 계산 코드 변경이 없습니다. js/app.js는 LAB 표의 실험 제목 문자열과 표지 문단 문자열만, index.html은 문장 세 곳과 자산 버전 문자열(20261013b3v11 → 20261013-k)만 바뀌었습니다. math.js·labs-*.js·visual.js·figures.js는 바뀌지 않았습니다. 책 테스트 49개와 루트 test_book_content.mjs 5개가 통과했습니다.</td><td>git diff로 확인, <code>npm test</code>(books/bonds), <code>node --test tests/test_book_content.mjs</code></td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>새 제목이 쓰는 “신용 스프레드”, “현금흐름표”, “수정 듀레이션”의 바탕인 “듀레이션”, “만기수익률”은 본문이 정의한 이름 그대로입니다. 그림·실험 이름 “사다리”, “놀이판”, “세 갈래”는 제목에 남았습니다. 장 ID·앵커(book-routes 13개)는 그대로입니다. content.js의 장 제목 10개와 data/catalog.json chapter_index·책 장 목록이 글자까지 같고, 다른 책이 이 책으로 오는 링크 이름(aie-math → #duration, market → #bond, money → #price)도 새 제목과 같습니다. 이 책이 다른 책으로 가는 링크 이름 4개(money #inflation·#discount·#final, volatility #measure)도 그 책의 현재 장 제목과 같습니다.</td><td>node로 content.js를 읽어 catalog.json과 문자열 비교, 다른 책 js에서 ../bonds/# 링크를 grep</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록(BBook.sources)과 장마다 source 번호에 변경이 없습니다. 2장 본문에서 “그 길을”이 “그 과정을”로 바뀐 문장은 기고를 소개하는 말이고, 뒤따르는 인용 내용은 그대로입니다.</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>34곳(메모의 반영함 31행에 해당)과 다른 책 링크 이름 4개, catalog 설명·장 색인 7곳을 대조했고 되돌린 문장은 없습니다. 메모의 반영함 행은 실제 diff와 모두 맞고, 메모에 없는 문장 변경은 없습니다. “투자 권유가 아니며 금리를 예측하지 않습니다”는 index.html 한 줄 소개에 한 글자도 바뀌지 않고 남았고, catalog 설명의 “학습용이며 투자 권유가 아닙니다”도 남았습니다. 뜻은 같지만 짚어 둘 곳 넷은 아래 발견에 비고로 적었습니다.</td><td>원래 문장과 고친 문장을 앞뒤 문단과 함께 하나씩 대조, 메모(docs/index.html의 style-pass, style-k-장ID·style-k-titles 표)와 diff를 행마다 맞춤</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>되돌린 문장은 없습니다. 아래는 판단이 갈릴 수 있어 고치지 않고 남기는 비고입니다.</p>
+<ul>
+<li><b>비고 1 · transmit 부제(js/content.js).</b> 원래 “그 움직임이 CD와 COFIX를 거쳐 은행 창구에 닿습니다” / 고친 문장 “그 변화가 CD 금리와 COFIX를 거쳐 은행의 예금·대출 금리에 반영됩니다”. 본문은 COFIX를 새 변동금리 주택담보대출에 반영한다고 쓰고, 예금 금리는 시장 금리를 따른다고만 씁니다. 새 문장은 예금 금리도 COFIX를 거치는 것처럼 읽힐 수 있지만, 원래 문장의 “은행 창구”도 같은 구조였으므로 뜻이 달라졌다고 보지 않았습니다. 다음에 고칠 때 “CD 금리를 거쳐 예금 금리에, COFIX를 거쳐 대출 금리에”처럼 나눌지는 집필 쪽 판단으로 남깁니다.</li>
+<li><b>비고 2 · duration 부제(js/content.js).</b> 원래 “볼록성으로 어림의 빈틈을 메웁니다” / 고친 문장 “볼록성으로 어림이 빗나간 만큼을 고칩니다”. 본문의 볼록성 보정은 −7.62%로 정확한 값 −7.63%에 “거의 붙습니다”라서 빗나간 만큼을 모두 고치지는 않습니다. 원래 문장의 “메웁니다”도 같은 정도의 표현이라 되돌리지 않았습니다.</li>
+<li><b>비고 3 · 읽기 경로 1(js/app.js)과 책 설명(index.html)의 9장 표현.</b> 읽기 경로는 “개인이 채권을 사는 방법”, meta description은 “개인이 채권을 갖는 방법”, 9장 제목은 “개인이 채권을 갖는 이유와 방법”입니다. 9장은 사는 곳뿐 아니라 만기까지 들 때와 중간에 팔 때를 함께 다루므로 “사는”은 범위를 조금 좁혀 읽힙니다. 원래 문장(“손에 쥐는 길”)이 범위를 정하지 않았던 자리라 되돌리지 않았습니다.</li>
+<li><b>비고 4 · 머리말 아래 한 줄 소개(index.html).</b> 원래 “하린의 표 한 장에 금리와 채권의 계산을 직접 대어 봅니다” / 고친 문장 “기준금리 뉴스에서 출발해 채권의 현금흐름·가격·만기수익률·듀레이션과 수익률 곡선을 직접 계산합니다”. “대어 봅니다”의 시도가 “계산합니다”로 바뀌었지만, 독자가 실험에서 실제로 계산하는 일을 가리키므로 K3의 확신 정도가 달라졌다고 보지 않았습니다. 나열은 7~9장(신용 스프레드·주식·보유)을 빼고 줄였고, 책 설명(meta)과 catalog 설명이 전체를 적으므로 범위 문제로 보지 않았습니다.</li>
+<li><b>책 폴더 밖, 메인 세션에 넘김.</b> data/catalog.json의 읽기 노선(learning_paths 중 books/bonds/#price·#duration 정거장)의 할 일 문장이 아직 옛 실험 이름 “가격과 만기수익률 오가기 실험”, “금리 1%p에 몇 % 움직이나 실험”을 씁니다. 새 실험 제목은 “금리로 가격을, 가격으로 만기수익률을 계산하기”, “금리가 1%p 움직이면 채권 가격은 몇 % 움직이나”입니다. 서가 노선 카드에서 독자가 실험을 찾을 때 이름이 어긋나므로 맞춰 주기를 부탁합니다. 이 검수는 catalog를 고치지 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>브라우저에서 1280·390·320px로 바뀐 제목과 머리글이 잘리지 않는지는 보지 않았습니다. 바뀐 것은 문자열뿐이라 구조 검사(책 테스트)만 돌렸습니다.</li>
+<li>docs/index.html에서 다온이 같이 고친 #curriculum 제목과 #chapters L1 칸은 content.js의 장 제목 10개·떠올리기 10개가 문서에 글자 그대로 있는지만 확인했습니다. 문서 안 옛 관문 기록과 메모 인용에 남은 옛 제목(“전달되는 길” 등)은 그때의 기록이라 대조 대상에서 뺐습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-13" data-reviewer="검수 세션(Claude, 별도 세션)" data-author="집필 세션" data-date="2026-10-13" data-scope="10개 장 전체(js/content.js 본문·공식·공식 설명·흐름·상자·혼동 주의·확인 문제·다른 상황 문제·cross), BBook.sources 31개와 장마다 source 번호, review.json 30문항, js/app.js(실험 info·예측 질문 L2·용어 풀이·참고 자료 문단), js/lab-guides.js 결과 읽기 10개, js/labs-rate.js·labs-final.js의 사다리·마지막 과제 규칙, js/visual.js의 CURVE·REAL 값, js/math.js 규칙, docs/research.html 사실 표·오해 목록·기준값 V-1~V-12·출처 목록" data-result="fixed">
 <h2>2026-10-13 검수 (1회차)</h2>
 <p>검수자: 검수 세션(Claude, 별도 세션). 이 책의 원고·코드·조사 노트를 쓰지 않은 새 세션입니다. 집필자: 집필 세션(Claude). 대상: 작업 트리(미커밋 원고). 판정: facts fixed, numbers fixed, experiments ok, terms ok, sources fixed, wording ok. 찾은 오류 5건을 모두 고쳤고 열린 항목은 없습니다. 다만 2026-10-22 금융통화위원회 결정은 이 검수 뒤의 일이라 공개 전 다시 확인해야 합니다(아래 “확인하지 못한 것”).</p>

@@ -4,6 +4,29 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「AI 엔지니어링 처음부터」 03권 《머신러닝 기초 · 데이터에서 믿을 만한 예측까지》(books/aie-ml/)의 팩트·출처 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 에이전트가 검수했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-13-titles" data-reviewer="Claude · 유진 제목·설명 뜻 보존 검수 세션 (2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="제목·설명·머리글 점검(커밋 79c7981)으로 바뀐 문장 7개: js/content.js 7개(학습 경로 설명 1·장 제목 5·실험 제목 1). 커밋 ff884c4에서 다른 책 링크 이름 4개와 catalog.json 장 색인 5개가 따라 바뀜. 실험 계산·출처 목록·장 ID는 바뀌지 않음" data-commit="79c7981" data-result="passed">
+<h2>2026-10-13 제목·설명·머리글 뜻 보존 검수</h2>
+<p>검수자는 문장을 고친 다온 세션과 다른 유진 검수 세션이고, 집필자는 다온 문체 개정 세션입니다. 본문 문체 개정은 앞 회차(review-2026-10-13-style)에서 검수를 마쳤으므로, 이번에는 <code>git diff 089050f HEAD -- books/aie-ml/</code>에서 바뀐 책 설명·장 제목·부제·화면 머리글·실험 제목만 뽑아 원래 문장과 나란히 읽었습니다. 다온 메모 <code>docs/index.html#style-k-titles</code>의 “(반영함)” 행과 diff를 하나씩 맞춰 보았고, 메인 세션이 커밋 ff884c4에서 옮긴 catalog.json 장 색인·책 설명과 다른 책 “더 읽어 보기” 링크 이름도 이 책 content.js의 장 제목과 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 바뀐 제목·설명이 장의 실제 내용을 넘거나 좁히지 않음</td><td>고친 제목을 해당 장의 부제·본문·실험과 맞춰 읽음. 9장 제목에 더해진 “복잡도 고르기”는 desc(“모델을 더 복잡하게 해야 할까요, 더 단순하게 해야 할까요?”)와 복잡도 손잡이로 검증 곡선을 그리는 실험이 다루는 일임. 10장 “누설 없이”는 부제(모든 단계를 학습 데이터 안에서만 맞춤)와 같음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음. 고친 문장에 숫자가 없고, 장 번호가 그대로임</td><td>고친 문장의 숫자·단위를 원래 문장과 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff는 content.js의 글 필드, index.html의 자산 버전 문자열(content.js ?v=20261013-k → -t)과 꼬리말, docs/index.html 메모에만 있음. 책 테스트 37개, 루트 test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음. 제목에서만 “길”을 용어 “마진”으로 바꾸고 본문의 “길” 정의는 그대로 둠. svm 실험 안내의 “길을 침범한 결제 수”는 본문 정의와 이어짐</td><td>장 ID 12개와 링크 주소가 그대로인지 diff로 확인. catalog.json의 장 색인·책 장 목록을 content.js 장 제목과 대조. 이 책에서 나가는 링크 이름(ai#neuron, aie-deep#loss, linear-algebra#pca 두 곳)을 가리키는 책의 장 제목과 대조해 모두 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. “더 읽어 보기”는 링크 이름만 바뀌고 주소와 이동 이유는 그대로임</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>바뀐 문장 7개를 대조해 되돌린 문장 없음</td><td>바뀐 문장마다 대상·조건·범위·가능성의 정도(K3)·인과·용어를 원래 문장과 대조. 메모의 “(반영함)” 행과 diff의 바뀐 곳이 하나씩 짝을 이룸. 커밋 ff884c4의 링크 이름 변경은 메모 밖의 옮겨 적기라 따로 대조함</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>없음. 뜻이나 범위가 달라져 되돌린 문장이 없습니다.</p>
+<p>비고</p>
+<ul>
+<li>9장 제목: “단순함과 예민함 사이” → “편향과 분산 사이에서 복잡도 고르기”. 부제의 앙상블은 제목에 드러나지 않지만 원래 제목에도 없었습니다.</li>
+<li>확률과 통계 9장으로 가는 링크 이름 “진동과 온도는 함께 움직일까”는 그 책의 장 제목 “진동과 온도는 함께 움직일까: 상관과 인과”에서 뒷부분이 빠져 있습니다. 이번 개정 전부터 있던 이름이라 이번 회차의 발견으로 두지 않고 적어 둡니다.</li>
+<li>다른 책에서 이 책으로 오는 링크 가운데 HEAD 기준으로 옛 장 제목이 남은 곳이 있습니다: aie-agents의 #pipeline 링크 두 곳(“검증을 속이지 않는 공정”). 이 책 폴더 밖이라 고치지 않았고 메인 세션에 넘깁니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul><li>바뀐 제목을 서가와 책 화면에서 1280·390·320px로 직접 열어 줄바꿈과 잘림을 보지 않았습니다.</li><li>제목 변경이 독자의 장 선택에 주는 차이는 시험하지 않았습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 8d5cdc5)으로 바뀐 문장 15개: js/content.js 11개, js/lab-guides.js 4개. 같은 커밋의 사실 수정 5곳(content.js 3곳, lab-guides.js 2곳)도 함께 대조. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="8d5cdc5" data-result="passed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자는 Claude · 유진 뜻 보존 검수 세션이고, 집필자는 문장을 고친 Claude · 다온 문체 개정 세션입니다. 검수자는 다온의 결론을 건네받지 않고 <code>git diff 856513a 8d5cdc5 -- books/aie-ml/</code>로 원래 문장과 고친 문장을 하나씩 대조했습니다. 문체 손질 15문장과, 다온이 사실 확인을 넘겨 집필 쪽이 고친 5곳을 따로 보았습니다. 사실 수정은 <code>js/math.js</code>를 직접 불러 다시 계산한 값과 맞췄습니다. 되돌린 문장은 없습니다.</p>

@@ -5,6 +5,25 @@
 <h1>팩트·출처 검수 기록 · 트랜스포머 속을 열어 보기</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-titles" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (제목·설명·머리글 점검 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="제목·설명·머리글 점검(커밋 e638d09)과 링크 이름 반영(커밋 ff884c4)으로 바뀐 문구 7개: js/app.js section-heading 1, js/content.js 다른 책 장 제목을 옮긴 링크 이름 6. index.html은 자산 버전만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="e638d09" data-result="passed">
+<h2>2026-10-13 제목·설명·머리글 점검 뜻 보존 검수</h2>
+<p>검수자: Claude · 유진 뜻 보존 검수 세션. 집필자(문체 개정): Claude · 다온 문체 개정 세션. 기준 커밋 fd860a3과 HEAD 사이의 <code>books/transformer/</code> diff를 낱말 단위로 펼쳐 바뀐 문구 7개를 대조했습니다. 다온이 고친 것은 홈 화면 section-heading과 벡터와 행렬 링크 이름 2곳이고, 나머지 4곳(트랜스포머 깊이 보기 #multihead 두 곳, 모델을 움직이는 수학 #svd, 딥러닝 핵심 #forward)은 메인 세션이 커밋 ff884c4에서 맞춘 것입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. section-heading “모델 하나를 끝까지 열어 봅니다” → “학습된 모델 하나의 계산을 장마다 추적합니다”에서 새로 들어간 “학습된”은 책 설명(“직접 학습시킨 2층 트랜스포머 토리”, catalog의 “학습된 2층 트랜스포머”)에 이미 있는 말이고, “추적”은 책 부제 “학습된 작은 모델의 회로를 추적하다”와 같습니다. 바로 아래 흐름도의 다섯 단계와도 범위가 같습니다</td><td>바뀐 제목·머리글이 그 장과 화면이 실제로 다루는 내용을 넘거나 좁히지 않는지 부제·본문·실험 안내와 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>바뀐 문구에 숫자가 없습니다. 바로 아래 문단의 “2층”, “세 종류의 학습 문장”은 그대로입니다</td><td>바뀐 문구의 숫자·단위를 원래 문구와 책 설명에 견줌</td></tr>
+<tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>계산 코드 변경 없음. diff는 app.js·content.js의 글자와 index.html의 자산 버전뿐입니다. <code>npm test</code> 23개 통과</td><td>diff에 계산 코드 변경이 없음을 확인, 책 테스트와 루트 <code>tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음. 링크 이름 6개(벡터와 행렬 03·09, 트랜스포머 깊이 보기 03 두 곳, 모델을 움직이는 수학 09, 딥러닝 핵심 02)가 대상 책 HEAD의 장 제목과 같습니다. 이 책의 장 제목은 바뀌지 않았고 catalog 장 색인 13개 장이 content.js 제목과 같습니다</td><td>다른 책 링크 이름을 그 책 HEAD의 <code>js/content.js</code> 장 제목과, catalog의 장 색인·장 목록을 이 책 <code>js/content.js</code>의 장 제목과 스크립트로 맞대 봄</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>7곳 대조, 되돌린 문구 0. 메모의 반영함 2행(section-heading, 링크 이름 2곳)이 diff와 맞고, 메모에 없는 링크 이름 4곳은 커밋 ff884c4의 변경입니다</td><td>원래 문구와 고친 문구를 나란히 놓고 범위·수치·가능성의 정도(K3)·인과를 대조하고, 메모 <code>#style-k-titles</code>의 반영함 행과 diff를 하나씩 맞춤</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>없음. 뜻이 달라져 되돌린 문구는 없습니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문구 / 고친 문구</th><th>살핀 점</th><th>처리</th></tr></thead><tbody>
+<tr><td>홈 화면 section-heading(js/app.js)</td><td>“모델 하나를 끝까지 열어 봅니다” / “학습된 모델 하나의 계산을 장마다 추적합니다”</td><td>12장(#training)은 학습이 끝난 모델이 아니라 학습 도중의 체크포인트를 봅니다. 같은 토리의 학습 과정이므로 “학습된 모델 하나”의 범위를 벗어난다고 보지 않았습니다</td><td>비고, 그대로 둠</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>브라우저에서 바뀐 제목이 화면에 나오는 모습은 보지 않았습니다. 바뀐 것이 글자와 자산 버전뿐임만 diff로 확인했습니다. 앱 화면의 짧은 링크 이름(“깊이 03”, “다른 책 · 트랜스포머 깊이 보기 마지막 과제”)은 장 제목을 옮긴 것이 아니라 줄인 표기이고 이번에 바뀌지 않아 대조하지 않았습니다.</p>
+</section>
 <section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 2341e1b)으로 바뀐 문장 15개: js/content.js 12, js/figures.js 2, js/lab-guides.js 1(이 가운데 figures.js 1과 lab-guides.js 1은 집필 쪽 사실 수정). 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="2341e1b" data-result="passed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자는 유진(Claude, 새 세션)입니다. 이 책의 문장을 고친 다온 세션과는 다른 세션이고, 그 세션의 판단을 건네받지 않은 채 <code>git diff 0f2c248 2341e1b -- books/transformer/</code>로 원래 문장과 고친 문장을 한 문장씩 맞춰 읽었습니다. 집필자는 문체 개정을 맡은 다온 세션입니다. 범위는 이 개정에서 바뀐 문장 15개입니다. 13개는 다온 메모(<code>div.style-pass[data-date="2026-10-13"]</code>)의 “반영함” 행 13개와 짝을 이루는 문체 손질이고, 2개(그림 12-1 설명, mask 실험의 결과 읽기)는 다온이 사실 문제로 넘긴 곳을 집필 쪽이 고친 것이라 facts 항목에서 원고·체크포인트와 대조했습니다. 되돌린 문장은 없습니다.</p>
