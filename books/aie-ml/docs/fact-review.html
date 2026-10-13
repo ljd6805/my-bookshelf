@@ -4,6 +4,33 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「AI 엔지니어링 처음부터」 03권 《머신러닝 기초 · 데이터에서 믿을 만한 예측까지》(books/aie-ml/)의 팩트·출처 검수 기록입니다. 서재 규칙(2026-10-08)에 따라 책을 쓰지 않은 별도 에이전트가 검수했습니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 8d5cdc5)으로 바뀐 문장 15개: js/content.js 11개, js/lab-guides.js 4개. 같은 커밋의 사실 수정 5곳(content.js 3곳, lab-guides.js 2곳)도 함께 대조. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="8d5cdc5" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 Claude · 유진 뜻 보존 검수 세션이고, 집필자는 문장을 고친 Claude · 다온 문체 개정 세션입니다. 검수자는 다온의 결론을 건네받지 않고 <code>git diff 856513a 8d5cdc5 -- books/aie-ml/</code>로 원래 문장과 고친 문장을 하나씩 대조했습니다. 문체 손질 15문장과, 다온이 사실 확인을 넘겨 집필 쪽이 고친 5곳을 따로 보았습니다. 사실 수정은 <code>js/math.js</code>를 직접 불러 다시 계산한 값과 맞췄습니다. 되돌린 문장은 없습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 사실 수정 5곳도 원고와 계산에 맞음</td><td>고친 15문장이 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 대조. 12장 첫 문단의 “먼저 의심할 것은 데이터”는 같은 장 흐름 상자(“가설|데이터 이동, 누설, 버그”)와 진단 점검표(“누설과 버그”)에 맞음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장의 숫자(0.538, 44.4, 40.9%, 99.5%, 100.0%, 두 배, 몇 %)와 식 P(의심|단어) ∝ P(단어|의심)·P(의심)을 원래 문장과 대조. 사실 수정 값은 <code>splitScores(5.5)</code>의 gainGini 0.15648, 0.35² = 0.1225, <code>driftLab(2,'keep')</code> 비용 575.0과 <code>driftLab(2,'retune')</code> 589.8(차이 2.6%), <code>scalingLab('mm')</code>의 acc 1·share 0.348로 다시 계산</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff가 content.js·lab-guides.js의 글 필드, index.html의 두 스크립트 ?v= 값, docs/index.html의 메모뿐임을 확인. 책 테스트 37개와 루트 test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>5장 실험 안내의 “할당”을 본문 용어 “배정”으로 맞춘 것 확인(content.js의 “배정” 8곳과 일치). “암묵적 편향”, “지니”, “엔트로피”, “최소-최대 정규화” 이름 유지 확인</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>15문장 대조, 되돌린 문장 0</td><td>메모의 “(반영함)” 15행과 diff의 문체 변경 15곳이 하나씩 맞음(content.js 11, lab-guides.js 4). 가능성 표현(“계산하게 해 줍니다”→“계산할 수 있습니다”), 단정(“막습니다” 유지), 조건과 인과(5장 “때문입니다”를 관성 쪽에 붙인 순서 변경)가 원래 뜻대로인지 앞뒤 문단과 함께 읽음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>없음. 아래는 판정에 참고한 비고입니다.</p>
+<table><thead><tr><th>위치</th><th>비고</th><th>근거</th><th>처리</th></tr></thead><tbody>
+<tr><td>#trees · js/content.js 확인 문제와 해설</td><td>사실 수정 “이득 약 0.157”→“0.156”(두 곳)이 맞음. 장별 메모 행은 “그대로 둠: 사실 확인 필요”로 남아 있고 수정 내용은 style-pass 둘째 문단에만 있음</td><td><code>splitScores(5.5)</code>: 부모 지니 0.4861, 가중 평균 0.3296, 이득 0.15648. 해설 속 0.486 − 0.330과도 맞음</td><td>그대로 둠</td></tr>
+<tr><td>#tradeoff · js/lab-guides.js biasvar 결과 읽기</td><td>사실 수정 “0.122”→“0.1225”가 맞고 boost 안내와 같은 값이 됨. 메모 행은 “그대로 둠”</td><td>0.35² = 0.1225</td><td>그대로 둠</td></tr>
+<tr><td>#final · js/lab-guides.js drift 결과 읽기</td><td>사실 수정 “오히려 나빠집니다”→“비용이 589.8로 줄지 않습니다(575.0과의 몇 % 차이는 표본 잡음 범위)”가 계산과 마지막 장 수식 설명에 맞음. 메모 행은 “그대로 둠”</td><td>이동량 2에서 옛 문턱 575.0, 문턱 다시 고르기 589.8(2.6% 차이). 이동량 1.5에서는 다시 고르기 쪽이 480.6으로 옛 문턱 483.0보다 조금 낮아, 두 방식의 차이가 방향 없이 흔들린다는 해석과도 맞음</td><td>그대로 둠</td></tr>
+<tr><td>#final · js/content.js 첫 문단</td><td>사실 수정 “바뀐 것은 데이터”→“먼저 의심할 것은 데이터”는 단정을 같은 장의 원인 후보 목록에 맞게 푼 것. 메모 행은 “그대로 둠”</td><td>같은 장 흐름 상자와 진단 점검표</td><td>그대로 둠</td></tr>
+<tr><td>#neighbors · js/content.js 깊이 읽기</td><td>“붙여 약하게 규제되는 단순화”→“붙이는 단순화를 썼고, 그래서 편향도 약하게 규제됩니다”. 원래 문장은 무엇이 약하게 규제되는지 흐렸고, 고친 문장은 편향으로 밝혔음. 뜻은 같다고 판단</td><td><code>trainSVM</code>이 입력에 상수 1을 붙여 편향을 가중치와 함께 풂</td><td>되돌리지 않음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>5장 실험의 슬라이더 이름(<code>js/labs-models.js</code> “반복 단계(할당과 중심 이동 한 번씩)”)에는 아직 “할당”이 남아 있습니다. 이번 개정 범위 밖의 문장이라 고치지 않았고, 용어를 “배정”으로 맞출지는 글작성팀이 정할 일로 남깁니다.</li>
+<li>화면에서 고친 문장이 제자리에 보이는지는 브라우저로 열어 보지 않았습니다. 글 필드만 바뀌었고 책 테스트가 통과한 것으로 갈음했습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#metrics 실험 threshold의 그림 선택(view: ROC/신뢰도 도표, reliability·brier·calibratedThreshold)과 결과 읽기·안내 상자, #metrics 깊이 읽기 “점수는 확률일까”, #drift formulaNote 한 문장, #logistic·#trees·#neighbors·#clusters 확인 문제 4개, 새 출처 2개(scikit-learn Probability calibration, Niculescu-Mizil & Caruana 2005), AGENTS.md 입력 id" data-result="fixed">
 <h2>2026-10-12 검수 (2차 보충 · 검수 r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1), 검수팀 정민·유진·건우·채원·현석 관점과 글작성팀 다온의 문체 관점. 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: #metrics 실험 threshold의 그림 선택(view: ROC/신뢰도 도표, reliability·brier·calibratedThreshold)과 결과 읽기·안내 상자, #metrics 깊이 읽기 “점수는 확률일까”, #drift formulaNote 한 문장, #logistic·#trees·#neighbors·#clusters 확인 문제 4개, 새 출처 2개(scikit-learn Probability calibration, Niculescu-Mizil & Caruana 2005), AGENTS.md 입력 id. 이 보충의 미커밋 변경만 보았고, 계산은 책 코드와 따로 Python(numpy)으로 다시 했습니다.</p>

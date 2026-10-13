@@ -4,6 +4,48 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>《컴퓨터 비전 · 픽셀에서 장면 이해까지》(「AI 엔지니어링 처음부터」 05권, books/aie-vision/)의 팩트·출처 검수 기록입니다. 검수 회차마다 섹션 하나를 두고, 새 회차는 위에 더합니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 8d5cdc5)으로 바뀐 문장 20개: js/content.js 17개(문체 15, 사실 수정 2), js/lab-guides.js 3개. index.html은 두 스크립트의 ?v= 값만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="8d5cdc5" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 문장을 고치지 않은 새 세션의 유진이고, 집필자는 다온 문체 개정 세션입니다. <code>git diff 856513a 8d5cdc5 -- books/aie-vision/</code>에서 바뀐 문장을 원래 문장과 하나씩 대조했습니다. 문체로 고친 문장 18개(<code>js/content.js</code> 15개, <code>js/lab-guides.js</code> 3개)는 wording 항목에서, 다온이 “그대로 둠: 사실 확인 필요”로 넘긴 뒤 집필 쪽이 고친 문장 2개(5장·6장)는 facts 항목에서 원본 레슨·같은 책의 다른 문장·그림 코드와 맞춰 보았습니다. 기준은 <a href="../../../docs/11-korean-writing.html">한국어 문장 지침</a> K3·K5·K6입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 사실 수정 2곳도 맞음</td><td>문체로 고친 18개가 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 대조했습니다. 10장 “판별기가 생성기를 크게 앞서 버리는 독주”는 풀이를 붙인 것이지만 GAN에서 말하는 판별기 우세를 그대로 설명할 뿐 새 주장이 아닙니다. 사실 수정 2곳은 아래 “확인한 사실 수정”에 근거를 적었습니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>20층, logit [2, 0]과 0.88·0.73, e/(e + 1), 15%, 세로축 0(log₁₀ 1)=기울기 1을 원래 문장과 대조했습니다. lab-guides의 “세로축 0(log₁₀ 1)”은 <code>js/labs-image.js</code> residual 그래프의 축 라벨 “log₁₀ 기울기 크기”와 맞고, log₁₀ 1 = 0입니다. 6장 그림 설명의 비교 쌍 수는 따로 계산해 (8×196)² = 2,458,624쌍, 8×196² + 196×8² = 319,872쌍으로 확인 문제의 “약 246만 쌍, 약 32만 쌍”과 같습니다.</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff는 <code>js/content.js</code>·<code>js/lab-guides.js</code>의 문자열과 <code>index.html</code>의 ?v= 값만 바꿨습니다. 실험 코드(<code>js/labs-*.js</code>, <code>js/math.js</code>, <code>js/figures.js</code>)는 diff에 없습니다. 책 테스트 <code>npm test</code> 26개, 루트 <code>node --test tests/test_book_content.mjs</code> 5개가 통과했습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>3장 확인 문제의 “로짓” 2곳을 logit으로, 7장 확인 문제 이유의 softmax를 소프트맥스로 바꾼 것은 본문 표기와 맞춘 것입니다. 고친 뒤 <code>js/content.js</code>에 “로짓”은 남지 않았고, 남은 <code>softmax</code> 2곳은 실험 ID(<code>labs:['softmax']</code>)입니다. 10장의 “손잡이” 2곳을 “조절할 값”으로 바꾼 것은 4장 앞선 개정과 같은 판단이며, 12장의 “엣지 배포 손잡이” 제목과 답안지 틀은 그대로라 장 제목·세부 제목이 바뀌지 않았습니다. 장 ID·장 제목·정답 번호·링크는 바뀌지 않았습니다.</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff에 출처 배열(<code>sources</code>)과 링크 변경이 없음을 확인했습니다.</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>18개 대조, 되돌림 0</td><td>문장마다 수치·조건·가능성의 정도(K3)·인과·비교 대상·용어를 원래 문장과 대조했습니다. 메모의 “(반영함)” 행 18개와 diff의 문체 수정 18개가 하나씩 맞고, 메모에 없는 문장 변경이나 메모에만 있는 수정은 없습니다.</td></tr>
+</tbody></table>
+<h3>대조한 문장</h3>
+<table><thead><tr><th>위치</th><th>원래 → 고친 문장(요지)</th><th>판정</th></tr></thead><tbody>
+<tr><td>#pixels js/content.js</td><td>“가중치 공유를 공짜로 줍니다” → “구조 자체로 … 가중치 공유를 갖습니다”</td><td>뜻 같음. 따로 배우지 않아도 구조에서 생긴다는 뜻이 남음</td></tr>
+<tr><td>#backbone js/content.js</td><td>“평범하게 20층을 넘기자” → “평범한 망을 20층 넘게 쌓자”</td><td>뜻 같음. 20층, 시험·훈련 오차 그대로</td></tr>
+<tr><td>#backbone js/lab-guides.js residual</td><td>“초록 선은 0, 즉 기울기 1” → “세로축 0(log₁₀ 1), 즉 기울기 1”</td><td>뜻 같음. 축 라벨과 맞음</td></tr>
+<tr><td>#classify js/content.js</td><td>“시험 정확도는 오르는 값싼 강건화입니다” → “시험 정확도는 올라서, 적은 비용으로 모델을 강건하게 만드는 방법입니다”</td><td>뜻 같음. “올라서”가 인과처럼 읽힐 여지가 있으나, 원래 문장도 시험 정확도 상승을 강건화의 근거로 묶었으므로 새 인과가 아님</td></tr>
+<tr><td>#classify js/content.js 확인 문제·이유</td><td>“로짓” → “logit” 2곳</td><td>용어 통일. 정답 번호 그대로</td></tr>
+<tr><td>#segment js/content.js</td><td>“검출과 분할과 글 연결이” → “검출과 분할, 그리고 글과 물체를 잇는 일이”</td><td>뜻 같음. 앞 문장의 SAM 3(짧은 명사구로 물체를 찾음)와 맞음</td></tr>
+<tr><td>#segment js/content.js</td><td>“얼마나 다르게 말하는지” → “얼마나 다른 값을 내는지”</td><td>뜻 같음</td></tr>
+<tr><td>#segment js/lab-guides.js dice</td><td>“서로 다른 말을 하는 순간” → “서로 엇갈리는 경우”</td><td>뜻 같음</td></tr>
+<tr><td>#selfsup js/content.js 확인 문제 이유</td><td>“softmax는” → “소프트맥스는”</td><td>용어 통일. 정답 번호 그대로</td></tr>
+<tr><td>#reading js/content.js</td><td>“환각과 … 공간 추론의 약함이 여전히 운영의 주된 실패입니다” → “운영에서 여전히 주로 겪는 실패는 … 환각, 그리고 … 공간 추론에 약하다는 점입니다”</td><td>뜻 같음. “원본 커리큘럼 기준(확인일 2026-10-08)”, “여전히”, “주된” 유지</td></tr>
+<tr><td>#reading js/content.js</td><td>“여전히 공개 진영의 일꾼이고” → “공개 도구 가운데 여전히 실무에서 많이 쓰이고”</td><td>뜻 같음. workhorse의 뜻을 풀었고 범위(공개 도구)·“여전히” 유지</td></tr>
+<tr><td>#depth js/content.js</td><td>“NeRF는 … MLP가 곧 장면이고” → “NeRF에서는 … MLP가 곧 장면이고”</td><td>뜻 같음</td></tr>
+<tr><td>#generate js/content.js 본문·링크 이유</td><td>“구조와 손잡이만” → “구조와 조절할 값만” 2곳</td><td>뜻 같음</td></tr>
+<tr><td>#generate js/content.js</td><td>“모드 붕괴, 판별기의 독주, 끝없는 진동이 대표 실패이고 … 안정화 도구입니다” → “대표적인 실패는 … 판별기가 생성기를 크게 앞서 버리는 독주 … 학습을 안정시키는 데는 … 씁니다”</td><td>뜻 같음. 세 실패·두 도구 그대로</td></tr>
+<tr><td>#world js/content.js</td><td>“물리적 타당성은 여전히 대표 실패입니다” → “물리적으로 맞지 않는 장면은 여전히 대표적인 실패입니다”</td><td>뜻 같음. 원래 문장의 주어·서술 어긋남을 바로잡은 것이고 “여전히” 유지</td></tr>
+<tr><td>#capstone js/lab-guides.js latency</td><td>“어느 손잡이가 예산을 맞추는 데 더 큰지” → “어느 쪽을 바꿀 때 예산을 맞추는 효과가 더 큰지”</td><td>뜻 같음. 비교 대상(입력 크기·정밀도) 그대로</td></tr>
+</tbody></table>
+<h3>확인한 사실 수정 (문체가 아닌 집필 쪽 수정)</h3>
+<table><thead><tr><th>위치</th><th>원래 → 고친 문장</th><th>근거와 판정</th></tr></thead><tbody>
+<tr><td>#segment js/content.js 세부 내용 “U-Net을 만들 때 고를 것”</td><td>“mIoU 하나는 15%짜리 클래스를 숨길 수 있으니” → “mIoU 하나는 IoU가 15%인 클래스를 숨길 수 있으니”</td><td>맞음. 원본 레슨 07(phases/04-computer-vision/07-semantic-segmentation-unet/docs/en.md, 2026-10-13 확인)이 “Mean IoU hides a class at 15% when nine others are at 85%”라고 적어, 15%는 그 클래스의 IoU입니다. 같은 문장의 “클래스별 IoU와 평균 mIoU”와도 맞습니다.</td></tr>
+<tr><td>#motion js/content.js 본문</td><td>“이 장의 실험은 칼만 필터가 …, 분할 어텐션이 비교 쌍을 얼마나 줄이는지 계산합니다” → “이 장의 실험은 칼만 필터가 … 계산하고, 그림 6-1은 분할 어텐션이 비교 쌍을 얼마나 줄이는지 셉니다”</td><td>맞음. 이 장의 실험은 <code>labs:['kalman']</code> 하나이고, 비교 쌍 수는 <code>js/figures.js</code>의 <code>F.motion</code> 그림 설명이 <code>M.attnCost(8,196)</code>로 결합·분할 쌍 수를 계산해 보여 줍니다. 그림 번호는 <code>js/app.js</code>가 “그림 장번호-1”로 붙이므로 6장 그림은 그림 6-1입니다.</td></tr>
+</tbody></table>
+<p>비고: 이 두 문장은 다온 메모의 둘째 문단에 원래→고친 문장과 이유로 적혀 있고, 장별 메모 행(5장·6장)은 “그대로 둠: 사실 확인 필요”로 남아 있습니다. 메모의 기록 방식이 정한 대로이므로 발견으로 치지 않습니다.</p>
+<h3>발견과 수정</h3>
+<p>없음. 되돌린 문장은 없습니다. 문장이 아닌 변경은 <code>index.html</code>에서 <code>js/content.js</code>·<code>js/lab-guides.js</code>의 ?v=를 20261012-ap5-study에서 20261013-k로 올린 것뿐이며, 고친 스크립트의 캐시를 바꾸는 값이라 코드 로직 변경은 아닙니다.</p>
+<h3>확인하지 못한 것</h3>
+<ul><li>고친 문장을 실제 브라우저 화면에서 다시 읽지는 않았습니다. 문자열 대조와 테스트로만 확인했습니다.</li><li>“판별기의 독주”, “공개 진영의 일꾼”처럼 은유를 풀어 쓴 두 곳은 원본 레슨 원문과 대조하지 않고, 이 책의 앞뒤 문맥과 일반적인 용법으로 판단했습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-lab-ap-r2" data-reviewer="Claude · AP 문턱 수정 재검수 세션(aie-vision)" data-author="Claude · 큰 실험 반영 편집장 세션(aie-vision)" data-date="2026-10-12" data-scope="#detect 둘째 실험 ap의 PR #56 리뷰 반영(AP를 점수 문턱 없이 전체 순위로 적분하고 점수 문턱은 운영점만 고름): A05Math.detEval, labs-scene.js A05Labs.ap(순위 목록·결과 문장·그래프 설명), lab-guides.js ap, detect formulaNote, tests/math.test.cjs, docs/index.html 3차 보충 기록, docs/research-ap.html 기준값과 불변 조건, 이전 검수 회차의 AP 관련 주장" data-result="fixed">
 <h2>2026-10-12 재검수 (4장 AP 실험 · 점수 문턱과 AP 분리)</h2>
 <p>검수자: Claude · AP 문턱 수정 재검수 세션(aie-vision), 검수팀 정민·유진·건우·채원·현석 관점. 집필자: Claude · 큰 실험 반영 편집장 세션(aie-vision). 범위: 커밋 전 작업 트리의 <code>git diff -- books/aie-vision</code>입니다. 코드 리뷰가 “점수 문턱 아래 예측을 지운 뒤 AP를 재서 AP가 운영 문턱에 따라 움직인다”고 짚은 것을 고친 변경이고, 이 세션은 그 변경을 쓰지 않았습니다. 계산은 책 코드를 쓰지 않고 Python 분수(fractions)로 IoU·탐욕 NMS·탐욕 맞춤(점수 내림차순, 아직 짝이 없는 정답 가운데 IoU가 가장 큰 것과 IoU ≥ 문턱이면 TP, 정답 하나는 한 번)·모든 점 보간 AP를 다시 구현했습니다.</p>
