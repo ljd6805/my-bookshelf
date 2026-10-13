@@ -1,28 +1,29 @@
 <svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="발표 달력 한 칸에 적힌 물가 3.4%와 예상 3.0%에서 화살표 세 갈래가 3년 국채 금리·자국 통화·주가지수 표지판으로 갈라지고, 각 표지판의 방향은 물음표로 남은 채 오른쪽의 빈 확인할 지표 칸으로 이어지는 그림" xmlns="http://www.w3.org/2000/svg">
-<path class="cv-hair" d="M8 130H312"/>
-<rect class="cv-node" x="8" y="18" width="94" height="100" rx="3"/>
-<rect class="cv-fill" x="8" y="18" width="94" height="18" rx="3"/>
-<text class="cv-text cv-inverse" x="55" y="30" text-anchor="middle">물가 발표</text>
-<text class="cv-big" x="55" y="74" text-anchor="middle">3.4</text>
-<text class="cv-text" x="55" y="92" text-anchor="middle">예상 3.0%</text>
-<rect class="cv-tint" x="16" y="98" width="78" height="14" rx="2"/>
-<text class="cv-text" x="55" y="108" text-anchor="middle">차이 +0.4%p</text>
-<path class="cv-line cv-thin" d="M102 62C122 62 124 32 142 32"/>
-<path class="cv-head" d="M148 32l-7-4v8z"/>
-<path class="cv-line cv-thin" d="M102 68H142"/>
-<path class="cv-head" d="M148 68l-7-4v8z"/>
-<path class="cv-line cv-thin" d="M102 74C122 74 124 104 142 104"/>
-<path class="cv-head" d="M148 104l-7-4v8z"/>
-<rect class="cv-bar" x="150" y="22" width="100" height="20" rx="2"/>
-<text class="cv-text" x="156" y="35">3년 국채 금리 ?</text>
-<rect class="cv-bar" x="150" y="58" width="100" height="20" rx="2"/>
-<text class="cv-text" x="156" y="71">자국 통화 ?</text>
-<rect class="cv-bar" x="150" y="94" width="100" height="20" rx="2"/>
-<text class="cv-text" x="156" y="107">주가지수 ?</text>
-<path class="cv-stroke cv-dash" d="M250 32H262M250 68H262M250 104H262"/>
-<rect class="cv-node cv-dash" x="262" y="18" width="50" height="100" rx="3"/>
-<text class="cv-text" x="287" y="34" text-anchor="middle">확인할</text>
-<text class="cv-text" x="287" y="46" text-anchor="middle">지표</text>
-<path class="cv-hair" d="M270 64H304M270 82H304M270 100H304"/>
-<text class="cv-text cv-muted" x="160" y="144" text-anchor="middle">가설 · 버릴 관찰 · 발표일</text>
+<path class="cv-hair" d="M14 124H306"/>
+<rect class="cv-node" x="14" y="14" width="88" height="100" rx="3"/>
+<rect class="cv-fill" x="14" y="14" width="88" height="18" rx="3"/>
+<text class="cv-text cv-inverse" x="58" y="26" text-anchor="middle">물가 발표</text>
+<text class="cv-big" x="54" y="70" text-anchor="middle">3.4</text>
+<text class="cv-text" x="83" y="70">%</text>
+<text class="cv-text" x="58" y="88" text-anchor="middle">예상 3.0%</text>
+<rect class="cv-tint" x="21" y="94" width="74" height="14" rx="2"/>
+<text class="cv-text" x="58" y="104" text-anchor="middle">차이 +0.4%p</text>
+<path class="cv-line cv-thin" d="M102 58C120 58 122 28 138 28"/>
+<path class="cv-head" d="M144 28l-7-4v8z"/>
+<path class="cv-line cv-thin" d="M102 64H138"/>
+<path class="cv-head" d="M144 64l-7-4v8z"/>
+<path class="cv-line cv-thin" d="M102 70C120 70 122 100 138 100"/>
+<path class="cv-head" d="M144 100l-7-4v8z"/>
+<rect class="cv-bar" x="146" y="18" width="98" height="20" rx="2"/>
+<text class="cv-text" x="152" y="31">3년 국채 금리 ?</text>
+<rect class="cv-bar" x="146" y="54" width="98" height="20" rx="2"/>
+<text class="cv-text" x="152" y="67">자국 통화 ?</text>
+<rect class="cv-bar" x="146" y="90" width="98" height="20" rx="2"/>
+<text class="cv-text" x="152" y="103">주가지수 ?</text>
+<path class="cv-stroke cv-dash" d="M244 28H256M244 64H256M244 100H256"/>
+<rect class="cv-node cv-dash" x="256" y="14" width="50" height="100" rx="3"/>
+<text class="cv-text" x="281" y="30" text-anchor="middle">확인할</text>
+<text class="cv-text" x="281" y="42" text-anchor="middle">지표</text>
+<path class="cv-hair" d="M264 60H298M264 78H298M264 96H298"/>
+<text class="cv-text cv-muted" x="160" y="136" text-anchor="middle">가설 · 버릴 관찰 · 발표일</text>
 </svg>

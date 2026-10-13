@@ -13,7 +13,7 @@ const C={};const put=(k,v)=>{C[k]=v;return v;};
 const hike=(size,len=4,start=1)=>({rate:{size,start,len}}),spend=(size,len=4,start=1)=>({spend:{size,start,len}});
 put('gdp',M.gdp());put('real',M.realGrowth(0.06,0.04));put('realQ2',M.realGrowth(0.264,0.219));put('ann',M.annualize(0.006));
 put('basket',M.priceIndex());put('basket2',M.priceIndex(M.ASSUME.basket.map((b,i)=>({...b,w:[0.2,0.1,0.7][i]}))));put('before',M.indexBefore(120.43,0.029));
-put('town',M.labor());put('townAll',M.discourage(M.ASSUME.town,20));put('phases',M.ASSUME.gapCurve.map((_,t)=>M.phase(M.ASSUME.gapCurve,t)));
+put('town',M.labor());put('townAll',M.discourage(M.ASSUME.town,20));put('townJobs',M.labor({...M.ASSUME.town,employed:M.ASSUME.town.employed+10,unemployed:M.ASSUME.town.unemployed-10}));put('phases',M.ASSUME.gapCurve.map((_,t)=>M.phase(M.ASSUME.gapCurve,t)));
 put('A',sc(hike(0.25),'policy'));put('Aminus',sc(hike(-0.25),'policy'));put('B',sc(hike(1),'policy'));put('L2policy',sc(hike(-0.5),'policy'));put('money',sc({money:{size:2,start:1,len:4}}));
 put('spend',sc(spend(1),'fiscal'));put('mix',sc({...spend(1),...hike(1)},'fiscal'));put('L2fiscal',sc(spend(2,2),'fiscal'));put('mult',M.multiplier());
 put('fx',{after:M.fxAfter(1338.5,-0.02),body:M.fxAmounts(1e6,1338.5,M.fxAfter(1338.5,-0.02).rounded),exact:M.fxAmounts(1e6,1338.5,1338.5*0.98),q:M.fxMove(1338.5,1400),
@@ -50,9 +50,10 @@ test('V-2 장바구니 106.3, 가중치 바꾸면 105.3, 1년 전 지수 117.04;
  assert.ok(Math.abs(C.basket.parts.reduce((s,p)=>s+p.contribution,0)-C.basket.inflation)<1e-12,'contributions add up to the inflation rate');
  assert.throws(()=>M.priceIndex([{name:'가',w:0.5,p0:1,p1:1}]),/add up to 1/);assert.equal(pct(M.realRate(0.03,0.02),2),'0.98');
 });
-test('V-3 실업률 3.33%, 참가율 60%, 고용률 58%; 20명 포기 → 실업률 0%, 고용률 58% 그대로; L2 5.00% → 3.06%; 국면 넷',()=>{
+test('V-3 실업률 3.33%, 참가율 60%, 고용률 58%; 20명 포기 → 실업률 0%, 고용률 58% 그대로; 10명 취업 → 실업률 약 1.7%, 고용률 59.0%; L2 5.00% → 3.06%; 국면 넷',()=>{
  const t=C.town;assert.deepEqual([pct(t.unemployment,2),pct(t.participation,0),pct(t.employment,0)],['3.33','60','58']);
  assert.deepEqual([C.townAll.unemployment,pct(C.townAll.employment,1)],[0,'58.0']);
+ assert.deepEqual([pct(C.townJobs.unemployment,1),pct(C.townJobs.employment,1)],['1.7','59.0']);
  const v={employed:950,unemployed:50,pop15:1200};assert.deepEqual([pct(M.labor(v).unemployment,2),pct(M.discourage(v,20).unemployment,2)],['5.00','3.06']);
  assert.equal(pct(10/590,2),'1.69');assert.deepEqual(C.phases.map(p=>p.phase),['확장','확장','확장','확장','확장','정점','수축','수축','수축','수축','저점','확장']);
  assert.equal(M.phase([0.8,0.3,0.1],1).phase,'수축');assert.throws(()=>M.discourage(M.ASSUME.town,21),RangeError);

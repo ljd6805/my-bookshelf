@@ -116,12 +116,12 @@ function lines(o){
  const X=i=>L+(n>1?i/(n-1):0.5)*(R-L),Y=v=>B-(v-lo)/((hi-lo)||1)*(B-T);
  let s=`<path d="M${L} ${Y(0).toFixed(1)}H${R}" stroke="var(--muted)"/>`;
  niceTicks(lo,hi,4).forEach(v=>{s+=`<text x="${L-6}" y="${(Y(v)+4).toFixed(1)}" text-anchor="end" class="axis">${esc(o.tick?o.tick(v):sfmt(v,2))}</text>`;});
- const every=n>8?2:1;o.labels.forEach((t,i)=>{if(i%every===0||(o.mark&&o.mark(i)))s+=`<text x="${X(i).toFixed(1)}" y="${B+16}" text-anchor="middle" class="axis">${o.mark&&o.mark(i)?'▲':''}${esc(t)}</text>`;});
+ const every=n>8?2:1,mk=i=>!!(o.mark&&i>=0&&i<n&&o.mark(i));o.labels.forEach((t,i)=>{if(mk(i)||(i%every===0&&!(n>8&&(mk(i-1)||mk(i+1)))))s+=`<text x="${X(i).toFixed(1)}" y="${B+16}" text-anchor="middle" class="axis">${o.mark&&o.mark(i)?'▲':''}${esc(t)}</text>`;});
  if(o.mark)o.labels.forEach((t,i)=>{if(o.mark(i))s+=`<path d="M${X(i).toFixed(1)} ${T}V${B}" stroke="var(--accent)" stroke-dasharray="3 3"/>`;});
  o.series.forEach((se,k)=>{const c=se.color||['var(--blue)','var(--orange)','var(--accent)','var(--muted)'][k%4],sh=se.shape||['●','■','▲','◆'][k%4];
   s+=`<path d="M${se.values.map((v,i)=>`${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('L')}" fill="none" stroke="${c}" stroke-width="2.4"${se.dash?' stroke-dasharray="6 4"':''}/>`;
   se.values.forEach((v,i)=>{s+=SHAPES[sh](X(i).toFixed(1),Y(v),c);});
-  if(o.legend!==false){const lx=12,ly=B+40+20*k;s+=SHAPES[sh](lx+6,ly-4,c)+`<text x="${lx+16}" y="${ly}" class="axis">${esc(sh+' '+se.name)}</text>`;}});
+  if(o.legend!==false){const lx=12,ly=B+40+20*k;s+=SHAPES[sh](lx+6,ly-4,c)+`<text x="${lx+16}" y="${ly}" class="axis">${esc(se.name)}</text>`;}});
  if(o.title)s+=`<text x="10" y="18" class="series">${esc(o.title)}</text>`;
  return svg(o.label||o.title,s,h,VW);
 }

@@ -17,13 +17,15 @@ function bars(items,{x0=60,gap=110,bw=70,top=60,zero=200,scale,f=v=>fx(v)}={}){
  items.forEach(([n,v,on,label],i)=>{const x=x0+i*gap,h=Math.abs(H(v)),y=v>=0?zero-h:zero;s+=up(x,y,bw,h,on?'var(--accent)':v<0?'var(--orange)':'var(--blue)',i*.15)+t(x+bw/2,v>=0?y-8:y+h+16,(on===true?'▲ ':'')+(label||f(v)),{size:13,w:700})+t(x+bw/2,v>=0?zero+20:zero-8,n,{size:12});});
  return s;
 }
-/* 분기 꺾은선: series=[[이름, 값 배열, 색, 점선]], 0선과 분기 눈금. */
+/* 분기 꺾은선: series=[[이름, 값 배열, 색, 점선, 점 모양]], 0선과 분기 눈금. 실선만 fig-draw로 움직인다(움직임의 dasharray가 점선을 덮지 않게). 점 모양(● ■ ▲)과 범례는 색 없이도 선을 가린다. */
+const MARK={'●':(x,y,c)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${c}"/>`,'■':(x,y,c)=>`<rect x="${(x-3.8).toFixed(1)}" y="${(y-3.8).toFixed(1)}" width="7.6" height="7.6" fill="${c}"/>`,'▲':(x,y,c)=>`<path d="M${x.toFixed(1)} ${(y-5).toFixed(1)}l4.6 8.4h-9.2z" fill="${c}"/>`};
 function path(series,{L=60,R=600,T=50,B=200,lo,hi,n}={}){
- const Y=v=>B-(v-lo)/(hi-lo)*(B-T),X=i=>L+i/(n-1)*(R-L);let s=`<path d="M${L} ${Y(0).toFixed(1)}H${R}" stroke="var(--line)"/>`;
+ const Y=v=>B-(v-lo)/(hi-lo)*(B-T),X=i=>L+i/(n-1)*(R-L);let s=`<path d="M${L} ${Y(0).toFixed(1)}H${R}" stroke="var(--line)"/>`+t(L-10,Y(0)+4,'0',{size:11,fill:'var(--muted)',a:'end'});
  for(let i=0;i<n;i++)s+=t(X(i),B+18,String(i+1),{size:11,fill:'var(--muted)'});
- series.forEach(([name,vals,c,dash])=>{s+=`<path class="fig-dash" d="M${vals.map((v,i)=>`${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('L')}" fill="none" stroke="${c}" stroke-width="2.6"${dash?' stroke-dasharray="6 4"':''}/>`;});
+ series.forEach(([name,vals,c,dash,shape])=>{s+=`<path${dash?'':' class="fig-draw"'} d="M${vals.map((v,i)=>`${X(i).toFixed(1)} ${Y(v).toFixed(1)}`).join('L')}" fill="none" stroke="${c}" stroke-width="2.6"${dash?' stroke-dasharray="6 4"':''}/>`;if(shape)vals.forEach((v,i)=>{s+=MARK[shape](X(i),Y(v),c);});});
  return {s,X,Y};
 }
+const legend=(items,y,x0=60,gap=150)=>items.map(([name,c,dash,shape],i)=>{const x=x0+i*gap;return `<path d="M${x} ${y-4}H${x+30}" stroke="${c}" stroke-width="2.6"${dash?' stroke-dasharray="6 4"':''}/>`+MARK[shape](x+15,y-4,c)+t(x+38,y,name,{size:12,w:700,a:'start'});}).join('');
 const F={};
 F.gdp=()=>{
  const E=A.economy,g=M.gdp(),real=M.realGrowth(A.growth.nominal,A.growth.deflator),ann=M.annualize(0.01);
@@ -38,7 +40,7 @@ F.prices=()=>{
  return {svg:svg(`가상 장바구니에서 품목마다 지수 상승에 보탠 몫을 견준 막대그래프: 품목별 몫 ${x.parts.map(p=>`${p.name} ${fx(p.contribution*100,1)}%p`).join(', ')}, 지수 ${fx(x.index,1)}`,s,246),caption:`가상 장바구니의 지수는 0.2 × 1.04 + 0.3 × 1.10 + 0.5 × 1.05 = ${fx(x.index/100,3)}에 100을 곱한 ${fx(x.index,1)}이고 상승률은 ${P(x.inflation,1)}입니다. 가장 크게 보탠 품목은 ▲ ${top.name}(${fx(top.contribution*100,1)}%p)이고, 가중치를 전기 요금 10%, 외식 70%로 바꾸면 같은 가격 변화로도 ${fx(alt.index,1)}입니다.`};
 };
 F.cycle=()=>{
- const g=A.gapCurve,a=M.labor(),b=M.discourage(A.town,10),peak=g.indexOf(Math.max(...g)),low=g.indexOf(Math.min(...g)),{s:ps,X,Y}=path([['GDP 갭',g,'var(--blue)']],{L:60,R:600,T:56,B:196,lo:-1.4,hi:1.6,n:g.length});
+ const g=A.gapCurve,a=M.labor(),b=M.discourage(A.town,10),turn=(sgn)=>g.reduce((b,v,i)=>i>0&&i<g.length-1&&sgn*v>sgn*g[i-1]&&sgn*v>=sgn*g[i+1]&&(b<0||sgn*v>sgn*g[b])?i:b,-1),peak=turn(1),low=turn(-1),{s:ps,X,Y}=path([['GDP 갭',g,'var(--blue)']],{L:60,R:600,T:56,B:196,lo:-1.4,hi:1.6,n:g.length});
  let s=t(20,26,'가상 GDP 갭(잠재 GDP 대비 %): 수준과 방향으로 국면을 나눔',{size:13,w:700,a:'start'})+ps;
  s+=`<circle cx="${X(peak)}" cy="${Y(g[peak])}" r="6" fill="var(--accent)"/>`+t(X(peak),Y(g[peak])-12,`▲ 정점 ${peak+1}분기 +${fx(g[peak],1)}%`,{size:12,w:700});
  s+=`<circle cx="${X(low)}" cy="${Y(g[low])}" r="6" fill="var(--orange)"/>`+t(X(low),Y(g[low])+22,`▼ 저점 ${low+1}분기 ${fx(g[low],1)}%`,{size:12,w:700});
@@ -55,11 +57,11 @@ F.policy=()=>{
 };
 F.fiscal=()=>{
  const sp1=M.scenario({spend:{size:1,start:1,len:4}},{stage:'fiscal',quarters:8}),rt=M.scenario({rate:{size:1,start:1,len:4}},{stage:'fiscal',quarters:8}),both=M.scenario({spend:{size:1,start:1,len:4},rate:{size:1,start:1,len:4}},{stage:'fiscal',quarters:8});
- const {s:ps,X,Y}=path([['지출만',sp1.y,'var(--blue)'],['금리만',rt.y,'var(--orange)',true],['함께',both.y,'var(--accent)']],{L:60,R:600,T:50,B:196,lo:-0.8,hi:0.8,n:8}),r=x=>fx(M.r3(x),3);
+ const S=[['지출만 +1%',sp1.y,'var(--blue)',false,'●'],['금리만 +1%p',rt.y,'var(--orange)',true,'■'],['둘을 함께',both.y,'var(--accent)',false,'▲']],{s:ps,X,Y}=path(S,{L:60,R:600,T:50,B:196,lo:-0.8,hi:0.8,n:8}),r=x=>fx(M.r3(x),3);
  let s=t(20,26,'GDP 편차(%): 지출 +1% · 금리 +1%p · 둘을 함께 (각 4분기)',{size:13,w:700,a:'start'})+ps;
- s+=t(X(3),Y(sp1.y[3])-10,`● 지출만 4분기 +${fx(sp1.y[3],2)}`,{size:12,w:700})+`<path d="M${X(5)} ${Y(both.y[5])-14}V${Y(both.y[5])+14}" stroke="var(--accent)" stroke-width="2"/>`;
- s+=t(320,240,`6분기: 금리만 ${r(rt.y[5])} + 지출만 ${r(sp1.y[5])} = ${fx(M.r3(rt.y[5])+M.r3(sp1.y[5]),3)} ≈ 함께 ${r(both.y[5])}`,{size:13,w:700});
- return {svg:svg(`정책 시나리오 모형의 GDP 편차를 지출만·금리만·둘을 함께 넣은 세 줄로 견준 꺾은선 그림, 8분기; 6분기 ${r(rt.y[5])} + ${r(sp1.y[5])} ≈ ${r(both.y[5])}`,s,256),caption:`정부 지출 +1%를 4분기 넣으면 이 모형에서 GDP는 첫 분기 +${fx(sp1.y[0],2)}%, 4분기째 +${fx(sp1.y[3],2)}%로 가장 큽니다(● 실선). 금리 +1%p(점선)와 함께 넣으면 6분기째 ${r(rt.y[5])} + ${r(sp1.y[5])} = ${fx(M.r3(rt.y[5])+M.r3(sp1.y[5]),3)}가 함께 넣은 ${r(both.y[5])}와 반올림 차이만큼만 다릅니다.`};
+ s+=t(X(3),Y(sp1.y[3])-12,`● 지출만 4분기 +${fx(sp1.y[3],2)}%`,{size:12,w:700})+`<path d="M${X(5)} ${Y(both.y[5])-14}V${Y(both.y[5])+14}" stroke="var(--accent)" stroke-width="2"/>`;
+ s+=legend(S.map(([n,,c,d,sh])=>[n,c,d,sh]),244,60,190)+t(320,272,`6분기: 금리만 ${r(rt.y[5])} + 지출만 ${r(sp1.y[5])} = ${fx(M.r3(rt.y[5])+M.r3(sp1.y[5]),3)} ≈ 함께 ${r(both.y[5])}`,{size:13,w:700});
+ return {svg:svg(`정책 시나리오 모형의 GDP 편차를 지출만(● 실선)·금리만(■ 점선)·둘을 함께(▲ 실선) 넣은 세 줄로 견준 꺾은선 그림, 8분기; 지출만 4분기 +${fx(sp1.y[3],2)}%; 6분기 ${r(rt.y[5])} + ${r(sp1.y[5])} ≈ ${r(both.y[5])}`,s,286),caption:`정부 지출 +1%를 4분기 넣으면 이 모형에서 GDP는 첫 분기 +${fx(sp1.y[0],2)}%, 4분기째 +${fx(sp1.y[3],2)}%로 가장 큽니다(● 실선). 금리 +1%p(■ 점선)와 함께 넣으면 6분기째 ${r(rt.y[5])} + ${r(sp1.y[5])} = ${fx(M.r3(rt.y[5])+M.r3(sp1.y[5]),3)}가 함께 넣은 ${r(both.y[5])}(▲ 실선)과 반올림 차이만큼만 다릅니다.`};
 };
 F.fx=()=>{
  const R=M.fxAfter(M.MARKET.usdkrw.value,-A.saebyeok.fall).rounded,ex=M.fxAmounts(A.saebyeok.usd,M.MARKET.usdkrw.value,R),im=M.fxAmounts(A.onkyeol.usd,M.MARKET.usdkrw.value,R),e=x=>fx(x/1e8,2);
@@ -77,7 +79,7 @@ F.trade=()=>{
 };
 F.leading=()=>{
  const tb=M.lagTable(),best=tb.best;
- let s=t(20,26,'동행을 k달 늦춘 상관계수 r (가상 자료, 12개월)',{size:13,w:700,a:'start'})+bars(tb.rows.map(x=>[`${x.k}달 (쌍 ${x.n})`,x.r,x.k===best.k,(x.k===best.k?'▲ ':'')+fx(x.r,2)]),{x0:50,gap:115,bw:66,top:50,zero:130,scale:1});
+ let s=t(20,26,'동행을 k달 늦춘 상관계수 r (가상 자료, 12개월)',{size:13,w:700,a:'start'})+bars(tb.rows.map(x=>[`${x.k}달 (쌍 ${x.n})`,x.r,x.k===best.k,fx(x.r,2)]),{x0:50,gap:115,bw:66,top:50,zero:130,scale:1});
  s+=t(320,240,'가장 큰 r의 시차 ≠ 원인 · 공통 원인을 따로 확인',{size:13,w:700});
  return {svg:svg(`동행을 늦춘 달 수마다 상관계수 r을 견준 막대그래프: 시차별 r ${tb.rows.map(x=>`${x.k}달 ${fx(x.r,2)}`).join(', ')}`,s,256),caption:`가상 자료의 r은 시차 0에서 ${fx(tb.rows[0].r,2)}, 2달 ${fx(tb.rows[2].r,2)}, ${best.k}달 ${fx(best.r,2)}(쌍 ${best.n}개), 4달 ${fx(tb.rows[4].r,2)}입니다. 동행을 세 달 전 선행 × 0.8로 만든 자료라 ▲ 세 달에서 가장 큰 r이 나오는 것은 만든 방식대로이고, 원인은 따로 확인합니다.`};
 };
