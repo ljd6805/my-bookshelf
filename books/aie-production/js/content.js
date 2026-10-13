@@ -4,7 +4,7 @@ const BASE='https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/ph
 const L=(n,slug,title,desc)=>[`원본 레슨 ${n} · ${title}`,`${BASE}/${n}-${slug}`,desc];
 window.A18Book={
 meta:{
- short:'AI 인프라와 운영',title:'AI 인프라와 운영 · 모델 서버에서 운영 장부까지',eyebrow:'AI ENGINEERING FROM SCRATCH / 18',
+ short:'AI 인프라와 운영',title:'AI 인프라와 운영 · 모델 서버에서 비용·장애 관리까지',eyebrow:'AI ENGINEERING FROM SCRATCH / 18',
  hero:['상담 챗봇 하나를 출시하고 운영하며,','GPU 메모리부터 청구서까지 계산합니다.'],
  lead:'다온의 상담 챗봇 누리봇은 쇼핑몰, 병원 예약 창구, 유럽 매장 세 고객사에게서 하루 약 5만 건의 문의를 받을 예정입니다. 70B 모델을 어디서 돌릴지, H100 80GB에 무엇을 담을지, 지연을 어떤 숫자로 잴지부터 캐시·라우팅·게이트웨이·카나리·카오스 실험까지, 출시와 운영에 필요한 결정을 장마다 하나씩 계산으로 내립니다.',
  feature:['metrics','goodput 실험하기'],stat:['28','원본 레슨 재구성'],
