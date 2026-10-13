@@ -31,7 +31,7 @@
           "url": "books/ai/#chapters"
         },
         {
-          "title": "01 · 신경망의 작은 부품",
+          "title": "01 · 뉴런 하나의 계산",
           "url": "books/ai/#neuron"
         },
         {
@@ -276,7 +276,7 @@
           "url": "books/computer/#cpu"
         },
         {
-          "title": "08 · 기다리지 않는 법",
+          "title": "08 · 캐시로 기다리는 시간 줄이기",
           "url": "books/computer/#cache"
         },
         {
@@ -374,7 +374,7 @@
       "spine_title": "벡터와 행렬",
       "spine_category": "수학",
       "color": "violet",
-      "description": "노래 여덟 곡으로 작은 추천기를 만들며 벡터, 내적, 투영, 행렬 변환, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층까지. 11개 장과 13개 실험으로 공간이 움직이는 모습을 직접 조작합니다.",
+      "description": "노래 여덟 곡으로 작은 추천기를 만들며 벡터, 내적, 투영, 행렬 변환, 행렬식, 역행렬, 고유벡터, 주성분, 신경망 한 층까지. 11개 장과 13개 실험으로 벡터와 행렬이 노래 점들을 어떻게 재고 옮기는지 직접 조작합니다.",
       "illustration": "books/linear-algebra/assets/shelf-illustration.svg",
       "illustration_caption": "실제 계산: 행렬 [1.2, 0.5 ; −0.3, 0.9]가 노래 여덟 곡이 놓인 격자 전체를 기울이고 늘였다가 되돌립니다. 원점과 직선은 그대로 남습니다.",
       "cover_art": "books/linear-algebra/assets/cover-art.svg",
@@ -414,7 +414,7 @@
           "url": "books/linear-algebra/#matrix"
         },
         {
-          "title": "09 · 노래 구름의 가장 긴 방향",
+          "title": "09 · 노래들이 가장 길게 퍼진 방향",
           "url": "books/linear-algebra/#pca"
         }
       ],
@@ -683,7 +683,7 @@
           "url": "books/knowledge-graph/#embedding"
         },
         {
-          "title": "09 · 그래프와 언어 모델을 함께",
+          "title": "09 · 그래프에서 모은 근거로 답하기",
           "url": "books/knowledge-graph/#graphrag"
         }
       ]
@@ -694,7 +694,7 @@
       "spine_title": "개발 작업대",
       "spine_category": "AI공학",
       "color": "aqua",
-      "description": "영화 리뷰 분류 프로젝트 하나를 노트북, 빌린 GPU 상자, 팀원의 컴퓨터에서 같은 결과로 다시 돌리며 사전 점검, 가상 환경, Git, GPU 비용, 원격 리눅스, 도커, API 키, 노트북, 데이터 분할, 프로파일링을 직접 계산합니다. 11장 17개 실험으로 원본 커리큘럼 Phase 0의 레슨 12개를 모두 재구성했습니다.",
+      "description": "영화 리뷰 분류 프로젝트 하나를 노트북, 빌린 GPU 서버, 팀원의 컴퓨터에서 같은 결과로 다시 돌리며 사전 점검, 가상 환경, Git, GPU 비용, 원격 리눅스, 도커, API 키, 노트북, 데이터 분할, 프로파일링을 직접 계산합니다. 11장 17개 실험으로 원본 커리큘럼 Phase 0의 레슨 12개를 모두 재구성했습니다.",
       "illustration": "books/aie-workbench/assets/shelf-illustration.svg",
       "illustration_caption": "코드·라이브러리·CUDA 층을 담은 상자 하나가 노트북, GPU 상자, 팀원의 컴퓨터로 옮겨 가며 점검 표시가 켜지는 시각적 비유입니다.",
       "cover_art": "books/aie-workbench/assets/cover-art.svg",
@@ -727,11 +727,11 @@
           "url": "books/aie-workbench/#chapters"
         },
         {
-          "title": "01 · 작업대는 아래층부터 쌓는다",
+          "title": "01 · 개발 환경을 아래층부터 점검하기",
           "url": "books/aie-workbench/#stack"
         },
         {
-          "title": "02 · 프로젝트마다 따로 사는 파이썬",
+          "title": "02 · 프로젝트마다 따로 두는 파이썬 환경",
           "url": "books/aie-workbench/#envs"
         },
         {
@@ -739,11 +739,11 @@
           "url": "books/aie-workbench/#gpu"
         },
         {
-          "title": "06 · 같은 상자를 어디서나 다시 만들기",
+          "title": "06 · 도커로 같은 실행 환경 다시 만들기",
           "url": "books/aie-workbench/#docker"
         },
         {
-          "title": "10 · 조용히 틀리는 학습 잡기",
+          "title": "10 · 오류 없이 틀리는 학습 찾기",
           "url": "books/aie-workbench/#debug"
         }
       ],
@@ -805,7 +805,7 @@
           "url": "books/aie-math/#autodiff"
         },
         {
-          "title": "05 · 골짜기를 안정적으로 내려가기",
+          "title": "05 · 경사하강으로 손실을 안정적으로 줄이기",
           "url": "books/aie-math/#optimize"
         },
         {
@@ -813,7 +813,7 @@
           "url": "books/aie-math/#stability"
         },
         {
-          "title": "09 · 표를 몇 장의 층으로 줄이기",
+          "title": "09 · SVD로 소리 표를 몇 개의 층으로 줄이기",
           "url": "books/aie-math/#svd"
         }
       ],
@@ -860,7 +860,7 @@
           "url": "books/aie-ml/#lines"
         },
         {
-          "title": "03 · 질문을 쌓아 나누기",
+          "title": "03 · 질문을 쌓아 나누는 결정트리",
           "url": "books/aie-ml/#trees"
         },
         {
@@ -868,7 +868,7 @@
           "url": "books/aie-ml/#metrics"
         },
         {
-          "title": "10 · 검증을 속이지 않는 공정",
+          "title": "10 · 누설 없이 검증하는 파이프라인",
           "url": "books/aie-ml/#pipeline"
         },
         {
@@ -917,15 +917,15 @@
           "url": "books/aie-deep/#perceptron"
         },
         {
-          "title": "03 · 오차를 거꾸로 나누어 주기",
+          "title": "03 · 역전파로 모든 가중치의 기울기 구하기",
           "url": "books/aie-deep/#backprop"
         },
         {
-          "title": "06 · 같은 기울기, 다른 걸음",
+          "title": "06 · 같은 기울기, 다른 옵티마이저",
           "url": "books/aie-deep/#optimizer"
         },
         {
-          "title": "08 · 첫 가중치가 신호를 살린다",
+          "title": "08 · 신호가 사라지거나 폭발하지 않게 초기화하기",
           "url": "books/aie-deep/#init"
         },
         {
@@ -995,7 +995,7 @@
           "url": "books/aie-vision/#segment"
         },
         {
-          "title": "07 · 라벨 없이, 글과 함께 배우는 표현",
+          "title": "07 · 자기지도 학습과 CLIP으로 표현 배우기",
           "url": "books/aie-vision/#selfsup"
         },
         {
@@ -1011,7 +1011,7 @@
       "spine_title": "자연어 처리",
       "spine_category": "AI공학",
       "color": "rose",
-      "description": "온라인 서점의 고객 문의함 하나를 쪼개고, 세고, 벡터로 놓고, 분류하고, 번역하고, 근거를 찾아 답하며 토큰화부터 TF-IDF, 단어 벡터, 나이브 베이즈, 비터비, 퍼플렉서티, 어텐션, BLEU, 청킹, 개체 연결, 대화 상태, 긴 문맥 평가까지 직접 계산합니다. 12장 · 16개 실험으로 원본 커리큘럼 Phase 5의 레슨 29개를 모두 재구성했습니다.",
+      "description": "온라인 서점의 고객 문의함 하나를 예제로 토큰화부터 TF-IDF, 단어 벡터, 나이브 베이즈, 비터비, 퍼플렉서티, 어텐션, BLEU, 청킹, 개체 연결, 대화 상태, 긴 문맥 평가까지 직접 계산합니다. 12장 · 16개 실험으로 원본 커리큘럼 Phase 5의 레슨 29개를 모두 재구성했습니다.",
       "illustration": "books/aie-nlp/assets/shelf-illustration.svg",
       "illustration_caption": "문의 한 통이 낱말 토큰으로 나뉘고 TF-IDF 막대가 자라 환불 문의로 분류되는 그림으로, 막대 길이는 실제 계산이고 흐르는 움직임은 처리 순서를 보여 주는 비유입니다.",
       "cover_art": "books/aie-nlp/assets/cover-art.svg",
@@ -1062,11 +1062,11 @@
           "url": "books/aie-nlp/#clean"
         },
         {
-          "title": "03 · 같은 자리에 오는 낱말은 닮았다",
+          "title": "03 · 주변 낱말로 단어 벡터 배우기",
           "url": "books/aie-nlp/#vectors"
         },
         {
-          "title": "06 · 같은 낱말, 다른 역할",
+          "title": "06 · 낱말마다 품사와 개체 표 붙이기",
           "url": "books/aie-nlp/#tagging"
         },
         {
@@ -1086,7 +1086,7 @@
       "spine_title": "음성 오디오",
       "spine_category": "AI공학",
       "color": "aqua",
-      "description": "후드 팬이 도는 부엌에서 “솔아, 타이머 오 분 맞춰 줘”를 알아듣고 대답하는 음성 비서 솔이를 만들며 샘플링과 앨리어싱, 스펙트로그램과 멜 특징, CTC와 WER, Whisper의 30초 창, 화자 확인 문턱, 음성 합성 길이, 코덱 토큰, 지연 예산, VAD와 말차례, 워터마크 검출을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 6의 레슨 17개를 모두 재구성했습니다.",
+      "description": "후드 팬이 도는 부엌에서 “솔아, 타이머 오 분 맞춰 줘”를 알아듣고 대답하는 음성 비서 솔이를 만들며 샘플링과 앨리어싱, 스펙트로그램과 멜 특징, CTC와 WER, Whisper의 30초 창, 화자 확인 문턱, 음성 합성의 길이 예측, 코덱 토큰, 지연 예산, VAD와 말차례, 워터마크 검출을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 6의 레슨 17개를 모두 재구성했습니다.",
       "illustration": "books/aie-audio/assets/shelf-illustration.svg",
       "illustration_caption": "부엌의 말소리 파형이 점으로 찍히고 멜 스펙트로그램 칸이 차례로 밝아진 뒤 스피커에서 대답이 퍼져 나가는 시각적 비유입니다.",
       "cover_art": "books/aie-audio/assets/cover-art.svg",
@@ -1130,7 +1130,7 @@
           "url": "books/aie-audio/#wave"
         },
         {
-          "title": "02 · 시간과 주파수를 한 장에",
+          "title": "02 · 시간과 주파수를 함께 보는 스펙트로그램",
           "url": "books/aie-audio/#mel"
         },
         {
@@ -1138,11 +1138,11 @@
           "url": "books/aie-audio/#asr"
         },
         {
-          "title": "09 · 한 턴을 1초 안에 돌려주기",
+          "title": "09 · 말이 끝난 뒤 1초 안에 대답하기",
           "url": "books/aie-audio/#pipeline"
         },
         {
-          "title": "10 · 언제 듣고 언제 말할까",
+          "title": "10 · VAD와 침묵 대기로 말차례 판정하기",
           "url": "books/aie-audio/#turn"
         }
       ],
@@ -1154,7 +1154,7 @@
       "spine_title": "트랜스포머",
       "spine_category": "AI공학",
       "color": "violet",
-      "description": "작은 언어 모델 ‘도란’의 설계표를 한 칸씩 채우며 √d 나누기, 멀티헤드와 GQA, RoPE, 블록 파라미터, BERT·GPT·T5·ViT·Whisper의 마스크, MoE 라우팅, FlashAttention과 KV 캐시, 친칠라 예산, 추측 디코딩을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 7의 레슨 16개를 모두 재구성했습니다.",
+      "description": "작은 한국어 언어 모델 ‘도란’의 구조와 학습 예산을 장마다 계산해 정하며 √d 나누기, 멀티헤드와 GQA, RoPE, 블록 파라미터, BERT·GPT·T5·ViT·Whisper의 마스크, MoE 라우팅, FlashAttention과 KV 캐시, 친칠라 예산, 추측 디코딩을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 7의 레슨 16개를 모두 재구성했습니다.",
       "illustration": "books/aie-transformer/assets/shelf-illustration.svg",
       "illustration_caption": "문장 토큰 사이에 어텐션 호가 그려지고 아래쪽 삼각형 칸이 한 줄씩 채워지며 인과 마스크가 쌓이는 시각적 비유입니다.",
       "cover_art": "books/aie-transformer/assets/cover-art.svg",
@@ -1194,7 +1194,7 @@
           "url": "books/aie-transformer/#selfattn"
         },
         {
-          "title": "04 · 순서를 알려 주는 회전",
+          "title": "04 · RoPE: 위치를 회전 각도로 넣기",
           "url": "books/aie-transformer/#position"
         },
         {
@@ -1218,7 +1218,7 @@
       "spine_title": "생성 모델",
       "spine_category": "AI공학",
       "color": "amber",
-      "description": "여우 캐릭터 도토리의 그림 2,000장으로 새 삽화를 만드는 생성기를 VAE, GAN, 디퓨전, 잠재 디퓨전, 플로 매칭, VAR 순서로 바꿔 가며 같은 두 봉우리 분포에서 흐림·모드 붕괴·단계 수·가이던스·평가 숫자를 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 8의 레슨 15개를 모두 재구성했습니다.",
+      "description": "여우 캐릭터 도토리의 그림 2,000장으로 새 삽화를 만드는 생성기를 VAE, GAN, 디퓨전, 잠재 디퓨전, 플로 매칭, VAR 순서로 바꿔 가며 같은 두 봉우리 분포에서 흐림과 모드 붕괴가 언제 생기는지, 단계 수와 가이던스가 결과를 어떻게 바꾸는지, 평가 숫자를 얼마나 믿을 수 있는지 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 8의 레슨 15개를 모두 재구성했습니다.",
       "illustration": "books/aie-generative/assets/shelf-illustration.svg",
       "illustration_caption": "흩어진 노이즈 점들이 단계를 거치며 낮 장면과 밤 장면 두 무리로 모여드는 디노이징 과정을 보여 주는 시각적 비유입니다.",
       "cover_art": "books/aie-generative/assets/cover-art.svg",
@@ -1261,7 +1261,7 @@
           "url": "books/aie-generative/#vae"
         },
         {
-          "title": "03 · 가짜를 만드는 쪽과 가려내는 쪽",
+          "title": "03 · 가짜를 만드는 생성자와 가려내는 판별자: GAN",
           "url": "books/aie-generative/#gan"
         },
         {
@@ -1269,7 +1269,7 @@
           "url": "books/aie-generative/#ddpm"
         },
         {
-          "title": "09 · 곧은 길로 빨리 가기: 플로 매칭과 정류 플로",
+          "title": "09 · 플로 매칭과 정류 플로: 직선 경로로 단계 수 줄이기",
           "url": "books/aie-generative/#flow"
         },
         {
@@ -1285,7 +1285,7 @@
       "spine_title": "강화학습",
       "spine_category": "AI공학",
       "color": "blue",
-      "description": "창고 배송 로봇 나르미 하나를 4×4 창고에서 낭떠러지 하역장, 젖은 바닥, 작업자의 선호, 두 번째 로봇이 있는 교차로까지 데려가며 MDP, 가치 반복, 몬테카를로, Q-learning과 SARSA, DQN, 정책경사와 GAE, PPO, RLHF, 다중 에이전트, 도메인 랜덤화, PUCT와 GRPO를 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 9의 레슨 12개를 모두 재구성했습니다.",
+      "description": "4×4 창고를 오가는 배송 로봇 나르미를 사례로 MDP, 가치 반복, 몬테카를로, Q-learning과 SARSA, DQN, 정책경사와 GAE, PPO, RLHF, 다중 에이전트, 도메인 랜덤화, PUCT와 GRPO를 직접 계산합니다. 장이 넘어갈수록 낭떠러지 하역장, 젖은 바닥, 작업자의 선호, 두 번째 로봇이 있는 교차로가 차례로 새 문제로 나옵니다. 12장 17개 실험으로 원본 커리큘럼 Phase 9의 레슨 12개를 모두 재구성했습니다.",
       "illustration": "books/aie-rl/assets/shelf-illustration.svg",
       "illustration_caption": "출고대의 보상이 이웃 칸으로 번지며 가치가 차오르고, 배송 로봇 나르미가 그 칸을 따라 출고대로 가는 시각적 비유입니다.",
       "cover_art": "books/aie-rl/assets/cover-art.svg",
@@ -1324,19 +1324,19 @@
           "url": "books/aie-rl/#mdp"
         },
         {
-          "title": "04 · 한 걸음마다 고치기: Q-learning과 SARSA",
+          "title": "04 · 한 걸음마다 Q 값 고치기: Q-learning과 SARSA",
           "url": "books/aie-rl/#td"
         },
         {
-          "title": "06 · 정책을 직접 밀어 올리고 비평가를 붙이기",
+          "title": "06 · 정책을 기울기로 직접 학습하고 비평가를 붙이기",
           "url": "books/aie-rl/#pg"
         },
         {
-          "title": "07 · 같은 데이터로 여러 번, 조금씩: PPO",
+          "title": "07 · 같은 데이터로 여러 번 조금씩 갱신하기: PPO",
           "url": "books/aie-rl/#ppo"
         },
         {
-          "title": "08 · 사람이 고른 쪽을 점수로: 보상 모델과 RLHF",
+          "title": "08 · 사람의 선택을 점수로 바꾸기: 보상 모델과 RLHF",
           "url": "books/aie-rl/#rlhf"
         }
       ],
@@ -1348,7 +1348,7 @@
       "spine_title": "LLM 만들기",
       "spine_category": "AI공학",
       "color": "rose",
-      "description": "서재의 책을 추천하는 작은 LLM \"서재봇\"을 바이트 BPE 토크나이저에서 시작해 데이터 정제, 사전학습과 규모의 법칙, 학습 메모리와 병렬화, SFT·DPO·GRPO 정렬, 평가, 양자화와 추측 디코딩, 오픈 모델 설정 읽기까지 만들어 갑니다. 12장 17개 실험으로 단계마다 비용과 품질을 정하는 숫자를 직접 계산하고, 마지막에 출시 직전 실패의 되돌리기 범위를 판단합니다.",
+      "description": "서재의 책을 추천하는 작은 LLM \"서재봇\"을 바이트 BPE 토크나이저에서 시작해 데이터 정제, 사전학습과 규모의 법칙, 학습 메모리와 병렬화, SFT·DPO·GRPO 정렬, 평가, 양자화와 추측 디코딩, 오픈 모델 설정 읽기까지 만들어 갑니다. 12장 17개 실험으로 단계마다 비용과 품질을 정하는 숫자를 직접 계산합니다. 마지막 장에서는 출시 직전에 한 단계가 실패했을 때 어느 단계부터 다시 실행해야 하는지 계산합니다.",
       "illustration": "books/aie-llm-build/assets/shelf-illustration.svg",
       "illustration_caption": "바이트가 토큰으로 합쳐지고, 손실 곡선이 내려간 뒤, 정렬과 서빙을 거쳐 답이 나가는 LLM 제작 과정을 보여 주는 시각적 비유입니다.",
       "cover_art": "books/aie-llm-build/assets/cover-art.svg",
@@ -1397,7 +1397,7 @@
           "url": "books/aie-llm-build/#preference"
         },
         {
-          "title": "10 · 가볍고 빠르게 내보내기",
+          "title": "10 · 양자화와 추측 디코딩으로 가볍고 빠르게 서빙하기",
           "url": "books/aie-llm-build/#serving"
         }
       ],
@@ -1454,15 +1454,15 @@
           "url": "books/aie-llm-apps/#prompt"
         },
         {
-          "title": "03 · 답을 프로그램이 읽는 모양으로",
+          "title": "03 · 답을 스키마에 맞는 JSON으로 받기",
           "url": "books/aie-llm-apps/#structured"
         },
         {
-          "title": "07 · 모델이 시스템을 부르게 하기",
+          "title": "07 · 모델이 함수 호출과 MCP로 도구를 쓰게 하기",
           "url": "books/aie-llm-apps/#tools"
         },
         {
-          "title": "08 · 좋아졌다는 증거 만들기",
+          "title": "08 · 좋아졌는지 평가 세트로 확인하기",
           "url": "books/aie-llm-apps/#eval"
         },
         {
@@ -1478,7 +1478,7 @@
       "spine_title": "멀티모달",
       "spine_category": "AI공학",
       "color": "violet",
-      "description": "세탁기 A/S 센터 상담 도우미 하나를 따라가며 이미지 패치 토큰, CLIP·SigLIP 대조 학습, Q-Former와 게이트 연결, LLaVA식 학습 순서, 해상도 전략, 영상·음성 토큰 예산, 이미지 생성 토큰, 로봇 행동 토큰, ColPali 문서 검색, 화면 에이전트를 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 phases/12-multimodal-ai의 레슨 25개를 모두 재구성했습니다.",
+      "description": "세탁기 A/S 센터의 상담 도우미를 공통 사례로 이미지 패치 토큰, CLIP·SigLIP 대조 학습, Q-Former와 게이트 연결, LLaVA식 학습 순서, 해상도 전략, 영상·음성 토큰 예산, 이미지 생성 토큰, 로봇 행동 토큰, ColPali 문서 검색, 화면 에이전트를 다루고, 토큰 수·손실·지연·성공률을 브라우저 실험에서 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 phases/12-multimodal-ai의 레슨 25개를 모두 재구성했습니다.",
       "illustration": "books/aie-multimodal/assets/shelf-illustration.svg",
       "illustration_caption": "세탁기 표시창 사진이 패치 격자로 잘리고, 패치와 소리 조각이 토큰 줄을 따라 언어 모델로 흘러 들어가 상담 답이 켜지는 과정을 보여 주는 시각적 비유입니다(칸 수와 위치는 예시).",
       "cover_art": "books/aie-multimodal/assets/cover-art.svg",
@@ -1524,11 +1524,11 @@
           "url": "books/aie-multimodal/#patches"
         },
         {
-          "title": "03 · 얼린 두 모델 사이에 다리 놓기",
+          "title": "03 · 얼린 두 모델을 Q-Former와 게이트로 잇기",
           "url": "books/aie-multimodal/#bridge"
         },
         {
-          "title": "06 · 90초 영상을 토큰 예산 안에",
+          "title": "06 · 90초 영상을 토큰 예산 안에 넣기",
           "url": "books/aie-multimodal/#video"
         },
         {
@@ -1612,7 +1612,7 @@
       "spine_title": "에이전트",
       "spine_category": "AI공학",
       "color": "sage",
-      "description": "운영 경보가 울리면 고장 난 서비스를 찾는 장애 대응 에이전트 “당직 도우미”를 따라 루프의 멈춤 조건, 계획과 탐색, 반성, 기억, 워크플로 패턴, 실행 형태, 벤치마크, 주입 방어, 작업대, 검증 게이트, 제품 판단을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 14의 레슨 54개를 모두 재구성했습니다.",
+      "description": "운영 경보가 울리면 고장 난 서비스를 찾는 장애 대응 에이전트 “당직 도우미”를 따라 루프의 멈춤 조건, 계획과 탐색, 반성, 기억, 워크플로 패턴, 실행 형태, 벤치마크, 주입 방어, 작업대, 검증 게이트, 제품 판단을 실험으로 계산하고 판정합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 14의 레슨 54개를 모두 재구성했습니다.",
       "illustration": "books/aie-agents/assets/shelf-illustration.svg",
       "illustration_caption": "당직 도우미가 생각·행동·관찰을 돌며 턴 칸을 채우고 검증 게이트를 통과한 뒤에야 완료 표시가 켜지는 시각적 비유입니다.",
       "cover_art": "books/aie-agents/assets/cover-art.svg",
@@ -1651,23 +1651,23 @@
           "url": "books/aie-agents/#chapters"
         },
         {
-          "title": "01 · 생각하고, 부르고, 읽는 한 바퀴",
+          "title": "01 · 생각하고 도구를 부르고 결과를 읽는 루프",
           "url": "books/aie-agents/#loop"
         },
         {
-          "title": "04 · 창은 작고 사건은 길다",
+          "title": "04 · 문맥 창 밖에 기억을 두고 꺼내 쓰기",
           "url": "books/aie-agents/#memory"
         },
         {
-          "title": "08 · 로그 한 줄에 숨은 지시",
+          "title": "08 · 간접 프롬프트 주입과 도구 호출 검사기",
           "url": "books/aie-agents/#defend"
         },
         {
-          "title": "10 · “다 했습니다”를 믿지 않는 법",
+          "title": "10 · 완료 보고를 검증 게이트와 리뷰어로 확인하기",
           "url": "books/aie-agents/#gates"
         },
         {
-          "title": "마지막 · 파일럿 결과가 도착했다",
+          "title": "마지막 · 가장 작은 조각을 고르고 파일럿 결과 판정하기",
           "url": "books/aie-agents/#final"
         }
       ],
@@ -1675,11 +1675,11 @@
     },
     {
       "id": "aie-16-autonomy",
-      "title": "자율 시스템 · 밤새 혼자 일하는 에이전트에 울타리 치기",
+      "title": "자율 시스템 · 밤새 혼자 일하는 에이전트를 통제하는 법",
       "spine_title": "자율 시스템",
       "spine_category": "AI공학",
       "color": "rose",
-      "description": "온라인 서점 책마루의 야간 에이전트 누리가 밤새 혼자 일하는 동안 단계 신뢰도의 곱, STaR·진화 고리·자동 연구와 자기 개선 관문, 권한 모드와 읽기-쓰기 경계, 사건 기록과 제안-확정, 비용 상한과 차단기, 원칙의 층과 분류기, 연구소 정책과 METR식 시간 지평 적합을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 15의 레슨 22개를 모두 재구성했습니다.",
+      "description": "온라인 서점 책마루의 야간 에이전트 누리를 사례로 단계 신뢰도의 곱, STaR·진화 고리·자동 연구와 자기 개선 관문, 권한 모드와 읽기-쓰기 경계, 사건 기록과 제안-확정, 비용 상한과 차단기, 원칙의 층과 분류기, 연구소 정책과 METR식 시간 지평 적합을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 15의 레슨 22개를 모두 재구성했습니다.",
       "illustration": "books/aie-autonomy/assets/shelf-illustration.svg",
       "illustration_caption": "야간 에이전트 누리가 도구를 계속 부르는 동안 비용 막대가 차올라 상한에 닿으면 울타리 밖 멈춤 단추가 켜지는 시각적 비유입니다.",
       "cover_art": "books/aie-autonomy/assets/cover-art.svg",
@@ -1715,23 +1715,23 @@
           "url": "books/aie-autonomy/#chapters"
         },
         {
-          "title": "01 · 한 번 답하기에서 밤새 일하기로",
+          "title": "01 · 긴 실행에서 단계 성공 확률이 곱해지는 계산",
           "url": "books/aie-autonomy/#horizon"
         },
         {
-          "title": "03 · 평가기가 길을 정한다",
+          "title": "03 · 평가기가 재는 것만 키우는 진화 고리",
           "url": "books/aie-autonomy/#evolve"
         },
         {
-          "title": "06 · 권한 사다리 위의 코딩 에이전트",
+          "title": "06 · 코딩 에이전트의 뼈대와 권한 모드",
           "url": "books/aie-autonomy/#permission"
         },
         {
-          "title": "09 · 지갑과 멈춤 단추",
+          "title": "09 · 비용 상한과 멈춤 장치",
           "url": "books/aie-autonomy/#budget"
         },
         {
-          "title": "11 · 연구소의 문턱과 바깥의 눈",
+          "title": "11 · 연구소 확장 정책과 외부 평가",
           "url": "books/aie-autonomy/#policy"
         }
       ],
@@ -1743,7 +1743,7 @@
       "spine_title": "멀티에이전트",
       "spine_category": "AI공학",
       "color": "aqua",
-      "description": "공공자전거 대여소 확대를 조사하는 보고서 팀 하나를 반장·조사원·작성자·검증자로 나누며, A2A 작업 수명주기, 차례 정하기, 반장과 조사원, 비평가와 검증자, 공유 대기열, 다수결과 단일 문화, 비잔틴 합의, 흥정과 섀플리 값, 마음 모형, 재시도 폭풍을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 16의 레슨 25개를 모두 재구성했습니다.",
+      "description": "공공자전거 대여소 확대를 조사하는 에이전트 하나를 반장·조사원·작성자·검증자로 이루어진 보고서 팀으로 나누고, A2A 작업 수명주기, 차례 정하기, 반장과 조사원, 비평가와 검증자, 공유 대기열, 다수결과 단일 문화, 비잔틴 합의, 흥정과 섀플리 값, 마음 모형, 재시도 폭풍을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 16의 레슨 25개를 모두 재구성했습니다.",
       "illustration": "books/aie-multiagent/assets/shelf-illustration.svg",
       "illustration_caption": "반장이 하위 질문을 조사원 셋에게 나눠 보내고, 요약이 돌아오면 검증자가 원문과 대조해 확인 표시를 켜는 시각적 비유입니다.",
       "cover_art": "books/aie-multiagent/assets/cover-art.svg",
@@ -1782,7 +1782,7 @@
           "url": "books/aie-multiagent/#chapters"
         },
         {
-          "title": "01 · 혼자 일하는 에이전트의 천장",
+          "title": "01 · 혼자 일하는 에이전트의 한계",
           "url": "books/aie-multiagent/#why"
         },
         {
@@ -1798,7 +1798,7 @@
           "url": "books/aie-multiagent/#debate"
         },
         {
-          "title": "11 · 죽어도 이어 가고, 폭풍은 끊기",
+          "title": "11 · 중단된 작업 이어 가기와 재시도 폭풍 끊기",
           "url": "books/aie-multiagent/#ops"
         }
       ],
@@ -1810,7 +1810,7 @@
       "spine_title": "인프라운영",
       "spine_category": "AI공학",
       "color": "violet",
-      "description": "상담 챗봇 누리봇 하나를 70B 모델로 내보내며 토큰과 GPU의 손익분기, HBM 예산, 청크 프리필, goodput, 추측 디코딩, 캐시를 아는 라우팅, 콜드 스타트, 청구서, 게이트웨이 재시도, 카나리 관문, A/B 표본 크기, 오류 예산을 직접 계산합니다. 12장 18개 실험으로 원본 커리큘럼 Phase 17의 레슨 28개를 모두 재구성했습니다.",
+      "description": "상담 챗봇 누리봇을 70B 모델로 출시하고 운영하며 토큰과 GPU의 손익분기, HBM 예산, 청크 프리필, goodput, 추측 디코딩, 캐시를 아는 라우팅, 콜드 스타트, 청구서, 게이트웨이 재시도, 카나리 관문, A/B 표본 크기, 오류 예산을 직접 계산합니다. 12장 18개 실험으로 원본 커리큘럼 Phase 17의 레슨 28개를 모두 재구성했습니다.",
       "illustration": "books/aie-production/assets/shelf-illustration.svg",
       "illustration_caption": "누리봇의 요청이 라우터를 지나 같은 접두부를 가진 GPU로 모이고, 요청이 몰리면 GPU가 하나 더 켜지며 운영 장부가 차오르는 흐름을 보여 주는 그림입니다. 실제 계산이 아닌 시각적 비유입니다.",
       "cover_art": "books/aie-production/assets/cover-art.svg",
@@ -1854,19 +1854,19 @@
           "url": "books/aie-production/#platform"
         },
         {
-          "title": "03 · 엔진 안의 스케줄러 읽기",
+          "title": "03 · 서빙 엔진의 스케줄러가 한 단계마다 하는 일",
           "url": "books/aie-production/#engine"
         },
         {
-          "title": "04 · 느림을 네 숫자로 나누기",
+          "title": "04 · 응답 지연을 네 지표로 나눠 재기",
           "url": "books/aie-production/#metrics"
         },
         {
-          "title": "08 · 청구서를 줄이는 네 손잡이",
+          "title": "08 · 캐시·배치·라우팅으로 API 청구서 줄이기",
           "url": "books/aie-production/#cost"
         },
         {
-          "title": "10 · 바꾸는 날의 안전장치: 섀도·카나리·A/B",
+          "title": "10 · 새 모델·프롬프트를 섀도·카나리·A/B로 내보내기",
           "url": "books/aie-production/#rollout"
         }
       ],
@@ -1915,15 +1915,15 @@
           "url": "books/aie-safety/#chapters"
         },
         {
-          "title": "01 · 사람의 선호를 점수로 바꾸면 생기는 일",
+          "title": "01 · 사람의 선호를 점수로 바꾸는 RLHF와 보상 해킹",
           "url": "books/aie-safety/#rlhf"
         },
         {
-          "title": "05 · 믿지 않고도 일을 맡기는 법",
+          "title": "05 · 믿지 않는 모델에게도 일을 맡기는 AI 통제",
           "url": "books/aie-safety/#control"
         },
         {
-          "title": "07 · 누리가 읽은 메일이 명령을 내린다",
+          "title": "07 · 메일 속에 숨긴 지시로 누리를 움직이는 간접 주입",
           "url": "books/aie-safety/#injection"
         },
         {
@@ -2000,7 +2000,7 @@
           "url": "books/aie-capstone/#rag"
         },
         {
-          "title": "마지막 · 출시 사양표를 한 장으로 맞추기",
+          "title": "마지막 · 출시 사양표의 다섯 줄을 동시에 맞추기",
           "url": "books/aie-capstone/#final"
         }
       ],
@@ -2012,7 +2012,7 @@
       "spine_title": "증권시장",
       "spine_category": "금융",
       "color": "amber",
-      "description": "가상의 투자자 하린이 낸 새벽전자 매수 주문 한 장을 따라가며 증권의 종류, 주문 경로와 넥스트레이드, 호가창과 미끄러짐, 가격·시간 우선, 단일가 매매, 호가단위, 가격제한폭·VI·서킷브레이커, 권리락 기준가, T+2 결제와 미수, 수수료·거래세, 시간외 시장, 시장경보와 투자자 보호를 13개 장과 14개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
+      "description": "가상의 투자자 하린이 가상 종목 새벽전자에 낸 매수 주문을 예로 들어 증권의 종류, 주문 경로와 넥스트레이드, 호가창과 미끄러짐, 가격·시간 우선, 단일가 매매, 호가단위, 가격제한폭·VI·서킷브레이커, 권리락 기준가, T+2 결제와 미수, 수수료·거래세, 시간외 시장, 시장경보와 투자자 보호를 13개 장과 14개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
       "illustration": "books/market/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 주문표가 19,950원 줄에 서고, 체결된 뒤 T+2에 주식이 들어옵니다.",
       "cover_art": "books/market/assets/cover-art.svg",
@@ -2068,15 +2068,15 @@
           "url": "books/market/#chapters"
         },
         {
-          "title": "04 · 줄을 서는 규칙: 가격 우선, 시간 우선",
+          "title": "04 · 체결 순서를 정하는 규칙: 가격 우선, 시간 우선",
           "url": "books/market/#queue"
         },
         {
-          "title": "06 · 가격의 눈금: 호가단위",
+          "title": "06 · 주문 가격의 최소 단위: 호가단위",
           "url": "books/market/#tick"
         },
         {
-          "title": "10 · 한 번 왕복의 값: 수수료와 거래세",
+          "title": "10 · 한 번 사고팔 때 드는 비용: 수수료와 거래세",
           "url": "books/market/#cost"
         },
         {
@@ -2092,7 +2092,7 @@
       "spine_title": "돈의 시간가치",
       "spine_category": "금융",
       "color": "sage",
-      "description": "가상의 인물 하린의 1,000만 원과 신용대출 600만 원을 시간 저울에 올리며 단리·복리, 72의 법칙과 실효 금리, 현재가치와 할인, 적금·대출 상환표, 순현재가치와 내부수익률, 물가와 세금을 뺀 실질 수익률, 산술 평균과 연환산 수익률, 수수료의 복리, 상환과 투자의 비교를 10개 장과 10개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
+      "description": "가상의 인물 하린의 1,000만 원과 신용대출 600만 원을 예로 들어 단리·복리, 72의 법칙과 실효 금리, 현재가치와 할인, 적금·대출 상환표, 순현재가치와 내부수익률, 물가와 세금을 뺀 실질 수익률, 산술 평균과 연환산 수익률, 수수료의 복리, 상환과 투자의 비교를 10개 장과 10개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
       "illustration": "books/money/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 동전이 복리 곡선을 따라 불어나고, 할인을 거쳐 오늘로 돌아옵니다.",
       "cover_art": "books/money/assets/cover-art.svg",
@@ -2145,7 +2145,7 @@
           "url": "books/money/#compound"
         },
         {
-          "title": "04 · 미래를 오늘로: 할인과 현재가치",
+          "title": "04 · 미래의 돈을 오늘의 값으로: 할인과 현재가치",
           "url": "books/money/#discount"
         },
         {
@@ -2153,7 +2153,7 @@
           "url": "books/money/#cagr"
         },
         {
-          "title": "마지막 과제 · 하린의 1,000만 원, 상환과 투자의 저울",
+          "title": "마지막 과제 · 하린의 1,000만 원, 대출 상환과 투자 비교",
           "url": "books/money/#final"
         }
       ],
@@ -2213,15 +2213,15 @@
           "url": "books/grid/#cell"
         },
         {
-          "title": "05 · 박스권: 오르내릴수록 쌓이는 칸",
+          "title": "05 · 박스권: 오르내릴수록 쌓이는 실현 손익",
           "url": "books/grid/#box"
         },
         {
-          "title": "07 · 내리기만 하는 장: 재고가 쌓인다",
+          "title": "07 · 내리기만 하는 장: 사들인 주식이 쌓인다",
           "url": "books/grid/#slide"
         },
         {
-          "title": "마지막 과제 · 하린의 6개월 격자 장부",
+          "title": "마지막 과제 · 하린의 6개월 격자 장부와 다음 결정",
           "url": "books/grid/#final"
         }
       ],
@@ -2278,7 +2278,7 @@
           "url": "books/volatility/#drag"
         },
         {
-          "title": "04 · 동전으로 만든 가격: 무작위 보행",
+          "title": "04 · 우연만으로 움직이는 가격: 무작위 보행",
           "url": "books/volatility/#walk"
         },
         {
@@ -2286,7 +2286,7 @@
           "url": "books/volatility/#cross"
         },
         {
-          "title": "마지막 과제 · 하린의 1년 기록 두 장",
+          "title": "마지막 과제 · 하린의 1년 기록 두 장을 무작위 보행과 견주기",
           "url": "books/volatility/#final"
         }
       ],
@@ -2298,7 +2298,7 @@
       "spine_title": "금리와 채권",
       "spine_category": "금융",
       "color": "blue",
-      "description": "하린이 기준금리 뉴스에서 출발해 가상의 국채·회사채로 현금흐름, 가격과 만기수익률, 듀레이션, 수익률 곡선, 신용 스프레드, 고든 모형을 10개 장과 10개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
+      "description": "기준금리 뉴스에서 출발해 가상의 국채·회사채로 현금흐름, 가격과 만기수익률, 듀레이션, 수익률 곡선, 신용 스프레드, 고든 모형을 10개 장과 10개 실험에서 직접 계산합니다. 학습용이며 투자 권유가 아닙니다.",
       "illustration": "books/bonds/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 금리가 오르면 만기가 긴 채권일수록 크게 기웁니다.",
       "cover_art": "books/bonds/assets/cover-art.svg",
@@ -2349,7 +2349,7 @@
           "url": "books/bonds/#price"
         },
         {
-          "title": "05 · 듀레이션: 금리에 얼마나 민감한가",
+          "title": "05 · 듀레이션: 채권 가격은 금리에 얼마나 민감한가",
           "url": "books/bonds/#duration"
         },
         {
@@ -3459,7 +3459,7 @@
         {
           "book_id": "money-time-value",
           "url": "books/money/#discount",
-          "task": "미래의 돈을 오늘로 데려오기 실험에서 미래에 받을 돈을 1,000만 원으로 두고, 몇 년 뒤를 3년과 30년으로 바꾸며 할인율을 3%에서 5%로 올렸을 때 현재가치가 각각 얼마나 줄어드는지 비교한다",
+          "task": "‘미래의 돈을 현재가치로 바꾸기’ 실험에서 미래에 받을 돈을 1,000만 원으로 두고, 몇 년 뒤를 3년과 30년으로 바꾸며 할인율을 3%에서 5%로 올렸을 때 현재가치가 각각 얼마나 줄어드는지 비교한다",
           "minutes": 14,
           "why": "채권 가격은 미래의 돈을 오늘로 옮긴 값이고, 먼 돈일수록 할인율에 민감하다",
           "record": "할인율 5%에서 30년 뒤 1,000만 원의 현재가치"
@@ -3467,7 +3467,7 @@
         {
           "book_id": "interest-bonds",
           "url": "books/bonds/#price",
-          "task": "가격과 만기수익률 오가기 실험에서 채권은 나라 3년, 계산 방향은 금리 → 가격으로 두고 시장 금리 y를 3.0% → 3.875% → 5.0%로 바꾸며 할증·액면가·할인 채권을 차례로 만든다",
+          "task": "‘금리로 가격을, 가격으로 만기수익률을 계산하기’ 실험에서 채권은 나라 3년, 계산 방향은 금리 → 가격으로 두고 시장 금리 y를 3.0% → 3.875% → 5.0%로 바꾸며 할증·액면가·할인 채권을 차례로 만든다",
           "minutes": 16,
           "why": "이미 정해진 이자를 주는 증서는 새 금리가 오르면 값을 낮춰야 팔린다",
           "record": "세 금리에서의 가격(○원, ○원, ○원)"
@@ -3483,7 +3483,7 @@
         {
           "book_id": "interest-bonds",
           "url": "books/bonds/#duration",
-          "task": "금리 1%p에 몇 % 움직이나 실험에서 나라 3년·나라 10년·10년 할인채를 모두 켜고 금리 변화 Δy를 +1%p로 두어 정확한 가격 변화와 듀레이션 어림, 볼록성까지 더한 어림을 견준다",
+          "task": "‘금리가 1%p 움직이면 채권 가격은 몇 % 움직이나’ 실험에서 나라 3년·나라 10년·10년 할인채를 모두 켜고 금리 변화 Δy를 +1%p로 두어 정확한 가격 변화와 듀레이션 어림, 볼록성까지 더한 어림을 견준다",
           "minutes": 18,
           "why": "같은 1%p라도 만기와 이표에 따라 가격이 몇 배 다르게 움직인다",
           "record": "세 채권의 수정 듀레이션과 +1%p 때 가격 변화"
@@ -3516,7 +3516,7 @@
         {
           "book_id": "money-time-value",
           "url": "books/money/#fees",
-          "task": "비용률 두 개를 30년 동안 나란히 실험에서 처음 금액 1,000만 원, 비용을 떼기 전 수익률 연 6%, 기간 30년으로 두고 비용률 ①을 1%, ②를 0%로 바꿔 30년 뒤 두 금액의 차이를 본다",
+          "task": "비용률 두 개의 30년 결과 비교하기 실험에서 처음 금액 1,000만 원, 비용을 떼기 전 수익률 연 6%, 기간 30년으로 두고 비용률 ①을 1%, ②를 0%로 바꿔 30년 뒤 두 금액의 차이를 본다",
           "minutes": 14,
           "why": "해마다 빠지는 작은 비율은 복리로 쌓이고, 세금도 같은 방식으로 쌓인다",
           "record": "30년 뒤 비용률 1%가 줄인 금액(○원)"
@@ -3524,7 +3524,7 @@
         {
           "book_id": "securities-market",
           "url": "books/market/#cost",
-          "task": "한 번 왕복하는 데 드는 돈 실험에서 산 가격 19,950원, 판 가격 19,960원, 수량 10주로 두고 수수료와 거래세를 뺀 순손익을 본다",
+          "task": "한 번 사고파는 데 드는 돈 실험에서 산 가격 19,950원, 판 가격 19,960원, 수량 10주로 두고 수수료와 거래세를 뺀 순손익을 본다",
           "minutes": 14,
           "why": "거래세는 손익과 상관없이 팔 때마다 매도 금액에 붙는다",
           "record": "순손익(○원)과 그중 거래세"
@@ -3776,7 +3776,7 @@
     }
   ],
   "chapter_index": {
-    "books/ai/#neuron": "01 · 신경망의 작은 부품",
+    "books/ai/#neuron": "01 · 뉴런 하나의 계산",
     "books/ai/#learning": "02 · 오차를 줄이는 방향으로",
     "books/ai/#generalization": "03 · 외우는 것과 배우는 것",
     "books/ai/#tokens": "04 · 문장을 숫자로 바꾸기",
@@ -3795,17 +3795,17 @@
     "books/computer/#memory": "05 · 값을 붙잡아 두기",
     "books/computer/#cpu": "06 · 명령을 하나씩 실행하기",
     "books/computer/#programs": "07 · 반복하고 갈라지기",
-    "books/computer/#cache": "08 · 기다리지 않는 법",
+    "books/computer/#cache": "08 · 캐시로 기다리는 시간 줄이기",
     "books/computer/#final": "마지막 과제 · 100 × 3은 왜 44인가",
     "books/linear-algebra/#vectors": "01 · 노래를 화살표로 적기",
     "books/linear-algebra/#similarity": "02 · 얼마나 닮았는지 재기",
-    "books/linear-algebra/#projection": "03 · 내 취향 방향으로 그림자 드리우기",
+    "books/linear-algebra/#projection": "03 · 내 취향 방향으로 투영하기",
     "books/linear-algebra/#matrix": "04 · 행렬은 평면을 옮기는 규칙",
     "books/linear-algebra/#compose": "05 · 변환을 이어 붙이면 순서가 중요하다",
     "books/linear-algebra/#determinant": "06 · 넓이가 얼마나 변하는가",
     "books/linear-algebra/#inverse": "07 · 기록에서 원래 노래 되찾기",
     "books/linear-algebra/#eigen": "08 · 방향이 바뀌지 않는 화살표",
-    "books/linear-algebra/#pca": "09 · 노래 구름의 가장 긴 방향",
+    "books/linear-algebra/#pca": "09 · 노래들이 가장 길게 퍼진 방향",
     "books/linear-algebra/#layer": "10 · 신경망 한 층은 행렬 곱과 꺾기",
     "books/linear-algebra/#challenge": "마지막 과제 · 셋째 특징이 생긴 날",
     "books/probability/#chance": "01 · 우연은 얼마나 흔들릴까",
@@ -3824,7 +3824,7 @@
     "books/llm-gpu/#transformer": "06 · 행렬곱으로 토큰을 바꾸기",
     "books/llm-gpu/#phases": "07 · 첫 토큰과 다음 토큰의 차이",
     "books/llm-gpu/#cache": "08 · 대화 길이가 차지하는 공간",
-    "books/llm-gpu/#bottleneck": "09 · 들어가는데 왜 느릴까?",
+    "books/llm-gpu/#bottleneck": "09 · 메모리에 들어가는데 왜 느릴까?",
     "books/llm-gpu/#tradeoffs": "10 · 줄이고 나누는 방법의 대가",
     "books/llm-gpu/#modelcards": "11 · 오픈웨이트 모델 사양 읽기",
     "books/llm-gpu/#design": "12 · 내 장비의 실행 예산 만들기",
@@ -3843,100 +3843,100 @@
     "books/llm-performance/#timeline": "03 · 타임라인에서 기다림 찾기",
     "books/llm-performance/#threads": "04 · 한 스레드가 맡은 원소 찾기",
     "books/llm-performance/#coalescing": "05 · 함께 읽는 주소 모으기",
-    "books/llm-performance/#tiling": "06 · 재사용과 자리 차지 사이",
+    "books/llm-performance/#tiling": "06 · 타일을 키울 때 얻는 재사용과 드는 자원",
     "books/llm-performance/#evidence": "07 · 병목 주장에 근거 붙이기",
     "books/llm-performance/#fusion": "08 · 중간 결과를 덜 옮기기",
     "books/llm-performance/#paging": "09 · KV를 필요한 만큼 할당하기",
     "books/llm-performance/#batching": "10 · 빈자리에 다음 요청 넣기",
     "books/llm-performance/#parallel": "11 · GPU를 더해도 남는 시간",
     "books/llm-performance/#review": "12 · 개선안을 끝까지 검증하기",
-    "books/aie-workbench/#stack": "01 · 작업대는 아래층부터 쌓는다",
-    "books/aie-workbench/#envs": "02 · 프로젝트마다 따로 사는 파이썬",
+    "books/aie-workbench/#stack": "01 · 개발 환경을 아래층부터 점검하기",
+    "books/aie-workbench/#envs": "02 · 프로젝트마다 따로 두는 파이썬 환경",
     "books/aie-workbench/#git": "03 · 실험을 되돌릴 수 있게 남기기",
     "books/aie-workbench/#gpu": "04 · GPU를 쓸지 빌릴지 정하기",
-    "books/aie-workbench/#remote": "05 · 빌린 리눅스 상자에서 일하기",
-    "books/aie-workbench/#docker": "06 · 같은 상자를 어디서나 다시 만들기",
+    "books/aie-workbench/#remote": "05 · 빌린 원격 리눅스 서버에서 일하기",
+    "books/aie-workbench/#docker": "06 · 도커로 같은 실행 환경 다시 만들기",
     "books/aie-workbench/#keys": "07 · API 키를 코드 밖에 두기",
     "books/aie-workbench/#notebook": "08 · 노트북의 숨은 상태와 편집기",
     "books/aie-workbench/#data": "09 · 데이터를 나누고 기록하기",
-    "books/aie-workbench/#debug": "10 · 조용히 틀리는 학습 잡기",
-    "books/aie-workbench/#final": "마지막 · 팀원의 상자에서 결과가 다르다",
+    "books/aie-workbench/#debug": "10 · 오류 없이 틀리는 학습 찾기",
+    "books/aie-workbench/#final": "마지막 · 팀원의 컴퓨터에서 결과가 다르다",
     "books/aie-math/#signal": "01 · 소리를 주파수로 나누기",
     "books/aie-math/#tensor": "02 · 모양을 맞춰 한꺼번에 계산하기",
     "books/aie-math/#derivative": "03 · 손실이 변하는 빠르기 재기",
     "books/aie-math/#autodiff": "04 · 연쇄법칙으로 모든 기울기를 한 번에",
-    "books/aie-math/#optimize": "05 · 골짜기를 안정적으로 내려가기",
+    "books/aie-math/#optimize": "05 · 경사하강으로 손실을 안정적으로 줄이기",
     "books/aie-math/#entropy": "06 · 손실은 놀람을 잰다",
     "books/aie-math/#stability": "07 · 숫자가 넘치지 않게 계산하기",
     "books/aie-math/#sampling": "08 · 확률표에서 하나 고르기",
-    "books/aie-math/#svd": "09 · 표를 몇 장의 층으로 줄이기",
-    "books/aie-math/#linsys": "10 · 특징이 닮으면 해가 흔들린다",
-    "books/aie-math/#markov": "11 · 명령이 이어지는 흐름 읽기",
+    "books/aie-math/#svd": "09 · SVD로 소리 표를 몇 개의 층으로 줄이기",
+    "books/aie-math/#linsys": "10 · 특징이 닮으면 연립방정식의 해가 흔들린다",
+    "books/aie-math/#markov": "11 · 그래프와 마르코프 연쇄로 다음 명령의 확률 계산하기",
     "books/aie-math/#final": "마지막 · 부엌에서 말귀가 틀린다",
     "books/aie-ml/#framing": "01 · 규칙 대신 데이터로 경보 만들기",
     "books/aie-ml/#lines": "02 · 점수를 확률로 바꾸는 선",
-    "books/aie-ml/#trees": "03 · 질문을 쌓아 나누기",
-    "books/aie-ml/#neighbors": "04 · 가까운 이웃과 가장 넓은 길",
+    "books/aie-ml/#trees": "03 · 질문을 쌓아 나누는 결정트리",
+    "books/aie-ml/#neighbors": "04 · 가까운 이웃과 가장 넓은 마진",
     "books/aie-ml/#clusters": "05 · 정답 없이 무리 찾기",
     "books/aie-ml/#bayes": "06 · 단어를 세어 사기 문의 가리기",
-    "books/aie-ml/#features": "07 · 원재료를 특성으로 다듬기",
+    "books/aie-ml/#features": "07 · 척도·부호화·선택으로 특성 다듬기",
     "books/aie-ml/#metrics": "08 · 정확도 97%의 함정",
-    "books/aie-ml/#tradeoff": "09 · 단순함과 예민함 사이",
-    "books/aie-ml/#pipeline": "10 · 검증을 속이지 않는 공정",
+    "books/aie-ml/#tradeoff": "09 · 편향과 분산 사이에서 복잡도 고르기",
+    "books/aie-ml/#pipeline": "10 · 누설 없이 검증하는 파이프라인",
     "books/aie-ml/#rare": "11 · 드문 사건을 놓치지 않기",
     "books/aie-ml/#final": "마지막 · 새 결제 수단이 들어온 날",
     "books/aie-deep/#perceptron": "01 · 직선 하나로 나눌 수 있을까",
-    "books/aie-deep/#forward": "02 · 층을 쌓으면 곡선이 된다",
-    "books/aie-deep/#backprop": "03 · 오차를 거꾸로 나누어 주기",
-    "books/aie-deep/#activation": "04 · 꺾는 함수가 기울기를 정한다",
-    "books/aie-deep/#loss": "05 · 틀린 정도를 재는 자",
-    "books/aie-deep/#optimizer": "06 · 같은 기울기, 다른 걸음",
+    "books/aie-deep/#forward": "02 · 층을 쌓으면 경계가 곡선이 된다",
+    "books/aie-deep/#backprop": "03 · 역전파로 모든 가중치의 기울기 구하기",
+    "books/aie-deep/#activation": "04 · 활성화 함수가 기울기 크기를 정한다",
+    "books/aie-deep/#loss": "05 · 틀린 정도를 재는 손실 함수",
+    "books/aie-deep/#optimizer": "06 · 같은 기울기, 다른 옵티마이저",
     "books/aie-deep/#schedule": "07 · 학습률을 시간에 따라 바꾸기",
-    "books/aie-deep/#init": "08 · 첫 가중치가 신호를 살린다",
-    "books/aie-deep/#regularize": "09 · 외우지 않고 배우게 하기",
-    "books/aie-deep/#framework": "10 · 부품을 묶어 나만의 프레임워크로",
+    "books/aie-deep/#init": "08 · 신호가 사라지거나 폭발하지 않게 초기화하기",
+    "books/aie-deep/#regularize": "09 · 규제로 과적합 줄이기",
+    "books/aie-deep/#framework": "10 · 부품을 묶어 나만의 작은 프레임워크 만들기",
     "books/aie-deep/#debug": "11 · 손실 곡선으로 고장 찾기",
-    "books/aie-deep/#final": "마지막 · 깊어진 판별기가 멈춘 날",
+    "books/aie-deep/#final": "마지막 · 깊어진 판별기의 학습이 멈춘 날",
     "books/aie-vision/#pixels": "01 · 카메라가 넘겨준 숫자 배열",
-    "books/aie-vision/#backbone": "02 · 깊이 쌓아도 배우는 백본",
+    "books/aie-vision/#backbone": "02 · 깊이 쌓아도 학습되는 백본",
     "books/aie-vision/#classify": "03 · 적은 사진으로 분류기 만들기",
     "books/aie-vision/#detect": "04 · 장면 속 자전거를 상자로 찾기",
     "books/aie-vision/#segment": "05 · 자전거 윤곽을 픽셀로 칠하기",
     "books/aie-vision/#motion": "06 · 프레임을 이어 같은 사람 따라가기",
-    "books/aie-vision/#selfsup": "07 · 라벨 없이, 글과 함께 배우는 표현",
+    "books/aie-vision/#selfsup": "07 · 자기지도 학습과 CLIP으로 표현 배우기",
     "books/aie-vision/#reading": "08 · 자전거 번호를 읽고 질문에 답하기",
     "books/aie-vision/#depth": "09 · 한 장의 사진에서 거리와 3D 읽기",
-    "books/aie-vision/#generate": "10 · 드문 장면을 그려서 보태기",
-    "books/aie-vision/#world": "11 · 적은 단계로, 움직이는 세계까지",
+    "books/aie-vision/#generate": "10 · 드문 장면을 생성해 데이터에 보태기",
+    "books/aie-vision/#world": "11 · 적은 단계의 생성에서 비디오 세계 모형까지",
     "books/aie-vision/#capstone": "마지막 · 비 오는 밤, 새 카메라",
     "books/aie-nlp/#clean": "01 · 문의를 낱말로 쪼개기",
     "books/aie-nlp/#tfidf": "02 · 흔한 낱말과 드문 낱말의 무게",
-    "books/aie-nlp/#vectors": "03 · 같은 자리에 오는 낱말은 닮았다",
-    "books/aie-nlp/#topics": "04 · 문의함 전체가 무엇을 말하나",
+    "books/aie-nlp/#vectors": "03 · 주변 낱말로 단어 벡터 배우기",
+    "books/aie-nlp/#topics": "04 · 문의함 전체의 주제 찾기",
     "books/aie-nlp/#sentiment": "05 · “나쁘지 않아요”는 칭찬일까",
-    "books/aie-nlp/#tagging": "06 · 같은 낱말, 다른 역할",
+    "books/aie-nlp/#tagging": "06 · 낱말마다 품사와 개체 표 붙이기",
     "books/aie-nlp/#sequence": "07 · 다음 낱말을 얼마나 잘 맞히나",
     "books/aie-nlp/#seq2seq": "08 · 번역하며 원문 어디를 볼까",
     "books/aie-nlp/#answer": "09 · 약관을 줄이고 근거를 찾아 답하기",
-    "books/aie-nlp/#links": "10 · 그 작가와 그 강을 구별하기",
+    "books/aie-nlp/#links": "10 · 이름이 가리키는 대상을 가려 잇기",
     "books/aie-nlp/#dialog": "11 · 대화가 이어져도 주문을 기억하기",
-    "books/aie-nlp/#final": "마지막 · 해외 문의와 긴 약관이 들어왔다",
+    "books/aie-nlp/#final": "마지막 · 해외 문의와 긴 약관을 처리할 수 있는지 평가하기",
     "books/aie-audio/#wave": "01 · 소리를 숫자로 받아 적기",
-    "books/aie-audio/#mel": "02 · 시간과 주파수를 한 장에",
+    "books/aie-audio/#mel": "02 · 시간과 주파수를 함께 보는 스펙트로그램",
     "books/aie-audio/#classify": "03 · 무슨 소리인지 가려내기",
     "books/aie-audio/#asr": "04 · 소리를 글자로 옮기기",
-    "books/aie-audio/#whisper": "05 · 30초 창으로 듣는 큰 모델",
+    "books/aie-audio/#whisper": "05 · 30초 창으로 받아 적는 Whisper",
     "books/aie-audio/#speaker": "06 · 누가 말했는지 확인하기",
     "books/aie-audio/#tts": "07 · 글자를 목소리로 되돌리기",
     "books/aie-audio/#codec": "08 · 소리를 토큰으로 바꾸기",
-    "books/aie-audio/#pipeline": "09 · 한 턴을 1초 안에 돌려주기",
-    "books/aie-audio/#turn": "10 · 언제 듣고 언제 말할까",
+    "books/aie-audio/#pipeline": "09 · 말이 끝난 뒤 1초 안에 대답하기",
+    "books/aie-audio/#turn": "10 · VAD와 침묵 대기로 말차례 판정하기",
     "books/aie-audio/#safety": "11 · 가짜 목소리를 가려내기",
-    "books/aie-audio/#final": "마지막 · 출시 후 들어온 불만",
-    "books/aie-transformer/#why": "01 · 순서대로 읽기를 그만둔 이유",
+    "books/aie-audio/#final": "마지막 · 출시 후 불만을 지표로 진단하기",
+    "books/aie-transformer/#why": "01 · RNN 대신 어텐션을 쓰는 이유",
     "books/aie-transformer/#selfattn": "02 · 점수를 √d로 나누는 이유",
-    "books/aie-transformer/#multihead": "03 · 여러 머리로 나눠 보기",
-    "books/aie-transformer/#position": "04 · 순서를 알려 주는 회전",
+    "books/aie-transformer/#multihead": "03 · 헤드 여러 개로 나눠 계산하기",
+    "books/aie-transformer/#position": "04 · RoPE: 위치를 회전 각도로 넣기",
     "books/aie-transformer/#block": "05 · 블록 하나를 쌓기",
     "books/aie-transformer/#bertgpt": "06 · 빈칸을 맞히는 BERT, 다음을 맞히는 GPT",
     "books/aie-transformer/#encdec": "07 · 입력과 출력이 다른 일: T5·ViT·Whisper",
@@ -3944,64 +3944,64 @@
     "books/aie-transformer/#memory": "09 · 어텐션의 메모리 벽",
     "books/aie-transformer/#scaling": "10 · 계산 예산을 모델과 데이터에 나누기",
     "books/aie-transformer/#speculative": "11 · 초안을 쓰고 한 번에 검증하기",
-    "books/aie-transformer/#final": "마지막 · 설계표를 다시 짜야 하는 날",
+    "books/aie-transformer/#final": "마지막 · 새 요구에 맞춰 설계표 다시 짜기",
     "books/aie-generative/#map": "01 · 그림을 만드는 모델의 다섯 갈래",
     "books/aie-generative/#vae": "02 · 압축했다 되살리는 오토인코더와 VAE",
-    "books/aie-generative/#gan": "03 · 가짜를 만드는 쪽과 가려내는 쪽",
+    "books/aie-generative/#gan": "03 · 가짜를 만드는 생성자와 가려내는 판별자: GAN",
     "books/aie-generative/#cond": "04 · 원하는 그림을 주문하기: 조건부 GAN과 StyleGAN",
     "books/aie-generative/#ddpm": "05 · 노이즈를 더하고 거꾸로 걷어 내기",
-    "books/aie-generative/#latent": "06 · 작은 잠재 공간에서 그리고 글로 이끌기",
+    "books/aie-generative/#latent": "06 · 잠재 디퓨전: 압축한 공간에서 글 조건에 맞춰 그리기",
     "books/aie-generative/#control": "07 · 모양을 붙잡고 일부만 고치기: ControlNet·LoRA·인페인팅",
-    "books/aie-generative/#media": "08 · 그림 밖으로: 비디오·오디오·3D",
-    "books/aie-generative/#flow": "09 · 곧은 길로 빨리 가기: 플로 매칭과 정류 플로",
+    "books/aie-generative/#media": "08 · 그림에서 비디오·오디오·3D로 넓히기",
+    "books/aie-generative/#flow": "09 · 플로 매칭과 정류 플로: 직선 경로로 단계 수 줄이기",
     "books/aie-generative/#var": "10 · 거친 그림에서 고운 그림으로: 시각 자기회귀 VAR",
     "books/aie-generative/#eval": "11 · 좋아졌다는 말을 숫자로 확인하기: FID·CLIP 점수·사람 평가",
-    "books/aie-generative/#final": "마지막 · 도토리 생성기가 이상하다",
+    "books/aie-generative/#final": "마지막 · 도토리 생성기의 이상 보고 네 건 진단하기",
     "books/aie-rl/#mdp": "01 · 상태·행동·보상·할인으로 적기",
-    "books/aie-rl/#dp": "02 · 지도를 알면 미리 계획한다",
-    "books/aie-rl/#mc": "03 · 지도 없이 끝까지 걸어 보고 평균 내기",
-    "books/aie-rl/#td": "04 · 한 걸음마다 고치기: Q-learning과 SARSA",
-    "books/aie-rl/#dqn": "05 · 표가 넘칠 때: 신경망 Q와 안전장치",
-    "books/aie-rl/#pg": "06 · 정책을 직접 밀어 올리고 비평가를 붙이기",
-    "books/aie-rl/#ppo": "07 · 같은 데이터로 여러 번, 조금씩: PPO",
-    "books/aie-rl/#rlhf": "08 · 사람이 고른 쪽을 점수로: 보상 모델과 RLHF",
+    "books/aie-rl/#dp": "02 · 모형을 알 때 미리 계획하기: 동적계획법",
+    "books/aie-rl/#mc": "03 · 모형 없이 끝까지 걸어 보고 평균 내기: 몬테카를로",
+    "books/aie-rl/#td": "04 · 한 걸음마다 Q 값 고치기: Q-learning과 SARSA",
+    "books/aie-rl/#dqn": "05 · 상태가 너무 많을 때: 신경망 Q와 세 가지 안정 장치",
+    "books/aie-rl/#pg": "06 · 정책을 기울기로 직접 학습하고 비평가를 붙이기",
+    "books/aie-rl/#ppo": "07 · 같은 데이터로 여러 번 조금씩 갱신하기: PPO",
+    "books/aie-rl/#rlhf": "08 · 사람의 선택을 점수로 바꾸기: 보상 모델과 RLHF",
     "books/aie-rl/#multi": "09 · 로봇이 둘이 되면: 다중 에이전트",
-    "books/aie-rl/#simreal": "10 · 시뮬레이터 밖으로: 현실 격차 건너기",
-    "books/aie-rl/#games": "11 · 같은 고리로 바둑판과 풀이 검증까지",
-    "books/aie-rl/#final": "마지막 · 2호 창고에서 나르미가 실패했다",
+    "books/aie-rl/#simreal": "10 · 시뮬레이터에서 현실로: 현실 격차 줄이기",
+    "books/aie-rl/#games": "11 · 게임 탐색과 풀이 검증: AlphaZero에서 GRPO까지",
+    "books/aie-rl/#final": "마지막 · 2호 창고의 실패 보고 세 가지 진단하기",
     "books/aie-llm-build/#tokenizer": "01 · 바이트를 합쳐 토큰 만들기",
-    "books/aie-llm-build/#data": "02 · 겹친 글을 걸러 빈틈없이 담기",
+    "books/aie-llm-build/#data": "02 · 중복 글을 걸러 내고 학습 길이에 맞춰 담기",
     "books/aie-llm-build/#pretrain": "03 · 다음 토큰 맞히기와 규모의 법칙",
     "books/aie-llm-build/#memory": "04 · 8B를 학습하려면 몇 GB가 필요할까",
-    "books/aie-llm-build/#parallel": "05 · 여러 GPU에 나누고 거품 줄이기",
-    "books/aie-llm-build/#sft": "06 · 대답하는 습관 가르치기",
+    "books/aie-llm-build/#parallel": "05 · 여러 GPU에 학습을 나누고 파이프라인 거품 줄이기",
+    "books/aie-llm-build/#sft": "06 · SFT로 질문에 답하는 법 가르치기",
     "books/aie-llm-build/#preference": "07 · 더 나은 답을 고르는 법 배우기",
     "books/aie-llm-build/#selfimprove": "08 · 원칙과 채점 규칙으로 스스로 고치기",
     "books/aie-llm-build/#eval": "09 · 서재봇이 나아졌는지 재기",
-    "books/aie-llm-build/#serving": "10 · 가볍고 빠르게 내보내기",
+    "books/aie-llm-build/#serving": "10 · 양자화와 추측 디코딩으로 가볍고 빠르게 서빙하기",
     "books/aie-llm-build/#architecture": "11 · 오픈 모델 설정 파일 읽기",
-    "books/aie-llm-build/#final": "마지막 · 출시 전날의 되돌리기",
+    "books/aie-llm-build/#final": "마지막 · 실패한 단계부터 다시 할 범위 계산하기",
     "books/aie-llm-apps/#prompt": "01 · 막연한 부탁을 지시로 바꾸기",
     "books/aie-llm-apps/#reasoning": "02 · 예시를 보여 주고 풀이를 쓰게 하기",
-    "books/aie-llm-apps/#structured": "03 · 답을 프로그램이 읽는 모양으로",
-    "books/aie-llm-apps/#context": "04 · 창 안에 무엇을 넣을까",
+    "books/aie-llm-apps/#structured": "03 · 답을 스키마에 맞는 JSON으로 받기",
+    "books/aie-llm-apps/#context": "04 · 컨텍스트 창에 무엇을 얼마나 넣을까",
     "books/aie-llm-apps/#retrieval": "05 · 정책 문서에서 근거 찾아오기",
-    "books/aie-llm-apps/#lora": "06 · 말투를 가르치는 작은 어댑터",
-    "books/aie-llm-apps/#tools": "07 · 모델이 시스템을 부르게 하기",
-    "books/aie-llm-apps/#eval": "08 · 좋아졌다는 증거 만들기",
-    "books/aie-llm-apps/#guardrails": "09 · 들어오는 말과 나가는 말 검사하기",
+    "books/aie-llm-apps/#lora": "06 · LoRA로 말투와 답의 형식 맞추기",
+    "books/aie-llm-apps/#tools": "07 · 모델이 함수 호출과 MCP로 도구를 쓰게 하기",
+    "books/aie-llm-apps/#eval": "08 · 좋아졌는지 평가 세트로 확인하기",
+    "books/aie-llm-apps/#guardrails": "09 · 입력과 출력을 여러 층에서 검사하기",
     "books/aie-llm-apps/#cache": "10 · 같은 질문에 두 번 돈 내지 않기",
     "books/aie-llm-apps/#graph": "11 · 멈추고 되돌릴 수 있는 에이전트",
-    "books/aie-llm-apps/#final": "마지막 · 출시 2주 차 청구서",
+    "books/aie-llm-apps/#final": "마지막 · 출시 2주 차 청구서를 예산에 맞추기",
     "books/aie-multimodal/#patches": "01 · 세탁기 사진이 토큰이 되기까지",
-    "books/aie-multimodal/#clip": "02 · 사진과 설명서 문장을 한 공간에",
-    "books/aie-multimodal/#bridge": "03 · 얼린 두 모델 사이에 다리 놓기",
-    "books/aie-multimodal/#recipe": "04 · 단순한 프로젝터와 학습 순서",
+    "books/aie-multimodal/#clip": "02 · 사진과 설명서 문장을 한 벡터 공간에 놓기",
+    "books/aie-multimodal/#bridge": "03 · 얼린 두 모델을 Q-Former와 게이트로 잇기",
+    "books/aie-multimodal/#recipe": "04 · MLP 프로젝터와 두 단계 학습 순서",
     "books/aie-multimodal/#anyres": "05 · 세로로 긴 설명서와 큰 사진 읽기",
-    "books/aie-multimodal/#video": "06 · 90초 영상을 토큰 예산 안에",
+    "books/aie-multimodal/#video": "06 · 90초 영상을 토큰 예산 안에 넣기",
     "books/aie-multimodal/#voice": "07 · 소음을 듣고 말로 답하기",
-    "books/aie-multimodal/#tokens": "08 · 그림도 다음 토큰으로",
-    "books/aie-multimodal/#unified": "09 · 이해와 생성을 한 모델에",
+    "books/aie-multimodal/#tokens": "08 · 그림도 다음 토큰 예측으로 그리기",
+    "books/aie-multimodal/#unified": "09 · 이해와 생성을 한 모델에 합치기",
     "books/aie-multimodal/#action": "10 · 말 대신 관절을 움직이는 모델",
     "books/aie-multimodal/#docs": "11 · 스캔 설명서에서 맞는 쪽 찾기",
     "books/aie-multimodal/#agent": "마지막 · 예약 화면을 대신 누르는 도우미",
@@ -4009,39 +4009,39 @@
     "books/aie-tools/#schema": "02 · 모델이 헷갈리지 않는 도구 계약 쓰기",
     "books/aie-tools/#envelope": "03 · 요청 한 통에 필요한 것을 모두 담기",
     "books/aie-tools/#client": "04 · 여러 서버를 묶고 전송을 고르기",
-    "books/aie-tools/#context": "05 · 행동, 읽을거리, 틀을 나누기",
+    "books/aie-tools/#context": "05 · 도구, 자원, 프롬프트를 나누기",
     "books/aie-tools/#mrtr": "06 · 서버가 사람과 모델에게 되묻기",
     "books/aie-tools/#tasks": "07 · 오래 걸리는 일과 끊긴 연결",
     "books/aie-tools/#poison": "08 · 도구 설명과 공급망을 믿지 않기",
     "books/aie-tools/#auth": "09 · 토큰은 누구를 위해 발급되었나",
-    "books/aie-tools/#gateway": "10 · 한 문 뒤의 서버들을 관찰하고 고르기",
+    "books/aie-tools/#gateway": "10 · 게이트웨이 뒤의 서버들을 관찰하고 고르기",
     "books/aie-tools/#skills": "11 · 절차를 스킬로 포장하기",
-    "books/aie-tools/#final": "마지막 · 노트 비서가 이상하게 굴던 날",
-    "books/aie-agents/#loop": "01 · 생각하고, 부르고, 읽는 한 바퀴",
+    "books/aie-tools/#final": "마지막 · 이상 보고 다섯 건의 원인 찾기",
+    "books/aie-agents/#loop": "01 · 생각하고 도구를 부르고 결과를 읽는 루프",
     "books/aie-agents/#plan": "02 · 계획을 먼저 세울까, 갈래를 탐색할까",
-    "books/aie-agents/#refine": "03 · 실패를 말로 적어 다음 시도에 싣기",
-    "books/aie-agents/#memory": "04 · 창은 작고 사건은 길다",
+    "books/aie-agents/#refine": "03 · 실패 이유를 적어 다음 시도에 반영하기",
+    "books/aie-agents/#memory": "04 · 문맥 창 밖에 기억을 두고 꺼내 쓰기",
     "books/aie-agents/#patterns": "05 · 워크플로로 충분한 일, 에이전트가 필요한 일",
-    "books/aie-agents/#runtime": "06 · 끊겨도 이어지는 실행",
-    "books/aie-agents/#measure": "07 · 에이전트를 재는 자",
-    "books/aie-agents/#defend": "08 · 로그 한 줄에 숨은 지시",
-    "books/aie-agents/#workbench": "09 · 에이전트가 일하는 작업대",
-    "books/aie-agents/#gates": "10 · “다 했습니다”를 믿지 않는 법",
-    "books/aie-agents/#frame": "11 · 무엇을 만들지부터 틀 짓기",
-    "books/aie-agents/#final": "마지막 · 파일럿 결과가 도착했다",
-    "books/aie-autonomy/#horizon": "01 · 한 번 답하기에서 밤새 일하기로",
+    "books/aie-agents/#runtime": "06 · 운영 실행 형태와 음성 지연 예산",
+    "books/aie-agents/#measure": "07 · 벤치마크·추적·평가로 에이전트 재기",
+    "books/aie-agents/#defend": "08 · 간접 프롬프트 주입과 도구 호출 검사기",
+    "books/aie-agents/#workbench": "09 · 코딩 에이전트의 작업대와 범위 계약",
+    "books/aie-agents/#gates": "10 · 완료 보고를 검증 게이트와 리뷰어로 확인하기",
+    "books/aie-agents/#frame": "11 · 만들기 전에 결과를 정하고 위험한 가정 찾기",
+    "books/aie-agents/#final": "마지막 · 가장 작은 조각을 고르고 파일럿 결과 판정하기",
+    "books/aie-autonomy/#horizon": "01 · 긴 실행에서 단계 성공 확률이 곱해지는 계산",
     "books/aie-autonomy/#star": "02 · 맞힌 풀이만 남겨서 배우기",
-    "books/aie-autonomy/#evolve": "03 · 평가기가 길을 정한다",
-    "books/aie-autonomy/#research": "04 · 연구 전체를 맡기면",
-    "books/aie-autonomy/#bounded": "05 · 자기 개선에 울타리 치기",
-    "books/aie-autonomy/#permission": "06 · 권한 사다리 위의 코딩 에이전트",
+    "books/aie-autonomy/#evolve": "03 · 평가기가 재는 것만 키우는 진화 고리",
+    "books/aie-autonomy/#research": "04 · 연구 전체를 에이전트에게 맡기면",
+    "books/aie-autonomy/#bounded": "05 · 자기 개선 고리에 네 관문 세우기",
+    "books/aie-autonomy/#permission": "06 · 코딩 에이전트의 뼈대와 권한 모드",
     "books/aie-autonomy/#browser": "07 · 읽은 글이 명령이 될 때",
-    "books/aie-autonomy/#durable": "08 · 끊겨도 이어서, 두 번은 하지 않게",
-    "books/aie-autonomy/#budget": "09 · 지갑과 멈춤 단추",
-    "books/aie-autonomy/#guard": "10 · 원칙의 순서와 걸러 내는 체",
-    "books/aie-autonomy/#policy": "11 · 연구소의 문턱과 바깥의 눈",
-    "books/aie-autonomy/#final": "마지막 · 주문 추적 도구를 붙인 첫 주",
-    "books/aie-multiagent/#why": "01 · 혼자 일하는 에이전트의 천장",
+    "books/aie-autonomy/#durable": "08 · 끊긴 실행을 이어 가고, 같은 행동은 한 번만 하기",
+    "books/aie-autonomy/#budget": "09 · 비용 상한과 멈춤 장치",
+    "books/aie-autonomy/#guard": "10 · 원칙의 우선순위와 입출력 분류기",
+    "books/aie-autonomy/#policy": "11 · 연구소 확장 정책과 외부 평가",
+    "books/aie-autonomy/#final": "마지막 · 첫 주 사고 세 건에 통제 고르기",
+    "books/aie-multiagent/#why": "01 · 혼자 일하는 에이전트의 한계",
     "books/aie-multiagent/#protocol": "02 · 메시지에 의도를 적는 약속",
     "books/aie-multiagent/#turn": "03 · 다음 차례는 누가 정하나",
     "books/aie-multiagent/#supervisor": "04 · 반장 한 명과 조사원 여럿",
@@ -4051,44 +4051,44 @@
     "books/aie-multiagent/#consensus": "08 · 거짓말쟁이와 따라쟁이가 섞일 때",
     "books/aie-multiagent/#market": "09 · 흥정하고 몫을 나누기",
     "books/aie-multiagent/#social": "10 · 기억과 마음 모형으로 생기는 협력",
-    "books/aie-multiagent/#ops": "11 · 죽어도 이어 가고, 폭풍은 끊기",
+    "books/aie-multiagent/#ops": "11 · 중단된 작업 이어 가기와 재시도 폭풍 끊기",
     "books/aie-multiagent/#final": "마지막 · 시의회 보고 뒤 올라온 사고 세 건",
     "books/aie-production/#platform": "01 · 토큰을 살까, GPU를 빌릴까",
-    "books/aie-production/#precision": "02 · 80GB 안에 무엇을 얼마나 담을까",
-    "books/aie-production/#engine": "03 · 엔진 안의 스케줄러 읽기",
-    "books/aie-production/#metrics": "04 · 느림을 네 숫자로 나누기",
-    "books/aie-production/#speculative": "05 · 초안을 쓰게 하고, 프리필과 디코드를 떼어 놓기",
-    "books/aie-production/#locality": "06 · KV 캐시가 있는 곳으로 보내기",
-    "books/aie-production/#scaling": "07 · 늘리고 줄이는 세 층과 콜드 스타트",
-    "books/aie-production/#cost": "08 · 청구서를 줄이는 네 손잡이",
-    "books/aie-production/#gateway": "09 · 게이트웨이 한 곳에서 지키기",
-    "books/aie-production/#rollout": "10 · 바꾸는 날의 안전장치: 섀도·카나리·A/B",
-    "books/aie-production/#incident": "11 · 사고를 미리 겪고, 기록으로 대응하기",
-    "books/aie-production/#final": "마지막 · 누리봇의 월요일 아침",
-    "books/aie-safety/#rlhf": "01 · 사람의 선호를 점수로 바꾸면 생기는 일",
-    "books/aie-safety/#dpo": "02 · 보상 모델 없이, 사람 라벨러 없이",
-    "books/aie-safety/#deception": "03 · 훈련에서는 착하고 배포에서는 다르게",
-    "books/aie-safety/#scheming": "04 · 심지 않아도 꾸미고, 감시받으면 순응한다",
-    "books/aie-safety/#control": "05 · 믿지 않고도 일을 맡기는 법",
+    "books/aie-production/#precision": "02 · GPU 메모리 80GB에 가중치와 KV를 얼마나 담을까",
+    "books/aie-production/#engine": "03 · 서빙 엔진의 스케줄러가 한 단계마다 하는 일",
+    "books/aie-production/#metrics": "04 · 응답 지연을 네 지표로 나눠 재기",
+    "books/aie-production/#speculative": "05 · 추측 디코딩과 분리 서빙이 이득이 되는 조건",
+    "books/aie-production/#locality": "06 · 요청을 KV 캐시가 있는 복제본으로 보내기",
+    "books/aie-production/#scaling": "07 · GPU 자동 확장의 세 층과 콜드 스타트",
+    "books/aie-production/#cost": "08 · 캐시·배치·라우팅으로 API 청구서 줄이기",
+    "books/aie-production/#gateway": "09 · AI 게이트웨이에 재시도·대체·보안 모으기",
+    "books/aie-production/#rollout": "10 · 새 모델·프롬프트를 섀도·카나리·A/B로 내보내기",
+    "books/aie-production/#incident": "11 · 관측·카오스 실험·AI SRE로 장애에 대비하고 대응하기",
+    "books/aie-production/#final": "마지막 · 누리봇 운영 보고 다섯 건 진단하기",
+    "books/aie-safety/#rlhf": "01 · 사람의 선호를 점수로 바꾸는 RLHF와 보상 해킹",
+    "books/aie-safety/#dpo": "02 · 보상 모델을 뺀 DPO, 사람 라벨러를 뺀 헌법 AI",
+    "books/aie-safety/#deception": "03 · 훈련을 견디는 백도어와 기만적 정렬",
+    "books/aie-safety/#scheming": "04 · 심어 둔 백도어 없이 나타나는 계략과 정렬 위장",
+    "books/aie-safety/#control": "05 · 믿지 않는 모델에게도 일을 맡기는 AI 통제",
     "books/aie-safety/#jailbreak": "06 · 탈옥은 몇 번 만에 성공할까",
-    "books/aie-safety/#injection": "07 · 누리가 읽은 메일이 명령을 내린다",
-    "books/aie-safety/#guard": "08 · 분류기를 겹겹이 세우고 문턱 정하기",
+    "books/aie-safety/#injection": "07 · 메일 속에 숨긴 지시로 누리를 움직이는 간접 주입",
+    "books/aie-safety/#guard": "08 · 조정 분류기를 여러 층 두고 문턱 정하기",
     "books/aie-safety/#fairness": "09 · 같은 문턱이면 공정할까",
-    "books/aie-safety/#privacy": "10 · 기억하지 않게, 표시는 남게",
+    "books/aie-safety/#privacy": "10 · 학습 기록을 지키는 차등 프라이버시, 생성물에 남기는 워터마크",
     "books/aie-safety/#governance": "11 · 누가 언제부터 무엇을 요구하나",
-    "books/aie-safety/#final": "마지막 · 출시 한 달 뒤 올라온 보고 세 건",
+    "books/aie-safety/#final": "마지막 · 출시 한 달 뒤 올라온 보고 다섯 건",
     "books/aie-capstone/#harness": "01 · 에이전트 고리에 예산과 계약을 걸기",
     "books/aie-capstone/#verify": "02 · 행동은 관문에서 막고, 결과는 재서 남기기",
-    "books/aie-capstone/#products": "03 · 에이전트 하나에서 팀과 제품으로",
+    "books/aie-capstone/#products": "03 · 에이전트 하나를 팀과 제품으로 넓히기",
     "books/aie-capstone/#research": "04 · 실험을 스스로 고르는 연구 고리",
     "books/aie-capstone/#gpt": "05 · 작은 GPT를 처음부터 조립하기",
-    "books/aie-capstone/#posttrain": "06 · 이어 쓰는 모델을 일하는 모델로",
+    "books/aie-capstone/#posttrain": "06 · 이어 쓰는 모델에 지시와 선호를 가르치기",
     "books/aie-capstone/#scale": "07 · 한 대에서 여러 대로 학습을 나누기",
     "books/aie-capstone/#rag": "08 · 근거를 찾아 붙이는 검색 파이프라인",
     "books/aie-capstone/#multimodal": "09 · 그림과 소리를 토큰 예산에 넣기",
     "books/aie-capstone/#evals": "10 · 두 버전 중 무엇이 나은지 판정하기",
-    "books/aie-capstone/#safety": "11 · 막을 것과 지나갈 것 사이의 문턱",
-    "books/aie-capstone/#final": "마지막 · 출시 사양표를 한 장으로 맞추기",
+    "books/aie-capstone/#safety": "11 · 공격 차단 문턱을 기저율과 함께 정하기",
+    "books/aie-capstone/#final": "마지막 · 출시 사양표의 다섯 줄을 동시에 맞추기",
     "books/ai/#final": "13 · 현장 점검 도우미 설계하기",
     "books/probability/#correlation": "09 · 진동과 온도는 함께 움직일까: 상관과 인과",
     "books/knowledge-graph/#triples": "01 · 문장을 세 조각으로",
@@ -4099,7 +4099,7 @@
     "books/knowledge-graph/#query": "06 · 그래프에 질문하기",
     "books/knowledge-graph/#extraction": "07 · 글에서 트리플 뽑기",
     "books/knowledge-graph/#embedding": "08 · 관계를 벡터로 옮기기",
-    "books/knowledge-graph/#graphrag": "09 · 그래프와 언어 모델을 함께",
+    "books/knowledge-graph/#graphrag": "09 · 그래프에서 모은 근거로 답하기",
     "books/transformer/#predict": "01 · 다음 낱말 하나를 고르는 기계",
     "books/transformer/#embed": "02 · 낱말이 벡터가 될 때",
     "books/transformer/#lookup": "03 · 부드럽게 찾는 사전: 어텐션의 출발",
@@ -4117,15 +4117,15 @@
     "books/market/#map": "01 · 증권은 무엇에 대한 권리인가",
     "books/market/#route": "02 · 주문은 어디로 가는가",
     "books/market/#book": "03 · 호가창 읽기: 스프레드와 미끄러짐",
-    "books/market/#queue": "04 · 줄을 서는 규칙: 가격 우선, 시간 우선",
-    "books/market/#auction": "05 · 장 시작과 마감의 한 번 체결: 단일가 매매",
-    "books/market/#tick": "06 · 가격의 눈금: 호가단위",
-    "books/market/#limits": "07 · 시장의 멈춤 단추: 가격제한폭·VI·서킷브레이커",
+    "books/market/#queue": "04 · 체결 순서를 정하는 규칙: 가격 우선, 시간 우선",
+    "books/market/#auction": "05 · 장 시작과 마감에 한 가격으로 체결하기: 단일가 매매",
+    "books/market/#tick": "06 · 주문 가격의 최소 단위: 호가단위",
+    "books/market/#limits": "07 · 가격 급변을 제한하는 장치: 가격제한폭·VI·서킷브레이커",
     "books/market/#events": "08 · 기준가가 바뀌는 날: 배당락·권리락·액면분할",
-    "books/market/#settle": "09 · 체결 뒤의 이틀: 결제와 미수",
-    "books/market/#cost": "10 · 한 번 왕복의 값: 수수료와 거래세",
-    "books/market/#hours": "11 · 시간 밖의 시장: 시간외·넥스트레이드·애프터마켓",
-    "books/market/#protect": "12 · 경고 딱지와 투자자 보호",
+    "books/market/#settle": "09 · 체결 뒤 둘째 영업일의 결제와 미수",
+    "books/market/#cost": "10 · 한 번 사고팔 때 드는 비용: 수수료와 거래세",
+    "books/market/#hours": "11 · 정규장 밖의 거래: 시간외·넥스트레이드·애프터마켓",
+    "books/market/#protect": "12 · 시장경보와 투자자 보호",
     "books/market/#final": "마지막 과제 · 하린의 격자 주문표 진단",
     "books/information/#surprise": "01 · 놀라움을 숫자로: 정보량 −log p",
     "books/information/#entropy": "02 · 평균 놀라움, 엔트로피",
@@ -4152,44 +4152,44 @@
     "books/money/#today": "01 · 오늘의 1만 원과 1년 뒤의 1만 원",
     "books/money/#compound": "02 · 이자에 이자가 붙을 때: 단리와 복리",
     "books/money/#rule72": "03 · 두 배가 되는 데 걸리는 해: 72의 법칙과 복리 주기",
-    "books/money/#discount": "04 · 미래를 오늘로: 할인과 현재가치",
+    "books/money/#discount": "04 · 미래의 돈을 오늘의 값으로: 할인과 현재가치",
     "books/money/#loan": "05 · 나눠 갚는 돈: 적금, 연금, 대출 상환표와 신용",
     "books/money/#npv": "06 · 여러 해의 돈을 한 숫자로: 순현재가치와 내부수익률",
-    "books/money/#inflation": "07 · 물가가 갉아먹는 이자: 실질 수익률",
+    "books/money/#inflation": "07 · 물가와 세금을 빼고 남는 이자: 실질 수익률",
     "books/money/#cagr": "08 · 평균은 0%인데 왜 줄었을까: 연환산 수익률",
-    "books/money/#fees": "09 · 수수료 1%가 30년에 하는 일",
-    "books/money/#final": "마지막 과제 · 하린의 1,000만 원, 상환과 투자의 저울",
-    "books/grid/#rule": "01 · 떨어지면 사고 오르면 판다: 감을 규칙으로",
+    "books/money/#fees": "09 · 수수료 1%가 30년 동안 줄이는 돈",
+    "books/money/#final": "마지막 과제 · 하린의 1,000만 원, 대출 상환과 투자 비교",
+    "books/grid/#rule": "01 · 떨어지면 사고 오르면 판다: 감으로 하던 매매를 규칙으로",
     "books/grid/#cell": "02 · 격자 한 칸의 손익과 최소 간격",
     "books/grid/#spacing": "03 · 같은 원이냐 같은 %냐: 등차 격자와 등비 격자",
     "books/grid/#range": "04 · 어디서 어디까지 깔까: 범위 정하기",
-    "books/grid/#box": "05 · 박스권: 오르내릴수록 쌓이는 칸",
+    "books/grid/#box": "05 · 박스권: 오르내릴수록 쌓이는 실현 손익",
     "books/grid/#rally": "06 · 오르기만 하는 장: 팔고 나면 따라가지 못한다",
-    "books/grid/#slide": "07 · 내리기만 하는 장: 재고가 쌓인다",
+    "books/grid/#slide": "07 · 내리기만 하는 장: 사들인 주식이 쌓인다",
     "books/grid/#gap": "08 · 건너뛰는 가격: 갭과 가격제한폭",
     "books/grid/#ledger": "09 · 장부 읽기: 실현 손익과 평가 손익",
     "books/grid/#capital": "10 · 얼마를 맡길까: 자금 배분과 최대 손실 한도",
     "books/grid/#compare": "11 · 다른 방법과 견주기: 보유·적립식·리밸런싱",
     "books/grid/#exit": "12 · 범위를 벗어났을 때 내가 정하는 규칙",
-    "books/grid/#final": "마지막 과제 · 하린의 6개월 격자 장부",
+    "books/grid/#final": "마지막 과제 · 하린의 6개월 격자 장부와 다음 결정",
     "books/volatility/#returns": "01 · 더하는 수익률과 곱하는 수익률: 단순 수익률과 로그 수익률",
     "books/volatility/#drag": "02 · −50% 다음 +50%: 변동성 손실과 레버리지 ETF의 일일 재조정",
-    "books/volatility/#measure": "03 · 흔들림을 재는 세 자: 표준편차·연율화·ATR",
-    "books/volatility/#walk": "04 · 동전으로 만든 가격: 무작위 보행",
+    "books/volatility/#measure": "03 · 흔들림을 재는 세 가지 계산: 표준편차·연율화·ATR",
+    "books/volatility/#walk": "04 · 우연만으로 움직이는 가격: 무작위 보행",
     "books/volatility/#tails": "05 · 3σ 밖의 날은 얼마나 자주 오나: 두꺼운 꼬리",
     "books/volatility/#revert": "06 · 어제의 수익률은 오늘을 말해 주나: 자기상관과 평균 회귀",
     "books/volatility/#trend": "07 · 추세와 박스권: 분산비로 흔들림의 모양 재기",
     "books/volatility/#cross": "08 · 가격은 한 선을 몇 번 건너나: 구간 통과 횟수",
-    "books/volatility/#drawdown": "09 · 가장 아팠던 때와 돌아오는 데 걸린 날: 최대 낙폭과 회복 기간",
-    "books/volatility/#final": "마지막 과제 · 하린의 1년 기록 두 장",
-    "books/bonds/#rate": "01 · 금리는 돈의 가격: 누가 누구에게 빌리는 값인가",
-    "books/bonds/#transmit": "02 · 기준금리가 시장금리로 전달되는 길",
-    "books/bonds/#bond": "03 · 채권이란: 빌려준 돈의 증서",
+    "books/volatility/#drawdown": "09 · 최대 낙폭과 회복 기간: 고점에서 얼마나 떨어지고 언제 돌아오나",
+    "books/volatility/#final": "마지막 과제 · 하린의 1년 기록 두 장을 무작위 보행과 견주기",
+    "books/bonds/#rate": "01 · 금리는 돈을 빌려 쓰는 가격: 누가 누구에게 내는가",
+    "books/bonds/#transmit": "02 · 기준금리가 시장금리에 반영되는 과정",
+    "books/bonds/#bond": "03 · 채권이란: 언제 얼마를 돌려받는지 적은 증서",
     "books/bonds/#price": "04 · 채권 가격과 만기수익률",
-    "books/bonds/#duration": "05 · 듀레이션: 금리에 얼마나 민감한가",
+    "books/bonds/#duration": "05 · 듀레이션: 채권 가격은 금리에 얼마나 민감한가",
     "books/bonds/#curve": "06 · 수익률 곡선과 장단기 금리차",
-    "books/bonds/#credit": "07 · 신용과 스프레드: 국채·회사채",
-    "books/bonds/#equity": "08 · 금리와 주가: 할인율로 이어진 관계",
+    "books/bonds/#credit": "07 · 신용 스프레드: 회사채 금리는 국채보다 얼마나 높은가",
+    "books/bonds/#equity": "08 · 금리와 주가: 할인율이 바뀌면 주식의 값은 얼마나 움직이나",
     "books/bonds/#holding": "09 · 개인이 채권을 갖는 이유와 방법",
     "books/bonds/#final": "마지막 과제 · 금리 인하가 예고된 해",
     "books/tax/#map": "01 · 투자 수익에 붙는 세금 네 가지",

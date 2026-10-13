@@ -11,7 +11,7 @@ A04Labs.autodiff=el=>{
   const items=names.map(id=>[`${id}${r.vars.includes(id)?' (입력)':''}`,`값 ${F(r.val[id],3)} · 기울기 ${F(snap.grad[id],3)}`]);
   const node=r.nodes.find(x=>x[0]===cur);
   U.result(el,U.cards(items,cur?names.indexOf(cur):0),
-  `역위상 순서: ${r.order.join(' → ')} (순전파의 반대)<br>`+(i===0?`0단계: 출력 ${r.order[0]}의 기울기를 1로 두고 시작합니다.`:`${i}단계: <b>${cur} = ${node[1]}</b>를 처리해 ${node[2].join(', ')}에 "위에서 온 기울기 × 국소 도함수"를 <b>더했습니다</b>.`)+
+  `위상 정렬의 역순: ${r.order.join(' → ')} (순전파의 반대)<br>`+(i===0?`0단계: 출력 ${r.order[0]}의 기울기를 1로 두고 시작합니다.`:`${i}단계: <b>${cur} = ${node[1]}</b>를 처리해 ${node[2].join(', ')}에 "위에서 온 기울기 × 국소 도함수"를 <b>더했습니다</b>.`)+
   (i>=n?`<br><strong>완료.</strong> ${r.vars.map(v=>`∂/∂${v} = ${F(r.grad[v],4)}`).join(', ')}`+(e==='reuse'?'<br>a는 c = a·b와 f = c + a 두 경로에서 기울기를 받아 b + 1 = −2가 됩니다. 덮어쓰지 않고 더해야 하는 이유입니다.':'<br>3장에서 손으로 곱한 dL/dw와 같은 값이 그래프 순회만으로 나옵니다.'):'')+'<br>작은 자동미분 엔진을 실제로 실행한 결과입니다.');});
 };
 

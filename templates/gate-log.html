@@ -8,6 +8,7 @@
 <ul>
 <li>책을 한 번 만들거나 크게 고칠 때마다 <code>&lt;table class="gate-round"&gt;</code> 하나를 둡니다. 다시 고치면 표를 지우지 않고 새 표를 더합니다. 검사기는 <code>data-date</code>가 가장 늦은 표를 봅니다.</li>
 <li><code>data-kind="new"</code>: 새 책이나 시리즈의 새 권. G0~G7 여덟 관문이 모두 있어야 합니다.</li>
+<li><code>data-kind="style"</code>: <a href="../docs/11-korean-writing.html">한국어 문장 지침</a>으로 모든 장의 문장만 다시 다듬은 경우(<a href="../docs/10-agent-team.html#style-pass">문체 개정</a>). 목차·조사·실험이 그대로이므로 G4·G6·G7만 적습니다. G4는 글작성팀장 나래가 승인하고, <code>id="style"</code> 절에 지침 대조표와 장마다 <code>id="style-k-장ID"</code> 메모(행마다 <code>data-guideline</code>)가 있어야 합니다. 학습 리허설 절은 요구하지 않습니다. G6 검수 회차에는 유진의 <code>wording</code> 판정이 있어야 합니다.</li>
 <li><code>data-kind="revision"</code>: 장 추가·재구성이나 실험 계산 변경처럼 크게 고친 경우. G2·G3·G4·G6·G7이 있어야 하고, 연결이 바뀌었다면 G1·G5도 적습니다. 규칙 이후에 만든 책은 개정 표를 더해도 처음 만든 <code>new</code> 표가 남아 있어야 하고, 그 표도 함께 검사합니다.</li>
 <li>제작 기록 표는 <code>&lt;section id="log"&gt;</code> 안에 둡니다. 날짜가 같은 표가 둘이면 문서에서 뒤에 있는 표를 최신으로 봅니다. 한 표 안에 같은 관문 행을 두 번 쓰면 실패합니다.</li>
 <li>관문 하나가 한 행입니다. <code>&lt;tr data-gate="G4"&gt;</code>에 칸 세 개(관문 이름, 넘긴 산출물, 한 줄 기록)를 두고, 둘째·셋째 칸을 비우지 않습니다.</li>
@@ -21,12 +22,12 @@
 <tr><td>G1 기획</td><td><code>id="plan"</code>: 책 기획서 다섯 문장, 이야기 방식, 연결 계획, 반대 의견 결론</td></tr>
 <tr><td>G2 교과과정</td><td><code>id="curriculum"</code>: 목차, 선수 관계, 범위 표, 공통 사례 성장 계획</td></tr>
 <tr><td>G3 설계</td><td><code>id="chapters"</code>: 장 학습 설계표, 새 책은 장마다 한 행 이상. 그리고 같은 <code>docs/</code> 폴더의 조사 노트 HTML로 가는 링크(그 파일에 <code>id="sources"</code> 출처 절이 있어야 합니다)</td></tr>
-<tr><td>G4 원고</td><td><code>id="style"</code> 절 안에 장 색인의 장 ID마다 <code>id="style-장ID"</code> 문체 비평 메모(크게 고친 책은 고친 장의 메모), 2026-10-13부터는 <a href="#style-format">지침 대조표와 메모 행마다 지침 K1~K6</a>, 그리고 <code>id="rehearsal"</code> 학습 리허설</td></tr>
+<tr><td>G4 원고</td><td><code>id="style"</code> 절 안에 장 색인의 장 ID마다 <code>id="style-장ID"</code> 문체 비평 메모(크게 고친 책은 고친 장의 메모), 2026-10-13부터는 <a href="#style-format">지침 대조표(K1~K7), 제목 메모 <code>id="style-k-titles"</code>, 메모 행마다 지침</a>, 그리고 <code>id="rehearsal"</code> 학습 리허설</td></tr>
 <tr><td>G6 검수</td><td><code>docs/fact-review.html</code> (팩트·출처 검수 검사기가 내용을 봅니다)</td></tr>
 </tbody></table>
 
 <h2 id="style-format">문체 비평 메모와 지침 대조표 (G4)</h2>
-<p>2026-10-13부터 G4가 있는 관문 표에는 <a href="../docs/11-korean-writing.html">한국어 문장 지침</a> K1~K6으로 점검한 기록이 있어야 합니다. 책 제작 문서의 <code>&lt;section id="style"&gt;</code>에 아래처럼 지침 대조표 하나와 장별 메모를 둡니다. 대조표는 여섯 행 모두 둘째·셋째 칸을 채우고, 장별 메모 표는 내용 행마다 <code>data-guideline</code>에 판단의 근거가 된 지침을 적습니다. 그대로 둔 문장에도 어떤 지침의 예외로 두었는지 적습니다.</p>
+<p>2026-10-13부터 G4가 있는 관문 표에는 <a href="../docs/11-korean-writing.html">한국어 문장 지침</a> K1~K7로 점검한 기록이 있어야 합니다. 책 제작 문서의 <code>&lt;section id="style"&gt;</code>에 아래처럼 지침 대조표 하나, 제목·설명·머리글 메모(<a href="../docs/11-korean-writing.html#k7">K7</a>) 하나, 장별 메모를 둡니다. 대조표는 일곱 행 모두 둘째·셋째 칸을 채우고, 장별 메모 표는 내용 행마다 <code>data-guideline</code>에 판단의 근거가 된 지침을 적습니다. 그대로 둔 문장에도 어떤 지침의 예외로 두었는지 적습니다.</p>
 <div class="style-example">
 <table class="guideline-check"><tr><th>지침</th><th>이 원고에서 찾은 것</th><th>처리</th></tr>
 <tr data-guideline="K1"><td>K1 주체와 행동</td><td>예시: 실험·그래프가 주어로 "알려 준다"고 쓴 문장 4곳</td><td>예시: 독자가 확인하는 행동으로 고침 4</td></tr>
@@ -35,6 +36,12 @@
 <tr data-guideline="K4"><td>K4 명사·번역투</td><td>예시: "~위에 서 있다", "~의 수행" 6곳</td><td>예시: 동사로 풀어 씀 6, 책이 정의한 용어는 둠</td></tr>
 <tr data-guideline="K5"><td>K5 의미·조건 보존</td><td>예시: 고친 문장 18개의 수치·단위·단서를 원래 문장과 대조</td><td>예시: 달라진 곳 없음</td></tr>
 <tr data-guideline="K6"><td>K6 문맥 대조·편집과 검증 구별</td><td>예시: 고친 문장마다 앞뒤 문단을 다시 읽음</td><td>예시: 뜻 보존 대조는 G6 유진에게 넘김(반영함 행 18개)</td></tr>
+<tr data-guideline="K7"><td>K7 제목·설명·머리글</td><td>예시: 책 설명·장 제목·부제·머리글·실험 제목 14곳을 따로 읽음. 그림말 제목 3곳, 목적어가 빠진 실험 제목 2곳</td><td>예시: 다루는 내용을 직접 말하게 고침 5, catalog 장 색인과 다른 책 링크 이름에 반영</td></tr>
+</table>
+<h3>제목·설명·머리글 (제목 메모 예시, 실제 문서에서는 <code>id="style-k-titles"</code>)</h3>
+<table><tr><th>인용</th><th>진단</th><th>고친 문장 / 판단</th><th>지침</th></tr>
+<tr data-guideline="K7 K4"><td>장 제목: 기준금리가 시장금리로 전달되는 길</td><td>“길”이라는 그림이 무엇이 어떻게 이어지는지를 대신합니다.</td><td>기준금리가 시장금리에 반영되는 과정 (반영함)</td><td>K7 K4</td></tr>
+<tr data-guideline="K7 K1"><td>머리글: 하린의 표 한 장을 끝까지 채웁니다</td><td>인물과 소품이 독자가 하는 일을 가립니다.</td><td>다섯 상품을 한 표에 모아 1년 뒤 결과를 비교합니다 (반영함)</td><td>K7 K1</td></tr>
 </table>
 <h3>01 · 장 제목 (장별 메모 예시, 실제 문서에서는 <code>id="style-장ID"</code>)</h3>
 <table><tr><th>인용</th><th>진단</th><th>고친 문장 / 판단</th><th>지침</th></tr>

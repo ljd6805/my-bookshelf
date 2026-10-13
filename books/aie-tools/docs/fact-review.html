@@ -4,6 +4,30 @@
 <h1>팩트·출처 검수 기록 · 도구와 프로토콜</h1>
 <p>「AI 엔지니어링 처음부터」 14권 《도구와 프로토콜 · 함수 호출에서 MCP와 스킬까지》를 쓰지 않은 검수 에이전트가 확인한 결과입니다. 규칙의 배경은 서재의 <a href="../../../docs/03-verification.html#fact-review">검증 문서</a>에 있고, 책 문서 허브는 <a href="index.html">여기</a>입니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리, 56c7001 위)으로 바뀐 문장 20개: js/content.js 16(문체 12, 다른 책 링크 이름 4), js/lab-guides.js 1, js/labs-ops.js 2(사실 수정), index.html 꼬리말 1. 함께 바뀐 data/catalog.json의 이 책 장 색인 3개도 대조. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="fixed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자: Claude · 유진 뜻 보존 검수 세션. 집필자: 다온 문체 개정 세션(스레드 「기존 책 한국어 지침 검수」)이며, 이 검수자는 그 세션의 문장을 쓰지 않았고 결론도 건네받지 않았습니다. 원래 문장은 HEAD(56c7001), 고친 문장은 작업 트리에서 <code>git diff HEAD -- books/aie-tools/ data/catalog.json</code>으로 보고 한 문장씩 대조했습니다. 대상은 문체 비평 메모(docs/index.html의 style-pass)의 “반영함” 행 14개, 집필 쪽이 고친 마지막 과제 실험의 사실 수정 2곳, 메인 세션이 고친 다른 책 링크 이름 4곳입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 사실 수정 2곳이 계산 코드·본문과 맞음</td><td>고친 문장이 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 대조. 10장 부제에 들어간 “별칭 뒤의 실제 모델”, “정상·거절 사례의 선 위 기록”은 같은 장 본문(“라우팅 게이트웨이의 별칭과 대체 사슬”, “정상 사례와 거절 사례의 선 위 기록으로 증명합니다”)과 깊이 읽기에 이미 있는 내용. 보고 이름 수정은 js/math.js의 INCIDENTS(confirm → pins)와 본문 표 “export의 확인 질문이 바뀜 → 8장 서술자 고정”과 맞음. 원래 이름 “확인 창 없이 노트가 지워짐”은 서술자 고정보다 되묻기(6장)에 가까운 증상으로 읽혀 계산의 원인(pins)과 어긋났음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장에는 수치가 거의 없고, 바뀐 곳 주변의 수치(재시도·오류 코드·정밀도 0.95·재현율 0.90)가 그대로임을 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>labs-ops.js 변경은 INC 배열의 보고 이름 문자열과 결과 문장뿐이고 키(confirm 등)와 계산 호출은 그대로. 결과 문장의 새 주장을 책 코드와 따로 계산해 대조: CHECKS(선 위 5·고정 3·토큰 4·트레이스 6·장부 4분)와 ORDERS로 보고별 누적 시간을 구하면 confirm 신뢰 경계부터 3분(선 위부터 8, 시간부터 18), proxy500 선 위부터 5분(12, 11), crossToken 신뢰 경계부터 7분(12, 22), slow 시간부터 6분(18, 22), double 시간·재시도부터 15분(16, 22). 증상이 가리키는 순서가 다섯 보고 모두 가장 짧아 “이 시나리오에서처럼 … 줄일 수 있습니다”를 뒷받침함. 책 테스트 npm test 27개, 루트 tests/test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음(비고 1)</td><td>5장 제목을 MCP의 세 이름(도구·자원·프롬프트)으로 바꾼 것과 10장 제목의 “게이트웨이”가 용어 풀이·부제와 같음. 장 ID 12개·정답 번호·링크 주소·출처 번호가 그대로임을 diff로 확인. catalog 장 색인 12개가 content.js 장 제목과 같고, 장 목록 5개는 바뀐 장을 포함하지 않아 그대로 맞음. 이 책의 다른 책 링크 이름 4곳(aie-llm-apps #tools, aie-workbench #remote, aie-autonomy #durable, aie-agents #defend)이 각 책의 현재 장 제목과 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="fixed"><td>문체 편집 뒤 뜻 보존</td><td>20문장 대조, 되돌린 문장 0</td><td>문장마다 수치·조건·가능성의 정도·인과관계를 원래 문장과 대조. 7장 “두 번 실행하게 하므로” → “두 번 실행되므로”는 확신의 정도가 같고, 10장 “~할 뿐” 단서와 마지막 장 “~일 뿐” 단서가 남아 있음. 메모의 반영함 14행과 diff의 문체 변경 14곳(content.js 12, lab-guides.js 1, index.html 1)이 하나씩 맞음. 사실 수정 2곳은 메모 둘째 문단에 적혀 있음. 링크 이름 4곳은 메인 세션의 반영 몫이라 불일치로 보지 않음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>뜻이나 조건이 달라져 되돌린 문장은 없습니다. 아래 첫 행은 제목이라 규칙대로 되돌리지 않고 보고합니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문장 / 고친 문장</th><th>본 것</th><th>처리</th></tr></thead><tbody>
+<tr><td>#final 제목 (js/content.js, catalog 장 색인)</td><td>“마지막 과제 · 노트 비서가 이상하게 굴던 날” / “마지막 과제 · 다섯 가지 이상 보고의 원인 찾기”</td><td>“다섯 가지 이상 보고”는 “다섯 가지 이상(以上)의 보고”, 곧 다섯 개 넘는 보고로도 읽힙니다. 실제 보고는 정확히 다섯 개이고 부제는 “다섯 가지 이상한 보고”라고 씁니다. 뜻을 바꾼 것은 아니지만 수량 조건을 잘못 읽힐 수 있습니다.</td><td>제목이라 catalog와 함께 바뀌어야 하므로 되돌리지 않고 보고함. 제안: “마지막 과제 · 이상한 보고 다섯 가지의 원인 찾기”</td></tr>
+<tr><td>#skills 실험 안내 (js/lab-guides.js)와 결과 표 (js/labs-ops.js)</td><td>“잘못 발동이 줄고” / “오발동이 줄고”</td><td>안내와 결과 문장은 “오발동”으로 맞았지만, 결과 표의 항목 이름은 여전히 “잘못 발동(FP)”입니다. 같은 것을 두 이름으로 부르는 상태는 고치기 전에도 있었습니다.</td><td>되돌리지 않음. 다음 손질 때 표 이름을 “오발동(FP)”으로 맞출 것을 제안</td></tr>
+<tr><td>#gateway 부제</td><td>“트레이스는 모든 홉을 한 줄로 잇고” / “트레이스는 모든 홉을 한 트레이스로 묶고”</td><td>뜻은 본문과 맞지만 주어와 목적어 자리에 “트레이스”가 겹칩니다.</td><td>비고로 남김</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>마지막 과제 시나리오의 보고별 원인과 점검 시간은 교육용 가정값이라 실제 사고 자료와 대조하지 않았습니다.</li><li>고친 제목이 1280·390·320px 화면에서 줄바꿈되는 모습과 실험 선택 상자의 새 보고 이름은 브라우저로 보지 않았습니다.</li><li>이 책으로 들어오는 다른 책의 링크 이름은 그 책 검수 몫이라 고치지 않았습니다. 찾은 세 곳(#loop, #envelope 두 곳)은 현재 제목과 같았습니다.</li></ul>
+<p>후속 반영(집필 쪽, 2026-10-13): 위 발견대로 #final 제목을 “마지막 과제 · 이상 보고 다섯 건의 원인 찾기”로 고쳐 “다섯 가지 이상(以上)”으로 읽히지 않게 했고, data/catalog.json 장 색인과 메모 제목도 맞췄습니다. 실험 선택 칸의 이름 “이상 보고”와 같은 말입니다.</p>
+<h3>후속 반영 검수 (유진, 2026-10-13)</h3><p>문체 회차 뒤에 이 책에서 바뀐 문장 두 곳을 원래 문장과 대조했습니다. 마지막 과제 그림(js/figures.js F.final)의 설명 “다섯 가지 이상 보고마다” → “이상 보고 다섯 건마다”: 그림이 그리는 보고는 confirm·proxy500·crossToken·slow·double 정확히 다섯 건이고(js/math.js INCIDENTS도 다섯 항목), 고친 말은 위에서 고친 #final 제목 “이상 보고 다섯 건의 원인 찾기”와 같은 표현입니다. “다섯 개 넘게”로 잘못 읽힐 여지가 없어졌고 그림 내용과 캡션의 “시나리오/실제 계산” 구분은 그대로라 뜻은 보존됐습니다. #mrtr의 “더 읽어 보기” 링크 이름 “자율 시스템 08 · 끊긴 실행을 이어 가고, 같은 행동은 한 번만 하기”: 대상 장 aie-autonomy #durable의 content.js 제목, data/catalog.json 장 색인과 글자까지 같고, 끝에 “하기”만 더해져 이동 이유 문장(멱등 키, 제안-확정과 사전 조건·사후 확인)과도 그대로 맞습니다. 두 곳 모두 뜻 보존됨으로 판정하고, data-result와 항목 상태는 바꾸지 않았습니다. 참고로 #final 부제의 “다섯 가지 이상한 보고”는 “이상한”이라 수량으로 잘못 읽히지 않으므로 그대로 둡니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="2차 보충의 미커밋 변경: 1장 validate 실험의 도착 방식·조각 크기(4~20자) 손잡이와 math.js streamEvents·streamJudge, #loop 본문·자세히 보기 문장, #client “도구 목록도 문맥을 쓴다”, #context “결과가 클 때”, 새 출처 Anthropic 도구 검색 도구, lab-guides 두 예제, tests/browser.cjs 테마 단추" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 2차 보충의 미커밋 변경: 1장 validate 실험의 도착 방식·조각 크기(4~20자) 손잡이와 math.js streamEvents·streamJudge, #loop 본문·자세히 보기 문장, #client “도구 목록도 문맥을 쓴다”, #context “결과가 클 때”, 새 출처 Anthropic 도구 검색 도구, lab-guides 두 예제, tests/browser.cjs 테마 단추. 결과: 고침.</p>

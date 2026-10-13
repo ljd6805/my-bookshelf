@@ -44,9 +44,9 @@
       <div class="hero-links"><a class="button primary" href="#chance">01장부터 읽기</a><a class="button" href="#bayes">베이즈 실험하기</a></div>
       <div class="stats"><span><b>${B.chapters.length}</b>챕터</span><span><b>${B.chapters.length}</b>인터랙티브 실험</span><span><b>0</b>외부 API 호출</span></div></div>
       <div class="hero-lab" id="home-lab"></div></section>
-      <section class="section"><div class="section-heading"><h2>흔들림에서 판단까지</h2><p>몇 번의 관찰이 얼마나 흔들리는지 재고, 그 흔들림을 감안해 증거로 판단합니다. 각 단계가 아래의 챕터와 연결됩니다.</p></div>
+      <section class="section"><div class="section-heading"><h2>결과의 흔들림을 재고 증거로 판단하기</h2><p>몇 번의 관찰이 얼마나 흔들리는지 재고, 그 흔들림을 감안해 증거로 판단합니다. 각 단계가 아래의 챕터와 연결됩니다.</p></div>
       ${flow(['관찰|경보 몇 번, 측정값 몇 개', '흔들림|확률·이항분포·요약값', '평균의 법칙|표본분포·σ/√n', '증거|베이즈·신뢰구간·검정', '학습|우도·손실·AI', '관계|상관·교란·무작위 실험'])}</section>
-      <section class="section"><div class="section-heading"><h2>이 책의 사건</h2><p>모든 장이 같은 공장, 같은 센서 20대에서 출발합니다.</p></div>
+      <section class="section"><div class="section-heading"><h2>모든 장이 쓰는 공장과 센서 20대</h2><p>모든 장이 같은 공장, 같은 센서 20대에서 출발합니다.</p></div>
       ${B.caseStory.map((p) => `<p>${esc(p)}</p>`).join('')}
       <div class="note"><strong>한 장을 읽는 순서</strong><br>문제를 읽고 → 결과를 먼저 예측하고 → 실험에서 값을 하나씩 바꿔 보고 → 본 것을 설명한 뒤 → 공장 밖의 새 상황에 옮겨 봅니다. 실험 상자에는 정확한 계산인지, 난수로 흉내 낸 시뮬레이션인지 적어 두었습니다.</div></section>
       <section class="section" id="chapters"><div class="section-heading"><div class="eyebrow">EXPLORE THE BOOK</div><p>개념을 읽고, 그림을 보고, 직접 실험한 뒤 확인 문제로 마무리하세요.</p></div><h2>전체 챕터</h2>${chapterCards()}</section>

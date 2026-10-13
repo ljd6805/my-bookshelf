@@ -8,7 +8,7 @@
 
   function hero() {
     return `<section class="hero"><div><div class="eyebrow">An interactive field guide to vectors &amp; matrices</div>` +
-      `<h1>노래 여덟 곡으로<br><em>공간을 움직이는 법.</em></h1><p class="lead">“이 노래가 좋았다면 저 노래도 좋아할까?” 이 질문 하나에 답하는 작은 추천기를 처음부터 만듭니다. 화살표를 끌고, 평면을 기울이고, 가장 긴 방향을 찾으며 선형대수를 손으로 익히세요.</p>` +
+      `<h1>노래 여덟 곡으로<br><em>익히는 벡터와 행렬.</em></h1><p class="lead">“이 노래가 좋았다면 저 노래도 좋아할까?” 이 질문 하나에 답하는 작은 추천기를 처음부터 만듭니다. 화살표를 끌고, 평면을 기울이고, 가장 긴 방향을 찾으며 선형대수를 손으로 익히세요.</p>` +
       `<div class="hero-links"><a class="button primary" href="#vectors">01장부터 읽기</a><a class="button" href="#matrix">행렬 실험하기</a></div>` +
       `<div class="stats"><span><b>${B.chapters.length}</b>챕터</span><span><b>${B.chapters.reduce((n, c) => n + c.labs.length, 0)}</b>인터랙티브 실험</span><span><b>0</b>외부 API 호출</span></div></div>` +
       `<div class="hero-lab"><div class="lab-top"><span>취향 방향을 돌리면 추천도 바뀝니다</span><span>8곡 · 2특징</span></div>` +
@@ -46,7 +46,7 @@
   function sources() {
     return `<section class="section" id="sources"><h2>읽을거리와 실험의 경계</h2><p class="lead">강의와 공식 문서를 바탕으로 개념을 설명했습니다. 실험마다 계산식과 입력 범위, 가정을 ‘계산 조건’으로 함께 적었습니다.</p>${H.sourceLinks(B.sources.map((_, i) => i))}` +
       `<p class="caption">링크 확인일: 2026-10-08</p><div class="note">모든 실험은 브라우저 안에서 실제로 계산합니다. 미리 정한 결과를 재생하지 않으며 API 키나 로그인이 필요하지 않습니다. 노래와 점수는 설명용 가상 데이터이고, 10장의 W와 b는 학습한 값이 아니라 직접 정한 값입니다. 동작 줄이기 설정을 켜면 애니메이션은 마지막 장면만 보여 줍니다.</div>` +
-      `<div class="cross"><p><strong>다른 책으로 이어 읽기</strong> → AI Book <a href="../ai/#embeddings">5장 의미를 놓는 좌표 공간</a></p><p>이동 이유: 이 책의 2장에서 계산한 코사인 유사도가 단어와 문장의 ‘의미 거리’로 쓰이는 모습을 볼 수 있습니다. 10장을 마친 뒤에는 AI Book의 <a href="../ai/#neuron">1장 신경망의 작은 부품</a>에서 뉴런 하나의 가중치를 바꿔 보면 행렬의 한 행이 무슨 일을 하는지 다시 확인할 수 있습니다. 이 책은 다른 책과 코드를 공유하지 않고 링크만 겁니다.</p></div></section>`;
+      `<div class="cross"><p><strong>다른 책으로 이어 읽기</strong> → AI Book <a href="../ai/#embeddings">5장 의미를 놓는 좌표 공간</a></p><p>이동 이유: 이 책의 2장에서 계산한 코사인 유사도가 단어와 문장의 ‘의미 거리’로 쓰이는 모습을 볼 수 있습니다. 10장을 마친 뒤에는 AI Book의 <a href="../ai/#neuron">1장 뉴런 하나의 계산</a>에서 뉴런 하나의 가중치를 바꿔 보면 행렬의 한 행이 무슨 일을 하는지 다시 확인할 수 있습니다. 이 책은 다른 책과 코드를 공유하지 않고 링크만 겁니다.</p></div></section>`;
   }
 
   function home() {
