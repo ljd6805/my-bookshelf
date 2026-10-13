@@ -147,7 +147,7 @@ test('V-10 plans A and B: μ, σ, crisis σ, scenario loss, safe amount, both co
 });
 test('the plan, research and chapter table numbers are the ones computed here',()=>{
  const doc=read('docs/index.html'),rows=Object.fromEntries([...doc.matchAll(/<tr data-chapter="(\w+)">([\s\S]*?)<\/tr>/g)].map(m=>[m[1],m[2]])),all=Object.values(rows).join(' ');
- for(const s of ['15.81%','14.14%','0.0100','11.18%','8.94%','0.714','44.26%','5.05%','150만 원','56.52%','0.175','18.86%','−20.40%','−6,120만 원','10.00%','13.20%','0.3463','10.80%','5.66%p','25.00%','59.42%','−11.73%','−3,518만 원','5.5'])assert.ok(all.includes(s),'chapters: '+s);
+ for(const s of ['15.81%','14.14%','0.0100','11.18%','8.94%','0.714','44.26%','5.05%','150만 원','56.52%','0.175','18.86%','−20.40%','−6,120만 원','10.00%','13.20%','0.3463','10.80%','3.50%p','25.00%','59.42%','−11.73%','−3,518만 원','5.5'])assert.ok(all.includes(s),'chapters: '+s);
  const res=read('docs/research.html');for(const s of ['24.19','19.90','16.43','14.29','22.52','64.18','0.3463','1.3118','10.82','672.0','883.9','1.455','30.1','17.23','23.05','19.79','59.42','16.46','−31.05','−14.33'])assert.ok(res.includes(s),'research: '+s);
 });
 test('invariants on random inputs: weights add to 1, ρ = 1 adds σ by weight, ρ = 0 gives σ²/N, Kelly growth peaks at f*, cash keeps the Sharpe ratio, impossible tables show',()=>{

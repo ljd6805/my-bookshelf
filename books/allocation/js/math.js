@@ -67,11 +67,11 @@ const ASSUME={
 /* 시점에 묶인 실제 값(⏱)은 이 넷뿐이다. 바뀌면 같은 커밋에서 이 표, 화면 꼬리표, 마지막 과제 (라)를 함께 고친다. */
 const MARKET={
  pensionLimit:{value:0.70,timeSensitive:true,checked:'2026-10-13',reported:'2026-06-23',grade:'보도',source:'S13',
-  label:'보도 기준 · 법령 원문 확인 못함',note:'퇴직연금(DC·IRP) 위험자산 한도. 보도 시점에 완화를 검토하는 중'},
+  label:'보도 기준 · 법령 원문 확인 못함',note:'퇴직연금(DC·IRP) 위험자산 한도. 보도 시점(reported)에 완화 검토 중, 2026-08-12 보도(비즈니스워치)는 논의 중단으로 전함. 2026-10-13 G3 재확인(은재): 값 그대로'},
  tdfException:{value:true,timeSensitive:true,checked:'2026-10-13',reported:'2026-03-31',effective:'2026-04-01',grade:'보도',source:'S14',
   label:'보도 기준 · 법령 원문 확인 못함',note:'적격 TDF는 70% 한도의 예외(상품 이름은 쓰지 않는다)'},
  rf10y:{value:0.044,raw:0.04395,timeSensitive:true,checked:'2026-10-08',grade:'서재 안 재인용',source:'S22',label:'6권 확인값 · 서재 안 재인용'},
- erp:{value:0.049,raw:0.0487,timeSensitive:true,checked:'2026-01-05',grade:'서재 안 재인용',source:'S22',label:'6권 확인값 · 서재 안 재인용',note:'새 값이 나왔을 수 있음'},
+ erp:{value:0.049,raw:0.0487,timeSensitive:true,checked:'2026-01-05',grade:'서재 안 재인용',source:'S22',label:'6권 확인값 · 서재 안 재인용',note:'2026-10-13 G3 재확인(은재): Damodaran 국가별 표는 아직 2026-01-05 판, 한국 4.87% 그대로. 다음 판에서 바뀔 수 있음'},
  recheck:'한도와 금리는 바뀌므로 확인일을 보고 다시 확인하세요',
  nextRecheck:'2027-04-13'
 };
@@ -81,7 +81,7 @@ const FACTS={
  tenStocks:{n:10,year:1968,grade:'2차 자료'},                       // Evans·Archer: 열 종목이면 충분
  statman:{borrow:30,lend:40,year:1987,grade:'2차 자료'},             // Statman: 30·40종목
  brinson:{explained:0.936,funds:91,years:[1974,1983],year:1986,grade:'전문가 단체 글'},
- ibbotson:{time:0.90,between:0.40,level:1.00,year:2000,grade:'전문가 단체 글'},
+ ibbotson:{time:0.90,between:0.40,level:1.00,year:2000,balancedFunds:94,pensionFunds:58,grade:'전문가 단체 글'},   // 1986년 연구와 다른 자료(혼합형 펀드 94개, 연금 58곳)
  nuttall:{wrong:49,of:50,year:1998,grade:'전문가 단체 글'},
  vanguard:{monthlyTrades:1008,annualTrades:83,years:[1926,2009],year:2010,grade:'운용사 연구'},
  sixtyForty2022:{loss:0.17,since:1937,grade:'보도(미국 자료 인용)'},
