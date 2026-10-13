@@ -1,6 +1,6 @@
 /* 8·9장 실험: 선행·동행 지수의 시차 상관과 발표 달력, 세 위기의 지표 순서.
    계산은 MMath.lagCorr·lagTable·fxMove·annualize·crisisNumbers만 쓴다. 8장 12개월 자료는 미리 정한 가상 시나리오(동행 = 세 달 전 선행 × 0.8 + 작은 흔들림)이고,
-   위기 숫자는 보도·학술 요약 기준(MARKET.crisis)이다. 9장 환율 칸의 기본값은 2020년 스와프 다음 날(1,285.7원 → 1,246.5원)이며 확인 문제의 900원 → 1,962원은 비교 예제에 넣지 않는다. */
+   위기 숫자는 보도·학술 요약 기준(MARKET.crisis)이다. 9장 환율 칸의 기본값은 2020년 스와프 전날 종가(1,246.5 + 39.2 = 1,285.7원으로 계산, 장중 고점 아님) → 다음 날 종가 1,246.5원이며 확인 문제의 900원 → 1,962원은 비교 예제에 넣지 않는다. */
 (()=>{
 'use strict';
 const U=MUI,M=MMath,A=M.ASSUME,CLI=M.MARKET.cli,CAL=M.MARKET.calendar,CR=M.MARKET.crisis;

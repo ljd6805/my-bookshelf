@@ -5,7 +5,7 @@ const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f
 const load=()=>{const ctx={window:{}};vm.runInNewContext(read('js/content.js'),ctx);return JSON.parse(JSON.stringify(ctx.window.MBook));};
 const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].split(',');
 const IDS=['gdp','prices','cycle','policy','fiscal','fx','trade','leading','crisis','final'],LABS=['gdp-expenditure','cpi-basket','labor-gap','policy-model','fiscal-mix','fx-won-amount','current-account','lag-correlation','crisis-timeline','release-hypotheses'];
-const LAB_FILES=['labs-measure','labs-model','labs-external','labs-signals','labs-final'],VERSION='20261013v1';
+const LAB_FILES=['labs-measure','labs-model','labs-external','labs-signals','labs-final'],VERSION='20261013v3';
 const esc=s=>s.replace(/[-]/g,'\\-');
 const figures=()=>{const ctx={window:{MMath:require('../js/math.js')}};ctx.window.window=ctx.window;vm.runInNewContext(read('js/figures.js'),ctx.window);return ctx.window.MFigures;};
 test('chapter ids are stable, unique and listed in book-routes in order',()=>{assert.deepEqual(B.chapters.map(c=>c.id),IDS);assert.deepEqual(routes,['home','chapters','sources',...IDS]);});
