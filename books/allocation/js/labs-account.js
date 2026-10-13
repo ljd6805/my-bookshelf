@@ -32,16 +32,17 @@ ALabs['rebalance-rules']=el=>{
   const st=U.num(el,'rs'),tg=U.num(el,'rt'),bd=U.num(el,'rw'),ps=U.list(el,'rps',1),pb=U.list(el,'rpb',1);
   if(st===null)return U.result(el,'',U.problem('시작 금액','1만 원 이상으로 넣어 주세요.'));if(tg===null)return U.result(el,'',U.problem('목표 비중','1%에서 99% 사이로 넣어 주세요.'));if(bd===null)return U.result(el,'',U.problem('허용 폭','0에서 50%p 사이로 넣어 주세요.'));
   if(!ps)return U.result(el,'',U.problem('주식 경로','쉼표로 나눈 숫자를 넣어 주세요.'));if(!pb)return U.result(el,'',U.problem('채권 경로','쉼표로 나눈 숫자를 넣어 주세요.'));
-  if(ps.length!==pb.length)return U.result(el,'',U.problem('경로의 길이',`주식 ${ps.length}해, 채권 ${pb.length}해입니다. 해마다 짝을 지으려면 개수가 같아야 합니다.`));
+  if(ps.length!==pb.length)return U.result(el,'',U.problem('경로의 길이',`주식 ${ps.length}년치, 채권 ${pb.length}년치입니다. 해마다 짝을 지으려면 개수가 같아야 합니다.`));
   if([...ps,...pb].some(x=>x<=-100))return U.result(el,'',U.problem('경로','한 해 수익률은 −100%보다 커야 합니다.'));
   const o={start:st,target:tg/100,band:bd/100,stock:ps.map(x=>x/100),bond:pb.map(x=>x/100)},res=RULES.map(([r])=>M.rebalance(r,o)),years=ps.map((_,i)=>`${i+1}년`);
-  const trade=t=>Math.abs(t)<1e-9?'쉼':t>0?`주식 ${man(t)} 팔고 채권 삼`:`주식 ${man(t)} 사고 채권 팖`;
+  const say=t=>Math.abs(t)<1e-9?'되돌리지 않고 그대로 둡니다(쉼).':t>0?`주식 ${man(t)}을 팔아 채권을 삽니다.`:`주식 ${man(t)}어치를 사고 채권을 팝니다.`;
+  const trade=t=>Math.abs(t)<1e-9?'쉼':t>0?`주식 ${man(t)} 팔아 채권 사기`:`주식 ${man(t)}어치 사고 채권 팔기`;
   const chart=U.xy({series:res.map((r,k)=>({name:`${RULES[k][1]} · 되돌리기 전 주식 비중`,pts:[[0,tg],...r.rows.map(x=>[x.year,x.weight*100])],marks:r.rows.map((_,i)=>i+1),shape:['○','●','◆'][k],dash:['dot','solid','dash'][k],color:['var(--muted)','var(--blue)','var(--accent)'][k]})),
    refs:[{y:tg+bd,text:`목표 + ${U.sfmt(bd,1)}%p`},{y:tg-bd,text:`목표 − ${U.sfmt(bd,1)}%p`}],xmin:0,xmax:ps.length,xcount:Math.min(ps.length,6),xtick:v=>Number.isInteger(v)?`${v}년`:'',ytick:v=>U.sfmt(v,0)+'%',ylabel:'연말 주식 비중 (되돌리기 전, %)',title:'해마다 연말 주식 비중',h:330+0,label:res.map((r,k)=>`${RULES[k][1]}: ${r.rows.map(x=>p2(x.weight)).join(', ')}`).join('; ')})
    +U.table(['해','연말 비중 (되돌리기 전)','연 1회','허용 폭'],res[1].rows.map((x,i)=>[years[i],`${p2(x.weight)} (${x.drift>=0?'+':'−'}${U.ppt(Math.abs(x.drift))})`,trade(x.trade),`${p2(res[2].rows[i].weight)} → ${trade(res[2].rows[i].trade)}`]),'규칙별 매매 금액 (만 원, 비용·세금 제외)','fit')
    +U.table(['규칙','끝 금액'],res.map((r,k)=>[RULES[k][1],`<b>${U.won(r.end)}</b>`]),`${ps.length}년 뒤 끝 금액 (이 경로에서만 성립)`,'compact');
   const y1=res[1].rows[0];
-  U.result(el,chart,`1년째 연말 주식 비중 ${p2(y1.weight)}(목표에서 ${y1.drift>=0?'+':'−'}${U.ppt(Math.abs(y1.drift))}): 연 1회 규칙은 ${trade(y1.trade)}, 허용 폭 ±${U.sfmt(bd,1)}%p 규칙은 ${trade(res[2].rows[0].trade)}입니다.<br>${ps.length}년 뒤 끝 금액: 되돌리지 않음 ${U.won(res[0].end)}, 연 1회 ${U.won(res[1].end)}, 허용 폭 ${U.won(res[2].end)}. 이 순서는 이 경로의 결과이며, 리밸런싱은 수익을 키우는 규칙이 아니라 위험을 목표 비중에 묶는 규칙입니다.${U.kind(['real','assume'],'매매 비용과 세금은 넣지 않았습니다.')}`);
+  U.result(el,chart,`1년째 연말 주식 비중 ${p2(y1.weight)}(목표에서 ${y1.drift>=0?'+':'−'}${U.ppt(Math.abs(y1.drift))}): 연 1회 규칙에서는 ${say(y1.trade)} 허용 폭 ±${U.sfmt(bd,1)}%p 규칙에서는 ${say(res[2].rows[0].trade)}<br>${ps.length}년 뒤 끝 금액: 되돌리지 않음 ${U.won(res[0].end)}, 연 1회 ${U.won(res[1].end)}, 허용 폭 ${U.won(res[2].end)}. 이 순서는 이 경로의 결과이며, 리밸런싱은 수익을 키우는 규칙이 아니라 위험을 목표 비중에 묶는 규칙입니다.${U.kind(['real','assume'],'매매 비용과 세금은 넣지 않았습니다.')}`);
  });
 };
 })();

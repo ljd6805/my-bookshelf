@@ -194,3 +194,4 @@ details.solution>summary{cursor:pointer;list-style:revert}
 details.solution>summary h3{display:inline;margin:0;font-size:1.05rem}
 details.solution>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (max-width:420px){.verdict{white-space:normal}}
+.control input[type=range]{margin-inline:0;max-width:100%}

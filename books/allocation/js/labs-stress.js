@@ -40,12 +40,13 @@ ALabs['crisis-correlation']=el=>{
   +U.group('위기',U.number('cs1','주식 표준편차 (%)',0,100,0.1,CR.crisis.s1*100)+U.number('cs2','채권 표준편차 (%)',0,100,0.1,CR.crisis.s2*100)+U.number('crho','주식·채권 상관',-1,1,0.01,CR.crisis.rho)),true);
  U.bind(el,()=>{
   const v=['qs','qr1','qr2','cw','ns1','ns2','nrho','cs1','cs2','crho'].map(k=>U.num(el,k)),names=['종목 표준편차','평상시 상관','위기 상관','주식 비중','평상시 주식 표준편차','평상시 채권 표준편차','평상시 상관','위기 주식 표준편차','위기 채권 표준편차','위기 상관'];
-  const bad=v.findIndex(x=>x===null);if(bad>=0)return U.result(el,'',U.problem(names[bad],'안내된 범위 안의 숫자로 넣어 주세요.'));
+  const ranges=['0%에서 100%','−0.33에서 1','−0.33에서 1','0%에서 100%','0%에서 100%','0%에서 100%','−1에서 1','0%에서 100%','0%에서 100%','−1에서 1'];
+  const bad=v.findIndex(x=>x===null);if(bad>=0)return U.result(el,'',U.problem(names[bad],ranges[bad]+' 사이로 넣어 주세요.'));
   const [qs,r1,r2,cw,ns1,ns2,nr,cs1,cs2,cr]=v,w=cw/100,two=(s1,s2,r)=>M.twoAsset(w,{sigma:s1/100},{sigma:s2/100},r).sigma;
   let a,b;try{a=M.equalSigma(qs/100,r1,F4.n);b=M.equalSigma(qs/100,r2,F4.n);}catch(e){return U.result(el,'',U.problem('상관',U.why(e)));}
   const n0=two(ns1,ns2,nr),sOnly=two(cs1,cs2,nr),c1=two(cs1,cs2,cr);
   const chart=U.columns({labels:[`${F4.n}종목|평상시`,`${F4.n}종목|위기`,'섞은 계좌|평상시','섞은 계좌|위기 σ만','섞은 계좌|위기'],values:[a,b,n0,sOnly,c1].map(x=>x*100),mark:i=>i===1||i===4,fmt:x=>U.sfmt(x,2)+'%',tick:x=>U.sfmt(x,0)+'%',twoLine:true,title:'같은 비중의 표준편차 (%) · ▲ 위기',h:280,label:`${F4.n}종목 ${p2(a)} → ${p2(b)}, 섞은 계좌 ${p2(n0)} → ${p2(c1)}`});
-  U.result(el,chart,`${F4.n}종목(σ ${U.sfmt(qs,1)}%): 상관 ${U.sfmt(r1,2)} → ${U.sfmt(r2,2)}에서 σ <b>${p2(a)}</b> → <b>${p2(b)}</b>(${U.ppt(b-a)} 커짐).<br>주식 ${cw}% · 채권 ${100-cw}%: 평상시 <b>${p2(n0)}</b>, 위기 σ만 넣고 상관은 평상시 그대로 ${p2(sOnly)}, 위기 σ와 위기 상관 <b>${p2(c1)}</b>. 커진 폭 ${U.ppt(c1-n0)} 가운데 σ가 커진 몫이 ${U.ppt(sOnly-n0)}, 상관이 오른 몫이 ${U.ppt(c1-sOnly)}입니다.<br>비중은 그대로 두고 공분산 행렬의 상관만 바꿔 wᵀΣw를 다시 계산한 값입니다. 위기 때 변동성이 커지면 보정하지 않은 상관 추정이 위로 치우칠 수 있다는 연구가 있습니다(Forbes·Rigobon 1999, 학술 초록).${U.kind(['real','assume','paper'],M.assumptions.crisis+'.')}`);
+  U.result(el,chart,`${F4.n}종목(σ ${U.sfmt(qs,1)}%): 상관 ${U.sfmt(r1,2)} → ${U.sfmt(r2,2)}에서 σ <b>${p2(a)}</b> → <b>${p2(b)}</b>(${U.ppt(b-a)} 커짐).<br>주식 ${cw}% · 채권 ${100-cw}%: 평상시 <b>${p2(n0)}</b>, 위기 σ만 넣고 상관은 평상시 그대로 ${p2(sOnly)}, 위기 σ와 위기 상관 <b>${p2(c1)}</b>. 커진 폭 ${U.ppt(c1-n0)} 가운데 σ가 커진 몫이 ${U.ppt(sOnly-n0)}, 상관이 오른 몫이 ${U.ppt(c1-sOnly)}입니다.<br>비중은 그대로 두고 공분산 행렬의 상관만 바꿔 wᵀΣw를 다시 계산한 값입니다. 위기 때 변동성이 커지면 보정하지 않은 상관 추정이 위로 치우칠 수 있다는 연구가 있습니다(Forbes·Rigobon 1999, 학술 초록).${U.kind(['real','assume','paper'],'이 실험의 위기 상관과 위기 σ는 이 책의 가정이며, “위기에는 상관이 1이 된다”는 사실이 아닙니다.')}`);
  });
 };
 })();
