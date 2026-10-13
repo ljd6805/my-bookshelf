@@ -9,6 +9,9 @@ from html.parser import HTMLParser
 
 REVIEW_FILE = 'docs/fact-review.html'
 CHECKS = ('facts', 'numbers', 'experiments', 'terms', 'sources')
+# From this day a round also checks that style edits kept meaning and conditions
+# (docs/11-korean-writing.html, guideline K6).
+WORDING_CHECK, WORDING_DATE = 'wording', '2026-10-13'
 CHECK_STATUS = {'ok', 'fixed', 'open', 'n/a'}
 RESULTS = {'passed', 'fixed', 'open'}
 DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
@@ -48,7 +51,8 @@ def round_errors(record):
         errors.append('data-result must be passed, fixed or open')
     elif a['data-result'] == 'open':
         errors.append('latest review is still open: fix the findings and record a new round')
-    for check in CHECKS:
+    checks = CHECKS + ((WORDING_CHECK,) if a.get('data-date', '') >= WORDING_DATE else ())
+    for check in checks:
         status = record['checks'].get(check)
         if status not in CHECK_STATUS:
             errors.append(f'missing data-check="{check}" row with data-status ok|fixed|open|n/a')

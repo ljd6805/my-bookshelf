@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-12",
+  "updated_at": "2026-10-13",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -94,6 +94,7 @@
   ],
   "verification": "docs/07-book-integration.html#verification",
   "next_action": [
+    "기존 공개 도서에 한국어 문장 지침(K1~K6) 대조 적용: korean_writing_guidelines.next 순서",
     "AI 엔지니어링 시리즈는 완간. 시점에 민감한 사실(EU AI Act, MCP 규격, 모델 현황)은 다음 개정 때 공식 문서로 재확인. AI 교과서는 books/ai/에서 수정. 신규 도서는 books/주제/에 추가하고 책별 테스트 및 루트 링크 검사 실행.",
     "트랜스포머 속을 열어 보기 설계표에 도달 목표 열 추가(지안 요청, 다음 revision 표의 G3 승인 조건)",
     "G4 검사에 개념 그림의 한 문장 설명 확인 추가(리안 제안)"
@@ -305,16 +306,37 @@
     "plan": "/mnt/project-files/stock-books/proposal.md",
     "docs": "books/bonds/docs/index.html",
     "research": "books/bonds/docs/research.html",
-    "status": "writing: G0 승인(한결), G1·G2 보류 사항 수정 중",
+    "status": "G0~G5 승인, G6 팩트·출처 검수 1회차 fixed; 지침 K1~K6 대조와 wording 검수 진행 중",
     "completed": [
-      "기획서·목차·조사 노트·계산 모듈(js/math.js)과 테스트"
+      "기획서·목차·조사 노트·계산 모듈과 테스트",
+      "원고 10장·복습 30문항·실험 10개·표지·서가 삽화",
+      "G3 설계표, 다온 문체 메모, 채원 리허설",
+      "서가 등록(카탈로그·노선 rates-and-assets·들어오는 링크 3개)",
+      "팩트·출처 검수 1회차(오류 5건 수정)"
     ],
     "remaining": [
-      "G1·G2 재검토",
-      "원고·화면·실험",
-      "G3~G7",
-      "2026-10-22 기준금리 결정 결과 재확인"
+      "다온 지침 대조표(K1~K6), 유진 wording 대조",
+      "G6 정민·G7 한결 승인",
+      "2026-10-22 기준금리 결정 결과 재확인(공개 뒤 수정 회차)"
     ],
-    "next": "G1·G2 보류 사항(마지막 과제의 1년 기간·200만 원씩 배분, 대표 실험 수익률 곡선 놀이판에 기대 물가 입력) 반영 후 재검토"
+    "next": "지침 대조와 wording 검수 뒤 G6·G7 승인, PR"
+  },
+  "korean_writing_guidelines": {
+    "status": "done",
+    "date": "2026-10-13",
+    "request": "서재 주인이 운영하는 편집실의 한국어 문장 지침을 도서 검수에 강하게 쓰도록 구성",
+    "source": "https://ljd6805.github.io/mail-reports/team/korean-writing-guidelines.html (v1.1, ljd6805/mail-reports 커밋 4737628)",
+    "done": [
+      "docs/11-korean-writing.html: 지침 K1~K6, 비교 사례 20개 요약, 역할, 기록 형식, 검사",
+      "다온 G4 메모: 지침 대조표(K1~K6)와 행마다 data-guideline, team_gates.py가 2026-10-13 이후 G4를 검사(개정 회차는 태그된 메모만)",
+      "검수 wording 항목(유진, K6): fact_review.py가 2026-10-13 이후 회차에 요구",
+      "data/agent-team.json 다온·나래·준서·유진·정민 페르소나, AGENTS.md, docs/10, 양식 두 개 갱신"
+    ],
+    "approved_by": [
+      "나래",
+      "정민",
+      "한결"
+    ],
+    "next": "기존 공개 도서에 지침 대조 적용: 문체 비평 메모가 있는 13권부터, 금융 시리즈(4·1·12·8권) → AI 책 → 나머지 순으로 장마다 K1~K6 대조표를 더하고 유진의 wording 검수 회차를 남긴다. 집필 중인 금융 3권은 첫 G4부터 적용한다."
   }
 }

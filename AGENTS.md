@@ -18,6 +18,7 @@
 - 프로젝트 설명·설계 결정·인계 문서는 HTML로 작성하고 index.html에서 연결한다.
 - README.md, AGENTS.md, CLAUDE.md는 도구 진입점이므로 Markdown을 유지한다.
 - 한국어는 자연스러운 문장으로 쓴다. 명사 나열과 설명 없는 은유를 피한다. AI가 쓴 티가 나는 문체(번역투, 뜻 없는 상투적 도입과 맺음, 습관적인 세 항목 나열, 문단마다 같은 틀)를 걷어 낸다. 글작성팀 다온이 원고를 비판적으로 읽고 장마다 문체 비평 메모를 남긴다(data/agent-team.json).
+- 원고를 고치고 검수할 때는 서재 주인의 편집실 지침인 한국어 문장 지침 K1~K6(docs/11-korean-writing.html)을 점검 기준으로 쓴다. 누가 무엇을 하는지 원고에서 확인되는 대로만 드러내고, 실제 행동에 맞는 동사를 고르며, 실행·시도·가능성을 구별하고, 명사 나열과 번역투를 풀되 수치·단위·조건·불확실성은 그대로 둔다. 금칙어 목록이 아니므로 낱말을 일괄 치환하지 않는다. 다온의 G4 메모에는 지침 대조표(K1~K6)와 행마다 근거 지침을 적고, 고친 문장의 뜻 보존은 검수팀 유진이 새 세션에서 원래 문장과 대조해 wording 항목으로 판정한다. 2026-10-13 이후 기록은 validate.py가 검사한다.
 - 한 책에 계속 등장하는 사례와 마지막 과제를 먼저 정한다.
 - 장마다 시작 질문·이전 결과·새 도구·해결 결과·남은 질문을 연결한다.
 - 핵심 흐름은 문제 → 예측 → 조작 → 관찰 → 설명 → 전이이다.
@@ -63,7 +64,7 @@
 ## 팩트·출처 검수 (책을 만들거나 크게 고칠 때마다)
 - 책을 새로 만들거나 크게 고친 뒤에는 그 책을 쓴 에이전트가 아닌 새 에이전트(GPT·Claude의 다른 세션)를 할당해 팩트와 출처를 검수받는다. 집필자가 자기 책을 검수하지 않는다.
 - 검수자는 사실 주장, 수식·수치, 실험 계산 결과, 용어, 출처 링크와 인용을 확인한다. 실험 계산은 책 코드와 따로 대표값·경계값을 계산해 대조한다.
-- 결과는 books/주제/docs/fact-review.html에 templates/fact-review.html 형식으로 남긴다: 검수자·집필자·날짜·범위·다섯 항목(facts·numbers·experiments·terms·sources)의 상태·발견과 수정·확인하지 못한 것. 재검수는 새 회차로 더한다.
+- 결과는 books/주제/docs/fact-review.html에 templates/fact-review.html 형식으로 남긴다: 검수자·집필자·날짜·범위·검사 항목(facts·numbers·experiments·terms·sources, 2026-10-13 이후 회차는 문체 편집 뒤 뜻 보존 wording까지 여섯)의 상태·발견과 수정·확인하지 못한 것. 재검수는 새 회차로 더한다.
 - 찾은 오류를 고치고 최근 회차 결과가 passed 또는 fixed가 되기 전에는 책을 published로 올리거나 병합하지 않는다.
 - validate.py(scripts/fact_review.py)가 공개된 책의 기록 존재·검수자와 집필자 구분·열린 항목을 검사한다. 규칙 이전 책은 PENDING 목록에 있고, 기록을 더할 때 목록에서 지운다. 세부 기준은 docs/03-verification.html#fact-review를 따른다.
 
@@ -73,7 +74,7 @@
 - 한 세션이 여러 역할을 맡을 수 있다. 검수팀만은 집필하지 않은 새 세션이 맡는다(팩트·출처 검수 규칙과 같다).
 - 역할을 맡을 때는 data/agent-team.json에서 그 인물의 페르소나(말투·점검 목록·조심할 점·멈추는 때)를 읽고 그 관점으로 점검한다. 이 파일이 인물 설정의 원본이며, build_catalog.py가 서가의 팀 구역과 team.html을 만든다.
 - 팀 사이에는 인계 관문 G0~G7이 있다. 넘길 산출물이 파일로 있어야 다음 팀이 시작한다. 작업 규모별 편성과 기록 위치는 docs/10-agent-team.html#scale, #record를 따른다.
-- 관문을 넘을 때마다 books/주제/docs/index.html의 제작 기록에 templates/gate-log.html 형식으로 한 행을 남긴다. 새 책은 G0~G7, 크게 고친 책은 revision 표에 G2·G3·G4·G6·G7을 적고, 새 책의 G4에는 장마다 문체 비평 메모가 있어야 한다. 관문 행마다 산출물을 넘기는 팀의 팀장이 자기 페르소나의 점검 목록으로 점검한 뒤 data-approved에 이름을 적어 승인한다. 책이 아닌 작업을 따로 진행할 때도 관련 팀장의 승인을 받아 PR과 작업 기록에 남긴다. validate.py(scripts/team_gates.py)가 검사하며, 규칙 이전 28권은 LEGACY 목록으로 예외다. 세부 기준은 docs/10-agent-team.html#gate-check를 따른다.
+- 관문을 넘을 때마다 books/주제/docs/index.html의 제작 기록에 templates/gate-log.html 형식으로 한 행을 남긴다. 새 책은 G0~G7, 크게 고친 책은 revision 표에 G2·G3·G4·G6·G7을 적고, 새 책의 G4에는 장마다 문체 비평 메모가 있어야 하고, 2026-10-13 이후 G4에는 한국어 문장 지침 대조표와 메모 행마다 지침 K1~K6이 있어야 한다(templates/gate-log.html#style-format). 관문 행마다 산출물을 넘기는 팀의 팀장이 자기 페르소나의 점검 목록으로 점검한 뒤 data-approved에 이름을 적어 승인한다. 책이 아닌 작업을 따로 진행할 때도 관련 팀장의 승인을 받아 PR과 작업 기록에 남긴다. validate.py(scripts/team_gates.py)가 검사하며, 규칙 이전 28권은 LEGACY 목록으로 예외다. 세부 기준은 docs/10-agent-team.html#gate-check를 따른다.
 
 ## 책 구성 표준
 - 모든 책의 화면 배치와 장 구조는 AI Book(books/ai/)을 기준으로 한다. 새 책을 만들거나 책 구조를 바꾸기 전에 docs/08-book-template.html을 읽는다.
