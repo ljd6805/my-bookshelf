@@ -80,7 +80,7 @@ F.implied=()=>{
  let s=t(20,24,'매출 성장률만 바꾼 DCF 주당 가치와 주가 20,000원',{size:13,w:700,a:'start'})+`<path class="fig-draw" d="M${pts.map(p=>`${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('L')}" fill="none" stroke="var(--blue)" stroke-width="3"/>`;
  s+=`<path d="M60 ${Y(20000).toFixed(1)}H590" stroke="var(--orange)" stroke-dasharray="5 4" stroke-width="2"/>`+t(590,Y(20000)-8,'주가 20,000원',{size:12,a:'end',fill:'var(--orange)',w:700})+`<circle class="fig-pulse" cx="${X(g).toFixed(1)}" cy="${Y(20000).toFixed(1)}" r="7" fill="var(--accent)"/>`+t(X(g),Y(20000)+26,`성장률 ${P(g,2)}`,{size:12,w:700})+`<circle cx="${X(0.05).toFixed(1)}" cy="${Y(D.perShare).toFixed(1)}" r="5" fill="var(--text)"/>`+t(X(0.05)+8,Y(D.perShare)-8,`기준안 5% · ${Wn(D.perShare)}`,{size:12,a:'start'});
  [0,0.04,0.08].forEach(x=>{s+=t(X(x),222,P(x,0),{size:11,fill:'var(--muted)'});});
- return {svg:svg(`주가 20,000원에 맞는 매출 성장률 ${P(g,2)}, 기준안 5%에서 ${Wn(D.perShare)}`,s,236),caption:`나머지를 기준안으로 두면 DCF 주당 가치가 주가 20,000원과 같아지는 매출 성장률은 ${P(g,2)}이고, 성장률을 5%로 두면 할인율 ${P(r,1)}가 주가를 설명합니다. 같은 주가가 “성장이 거의 없다”는 가정으로도, “할인율이 더 높다”는 가정으로도 설명된다는 뜻입니다.`};
+ return {svg:svg(`주가 20,000원에 맞는 매출 성장률 ${P(g,2)}, 기준안 5%에서 ${Wn(D.perShare)}`,s,236),caption:`나머지를 기준안으로 두면 DCF 주당 가치가 주가 20,000원과 같아지는 매출 성장률은 ${P(g,2)}이고, 성장률을 5%로 두면 할인율 ${P(r,1)}가 주가를 설명합니다. 같은 주가를 “성장이 거의 없다”는 가정으로도, “할인율이 더 높다”는 가정으로도 설명할 수 있습니다.`};
 };
 F.final=()=>{
  const f=M.finalTask(),K={wcRatio:'운전자본',margin:'영업이익률',growth:'성장률',r:'할인율'},H=v=>v/34000*170,z=210,w=78;let run=f.gap.start,x=30;
