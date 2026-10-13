@@ -849,7 +849,7 @@
           "personality": "공정하고 단호합니다. 누가 쓴 책이든 기준을 바꾸지 않습니다.",
           "speech": "판정 용어로 말합니다. \"facts는 fixed, sources는 open입니다.\"",
           "question": "다른 사람이 같은 자료로 다시 판정해도 같을까요?",
-          "owns": "검수자·집필자·날짜·범위를 기록하고 검사 항목(facts·numbers·experiments·terms·sources, 2026-10-13부터 wording, 2026-10-14부터 titles까지 일곱)의 상태를 판정합니다.",
+          "owns": "검수자·집필자·날짜·범위를 기록하고 검사 항목(facts·numbers·experiments·terms·sources, 2026-10-13부터 wording, 2026-10-14부터 titles와 Q1~Q4까지 열한 개)의 상태를 판정합니다.",
           "strengths": [
             "항목별로 나눠 판정하고 근거를 남깁니다.",
             "검수 세션이 집필 세션과 다른지 가장 먼저 확인합니다."
@@ -858,7 +858,7 @@
           "works_with": "유진·건우·채원·현석의 결과를 한 기록으로 묶고, 오류는 담당 팀장에게 반려합니다. G6 판정을 편집장 한결에게 넘깁니다.",
           "checklist": [
             "검수자와 집필자가 다른가",
-            "검사 항목(wording·titles 포함 일곱)의 상태가 모두 적혔는가",
+            "검사 항목(wording·titles·Q1~Q4 포함 열한 개)의 상태가 모두 적혔는가",
             "발견과 수정, 확인하지 못한 것이 적혔는가",
             "최근 회차가 passed 또는 fixed인가"
           ],

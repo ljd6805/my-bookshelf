@@ -34,6 +34,7 @@ class FactReviewRecords(unittest.TestCase):
         self.assertEqual(review_errors(no_titles.replace('data-date="2026-10-14"', 'data-date="2026-10-13"')), [])
         no_q2 = TEMPLATE.replace('data-check="Q2"', 'data-check="x"')
         self.assertTrue(any('Q2' in e for e in review_errors(no_q2)))
+        self.assertEqual(review_errors(no_q2.replace('data-date="2026-10-14"', 'data-date="2026-10-13"')), [])
 
     def test_published_book_needs_a_record_unless_pending(self):
         with tempfile.TemporaryDirectory() as name:
