@@ -30,7 +30,7 @@ function headArt(r){
 A08Labs.heads=el=>{
  U.setup(el,S('dmodel','d_model',[512,768,1024,2048,4096].map(v=>[v,String(v)]),2048)+S('nheads','헤드 수',[1,2,4,8,12,16,32,64].map(v=>[v,String(v)]),16));
  U.bind(el,()=>{const r=M.heads(U.value(el,'dmodel'),U.value(el,'nheads'));
-  const zone={ok:'원본이 권하는 64~128 근처의 무난한 범위입니다.',small:'d_head가 32보다 작아 헤드 하나가 볼 공간이 좁습니다. √d_head 나누기와도 싸우게 됩니다.',large:'d_head가 256보다 커서 여러 작은 전문가로 나누는 이점이 줄어듭니다.',invalid:'d_model이 헤드 수로 나누어떨어지지 않아 이 설정은 만들 수 없습니다.'}[r.zone];
+  const zone={ok:'원본이 권하는 64~128 근처의 무난한 범위입니다.',small:'d_head가 32보다 작아 헤드 하나가 볼 공간이 좁습니다.',large:'d_head가 256보다 커서 여러 작은 헤드로 나누는 이점이 줄어듭니다.',invalid:'d_model이 헤드 수로 나누어떨어지지 않아 이 설정은 만들 수 없습니다.'}[r.zone];
   U.result(el,headArt(r),r.ok?`d_head = ${r.dModel} ÷ ${r.nHeads} = <strong>${r.dHead}</strong> · 점수 나누기 √d_head = <b>${F(r.scale,2)}</b><br>Q·K·V·O 투영 파라미터 4·d² = <b>${int(r.proj)}</b>개 (헤드 수와 무관) · 점수표 <b>${r.maps}</b>개, N = 2,048에서 층 하나 fp16 <b>${F(r.scoreMB,0)} MB</b><br>${zone} 크기를 세는 실제 계산이며, 헤드가 배우는 역할은 다루지 않습니다.`:`<strong>나눌 수 없음</strong> · ${zone}`);});
 };
 
