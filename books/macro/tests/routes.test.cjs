@@ -37,7 +37,7 @@ test('header has the shelf return, menu order, light theme, type and study scrip
  assert.match(html,/<nav aria-label="주 메뉴"><a class="shelf-return"[^>]*>[\s\S]*?<\/a><a href="#chapters">전체 목차<\/a><a href="#sources">참고 자료<\/a><button id="theme"[^>]*>어두운 화면<\/button><button id="menu"/);
  assert.match(html,/<html[^>]*data-typeset="book"[^>]*data-theme="light"/);assert.match(html,/\.\.\/\.\.\/assets\/type\.css/);
  assert.match(html,/<head>[\s\S]*book-theme\.js[\s\S]*book-study\.js\?v=[^"]+" data-book-study data-review="review\.json"[\s\S]*<\/head>/);
- assert.match(html,/<title>거시경제 · GDP·물가·고용 지표를 계산하고 발표 뒤 금리·환율·물가의 경로를 가설로 세우기<\/title>/);
+ assert.match(html,/<title>거시경제 · GDP·물가·고용을 계산하고 금리·환율 경로를 가설로 세우기<\/title>/);
 });
 test('script load order: math → content → visual → figures → labs → home → guides → app',()=>{const order=[...html.matchAll(/<script src="js\/([a-z-]+)\.js/g)].map(m=>m[1]);assert.deepEqual(order,['math','content','visual','figures',...LAB_FILES,'home-lab','lab-guides','app']);});
 test('links point to existing books and routes; no link to vol 9, 10, 12 or 13 folders',()=>{
