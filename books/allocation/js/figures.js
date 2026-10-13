@@ -10,7 +10,7 @@ const W=640,svg=(label,body,h=300)=>`<svg viewBox="0 0 ${W} ${h}" role="img" ari
 const t=(x,y,s,o={})=>`<text x="${(+x).toFixed(1)}" y="${(+y).toFixed(1)}" text-anchor="${o.a||'middle'}" font-size="${o.size||13}" fill="${o.fill||'var(--text)'}"${o.w?` font-weight="${o.w}"`:''}>${s}</text>`;
 const MARK={'●':(x,y,c)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="${c}"/>`,'○':(x,y,c)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.8" fill="var(--chart)" stroke="${c}" stroke-width="2"/>`,'■':(x,y,c)=>`<rect x="${(x-4).toFixed(1)}" y="${(y-4).toFixed(1)}" width="8" height="8" fill="${c}"/>`,
  '▲':(x,y,c)=>`<path d="M${x.toFixed(1)} ${(y-5.5).toFixed(1)}l5 9h-10z" fill="${c}"/>`,'◆':(x,y,c)=>`<path d="M${x.toFixed(1)} ${(y-6).toFixed(1)}l5 6l-5 6l-5-6z" fill="${c}"/>`};
-const DASH={dot:'2 5',dash:'8 5'};
+const DASH={dot:'2 5',dash:'8 5'},ORDER=['◆','■','▲','○','●'];/* 점은 선을 다 그린 뒤 큰 모양부터 찍어 같은 자리의 작은 점(○ ●)도 보인다. */
 /* 수치 축 그림. o={x:[lo,hi,step,fmt], y:[lo,hi,step,fmt], series:[[이름, pts, 색, 무늬, 점 모양, 점 번호]], points:[[이름, x, y, 색, 모양, 글, dx, dy, 정렬]], refs:[[y, 글]], xl, yl, box:[L,R,T,B]}.
    범례는 그림 아래에 한 줄에 하나씩 둔다. */
 function plot(o){
@@ -19,8 +19,8 @@ function plot(o){
  for(let v=y0;v<=y1+1e-9;v+=ys)s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--line)" stroke-dasharray="2 5"/>`+t(L-8,Y(v)+4,yf(v),{size:12,fill:'var(--muted)',a:'end'});
  for(let v=x0;v<=x1+1e-9;v+=xs)s+=t(X(v),B+18,xf(v),{size:12,fill:'var(--muted)'});
  if(o.xl)s+=t(R,B+36,o.xl,{size:12,fill:'var(--muted)',a:'end'});if(o.yl)s+=t(L,T-12,o.yl,{size:12,fill:'var(--muted)',a:'start'});
- (o.refs||[]).forEach(([v,label])=>{s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--orange)" stroke-dasharray="7 5"/>`+(label?t(R,Y(v)-6,label,{size:12,fill:'var(--orange)',a:'end',w:700}):'');});
- (o.series||[]).forEach(([,pts,c,dash,shape,idx])=>{s+=`<path${dash?'':' class="fig-draw"'} d="M${pts.map(p=>`${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('L')}" fill="none" stroke="${c}" stroke-width="${dash?2:2.8}"${dash?` stroke-dasharray="${DASH[dash]}"`:''}/>`;(idx||[]).forEach(i=>{s+=MARK[shape](X(pts[i][0]),Y(pts[i][1]),c);});});
+ (o.refs||[]).forEach(([v,label,pos])=>{s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--orange)" stroke-dasharray="7 5"/>`+(label?t(pos==='left'?L+6:R,Y(v)+(pos==='below'?16:-6),label,{size:12,fill:'var(--orange)',a:pos==='left'?'start':'end',w:700}):'');});
+ (o.series||[]).forEach(([,pts,c,dash])=>{s+=`<path${dash?'':' class="fig-draw"'} d="M${pts.map(p=>`${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('L')}" fill="none" stroke="${c}" stroke-width="${dash?2:2.8}"${dash?` stroke-dasharray="${DASH[dash]}"`:''}/>`;});ORDER.forEach(sh=>(o.series||[]).forEach(([,pts,c,,shape,idx])=>{if(shape===sh)(idx||[]).forEach(i=>{s+=MARK[shape](X(pts[i][0]),Y(pts[i][1]),c);});}));
  (o.points||[]).forEach(([,x,y,c,shape,label,dx=10,dy=4,a='start'])=>{s+=MARK[shape](X(x),Y(y),c);if(label)s+=t(X(x)+dx,Y(y)+dy,label,{size:12,a,w:600});});
  const items=[...(o.series||[]).filter(x=>x[0]).map(([n,,c,dash,shape])=>({n,c,dash,shape,line:true})),...(o.points||[]).filter(x=>x[0]).map(([n,,,c,shape])=>({n,c,shape}))];
  items.forEach((it,k)=>{const y=B+56+k*21;s+=(it.line?`<path d="M${L} ${y-4}H${L+30}" stroke="${it.c}" stroke-width="2.4"${it.dash?` stroke-dasharray="${DASH[it.dash]}"`:''}/>`:'')+(it.shape?MARK[it.shape](L+15,y-4,it.c):'')+t(L+40,y,it.n,{size:12,a:'start'});});
@@ -37,8 +37,8 @@ function bars(items,{L=70,R=620,T=40,zero=200,hi,gap}={}){
 const A=M.ASSETS,U=M.ASSUME,F={};
 F.diversify=()=>{
  const D=U.diversify,pts=Array.from({length:30},(_,i)=>[i+1,M.equalSigma(D.sigma,D.rho,i+1)*100]),floor=M.equalSigma(D.sigma,D.rho,Infinity),ns=[1,2,5,10,30];
- const g=plot({x:[0,30,5,v=>`N ${v}`],y:[0,35,5,v=>`${v}%`],xl:'같은 비중으로 담은 종목 수 N',yl:'표준편차 (%)',refs:[[floor*100,`바닥 σ√ρ = ${P(floor)}`]],series:[['같은 비중 N종목의 표준편차 (σ 30%, ρ 0.3)',pts,'var(--blue)',null,'●',ns.map(n=>n-1)]],
-  points:ns.map((n,k)=>[null,n,pts[n-1][1],'var(--blue)','●',P(pts[n-1][1]/100),...[[10,-8,'start'],[10,-8,'start'],[0,24,'middle'],[0,-12,'middle'],[-6,24,'end']][k]])});
+ const g=plot({x:[0,30,5,v=>`N ${v}`],y:[0,35,5,v=>`${v}%`],xl:'같은 비중으로 담은 종목 수 N',yl:'표준편차 (%)',refs:[[floor*100,`바닥 σ√ρ = ${P(floor)}`,'below']],series:[['같은 비중 N종목의 표준편차 (σ 30%, ρ 0.3)',pts,'var(--blue)',null,'●',ns.map(n=>n-1)]],
+  points:ns.map((n,k)=>[null,n,pts[n-1][1],'var(--blue)','●',P(pts[n-1][1]/100),...[[10,-8,'start'],[10,-8,'start'],[8,-10,'start'],[0,-12,'middle'],[0,-12,'end']][k]])});
  return {svg:svg(`종목 수에 따른 표준편차: ${ns.map(n=>`N ${n} ${P(pts[n-1][1]/100)}`).join(', ')}, 바닥 ${P(floor)}`,g.s,g.h),caption:`σ 30%, ρ 0.3인 종목을 같은 비중으로 담을 때 종목 수 N에 따른 포트폴리오 표준편차(%, 연율)입니다. N 1·2·5·10·30에서 ${ns.map(n=>fx(pts[n-1][1],2)).join('·')}%이고, 종목을 아무리 늘려도 점선의 바닥 ${P(floor)} 아래로 내려가지 않습니다. 실제 계산이며 σ와 ρ는 미리 정한 가정입니다.`};
 };
 F.matrix=()=>{
@@ -57,7 +57,7 @@ F.pair=()=>{
  return {svg:svg(`누리200과 채권 묶음을 섞는 비중에 따른 기대수익–표준편차 곡선: 최소분산 주식 ${P(wm)}, σ ${P(mv.sigma)}`,g.s,g.h),caption:`누리200(μ 7%, σ 18%)과 채권 묶음(3.5%, 6%)을 섞을 때의 기대수익–표준편차입니다. 상관이 −0.2인 실선은 상관 +1의 곧은 선보다 왼쪽으로 휘고, 가장 왼쪽 점(◆)이 최소분산 비중 주식 ${P(wm)}(σ ${P(mv.sigma)}, μ ${P(mv.mu)})입니다. 60/40(▲)은 σ ${P(p64.sigma)}입니다. 실제 계산이며 μ·σ·ρ는 미리 정한 가정입니다.`};
 };
 F.frontier=()=>{
- const tan=M.tangency(true),fr=M.frontier(25,true),cm=M.cashMix(tan,U.cashTarget),st=[0,0.4,0.2,0.4,0],sm=M.portMu(st),ss=M.portSigma(st),rf=U.rf*100,end=20;
+ const tan=M.tangency(true),fr=M.frontier(25,true),cm=M.cashMix(tan,U.cashTarget),st=[0,0.4,0.2,0.4,0],sm=M.portMu(st),ss=M.portSigma(st),rf=U.rf*100,end=Math.min(20,(7.5-rf)/tan.sharpe);
  const g=plot({x:[0,20,5,v=>`${v}%`],y:[2,7.5,1,v=>`${v}%`],xl:'표준편차 σ',yl:'기대수익 μ',series:[['효율적 투자선 (공매도 없음)',fr.map(p=>[p.sigma*100,p.mu*100]),'var(--blue)',null],[`자본시장선 (현금 ${fx(rf,1)}% ↔ 접점)`,[[0,rf],[end,rf+tan.sharpe*end]],'var(--accent)','dash']],
   points:[[null,18,7,'var(--muted)','■','누리200',-10,-8,'end'],[null,16,6.5,'var(--muted)','■','해외',-10,16,'end'],[null,6,3.5,'var(--muted)','■','채권',8,16],[`접점 ${tan.w.map(x=>fx(x*100,2)).join('·')}% · 샤프 ${fx(tan.sharpe,4)}`,tan.sigma*100,tan.mu*100,'var(--accent)','●'],
    [`접점 ${P(cm.share)} + 현금 ${P(cm.cash)} → σ 5%, μ ${P(cm.mu)}`,5,cm.mu*100,'var(--accent)','○'],[`처음 상태 40·20·40%: σ ${P(ss)}, μ ${P(sm)}`,ss*100,sm*100,'var(--orange)','▲']]});
@@ -65,7 +65,7 @@ F.frontier=()=>{
 };
 F.beta=()=>{
  const m=U.months.market,st=U.months.stock,b=M.beta(),line=[[-5,b.alpha-5*b.beta],[6,b.alpha+6*b.beta]];
- const g=plot({x:[-5,6,1,v=>fx(v,0)],y:[-6,10,2,v=>fx(v,0)],xl:'시장(누리200) 월간 수익률 (%)',yl:'종목(새벽전자) 월간 수익률 (%)',box:[70,620,40,250],series:[[`회귀선: 기울기 = 베타 ${fx(b.beta,4)}`,line,'var(--accent)',null]],points:m.map((x,i)=>[i?null:'한 달의 (시장, 종목) 수익률 · 12개월',x,st[i],'var(--blue)','●'])});
+ const g=plot({x:[-5,6,1,v=>fx(v,0)],y:[-8,10,2,v=>fx(v,0)],xl:'시장(누리200) 월간 수익률 (%)',yl:'종목(새벽전자) 월간 수익률 (%)',box:[70,620,40,250],series:[[`회귀선: 기울기 = 베타 ${fx(b.beta,4)}`,line,'var(--accent)',null]],points:m.map((x,i)=>[i?null:'한 달의 (시장, 종목) 수익률 · 12개월',x,st[i],'var(--blue)','●'])});
  return {svg:svg(`누리200과 새벽전자의 12개월 가상 수익률 산점도와 회귀선, 베타 ${fx(b.beta,4)}`,g.s,g.h),caption:`12개월 가상 자료의 산점도와 회귀선입니다. 회귀선의 기울기가 베타 ${fx(b.beta,4)}(공분산 ÷ 시장 분산, 표본 n − 1)이고 상관은 ${fx(b.corr,4)}입니다. 새벽전자는 시장이 1% 움직일 때 평균 약 ${fx(b.beta,2)}% 움직였습니다. 실제 계산이며 자료는 미리 정한 가상 자료입니다.`};
 };
 F.mix=()=>{
@@ -76,13 +76,13 @@ F.mix=()=>{
 };
 F.rebalance=()=>{
  const R=['none','annual','band'].map(k=>M.rebalance(k)),names=['되돌리지 않음','연 1회','±5%p'],cols=['var(--muted)','var(--blue)','var(--accent)'],shapes=['○','●','◆'],dash=['dot',null,'dash'];
- const g=plot({x:[0,4,1,v=>v?`${v}년`:'시작'],y:[50,70,5,v=>`${v}%`],xl:'연말 (되돌리기 전)',yl:'주식 비중 (%)',refs:[[65,'목표 + 5%p'],[55,'목표 − 5%p']],series:R.map((r,k)=>[`${names[k]} · 4년 뒤 ${M.wonText(r.end)}`,[[0,60],...r.rows.map(x=>[x.year,x.weight*100])],cols[k],dash[k],shapes[k],[1,2,3,4]])});
+ const g=plot({x:[0,4,1,v=>v?`${v}년`:'시작'],y:[50,70,5,v=>`${v}%`],xl:'연말 (되돌리기 전)',yl:'주식 비중 (%)',refs:[[65,'목표 + 5%p','left'],[55,'목표 − 5%p','left']],series:R.map((r,k)=>[`${names[k]} · 4년 뒤 ${M.wonText(r.end)}`,[[0,60],...r.rows.map(x=>[x.year,x.weight*100])],cols[k],dash[k],shapes[k],[1,2,3,4]])});
  return {svg:svg(`세 규칙의 연말 주식 비중과 끝 금액 ${R.map((r,k)=>`${names[k]} ${M.wonText(r.end)}`).join(', ')}`,g.s,g.h),caption:`1억 원 60/40으로 시작한 4년 가상 경로에서 연말 주식 비중(되돌리기 전)입니다. 1년째에는 세 규칙 모두 ${P(R[0].rows[0].weight)}로 같고, 그 뒤에는 되돌린 규칙만 목표 60% 가까이에서 출발합니다. 끝 금액은 범례에 있으며 그 순서는 이 경로에서만 성립합니다. 매매 비용·세금은 넣지 않았습니다.`};
 };
 F.kelly=()=>{
  const K=U.kelly,fs=M.kellyF(K.p,K.b),pts=Array.from({length:61},(_,k)=>{const f=0.33*k/60;return [f,M.growth(f,K.p,K.b)];}),tb=M.kellyTable();
  const at=m=>tb.find(r=>r.multiple===m),one=at(1),two=at(2),three=at(3);
- const g=plot({x:[0,0.33,0.05,v=>fx(v,2)],y:[-0.02,0.008,0.004,v=>fx(v,3)],xl:'거는 비율 f',yl:'한 번의 기대 로그 성장률 g(f)',refs:[[0,'성장률 0']],series:[['g(f) (p 0.55, b 1)',pts,'var(--blue)',null]],
+ const g=plot({x:[0,0.33,0.05,v=>fx(v,2)],y:[-0.024,0.008,0.004,v=>fx(v,3)],xl:'거는 비율 f',yl:'한 번의 기대 로그 성장률 g(f)',refs:[[0,'성장률 0']],series:[['g(f) (p 0.55, b 1)',pts,'var(--blue)',null]],
   points:[[`f* ${fx(fs,3)}: g ${fx(one.g,4)} · 100번 뒤 중앙값 ${fx(one.median,3)}배 · 하위 10% ${fx(one.low10,3)}배`,fs,one.g,'var(--accent)','●','f* (가장 높음)',0,-12,'middle'],[`2배 ${fx(two.f,3)}: g ${fx(two.g,4)} · 하위 10% ${fx(two.low10,3)}배`,two.f,two.g,'var(--orange)','◆','2배',0,22,'middle'],[`3배 ${fx(three.f,3)}: g ${fx(three.g,4)}`,three.f,three.g,'var(--orange)','■','3배',-10,4,'end']]});
  return {svg:svg(`거는 비율에 따른 장기 성장률 곡선(p 0.55, b 1), 켈리 비율 f* ${fx(fs,3)}`,g.s,g.h),caption:`이기면 건 돈만큼 받고 지면 건 돈을 잃는 내기(p 0.55, b 1)에서 거는 비율에 따른 장기 성장률입니다. 곡선은 켈리 비율 f* ${fx(fs,3)}에서 가장 높고, 2배로 걸면 0 근처(${fx(two.g,4)}), 3배면 ${fx(three.g,4)}로 내려갑니다. 100번 뒤 한 번이라도 절반 아래로 떨어진 경로는 f*에서 ${P(one.belowHalf,1)}, 2배에서 ${P(two.belowHalf,1)}입니다. 계산 연습입니다.`};
 };

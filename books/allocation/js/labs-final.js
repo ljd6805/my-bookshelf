@@ -15,8 +15,8 @@ function notes(el){
 }
 const noteBox=()=>`<fieldset class="cards" data-free><legend>(마) 리밸런싱 규칙과 다음 점검일 (이 브라우저에만 남음)</legend><label class="control" for="prule"><span>되돌리는 규칙</span><select id="prule" data-note><option value="">고르기</option><option value="annual">연 1회</option><option value="band">±5%p 허용 폭</option></select></label><label class="control" for="pdate"><span>다음 점검일</span><input id="pdate" type="date" data-note></label><label class="control" for="pmemo"><span>메모</span><textarea id="pmemo" data-note rows="2" placeholder="예: 점검일에 한도와 금리의 확인일도 다시 봄"></textarea></label></fieldset>`;
 function inputs(){
- return U.group('비중 (%, 합 100 · 금융자산 3억 원)',A.names.map((n,i)=>U.number('pw'+i,n,0,100,1,P.A.w[i]*100)).join(''))
-  +U.group('IRP 1억 원 안 (만 원, 합 10,000 · 개별 주식은 담지 않음)',IRP.map((n,i)=>U.number('pi'+i,n,0,10000,100,P.A.irp[i+1])).join(''))
+ return U.group('비중 (%, 합 100 · 금융자산 3억 원)',A.names.map((n,i)=>U.number('pw'+i,n,0,100,1,P.A.w[i]*100)).join('')+U.sumNote('pw-sum'))
+  +U.group('IRP 1억 원 안 (만 원, 합 10,000 · 개별 주식은 담지 않음)',IRP.map((n,i)=>U.number('pi'+i,n,0,10000,100,P.A.irp[i+1])).join('')+U.sumNote('pi-sum'))
   +U.check('pshow','계산 결과와 풀이 펼치기',false,'과제 (가)~(라)를 직접 계산한 뒤에 켜 보세요')+noteBox();
 }
 function solution(r,w,irp){
@@ -33,7 +33,7 @@ ALabs['plan-conditions']=el=>{
  U.setup(el,`<p class="assume-banner"><b>${U.DISCLAIMER}</b><br>${U.LABEL}. ${U.RECHECK}</p>`+inputs(),true);
  notes(el);
  U.bind(el,()=>{
-  const w=A.names.map((_,i)=>U.num(el,'pw'+i)),ir=IRP.map((_,i)=>U.num(el,'pi'+i));
+  U.sumCheck(el,'pw-sum',A.names.map((_,i)=>'pw'+i),100);U.sumCheck(el,'pi-sum',IRP.map((_,i)=>'pi'+i),10000,{unit:'만 원'});const w=A.names.map((_,i)=>U.num(el,'pw'+i)),ir=IRP.map((_,i)=>U.num(el,'pi'+i));
   for(let i=0;i<5;i++)if(w[i]===null)return U.result(el,'',U.problem(`${A.names[i]} 비중`,'0%에서 100% 사이로 넣어 주세요.'));
   for(let i=0;i<4;i++)if(ir[i]===null)return U.result(el,'',U.problem(`IRP 안 ${IRP[i]}`,'0에서 10,000만 원 사이로 넣어 주세요.'));
   const tot=w.reduce((a,b)=>a+b,0);if(Math.abs(tot-100)>1e-9)return U.result(el,'',U.problem('비중',`다섯 비중의 합이 ${U.sfmt(tot,0)}%입니다. 합이 100%가 되게 넣어 주세요.`));

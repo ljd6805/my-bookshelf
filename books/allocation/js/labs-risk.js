@@ -25,10 +25,10 @@ ALabs['covariance-matrix']=el=>{
  const sg=IDX.map(i=>A.sigma[i]*100),co=A.corr;
  U.setup(el,U.banner()+U.group('자산 셋의 표준편차 (%, 연율)',NAMES.map((n,k)=>U.number('ms'+k,`자산 ${k+1} (${n})`,0,100,0.1,sg[k])).join(''))
   +U.group('짝마다의 상관 ρ (−1~1)',U.number('mr01','자산 1–2',-1,1,0.01,co[1][2])+U.number('mr02','자산 1–3',-1,1,0.01,co[1][3])+U.number('mr12','자산 2–3',-1,1,0.01,co[2][3]))
-  +U.group('비중 (%, 합 100)',NAMES.map((n,k)=>U.number('mw'+k,`자산 ${k+1}`,0,100,1,[50,30,20][k])).join(''))
+  +U.group('비중 (%, 합 100)',NAMES.map((n,k)=>U.number('mw'+k,`자산 ${k+1}`,0,100,1,[50,30,20][k])).join('')+U.sumNote('mw-sum'))
   +U.group('같은 상관 ρ의 N종목 (2.4절)',U.number('qn','종목 수 N',2,50,1,M.ASSUME.four.n,'정수')+U.number('qr','모든 짝의 상관',-1,1,0.01,M.ASSUME.four.rho)),true);
  U.bind(el,()=>{
-  const s=[0,1,2].map(k=>U.num(el,'ms'+k)),r=['mr01','mr02','mr12'].map(k=>U.num(el,k)),w=[0,1,2].map(k=>U.num(el,'mw'+k)),qn=U.num(el,'qn',true),qr=U.num(el,'qr');
+  U.sumCheck(el,'mw-sum',['mw0','mw1','mw2'],100);const s=[0,1,2].map(k=>U.num(el,'ms'+k)),r=['mr01','mr02','mr12'].map(k=>U.num(el,k)),w=[0,1,2].map(k=>U.num(el,'mw'+k)),qn=U.num(el,'qn',true),qr=U.num(el,'qr');
   for(let k=0;k<3;k++){if(s[k]===null)return U.result(el,'',U.problem(`자산 ${k+1}의 표준편차`,'0%에서 100% 사이로 넣어 주세요.'));if(r[k]===null)return U.result(el,'',U.problem('상관','−1에서 1 사이로 넣어 주세요.'));if(w[k]===null)return U.result(el,'',U.problem('비중','0%에서 100% 사이로 넣어 주세요.'));}
   if(qn===null)return U.result(el,'',U.problem('종목 수','2에서 50 사이의 정수로 넣어 주세요.'));if(qr===null)return U.result(el,'',U.problem('같은 상관','−1에서 1 사이로 넣어 주세요.'));
   const tot=w[0]+w[1]+w[2];if(Math.abs(tot-100)>1e-9)return U.result(el,'',U.problem('비중',`세 비중의 합이 ${U.sfmt(tot,0)}%입니다. 합이 100%가 되게 넣어 주세요.`));

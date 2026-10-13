@@ -47,7 +47,7 @@ const L2={
  'stock-count':[{cs:20,cr:0.5,cn:4},['15.81%','14.14%']],
  'covariance-matrix':[{ms0:25,ms1:10,mr01:0.4},['0.01000']],
  'two-asset-curve':[{tsa:20,tsb:10,tr:0,tw:50},['11.18%','20.00%','8.94%']],
- 'efficient-frontier':[{frf:3,xa:8,xsa:20,xb:5,xsb:10,fts:5},['자산 나 0.2000','50.00% + 현금 50.00% → μ 4.00%']],
+ 'efficient-frontier':[{frf:3,xa:8,xsa:20,xb:5,xsb:10,fts:5},['자산 Y 0.2000','50.00% + 현금 50.00% → μ 4.00%']],
  'beta-estimate':[{bm:'1, -2, 3, 0, -1, 2',bs:'1, -1, 2, 0, -1, 2'},['0.7143']],
  'target-mix':[{mt:8,mtc:0},['44.26%','5.05%']],
  'rebalance-rules':[{rs:2000,rt:50,rps:'30',rpb:'0'},['150.0만 원','56.52%']],

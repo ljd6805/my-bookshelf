@@ -16,16 +16,16 @@ function compare(el,rf,t){
  const v=['xa','xsa','xb','xsb'].map(k=>U.num(el,k));if(v.some(x=>x===null))return {err:U.problem('두 자산 견주기','기대수익은 −50~50%, 표준편차는 0~100% 사이로 넣어 주세요.')};
  const [ma,sa,mb,sb]=v.map(x=>x/100);if(sa<=0||sb<=0)return {err:U.problem('두 자산 견주기의 표준편차','샤프 비율을 계산하려면 표준편차가 0보다 커야 합니다.')};
  const row=(name,m,s)=>{const sh=(m-rf)/s,share=t/s;return [name,`${p2(m)} · ${p2(s)}`,`<b>${f4(sh)}</b>`,share>1+1e-12?'✗ 빌려야 만들 수 있어 계산하지 않음':`${p2(share)} + 현금 ${p2(1-share)} → μ <b>${p2(rf+share*(m-rf))}</b>`];};
- const a=row('자산 가',ma,sa),b=row('자산 나',mb,sb),sha=(ma-rf)/sa,shb=(mb-rf)/sb,hi=Math.abs(sha-shb)<1e-9?'두 자산의 샤프 비율이 같습니다':`샤프 비율은 ${sha>shb?'자산 가':'자산 나'}가 높습니다`;
- return {html:U.table(['자산','기대수익 · 표준편차','샤프 비율',`현금과 섞어 σ ${U.sfmt(t*100,2)}%`],[a,b],'두 자산 견주기 (무위험 금리는 위 손잡이)','fit'),text:`두 자산 견주기: 자산 가 ${f4(sha)}, 자산 나 ${f4(shb)}${U.josa(f4(shb),'으로','로')} ${hi}.`};
+ const a=row('자산 X',ma,sa),b=row('자산 Y',mb,sb),sha=(ma-rf)/sa,shb=(mb-rf)/sb,hi=Math.abs(sha-shb)<1e-9?'두 자산의 샤프 비율이 같습니다':`샤프 비율은 ${sha>shb?'자산 X':'자산 Y'}가 높습니다`;
+ return {html:U.table(['자산','기대수익 · 표준편차','샤프 비율',`현금과 섞어 σ ${U.sfmt(t*100,2)}%`],[a,b],'두 자산 견주기 (무위험 금리는 위 손잡이)','fit'),text:`두 자산 견주기: 자산 X ${f4(sha)}, 자산 Y ${f4(shb)}${U.josa(f4(shb),'으로','로')} ${hi}.`};
 }
 ALabs['efficient-frontier']=el=>{
- U.setup(el,U.banner(`결과의 비중은 ${U.WEIGHTS}.`)+U.group('비중 (%, 남는 몫은 현금)',['누리200','해외주식 묶음','채권 묶음'].map((n,k)=>U.number('fw'+k,n,0,100,1,[40,20,40][k])).join(''))
+ U.setup(el,U.banner(`결과의 비중은 ${U.WEIGHTS}.`)+U.group('비중 (%, 남는 몫은 현금)',['누리200','해외주식 묶음','채권 묶음'].map((n,k)=>U.number('fw'+k,n,0,100,1,[40,20,40][k])).join('')+U.sumNote('fw-sum'))
   +U.range('frf','무위험 금리 = 현금의 기대수익 (%)',0,5,0.25,M.ASSUME.rf*100,'모형의 값 2.5%')+U.number('fmu','누리200 기대수익 (%)',0,20,0.1,A.mu[1]*100,'4.5절 비교: 1%p만 바꿔 접점이 얼마나 움직이는지 봅니다')
   +U.check('flong','공매도 금지 (비중 0 이상)',true,'끄면 비중이 음수인 해까지 허용한 투자선이 그려집니다')
-  +U.group('두 자산 견주기 (샤프 비율과 현금 섞기)',U.number('xa','자산 가 기대수익 (%)',-50,50,0.1,7)+U.number('xsa','자산 가 표준편차 (%)',0,100,0.1,18)+U.number('xb','자산 나 기대수익 (%)',-50,50,0.1,3.5)+U.number('xsb','자산 나 표준편차 (%)',0,100,0.1,6)+U.number('fts','현금과 섞어 맞출 표준편차 (%)',0,50,0.1,M.ASSUME.cashTarget*100,'접점 포트폴리오에도 같은 목표를 씁니다')),true);
+  +U.group('두 자산 견주기 (샤프 비율과 현금 섞기)',U.number('xa','자산 X 기대수익 (%)',-50,50,0.1,7)+U.number('xsa','자산 X 표준편차 (%)',0,100,0.1,18)+U.number('xb','자산 Y 기대수익 (%)',-50,50,0.1,3.5)+U.number('xsb','자산 Y 표준편차 (%)',0,100,0.1,6)+U.number('fts','현금과 섞어 맞출 표준편차 (%)',0,50,0.1,M.ASSUME.cashTarget*100,'접점 포트폴리오에도 같은 목표를 씁니다')),true);
  U.bind(el,()=>{
-  const w=[0,1,2].map(k=>U.num(el,'fw'+k)),rf=Number(U.value(el,'frf'))/100,mu1=U.num(el,'fmu'),t=U.num(el,'fts'),long=U.checked(el,'flong');
+  U.sumCheck(el,'fw-sum',['fw0','fw1','fw2'],100,{upTo:true,rest:'현금'});const w=[0,1,2].map(k=>U.num(el,'fw'+k)),rf=Number(U.value(el,'frf'))/100,mu1=U.num(el,'fmu'),t=U.num(el,'fts'),long=U.checked(el,'flong');
   if(w.some(x=>x===null))return U.result(el,'',U.problem('비중','0%에서 100% 사이로 넣어 주세요.'));if(mu1===null)return U.result(el,'',U.problem('누리200 기대수익','0%에서 20% 사이로 넣어 주세요.'));if(t===null)return U.result(el,'',U.problem('맞출 표준편차','0%에서 50% 사이로 넣어 주세요.'));
   const tot=w[0]+w[1]+w[2];if(tot>100+1e-9)return U.result(el,'',U.problem('비중',`세 비중의 합이 ${U.sfmt(tot,0)}%로 100%를 넘습니다. 남는 몫을 현금이 받으므로 합은 100% 이하여야 합니다.`));
   const cmp=compare(el,rf,t/100);if(cmp.err)return U.result(el,'',cmp.err);
@@ -34,7 +34,7 @@ ALabs['efficient-frontier']=el=>{
   const chart=U.xy({dots:md.cloud,dotsName:'만들 수 있는 점 (비중 10%p 간격)',series:[{name:`효율적 투자선 (${long?'공매도 없음':'공매도 허용'})`,pts:md.fr.map(p=>[p.sigma*100,p.mu*100]),color:'var(--blue)',width:2.8},{name:'자본시장선 (현금 ↔ 접점)',pts:[[0,rf*100],[xEnd,(rf+tan.sharpe*xEnd/100)*100]],dash:'dash',color:'var(--accent)',width:1.8}],
    points:[{x:md.assets[0][0],y:md.assets[0][1],shape:'■',color:'var(--muted)',text:'누리200'},{x:md.assets[1][0],y:md.assets[1][1],shape:'■',color:'var(--muted)',text:'해외',anchor:'end',dx:-8,dy:14},{x:md.assets[2][0],y:md.assets[2][1],shape:'■',color:'var(--muted)',text:'채권',dy:16},
     {name:`접점 포트폴리오 (샤프 ${f4(tan.sharpe)})`,x:tan.sigma*100,y:tan.mu*100,shape:'●',color:'var(--accent)'},{name:'최소분산 포트폴리오',x:md.mv.sigma*100,y:md.mv.mu*100,shape:'◆',color:'var(--blue)'},{name:'지금 비중',x:nowS.s*100,y:nowS.mu*100,shape:'▲',color:'var(--orange)'}].concat(cm?[{name:`접점 + 현금 (σ ${U.sfmt(t,2)}%)`,x:t,y:cm.mu*100,shape:'○',color:'var(--accent)'}]:[]),
-   xmin:0,xmax:xEnd,ymin:0,xlabel:'표준편차 σ (%)',ylabel:'기대수익 μ (%)',xtick:v=>U.sfmt(v,0),ytick:v=>U.sfmt(v,0),title:'세 자산의 기대수익–표준편차 평면',h:420,label:`접점 ${W(tan.w)}, 지금 비중 μ ${p2(nowS.mu)} σ ${p2(nowS.s)}`})+cmp.html;
+   xmin:0,xmax:xEnd,ymin:0,xlabel:'표준편차 σ (%)',ylabel:'기대수익 μ (%)',ycount:8,xtick:v=>U.sfmt(v,0),ytick:v=>U.sfmt(v,0),title:'세 자산의 기대수익–표준편차 평면',h:420,label:`접점 ${W(tan.w)}, 지금 비중 μ ${p2(nowS.mu)} σ ${p2(nowS.s)}`})+cmp.html;
   const cash=tot<100?`, 현금 ${U.sfmt(100-tot,0)}%`:'',shift=Math.abs(mu1/100-A.mu[1])>1e-12?` 누리200 기대수익 ${U.sfmt(A.mu[1]*100,1)}%일 때의 접점(${W(frontierModel(rf,A.mu[1],long).tan.w)})과 견주면, 기대수익 하나를 바꿨는데 비중이 크게 움직입니다.`:'';
   U.result(el,chart,`지금 비중(누리200·해외·채권 ${w.map(x=>U.sfmt(x,0)).join('·')}%${cash}): μ <b>${p2(nowS.mu)}</b>, σ <b>${p2(nowS.s)}</b>, 샤프 비율 <b>${sh==null?'계산하지 않음(σ 0)':f4(sh)}</b>.<br>접점 포트폴리오: 누리200·해외·채권 <b>${W(tan.w)}</b>, μ ${p2(tan.mu)}, σ ${p2(tan.sigma)}, 샤프 비율 <b>${f4(tan.sharpe)}</b>.${shift} ${cm?`σ ${U.sfmt(t,2)}%에 맞추면 접점 ${p2(cm.share)} + 현금 ${p2(cm.cash)}로 μ <b>${p2(cm.mu)}</b>입니다.`:`목표 σ ${U.sfmt(t,2)}%는 접점의 σ보다 커서 돈을 빌려야 하므로 계산하지 않습니다.`} 최소분산 포트폴리오는 σ ${p2(md.mv.sigma)}, μ ${p2(md.mv.mu)}입니다.<br>${long?'공매도 금지: 모든 비중이 0 이상인 점만 남깁니다.':'공매도 허용: 비중이 음수인 해까지 계산해 투자선이 바깥으로 넓어집니다. 이 책의 다른 장은 공매도 없이 계산합니다.'}<br>${cmp.text}<br>결과의 비중은 ${U.WEIGHTS}.${U.kind(['real','assume'])}`);
  });

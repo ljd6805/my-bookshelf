@@ -7,10 +7,10 @@
 const U=AUI,M=AMath,MIX=M.ASSUME.mixes,RB=M.ASSUME.rebalance;
 const p2=x=>U.pct(x,2),man=x=>`${U.sfmt(Math.abs(x),1)}만 원`;
 ALabs['target-mix']=el=>{
- U.setup(el,U.banner()+U.group('지금 비중 (%, 합 100)',U.number('ms','주식 (누리200)',0,100,1,60)+U.number('mb','채권 묶음',0,100,1,30)+U.number('mc','현금',0,100,1,10))
+ U.setup(el,U.banner()+U.group('지금 비중 (%, 합 100)',U.number('ms','주식 (누리200)',0,100,1,60)+U.number('mb','채권 묶음',0,100,1,30)+U.number('mc','현금',0,100,1,10)+U.sumNote('m-sum'))
   +U.group('목표 표준편차에서 비중 찾기',U.number('mt','목표 표준편차 (%)',0,30,0.1,10,'연율')+U.number('mtc','현금 비중 (%)',0,99,1,10,'주식과 채권이 나머지를 나눕니다')),true);
  U.bind(el,()=>{
-  const ws=U.num(el,'ms'),wb=U.num(el,'mb'),wc=U.num(el,'mc'),t=U.num(el,'mt'),tc=U.num(el,'mtc');
+  U.sumCheck(el,'m-sum',['ms','mb','mc'],100);const ws=U.num(el,'ms'),wb=U.num(el,'mb'),wc=U.num(el,'mc'),t=U.num(el,'mt'),tc=U.num(el,'mtc');
   if([ws,wb,wc].some(x=>x===null))return U.result(el,'',U.problem('비중','0%에서 100% 사이로 넣어 주세요.'));
   if(t===null)return U.result(el,'',U.problem('목표 표준편차','0%에서 30% 사이로 넣어 주세요.'));if(tc===null)return U.result(el,'',U.problem('현금 비중','0%에서 99% 사이로 넣어 주세요.'));
   const tot=ws+wb+wc;if(Math.abs(tot-100)>1e-9)return U.result(el,'',U.problem('비중',`주식·채권·현금의 합이 ${U.sfmt(tot,0)}%입니다. 합이 100%가 되게 넣어 주세요.`));

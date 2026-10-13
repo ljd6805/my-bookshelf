@@ -88,6 +88,26 @@ function choiceOrder(n,answer,target){const order=[...Array(n).keys()];const k=(
 function withAssume(o,fn){const keepRf=M.ASSUME.rf,keepMu=M.ASSETS.mu.slice();try{if(o.rf!=null)M.ASSUME.rf=o.rf;if(o.mu)o.mu.forEach((v,i)=>{if(v!=null)M.ASSETS.mu[i]=v;});return fn();}finally{M.ASSUME.rf=keepRf;keepMu.forEach((v,i)=>{M.ASSETS.mu[i]=v;});}}
 return {M,josa,esc,fmt,sfmt,splus,pct,spct,ppt,won,num,list,value,checked,problem,why,range,number,text,select,check,group,setup,bind,on,result,KINDS,kind,LABEL,WEIGHTS,RECHECK,DISCLAIMER,KELLY,banner,timed,verdict,svg,table,niceTicks,choiceOrder,withAssume};
 })();
+/* 합이 정해진 칸 묶음 도우미(실험 조작 칸). */
+Object.assign(window.AUI,(()=>{
+'use strict';
+const {M,sfmt}=AUI,dec=s=>(String(s).split('.')[1]||'').length;
+/* 합이 정해진 칸 묶음(비중 합 100% 등): 묶음 아래에 지금 합과 맞추는 방법을 ✓·✗ 글자로 적는다(색만으로 알리지 않음).
+   한 칸을 올리면 곧바로 합이 넘치므로 “다른 칸에서 같은 만큼 줄이세요”를 칸 옆에서 바로 읽게 한다. upTo: 합이 target 이하이면 된다(남는 몫은 rest). */
+const sumNote=id=>`<p class="sum-note" id="${id}"></p>`;
+function sumCheck(el,id,ids,target,o={}){
+ const e=el.querySelector('#'+id);if(!e)return true;const unit=o.unit||'%',diff=o.diffUnit||(unit==='%'?'%p':unit),xs=ids.map(k=>el.querySelector('#'+k));
+ xs.forEach(x=>{const d=(x.getAttribute('aria-describedby')||'').split(' ').filter(Boolean);if(!d.includes(id))x.setAttribute('aria-describedby',[...d,id].join(' '));});
+ const v=xs.map(x=>Number(x.value.trim().replace(/,/g,'').replace(/^−/,'-')));
+ if(xs.some((x,i)=>x.value.trim()===''||!Number.isFinite(v[i]))){e.classList.remove('is-bad');e.textContent='빈 칸이나 숫자가 아닌 칸을 고치면 합을 다시 셉니다.';return false;}
+ const tot=M.round(v.reduce((a,b)=>a+b,0),6),d=M.round(tot-target,6),ok=o.upTo?d<=0:d===0,T=x=>sfmt(x,dec(String(x)))+unit;
+ e.classList.toggle('is-bad',!ok);
+ e.textContent=ok?`✓ 합 ${T(tot)}${o.upTo&&d<0?` · 남는 ${sfmt(-d,dec(String(d)))}${unit}는 ${o.rest||'현금'}`:''}`
+  :d>0?`✗ 합 ${T(tot)} · ${T(target)}보다 ${sfmt(d,dec(String(d)))}${diff} 많습니다. 한 칸을 올렸다면 다른 칸에서 같은 만큼(${sfmt(d,dec(String(d)))}${diff}) 줄이세요.`
+  :`✗ 합 ${T(tot)} · ${T(target)}보다 ${sfmt(-d,dec(String(d)))}${diff} 모자랍니다. 한 칸을 내렸다면 다른 칸에 같은 만큼(${sfmt(-d,dec(String(d)))}${diff}) 더하세요.`;
+ return ok;}
+return {sumNote,sumCheck};
+})());
 /* 실험 그림: 세로 막대(0선 기준, 음수는 아래로), 가로 막대 묶음, 수치 축 그림(점·곡선·직선), 장 카드 썸네일.
    막대와 선은 값에 비례해 그리고(축은 0 또는 데이터 범위에서 시작), 색만으로 가리지 않도록 숫자·이름표·점 모양(● ■ ▲ ◆ ○)·선 무늬를 함께 둔다. */
 Object.assign(window.AUI,(()=>{
@@ -129,7 +149,7 @@ function xy(o){
  const x0=o.xmin??Math.min(...xs),x1=o.xmax??Math.max(...xs),y0=o.ymin??Math.min(...ys),y1=o.ymax??Math.max(...ys);
  const X=v=>L+(v-x0)/((x1-x0)||1)*(R-L),Y=v=>B-(v-y0)/((y1-y0)||1)*(B-T),c=v=>v.toFixed(1);
  let s=`<path d="M${L} ${T}V${B}H${R}" fill="none" stroke="var(--muted)"/>`;
- niceTicks(y0,y1,4).forEach(v=>{s+=`<path d="M${L} ${c(Y(v))}H${R}" stroke="var(--line)" stroke-dasharray="2 4"/><text x="${L-6}" y="${c(Y(v)+4)}" text-anchor="end" class="axis">${esc(o.ytick?o.ytick(v):sfmt(v,0))}</text>`;});
+ niceTicks(y0,y1,o.ycount||4).forEach(v=>{s+=`<path d="M${L} ${c(Y(v))}H${R}" stroke="var(--line)" stroke-dasharray="2 4"/><text x="${L-6}" y="${c(Y(v)+4)}" text-anchor="end" class="axis">${esc(o.ytick?o.ytick(v):sfmt(v,0))}</text>`;});
  niceTicks(x0,x1,o.xcount||4).forEach(v=>{s+=`<text x="${c(X(v))}" y="${B+17}" text-anchor="${X(v)-L<10?'start':'middle'}" class="axis">${esc(o.xtick?o.xtick(v):sfmt(v,0))}</text>`;});
  if(o.xlabel)s+=`<text x="${R}" y="${B+36}" text-anchor="end" class="axis">${esc(o.xlabel)}</text>`;
  if(o.ylabel)s+=`<text x="${L}" y="${T-10}" class="axis">${esc(o.ylabel)}</text>`;
@@ -138,7 +158,9 @@ function xy(o){
  (o.dots||[]).forEach(p=>{s+=`<circle cx="${c(X(p[0]))}" cy="${c(Y(p[1]))}" r="1.8" fill="var(--muted)" opacity=".55"/>`;});
  o.series.forEach((se,k)=>{const col=se.color||['var(--blue)','var(--accent)','var(--orange)','var(--muted)'][k%4];
   s+=`<path d="M${se.pts.map(p=>`${c(X(p[0]))} ${c(Y(p[1]))}`).join('L')}" fill="none" stroke="${col}" stroke-width="${se.width||2.4}"${DASH[se.dash||'solid']?` stroke-dasharray="${DASH[se.dash]}"`:''}/>`;
-  (se.marks||[]).forEach(i=>{const p=se.pts[i];if(p)s+=SHAPES[se.shape||'●'](c(X(p[0])),Y(p[1]),col);});});
+  });
+ /* 점은 선을 모두 그린 뒤 큰 모양(◆ ■ ▲)부터 찍어, 같은 자리에 겹친 작은 점(○ ●)도 보이게 한다. */
+ ['◆','■','▲','○','●'].forEach(sh=>o.series.forEach((se,k)=>{if((se.shape||'●')!==sh)return;const col=se.color||['var(--blue)','var(--accent)','var(--orange)','var(--muted)'][k%4];(se.marks||[]).forEach(i=>{const p=se.pts[i];if(p)s+=SHAPES[sh](c(X(p[0])),Y(p[1]),col);});}));
  (o.points||[]).forEach(p=>{const col=p.color||'var(--accent)';s+=SHAPES[p.shape||'●'](c(X(p.x)),Y(p.y),col);if(p.text)s+=`<text x="${c(X(p.x)+(p.dx??8))}" y="${c(Y(p.y)+(p.dy??4))}" text-anchor="${p.anchor||'start'}" class="price">${esc(p.text)}</text>`;});
  legend.forEach((it,k)=>{const ly=B+52+21*k,col=it.color||(it.pts?['var(--blue)','var(--accent)','var(--orange)','var(--muted)'][o.series.indexOf(it)%4]:'var(--accent)');
   s+=it.dots?`<circle cx="27" cy="${ly-5}" r="2.4" fill="var(--muted)"/>`:it.pts?`<path d="M14 ${ly-5}H40" stroke="${col}" stroke-width="${it.width||2.4}"${DASH[it.dash||'solid']?` stroke-dasharray="${DASH[it.dash]}"`:''}/>`+(it.marks&&it.marks.length?SHAPES[it.shape||'●'](27,ly-5,col):''):SHAPES[it.shape||'●'](27,ly-5,col);

@@ -1,4 +1,4 @@
-<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="표준편차와 기대수익 평면에서 주식(표준편차 18%, 기대수익 7%)과 채권(6%, 3.5%)을 섞는 곡선이 상관 +1, −0.2, −1일 때 점점 왼쪽으로 휘고, 현금에서 그은 직선이 가운데 곡선에 닿는 점까지 이어지는 그림(미리 정한 가정)" xmlns="http://www.w3.org/2000/svg">
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="표준편차와 기대수익 평면에서 주식(표준편차 18%, 기대수익 7%)과 채권(6%, 3.5%)을 섞는 곡선이 상관 +1, −0.2, −1일 때 점점 왼쪽으로 휘고, 현금에서 그은 직선이 가운데 곡선에 한 점(접점)에서 닿는 그림(미리 정한 가정)" xmlns="http://www.w3.org/2000/svg">
 <path class="cv-hair" d="M44 25H294M44 56H294M44 87H294"/>
 <path class="cv-stroke" d="M44 18V118H296"/>
 <path class="cv-line cv-thin cv-dash" d="M119.0 94.8L122.8 93.4L126.5 92.0L130.2 90.7L134.0 89.3L137.8 88.0L141.5 86.6L145.2 85.3L149.0 83.9L152.8 82.5L156.5 81.2L160.2 79.8L164.0 78.5L167.8 77.1L171.5 75.8L175.2 74.4L179.0 73.0L182.8 71.7L186.5 70.3L190.2 69.0L194.0 67.6L197.8 66.3L201.5 64.9L205.2 63.6L209.0 62.2L212.8 60.8L216.5 59.5L220.2 58.1L224.0 56.8L227.8 55.4L231.5 54.1L235.2 52.7L239.0 51.3L242.7 50.0L246.5 48.6L250.2 47.3L254.0 45.9L257.8 44.6L261.5 43.2L265.2 41.9L269.0 40.5" fill="none"/>
@@ -13,6 +13,7 @@
 <text class="cv-text" x="127.0" y="107.8">채권</text>
 <text class="cv-text" x="52" y="115">현금</text>
 <text class="cv-text cv-muted" x="211.5" y="73.2">ρ +1</text>
+<path class="cv-hair" d="M104 99L109.5 91"/>
 <text class="cv-text" x="106" y="106" text-anchor="end">ρ −0.2</text>
 <text class="cv-text cv-muted" x="59.0" y="72.7">ρ −1</text>
 <text class="cv-text" x="44" y="132" text-anchor="middle">0</text>

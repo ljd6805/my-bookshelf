@@ -14,7 +14,7 @@ const byId=Object.fromEntries(B.chapters.map(c=>[c.id,c]));
 /* 권유·단정 말투: 비중을 권하거나 사고팔라고 하거나 가격의 방향을 하나로 정하는 말. 공매도는 용어라 뺀다. 실험 조작 안내(“~해 보세요”)는 권유가 아니다. */
 const ADVICE=/(최적 비중|정답 비중|안전한 비중|추천|권합니다|권해 드|유리|사세요|파세요|사라|팔라|매수|(?<!공)매도|사 두세요|오를 것|내릴 것|반드시 오른|반드시 내린|싸다|비싸다|저평가|고평가)/;
 const DISCLAIMER='가상의 인물과 가정으로 만든 계산 연습이며, 실제 계좌의 비중을 권하지 않습니다. 실제 결정에는 세금·비용·소득·건강·다른 자산을 함께 보아야 합니다';
-const KELLY='이 책은 돈을 빌려 이 비율을 채우는 계산을 하지 않는다';
+const KELLY='이 책은 돈을 빌려 이 비율을 채우는 계산을 하지 않습니다'; // 본문·식 설명은 합니다체. 실험 꼬리표(js/visual.js KELLY, js/math.js assumptions.kelly)는 꼬리표 말씨인 “…하지 않는다”(나래 G4 2차)
 const unquote=s=>s.replace(/“[^”]*”/g,'');
 const prose=c=>[c.title,c.subtitle,c.desc,...c.paragraphs,c.formula,c.formulaNote,...c.flow,c.warning,JSON.stringify(c.details),JSON.stringify(c.quiz),JSON.stringify(c.transfer)].join(' ');
 
@@ -144,10 +144,10 @@ test('review answers are the values AMath computes',()=>{
  assert.equal(ans('mix',0),`약 ${p2(M.mix(0.5,0.4,0.1).sigma)}%`);const m2=M.mix(0.7,0,0.3);assert.equal(ans('mix',1),`기대수익 ${p2(m2.mu)}%, 표준편차 ${p2(m2.sigma)}%`);assert.ok(ans('mix',2).startsWith(`${String(5-2*10).replace('-','−')}%.`));
  const o={start:10000,target:0.6,band:0.05,stock:[0.2],bond:[0]},ra=M.rebalance('annual',o).rows[0],rb=M.rebalance('band',o).rows[0];
  assert.equal(ans('rebalance',0),`${ra.trade}만 원`);assert.equal(rb.trade,0);assert.match(ans('rebalance',1),new RegExp(`^되돌리지 않는다\\. ${p2(rb.drift)}%p`));assert.match(R.chapters.rebalance[1].q,new RegExp(p2(rb.weight)));
- assert.equal(ans('kelly',0),M.kellyF(0.7,1).toFixed(2));assert.equal(ans('kelly',1),M.kellyF(0.5,2).toFixed(2));assert.match(ans('kelly',2),new RegExp(M.growth(0.4,0.6,1).toFixed(4).replace('-','−')));
+ assert.equal(ans('kelly',0),M.kellyF(0.7,1).toFixed(2));assert.equal(ans('kelly',1),M.kellyF(0.5,2).toFixed(2));assert.match(R.chapters.kelly[2].why,new RegExp(M.growth(0.4,0.6,1).toFixed(4).replace('-','−')));
  assert.equal(ans('crisis',0),`약 ${p2(M.equalSigma(0.2,0.2,2))}% → 약 ${p2(M.equalSigma(0.2,0.9,2))}%`);assert.equal(ans('crisis',1),`${p2(M.equalSigma(0.25,0.81,Infinity))}%`);
  const E=M.evaluatePlan({w:[0,0.3,0.2,0.35,0.15]}),F=M.evaluatePlan({w:[0.2,0.3,0.25,0.2,0.05]});
  assert.equal(ans('final',0),`${E.lossPct.toFixed(2).replace('-','−')}%, ${M.wonText(E.loss).replace(' 원','')} 원으로 조건 1 ${E.cond1?'✓':'✗'}`);
- assert.equal(E.cond2,true);assert.equal(F.cond2,false);assert.match(ans('final',1),new RegExp(M.wonText(F.safe).replace(' 원','')));assert.ok(R.chapters.final[1].why.includes(F.lossPct.toFixed(2).replace('-','−')+'%('+M.wonText(F.loss).replace(' 원','')));
+ assert.equal(E.cond2,true);assert.equal(F.cond2,false);assert.match(R.chapters.final[1].why,new RegExp(M.wonText(F.safe).replace(' 원','')));assert.ok(R.chapters.final[1].why.includes(F.lossPct.toFixed(2).replace('-','−')+'%('+M.wonText(F.loss).replace(' 원','')));
  assert.throws(()=>M.evaluatePlan({w:[0.3,0.3,0.2,0.1,0.1],irp:[1000,3000,3000,2000,1000]}),/single stock/,'final 3: the IRP holds no single stock');
 });
