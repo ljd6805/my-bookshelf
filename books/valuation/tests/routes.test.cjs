@@ -5,7 +5,7 @@ const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f
 const load=()=>{const ctx={window:{}};vm.runInNewContext(read('js/content.js'),ctx);return JSON.parse(JSON.stringify(ctx.window.VBook));};
 const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].split(',');
 const IDS=['price','per','dividend','ev','fcf','wacc','terminal','sensitivity','implied','final'],LABS=['price-basics','multiple-compare','dividend-yield','ev-bridge','fcff-forecast','wacc-build','terminal-steps','dcf-sensitivity','implied-assumption','analyst-gap'];
-const LAB_FILES=['labs-multiples','labs-dcf','labs-sensitivity','labs-final'],VERSION='20261013v5';
+const LAB_FILES=['labs-multiples','labs-dcf','labs-sensitivity','labs-final'],VERSION='20261013v6';
 const esc=s=>s.replace(/[-]/g,'\\-');
 const figures=()=>{const ctx={window:{VMath:require('../js/math.js')}};ctx.window.window=ctx.window;vm.runInNewContext(read('js/figures.js'),ctx.window);return ctx.window.VFigures;};
 test('chapter ids are stable, unique and listed in book-routes in order',()=>{assert.deepEqual(B.chapters.map(c=>c.id),IDS);assert.deepEqual(routes,['home','chapters','sources',...IDS]);});

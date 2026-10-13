@@ -1,8 +1,8 @@
 <svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="2026~2030년 FCFF 막대 다섯 개와 큰 영구가치 막대가 할인 화살표를 지나 왼쪽의 기업가치 막대 2,662.2로 모이고, 그 막대에서 순차입금 387.2를 덜어 주주 몫 2,275.0이 남는 그림" xmlns="http://www.w3.org/2000/svg">
 <path class="cv-hair" d="M8 128H312"/>
-<rect class="cv-bar cv-dash" x="18" y="18" width="40" height="16"/>
-<rect class="cv-fill" x="18" y="34" width="40" height="94"/>
-<text class="cv-text" x="62" y="29">− 순차입금 387.2</text>
+<rect class="cv-bar cv-dash" x="18" y="36" width="40" height="13"/>
+<rect class="cv-fill" x="18" y="49" width="40" height="79"/>
+<text class="cv-text" x="62" y="46">− 순차입금 387.2</text>
 <text class="cv-text cv-inverse" x="38" y="80" text-anchor="middle">주주 몫</text>
 <text class="cv-text cv-inverse" x="38" y="92" text-anchor="middle">2,275.0</text>
 <text class="cv-text" x="38" y="140" text-anchor="middle">기업가치 2,662.2</text>
