@@ -2438,7 +2438,7 @@
       "color": "aqua",
       "description": "코스피200 같은 지수를 계산하는 방법에서 시작해 ETF의 설정·환매, NAV와 괴리율, 총비용, 레버리지 ETF의 재조정 금액을 계산하고 ETF 셋을 한 표에 놓고 비교합니다. 규칙은 2026-10-13 보도 기준입니다. 학습용이며 투자 권유가 아닙니다.",
       "illustration": "books/etf/assets/shelf-illustration.svg",
-      "illustration_caption": "시각적 비유: iNAV 위로 뜬 시장가가 15:00 LP 매도 호가에 다시 내려옵니다.",
+      "illustration_caption": "시각적 비유: 15:00 LP 매도 호가가 들어오자 시장가가 iNAV 근처로 내려옵니다.",
       "cover_art": "books/etf/assets/cover-art.svg",
       "cover_meta": "10장 · 10개 실험",
       "status": "published",
