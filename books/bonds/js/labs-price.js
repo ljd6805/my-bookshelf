@@ -28,7 +28,7 @@ BLabs.price=el=>{
   }
   const yp=U.num(el,'pyield');if(yp===null)return U.result(el,'',U.problem('시장 금리','0에서 8 사이의 숫자(%)를 넣어야 합니다.'));
   const y=yp/100,P0=M.priceFromYield(b,y),ai=day?M.accruedInterest(b,day,182):0,dirty=day?M.dirtyPrice(b,y,day,182):0,clean=day?M.cleanPrice(b,y,day,182):P0;
-  const cmp=b.couponRate>0?` 시장 금리 ${R(y)}${y>b.couponRate+1e-12?' &gt; ':y<b.couponRate-1e-12?' &lt; ':' = '}표면금리 ${R(b.couponRate)}.`:' 이자가 없어 언제나 액면보다 쌉니다.';
+  const cmp=b.couponRate>0?` 시장 금리 ${R(y)}${y>b.couponRate+1e-12?' &gt; ':y<b.couponRate-1e-12?' &lt; ':' = '}표면금리 ${R(b.couponRate)}.`:(y>1e-12?' 이자가 없어 시장 금리가 0보다 크면 언제나 액면보다 쌉니다.':' 이자가 없지만 시장 금리가 0이라 할인되지 않아 액면과 같습니다.');
   const accr=day?`<br><b>${F(day)}일째</b>에 사면: 경과이자 = 이표 ${F(10000*b.couponRate/2,2)}원 × ${F(day)}/182 = <b>${F(ai,2)}원</b>. 실제로 주고받는 더러운 가격은 <b>${F(dirty,2)}원</b>, 경과이자를 뺀 깨끗한 가격은 <b>${F(clean,2)}원</b>입니다.`:'';
   U.result(el,priceChart(b,name,y,P0,dirty)+pvTable(b,y,name),`시장 금리 <b>${R(y)}</b>로 ${name}의 받을 돈을 반년 금리 ${R(y/2,4)}씩 할인해 더하면 <b>${F(P0,2)}원</b>입니다. <b>${U.status(P0)}</b>.${cmp}${accr}${U.kind(isReal(y)?['real','realfic']:'real',isReal(y)?'2026-10-07 국고채 금리를 가상 채권에 넣었습니다. 날짜 셈은 “지난 날 ÷ 이번 기간 날” 가정입니다.':'가상의 채권에 고른 금리를 넣었습니다.')}`);
  });

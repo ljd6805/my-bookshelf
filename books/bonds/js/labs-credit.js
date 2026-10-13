@@ -35,7 +35,7 @@ BLabs.gordon=el=>{
   if(d1===null)return U.result(el,'',U.problem('배당 D₁','0보다 큰 숫자를 넣어야 합니다.'));
   if(!(g<r))return U.result(el,'',U.problem('성장률 g',`g(${F(g*100,2)}%)가 할인율 r(${F(r*100,2)}%)보다 작아야 합니다. g ≥ r이면 분모 r − g가 0 이하가 되어 값이 무한대나 음수가 되고, 모형이 뜻을 잃습니다.`));
   const V=M.gordonValue(d1,r,g),S=M.gordonDuration(r,g),dg=mv?k*0.01:0,cut=g-dg<r-0.01?M.gordonChange(d1,r,g,-0.01,-dg):null,up=M.gordonChange(d1,r,g,0.01,dg),dm10=M.modifiedDuration(U.bond('nara10'),0.04376);
-  const pts=[];for(let x=Math.max(4,g*100+0.6);x<=12.0001;x+=0.1)pts.push([x,M.gordonValue(d1,x/100,g)]);
+  const pts=[];for(let x=Math.max(4,Math.min(g*100+0.6,r*100));x<=12.0001;x+=0.1)pts.push([x,M.gordonValue(d1,x/100,g)]);
   const chart=U.xy({series:[{pts,name:`값 = ${F(d1,2)} ÷ (r − ${F(g*100,2)}%)`}],dots:[{x:r*100,y:V,label:`r ${F(r*100,2)}% → ${F(V,2)}`,left:r>0.09}],xlim:[4,12],xfmt:v=>`${F(v,0)}%`,xlab:'할인율 r',ylim:[0,Math.min(Math.max(...pts.map(p=>p[1])),V*3)*1.08],h:250,label:`고든 값과 할인율. r ${F(r*100,2)}%에서 ${F(V,2)}`})
    +U.columns({labels:['누리200 1/(r−g)','나라 10년 D_mod','나라 3년 D_mod'],values:[S,dm10,M.modifiedDuration(U.bond('nara3'),0.03961)],fmt:v=>F(v,v>=100?0:2),tick:v=>F(v,0),mark:i=>i===0,title:'할인율 1%p에 대략 몇 % 움직이나',h:210,label:`할인율 민감도: 누리200 ${F(S,1)}, 나라 10년 ${F(dm10,2)}`});
   const cutT=cut?`할인율을 1%p 내리면${mv?` (성장률도 ${F(dg*100,2)}%p 함께)`:''} <b>${F(cut.price1,2)}</b>, <b>${PP(cut.change,1)}</b>`:`할인율을 1%p 내리면${mv?' 성장률을 함께 내려도':''} g ≥ r이 되어 값을 낼 수 없습니다(✗)`;
