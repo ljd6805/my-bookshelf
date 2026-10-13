@@ -10,10 +10,11 @@ SECTIONS = (''.join(f'<section id="{i}"></section>' for i in ('plan', 'curriculu
             + '<a href="research.html">조사 노트</a></section>')
 STYLE = '<section id="style"><h3 id="style-a"></h3><h3 id="style-b"></h3></section>'
 CHECK = ('<table class="guideline-check"><tr><th>지침</th><th>찾은 것</th><th>처리</th></tr>'
-         + ''.join(f'<tr data-guideline="K{n}"><td>K{n}</td><td>읽은 곳</td><td>처리</td></tr>' for n in range(1, 7))
+         + ''.join(f'<tr data-guideline="K{n}"><td>K{n}</td><td>읽은 곳</td><td>처리</td></tr>' for n in range(1, 8))
          + '</table>')
 MEMO = '<table><tr><th>인용</th></tr><tr data-guideline="K3 K5"><td>문장</td><td>진단</td></tr></table>'
-STYLE_K = f'<section id="style">{CHECK}<h3 id="style-a"></h3>{MEMO}<h3 id="style-b"></h3>{MEMO}</section>'
+TITLES = f'<h4 id="style-k-titles"></h4>{MEMO}'
+STYLE_K = f'<section id="style">{CHECK}{TITLES}<h3 id="style-a"></h3>{MEMO}<h3 id="style-b"></h3>{MEMO}</section>'
 REVIEW = '<section class="fact-review round" data-date=\'{}\'></section>'
 
 
@@ -131,7 +132,8 @@ class TeamGates(unittest.TestCase):
         self.assertTrue(any('at least one critique row' in e for e in errors))
         no_k4 = STYLE_K.replace('<tr data-guideline="K4"><td>K4</td><td>읽은 곳</td>', '<tr data-guideline="K4"><td>K4</td><td></td>')
         self.assertTrue(any('missing K4' in e for e in self.run_check(SECTIONS + no_k4 + new)))
-        untagged = STYLE_K.replace('data-guideline="K3 K5"', 'data-guideline="K9"', 1)
+        untagged = STYLE_K.replace('<h3 id="style-a"></h3><table><tr><th>인용</th></tr><tr data-guideline="K3 K5">',
+                                   '<h3 id="style-a"></h3><table><tr><th>인용</th></tr><tr data-guideline="K9">', 1)
         self.assertTrue(any('need data-guideline' in e and 'style-a' in e
                             for e in self.run_check(SECTIONS + untagged + new)))
         outside = STYLE_K.replace('<table class="guideline-check">', '</section><section id="x"><table class="guideline-check">', 1)
@@ -141,7 +143,7 @@ class TeamGates(unittest.TestCase):
         bid = sorted(LEGACY)[0]
         rev = TEMPLATE.replace('data-kind="new" data-date="2026-10-12"', 'data-kind="revision" data-date="2026-11-02"')
         old = '<h3 id="style-a"></h3><table><tr><td>옛 메모</td><td>진단</td></tr></table>'
-        one = f'<section id="style">{CHECK}{old}<h3 id="style-b"></h3>{MEMO}</section>'
+        one = f'<section id="style">{CHECK}{TITLES}{old}<h3 id="style-b"></h3>{MEMO}</section>'
         self.assertEqual(self.run_check(SECTIONS + one + rev, bid=bid, review='2026-11-01'), [])
         none = f'<section id="style">{CHECK}{old}</section>'
         self.assertTrue(any('any memo' in e for e in self.run_check(SECTIONS + none + rev, bid=bid, review='2026-11-01')))
@@ -155,15 +157,20 @@ class TeamGates(unittest.TestCase):
         style = ('<section id="log"><table class="gate-round" data-kind="style" data-date="2026-10-13">'
                  + ''.join('<tr ' + r for r in rows).replace('data-approved="나래 리안 지안"', 'data-approved="나래"')
                  + '</table></section>')
-        memos = f'<section id="style">{CHECK}<h3 id="style-k-a"></h3>{MEMO}<h3 id="style-k-b"></h3>{MEMO}</section>'
+        memos = f'<section id="style">{CHECK}{TITLES}<h3 id="style-k-a"></h3>{MEMO}<h3 id="style-k-b"></h3>{MEMO}</section>'
         self.assertEqual(self.run_check(memos + style, bid=bid, review='2026-10-13'), [])
         one = memos.split('<h3 id="style-k-b">')[0] + '</section>'
         self.assertTrue(any('style-k-b' in e for e in self.run_check(one + style, bid=bid, review='2026-10-13')))
         self.assertTrue(any('나래' in e for e in self.run_check(
             memos + style.replace('data-approved="나래"', 'data-approved="리안"'), bid=bid, review='2026-10-13')))
         no_check = memos.replace(CHECK, '')
+        no_titles = memos.replace(TITLES, '')
+        self.assertTrue(any('style-k-titles' in e for e in self.run_check(no_titles + style, bid=bid, review='2026-10-13')))
+        no_k7 = memos.replace('<tr data-guideline="K7"><td>K7</td><td>읽은 곳</td>', '<tr data-guideline="K7"><td>K7</td><td></td>')
+        self.assertTrue(any('missing K7' in e for e in self.run_check(no_k7 + style, bid=bid, review='2026-10-13')))
         self.assertTrue(any('guideline-check' in e for e in self.run_check(no_check + style, bid=bid, review='2026-10-13')))
-        untagged = memos.replace('data-guideline="K3 K5"', '', 1)
+        untagged = memos.replace('<h3 id="style-k-a"></h3><table><tr><th>인용</th></tr><tr data-guideline="K3 K5">',
+                                 '<h3 id="style-k-a"></h3><table><tr><th>인용</th></tr><tr>', 1)
         self.assertTrue(any('need data-guideline' in e and 'style-k-a' in e
                             for e in self.run_check(untagged + style, bid=bid, review='2026-10-13')))
         no_g6 = style.replace('data-gate="G6"', 'data-gate="G5"')

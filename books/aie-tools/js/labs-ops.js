@@ -65,7 +65,7 @@ A14Labs.routeval=el=>{
  });
 };
 
-const INC=[['confirm','확인 창 없이 노트가 지워짐'],['proxy500','프록시 뒤에서만 500 오류'],['crossToken','할 일 서버 토큰으로 노트가 열림'],['slow','어떤 날만 30초 걸림'],['double','보고서가 두 번 만들어짐']];
+const INC=[['confirm','export의 확인 질문이 바뀜'],['proxy500','프록시 뒤에서만 500 오류'],['crossToken','할 일 서버 토큰으로 노트가 열림'],['slow','어떤 날만 30초 걸림'],['double','보고서가 두 번 만들어짐']];
 const ORD=[['wire','선 위 기록부터'],['trust','신뢰 경계부터'],['time','시간·재시도부터']];
 A14Labs.incident=el=>{
  U.setup(el,U.select('ii','이상 보고',INC,'confirm')+U.select('io','확인 순서',ORD,'wire'));
@@ -74,7 +74,7 @@ A14Labs.incident=el=>{
   const items=M.ORDERS[o].map((k,j)=>[`${j+1}. ${M.CHECKS[k][0]}`,j<r.position?(k===r.root?'원인 발견':'이상 없음'):'하지 않음',`${M.CHECKS[k][1]}분`,j<r.position?(k===r.root?true:null):null]);
   U.result(el,U.rows(items,'점검 순서',`${r.minutes}분 · ${r.position}번째 점검`),
    `원인은 <b>${M.CHECKS[r.root][0]}</b>에서 드러납니다. 이 순서로는 <b>${r.minutes}분</b>(${r.position}번째 점검), 세 순서는 각각 ${ORD.map(([,n],j)=>`${n} ${all[j]}분`).join(', ')}입니다.<br>`+
-   '점검별 시간과 보고별 원인은 미리 정한 시나리오이고, 누적 시간은 실제 계산입니다. 실제 사고에서는 원인을 모르므로, 증상이 가리키는 계약부터 보는 습관이 평균 시간을 줄입니다.');
+   '점검별 시간과 보고별 원인은 미리 정한 시나리오이고, 누적 시간은 실제 계산입니다. 실제 사고에서는 원인을 모르므로, 증상이 가리키는 계약부터 보면 이 시나리오에서처럼 원인과 상관없는 점검에 쓰는 시간을 줄일 수 있습니다.');
  });
 };
 })();

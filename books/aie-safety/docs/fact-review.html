@@ -4,6 +4,28 @@
 <h1>팩트·출처 검수 기록 · AI 안전과 윤리</h1>
 <p>「AI 엔지니어링 처음부터」 19권을 쓰지 않은 검수 에이전트가 본문, 실험 계산, 출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다. 기준은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. 책 문서로 돌아가려면 <a href="index.html#verification">프로젝트 문서의 검증 절</a>로 가세요.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리, 56c7001 위)으로 바뀐 문장 39개: js/content.js 38개(다온의 문체 개정 31, 집필 쪽 사실 수정 4, 메인 세션이 맞춘 다른 책 링크 이름 3), js/lab-guides.js 1개(04장 실험 안내 사실 수정), index.html은 자산 버전 문자열만. 제목·설명·머리글 변경(메모 style-k-titles)과 data/catalog.json의 이 책 장 색인·장 목록 대조 포함. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 이 책의 문장을 고치지 않은 새 세션의 유진이고, 집필자는 다온의 문체 개정 세션입니다. <code>git diff HEAD -- books/aie-safety/ data/catalog.json</code>으로 원래 문장(HEAD 56c7001)과 고친 문장(작업 트리)을 문장 단위로 나란히 놓고, 다온의 메모(docs/index.html의 style-pass, 반영함 31행)와 하나씩 맞춰 보았습니다. 메모 둘째 문단에 적힌 사실 수정 두 건(마지막 과제의 보고 수, 04장 순응 격차 실험 안내)은 원고와 실험 코드에 대조했고, 메인 세션이 바꾼 다른 책 링크 이름 세 개는 도착 장의 실제 제목과 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 사실 수정 두 건 모두 맞음</td><td>고친 31곳이 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 대조. 새 장 제목의 용어(보상 해킹, 기만적 정렬, 계략·정렬 위장, AI 통제, 간접 주입, 차등 프라이버시·워터마크)가 각 장 본문과 용어집에 실제로 있는지 확인. 마지막 과제: 본문 첫 문단(첫째~다섯째, “두 주 뒤에는 보고 두 건이 더 붙습니다”), 보고별 표 다섯 행, 실험의 보고 ①~⑤가 모두 다섯 건이라 “세 건 → 다섯 건” 네 곳이 맞고, 책 안에 “세 건”이 남은 화면 문장은 없음. 04장: math.js의 complianceGap은 P(순응|감시) = σ(k(w·v − h)), formulaNote는 h를 “유해한 요청에 응하는 비용”으로 정의하므로, h가 커질 때 커지는 것은 응하는 비용이고 w·v가 위장으로 얻는 이득이라 고친 방향이 모형과 맞음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장의 숫자를 원래 문장과 대조(85%와 “넘는”, Burns 외 2023, 장 번호). 04장 안내의 값을 따로 계산: σ(6(0.3 − 0.6)) = 0.142, σ(−3.6) = 0.027, 격차 11.5%p; h = 0.8이면 σ(−3) = 0.047, σ(−4.8) = 0.008, 격차 3.9%p로 안내 문장과 같음</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff는 js/content.js·js/lab-guides.js의 문자열과 index.html의 자산 버전(?v=20261013-k)뿐이고 math.js·labs-*.js는 그대로임을 확인. 책 테스트 24개와 루트 tests/test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>“DPO 가족” → “DPO 계열”은 부제·본문의 기존 이름에 맞춘 것이고, 표지 lead의 “명령” → “지시”는 07장 본문·용어집의 “지시”와 같아짐. data/catalog.json의 장 색인 12개와 장 목록이 content.js 제목과 같음(마지막 장은 서재 장 색인 관례대로 “마지막 · …”). 이 책의 다른 책 링크 22개 가운데 바뀐 세 개(자율 시스템 09, AI 인프라와 운영 09·11)는 도착 장 제목과 글자까지 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff에 sources 배열·출처 주소·확인일 변경이 없음을 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>39개 대조, 되돌린 문장 0개</td><td>반영함 31행을 원래 문장과 한 줄씩 대조해 수치·조건·가능성의 정도·인과를 확인(“가정에 기댑니다. 그래서 …”는 원래의 “가정 위에 서 있어서”의 인과를 지킴, “믿지 않는 모델”은 가정을 단정으로 바꾸지 않음, “따집니다”는 의무를 더하지 않음). 메모의 반영함 행과 실제 diff가 31곳 모두 맞고, 메모에 없는 diff는 메모 둘째 문단이 밝힌 사실 수정 5곳과 메인 세션의 링크 이름 3곳뿐</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>되돌린 문장은 없습니다. 아래는 고칠 필요는 없지만 남겨 둘 비고입니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문장 / 고친 문장</th><th>무엇이 달라졌나</th><th>처리</th></tr></thead><tbody>
+<tr><td>#scheming, js/lab-guides.js(순응 격차 결과 읽기)</td><td>“요청이 더 해로우면 위장의 계산보다 거절의 비용이 커집니다.” / “요청이 더 해로우면 위장으로 얻는 이득보다 유해한 요청에 응하는 비용이 커집니다.”</td><td>방향은 모형과 맞습니다. 다만 안내의 두 예(h = 0.6, 0.8)에서는 이미 h가 w·v = 0.3보다 커서, “커집니다”가 h를 올리는 순간 처음 넘어서는 것처럼 읽힐 수 있습니다.</td><td>비고. 다음에 고친다면 “요청이 더 해로우면 유해한 요청에 응하는 비용이 위장으로 얻는 이득을 더 크게 앞서, 감시 조건에서도 순응이 드물어집니다.”를 제안합니다</td></tr>
+<tr><td>docs/index.html, style-pass 마지막 장 메모의 h4</td><td>“마지막 · 출시 한 달 뒤 올라온 보고 세 건”</td><td>메모 제목이 고치기 전 장 제목으로 남아 있습니다. 화면과 catalog에는 영향이 없습니다.</td><td>비고(메모는 개정 당시 기록이라 그대로 둠)</td></tr>
+<tr><td>#privacy, js/content.js 더 읽어 보기 링크 “생성 모델 · 좋아졌다는 말을 숫자로 확인하기”</td><td>도착 장 제목은 “좋아졌다는 말을 숫자로 확인하기: FID·CLIP 점수·사람 평가”</td><td>이번 개정 전부터 있던 줄인 이름이고 이번 diff에는 없습니다. 뜻은 같습니다.</td><td>비고(이번 범위 밖)</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>브라우저에서 고친 제목이 1280·390·320px 목차와 머리말에서 줄바꿈되는 모양은 보지 않았습니다(문자열 대조와 테스트만).</li><li>다른 책에서 이 책으로 오는 링크 이름(예: 캡스톤 → 08장)은 이 책 폴더 밖이라 고치지 않았고, 캡스톤 쪽은 같은 세션의 캡스톤 회차에서 대조했습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="미커밋 2차 보충: 12장(#final) 보고 ④(정상 고객 차단)·⑤(상담 기록 문장 노출)와 처방 세 개(js/math.js REMEDIES·diagnose, js/labs-society.js, js/lab-guides.js), 12장 본문·formulaNote·표, 09장(#fairness) 심화 상자 “COMPAS 논쟁”, 10장(#privacy) 심화 상자 “이루다”, 새 출처 3개(ProPublica 방법 글, Northpointe 반론, 바이라인네트워크 2021-04-29), tests/math.test.cjs·tests/browser.cjs, docs/index.html 2차 보충 절" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (검수팀 정민·유진·건우·채원·현석)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 미커밋 2차 보충: 12장(#final) 보고 ④(정상 고객 차단)·⑤(상담 기록 문장 노출)와 처방 세 개(js/math.js REMEDIES·diagnose, js/labs-society.js, js/lab-guides.js), 12장 본문·formulaNote·표, 09장(#fairness) 심화 상자 “COMPAS 논쟁”, 10장(#privacy) 심화 상자 “이루다”, 새 출처 3개(ProPublica 방법 글, Northpointe 반론, 바이라인네트워크 2021-04-29), tests/math.test.cjs·tests/browser.cjs, docs/index.html 2차 보충 절. 결과: fixed. 수치는 책 코드와 따로 python3 스크립트로 다시 계산해 node로 부른 책 함수 결과와 대조했습니다.</p>
