@@ -1,7 +1,7 @@
 """Gate records G0~G7 for books made by the agent team (docs/10-agent-team.html#gate-check).
 
 Each book keeps its production record in books/<topic>/docs/index.html. One build or
-revision is one <table class="gate-round" data-kind="new|revision" data-date="YYYY-MM-DD">
+revision is one <table class="gate-round" data-kind="new|revision|style" data-date="YYYY-MM-DD">
 inside <section id="log">, with one <tr data-gate="Gn"> row per gate passed. The latest
 round decides. Each row names the leads who signed it off in data-approved; the leads
 come from data/agent-team.json. Format: templates/gate-log.html.
@@ -19,7 +19,7 @@ except ImportError:
 DOC_FILE = 'docs/index.html'
 REVIEW_FILE = 'docs/fact-review.html'
 GATES = tuple(f'G{n}' for n in range(8))
-REQUIRED = {'new': GATES, 'revision': ('G2', 'G3', 'G4', 'G6', 'G7')}
+REQUIRED = {'new': GATES, 'revision': ('G2', 'G3', 'G4', 'G6', 'G7'), 'style': ('G4', 'G6', 'G7')}
 # A gate counts only when the artifact it hands over is in the production document.
 SECTIONS = {'G1': 'plan', 'G2': 'curriculum', 'G3': 'chapters', 'G4': 'rehearsal'}
 # Who signs off each gate: the lead of every team handing the artifact over (G0 and G7 are
@@ -27,6 +27,11 @@ SECTIONS = {'G1': 'plan', 'G2': 'curriculum', 'G3': 'chapters', 'G4': 'rehearsal
 APPROVERS = {'G0': ('chief',), 'G1': ('plan',), 'G2': ('curriculum',),
              'G3': ('research', 'pedagogy'), 'G4': ('writing', 'visual', 'pedagogy'), 'G5': ('plan',),
              'G6': ('review',), 'G7': ('chief',)}
+# A style pass (data-kind="style") re-reads every chapter against K1~K6 without changing the
+# table of contents, research or experiments: only the writing team hands over G4.
+KIND_APPROVERS = {'style': {'G4': ('writing',)}}
+# Its per-chapter memos are style-k-<chapter id>, next to the older style-<chapter id> memos.
+STYLE_PASS_MEMO = 'style-k-'
 TEAM_FILE = 'data/agent-team.json'
 RULE_DATE = '2026-10-12'
 # Korean writing guideline K1~K6 (docs/11-korean-writing.html): G4 rounds dated on or after
@@ -162,19 +167,20 @@ def team_leads(root):
 
 def approval_errors(record, leads):
     """Every recorded gate needs the sign-off of each lead who hands it over."""
-    errors = []
+    errors, approvers = [], {**APPROVERS, **KIND_APPROVERS.get(record['attrs'].get('data-kind'), {})}
     for gate, signed in record['approved'].items():
-        missing = [leads[t] for t in APPROVERS.get(gate, ()) if leads[t] not in signed]
+        missing = [leads[t] for t in approvers.get(gate, ()) if leads[t] not in signed]
         if missing:
             errors.append(f'{gate} needs data-approved sign-off from {", ".join(missing)}')
     return errors
 
 
-def guideline_errors(doc, kind):
+def guideline_errors(doc, kind, anchors=()):
     """G4 under the Korean writing guideline: K1~K6 checked, every memo row names its guideline.
 
     A revision round checks only the memos it tagged, so older chapters' memos written before
     the guideline (2026-10-13) are not judged retroactively; it needs at least one tagged memo.
+    A style pass needs a tagged style-k-<chapter> memo for every chapter.
     """
     errors = []
     missing = [k for k in GUIDELINES if len(doc.guideline_rows.get(k, [])) < 3
@@ -183,12 +189,30 @@ def guideline_errors(doc, kind):
         errors.append('G4 needs <table class="guideline-check"> inside <section id="style"> with a filled '
                       f'row per guideline (docs/11-korean-writing.html#record): missing {", ".join(missing)}')
     tagged = {memo for memo, codes in doc.memo_rows if codes}
+    if kind == 'style':
+        return errors + style_pass_errors(doc, tagged, anchors)
     scope = doc.style if kind == 'new' else tagged
     untagged = sorted({memo for memo, codes in doc.memo_rows
                        if memo in scope and (not codes or any(c not in GUIDELINES for c in codes))})
     if untagged:
         errors.append('G4 style memo rows need data-guideline with K1~K6: ' + ', '.join(untagged))
     empty = sorted(doc.style - tagged) if kind == 'new' else ([] if tagged else ['any memo'])
+    if empty:
+        errors.append('G4 style memos need at least one critique row with data-guideline: ' + ', '.join(empty))
+    return errors
+
+
+def style_pass_errors(doc, tagged, anchors):
+    scope = {STYLE_PASS_MEMO + a for a in anchors}
+    errors = []
+    missing = sorted(scope - doc.style)
+    if missing:
+        errors.append('style pass needs a K1~K6 memo per chapter: missing ' + ', '.join(missing))
+    untagged = sorted({memo for memo, codes in doc.memo_rows
+                       if memo in scope and (not codes or any(c not in GUIDELINES for c in codes))})
+    if untagged:
+        errors.append('G4 style memo rows need data-guideline with K1~K6: ' + ', '.join(untagged))
+    empty = sorted((scope & doc.style) - tagged)
     if empty:
         errors.append('G4 style memos need at least one critique row with data-guideline: ' + ', '.join(empty))
     return errors
@@ -207,7 +231,8 @@ def research_errors(doc, docs_dir):
 def artifact_errors(book, gates, kind, day=''):
     """The artifacts each recorded gate hands over must be in the production document."""
     doc, errors = book['doc'], []
-    for gate, section in SECTIONS.items():
+    sections = {**SECTIONS, 'G4': 'style'} if kind == 'style' else SECTIONS
+    for gate, section in sections.items():
         if gate in gates and section not in doc.ids:
             errors.append(f'{gate} needs <section id="{section}"> in the production document')
     if 'G3' in gates:
@@ -220,8 +245,8 @@ def artifact_errors(book, gates, kind, day=''):
         if missing or not doc.style:
             errors.append('G4 needs a style critique memo per chapter inside <section id="style">: '
                           f'missing {", ".join(missing) or "any memo"}')
-        if day >= GUIDELINE_DATE:
-            errors += guideline_errors(doc, kind)
+        if day >= GUIDELINE_DATE or kind == 'style':
+            errors += guideline_errors(doc, kind, book['anchors'])
     return errors
 
 
@@ -230,7 +255,7 @@ def round_errors(book, record, leads, exempt=False):
     a, gates = record['attrs'], record['gates']
     kind = a.get('data-kind')
     if kind not in REQUIRED:
-        return ['gate-round data-kind must be new or revision']
+        return ['gate-round data-kind must be new, revision or style']
     errors = [] if valid_date(a.get('data-date', '')) else ['gate-round data-date must be a real YYYY-MM-DD']
     errors += [f'unknown gate {g}' for g in gates if g not in GATES]
     errors += [f'gate {g} is recorded twice in one round' for g in sorted(record['dups'])]

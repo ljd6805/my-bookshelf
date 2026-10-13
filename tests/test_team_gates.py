@@ -148,6 +148,24 @@ class TeamGates(unittest.TestCase):
         mixed = one.replace(MEMO, MEMO.replace('</table>', '<tr><td>태그 없음</td><td>x</td></tr></table>'))
         self.assertTrue(any('style-b' in e for e in self.run_check(SECTIONS + mixed + rev, bid=bid, review='2026-11-01')))
 
+    def test_style_pass_needs_a_tagged_memo_per_chapter(self):
+        bid = sorted(LEGACY)[0]
+        log = TEMPLATE.split('<section id="log">')[1].split('</table>')[0]
+        rows = [r for r in log.split('<tr ') if r.startswith(('data-gate="G4"', 'data-gate="G6"', 'data-gate="G7"'))]
+        style = ('<section id="log"><table class="gate-round" data-kind="style" data-date="2026-10-13">'
+                 + ''.join('<tr ' + r for r in rows).replace('data-approved="나래 리안 지안"', 'data-approved="나래"')
+                 + '</table></section>')
+        memos = f'<section id="style">{CHECK}<h3 id="style-k-a"></h3>{MEMO}<h3 id="style-k-b"></h3>{MEMO}</section>'
+        self.assertEqual(self.run_check(memos + style, bid=bid, review='2026-10-13'), [])
+        one = memos.split('<h3 id="style-k-b">')[0] + '</section>'
+        self.assertTrue(any('style-k-b' in e for e in self.run_check(one + style, bid=bid, review='2026-10-13')))
+        self.assertTrue(any('나래' in e for e in self.run_check(
+            memos + style.replace('data-approved="나래"', 'data-approved="리안"'), bid=bid, review='2026-10-13')))
+        no_check = memos.replace(CHECK, '')
+        self.assertTrue(any('guideline-check' in e for e in self.run_check(no_check + style, bid=bid, review='2026-10-13')))
+        no_g6 = style.replace('data-gate="G6"', 'data-gate="G5"')
+        self.assertTrue(any('missing gate G6' in e for e in self.run_check(memos + no_g6, bid=bid, review='2026-10-13')))
+
 
 if __name__ == '__main__':
     unittest.main()

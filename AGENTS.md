@@ -74,7 +74,7 @@
 - 한 세션이 여러 역할을 맡을 수 있다. 검수팀만은 집필하지 않은 새 세션이 맡는다(팩트·출처 검수 규칙과 같다).
 - 역할을 맡을 때는 data/agent-team.json에서 그 인물의 페르소나(말투·점검 목록·조심할 점·멈추는 때)를 읽고 그 관점으로 점검한다. 이 파일이 인물 설정의 원본이며, build_catalog.py가 서가의 팀 구역과 team.html을 만든다.
 - 팀 사이에는 인계 관문 G0~G7이 있다. 넘길 산출물이 파일로 있어야 다음 팀이 시작한다. 작업 규모별 편성과 기록 위치는 docs/10-agent-team.html#scale, #record를 따른다.
-- 관문을 넘을 때마다 books/주제/docs/index.html의 제작 기록에 templates/gate-log.html 형식으로 한 행을 남긴다. 새 책은 G0~G7, 크게 고친 책은 revision 표에 G2·G3·G4·G6·G7을 적고, 새 책의 G4에는 장마다 문체 비평 메모가 있어야 하고, 2026-10-13 이후 G4에는 한국어 문장 지침 대조표와 메모 행마다 지침 K1~K6이 있어야 한다(templates/gate-log.html#style-format). 관문 행마다 산출물을 넘기는 팀의 팀장이 자기 페르소나의 점검 목록으로 점검한 뒤 data-approved에 이름을 적어 승인한다. 책이 아닌 작업을 따로 진행할 때도 관련 팀장의 승인을 받아 PR과 작업 기록에 남긴다. validate.py(scripts/team_gates.py)가 검사하며, 규칙 이전 28권은 LEGACY 목록으로 예외다. 세부 기준은 docs/10-agent-team.html#gate-check를 따른다.
+- 관문을 넘을 때마다 books/주제/docs/index.html의 제작 기록에 templates/gate-log.html 형식으로 한 행을 남긴다. 새 책은 G0~G7, 크게 고친 책은 revision 표에 G2·G3·G4·G6·G7을, 한국어 문장 지침으로 문장만 다시 다듬은 책은 style 표에 G4·G6·G7을 적고(docs/10-agent-team.html#style-pass), 새 책의 G4에는 장마다 문체 비평 메모가 있어야 하고, 2026-10-13 이후 G4에는 한국어 문장 지침 대조표와 메모 행마다 지침 K1~K6이 있어야 한다(templates/gate-log.html#style-format). 관문 행마다 산출물을 넘기는 팀의 팀장이 자기 페르소나의 점검 목록으로 점검한 뒤 data-approved에 이름을 적어 승인한다. 책이 아닌 작업을 따로 진행할 때도 관련 팀장의 승인을 받아 PR과 작업 기록에 남긴다. validate.py(scripts/team_gates.py)가 검사하며, 규칙 이전 28권은 LEGACY 목록으로 예외다. 세부 기준은 docs/10-agent-team.html#gate-check를 따른다.
 
 ## 책 구성 표준
 - 모든 책의 화면 배치와 장 구조는 AI Book(books/ai/)을 기준으로 한다. 새 책을 만들거나 책 구조를 바꾸기 전에 docs/08-book-template.html을 읽는다.
