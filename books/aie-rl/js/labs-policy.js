@@ -23,7 +23,7 @@ A10Labs.clip=el=>{
   for(let x=0;x<=2.0001;x+=0.05){un.push([x,x*A]);cl.push([x,M.clipObj(x,A,e).obj]);}
   el.querySelector('#ratio-value').textContent=F(r,2);
   U.result(el,U.plot({lines:[{data:un,color:'var(--muted)',dashed:true},{data:cl},{data:[[1-e,-2],[1-e,2]],color:'var(--orange)',dashed:true},{data:[[1+e,-2],[1+e,2]],color:'var(--orange)',dashed:true}],points:[[r,o.obj,'var(--orange)',6]],xmin:0,xmax:2,ymin:-2,ymax:2,xlabel:'확률 비 r',ylabel:'목적 함수 (실선 L^CLIP, 회색 점선 r·A)',label:`잘린 목적 함수. r ${F(r,2)}, A ${A}, 값 ${F(o.obj,2)}`}),
-  `r = <b>${F(r,2)}</b>, ε = ${e}, A = ${A>0?'+1':'−1'}<br>r·A = ${F(o.unclipped,2)}, clip(r)·A = ${F(o.clipped,2)} → min = <strong>${F(o.obj,2)}</strong><br>정책 기울기: <strong>${o.gradZero?'0 (잘림)':'살아 있음'}</strong> — ${o.gradZero?(A>0?'좋은 행동을 이미 1+ε배 넘게 키웠으므로 더 밀지 않습니다.':'나쁜 행동을 이미 1−ε배 아래로 줄였으므로 더 줄이지 않습니다.'):(A>0&&r<1?'좋은 행동이 오히려 줄어든 상태라 되돌리는 기울기가 남습니다.':A<0&&r>1?'나쁜 행동이 오히려 늘어난 상태라 되돌리는 기울기가 남습니다.':'아직 신뢰 구간 안이라 보통의 정책경사처럼 움직입니다.')}<br>식을 그대로 계산한 값입니다.`);});
+  `r = <b>${F(r,2)}</b>, ε = ${e}, A = ${A>0?'+1':'−1'}<br>r·A = ${F(o.unclipped,2)}, clip(r)·A = ${F(o.clipped,2)} → min = <strong>${F(o.obj,2)}</strong><br>정책 기울기: <strong>${o.gradZero?'0 (잘림)':'살아 있음'}</strong> — ${o.gradZero?(A>0?'좋은 행동을 이미 1+ε배 넘게 키웠으므로 더 밀지 않습니다.':'나쁜 행동을 이미 1−ε배 아래로 줄였으므로 더 줄이지 않습니다.'):(A>0&&r<1?'좋은 행동이 오히려 줄어든 상태라 되돌리는 기울기가 남습니다.':A<0&&r>1?'나쁜 행동이 오히려 늘어난 상태라 되돌리는 기울기가 남습니다.':'아직 1−ε~1+ε 범위 안이라 보통의 정책경사처럼 움직입니다.')}<br>식을 그대로 계산한 값입니다.`);});
 };
 A10Labs.epochs=el=>{
  U.setup(el,R('kep','같은 묶음으로 갱신한 횟수 K',1,30,1,10)+S('pmode','목적 함수',[['clip','잘린 목적 (ε=0.2)'],['none','자르지 않은 r·A']],'clip'));

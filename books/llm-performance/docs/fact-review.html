@@ -5,6 +5,28 @@
 <h1>팩트·출처 검수 기록 · LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-titles" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (제목·설명·머리글 점검 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="제목·설명·머리글 점검(커밋 e638d09)으로 바뀐 문구 7개: js/content.js 6장 제목 1·다른 책 장 제목을 옮긴 링크 이름 2, js/app.js 표지 소개 1·section-heading 1·실험 제목 2. index.html은 자산 버전만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="e638d09" data-result="fixed">
+<h2>2026-10-13 제목·설명·머리글 점검 뜻 보존 검수</h2>
+<p>검수자: Claude · 유진 뜻 보존 검수 세션. 집필자(문체 개정): Claude · 다온 문체 개정 세션. 기준 커밋 fd860a3과 HEAD 사이의 <code>books/llm-performance/</code>와 <code>data/catalog.json</code> diff를 낱말 단위로 펼쳐 바뀐 문구 7개를 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 6장 “재사용과 자리 차지 사이” → “타일을 키울 때 얻는 재사용과 드는 자원”은 부제(큰 타일이 적재를 줄일 수 있지만 공유 메모리와 레지스터를 더 쓴다)의 맞바꿈 그대로입니다. 실험 제목 “타일 크기와 자원 상한”은 실험 설명 “타일 크기와 레지스터 수를 바꾸며 자원 상한을 봅니다”와, “부하가 오르면 꼬리 지연이 먼저 늘어난다”는 원래 제목의 ‘먼저’라는 비교를 남긴 채 ‘꼬리’를 본문 용어 꼬리 지연으로 밝힌 것입니다. 표지 소개와 section-heading도 책이 실제로 재는 것(어디서 느려지는지, 데이터가 어디서 어디로 옮겨지는지)을 넘지 않습니다</td><td>바뀐 제목·머리글이 그 장과 화면이 실제로 다루는 내용을 넘거나 좁히지 않는지 부제·본문·실험 안내와 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>바뀐 문구에 숫자가 없습니다. 실험 안내의 ρ 0.5 → 0.9, p95, 타일 폭 32·register 128 같은 값은 바뀌지 않았습니다</td><td>바뀐 문구의 숫자·단위를 원래 문구와 책 설명에 견줌</td></tr>
+<tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>계산 코드 변경 없음. app.js의 바뀐 줄은 실험 제목 문자열과 표지 문단뿐이고, 계산 함수와 예제 값은 그대로입니다. <code>npm test</code> 42개 통과</td><td>diff에 계산 코드 변경이 없음을 확인, 책 테스트와 루트 <code>tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="fixed"><td>용어</td><td>링크 이름 “컴퓨터 원리 · 캐시로 기다리는 시간 줄이기”, “시스템 이해편 · 메모리에 들어가는데 왜 느릴까”가 대상 장 제목과 같습니다(시스템 이해편 제목 끝의 물음표만 빠짐). catalog 장 색인 <code>books/llm-performance/#tiling</code>이 새 6장 제목과 같습니다. 다만 10장 안의 같은 실험 해설 제목은 옛 이름으로 남아 있습니다(아래 발견)</td><td>다른 책 링크 이름을 그 책 HEAD의 <code>js/content.js</code> 장 제목과, catalog의 장 색인·장 목록을 이 책 <code>js/content.js</code>의 장 제목과 스크립트로 맞대 봄</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>7곳 대조, 되돌린 문구 0. 메모의 반영함 6행(링크 이름 2곳을 한 행으로 묶음)이 diff 7곳과 맞습니다</td><td>원래 문구와 고친 문구를 나란히 놓고 범위·수치·가능성의 정도(K3)·인과를 대조하고, 메모 <code>#style-k-titles</code>의 반영함 행과 diff를 하나씩 맞춤</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>되돌린 문구는 없습니다. 고친 문구 때문에 책 안의 이름 하나가 둘로 갈린 곳을 발견으로 남깁니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문구 / 고친 문구</th><th>살핀 점</th><th>처리</th></tr></thead><tbody>
+<tr><td>#batching 더 읽어 볼 해설 제목(js/content.js 95행 details)</td><td>실험 제목은 “부하가 오르면 꼬리가 먼저 무너진다” → “부하가 오르면 꼬리 지연이 먼저 늘어난다”로 바뀌었지만, 같은 실험을 풀어 쓰는 10장 해설 제목은 “부하가 오르면 꼬리가 먼저 무너진다”로 남음</td><td>뜻은 바뀌지 않았지만 같은 실험이 두 이름으로 불립니다. 메모는 실험 제목만 셌고 이 해설 제목은 다루지 않았습니다. 고친 문장이 아니므로 유진이 손대지 않았습니다</td><td>발견, 다온에게 해설 제목도 “부하가 오르면 꼬리 지연이 먼저 늘어난다”로 맞추기를 제안</td></tr>
+<tr><td>6장 제목(js/content.js #tiling)</td><td>“재사용과 자리 차지 사이” / “타일을 키울 때 얻는 재사용과 드는 자원”</td><td>부제는 적재를 “줄일 수 있지만”이라고 가능성으로 쓰는데 제목은 “얻는 재사용”이라고 씁니다. 타일을 키우면 한 번 읽은 값을 더 여러 번 쓰는 것은 구조상 정해지고, 적재 감소가 가능성으로 남는 것은 부제가 그대로 지키므로 K3 위반으로 보지 않았습니다</td><td>비고, 그대로 둠</td></tr>
+<tr><td>실험 tail의 예측 질문(js/app.js)</td><td>“ρ를 0.5에서 0.9로 올리면 평균 대기와 p95 대기 중 어느 쪽이 더 많은 ms만큼 늘어날까요?” / 바뀌지 않음</td><td>실험이 묻는 것은 ‘더 많이’이고 제목은 ‘먼저’라고 씁니다. 이 차이는 원래 제목에도 있던 것이라 이번 개정이 만든 차이가 아닙니다</td><td>비고, 그대로 둠</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>브라우저에서 바뀐 제목이 화면에 나오는 모습은 보지 않았습니다. 바뀐 것이 글자와 자산 버전뿐임만 diff로 확인했습니다.</p>
+<p>후속 반영(집필 쪽, 2026-10-13): 위 발견에 따라 10장 깊이 읽기 머리글 “부하가 오르면 꼬리가 먼저 무너진다”를 실험 제목과 같은 “부하가 오르면 꼬리 지연이 먼저 늘어난다”로 맞췄습니다. 같은 실험을 같은 이름으로 부르게 한 것이라 뜻은 그대로입니다.</p>
+</section>
 <section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 2341e1b)으로 바뀐 문장 17개: js/content.js 16개, js/lab-guides.js 1개. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="2341e1b" data-result="passed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자는 Claude의 유진 뜻 보존 검수 세션이고, 문장을 고친 사람은 다른 세션의 다온입니다. 검수자는 다온 세션의 결론을 건네받지 않고 <code>git diff 0f2c248 2341e1b -- books/llm-performance/</code>에서 바뀐 문장을 하나씩 뽑아 원래 문장과 나란히 놓고 읽었습니다. 이 책의 개정 커밋에는 사실 수정이 없고 문체 손질만 들어 있습니다. 문장이 아닌 변경은 <code>index.html</code>에서 content.js와 lab-guides.js의 자산 버전을 <code>?v=20261013-k</code>로 올린 것뿐이며, 계산 코드(js/math.js·labs-*.js)와 출처 목록은 diff에 없습니다.</p>

@@ -43,6 +43,17 @@
 <tr data-guideline="K6"><td>K6 문맥 대조·편집과 검증 구별</td><td>고친 문장마다 앞뒤 문단과 장 머리 질문, 실험 안내 문장을 다시 읽음. 9장 “이렇게 아낀 공간”은 바로 앞 문장들의 낭비 비교를 가리키는지 확인함</td><td>뜻 보존 대조는 G6 검수팀 유진에게 넘김(반영함 행 17개). 다온은 자기 수정을 검수하지 않음</td></tr>
 </table>
 
+<h4 id="style-k-titles">제목·설명·머리글</h4>
+<p>책 설명, 장 제목·부제 12개, 표지 머리글과 소개, section-heading 세 개, 실험 제목 15개를 읽었다. 장 제목 1곳, section-heading 1곳, 표지 소개 1곳, 실험 제목 2곳, 다른 책 장 제목 표기 2곳을 고쳤다. 서재 주인의 2026-10-13 피드백에 따라 비유나 에두른 말로 내용을 가린 곳만 독자가 실제로 계산·비교·확인하는 일을 낱말로 썼다. 장 ID·앵커·수치는 그대로이고, 바꾼 장 제목은 catalog.json에 반영하도록 메인 세션에 넘긴다. 뜻 보존 대조는 K6에 따라 유진에게 넘긴다.</p>
+<table><tr><th>인용</th><th>진단</th><th>고친 문장 / 판단</th><th>지침</th></tr>
+<tr data-guideline="K4"><td>재사용과 자리 차지 사이</td><td>6장 제목. 무엇의 재사용인지, ‘자리 차지’가 무엇인지 부제를 읽기 전에는 알 수 없다. 부제는 큰 타일이 적재를 줄이지만 공유 메모리와 레지스터를 더 쓴다고 말한다.</td><td>타일을 키울 때 얻는 재사용과 드는 자원 (반영함). catalog 반영 필요</td><td>K4</td></tr>
+<tr data-guideline="K4"><td>같은 요약 요청을 끝까지 조사합니다</td><td>section-heading h2. ‘끝까지’가 무엇을 하는지 대신한다. 책은 같은 요청이 어디서 느려지는지 측정한다.</td><td>같은 요약 요청이 어디서 느려지는지 조사합니다 (반영함)</td><td>K4</td></tr>
+<tr data-guideline="K4"><td>데이터가 이동하는 길을 조사하고</td><td>표지 소개. 서재 주인이 지적한 ‘전달되는 길’과 같은 그림이다. 책에서 조사하는 것은 데이터가 CPU·GPU 메모리 사이에서 어디서 어디로 옮겨지는지다.</td><td>데이터가 어디서 어디로 옮겨지는지 조사하고 (반영함)</td><td>K4</td></tr>
+<tr data-guideline="K4"><td>타일이 차지한 자리</td><td>실험 제목. 실험 설명은 타일 크기와 레지스터 수를 바꾸며 자원 상한을 본다고 적는다.</td><td>타일 크기와 자원 상한 (반영함)</td><td>K4</td></tr>
+<tr data-guideline="K3 K4 K5"><td>부하가 오르면 꼬리가 먼저 무너진다</td><td>실험 제목. ‘무너진다’가 무엇이 어떻게 되는지 말하지 않는다. 본문이 쓰는 용어는 꼬리 지연이고, 실험은 p95 대기가 평균보다 먼저 크게 늘어나는지 본다. ‘먼저’라는 비교는 남긴다.</td><td>부하가 오르면 꼬리 지연이 먼저 늘어난다 (반영함)</td><td>K3 K4 K5</td></tr>
+<tr data-guideline="K5"><td>&#x27;컴퓨터 원리 · 기다리지 않는 법&#x27; / &#x27;시스템 이해편 · 들어가는데 왜 느릴까&#x27;</td><td>다른 책 장 제목 표기. 그 책 제목을 고쳐 맞춘다.</td><td>&#x27;컴퓨터 원리 · 캐시로 기다리는 시간 줄이기&#x27; / &#x27;시스템 이해편 · 메모리에 들어가는데 왜 느릴까&#x27; (반영함)</td><td>K5</td></tr>
+<tr data-guideline="K4"><td>빈자리에 다음 요청 넣기 / GPU를 더해도 남는 시간</td><td>장 제목. 부제가 매 단계 새 요청을 받는 배치, 늘어나는 통신 시간을 바로 말하고, 제목도 실제 동작(빈 슬롯에 요청을 넣는다, 시간이 남는다)을 가리킨다.</td><td>그대로 둠</td><td>K4</td></tr>
+</table>
 <h4 id="style-k-metrics">01 · 느리다는 말을 숫자로 바꾸기</h4>
 <table><tr><th>인용</th><th>진단</th><th>고친 문장 / 판단</th><th>지침</th></tr>
 <tr data-guideline="K4"><td>출력 토큰 수와 측정 시작점을 고정해야 비교가 가능합니다.</td><td>“비교가 가능합니다”는 동사를 명사로 감싼 번역투 끝맺음입니다.</td><td>출력 토큰 수와 측정 시작점을 고정해야 비교할 수 있습니다. (반영함)</td><td>K4</td></tr>
@@ -149,5 +160,6 @@
 <tr data-gate="G7" data-approved="한결"><td>G7 공개</td><td>PR과 CI</td><td>PR을 열고 CI 통과를 확인한 뒤 병합.</td></tr>
 </table>
 <h3>2026-10-13 문체 개정 (한국어 문장 지침 K1~K6)</h3><p>목차·사실·실험은 그대로 두고 모든 장의 문장을 지침으로 다시 읽었습니다(<a href="../../../docs/10-agent-team.html#style-pass">문체 개정</a>). 승인 점검은 원고를 고치지도 검수하지도 않은 새 세션이 팀장마다 따로 맡았습니다.</p><table class="gate-round" data-kind="style" data-date="2026-10-13"><tr><th>관문</th><th>넘긴 산출물</th><th>기록</th></tr><tr data-gate="G4" data-approved="나래"><td>G4 문체 개정 원고</td><td>다온 메모 12장, content.js 16문장·lab-guides.js 1문장, section#style의 2026-10-13 style-pass</td><td>7장 “하한의 차이 4 ms”(12−8)와 11장 “맞바꾸는 관계”의 뜻, 10장 앞선 판단 유지를 나래가 확인해 승인.</td></tr><tr data-gate="G6" data-approved="정민"><td>G6 뜻 보존 검수</td><td><a href="fact-review.html#review-2026-10-13-style">fact-review.html</a> 2026-10-13 문체 개정 회차(passed), 집필하지 않은 유진 세션</td><td>17문장 대조. 정민이 7장 이동 하한 4 ms·연산 하한 8 ms·12 − 8 = 4 ms를 따로 계산해 승인.</td></tr><tr data-gate="G7" data-approved="한결"><td>G7 공개</td><td>PR과 CI, docs/03-verification.html#korean-style-pass</td><td>content.js 16문장·lab-guides.js 1문장과 회차(passed)를 넘김. 수치(4 ms·8 ms) 보존을 확인한 나래·정민 승인과 validate.py를 한결이 확인해 승인.</td></tr></table>
+<h3>2026-10-13 제목·설명·머리글 점검 (서재 주인 피드백)</h3><p>서재 주인이 비유나 에두른 말로 된 제목과 설명이 어색하다고 짚어, 같은 날 문체 개정에 이어 책 설명·장 제목·부제·머리글·실험 제목을 내용을 직접 말하는 말로 다시 읽었습니다(<a href="../../../docs/11-korean-writing.html#titles">서재 사례</a>). 본문·사실·실험은 그대로입니다.</p><table class="gate-round" data-kind="style" data-date="2026-10-13" data-pass="titles"><tr><th>관문</th><th>넘긴 산출물</th><th>기록</th></tr><tr data-gate="G4" data-approved="나래"><td>G4 문체 개정 원고</td><td>#style-k-titles 메모, 책 제목·부제·머리글·실험 이름 고침</td><td>비유 제목이 장이 실제로 다루는 대상으로 바뀌고 뜻이 넓어지거나 좁아지지 않았으며, 장 ID와 catalog 장 색인·다른 책 링크 이름이 새 제목과 맞음을 나래가 확인해 승인.</td></tr><tr data-gate="G6" data-approved="정민"><td>G6 뜻 보존 검수</td><td><a href="fact-review.html#review-2026-10-13-titles">fact-review.html</a> 2026-10-13 제목 점검 회차, 집필하지 않은 유진 세션</td><td>정민이 회차의 여섯 항목과 판정, 바뀐 제목과 도착 장 제목을 대조해 승인. 10장 머리글을 실험 제목에 맞춘 후속 반영 확인.</td></tr><tr data-gate="G7" data-approved="한결"><td>G7 공개</td><td>PR #65와 CI, <a href="../../../docs/03-verification.html#korean-style-pass">docs/03-verification.html#korean-style-pass</a></td><td>나래 G4 승인 문체 메모와 정민 G6 승인 유진 회차(passed·fixed)를 넘김. 56c7001 사본에서 validate.py 남은 오류가 G7 누락뿐이고 build_catalog --check·node 테스트·책 테스트가 통과함, 검수 세션과 집필 세션이 다름, 편성이 docs/10#style-pass와 같음, 금리와 채권·강화학습·트랜스포머 장 목록과 사이드바가 1280·390·320px에서 넘침·잘림·콘솔 오류 없음을 한결이 확인해 승인.</td></tr></table>
 </section>
 </main></body></html>

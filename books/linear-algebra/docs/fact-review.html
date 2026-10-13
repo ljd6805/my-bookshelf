@@ -5,6 +5,26 @@
 <h1>팩트·출처 검수 기록 · 벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-titles" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (제목·설명·머리글 점검 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="제목·설명·머리글 점검(커밋 e638d09)과 catalog·링크 이름 반영(커밋 ff884c4)으로 바뀐 문구 8개와 catalog 설명 1개: js/content.js 장 제목 2·링크 이름 4, js/page-home.js 표지 머리글 1·AI Book 링크 이름 1, data/catalog.json description 1. index.html은 자산 버전만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="e638d09" data-result="fixed">
+<h2>2026-10-13 제목·설명·머리글 점검 뜻 보존 검수</h2>
+<p>검수자: Claude · 유진 뜻 보존 검수 세션. 집필자(문체 개정): Claude · 다온 문체 개정 세션. 기준 커밋 fd860a3과 HEAD 사이의 <code>books/linear-algebra/</code>와 <code>data/catalog.json</code> diff를 낱말 단위로 펼쳐 바뀐 문구 8개와, 다온이 제안하고 메인 세션이 옮긴 catalog 설명 한 문장을 대조했습니다. 링크 이름 가운데 컴퓨터 비전 #selfsup, 모델을 움직이는 수학 #svd, 딥러닝 핵심 #forward 세 곳은 메인 세션이 커밋 ff884c4에서 맞춘 것입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>장 제목과 머리글은 문제 없습니다. 3장 “그림자 드리우기” → “투영하기”는 부제가 맺는 말(“이것이 투영입니다”)이고, 그림자 설명은 부제와 본문에 남았습니다. 9장 “노래 구름의 가장 긴 방향” → “노래들이 가장 길게 퍼진 방향”은 부제가 쓴 표현 그대로입니다. 표지 머리글 “공간을 움직이는 법” → “익히는 벡터와 행렬”은 책 부제·설명의 범위 안입니다. catalog 설명의 새 문장은 범위를 조금 좁혔다고 보아 비고로 남깁니다</td><td>바뀐 제목·머리글이 그 장과 화면이 실제로 다루는 내용을 넘거나 좁히지 않는지 부제·본문·실험 안내와 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>catalog 설명의 “11개 장과 13개 실험”이 그대로입니다. 바뀐 제목에는 숫자가 없습니다</td><td>바뀐 문구의 숫자·단위를 원래 문구와 책 설명에 견줌</td></tr>
+<tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>계산 코드 변경 없음. diff는 content.js·page-home.js의 글자와 index.html의 자산 버전(content.js·page-home.js → 20261013-t)뿐입니다. <code>npm test</code> 19개 통과</td><td>diff에 계산 코드 변경이 없음을 확인, 책 테스트와 루트 <code>tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음. 장 ID(#projection, #pca)와 앵커가 그대로이고, catalog 장 색인과 장 목록이 새 제목과 같습니다. 이 책의 새 제목을 옮겨 적는 다른 책 링크(AI Book·트랜스포머 속을 열어 보기)도 새 제목을 씁니다. 이 책의 바뀐 링크 이름 5개(AI Book 1장 두 곳, 컴퓨터 비전 #selfsup, 모델을 움직이는 수학 #svd, 딥러닝 핵심 #forward)가 대상 장 제목과 같습니다</td><td>다른 책 링크 이름을 그 책 HEAD의 <code>js/content.js</code> 장 제목과, catalog의 장 색인·장 목록을 이 책 <code>js/content.js</code>의 장 제목과 스크립트로 맞대 봄</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="fixed"><td>문체 편집 뒤 뜻 보존</td><td>8곳과 catalog 설명 1문장 대조, 되돌린 문구 0. 메모의 반영함 4행(장 제목 2, 머리글 1, AI Book 링크 2곳)과 제안 1행이 diff와 맞고, 메모에 없는 링크 이름 3곳은 커밋 ff884c4의 변경입니다</td><td>원래 문구와 고친 문구를 나란히 놓고 범위·수치·가능성의 정도(K3)·인과를 대조하고, 메모 <code>#style-k-titles</code>의 반영함 행과 diff를 하나씩 맞춤</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>없음. 뜻이 달라져 되돌린 문구는 없습니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문구 / 고친 문구</th><th>살핀 점</th><th>처리</th></tr></thead><tbody>
+<tr><td>catalog.json description 둘째 문장(다온 제안, 메인 세션 반영)</td><td>“11개 장과 13개 실험으로 공간이 움직이는 모습을 직접 조작합니다.” / “11개 장과 13개 실험으로 행렬이 평면의 점을 어떻게 옮기는지 직접 조작합니다.”</td><td>새 문장은 4~8장과 10장(행렬 변환·합성·행렬식·역행렬·고유벡터·한 층)에는 정확하지만, 1~3장(벡터·내적·투영)과 9장(주성분)의 실험은 행렬로 점을 옮기는 조작이 아닙니다. 첫 문장이 모든 주제를 나열하고 원래 문장도 범위가 흐렸으므로 사실 오류로 보지 않았고, catalog는 이 기록의 쓰기 범위 밖이라 되돌리지 않았습니다</td><td>비고, 메인 세션에 보고. 범위를 맞추려면 “11개 장과 13개 실험으로 벡터와 행렬이 노래 점들을 어떻게 재고 옮기는지 직접 조작합니다.” 같은 문장을 검토</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>브라우저에서 바뀐 제목이 화면에 나오는 모습은 보지 않았습니다. 바뀐 것이 글자와 자산 버전뿐임만 diff로 확인했습니다.</p>
+<p>후속 반영(집필 쪽, 2026-10-13): 위 발견에 따라 data/catalog.json 설명의 마지막 문장을 유진의 제안대로 “11개 장과 13개 실험으로 벡터와 행렬이 노래 점들을 어떻게 재고 옮기는지 직접 조작합니다.”로 고쳐, 1~3장(벡터·내적·투영)과 9장(주성분)까지 범위에 다시 넣었습니다.</p>
+</section>
 <section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 2341e1b)으로 바뀐 문장 18개: js/content.js 14(문체 손질 12, 사실 수정 2), js/lab-views.js 4. index.html은 두 스크립트의 자산 버전 문자열만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="2341e1b" data-result="passed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자는 Claude · 유진 뜻 보존 검수 세션입니다. 이 세션은 문장을 고친 다온 세션이 아니고, 그 세션의 결론을 건네받지 않은 채 <code>git diff 0f2c248 2341e1b -- books/linear-algebra/</code>와 제작 기록의 다온 메모만 보고 판정했습니다. 집필자는 Claude · 다온 문체 개정 세션입니다. 범위는 위 data-scope와 같습니다. 바뀐 문장 18개를 원래 문장과 하나씩 대조했고, 그 가운데 다온이 사실 문제로 넘긴 두 곳(3장, 마지막 과제)을 집필 쪽이 고친 문장은 문체가 아니라 사실 항목에서 원고·실험 데이터와 대조했습니다.</p>

@@ -61,7 +61,7 @@ A04Labs.depthsignal=el=>{
   const lo=Math.min(-3,Math.floor(Math.min(...lg))),hi=Math.max(1,Math.ceil(Math.max(...lg))),mid=Math.floor(L/2);
   const verdict=s[L-1]<1e-3?'신호가 사라졌습니다. 다음 층과 출력이 입력과 거의 무관해집니다.':s[L-1]>1e3?'신호가 폭발했습니다. 값이 커져 계산이 불안정해집니다.':s[L-1]<0.05?'신호가 꽤 줄었습니다. 층을 더 쌓으면 사라질 수 있습니다.':s[L-1]>3?`신호가 ${F(s[L-1]/s[0],1)}배로 커졌습니다. 폭발은 아니지만 층을 더 쌓을수록 계속 커집니다.`:'신호 크기가 층을 지나도 유지됩니다.';
   U.result(el,U.plot({lines:[{data:lg.map((v,i)=>[i+1,v]),color:'var(--accent)'}],xmin:1,xmax:L,ymin:lo,ymax:hi,xlabel:'층 번호',ylabel:'log₁₀ 활성값 표준편차',label:`층마다 활성값 표준편차(로그 눈금), ${BLOCKS.find(x=>x[0]===blk)[1]}`}),
-  `${INITS.find(x=>x[0]===init)[1]} · ${a==='relu'?'ReLU':'tanh'} · ${L}층 · ${BLOCKS.find(x=>x[0]===blk)[1]}<br>활성값 표준편차: 1층 <b>${sci(s[0])}</b>, ${mid+1}층 <b>${sci(s[mid])}</b>, ${L}층 <strong>${sci(s[L-1])}</strong><br>${verdict}${NOTE[blk]}<br>폭 48 정방 층에 표준정규 입력 12개를 흘려 실제로 잰 학습 전 값입니다. LayerNorm의 이득·이동은 학습 전 값(1·0)으로 두었습니다.`);});
+  `${INITS.find(x=>x[0]===init)[1]} · ${a==='relu'?'ReLU':'tanh'} · ${L}층 · ${BLOCKS.find(x=>x[0]===blk)[1]}<br>활성값 표준편차: 1층 <b>${sci(s[0])}</b>, ${mid+1}층 <b>${sci(s[mid])}</b>, ${L}층 <strong>${sci(s[L-1])}</strong><br>${verdict}${NOTE[blk]}<br>폭 48 정방 층에 표준정규 입력 12개를 흘려 실제로 잰 학습 전 값입니다. LayerNorm이 학습하는 배율과 이동 값은 학습 전 값(1과 0)으로 두었습니다.`);});
 };
 
 A04Labs.dropout=el=>{

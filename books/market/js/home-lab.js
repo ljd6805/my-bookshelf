@@ -2,7 +2,7 @@
 window.MHome=(()=>{
 function mount(el){
  const M=MMath,U=MUI,B=U.BOOK;
- el.innerHTML=`<div class="lab-top"><span>하린의 시장가 매수가 호가창을 먹는 순간</span><span>ORDER BOOK / 새벽전자</span></div><div class="home-book"></div><div class="network-controls">${U.range('home-qty','시장가 매수 수량 (주)',0,3000,10,500)}<div class="buttons"><button type="button" data-qty="100">100주</button><button type="button" data-qty="1000">1,000주</button><button type="button" data-qty="2500">2,500주</button></div><div class="home-result" role="status" aria-live="polite"></div></div><details class="network-explain"><summary>무엇을 계산하나요?</summary><p>가상 종목 새벽전자의 호가창(전일 종가 19,950원)에 시장가 매수 주문을 넣습니다. 주문은 가장 싼 매도 호가부터 차례로 체결되고, 평균 체결가가 맨 위 호가보다 얼마나 비싸졌는지(미끄러짐)를 계산합니다. 3장에서 같은 호가창을 자세히 봅니다.</p></details>`;
+ el.innerHTML=`<div class="lab-top"><span>하린의 시장가 매수는 평균 얼마에 체결될까</span><span>ORDER BOOK / 새벽전자</span></div><div class="home-book"></div><div class="network-controls">${U.range('home-qty','시장가 매수 수량 (주)',0,3000,10,500)}<div class="buttons"><button type="button" data-qty="100">100주</button><button type="button" data-qty="1000">1,000주</button><button type="button" data-qty="2500">2,500주</button></div><div class="home-result" role="status" aria-live="polite"></div></div><details class="network-explain"><summary>무엇을 계산하나요?</summary><p>가상 종목 새벽전자의 호가창(전일 종가 19,950원)에 시장가 매수 주문을 넣습니다. 주문은 가장 싼 매도 호가부터 차례로 체결되고, 평균 체결가가 맨 위 호가보다 얼마나 비싸졌는지(미끄러짐)를 계산합니다. 3장에서 같은 호가창을 자세히 봅니다.</p></details>`;
  const input=el.querySelector('#home-qty'),box=el.querySelector('.home-book'),out=el.querySelector('.home-result');
  function update(){
   const q=Number(input.value),r=M.sweep(B.asks,q);

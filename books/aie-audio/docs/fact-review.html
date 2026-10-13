@@ -4,6 +4,34 @@
 <h1>팩트·출처 검수 기록 · 음성과 오디오</h1>
 <p>「AI 엔지니어링 처음부터」 07권 《음성과 오디오 · 파형에서 대화하는 목소리까지》의 팩트·출처 검수 기록입니다. 책을 쓰지 않은 에이전트가 검수했습니다. <a href="index.html#verification">프로젝트 문서의 검증 절</a>로 돌아갑니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 89af2c9)으로 바뀐 문장 30개: js/content.js 30개(본문 17, 제목·부제·실험 제목·소개 13). 같은 커밋의 사실 수정 3곳(content.js), docs/registration.json의 장 제목 문구 7곳, 커밋 ff884c4가 data/catalog.json에 옮긴 이 책의 장 색인·장 목록·책 설명도 함께 대조. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="89af2c9" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 Claude · 유진 뜻 보존 검수 세션이고, 집필자는 문장을 고친 Claude · 다온 문체 개정 세션입니다. 검수자는 다온의 결론을 건네받지 않고 <code>git diff fd860a3 HEAD -- books/aie-audio/ data/catalog.json</code>로 원래 문장과 고친 문장을 하나씩 대조했습니다. 문체 손질 30문장, 다온이 사실 확인을 넘겨 집필 쪽이 고친 3곳, 바뀐 장 제목이 옮겨진 registration.json·catalog.json·다른 책 링크 이름을 따로 보았습니다. 사실 수정 두 곳(BEATs, UrbanSound8K)은 원본 커리큘럼 레슨 03 문서(docs/en.md, 2026-10-13 확인)와도 맞춰 보았습니다. 되돌린 문장은 없습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 사실 수정 3곳도 맞음</td><td>고친 30문장이 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 앞뒤 문단과 함께 대조. 고친 부제(1·9·10·11장)는 같은 장 본문 문장(“낮은 주파수로 접혀 들어와”, “말차례를 판정할 필요가 없습니다”, “C2PA 같은 출처 서명은 파일에 만든 도구와 날짜를 암호 서명으로 붙입니다”, 혼동하지 마세요의 “처음부터 워터마크를 넣지 않는 도구로 만든 가짜 목소리”)과 맞음. 사실 수정은 아래 비고</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장의 숫자(멜 80·128개, 68만 시간, 30초·3,000프레임, 8~12개, 12.5 Hz·50 Hz, 코드북 0·7, 2,500 ms·6분의 1, 1초, 300·650 ms, 200·450·700 ms)를 원래 문장과 대조. 사실 수정의 374~1,000개와 2.7:1은 UrbanSound8K 공개 메타데이터의 클래스별 개수(가장 적은 gun_shot 374, 가장 많은 클래스 1,000)로 1,000 ÷ 374 ≈ 2.67을 다시 계산함. 10장 확인 문제의 정답 번호(1)는 그대로임</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff가 content.js의 글 필드, index.html의 content.js <code>?v=</code> 값(20261013-k), registration.json의 장 제목 문자열, docs/index.html의 메모뿐임을 확인. math.js·labs-*.js·lab-guides.js는 바뀌지 않음. 책 테스트 26개와 루트 <code>tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>9장 부제의 “흘려보내기”를 “스트리밍”으로 바꾼 것이 맞음: 이 책에서 흘려보내기는 10장 본문과 hangover 실험의 flush 이름이고, 9장 부제가 말한 것은 모든 단계의 스트리밍. “화자 귀속”, “공짜 점심”, “침묵 대기”, “사전 버퍼” 이름 유지 확인(“손잡이”→“조절값”은 같은 장 첫 문단의 “조절할 값”에 맞춤). 장 제목 5곳이 content.js·registration.json·catalog.json chapter_index와 장 목록에서 글자 그대로 같고, 다른 책에서 오는 링크 이름(#mel·#whisper·#pipeline)도 새 제목과 같음. 옛 제목은 저장소의 책·카탈로그에 남아 있지 않음(labs-talk.js의 선택 상자 이름 “출시 후 들어온 불만”은 장 제목이 아닌 입력 라벨)</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. 링크 주소와 장 ID도 그대로임</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>30문장 대조, 되돌린 문장 0</td><td>메모의 “(반영함)” 30행(제목·머리글 13, 본문 17)과 diff의 문체 변경 30곳이 하나씩 맞음. 사실 수정 3곳은 메모에 “그대로 둠” 행으로 남고 style-pass 둘째 문단에 원래→고친 문장이 있음. 가능성(“~일 수 있습니다”), 조건(“같은 기준 집합으로 잰 값끼리만”), 인과(“줄일 수 있었던 것은 … 때문입니다”)가 원래 문장대로인지 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>뜻이 달라진 문장은 없습니다. 기록이 어긋난 곳 하나를 보고하고, 판정에 참고한 비고를 함께 적습니다.</p>
+<table><thead><tr><th>위치</th><th>비고</th><th>근거</th><th>처리</th></tr></thead><tbody>
+<tr><td>docs/registration.json의 description과 data/catalog.json</td><td>catalog.json의 이 책 설명은 ff884c4에서 “음성 합성 길이”가 “음성 합성의 길이 예측”으로 바뀌었는데, registration.json의 description은 옛 문구 그대로입니다. 메모의 제목·설명 표에도 책 설명 행이 없습니다. 새 문구는 7장의 길이 예측기 계산과 맞아 뜻의 문제는 아닙니다</td><td><code>git show ff884c4 -- data/catalog.json</code>, registration.json 1행</td><td>보고만 함. 이 세션은 검수 기록 밖을 고치지 않으므로, registration.json을 catalog.json에 맞출지는 메인 세션이 정함</td></tr>
+<tr><td>#classify · js/content.js 본문</td><td>사실 수정 “수백만 시간으로 자기지도 사전학습한 BEATs” → “AudioSet(약 200만 클립)으로 자기지도 사전학습한 BEATs”가 맞음. BEATs 논문은 AudioSet-2M으로 사전학습함. 다만 원본 레슨 03은 “Self-supervised pretraining on millions of hours”라고 써서, 이 문장은 이제 원본 표현과 다르고 1차 자료를 따름. 문단이 “원본 커리큘럼은 그 발전을 사다리로 보여 줍니다”로 시작하지만 숫자를 원본의 말로 인용하지는 않아 그대로 둠</td><td>원본 레슨 03 docs/en.md 26행, Chen et al. BEATs(arXiv 2212.09058)</td><td>그대로 둠</td></tr>
+<tr><td>#classify · js/content.js 깊이 읽기 표</td><td>사실 수정 “10개 클래스, 10:1 불균형” → “10개 클래스, 클래스마다 374~1,000개(약 2.7:1 불균형)”가 맞음. 원본 레슨 03은 “imbalanced 10:1”이라고 쓰지만 공개 메타데이터로 계산하면 2.7:1 정도임. 표 아래 설명은 원본의 권장 모델을 말할 뿐 이 비율을 원본에 돌리지 않음</td><td>원본 레슨 03 docs/en.md 32행, UrbanSound8K 메타데이터(8,732개 클립)</td><td>그대로 둠</td></tr>
+<tr><td>#safety · js/content.js 깊이 읽기 표</td><td>사실 수정으로 WaveVerify의 “뒤집기·속도 변경 같은 시간 조작에 대응”을 특징 칸으로 옮기고 약점 칸을 “원본에 약점이 적혀 있지 않음”으로 둔 것이 맞음. 원본 레슨 16은 WaveVerify를 AudioSeal의 약점(시간 조작)을 보완하는 방식으로만 소개하고 약점을 적지 않음</td><td>원본 레슨 16 docs/en.md 61~63행</td><td>그대로 둠</td></tr>
+<tr><td>#classify · js/content.js 깊이 읽기</td><td>SpecAugment의 “단순하지만 결정적인 데이터 늘리기” → “단순하지만 효과가 큰 데이터 늘리기”. 원본은 “Simple; critical.”이라 “꼭 필요하다”는 뜻에 가깝고, “효과가 크다”는 정도의 말이라 조금 다름. 같은 깊이 읽기가 불균형을 다루는 방법으로 권하는 문맥이라 뜻이 뒤집히지는 않아 판단이 갈리는 경우로 남김</td><td>원본 레슨 03 docs/en.md 36행</td><td>되돌리지 않음. 글작성팀이 “꼭 필요한”으로 다시 맞출지 정할 일</td></tr>
+<tr><td>#classify · js/content.js 깊이 읽기</td><td>“디코더를 떼고 인코더만 얼려 쓰는 ‘공짜 점심’ 기준선” → “디코더를 떼고, 얼린 인코더 위에 선형 분류기만 붙여 거의 공짜로 얻는(‘공짜 점심’) 기준선”. 선형 분류기는 항목 이름(“Whisper 인코더 + 선형 분류기”)과 원본(“attach a linear classifier”)에 이미 있어 새 사실이 아님</td><td>원본 레슨 03 docs/en.md 28행</td><td>되돌리지 않음</td></tr>
+<tr><td>#turn·#final·#pipeline 장 제목</td><td>“VAD와 침묵 대기로 말차례 판정하기”는 사전 버퍼와 전이중 모델 내용까지 제목에 담지 않지만 실험(vad·hangover)과 부제가 다루는 중심 일과 맞음. “말이 끝난 뒤 1초 안에 대답하기”, “출시 후 불만을 지표로 진단하기”도 각 장의 지연 예산과 triage 실험 범위를 넘지 않음</td><td>각 장 subtitle·labs·paragraphs</td><td>되돌리지 않음</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>UrbanSound8K 클래스별 개수는 공개 메타데이터로 알려진 값과 대조했고, 메타데이터 파일을 내려받아 다시 세지는 않았습니다.</li>
+<li>화면에서 고친 문장이 제자리에 보이는지는 브라우저로 열어 보지 않았습니다. 글 필드만 바뀌었고 책 테스트가 통과한 것으로 갈음했습니다.</li>
+</ul>
+</section>
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#asr wer 실험의 CER 판독(A07Math.cer)과 예제 ‘띄어쓰기만 다름’, formula의 CER, 깊이 읽기 “한국어는 WER만 보면 속는다”, #classify 깊이 읽기 “소음의 크기를 재는 신호대잡음비(SNR)”, 새 출처 KsponSpeech, tests/browser.cjs 테마 단추" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1) — 검수팀 관점으로 점검했고 이번 보충을 쓰지 않았습니다. 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: #asr wer 실험의 CER 판독(A07Math.cer)과 예제 ‘띄어쓰기만 다름’, formula의 CER, 깊이 읽기 “한국어는 WER만 보면 속는다”, #classify 깊이 읽기 “소음의 크기를 재는 신호대잡음비(SNR)”, 새 출처 KsponSpeech, tests/browser.cjs 테마 단추.</p>
