@@ -454,5 +454,34 @@
       "검수에서 다시 열지 못한 출처 목록은 books/etf/docs/fact-review.html 참고"
     ],
     "next": "PR 병합 뒤 시리즈 다음 권(proposal.md §4: 5권 재무제표)"
+  },
+  "financial_statements": {
+    "book": "books/statements/",
+    "series": "finance-from-scratch 5권",
+    "plan": "/mnt/project-files/stock-books/proposal.md, /mnt/project-files/stock-books/vol5-handoff.md",
+    "docs": "books/statements/docs/index.html",
+    "research": "books/statements/docs/research.html",
+    "status": "writing: G0~G2 초안, 팀장 보류 사항 반영 뒤 재승인 대기",
+    "done": [
+      "기획(#plan·#opposition·#links), 교과과정(#curriculum·#curriculum-map·#curriculum-compare·#curriculum-case), 장 설계(#chapters) 초안",
+      "research.html 출처 S1~S22와 계산값 V-1~V-10",
+      "books/statements/AGENTS.md 책별 규칙",
+      "G0·G1·G2 보류 사항 반영: 부제 2안, 2026년 4월 시나리오, 연말 차입·금리 4%, L2 숫자 교체, K7 제목 다섯 곳, 장 시간 165분"
+    ],
+    "evidence": "새벽전자 2023~2025 재무제표와 장별 L2 답을 스크립트로 계산하고 대조 네 줄(자산=부채+자본, 이익잉여금, 현금, 유형자산)을 assert로 확인",
+    "verification": [
+      "재무제표 모델 스크립트 assert(대조 네 줄·L2 답·이자보상배율 10.8배)",
+      "validate.py"
+    ],
+    "remaining": [
+      "확인 못함: K-IFRS 1001·1007·1118 원문(법령정보센터·회계기준원 접속 차단)",
+      "확인 못함: 분기·반기보고서 45일 기한의 법령 원문과 휴일 처리(2026-11-14 토요일)",
+      "확인 못함: 2027년 이자 지급 분류 변경 설명이 KAI 보고서 안에서 서로 다른 부분",
+      "확인 못함: 자본시장법 제159·160조 원문",
+      "확인 못함: '새벽전자'와 같은 이름의 상장사가 없는지 KRX 상장 목록 조회",
+      "확인 못함: 코스닥시장 정기공시 유의사항(유가증권시장 문서만 확인)",
+      "G3 이후 본문·실험·테스트·검수 전부"
+    ],
+    "next": "팀장 재승인 뒤 G3(본문·실험 구현)와 제작 기록 관문 행"
   }
 }
