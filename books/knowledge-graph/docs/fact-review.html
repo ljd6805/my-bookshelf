@@ -4,6 +4,35 @@
 <h1>팩트·출처 검수 기록</h1>
 <p>「지식 그래프와 온톨로지 · 의미를 구조로」를 쓰지 않은 에이전트가 검수한 결과입니다. 규칙은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">책 개발 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 6781da6)으로 바뀐 문장 8개: js/content.js 6개, js/lab-guides.js 2개. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="6781da6" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자: Claude · 유진 뜻 보존 검수 세션. 문장을 고친 다온 세션과는 다른 새 세션이고, 다온의 결론을 건네받지 않은 채 <code>git diff 401b057 6781da6 -- books/knowledge-graph/</code>에서 원래 문장과 고친 문장을 직접 꺼내 대조했습니다. 집필자(문체 개정): Claude · 다온 문체 개정 세션. 범위는 개정 커밋에서 바뀐 문장 8개(js/content.js 6개, js/lab-guides.js 2개)와 index.html의 자산 버전 두 곳이며, 다온이 사실 확인을 넘긴 2장 더 읽어 보기의 A² 문장도 함께 확인했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>고친 문장 8개가 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 앞뒤 문단과 함께 대조. 4장 결과 읽기는 바로 앞의 “검사 모드는 위반을 보고하지만, RDFS 모드는 … 결론을 냅니다”와 맞는지 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장의 수치(“세 사람, 섞임 0”)와 문턱 조건을 원래 문장과 대조. 2장 A² 문장은 다온이 고치지 않았고, 예제 그래프의 인접 행렬을 따로 제곱해 (A²)의 각 칸이 두 걸음 보행 수와 같음을 확인</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>바뀌지 않음</td><td>diff에서 graph.js·labs-structure.js·labs-use.js·app.js가 바뀌지 않았고 content.js·lab-guides.js는 문자열 안의 문장만 바뀐 것을 확인. 책 테스트 19개와 루트 test_book_content.mjs 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>트리플·ID·문턱·식별자 표·추론 규칙·RDFS·TransE·근거 사슬 같은 용어가 고친 문장에서도 같은 이름으로 남았는지, 장 ID·장 제목·정답 번호·링크가 그대로인지 확인</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>8개 대조, 되돌린 문장 0개</td><td>바뀐 문장마다 수치·조건·가능성의 정도·인과관계·비교 대상을 원래 문장과 하나씩 맞춤. 메모의 “반영함” 행 8개와 diff의 바뀐 문장 8개가 서로 빠짐없이 맞음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>뜻이나 조건이 달라진 문장은 없어 되돌린 문장이 없습니다. 대조 결과와 비고를 아래에 적습니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문장 / 고친 문장</th><th>대조 결과</th><th>처리</th></tr></thead><tbody>
+<tr><td>#triples 본문 (js/content.js)</td><td>트리플의 힘은 같은 대상이 여러 문장에 다시 나올 때 드러납니다. / 같은 대상이 여러 문장에 다시 나오면 트리플로 적어 둔 효과가 드러납니다.</td><td>조건(다시 나올 때)과 주장이 같음</td><td>그대로 둠</td></tr>
+<tr><td>#triples 본문 (js/content.js)</td><td>같은 ID를 다시 쓰는 것이 연결을 만듭니다. / 같은 ID를 다시 쓰기 때문에 연결이 생깁니다.</td><td>원인(ID 재사용)과 결과(연결)가 같은 방향으로 남음</td><td>그대로 둠</td></tr>
+<tr><td>#identity 본문 (js/content.js)</td><td>이 장의 실험은 … 확인합니다. / 이 장의 실험에서는 … 확인합니다.</td><td>주어 자리만 바뀜. 문턱을 낮추면 합쳐지고 높이면 갈라진다는 조건이 그대로</td><td>그대로 둠</td></tr>
+<tr><td>#reasoning 부제 (js/content.js)</td><td>… 적어 두지 않은 사실을 그래프가 스스로 찾아냅니다. / … 그래프에 적어 두지 않은 사실이 새로 나옵니다.</td><td>“반복해서 적용하면” 조건과 단정의 정도가 같음</td><td>그대로 둠</td></tr>
+<tr><td>#embedding 더 읽어 보기 (js/content.js)</td><td>… 좌표에 놓는 생각의 기초를 그 장에서 확인합니다. / … 좌표에 놓는 생각을 그 장에서 기초부터 확인합니다.</td><td>“기초”가 다루는 깊이에서 다루는 순서로 조금 옮겨 갔지만, 그 장이 기초를 다룬다는 뜻은 같음</td><td>그대로 둠(비고)</td></tr>
+<tr><td>#graphrag 본문 (js/content.js)</td><td>이 장의 실험은 두 방법을 나란히 두고, … 비교합니다. / 이 장의 실험에서는 두 방법을 나란히 두고 … 비교합니다.</td><td>바꾸는 값(k, 걸음 수)과 비교 대상(사슬 완성, 사실 수)이 그대로</td><td>그대로 둠</td></tr>
+<tr><td>identity 결과 읽기 (js/lab-guides.js)</td><td>어떤 문턱도 정답(세 사람, 섞임 0)을 만들지 못하고, … / 어떤 문턱에서도 정답(세 사람, 섞임 0)이 나오지 않고, …</td><td>수치와 “어떤 문턱”의 범위가 같음</td><td>그대로 둠</td></tr>
+<tr><td>ontology 결과 읽기 (js/lab-guides.js)</td><td>같은 규칙이 쓰는 방식에 따라 다르게 작동합니다. / 같은 규칙이라도 어떤 방식으로 쓰느냐에 따라 결과가 다릅니다.</td><td>앞 문장이 두 방식의 결과(위반 보고, 새 결론)를 말하므로 “결과가 다르다”가 그 내용과 맞음</td><td>그대로 둠</td></tr>
+<tr><td>index.html</td><td>content.js·lab-guides.js의 ?v= 값이 20261012-kg3에서 20261013-k로 바뀜</td><td>문장이 아닌 자산 버전 갱신. 계산 로직 변경은 아님</td><td>그대로 둠</td></tr>
+<tr><td>#walk 더 읽어 보기 (js/content.js, 다온이 확인을 넘긴 문장)</td><td>점 사이의 연결을 0과 1의 표(인접 행렬)로 적으면, 그 행렬을 제곱(A²)한 값이 두 걸음으로 갈 수 있는 보행(walk)의 수가 됩니다.</td><td>맞는 문장입니다. (A²)ᵢⱼ는 i에서 j로 두 걸음에 가는 보행의 수입니다. 다만 “그 행렬을 제곱한 값”은 칸마다의 값이라는 점이 드러나지 않고, 보행은 되돌아오는 길(A→B→A)도 세므로 2장 실험의 “2걸음 안에 닿는 점의 수”와는 다른 수입니다</td><td>고치지 않음. 다음 개정 때 “A²의 i행 j열 값이 i에서 j로 두 걸음에 가는 보행의 수”처럼 칸을 밝히기를 권함</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>고친 문장을 실제 브라우저 화면에서 다시 읽지는 않았습니다. 바뀐 것이 문자열뿐이라 화면 배치에는 영향이 없다고 보았습니다. 다온 메모의 “그대로 둠” 행은 바뀐 문장이 아니어서 뜻 보존 대조 대상이 아니며, 이 회차에서 그 판단을 다시 검토하지 않았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-08" data-reviewer="Claude · 지식 그래프 PR 검수 전용 하위 에이전트(새 세션)" data-author="Claude · 지식 그래프 책 집필 스레드" data-date="2026-10-08" data-scope="9개 장 본문·확인 문제·그림 캡션, 9개 실험과 표지 실험 계산, 실험 안내 수치, 표지·서가 삽화의 간선, 출처 11개" data-result="fixed" data-commit="a657449">
 <h2>2026-10-08 검수</h2>
 <p>검수자: Claude · 지식 그래프 PR 검수 전용 하위 에이전트(집필 맥락 없이 새로 시작, 파일 수정 권한 없이 보고만 함). 집필자: Claude · 지식 그래프 책 집필 스레드. 범위: 9개 장 본문·확인 문제·그림 캡션, 9개 실험과 표지 실험 계산, 실험 안내 수치, 표지·서가 삽화의 간선, 출처 11개. 지적 사항은 집필자가 고쳤습니다.</p>

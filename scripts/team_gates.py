@@ -289,7 +289,7 @@ def book_gate_errors(root, entry, anchors, leads):
             return [f'{folder}/{DOC_FILE}: needs <section id="log"> with a gate-round table (templates/gate-log.html)']
         if revised > RULE_DATE:
             return [f'{folder}/{DOC_FILE}: fact review of {revised} marks a substantial revision; '
-                    f'record a gate-round data-kind="revision"']
+                    f'record a gate-round data-kind="revision" (or "style" for a style pass)']
         return []
     book = {'doc': doc, 'docs_dir': path.parent, 'anchors': anchors, 'status': entry.get('status')}
     exempt = lambda i: i == 0 and entry['id'] in APPROVAL_EXEMPT
