@@ -1,0 +1,1 @@
+{"name":"macro-book","private":true,"scripts":{"test":"node --test tests/*.test.cjs","browser":"node tests/browser.cjs"}}

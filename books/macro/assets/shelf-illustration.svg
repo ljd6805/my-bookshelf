@@ -1,0 +1,46 @@
+<svg class="ma-ill" viewBox="0 0 340 180" role="img" aria-labelledby="ma-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="ma-ill-title">정책 금리를 0.25%p 올린 모형 경제에서 분기를 훑는 선이 지나가면, 환율이 1분기에, GDP가 5분기에, 물가가 7분기에 가장 크게 반응하는 표시가 차례로 켜지는 과정(미리 정한 시나리오 모형, 예측 아님)</title>
+<style>
+.ma-ill-bg{fill:#fbf6f5}
+.ma-ill-word{font:600 10px sans-serif;fill:#2b1d1c}
+.ma-ill-small{font:500 9px sans-serif;fill:#64504d}
+.ma-ill-mark{font:700 9.5px sans-serif;fill:#a3433a}
+.ma-ill-base{stroke:#e0ccc8;stroke-width:1.2}
+.ma-ill-tick{stroke:#c9b4b1;stroke-width:1}
+.ma-ill-fx{fill:none;stroke:#8c7a77;stroke-width:2.2}
+.ma-ill-gdp{fill:none;stroke:#2d55ad;stroke-width:2.4}
+.ma-ill-cpi{fill:none;stroke:#a3433a;stroke-width:2.4;stroke-dasharray:5 3}
+.ma-ill-dot{fill:#a3433a;stroke:#fbf6f5;stroke-width:1.4}
+.ma-ill-step{fill:#f3e6e3;stroke:#a3433a;stroke-width:1.2}
+.ma-ill-scan{fill:#a3433a;opacity:.55;animation:ma-ill-scan 9s linear infinite}
+.ma-ill-p1{animation:ma-ill-p1 9s linear infinite}
+.ma-ill-p2{opacity:0;animation:ma-ill-p2 9s linear infinite}
+.ma-ill-p3{opacity:0;animation:ma-ill-p3 9s linear infinite}
+@keyframes ma-ill-scan{0%{transform:translateX(0)}78%,100%{transform:translateX(250px)}}
+@keyframes ma-ill-p1{0%,2%{opacity:.25}6%,96%{opacity:1}100%{opacity:.25}}
+@keyframes ma-ill-p2{0%,44%{opacity:0}48%,96%{opacity:1}100%{opacity:0}}
+@keyframes ma-ill-p3{0%,66%{opacity:0}70%,96%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.ma-ill-scan{animation:none;transform:translateX(250px)}.ma-ill-p1,.ma-ill-p2,.ma-ill-p3{animation:none;opacity:1}}
+html[data-motion=reduce] .ma-ill-scan{animation:none;transform:translateX(250px)}html[data-motion=reduce] .ma-ill-p1,html[data-motion=reduce] .ma-ill-p2,html[data-motion=reduce] .ma-ill-p3{animation:none;opacity:1}
+</style>
+<rect class="ma-ill-bg" width="340" height="180" rx="10"/>
+<rect class="ma-ill-step" x="10" y="8" width="132" height="20" rx="4"/>
+<text class="ma-ill-word" x="18" y="22">정책 금리 +0.25%p</text>
+<text class="ma-ill-small" x="150" y="22">4분기 · 모형의 가정</text>
+<path class="ma-ill-base" d="M70 44H320M70 88H320M70 132H320"/>
+<text class="ma-ill-word" x="10" y="48">환율</text>
+<text class="ma-ill-word" x="10" y="92">GDP</text>
+<text class="ma-ill-word" x="10" y="136">물가</text>
+<path class="ma-ill-tick" d="M70 160V164M105.7 160V164M141.4 160V164M177.1 160V164M212.9 160V164M248.6 160V164M284.3 160V164M320 160V164"/>
+<text class="ma-ill-small" x="70" y="175" text-anchor="middle">1</text>
+<text class="ma-ill-small" x="212.9" y="175" text-anchor="middle">5</text>
+<text class="ma-ill-small" x="284.3" y="175" text-anchor="middle">7</text>
+<text class="ma-ill-small" x="320" y="175" text-anchor="end">8분기</text>
+<path class="ma-ill-fx" d="M70 64L105.7 64L141.4 64L177.1 64L212.9 44L248.6 44L284.3 44L320 44"/>
+<path class="ma-ill-gdp" d="M70 88L105.7 90.4L141.4 99.4L177.1 104.8L212.9 108L248.6 107.5L284.3 99.7L320 95"/>
+<path class="ma-ill-cpi" d="M70 132L105.7 134.9L141.4 137.7L177.1 142.9L212.9 148.5L248.6 150.6L284.3 152L320 150.2"/>
+<rect class="ma-ill-scan" x="69" y="36" width="2" height="122"/>
+<g class="ma-ill-p1"><circle class="ma-ill-dot" cx="70" cy="64" r="4.5"/><text class="ma-ill-mark" x="80" y="60">1분기 −0.50%</text></g>
+<g class="ma-ill-p2"><circle class="ma-ill-dot" cx="212.9" cy="108" r="4.5"/><text class="ma-ill-mark" x="212.9" y="82" text-anchor="middle">5분기 −0.17%</text></g>
+<g class="ma-ill-p3"><circle class="ma-ill-dot" cx="284.3" cy="152" r="4.5"/><text class="ma-ill-mark" x="276" y="126" text-anchor="end">7분기 −0.07%p</text></g>
+</svg>

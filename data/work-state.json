@@ -546,5 +546,59 @@
       "금리 시점 민감: 2026-10-22 기준금리 결정 뒤 무위험 금리·3권 스프레드 재확인"
     ],
     "next": "PR CI 통과 뒤 병합. 다음 권: 2권 거시경제"
+  },
+  "macro": {
+    "book": "books/macro/",
+    "series": "finance-from-scratch 2권 (시리즈 열 번째 출간 예정)",
+    "plan": "/mnt/project-files/stock-books/proposal.md (### 2권), /mnt/project-files/stock-books/vol2-handoff.md",
+    "docs": "books/macro/docs/index.html",
+    "research": "books/macro/docs/research.html",
+    "status": "published: G0 한결·G1 서윤·G2 해원·G3 은재·지안·G4 나래·리안·지안·G5 서윤·G6 정민·G7 한결 관문 행이 docs/index.html #log에 승인과 함께 있음. 팩트·출처 검수 1회차(2026-10-13, 검수 커밋 060b2af, 반영 커밋 34dd6bc) 열한 항목 ok/fixed, 결과 fixed. G7(2026-10-13, 한결)에서 G0의 '10-22 기준금리 결정 전 공개 보류' 조건을 거둠: 기준금리 문장이 모두 '2026-10-13 확인 기준 연 3.00%'와 다음 결정일 2026-10-22를 함께 적어 결정 뒤에도 거짓이 아니라 날짜가 지난 문장이 되고(이야기 시점 10월 둘째 주, 4장 +0.25%p는 결정 예상 아님), 3권도 같은 방식으로 공개됨. 10-22 반영은 후속 수정 회차",
+    "done": [
+      "기획(#plan 기획서 다섯 문장·#opposition·#links), 교과과정(#curriculum·#curriculum-map·#curriculum-compare·#curriculum-case), 장 설계(#chapters, L1·L2와 숫자 답) 초안; #style·#rehearsal·#log는 빈 절",
+      "research.html 사실 표 1-1~5-3(2-9 금통위 구성 포함), 출처 S1~S32(S4 비움), 기준값 V-1~V-10, 모형 식과 계수, 오해 목록 20개, 확인하지 못한 것",
+      "books/macro/AGENTS.md 책별 규칙(범위 경계, 시점 민감 숫자와 재확인 목록, 시나리오 모형 ≠ 예측, 투자 조언 금지, ma- 접두어)",
+      "K7 점검: 가제 「경제는 어떻게 움직이는가」(물음꼴) → 1안 「거시경제 지표 읽기 · GDP·물가·고용·환율·경상수지를 계산하고 경기 국면 설명하기」, 2안(제안) 「거시경제 · GDP·물가·환율 지표를 읽고 정책 시차를 계산해 지표 발표 뒤의 경로를 가설로 세우기」; 장 제목 10개와 대표 실험 이름(작은 경제 모형 → 정책 시나리오 모형) 고침 제안",
+      "정책 시나리오 모형(분기, 12분기, 계수는 가정)을 파이썬으로 계산: +0.25%p 4분기 → 환율 1분기 −0.5%, GDP 5분기 −0.166%, 물가 7분기 −0.070%p; 지출 +1% 4분기 → GDP 4분기 +0.641%; 마지막 과제 가설 A·B 8분기 경로",
+      "팀장 점검 반영(2026-10-13): 서윤 G1 결정(제목 「거시경제 · GDP·물가·고용을 계산하고 금리·환율 경로를 가설로 세우기」, 시리즈 2권 '거시경제', rose, 책등 '거시경제', macroeconomy, cover_meta '10장 · 10개 실험', 개념 상관과 인과(#correlation+#leading)·반복과 분기(#final, G3 조건부 #policy), 노선 indicator-to-path, 12권 링크 없음, 들어오는 링크 두 곳 추가), 한결 G0 조건(이례적 값 표시·대체 규칙, 마지막 과제 (가) 모형 경제 3년 국채 금리·자국 통화·주가지수 두 경로, 4장 고정 문장·기본값 0·인하 프리셋·시차는 가정, 4·5·6장과 절 제목 K7, 기준금리 규칙, 금통위 문장), 해원 G2(161분, 9장 L2 −3.0%×4 → −11.5%, 3년 국채 금리 정의, 비교 표 MIT·중앙은행 칸과 전체 URL, 6장 반올림 문구, 통화량 단계 삭제와 MV = PY 접는 상자, 1장 선수 1권 #inflation, 5장 문구, 4.1 7월 16일 연속 인상)",
+      "출처 2차 시도: 한국은행 2분기 국민소득(잠정) KDI 재게시본 [S35]로 명목 26.4%·총저축률 45.6%·투자율 24.2% 공식 원문(재게시) 확인. 디플레이터 21.9%·56.6%는 보도 두 곳(MTN, KNN [S34]), 경상수지 461.1억은 보도 세 곳(MTN, SBS Biz [S36], 파이낸셜뉴스 [S37]). MIT 14.02 Topics and Readings [S38] 열림",
+      "서가 등록(2026-10-13, 도현): 카탈로그·장 색인·시리즈 2권·개념 상관과 인과/반복과 분기·노선 indicator-to-path·들어오는 링크 4곳(bonds #transmit·#final, money #inflation·#final); 1280·390·320px에서 책등·표지·노선·금융 섬 읽기 순서 확인. 커밋 전"
+    ],
+    "evidence": "세션 임시 폴더의 model.py·values.py(무입력 기준선·선형성·중첩·첫 분기 GDP 0을 assert), KDI 경제교육·정보센터 재게시 공식 자료 4건, 보도·교재·학술 출처(research.html #sources); 2차 시도 출처 S33~S38(research.html #sources)",
+    "verification": [
+      "2026-10-13 G6 점검 세션에서 다시 실행: cd books/macro && npm test 49개 통과",
+      "python3 -m http.server 8765 + NODE_PATH=/opt/node22/lib/node_modules node books/macro/tests/browser.cjs 성공: 1280·390·320px 화면 53개, 실험 30회, L2 30회, SVG 글자 2,313개, 실험 다시 계산 최대 31.8ms",
+      "python3 scripts/validate.py: macro G6·G7 관문 행 없음 오류 2개만(179개 HTML)",
+      "python3 -m unittest discover -s tests: 90개 중 같은 원인 1개 실패(test_team_gates)·1개 건너뜀; node --test tests/*.mjs 30개 통과",
+      "review.json 10장 × 3문항 = 30문항, 검수 세션이 정답 계산 대조",
+      "검수 세션이 책 코드와 따로 V-1~V-10·정책 모형 12개 시나리오(MMath와 최대 차이 0)·경계값·선형성 계산; Playwright로 기본값·L2·경계·오류 상태 직접 조작",
+      "2026-10-13 G7(한결) 세션: validate.py 0 errors(179개 HTML), npm test 49개 통과, node --test tests/*.mjs 30개 통과, python3 -m unittest discover -s tests 90개 통과·1개 건너뜀"
+    ],
+    "remaining": [
+      "⏱ 후속(2026-10-22 금통위 결정 뒤, G7에서 공개 보류를 풀며 남김): 한 커밋에서 이 책(MARKET policyRate·afterStory·확인 상자, research 2-1, AGENTS, 4장·마지막 과제 문장, 8장 발표 달력)과 3권(2장 상자, research 2-1, 1~2장 예시 문장)을 함께 고침. 이야기 시점은 10월 둘째 주, 결과는 '이야기 뒤의 일' 상자에. 확인일은 이 책 2026-10-13·3권 2026-10-12(값 같음) → 같은 날로 맞춤. 두 책 docs의 revision 표(G2·G3·G4·G6·G7)와 새 검수 회차로 기록",
+      "⏱ 공개 뒤 재확인: 9월 고용동향(G6 시작일 2026-10-13까지 미반영, 나오면 10-22 수정 회차에 함께), 3분기 GDP 속보는 '다음 발표일'만, 12월 CPI 기준연도 개편은 revision(지수 수준·고쳐진 상승률)",
+      "⏱ 확인 못함: 기준금리 일정(10-22 다음 결정, 연 8회 일정)과 7월 16일 인상은 3권 조사 노트의 2차 자료 등급 그대로",
+      "이례적 값 대체 규칙 유지: 공식 원문을 확인하지 못한 디플레이터 21.9%·56.6%, 경상수지 461.1억·468.1억은 '보도'로 확인 상자에만, 확인 문제·퀴즈 답에 쓰지 않음",
+      "금통위: 한국은행법 원문 확인 전에는 '총재·부총재를 포함한 7명, 연 8회, 임기 4년'만 씀",
+      "확인 못함(접속 차단): bok.or.kr·kosis.kr·kostat.go.kr·index.go.kr·law.go.kr·korea.kr(로봇 배제, 우회하지 않음), ECOS 조회 불가 → 8월 국제수지 원문, 디플레이터 원문, 한국은행법 제1조, 물가안정목표제 공식 설명, 경기종합지수 구성 지표·순환변동치 산출, 한국 실업자 기준, 연율 미발표 관행 원문",
+      "확인 못함: 금통위 구성의 한국은행법 원문과 2026년 개편 뒤 추천 기관 이름(2021 기사), 8월 이전소득수지 직접 값(서비스 −16.8·본원소득 +19.2는 보도), MV = PY 해석과 저축 − 투자 = 경상수지의 교재 원문(OpenStax 23장 오류), 한국 정책 시차 추정치(2015 보도뿐), 재정 승수 크기와 구축 효과, 국가채무 비율 등 재정 수치(본문에 쓰지 않음)",
+      "확인 못함: 원/달러 1,338.5원은 보도 한 곳(하나은행 1,344.0원은 뒷받침 자료로 세지 않음, 두 값이 다른 까닭과 보고서의 한글날 10-09 마감 표기 까닭)",
+      "확인 못함: 1997 전체 구제금융 규모·12월 외환보유액(기사 안에서 어긋남), IMF와 한국 정부의 지원 조건 합의일(국내 보도 12-03) 원문(IMF 의향서 쪽 가져오기 오류), 1998 성장률의 처음 발표값과 −5.1%→−4.9% 변경 까닭의 한국은행 원문(2024 기준연도 개편 기사에 1998년 값 없음), 2008 '원화 40% 약세' 기준, 2020 3월 장중 고점, 2020 5월 추가 인하",
+      "확인 못함: 검수 1회차에서 다시 열지 않은 출처(SBS Biz·파이낸셜뉴스·MTN 9-08·KNN·경향신문·머니투데이 7-23·OpenStax 다른 절·하나은행 보고서·재정경제부 참고자료 num=287579·CPI 개편 안내 num=283909)는 G3 은재 확인을 따름; 셸 curl이 프록시 설정으로 연결되지 않아 링크 상태 코드 일괄 확인 못함",
+      "확인 못함: '새벽전자'·'온결식품' KRX 상장 목록 직접 조회(웹 검색만), 한국은행 경제교육 자료·한국 대학 강의 계획서, MIT 14.02 강의 내용·일정(calendar 오류)",
+      "확인 못함: 학습 효과(독자가 가설표를 실제로 채우는지)는 측정하지 않음, 채원 리허설만; 실제 화면 읽기 프로그램·모바일 터치 미확인"
+    ],
+    "next": "병합. 2026-10-22 금통위 결정 뒤 2권·3권 기준금리 반영 수정 회차(한 커밋). 시리즈 다음 권: 9권",
+    "shelf_registration": {
+      "date": "2026-10-13",
+      "by": "도현(기획·연결팀)",
+      "state": "done, committed (060b2af·784933c)",
+      "catalog": "books 끝(금융 묶음 끝, 41번째, valuation plum 다음) macroeconomy rose 책등 '거시경제'; chapter_index 10장; series finance-from-scratch 2권 status planned → book_id macroeconomy",
+      "concepts": "새 개념 correlation-causation '상관과 인과'(probability #correlation + macro #leading); control-loop '반복과 분기'에 macro #policy·#final",
+      "path": "indicator-to-path 5단계 93분: macro #prices → bonds #transmit → macro #policy → probability #correlation → macro #final",
+      "incoming_links": "bonds #transmit → macro #policy, bonds #final → macro #final(‘준비 중인 책’ 상자를 ‘다른 권에서 이어지는 것’으로 고침), money #inflation → macro #prices, money #final(마지막 문단 2권 문장 + cross) → macro #final; bonds app.js 시리즈 안내 문장을 서가 시리즈 칸 안내로; bonds·money ?v=20261013-m2",
+      "pending": "fact-review.html은 34dd6bc에서 생김. validate.py 남은 오류는 macro 제작 기록의 G6·G7 관문 행 없음 2개(test_team_gates 1건 실패도 같은 원인)"
+    },
+    "fact_review": "books/macro/docs/fact-review.html 1회차 fixed: 1997 IMF 이사회 승인일 1997-12-04(워싱턴 시각, IMF 보도자료 97/55 [S40], content.js·math.js·labs-signals.js·figures.js·research.html), 1998 성장률 −5.1%(이전 계열, 2020·2023 보도)·−4.9%(현재 계열, 2025 보도), 8장 발표 달력 10-22 등급 '공식 원문(재게시)·2차 자료', 자산 버전 20261013v7. 4장 제목 '…시나리오 모형으로 정책 시차 읽기'는 부제가 시차를 가정이라고 밝혀 그대로 둠(정민 G6 동의)"
   }
 }
