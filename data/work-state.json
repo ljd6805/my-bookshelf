@@ -286,7 +286,7 @@
     "docs": "books/volatility/docs/index.html",
     "research": "books/volatility/docs/research.html",
     "fact_review": "books/volatility/docs/fact-review.html (1회차 fixed)",
-    "status": "published: G0~G7 팀장 승인",
+    "status": "published: G0~G7 팀장 승인, PR #61 병합(자동 리뷰 두 건 반영)",
     "verification": [
       "책 테스트 50개",
       "브라우저 1280/390/320 48개 화면·실험 30회·예측 질문 30회",
@@ -295,9 +295,26 @@
     "remaining": [
       "레버리지 ETP 거래 요건 공식 원문 대조(2026년 7월 강화 시행일)",
       "실제 지수 데이터로 첨도·자기상관 계산",
-      "읽기 순서 도구가 사이 권이 비면 시리즈 근거를 못 쓰는 문제(reading_order.py series_reason)",
       "공통 서가 펼침 화면의 삽화 최소 높이"
     ],
     "next": "제안서 순서대로 3권 「금리와 채권」을 같은 절차로 시작"
+  },
+  "interest_bonds": {
+    "book": "books/bonds/",
+    "series": "finance-from-scratch 3권 (시리즈 다섯 번째)",
+    "plan": "/mnt/project-files/stock-books/proposal.md",
+    "docs": "books/bonds/docs/index.html",
+    "research": "books/bonds/docs/research.html",
+    "status": "writing: G0 승인(한결), G1·G2 보류 사항 수정 중",
+    "completed": [
+      "기획서·목차·조사 노트·계산 모듈(js/math.js)과 테스트"
+    ],
+    "remaining": [
+      "G1·G2 재검토",
+      "원고·화면·실험",
+      "G3~G7",
+      "2026-10-22 기준금리 결정 결과 재확인"
+    ],
+    "next": "G1·G2 보류 사항(마지막 과제의 1년 기간·200만 원씩 배분, 대표 실험 수익률 곡선 놀이판에 기대 물가 입력) 반영 후 재검토"
   }
 }
