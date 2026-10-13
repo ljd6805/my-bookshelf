@@ -9,6 +9,11 @@ SECTIONS = (''.join(f'<section id="{i}"></section>' for i in ('plan', 'curriculu
             + '<section id="chapters"><table><tr><th>장</th></tr><tr><td>a</td></tr><tr><td>b</td></tr></table>'
             + '<a href="research.html">조사 노트</a></section>')
 STYLE = '<section id="style"><h3 id="style-a"></h3><h3 id="style-b"></h3></section>'
+CHECK = ('<table class="guideline-check"><tr><th>지침</th><th>찾은 것</th><th>처리</th></tr>'
+         + ''.join(f'<tr data-guideline="K{n}"><td>K{n}</td><td>읽은 곳</td><td>처리</td></tr>' for n in range(1, 7))
+         + '</table>')
+MEMO = '<table><tr><th>인용</th></tr><tr data-guideline="K3 K5"><td>문장</td><td>진단</td></tr></table>'
+STYLE_K = f'<section id="style">{CHECK}<h3 id="style-a"></h3>{MEMO}<h3 id="style-b"></h3>{MEMO}</section>'
 REVIEW = '<section class="fact-review round" data-date=\'{}\'></section>'
 
 
@@ -108,13 +113,29 @@ class TeamGates(unittest.TestCase):
         self.assertEqual(self.run_check(bid=bid), [])
         self.assertEqual(self.run_check(bid=bid, review='2026-10-12'), [])
         self.assertEqual(len(self.run_check(bid=bid, review='2026-11-01')), 1)
-        revision = (SECTIONS + STYLE + TEMPLATE.replace('data-kind="new" data-date="2026-10-12"',
+        revision = (SECTIONS + STYLE_K + TEMPLATE.replace('data-kind="new" data-date="2026-10-12"',
                                              'data-kind="revision" data-date="2026-11-02"'))
         self.assertEqual(self.run_check(revision, bid=bid, review='2026-11-01'), [])
 
     def test_revision_round_must_follow_the_review(self):
         doc = STYLE + TEMPLATE.replace('data-kind="new"', 'data-kind="revision"')
         self.assertTrue(self.run_check(doc, bid=sorted(LEGACY)[0], review='2026-11-01'))
+
+
+    def test_korean_writing_guideline_from_its_rule_date(self):
+        new = TEMPLATE.replace('data-date="2026-10-12"', 'data-date="2026-10-13"')
+        self.assertEqual(self.run_check(SECTIONS + STYLE_K + new), [])
+        self.assertEqual(self.run_check(SECTIONS + STYLE + TEMPLATE), [])
+        errors = self.run_check(SECTIONS + STYLE + new)
+        self.assertTrue(any('guideline-check' in e and 'K1' in e for e in errors))
+        self.assertTrue(any('at least one critique row' in e for e in errors))
+        no_k4 = STYLE_K.replace('<tr data-guideline="K4"><td>K4</td><td>읽은 곳</td>', '<tr data-guideline="K4"><td>K4</td><td></td>')
+        self.assertTrue(any('missing K4' in e for e in self.run_check(SECTIONS + no_k4 + new)))
+        untagged = STYLE_K.replace('data-guideline="K3 K5"', 'data-guideline="K9"', 1)
+        self.assertTrue(any('need data-guideline' in e and 'style-a' in e
+                            for e in self.run_check(SECTIONS + untagged + new)))
+        outside = STYLE_K.replace('<table class="guideline-check">', '</section><section id="x"><table class="guideline-check">', 1)
+        self.assertTrue(self.run_check(SECTIONS + outside + new))
 
 
 if __name__ == '__main__':
