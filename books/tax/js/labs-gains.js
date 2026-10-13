@@ -9,7 +9,7 @@ const ASSETS=[['domestic','국내 상장주식 (새벽전자, 코스피)'],['fst
 function gainsText(a,gain,loss,hold,share){
  if(a==='kequity')return {tax:0,base:0,line:'국내주식형 ETF의 매매차익은 비과세라 양도세가 없습니다(6장).',who:'—'};
  if(a==='domestic'){const big=M.isBigHolder(hold,share/100),b=R.bigHolder,base=Math.max(0,gain-loss),tax=M.domesticGainTax(base,big);
-  return {tax,base,big,who:big?'다음 해 5월 본인 신고':'—',line:big?`보유액 ${W(hold)} 또는 지분율 ${F(share,2)}%가 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%) 이상이라 <b>대주주</b>입니다. 과세표준 3억 원까지 22%, 넘는 몫 27.5%(지방세 포함)로 양도세 <b>${W(tax)}</b>입니다. 대주주의 기본공제와 1년 미만 보유 세율은 확인 못함이라 넣지 않았습니다.`:`보유액 ${W(hold)}, 지분율 ${F(share,2)}%로 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%)에 못 미쳐 <b>소액주주</b>입니다. 차익이 얼마든 양도세는 <b>0원</b>이고, 팔 때 거래세만 냅니다(2장).`};}
+  return {tax,base,big,who:big?'본인 신고(신고 시기는 확인 못함)':'—',line:big?`보유액 ${W(hold)} 또는 지분율 ${F(share,2)}%가 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%) 이상이라 <b>대주주</b>입니다. 과세표준 3억 원까지 22%, 넘는 몫 27.5%(지방세 포함)로 양도세 <b>${W(tax)}</b>입니다. 대주주의 기본공제와 1년 미만 보유 세율은 확인 못함이라 넣지 않았습니다.`:`보유액 ${W(hold)}, 지분율 ${F(share,2)}%로 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%)에 못 미쳐 <b>소액주주</b>입니다. 차익이 얼마든 양도세는 <b>0원</b>이고, 팔 때 거래세만 냅니다(2장).`};}
  const t=M.foreignGainTax(gain,loss);
  return {tax:t.tax,base:t.base,who:'본인 신고(시기는 확인 못함)',line:`(차익 ${W(gain)}${loss?` − 같은 해 손실 ${W(loss)}`:''} − 공제 ${W(R.foreign.deduction)}) = 과세표준 ${W(t.base)}, × 22% = 양도세 <b>${W(t.tax)}</b>입니다. 증권사가 떼지 않아 본인이 신고합니다(신고 시기는 확인 못함).${loss?' 같은 해 다른 해외 자산의 손실을 뺀 것은 보도에서 확인 못한 가정입니다.':''}`};
 }
