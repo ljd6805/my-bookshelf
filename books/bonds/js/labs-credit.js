@@ -13,7 +13,7 @@ function spreadChart(g,s,p,N){
  return U.svg('나라 3년과 새벽전자 3년의 금리 구성',s1,100)+U.xy({series:[{pts,name:'하나라도 부도날 확률 (%)'}],dots:[{x:N,y:(1-Math.pow(1-p,N))*100,label:`${F(N)}개 → ${F((1-Math.pow(1-p,N))*100,0)}%`,left:N>top*.6}],xlim:[1,top],ylim:[0,100],xfmt:v=>F(v),yfmt:v=>`${F(v,0)}%`,xlab:'묶은 회사채 수 N',h:230,label:`부도가 서로 독립일 때 N개 가운데 하나라도 부도날 확률. N = ${N}에서 ${F((1-Math.pow(1-p,N))*100,0)}%`});
 }
 BLabs.spread=el=>{
- U.setup(el,U.number('sgov','국고 3년 금리 (%)',0,10,0.001,3.961,'2026-10-07 장 마감 3.961%')+U.number('sspr','새벽전자 신용 스프레드 (%p)',0,5,0.001,1.1,'“A 가정” 1.10%p · 실제 AA− 차이 0.683%p')+U.range('srec','부도 때 회수율 R (%)',0,80,5,40,'가정')+U.number('sn','묶어 든 회사채 수 N',1,1000,1,100,'부도가 서로 독립이라고 봄')+'<div class="buttons" aria-label="충격 버튼"><button type="button" data-shock="sgov">국채 금리 +0.5%p</button><button type="button" data-shock="sspr">스프레드 +0.5%p</button></div>');
+ U.setup(el,U.number('sgov','국고 3년 금리 (%)',0,10,0.001,3.961,'2026-10-07 장 마감 3.961%')+U.number('sspr','새벽전자 신용 스프레드 (%p)',0,5,0.001,1.1,'“A 가정” 1.10%p · 실제 AA− 차이 0.683%p')+U.range('srec','부도 때 회수율 R (%)',0,80,5,40,'가정')+U.number('sn','묶어 든 회사채 수 N',1,1000,1,100,'부도가 서로 독립이라고 봄')+'<div class="buttons" aria-label="충격 버튼"><button type="button" data-shock="sgov">국채 금리 +0.5%p (누를 때마다)</button><button type="button" data-shock="sspr">스프레드 +0.5%p (누를 때마다)</button></div>');
  el.querySelectorAll('[data-shock]').forEach(b=>b.onclick=()=>{const x=el.querySelector('#'+b.dataset.shock),v=Number(x.value);if(Number.isFinite(v)){x.value=String(Number((v+0.5).toFixed(3)));x.dispatchEvent(new Event('input',{bubbles:true}));}});
  U.bind(el,()=>{
   const gp=U.num(el,'sgov'),sp=U.num(el,'sspr'),rec=+U.value(el,'srec')/100,N=U.num(el,'sn');
@@ -28,7 +28,7 @@ BLabs.spread=el=>{
 };
 /* 8장: 고든 성장 모형. g ≥ r이면 값을 내지 않고 오류를 보인다. */
 BLabs.gordon=el=>{
- U.setup(el,U.number('gd1','1년 뒤 배당 D₁ (포인트)',0.01,100000,0.01,2,'누리200의 가정 값 2')+U.range('gr','할인율 r (%)',4,12,.25,8)+U.range('gg','배당 성장률 g (%)',-2,12,.25,3,'r보다 작아야 합니다')+U.check('gmove','할인율이 움직일 때 성장률도 함께 움직임',false)+U.range('gk','함께 움직이는 비율 k',0,1,.25,.5,'k = 0.5면 할인율 −1%p에 성장률 −0.5%p'));
+ U.setup(el,U.number('gd1','1년 뒤 배당 D₁ (포인트)',0.01,100000,0.01,2,'누리200의 가정 값 2')+U.range('gr','할인율 r (%)',4,12,.25,8)+U.range('gg','배당 성장률 g (%)',-2,12,.25,3,'r보다 작아야 합니다')+U.check('gmove','할인율이 움직일 때 성장률도 함께 움직임',false,'결과 문장의 “1%p 내리면·올리면” 줄에 적용됩니다. 위 r·g 슬라이더는 따로 옮깁니다')+U.range('gk','함께 움직이는 비율 k',0,1,.25,.5,'k = 0.5면 할인율 −1%p에 성장률 −0.5%p'));
  U.bind(el,()=>{
   const d1=U.num(el,'gd1'),r=+U.value(el,'gr')/100,g=+U.value(el,'gg')/100,mv=U.checked(el,'gmove'),k=+U.value(el,'gk');
   el.querySelector('#gk').disabled=!mv;
