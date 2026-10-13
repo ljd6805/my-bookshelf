@@ -1,8 +1,8 @@
-import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261012-study1';
-import { createReader, connectSpines } from './reader.js?v=20261012-study1';
-import { setupRoutes, setupAtlas, setupFieldBar, setupSeries } from './curation.js?v=20261012-study1';
-import { setupShelves } from './shelves.js?v=20261012-study1';
-import { setupStudy } from './study-shelf.js?v=20261012-study1';
+import { matchesItem, usesReducedMotion } from './shelf-model.mjs?v=20261013-notes1';
+import { createReader, connectSpines } from './reader.js?v=20261013-notes1';
+import { setupRoutes, setupAtlas, setupFieldBar, setupSeries } from './curation.js?v=20261013-notes1';
+import { setupShelves } from './shelves.js?v=20261013-notes1';
+import { setupStudy } from './study-shelf.js?v=20261013-notes1';
 
 const storageKey = 'bookshelf:hub:v1:motion';
 const systemMotion = matchMedia('(prefers-reduced-motion: reduce)');

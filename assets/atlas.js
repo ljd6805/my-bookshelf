@@ -1,7 +1,7 @@
 /* 지식 지도의 동작: 섬 지도와 책 중심 보기를 오가고, 고른 섬·다리·개념을 밝히고, 옆 설명판을 채웁니다.
    계산은 atlas-model.mjs, 그리기는 atlas-view.js가 맡습니다. */
-import { buildGraph } from './atlas-model.mjs?v=20261012-study1';
-import { drawMap, drawFocus, setBadgeText, andParticle } from './atlas-view.js?v=20261012-study1';
+import { buildGraph } from './atlas-model.mjs?v=20261013-notes1';
+import { drawMap, drawFocus, setBadgeText, andParticle } from './atlas-view.js?v=20261013-notes1';
 
 function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
