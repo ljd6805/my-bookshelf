@@ -358,15 +358,27 @@
       {
         "name": "AI·기초 6권(ai·transformer·algorithms·information·llm-performance·linear-algebra)",
         "status": "reviewed",
-        "pr": 64
+        "pr": 64,
+        "edits": 97,
+        "approved_by": [
+          "나래",
+          "정민"
+        ]
       },
       {
         "name": "기초 5권(llm-gpu·computer·probability·rag·knowledge-graph)",
-        "status": "edited"
+        "status": "reviewed",
+        "edits": 83,
+        "approved_by": [
+          "나래",
+          "정민"
+        ],
+        "pr": 64
       },
       {
         "name": "AI 엔지니어링 시리즈 20권(aie-*)",
-        "status": "planned"
+        "status": "in_progress",
+        "note": "1~5권(workbench·math·ml·deep·vision) 다온 마침, 6~20권 대기"
       }
     ],
     "evidence": "docs/03-verification.html#korean-style-pass, 책마다 docs/index.html의 div.style-pass와 data-kind=style 표, docs/fact-review.html의 review-2026-10-13-style",
