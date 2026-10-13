@@ -21,6 +21,13 @@ class FactReviewRecords(unittest.TestCase):
                                                        'data-check="sources" data-status="open"')))
         self.assertTrue(review_errors(TEMPLATE.replace('data-check="terms"', 'data-check="x"')))
 
+    def test_wording_check_from_its_rule_date(self):
+        no_wording = TEMPLATE.replace('data-check="wording"', 'data-check="x"')
+        self.assertTrue(any('wording' in e for e in review_errors(no_wording)))
+        self.assertEqual(review_errors(no_wording.replace('data-date="2026-10-13"', 'data-date="2026-10-12"')), [])
+        self.assertTrue(review_errors(TEMPLATE.replace('data-check="wording" data-status="fixed"',
+                                                       'data-check="wording" data-status="open"')))
+
     def test_published_book_needs_a_record_unless_pending(self):
         with tempfile.TemporaryDirectory() as name:
             root = Path(name)

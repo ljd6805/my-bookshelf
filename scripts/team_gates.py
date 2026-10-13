@@ -29,6 +29,10 @@ APPROVERS = {'G0': ('chief',), 'G1': ('plan',), 'G2': ('curriculum',),
              'G6': ('review',), 'G7': ('chief',)}
 TEAM_FILE = 'data/agent-team.json'
 RULE_DATE = '2026-10-12'
+# Korean writing guideline K1~K6 (docs/11-korean-writing.html): G4 rounds dated on or after
+# this day need the guideline-check table and a guideline on every style memo row.
+GUIDELINES = tuple(f'K{n}' for n in range(1, 7))
+GUIDELINE_DATE = '2026-10-13'
 
 # Books whose first gate round was recorded before lead sign-offs were required
 # (2026-10-12). That round needs no data-approved; any later round of theirs does.
@@ -54,6 +58,8 @@ class ProductionDocument(HTMLParser):
         super().__init__()
         self.ids, self.rounds, self.style, self.hrefs = set(), [], set(), set()
         self.design_rows, self._sections, self._row, self._design = 0, [], None, False
+        # Inside section#style: guideline-check rows (code -> cells) and memo rows (memo, codes).
+        self.guideline_rows, self.memo_rows, self._memo, self._check, self._srow = {}, [], None, False, None
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
@@ -62,6 +68,9 @@ class ProductionDocument(HTMLParser):
             self.ids.add(a['id'])
             if a['id'].startswith('style-') and 'style' in self._sections:
                 self.style.add(a['id'])
+                self._memo = a['id']
+        if 'style' in self._sections:
+            self._style_tag(tag, a)
         if tag == 'section':
             self._sections.append(a.get('id'))
         elif tag == 'a' and a.get('href'):
@@ -87,15 +96,40 @@ class ProductionDocument(HTMLParser):
         self._row = record['gates'][gate] = []
         record['approved'][gate] = set((a.get('data-approved') or '').split())
 
+    def _style_tag(self, tag, a):
+        """Rows of the guideline-check table and of the per-chapter memo tables."""
+        if tag == 'table':
+            self._check = 'guideline-check' in (a.get('class') or '').split()
+        elif tag == 'tr':
+            self._srow = {'codes': (a.get('data-guideline') or '').split(), 'cells': []}
+        elif tag == 'td' and self._srow is not None:
+            self._srow['cells'].append('')
+
+    def _style_row_end(self):
+        row, self._srow = self._srow, None
+        if not (row and row['cells']):
+            return
+        if self._check:
+            for code in row['codes']:
+                self.guideline_rows[code] = row['cells']
+        elif self._memo:
+            self.memo_rows.append((self._memo, row['codes']))
+
     def handle_endtag(self, tag):
+        if tag == 'tr' and self._srow is not None:
+            self._style_row_end()
         if tag in ('tr', 'table'):
             self._row = None
+            self._check = self._check and tag != 'table'
         elif tag == 'section' and self._sections:
-            self._sections.pop()
+            if self._sections.pop() == 'style':
+                self._memo = None
 
     def handle_data(self, data):
         if self._row:
             self._row[-1] += data.strip()
+        if self._srow and self._srow['cells']:
+            self._srow['cells'][-1] += data.strip()
 
 
 def valid_date(text):
@@ -136,6 +170,30 @@ def approval_errors(record, leads):
     return errors
 
 
+def guideline_errors(doc, kind):
+    """G4 under the Korean writing guideline: K1~K6 checked, every memo row names its guideline.
+
+    A revision round checks only the memos it tagged, so older chapters' memos written before
+    the guideline (2026-10-13) are not judged retroactively; it needs at least one tagged memo.
+    """
+    errors = []
+    missing = [k for k in GUIDELINES if len(doc.guideline_rows.get(k, [])) < 3
+               or not all(doc.guideline_rows[k][1:3])]
+    if missing:
+        errors.append('G4 needs <table class="guideline-check"> inside <section id="style"> with a filled '
+                      f'row per guideline (docs/11-korean-writing.html#record): missing {", ".join(missing)}')
+    tagged = {memo for memo, codes in doc.memo_rows if codes}
+    scope = doc.style if kind == 'new' else tagged
+    untagged = sorted({memo for memo, codes in doc.memo_rows
+                       if memo in scope and (not codes or any(c not in GUIDELINES for c in codes))})
+    if untagged:
+        errors.append('G4 style memo rows need data-guideline with K1~K6: ' + ', '.join(untagged))
+    empty = sorted(doc.style - tagged) if kind == 'new' else ([] if tagged else ['any memo'])
+    if empty:
+        errors.append('G4 style memos need at least one critique row with data-guideline: ' + ', '.join(empty))
+    return errors
+
+
 def research_errors(doc, docs_dir):
     """G3 hands over research notes: a linked HTML page next to the production document."""
     for href in doc.hrefs:
@@ -146,7 +204,7 @@ def research_errors(doc, docs_dir):
     return ['G3 needs research notes: link a docs/*.html page that has id="sources"']
 
 
-def artifact_errors(book, gates, kind):
+def artifact_errors(book, gates, kind, day=''):
     """The artifacts each recorded gate hands over must be in the production document."""
     doc, errors = book['doc'], []
     for gate, section in SECTIONS.items():
@@ -162,6 +220,8 @@ def artifact_errors(book, gates, kind):
         if missing or not doc.style:
             errors.append('G4 needs a style critique memo per chapter inside <section id="style">: '
                           f'missing {", ".join(missing) or "any memo"}')
+        if day >= GUIDELINE_DATE:
+            errors += guideline_errors(doc, kind)
     return errors
 
 
@@ -183,7 +243,7 @@ def round_errors(book, record, leads, exempt=False):
             errors.append(f'{kind} round is missing gate {gate}')
         elif len(cells) < 3 or not all(cells[1:3]):
             errors.append(f'{gate} row needs the handed-over artifact and a one-line record')
-    errors += artifact_errors(book, gates, kind)
+    errors += artifact_errors(book, gates, kind, round_date(record))
     return errors if exempt else errors + approval_errors(record, leads)
 
 
