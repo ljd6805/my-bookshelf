@@ -20,7 +20,7 @@ function bars(items,{x0=70,gap=140,bw=86,top=50,bottom=210,max}={}){
 }
 const F={};
 F.map=()=>{
- const f=base(),div=200000,w=M.withholding(div),sell=M.stt('kospi',f.value),ev=[['산다','세금 없음','수수료만(4권)'],['받는다',`배당 ${W(div)}`,`−${W(w.tax)} → ${W(w.net)}`],['판다',`매도 ${W(f.value)}`,`거래세 −${W(sell.each)}`],['해가 바뀐다',`차익 ${W(f.gain)}`,'소액주주 양도세 0원']];
+ const f=base(),div=200000,w=M.withholding(div),sell=M.stt('kospi',f.value),ev=[['산다','세금 없음','수수료만(4권)'],['받는다',`배당 ${W(div)}`,`−${W(w.tax)} → ${W(w.net)}`],['판다',`거래세 −${W(sell.each)}`,'양도세 0원(소액주주)'],['해가 바뀐다','이자·배당 2,000만 원 이하','더 낼 세금 0원']];
  let s=`<path class="fig-draw" d="M40 70H600" stroke="var(--muted)" stroke-width="2"/>`;
  ev.forEach(([a,b,c],i)=>{const x=40+i*150;s+=`<circle cx="${x+60}" cy="70" r="7" fill="${i===1||i===2?'var(--accent)':'var(--panel2)'}" stroke="var(--accent)" stroke-width="2"/>`+box(x,96,120,104,i===1||i===2?'var(--accent)':'var(--line)')+t(x+60,46,`${i+1}. ${a}`,{size:14,w:700})+t(x+60,128,b,{size:11.5})+t(x+60,160,c,{size:11.5,w:700})+t(x+60,186,i===1||i===2?'증권사가 뗌':'뗄 세금 없음',{size:11,fill:'var(--muted)'});});
  return {svg:svg(`새벽전자 거래의 네 사건: 받을 때 ${W(w.tax)}, 팔 때 ${W(sell.each)}이 빠지고 산 때와 해가 바뀐 때는 세금 없음`,s,230),caption:`새벽전자 1,000만 원어치를 산 날에는 세금이 없고, 배당 ${W(div)}을 받을 때 ${W(w.tax)}이 빠져 ${W(w.net)}이 들어옵니다. ${W(f.value)}에 팔 때는 거래세 ${W(sell.each)}이 빠지고, 차익 ${W(f.gain)}에는 소액주주 양도세가 없습니다. 두 번 모두 증권사가 먼저 뗍니다.`};

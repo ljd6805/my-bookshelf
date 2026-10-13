@@ -88,7 +88,15 @@ async function l2(lab,width,id){
  for(const [k,v] of Object.entries(values)){await setValue(lab,k,v);await timed(lab,id);}
  const t=await lab.locator('.readout').innerText();has(t,want,`${id} L2`);report.l2.push({width,id,ok:true});
 }
+/* 표의 모든 행이 세로로 잘리지 않고 보이는지 잰다(1280·390·320px 모두). 가로로 넘치면 is-wide 안내 문구가 붙어야 한다. */
+async function rowsVisible(lab,id){
+ const r=await lab.locator('.table-wrap').evaluateAll(els=>els.map(e=>{const w=e.getBoundingClientRect();const rows=[...e.querySelectorAll('tbody tr')].map(tr=>{const b=tr.getBoundingClientRect();return {head:tr.cells[0].innerText.trim(),ok:b.height>0&&b.top>=w.top-0.5&&b.bottom<=w.bottom+0.5};});return {vclip:e.scrollHeight>e.clientHeight+1,wide:e.scrollWidth>e.clientWidth+1,cue:e.classList.contains('is-wide'),rows};}));
+ for(const x of r){assert.ok(!x.vclip,`${id}: table clipped vertically`);for(const row of x.rows)assert.ok(row.ok,`${id}: row ${row.head} not fully visible`);assert.equal(x.cue,x.wide,`${id}: wide-table cue`);}
+ return r;
+}
 async function tables(lab,id){
+ const rv=await rowsVisible(lab,id);
+ if(id==='final-order'){const heads=rv.flatMap(x=>x.rows.map(r=>r.head));for(const k of ['X','Y','Z'])assert.ok(heads.some(h=>h.replace(/^▲\s*/,'').startsWith(k)),`final-order: row ${k} visible`);}
  const t=await lab.locator('.table-wrap').evaluateAll(els=>els.map(e=>({tab:e.getAttribute('tabindex'),role:e.getAttribute('role'),label:e.getAttribute('aria-label')||'',over:e.scrollWidth>e.clientWidth+1,overflow:getComputedStyle(e).overflowX})));
  for(const x of t){assert.equal(x.tab,'0',`${id}: table tabindex`);assert.equal(x.role,'region',`${id}: table role`);assert.ok(x.label.length>4,`${id}: table label`);assert.ok(!x.over||/auto|scroll/.test(x.overflow),`${id}: table overflow without scroll`);}
  return t.length;

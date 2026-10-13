@@ -32,7 +32,9 @@ function bind(el,fn){
  el.querySelectorAll('input,select').forEach(x=>{x.addEventListener('input',update);if(x.tagName==='SELECT'||x.type==='checkbox')x.addEventListener('change',update);});
  el.addEventListener('tx-refresh',update);update();
 }
-function result(el,chart,textHtml){el.querySelector('.chart').innerHTML=chart;el.querySelector('.readout').innerHTML=textHtml;}
+function markWide(root){root.querySelectorAll('.table-wrap').forEach(w=>w.classList.toggle('is-wide',w.scrollWidth>w.clientWidth+1));}
+function result(el,chart,textHtml){el.querySelector('.chart').innerHTML=chart;el.querySelector('.readout').innerHTML=textHtml;markWide(el);}
+window.addEventListener('resize',()=>markWide(document));
 /* 결과의 성격을 밝히는 꼬리표. real: 정한 식대로 실제 계산, news: 2026-10-13 보도·안내로 확인한 세율·한도, scenario: 미리 정한 가상 시나리오,
    unknown: 보도로도 확인하지 못한 규칙이라 가정으로만 둔 것, metaphor: 시각적 비유. */
 const KINDS={real:'실제 계산',news:'세율·한도는 2026-10-13 보도 기준',scenario:'미리 정한 가상 시나리오',unknown:'확인 못함 · 가정으로만 계산',metaphor:'시각적 비유'};

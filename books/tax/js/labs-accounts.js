@@ -29,7 +29,7 @@ TLabs.isa=el=>{
  });
 };
 /* 8장: 연금저축·IRP. 1단계 넣을 때(세액공제), 2단계 꺼낼 때(연금소득세 5.5% 또는 중도 인출 16.5%)와 늦게 내는 세금의 현재가치. */
-const ACCTS=[['saving','연금저축 (공제 한도 600만 원)'],['irp','IRP (합산 한도 900만 원)'],['both','둘 다 (합산 한도 900만 원)']];
+const ACCTS=[['saving','연금저축 (공제 한도 600만 원)'],['irp','IRP (합산 한도 900만 원)'],['both','연금저축과 IRP (합산 한도 900만 원)']];
 function pensionChart(o){
  const items=[['세전 수익',o.pretax],['받은 공제',o.credit],['꺼낼 때 세금',-o.tax],['세후',o.after]];
  return U.columns({labels:items.map(x=>x[0]),values:items.map(x=>x[1]),mark:i=>i===3,fmt:v=>F(v),tick:v=>F(v/10000)+'만',title:'원 · 세후 = 세전 수익 + 공제 − 꺼낼 때 세금',h:240,label:items.map(x=>`${x[0]} ${W(x[1])}`).join(', ')});
@@ -47,7 +47,7 @@ TLabs.pension=el=>{
   const defer=U.num(el,'pdefer');
   if(defer===null)return U.result(el,'',U.problem('늦게 내는 세금','0 이상의 원 단위 숫자를 넣어야 합니다.'));
   const pv=M.presentValue(defer,r,yrs),name=ACCTS.find(a=>a[0]===acct)[1].split(' (')[0];
-  const step1=`<b>1단계 넣을 때</b>: ${name}에 ${W(amt)}을 넣으면 공제 대상은 한도 ${W(c.limit)}까지인 ${W(c.base)}이고, × ${U.rp(c.rate)} = <b>${W(c.credit)}</b>을 다음 해 연말정산에서 돌려받습니다.`;
+  const step1=`<b>1단계 넣을 때</b>: ${acct==='both'?`${name}에 합쳐`:`${name}에`} ${W(amt)}을 넣으면 공제 대상은 한도 ${W(c.limit)}까지인 ${W(c.base)}이고, × ${U.rp(c.rate)} = <b>${W(c.credit)}</b>을 다음 해 연말정산에서 돌려받습니다.`;
   const out=mode==='early'?`3년 뒤 중도에 꺼내면 공제받은 원금 ${W(c.base)}과 수익 ${W(f.pretax)}에 16.5%가 붙어 세금 <b>${W(o.tax)}</b>, 세후 <b>${W(o.after)}</b>입니다. 받은 공제 <b>${W(c.credit)}</b>, 공제받은 원금 몫 기타소득세 <b>${W(o.principalTax)}</b>, 차이 <b>${U.sfmt(c.credit-o.principalTax)}원</b>입니다.`
    :`55세 이후 연금으로 받으면 공제받은 원금 ${W(c.base)}과 수익 ${W(f.pretax)}에 5.5%가 붙어 세금 <b>${W(o.tax)}</b>, 세후 <b>${W(o.after)}</b>입니다(그때까지 세율이 그대로라는 가정).`;
   const nc=amt>c.base?` 공제받지 않은 원금 ${W(amt-c.base)}은 세금 없이 나온다고 놓았습니다. 이 규칙과 돈이 빠지는 순서는 <b>확인 못함</b>입니다.`:'';

@@ -10,12 +10,12 @@ TLabs['final-order']=el=>{
  U.bind(el,()=>{
   const pick=U.value(el,'fplan'),band=U.value(el,'fband'),need=U.num(el,'fneed'),g=+U.value(el,'fgrowth')/100;
   if(need===null)return U.result(el,'',U.problem('꺼낼 금액','0에서 1,000만 원 사이의 원 단위 숫자를 넣어야 합니다.'));
-  const outs=['X','Y','Z'].map(k=>M.planOutcome(k,{band,need,growth:g})),me=outs.find(o=>o.key===pick),top=outs.reduce((a,b)=>b.after>a.after?b:a);
+  const outs=['X','Y','Z'].map(k=>M.planOutcome(k,{band,need,growth:g})),me=outs.find(o=>o.key===pick),best=Math.max(...outs.map(o=>o.after)),tops=outs.filter(o=>o.after===best).map(o=>o.key);
   const anyEarly=outs.some(o=>o.early),head=anyEarly?'3년 동안 생긴 수익의 세후 금액(연금 몫은 3년 뒤 중도 인출해 16.5%를 낸다고 정산)':'3년 동안 생긴 수익의 세후 금액(연금 몫은 55세 이후 연금으로 받아 5.5%를 낸다고 정산, 3년 뒤 손에 쥐는 금액 아님)';
   const chart=U.columns({labels:['X','Y','Z'],values:outs.map(o=>o.after),mark:i=>outs[i].key===pick,fmt:v=>F(v),tick:v=>F(v/10000)+'만',title:'세 배분안의 세후 금액 (원) · ▲ 고른 배분안',h:230,label:outs.map(o=>`${o.key} ${W(o.after)}`).join(', ')});
   const tbl=U.table(['배분안','세전 수익','세금','받은 공제','세후 금액'],outs.map(o=>[(o.key===pick?'▲ ':'')+NAMES[o.key],W(o.pretax),W(Object.values(o.parts).reduce((s,p)=>s+p.tax,0)),o.parts.pension?W(o.parts.pension.credit):'—',`<b>${W(o.after)}</b>${o.early?' (연금 몫 중도 인출)':''}`]),head);
   const cond=anyEarly?`3년 뒤 꺼낼 금액 ${W(need)}이 X·Z의 연금 아닌 몫 400만 원보다 많아 연금 몫 600만 원 전체를 중도 인출한다고 놓았습니다.`:'X·Z의 연금 몫 600만 원은 55세 이후까지 둔다고 놓았습니다.';
-  U.result(el,chart+tbl,`<span class="rate-note">${head}</span><br>${outs.map(o=>`<b>${o.key}</b> ${W(o.after)}`).join(' · ')}. ${cond}<br><b>${NAMES[pick]}</b>: ${partsText(me)}.<br>이 조건(공제율 ${band==='over'?'13.2%':'16.5%'}, 가격 상승 연 ${F(g*100)}%, 분배 2%)에서 세후 금액이 가장 큰 배분안은 ${top.key}입니다. 공제율, 꺼낼 금액, 가격 상승률 가운데 하나만 바뀌어도 순위와 차이가 달라집니다.${U.kind(['real','news','scenario','unknown'],'연금 몫이 55세까지 더 불어나는 몫과 시간 가치는 넣지 않았습니다. X·Z의 600만 원은 모두 공제받은 돈이라 공제받지 않은 원금의 과세 문제는 생기지 않지만, 연금계좌에서 돈이 빠지는 순서는 확인 못함입니다.')}`);
+  U.result(el,chart+tbl,`<span class="rate-note">${head}</span><br>${outs.map(o=>`<b>${o.key}</b> ${W(o.after)}`).join(' · ')}. ${cond}<br><b>${NAMES[pick]}</b>: ${partsText(me)}.<br>이 조건(공제율 ${band==='over'?'13.2%':'16.5%'}, 가격 상승 연 ${F(g*100)}%, 분배 2%)에서 ${tops.length>1?`세후 금액이 가장 큰 배분안은 ${tops.slice(0,-1).join(', ')}와 ${tops.at(-1)}이고, ${tops.length===3?'세':'두'} 배분안의 세후 금액이 ${W(best)}으로 같습니다.`:`세후 금액이 가장 큰 배분안은 ${tops[0]}입니다.`} 공제율, 꺼낼 금액, 가격 상승률 가운데 하나만 바뀌어도 순위와 차이가 달라집니다.${U.kind(['real','news','scenario','unknown'],'연금 몫이 55세까지 더 불어나는 몫과 시간 가치는 넣지 않았습니다. X·Z의 600만 원은 모두 공제받은 돈이라 공제받지 않은 원금의 과세 문제는 생기지 않지만, 연금계좌에서 돈이 빠지는 순서는 확인 못함입니다.')}`);
  });
 };
 })();

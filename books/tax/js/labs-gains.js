@@ -9,9 +9,9 @@ const ASSETS=[['domestic','국내 상장주식 (새벽전자, 코스피)'],['fst
 function gainsText(a,gain,loss,hold,share){
  if(a==='kequity')return {tax:0,base:0,line:'국내주식형 ETF의 매매차익은 비과세라 양도세가 없습니다(6장).',who:'—'};
  if(a==='domestic'){const big=M.isBigHolder(hold,share/100),b=R.bigHolder,base=Math.max(0,gain-loss),tax=M.domesticGainTax(base,big);
-  return {tax,base,big,who:big?'본인 신고(신고 시기는 확인 못함)':'—',line:big?`보유액 ${W(hold)}, 지분율 ${F(share,2)}%로 기준(종목당 ${F(b.value/1e8)}억 원 또는 코스피 ${F(b.shareKospi*100)}%) 가운데 하나 이상에 닿아 <b>대주주</b>입니다. 과세표준 3억 원까지 22%, 넘는 몫 27.5%(지방세 포함)로 양도세 <b>${W(tax)}</b>입니다. 대주주의 기본공제와 1년 미만 보유 세율은 확인 못함이라 넣지 않았습니다.`:`보유액 ${W(hold)}, 지분율 ${F(share,2)}%로 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%)에 못 미쳐 <b>소액주주</b>입니다. 차익이 얼마든 양도세는 <b>0원</b>이고, 팔 때 거래세만 냅니다(2장).`};}
+  return {tax,base,big,who:big?'본인 신고(신고 시기는 확인 못함)':'—',line:big?`보유액 ${W(hold)}, 지분율 ${F(share,2)}%로 기준(종목당 ${F(b.value/1e8)}억 원 또는 코스피 ${F(b.shareKospi*100)}%) 가운데 하나 이상에 닿아 <b>대주주</b>입니다. 과세표준 3억 원까지 22%, 넘는 몫 27.5%(지방세 포함)로 양도세 <b>${W(tax)}</b>입니다. 대주주의 기본공제와 1년 미만 보유 세율은 확인 못함이라 넣지 않았습니다.${loss?' 같은 해 다른 주식의 손실을 빼는 손익통산도 보도에서 확인 못한 가정입니다.':''}`:`보유액 ${W(hold)}, 지분율 ${F(share,2)}%로 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%)에 못 미쳐 <b>소액주주</b>입니다. 차익이 얼마든 양도세는 <b>0원</b>이고, 팔 때 거래세만 냅니다(2장).`};}
  const t=M.foreignGainTax(gain,loss);
- return {tax:t.tax,base:t.base,who:'본인 신고(시기는 확인 못함)',line:`(차익 ${W(gain)}${loss?` − 같은 해 손실 ${W(loss)}`:''} − 공제 ${W(R.foreign.deduction)}) = 과세표준 ${W(t.base)}, × 22% = 양도세 <b>${W(t.tax)}</b>입니다. 증권사가 떼지 않아 본인이 신고합니다(신고 시기는 확인 못함).${loss?' 같은 해 다른 해외 자산의 손실을 뺀 것은 보도에서 확인 못한 가정입니다.':''}`};
+ return {tax:t.tax,base:t.base,who:'본인 신고(시기는 확인 못함)',line:`(차익 ${W(gain)}${loss?` − 같은 해 손실 ${W(loss)}`:''} − 공제 ${W(R.foreign.deduction)}) = 과세표준 ${W(t.base)}, × 22% = 양도세 <b>${W(t.tax)}</b>입니다. 증권사가 떼지 않아 본인이 신고합니다(신고 시기는 확인 못함).${loss?' 같은 해 다른 해외 자산의 손실을 빼는 손익통산은 보도에서 확인 못한 가정입니다.':''}`};
 }
 TLabs.gains=el=>{
  U.setup(el,U.select('gasset','자산',ASSETS,'domestic')+U.number('ggain','차익 (원)',0,100000000000,10000,1248640)+U.number('gloss','같은 해 다른 자산의 손실 (원)',0,100000000000,10000,0)+U.number('ghold','종목당 보유액 (원, 국내 상장주식)',0,1000000000000,1000000,11248640,'대주주 판정용')+U.number('gshare','지분율 (%, 국내 상장주식)',0,100,0.001,0.001));
@@ -23,7 +23,7 @@ TLabs.gains=el=>{
   if(share===null)return U.result(el,'',U.problem('지분율','0에서 100 사이의 숫자(%)를 넣어야 합니다.'));
   const t=gainsText(a,gain,loss,hold,share),name=ASSETS.find(x=>x[0]===a)[1];
   const chart=U.columns({labels:['차익','손실','과세표준','양도세'],values:[gain,-loss,t.base,t.tax],mark:i=>i===3,fmt:v=>F(v),tick:v=>F(v/10000)+'만',title:`${name.split(' (')[0]} · 원`,h:240,label:`차익 ${W(gain)}, 손실 ${W(loss)}, 과세표준 ${W(t.base)}, 양도세 ${W(t.tax)}`});
-  U.result(el,chart+U.table(['항목','값'],[['자산',name],['차익',W(gain)],['같은 해 손실',W(loss)],['보유액 · 지분율',`${W(hold)} · ${F(share,3)}%`],['양도세',`<b>${W(t.tax)}</b>`],['내는 방법',t.who]],'양도세 계산'),`${note()}<b>${name}</b>: ${t.line}${U.kind(['real','news'],a==='domestic'?'대주주 기준은 2025-09-15 “50억 원 유지” 보도 기준입니다.':'')}`);
+  U.result(el,chart+U.table(['항목','값'],[['자산',name],['차익',W(gain)],['같은 해 손실',W(loss)],['보유액 · 지분율',`${W(hold)} · ${F(share,3)}%`],['양도세',`<b>${W(t.tax)}</b>`],['내는 방법',t.who]],'양도세 계산'),`${note()}<b>${name}</b>: ${t.line}${U.kind(loss&&a!=='kequity'&&(a!=='domestic'||t.big)?['real','news','unknown']:['real','news'],a==='domestic'?'대주주 기준은 2025-09-15 “50억 원 유지” 보도 기준입니다.':'')}`);
  });
 };
 /* 5장: 한 해 이자·배당 합계와 한계세율(가정). 넘는 몫에만 (한계세율 − 14%) × 1.1. 소득 카드를 합계에 넣어 보며 들어가는 것과 빠지는 것을 가린다. */

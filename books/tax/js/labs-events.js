@@ -13,10 +13,10 @@ function timeline(kind,prin,income,gain){
  if(kind==='stock'){const s=M.stt('kospi',sale);rows.sell=[`증권거래세 ${W(s.tax)} + 농어촌특별세 ${W(s.rural)} · 소액주주라 양도세 없음`,s.each,'증권사가 뗌'];}
  if(kind==='kequity')rows.sell=['ETF라 거래세 없음 · 국내주식형이라 차익 비과세',0,'—'];
  if(kind==='kother')rows.sell=['차익에 배당소득세 15.4% · ETF라 거래세 없음',w154(gain),'증권사가 뗌(원천징수)'];
- if(kind==='foreign')rows.sell=['팔 때는 떼지 않음 · 한 해 차익을 모아 본인이 신고',0,'—'];
+ if(kind==='foreign')rows.sell=['양도소득세: (차익 − 250만 원) × 22% · 팔 때 생긴 차익에 붙고, 증권사가 떼지 않아 본인이 신고(신고 시기는 확인 못함)',M.foreignGainTax(gain).tax,'본인이 신고'];
  if(kind==='bond')rows.sell=['중간에 판 매매차익은 개인에게 비과세(보도 기준) · 나라 3년의 가격 몫을 비과세로 둔 것은 이 책의 가정 · 채권 매도의 거래세는 확인 못함, 0으로 둠',0,'—'];
  const total=income+(kind==='kother'?gain:0),over=total>R.threshold;
- rows.year=kind==='foreign'?[`양도소득세: (차익 − 250만 원) × 22% · 증권사가 떼지 않아 본인이 신고(신고 시기는 확인 못함)`,M.foreignGainTax(gain).tax,'본인이 신고']:[over?'이자·배당 합계가 2,000만 원을 넘어 넘는 몫은 종합과세(5장)':'이자·배당 합계가 2,000만 원 이하라 더 낼 세금 없음',0,over?'본인이 신고':'—'];
+ rows.year=[over?'이자·배당 합계가 2,000만 원을 넘어 넘는 몫은 종합과세(5장)':'이자·배당 합계가 2,000만 원 이하라 더 낼 세금 없음',0,over?'본인이 신고':'—'];
  return rows;
 }
 function timelineChart(rows,pick){
@@ -64,7 +64,7 @@ TLabs.withhold=el=>{
   let more='';
   if(high&&k!=='dividend')more=`<br>✗ 고배당 기업 분리과세는 요건을 채운 기업의 <b>배당</b>에만 고를 수 있어 ${name}에는 적용하지 않았습니다.`;
   else if(high){const h=M.highDividendTax(amt);more=`<br>고배당 기업 배당 분리과세를 고르면: ${h.parts.map(p=>`${F(p.from/10000)}만~${F(p.to/10000)}만 원 ${U.rp(p.rate,0)}`).join(' + ')} → 소득세 <b>${W(h.tax)}</b>(지방소득세 별도). ${amt<=R.highDividend[0][0]?'2,000만 원까지는 원천징수와 같은 14%라 차이가 없습니다.':'2,000만 원을 넘는 몫은 다른 소득과 합치지 않고 구간 세율로 끝납니다.'}`;}
-  U.result(el,withholdChart(amt,t),`${note()}${name} <b>${W(amt)}</b>에서 소득세 14% ${W(t.income)}과 지방소득세 1.4% ${W(t.local)}을 증권사·은행이 먼저 떼어 <b>${W(t.net)}</b>이 들어옵니다. 한 해 이자·배당 합계가 2,000만 원 이하면 세금은 이것으로 끝나고, 다음 해에 따로 신고하지 않습니다.${more}${U.kind(['real','news'],high?'고배당 기업 요건은 가정이며, ETF·펀드 분배금이 대상에서 빠지는지는 확인 못함입니다.':'')}`);
+  U.result(el,withholdChart(amt,t),`${note()}${name} <b>${W(amt)}</b>에서 소득세 14% ${W(t.income)}과 지방소득세 1.4% ${W(t.local)}을 증권사·은행이 먼저 떼어 <b>${W(t.net)}</b>이 들어옵니다. ${amt<=R.threshold?'한 해 이자·배당 합계가 2,000만 원 이하면 세금은 이것으로 끝나고, 다음 해에 따로 신고하지 않습니다.':`이 금액만으로 한 해 이자·배당 합계가 2,000만 원을 넘으므로 원천징수로 끝나지 않습니다. 넘는 몫 ${W(amt-R.threshold)}은 다른 소득과 합쳐 다음 해 5월에 본인이 신고합니다. 그 세금은 5장(금융소득종합과세)에서 계산합니다${high&&k==='dividend'?'. 다만 아래처럼 고배당 기업 배당 분리과세를 고르면 이 배당은 합치지 않습니다':''}.`}${more}${U.kind(['real','news'],high?'고배당 기업 요건은 가정이며, ETF·펀드 분배금이 대상에서 빠지는지는 확인 못함입니다.':'')}`);
  });
 };
 })();
