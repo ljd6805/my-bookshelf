@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="기업 가치 평가 책의 사실 표, 오해 목록, 기준값, 교과과정 비교 자료, 확인하지 못한 것, 출처 목록.">
+<title>조사 노트 · 기업 가치 평가</title>
+<link rel="stylesheet" href="../../../assets/project-docs.css">
+<style>
+  table{border-collapse:collapse;width:100%;margin:12px 0 24px}
+  th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}
+  .num{font-family:var(--font-mono,monospace)}
+  .wrap{overflow-x:auto}
+  code{font-family:var(--font-mono,monospace)}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">기업 가치 평가 · 제작 문서</a><span>책 본문은 G4에서 만듭니다</span></header>
+<main style="max-width:1100px;margin:auto;padding:32px 16px">
+<p><a href="index.html">제작 문서로 돌아가기</a></p>
+<h1>조사 노트 · 기업 가치 평가</h1>
+
+<section id="intro">
+<h2>이 노트에 대하여</h2>
+<p>G1·G2 작성 세션이 지식조사팀장 은재의 점검 목록(사실 주장 표, 출처와 확인일, 시점에 민감한 항목 표시, 참고 자료는 구조만 참고한다는 메모)에 맞춰 정리한 <b>초안</b>입니다. 은재의 승인 전 문서입니다. 확인일(연 날)은 모두 <b>2026-10-13</b>입니다. 범위는 주가 배수(PER·PBR·EV/EBITDA)의 정의와 서로의 관계, 배당수익률, 기업가치(EV), 기업 잉여현금흐름(FCFF), 고든 성장 모형과 영구가치, CAPM과 가중평균자본비용(WACC), 그리고 할인율에 넣을 한국의 시장 숫자(국고채 10년 금리, 한국 주식 위험 프리미엄)와 시장 전체의 배수 수준입니다.</p>
+<p>출처 등급은 앞선 권의 조사 노트와 같습니다. <b>공식·학술 원문 확인</b>은 감독기관·거래소·대학 교재·교수의 강의 자료를 직접 읽은 경우입니다. Damodaran 교수(뉴욕대 스턴 경영대학원)의 누리집과 OpenStax 교재, CFA Institute의 교재 소개 쪽이 여기에 듭니다. <b>2차 자료로 확인</b>은 기사·수험 요약·대학 강좌 사본처럼 원 저자가 아닌 곳에서 읽은 경우, <b>계산으로 확인</b>은 정의에서 바로 나오는 항등식이나 이 책의 기준값, <b>확인 못함</b>은 원문을 읽지 못했거나 자료끼리 어긋나 판단을 미룬 경우입니다.</p>
+<p><b>열리지 않은 곳.</b> 한국거래소 정보데이터시스템(data.krx.co.kr)의 지수 PER·PBR 화면은 내용 가져오기 도구에서 빈 쪽으로 왔습니다(스크립트로 그리는 화면). OpenStax의 WACC 절(16.2)과 배당 할인 모형 다른 판(11.3)의 주소, Damodaran 누리집의 FCFF 질문 쪽(valquestions/fcff.htm)은 가져오기 오류로 열리지 않았습니다. 금융감독원 e-금융교육센터 첫 화면은 열렸지만 PER·PBR 용어 설명 쪽은 찾지 못해 근거로 쓰지 않았습니다. 그래서 <b>한국어 공식 기관의 배수 정의</b>와 <b>한국거래소가 발표한 코스피 PER·PBR 원값</b>은 이번에 확인하지 못했습니다. 이 책의 본문은 시장 전체의 배수를 계산에 쓰지 않고, “보도 기준”이라고 밝힌 참고 숫자로만 둡니다.</p>
+<p><b>시점에 민감한 항목</b>에는 ⏱를 붙였습니다(국고채 금리, 위험 프리미엄, 시장 배수). “장” 칸은 그 행을 쓰는 장의 ID(price, per, dividend, ev, fcf, wacc, terminal, sensitivity, implied, final)입니다. “원문이 말하는 것” 칸은 열어 본 쪽이 실제로 적은 내용이고, 따옴표 안은 원문 그대로입니다. 참고한 자료는 사실 확인에만 썼고, 책의 문장과 예시는 구조만 참고해 새로 씁니다. 이 책은 실제 상장회사의 값을 매기지 않고, 목표주가를 내지 않으며, 특정 종목을 권하지 않습니다.</p>
+</section>
+
+<section id="facts">
+<h2>사실 표</h2>
+<h3 id="facts-multiples">주가 배수와 배당</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>1-1</td><td>price, per</td><td>주당순이익(EPS)과 PER</td><td>[S2] “Earnings per share (EPS) measures the portion of a corporation's profit allocated to each outstanding share of common stock.” EPS = (순이익 − 우선주 배당) ÷ 가중평균 보통주 수. “P/E Ratio = Market Value per Share / Earnings per Share”. [S13] “The ratio is calculated by dividing the current stock price by the current earnings per share.” EPS는 “the earnings for the past 12 months”를 보통주 수로 나눈 값.</td><td>교재 현행판</td><td>[S2] [S13] · 2026-10-13</td><td>공식·학술 원문 확인(대학 교재, 미국 SEC 투자자 안내). 한국어 공식 정의는 확인 못함</td></tr>
+<tr><td>1-2</td><td>price, per</td><td>주당순자산(BPS)과 PBR</td><td>[S2] “Book Value per Share = (Total Equity − Preferred Equity) / Total Shares Outstanding”. 같은 쪽은 PBR(시장가 ÷ 장부가)을 따로 정의하지 않고 주당 시장가와 주당 장부가를 견줌.</td><td>교재 현행판</td><td>[S2] · 2026-10-13</td><td>공식·학술 원문 확인(BPS). PBR = 주가 ÷ BPS는 이 정의에서 바로 씀(계산으로 확인)</td></tr>
+<tr><td>1-3</td><td>per</td><td>PBR = ROE × PER</td><td>정의에서 바로 나오는 항등식: (P ÷ B) = (P ÷ E) × (E ÷ B). E와 B를 같은 기간·같은 시점 기준으로 맞춰야 성립(이 책은 2025 사업연도 순이익과 2025년 말 자본, ROE도 기말 자본 기준 18.29%). [S3] “the price-book value ratio of a stable firm is determined by the differential between the return on equity” and its cost of equity, ROE가 자기자본비용보다 크면 주가가 장부가보다 높다. [S4] 수험 요약의 정당화 PBR = (ROE − g) ÷ (r − g), ROE = E₁ ÷ B₀로 대입.</td><td>—</td><td>[S3] [S4] · 2026-10-13, 기준값 V-2</td><td>계산으로 확인. ROE와 PBR의 관계 설명은 Damodaran 쪽(학술 원문), 정당화 PBR 식은 2차 자료(수험 요약)</td></tr>
+<tr><td>1-4</td><td>dividend</td><td>배당수익률</td><td>[S14] “Dividend Yield = Annual dividends per share/price per share” (주가 50달러, 연 배당 1.10달러면 2.2%).</td><td>날짜 표시 없음</td><td>[S14] · 2026-10-13</td><td>2차 자료로 확인(주소는 캐나다 노바스코샤 증권위원회 도메인이지만 쪽 안에 기관 이름이 보이지 않음). 4권·11권이 같은 정의로 씀</td></tr>
+<tr><td>1-5</td><td>dividend</td><td>고든 성장 모형과 g &lt; r</td><td>[S7] “Stock Value = D₀(1 + g) / (r − g) = D₁ / (r − g)”, “the formula requires the return rate r to be greater than the growth rate g of the dividend stream”(g가 r보다 크면 분모가 음수가 되어 값이 뜻을 잃음). [S8] “The Gordon growth model assumes that dividends grow at a constant rate g forever”, 값의 식은 “where r &gt; g”.</td><td>교재 현행판, CFA 2026 교과과정</td><td>[S7] [S8] · 2026-10-13</td><td>공식·학술 원문 확인. 3권 8장(#equity)이 같은 식을 이미 씀</td></tr>
+<tr><td>1-6</td><td>dividend</td><td>주가에서 거꾸로 구한 요구수익률 r = D₁ ÷ P + g</td><td>1-5의 식을 r에 대해 푼 것. [S4] 같은 식을 D₀ ÷ P₀ = (r − g) ÷ (1 + g)로 적음.</td><td>—</td><td>계산, [S4]</td><td>계산으로 확인</td></tr>
+<tr><td>1-7</td><td>dividend, per</td><td>지속 가능 성장률 g = b × ROE</td><td>[S8] “The sustainable growth rate depends on the ROE and the earnings retention rate, b: g = b × ROE.” [S3] “g = (1 - Payout ratio) * ROE”.</td><td>CFA 2026</td><td>[S8] [S3] · 2026-10-13</td><td>공식·학술 원문 확인</td></tr>
+<tr><td>1-8</td><td>per, implied</td><td>정당화 PER = 배당성향 ÷ (r − g)</td><td>[S4] 선행 PER P₀ ÷ E₁ = (D₁ ÷ E₁) ÷ (r − g) = (1 − b) ÷ (r − g), 후행 PER P₀ ÷ E₀ = (1 − b)(1 + g) ÷ (r − g). 9장은 비교 회사의 후행 PER에 뒤 식을, 선행 PER로 주어진 L2에 앞 식을 g에 대해 풀어 “주가에 담긴 성장률”을 구함(해원 G2 지적으로 기준을 밝힘).</td><td>—</td><td>[S4] · 2026-10-13</td><td>2차 자료(수험 요약)와 계산으로 확인. CFA 원문 본문은 읽지 못함</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-ev">기업가치와 현금흐름</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>2-1</td><td>ev</td><td>기업가치(EV)</td><td>[S5] “EV = Market value of equity + Debt – Cash”.</td><td>강의 슬라이드(날짜 표시 없음)</td><td>[S5] · 2026-10-13</td><td>공식·학술 원문 확인(Damodaran 강의 “Session 16: More Earnings Multiples”)</td></tr>
+<tr><td>2-2</td><td>ev</td><td>EV/EBITDA</td><td>[S5] 분자 “Market Value of Equity + Market Value of Debt - Cash”, 분모 “Earnings before Interest, Taxes and Depreciation”. PER은 주주에게 돌아가는 이익에 대한 주식 가치이고 EV 배수는 영업 자산의 가치를 영업 이익에 견준다는 대비가 같은 슬라이드에 있음(“부채가 다른 회사를 견주기 좋다”는 문장은 슬라이드에 직접 없음, 이 책의 풀이).</td><td>같음</td><td>[S5] · 2026-10-13</td><td>공식·학술 원문 확인. EBITDA가 K-IFRS가 정한 표시 항목이 아니라는 점은 확인 못함(<a href="#unverified">확인하지 못한 것</a>)</td></tr>
+<tr><td>2-3</td><td>fcf</td><td>기업 잉여현금흐름(FCFF)</td><td>[S6] 마지막 해 계산 “FCFF in terminal year = EBIT6 (1-t) - (Rev6-Rev5)*Working Capital as % of Revenue”. 표는 세후 영업이익(EBIT(1 − t))에서 순설비투자(설비투자 − 감가상각)와 운전자본 증가를 빼 FCFF를 만듦.</td><td>강의 쪽(날짜 표시 없음)</td><td>[S6] · 2026-10-13</td><td>공식·학술 원문 확인. 이 책의 식 FCFF = EBIT × (1 − 세율) + 감가상각 − 설비투자 − 운전자본 증가는 같은 구성</td></tr>
+<tr><td>2-4</td><td>terminal</td><td>영구가치와 성장 조건</td><td>[S6] “Value of firm = FCFF1 / (WACC - gn)”, gn은 FCFF의 영구 성장률. 조건 두 가지: “the growth rate used in the model has to be reasonable, relative to the nominal growth rate in the economy”, “the relationship between capital expenditures and depreciation has to be consistent with assumptions of stable growth”.</td><td>같음</td><td>[S6] · 2026-10-13</td><td>공식·학술 원문 확인. 7장의 “성장이 낮아지면 재투자가 줄어 FCFF가 늘어난다”는 둘째 조건을 이 책의 단순 모형(유형자산 ÷ 매출 일정)으로 옮긴 것</td></tr>
+<tr><td>2-5</td><td>wacc</td><td>CAPM</td><td>[S9] “Re=Rf + Beta × (Rm - Rf)”. 무위험 금리는 미국 국채 금리를 대용으로 쓰고, “The measure of how much a stock moves with the market is known as its beta.” 위험 프리미엄은 “how much an investor who takes on the market portfolio is rewarded for risk”.</td><td>교재 현행판</td><td>[S9] · 2026-10-13</td><td>공식·학술 원문 확인. 깊이(베타 추정, 분산투자)는 9권(준비 중)으로 넘김</td></tr>
+<tr><td>2-6</td><td>wacc</td><td>WACC</td><td>[S10] “WACC = w_D k_D(1 − T_c) + w_P k_P + w_E k_E”, 부채 비용은 세후로 넣고, 가중치는 “based on market values and required returns”(장부가 가중은 흔한 실수로 적음). [S6] Damodaran 예: “Cost of Capital … = 13.275% (0.7633) + 5.44% (0.2367) = 11.42%”.</td><td>강좌 판(날짜 표시 없음)</td><td>[S10] [S6] · 2026-10-13</td><td>2차 자료(LibreTexts의 대학 강좌, CC BY, OpenStax 표시 없음)와 학술 원문 예로 확인. OpenStax WACC 절은 열리지 않음</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-market">할인율에 넣는 한국 시장 숫자 ⏱</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>3-1 ⏱</td><td>wacc</td><td>한국 주식 위험 프리미엄</td><td>[S1] 한국: Moody's 등급 Aa2, 국가 위험 프리미엄 0.64%, 주식 위험 프리미엄 합계 4.87%. 미국 행은 4.46%(국가 위험 프리미엄 0.23%)이고 Aaa 국가(호주·독일)가 4.23%로, 성숙 시장 프리미엄 4.23%에 국가 위험 프리미엄을 더한 구조.</td><td>쪽 머리 “Last updated: January 5, 2026”</td><td>[S1] · 2026-10-13</td><td>공식·학술 원문 확인(교수 개인 추정치이며 공식 통계가 아님). 2026년 7월 갱신판이 있는지는 확인 못함. 미국 국채 기준으로 만든 프리미엄을 원화 국고채 금리에 더하는 것은 이 책의 단순화</td></tr>
+<tr><td>3-2 ⏱</td><td>wacc</td><td>국고채 10년 금리</td><td>[S11] 2026-10-08 “10년물 금리는 연 4.395%로 1.9bp 상승”, 3년물 3.983%. [S12] 2026-10-01 10년물 4.436%, 3년물 4.010%. 3권 조사 노트 2-8은 2026-10-07 10년물 4.376%(같은 계열 보도).</td><td>2026-10-01, 2026-10-08 장 마감</td><td>[S11] [S12] · 2026-10-13</td><td>2차 자료로 확인(서울 채권시장 장 마감 보도). 금융투자협회·한국은행 원값은 열지 못함. 본문 가정 4.4%는 “2026년 10월 초 보도 수준 근처에서 고른 값”</td></tr>
+<tr><td>3-3 ⏱</td><td>wacc</td><td>새벽전자 회사채 금리</td><td>3권 7장(#credit): 새벽전자 3년 회사채(표면 5.0%)를 국채 금리에 스프레드 1.10%p를 얹은 5.061%로 할인(3권 본문 recall 문장).</td><td>3권 가정</td><td>3권 books/bonds/js/content.js</td><td>시리즈 가정(가상). 6권 세전 부채 비용 5.06%로 이어 씀</td></tr>
+<tr><td>3-4 ⏱</td><td>price, implied</td><td>코스피 PER 수준(참고)</td><td>[S15] FnGuide 집계, 코스피 12개월 선행 PER 7.63배(2026-04-14), 2025년 말 10.72배, 2024년 말 8.42배. [S21] 2026-05-09 보도의 증권사 분석가 발언 “12개월 선행 PER은 7.6배”. [S16] 한국투자증권 분석, 12개월 선행 PER 5.3배(2026-07-31).</td><td>2026-04 ~ 2026-07</td><td>[S15] [S16] [S21] · 2026-10-13</td><td>2차 자료로 확인(보도). 기준(선행·후행, 집계 기관)이 서로 다르고 한국거래소 원값은 못 봄. 본문은 “선행 PER은 앞으로의 이익 예상으로 나눈 값이라, 이익 예상이 크게 늘면 주가가 올라도 낮아질 수 있다”는 설명에만 쓰고 숫자를 계산 입력으로 쓰지 않음</td></tr>
+<tr><td>3-5 ⏱</td><td>per</td><td>코스피 PBR 수준(참고)</td><td>[S17] 보스턴컨설팅그룹 보고서(2026-06-11 공개, 2026년 이익 추정 기준) 코스피 PBR 1.9배, 반도체 제외 1.2배, 반도체·방산·조선·원전 제외 1.0배. [S18] 거래소 집계 보도: PBR 자료가 있는 코스피 804개사 가운데 63.8%(513개)가 PBR 1배 미만(1년 전 69.9%).</td><td>2026-04, 2026-06</td><td>[S17] [S18] · 2026-10-13</td><td>2차 자료로 확인. [S18]의 기준일은 기사 안에서 분명하지 않음</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-names">사례 이름 확인</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>확인한 것</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>4-1</td><td>새벽전자</td><td>2026-10-13 웹 검색(“새벽전자” 주식회사 상장)에서 같은 이름의 한국 상장회사가 나오지 않음. 영문 이름이 비슷한 중국 선전 거래소 상장사(Ningbo Sunrise Elc Technology)가 다시 검색되었지만 한국 회사가 아님. 시리즈 1·3·4·5·7·8·11·12권이 같은 가상 회사로 씀.</td><td>웹 검색으로만 확인. 한국거래소 상장회사 목록 직접 조회는 못함</td></tr>
+<tr><td>4-2</td><td>새 이름</td><td>새 고유명사를 만들지 않음. 비교 회사는 “비교 회사 가·나·다·라”(가상의 전자부품 회사), 마지막 과제의 두 사람은 “분석가 A”, “분석가 B”로만 씀. 증권사 이름, 실제 목표주가, 실제 회사의 배수는 쓰지 않음.</td><td>해당 이름 없음</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="misconceptions">
+<h2>오해 목록</h2>
+<p>오해 수집가 태오의 몫을 초안 작성 세션이 미리 채웠습니다(태오가 G3 전에 고침). 기획안이 정한 독자(“PER이 낮으면 싸다고 생각하는 사람”)의 출발점을 장마다 두 개씩 나눴습니다.</p>
+<div class="wrap"><table>
+<thead><tr><th>장</th><th>흔한 오해</th><th>바른 설명</th><th>근거</th></tr></thead>
+<tbody>
+<tr><td>price</td><td>주가가 낮은 회사가 싼 회사다.</td><td>한 주의 가격은 주식 수에 따라 얼마든지 달라진다. 회사 전체의 값(시가총액)을 이익·순자산과 견줘야 한다.</td><td>V-1</td></tr>
+<tr><td>price</td><td>가격과 가치는 같은 말이다.</td><td>가격은 시장에서 체결된 숫자이고, 가치는 미래 현금흐름과 가정으로 계산한 추정이다. 가정이 다르면 가치도 다르다.</td><td>V-7, V-10</td></tr>
+<tr><td>per</td><td>PER이 낮으면 싸다.</td><td>PER은 ROE·성장·위험이 다른 회사 사이에서 다르게 매겨진다. 비교 회사 가는 PER 8배로 가장 낮지만 ROE 9%, 성장 2%다.</td><td>1-3, 1-8, V-2</td></tr>
+<tr><td>per</td><td>PBR이 1배보다 낮으면 무조건 손해 보고 파는 값이다.</td><td>ROE가 자기자본비용보다 낮으면 주가가 장부가보다 낮게 매겨질 수 있다.</td><td>1-3 [S3]</td></tr>
+<tr><td>dividend</td><td>배당수익률이 높을수록 좋은 주식이다.</td><td>배당수익률은 배당 ÷ 주가라 주가가 떨어져도 오른다. 배당성향과 이익이 유지되는지를 함께 본다.</td><td>1-4, V-3</td></tr>
+<tr><td>dividend</td><td>지속 가능 성장률은 영원히 유지된다.</td><td>새벽전자의 b × ROE는 13.9%지만 국고채 금리·경제 성장률보다 훨씬 높은 성장이 영원히 이어질 수는 없다(7장의 영구성장률 조건).</td><td>1-7, 2-4</td></tr>
+<tr><td>ev</td><td>시가총액이 같으면 회사의 값도 같다.</td><td>빚과 현금이 다르면 회사를 통째로 사는 데 드는 돈(EV)이 다르다.</td><td>2-1, V-4</td></tr>
+<tr><td>ev</td><td>EBITDA는 회사가 번 현금이다.</td><td>EBITDA는 설비투자·운전자본 증가·세금을 빼기 전의 숫자다. 2025년 새벽전자는 EBITDA 278억 원인데 FCFF는 −225.2억 원이다.</td><td>V-4, V-5</td></tr>
+<tr><td>fcf</td><td>순이익을 할인하면 DCF다.</td><td>FCFF는 세후 영업이익에서 순설비투자와 운전자본 증가를 뺀 돈이고, 주주와 채권자 모두의 몫이다. 그래서 WACC로 할인하고 순차입금을 빼야 주주 몫이 된다.</td><td>2-3, V-5</td></tr>
+<tr><td>fcf</td><td>한 해 FCFF가 음수면 그 회사의 값은 음수다.</td><td>값은 앞으로의 모든 FCFF의 현재가치 합이다. 2025년 −225.2억 원은 운전자본이 크게 늘어난 해의 숫자다.</td><td>V-5</td></tr>
+<tr><td>wacc</td><td>할인율은 은행 금리를 쓰면 된다.</td><td>주주는 위험을 지므로 국고채 금리에 위험 프리미엄을 더한 수익률을 요구하고, 채권자 몫은 세후 부채 비용으로 따로 계산해 시장가 비중으로 섞는다.</td><td>2-5, 2-6</td></tr>
+<tr><td>wacc</td><td>할인율은 정답이 하나다.</td><td>위험 프리미엄(추정치)·베타(추정치)·무위험 금리(날마다 바뀜)에 따라 같은 회사도 8%와 9%로 다르게 잡힌다.</td><td>3-1, 3-2, V-6</td></tr>
+<tr><td>terminal</td><td>5년 예측이 값의 대부분을 정한다.</td><td>기준안에서 영구가치의 현재가치가 기업가치의 77.6%다.</td><td>V-7</td></tr>
+<tr><td>terminal</td><td>영구성장률을 높게 잡을수록 낙관적일 뿐 계산은 된다.</td><td>g가 r에 다가가면 값이 끝없이 커지고, g ≥ r이면 식이 뜻을 잃는다.</td><td>1-5, 2-4</td></tr>
+<tr><td>sensitivity</td><td>DCF는 정확한 한 숫자를 준다.</td><td>할인율 1%p로 기준안이 18,971원~27,968원으로 움직인다. 결론은 범위와 그 범위를 만든 가정으로 말해야 한다.</td><td>V-8</td></tr>
+<tr><td>sensitivity</td><td>민감도 표의 범위는 95% 신뢰구간이다.</td><td>민감도 범위는 가정을 바꿔 본 시나리오의 폭이지, 표본에서 계산한 확률 구간이 아니다(확률과 통계 6장과 다름).</td><td>V-8</td></tr>
+<tr><td>implied</td><td>PER이 높은 회사는 거품이고 낮은 회사는 저평가다.</td><td>주가를 받아들이고 거꾸로 풀면 시장이 가정한 성장률이 나온다. 그 성장률이 그럴듯한지가 질문이다.</td><td>1-8, V-9</td></tr>
+<tr><td>implied</td><td>내 DCF 값이 주가보다 높으면 시장이 틀렸다.</td><td>같은 주가를 다른 할인율(새벽전자 9.0%)이나 다른 성장률(0.25%)로도 설명할 수 있다. 어떤 가정이 차이를 만드는지 먼저 찾는다.</td><td>V-9</td></tr>
+<tr><td>final</td><td>주당 가치가 두 배 차이 나면 한쪽이 계산을 틀렸다.</td><td>같은 식에 다른 가정(성장률·마진·운전자본·할인율)을 넣으면 15,867원과 31,833원이 둘 다 맞게 계산된다.</td><td>V-10</td></tr>
+<tr><td>final</td><td>목표주가는 그 날짜에 주가가 반드시 그 값이 된다는 약속이다.</td><td>목표주가는 정해진 가정과 기간(12개월이 흔하다고 알려짐, 확인 못함)으로 계산한 값이다. 마지막 과제는 목표주가 대신 2025년 말 기준 현재가치를 견준다. 이 책은 투자 판단에 쓰라고 권하지 않는다.</td><td>V-10</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="values">
+<h2>기준값</h2>
+<p>모두 <b>계산으로 확인</b>입니다. 초안 작성 세션이 파이썬으로 계산했습니다(세션 임시 폴더의 val.py·val2.py·val3.py, 책에는 넣지 않음, 기준안·분석가 두 값과 g ≥ r 오류는 assert로 확인). 금액은 억 원, 주당 값은 원입니다. 새벽전자 재무 숫자는 5권 조사 노트 V-2~V-10과 books/statements/js/math.js의 ASSUME에서 그대로 가져왔고, 주가 20,000원·1,000만 주·배당 400원은 시리즈 설정입니다. <b>평가 시점은 2025년 말 재무상태표</b>(순차입금 387.2억 원)로 두고, 2026년 1~4월 사이의 할인은 무시합니다(이 책의 단순화).</p>
+<h3 id="values-price">V-1 시가총액·EPS·BPS (1장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: 주가 20,000원, 1,000만 주, 2025 순이익 164.8억, 2025년 말 자본 900.8억</td><td class="num">시가총액 2,000억 원, EPS 1,648원, BPS 9,008원 (2024: EPS 1,360원, BPS 7,760원)</td></tr>
+<tr><td>L2: 가상 회사 주가 15,000원, 400만 주, 순이익 48억, 자본 360억</td><td class="num">시가총액 600억 원, EPS 1,200원, BPS 9,000원</td></tr>
+</tbody></table>
+<h3 id="values-per">V-2 PER·PBR·ROE (2장)</h3>
+<table><thead><tr><th>회사</th><th>PER</th><th>ROE</th><th>PBR = ROE × PER</th><th>EV/EBITDA</th><th>매출 성장(가정)</th><th>배당성향</th></tr></thead><tbody>
+<tr><td>새벽전자 2025(주가 20,000원)</td><td class="num">12.14</td><td class="num">18.29%(기말)</td><td class="num">2.22</td><td class="num">8.59</td><td class="num">+20%(2025 실적)</td><td class="num">24.3%</td></tr>
+<tr><td>새벽전자 2024(같은 주가로 계산)</td><td class="num">14.71</td><td class="num">17.53%(기말)</td><td class="num">2.58</td><td class="num">8.81</td><td>—</td><td class="num">29.4%</td></tr>
+<tr><td>비교 회사 가</td><td class="num">8</td><td class="num">9%</td><td class="num">0.72</td><td class="num">5.5</td><td class="num">2%</td><td class="num">50%</td></tr>
+<tr><td>비교 회사 나</td><td class="num">11</td><td class="num">15%</td><td class="num">1.65</td><td class="num">7.0</td><td class="num">5%</td><td class="num">35%</td></tr>
+<tr><td>비교 회사 다</td><td class="num">13</td><td class="num">18%</td><td class="num">2.34</td><td class="num">8.0</td><td class="num">7%</td><td class="num">30%</td></tr>
+<tr><td>비교 회사 라</td><td class="num">18</td><td class="num">20%</td><td class="num">3.60</td><td class="num">11.0</td><td class="num">12%</td><td class="num">20%</td></tr>
+<tr><td><b>비교 회사 중앙값</b></td><td class="num">12.0</td><td>—</td><td class="num">1.995</td><td class="num">7.5</td><td>—</td><td>—</td></tr>
+</tbody></table>
+<p>비교 회사 넷은 미리 정한 가상 시나리오입니다(실제 회사·업종 평균이 아님). 중앙값으로 새벽전자를 다시 매기면 PER 12.0 × 1,648 = <b>19,776원</b>, PBR 1.995 × 9,008 = <b>17,971원</b>, EV/EBITDA 7.5 × 278 = 2,085억 − 순차입금 387.2억 = 1,697.8억 → <b>16,978원</b>(4장). L2: PER 10배·ROE 15%면 <b>PBR 1.5배</b>, ROE가 10%로 내려도 PBR 1.5배 그대로면 <b>PER 15배</b>.</p>
+<h3 id="values-dividend">V-3 배당 (3장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: 배당 400원, 주가 20,000원, EPS 1,648원, ROE 18.29%</td><td class="num">배당수익률 2.0%, 배당성향 24.3%, b × ROE = 0.757 × 18.29% = 13.9%</td></tr>
+<tr><td>본문: 배당이 해마다 7%씩 영원히 자란다고 놓으면(한 단계 모형의 단순화, 영원한 성장은 경제 성장률을 넘을 수 없다는 상한은 7.6절) 주가에 담긴 요구수익률</td><td class="num">400 × 1.07 ÷ 20,000 + 7% = 2.14% + 7% = 9.14%</td></tr>
+<tr><td>L2: 주가 50,000원, 배당 1,500원, EPS 5,000원, 배당 성장 4%</td><td class="num">배당수익률 3.0%, 배당성향 30%, 요구수익률 1,560 ÷ 50,000 + 4% = 7.12%</td></tr>
+</tbody></table>
+<h3 id="values-ev">V-4 EV와 EV/EBITDA (4장)</h3>
+<table><thead><tr><th>항목</th><th>2024 말</th><th>2025 말</th></tr></thead><tbody>
+<tr><td>시가총액(주가 20,000원 가정 그대로)</td><td class="num">2,000</td><td class="num">2,000</td></tr>
+<tr><td>차입금(단기차입금 + 사채)</td><td class="num">250</td><td class="num">450</td></tr>
+<tr><td>현금</td><td class="num">136</td><td class="num">62.8</td></tr>
+<tr><td>순차입금</td><td class="num">114</td><td class="num">387.2</td></tr>
+<tr><td>EV</td><td class="num">2,114</td><td class="num">2,387.2</td></tr>
+<tr><td>EBITDA = 영업이익 + 감가상각</td><td class="num">180 + 60 = 240</td><td class="num">216 + 62 = 278</td></tr>
+<tr><td>EV/EBITDA</td><td class="num">8.81</td><td class="num">8.59</td></tr>
+</tbody></table>
+<p>L2: 시가총액 1,000억 원·EBITDA 150억 원으로 같은 두 회사, 하나는 순차입금 0, 다른 하나는 차입금 500억 원·현금 50억 원 → EV/EBITDA <b>6.67배</b>와 <b>9.67배</b>.</p>
+<h3 id="values-fcf">V-5 FCFF와 5년 예측 (5장, 기준안)</h3>
+<p>FCFF = 영업이익 × (1 − 20%) + 감가상각 − 설비투자 − 운전자본 증가. 운전자본 = 매출채권 + 재고 − 매입채무. 실적: 2024 FCFF = 144 + 60 − 80 − 40 = <b>84</b>(운전자본 230 → 270, 매출의 18.0%), 2025 FCFF = 172.8 + 62 − 150 − 310 = <b>−225.2</b>(운전자본 270 → 580, 매출의 32.2%).</p>
+<p>기준안 가정: 매출 성장률 5%(2026~2030), 영업이익률 12%, 법인세 20%, 감가상각 = 기초 유형자산 × 10%(5권 규칙), 유형자산 = 매출 × 39.33%(2025년 708 ÷ 1,800을 유지, 설비투자 = 유형자산 증가 + 감가상각), 운전자본 = 매출 × 28%(2024년 18%와 2025년 32.2% 사이에서 고른 가정), 할인율(WACC) 8.3%, 영구성장률 2%, 연말 할인.</p>
+<table><thead><tr><th>연도</th><th>매출</th><th>영업이익</th><th>감가상각</th><th>설비투자</th><th>운전자본 증가</th><th>FCFF</th><th>할인계수</th><th>현재가치</th></tr></thead><tbody>
+<tr><td>2026</td><td class="num">1,890.0</td><td class="num">226.8</td><td class="num">70.8</td><td class="num">106.2</td><td class="num">−50.8</td><td class="num">196.8</td><td class="num">0.9234</td><td class="num">181.8</td></tr>
+<tr><td>2027</td><td class="num">1,984.5</td><td class="num">238.1</td><td class="num">74.3</td><td class="num">111.5</td><td class="num">26.5</td><td class="num">126.9</td><td class="num">0.8526</td><td class="num">108.2</td></tr>
+<tr><td>2028</td><td class="num">2,083.7</td><td class="num">250.0</td><td class="num">78.1</td><td class="num">117.1</td><td class="num">27.8</td><td class="num">133.2</td><td class="num">0.7873</td><td class="num">104.9</td></tr>
+<tr><td>2029</td><td class="num">2,187.9</td><td class="num">262.5</td><td class="num">82.0</td><td class="num">122.9</td><td class="num">29.2</td><td class="num">139.9</td><td class="num">0.7269</td><td class="num">101.7</td></tr>
+<tr><td>2030</td><td class="num">2,297.3</td><td class="num">275.7</td><td class="num">86.1</td><td class="num">129.1</td><td class="num">30.6</td><td class="num">146.9</td><td class="num">0.6712</td><td class="num">98.6</td></tr>
+<tr><td colspan="8"><b>5년 FCFF 현재가치 합</b></td><td class="num">595.1</td></tr>
+</tbody></table>
+<p><b>DCF는 2025 실적 FCFF(−225.2)가 아니라 2026~2030 예측 FCFF로 계산한다.</b> 기준안은 운전자본 비율이 2026년에 32.2%→28%로 내려가 2026 FCFF 196.8억 원 중 50.8억 원이 운전자본 회수이며, 2027~2030은 126.9~146.9억 원이다(val4.py로 다시 확인). 28%는 2024년 18%와 2025년 32.2% 사이에서 고른 가정이고, 32.2%가 이어지면 주당 21,682원이다. 2026년 운전자본 증가가 −50.8인 것은 2025년 580(32.2%)에서 1,890 × 28% = 529.2로 줄어 현금이 돌아온다는 가정 때문입니다. L2: 가상 회사 영업이익 100억, 세율 20%, 감가상각 30억, 설비투자 50억, 운전자본 증가 10억 → FCFF <b>50억 원</b>, 1년 뒤에 받는 50억 원을 8%로 할인하면 <b>46.3억 원</b>.</p>
+<h3 id="values-wacc">V-6 할인율 (6장) ⏱</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>무위험 금리: 국고채 10년 4.395%(2026-10-08 보도)를 4.4%로</td><td class="num">4.4%</td></tr>
+<tr><td>주식 위험 프리미엄: Damodaran 한국 4.87%(2026-01)를 4.9%로</td><td class="num">4.9%</td></tr>
+<tr><td>베타 1.0(가정, 시장과 같이 움직인다고 놓음)</td><td class="num">자기자본비용 = 4.4% + 1.0 × 4.9% = 9.3%</td></tr>
+<tr><td>세전 부채 비용 5.06%(3권 7장 할인 금리 5.061%), 법인세 20%</td><td class="num">세후 4.048%</td></tr>
+<tr><td>시장가 비중: 주식 2,000억(주가 20,000원), 차입금 450억</td><td class="num">주식 81.6%, 부채 18.4%</td></tr>
+<tr><td>WACC</td><td class="num">(2,000 × 9.3% + 450 × 4.048%) ÷ 2,450 = 8.335% → 본문 8.3%</td></tr>
+<tr><td>L2: 베타 1.3, 주식 70%·부채 30%, 세전 부채 비용 6%, 세율 20%</td><td class="num">자기자본비용 4.4% + 1.3 × 4.9% = 10.77%, WACC = 0.7 × 10.77% + 0.3 × 4.8% = 8.98%</td></tr>
+</tbody></table>
+<p><b>확인일</b>: 무위험 금리는 2026-10-08 장 마감 값, 회사채 스프레드(3권)는 2026-10-07 기준이다. 이야기의 시점(2026년 4월)의 금리가 아니므로 6장 화면에 “확인일 2026-10-08”을 붙이고, 4월에 계산했다면 4월 금리가 필요하다고 적는다(한결·서윤 지적). <b>만기 차이(은재 판단 대기)</b>: 무위험 금리는 10년, 세전 부채 비용은 3년 회사채 금리다. 초안은 새벽전자의 실제(가상) 차입이 3년 회사채뿐이라 그 금리를 쓰고 차이를 밝힌다(이 책의 단순화). 10년 국고채 4.395% + 스프레드 1.10%p = 5.495%로 맞추면 세후 4.396%, WACC 8.40%, 주당 22,318원.</p>
+<p>주의: 주식 비중에 시장 주가를 쓰므로 “값을 매기려는 주가가 다시 할인율에 들어가는” 순환이 생깁니다. 이 책은 주가 20,000원으로 비중을 한 번 정하고 고정합니다(이 책의 단순화, 본문에 밝힘).</p>
+<h3 id="values-terminal">V-7 영구가치와 주당 가치 (7장, 기준안)</h3>
+<table><thead><tr><th>항목</th><th>값</th></tr></thead><tbody>
+<tr><td>2031년 FCFF(매출 2% 성장, 같은 마진·자산 비율·운전자본 비율)</td><td class="num">194.0 (2030년 146.9보다 큼: 성장이 5% → 2%로 낮아져 설비투자·운전자본 증가가 줄어듦)</td></tr>
+<tr><td>영구가치(2030년 말) = 194.0 ÷ (8.3% − 2%)</td><td class="num">3,079.6</td></tr>
+<tr><td>영구가치의 현재가치 = 3,079.6 × 0.6712</td><td class="num">2,067.1</td></tr>
+<tr><td>기업가치(EV) = 595.1 + 2,067.1</td><td class="num">2,662.2 (영구가치 비중 77.6%)</td></tr>
+<tr><td>주주 몫 = EV − 순차입금 387.2</td><td class="num">2,275.0</td></tr>
+<tr><td><b>주당 가치</b> = 2,275.0억 ÷ 1,000만 주</td><td class="num"><b>22,750원</b></td></tr>
+<tr><td>오류 조건: 영구성장률 ≥ 할인율(예: g 9%, r 8.3%)</td><td class="num">계산하지 않음(assert)</td></tr>
+<tr><td>L2: 예측 마지막 다음 해 FCFF 100억, 할인율 9%, 영구성장률 3%, 예측 5년</td><td class="num">영구가치 1,666.7억 원, 현재가치 1,083.2억 원. g 4%면 영구가치 2,000억 원(+20%)</td></tr>
+</tbody></table>
+<h3 id="values-sensitivity">V-8 민감도 표 (8장, 대표 실험, 주당 가치 원, 10원 반올림)</h3>
+<p>성장률(2026~2030 매출 성장) × 할인율, 나머지는 기준안:</p>
+<table><thead><tr><th>할인율 \ 성장률</th><th>1%</th><th>3%</th><th>5%</th><th>7%</th><th>9%</th></tr></thead><tbody>
+<tr><td>7.3%</td><td class="num">24,760</td><td class="num">26,310</td><td class="num">27,970</td><td class="num">29,760</td><td class="num">31,680</td></tr>
+<tr><td>7.8%</td><td class="num">22,400</td><td class="num">23,710</td><td class="num">25,130</td><td class="num">26,660</td><td class="num">28,290</td></tr>
+<tr><td>8.3%</td><td class="num">20,400</td><td class="num">21,530</td><td class="num">22,750</td><td class="num">24,060</td><td class="num">25,460</td></tr>
+<tr><td>8.8%</td><td class="num">18,710</td><td class="num">19,680</td><td class="num">20,720</td><td class="num">21,840</td><td class="num">23,040</td></tr>
+<tr><td>9.3%</td><td class="num">17,240</td><td class="num">18,070</td><td class="num">18,970</td><td class="num">19,940</td><td class="num">20,970</td></tr>
+</tbody></table>
+<p>영업이익률 × 할인율:</p>
+<table><thead><tr><th>할인율 \ 영업이익률</th><th>10%</th><th>11%</th><th>12%</th><th>13%</th><th>14%</th></tr></thead><tbody>
+<tr><td>7.3%</td><td class="num">21,640</td><td class="num">24,810</td><td class="num">27,970</td><td class="num">31,130</td><td class="num">34,290</td></tr>
+<tr><td>7.8%</td><td class="num">19,360</td><td class="num">22,250</td><td class="num">25,130</td><td class="num">28,020</td><td class="num">30,900</td></tr>
+<tr><td>8.3%</td><td class="num">17,440</td><td class="num">20,100</td><td class="num">22,750</td><td class="num">25,400</td><td class="num">28,060</td></tr>
+<tr><td>8.8%</td><td class="num">15,810</td><td class="num">18,260</td><td class="num">20,720</td><td class="num">23,180</td><td class="num">25,630</td></tr>
+<tr><td>9.3%</td><td class="num">14,400</td><td class="num">16,690</td><td class="num">18,970</td><td class="num">21,260</td><td class="num">23,540</td></tr>
+</tbody></table>
+<p>영구성장률 × 할인율(1% / 1.5% / 2% / 2.5% / 3%): 7.3% 25,360 / 26,550 / 27,970 / 29,680 / 31,780 · 8.3% 21,140 / 21,880 / 22,750 / 23,760 / 24,970 · 9.3% 17,940 / 18,420 / 18,970 / 19,600 / 20,330.</p>
+<p>한 번에 하나만 바꾼 폭(원): 할인율 9.3% ↔ 7.3%: 18,971 ↔ 27,968 · 영업이익률 11% ↔ 13%: 20,095 ↔ 25,404 · 운전자본 비율 32.2% ↔ 18%: 21,682 ↔ 25,292 · 성장률 3% ↔ 7%: 21,534 ↔ 24,055 · 영구성장률 1.5% ↔ 2.5%: 21,884 ↔ 23,764. 1%p당 변화(기울기와 역전파 개념으로 잇는 값, 서윤 결정): 할인율 +1%p −3,779원·−1%p +5,219원, 영업이익률 ±2,654원, 영구성장률 +2,220원·−1,612원, 성장률 +641원·−619원, 운전자본 비율 ∓254원. 막대 순서는 고른 범위에 따라 달라지고, 운전자본 범위(18%~32.2%)는 기준 28%에서 비대칭이다. 배수 세 가지 값(16,978~19,776원)과 함께 적으면 “이 가정 범위에서 약 17,000원~28,000원”입니다. L2: 운전자본 비율이 32.2%로 남고 영업이익률이 13%가 되면(할인율 8.3%, 나머지 기준안) <b>24,336원</b>.</p>
+<h3 id="values-implied">V-9 주가에 담긴 가정 (9장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>새벽전자: 주가 20,000원이 맞으려면, 다른 가정이 기준안 그대로일 때 2026~2030 매출 성장률</td><td class="num">약 0.25%(이분법으로 풂)</td></tr>
+<tr><td>새벽전자: 성장률 5% 그대로일 때 할인율</td><td class="num">약 9.0%</td></tr>
+<tr><td>후행 PER = 배당성향 × (1 + g) ÷ (r − g)를 g로 푼 식 g = (r × PER − 배당성향) ÷ (PER + 배당성향), r = 9%(가정): 비교 회사 가(후행 PER 8, 배당성향 50%)</td><td class="num">2.59% (b × ROE = 4.5%)</td></tr>
+<tr><td>같은 식, 비교 회사 나(후행 PER 11, 35%) · 라(후행 PER 18, 20%)</td><td class="num">나 5.64% · 라 7.80% (b × ROE = 16.0%)</td></tr>
+<tr><td>L2: 선행 PER 25배, 배당성향 40%, r 9%</td><td class="num">g = 9% − 40% ÷ 25 = 7.4%</td></tr>
+</tbody></table>
+<p>비교 회사의 PER은 2장의 PBR = ROE × PER(같은 해 이익·같은 시점 자본)과 새벽전자 후행 EPS에 곱하는 중앙값과 맞추려고 모두 <b>후행 PER</b>로 둡니다(해원 G2 지적). L2만 “선행 PER”이라고 밝혀 g = r − 배당성향 ÷ PER을 씁니다.</p>
+<h3 id="values-final">V-10 마지막 과제: 같은 회사의 주당 가치가 두 배 차이 나는 이유 (분석가 A·B, 2026년 4월, 2025년 말 기준 주당 가치)</h3>
+<table><thead><tr><th>가정</th><th>분석가 A</th><th>분석가 B</th><th>이 책 기준안</th></tr></thead><tbody>
+<tr><td>매출 성장률 2026~2030</td><td class="num">8%</td><td class="num">3%</td><td class="num">5%</td></tr>
+<tr><td>영업이익률</td><td class="num">13%</td><td class="num">11%</td><td class="num">12%</td></tr>
+<tr><td>운전자본 ÷ 매출</td><td class="num">20%(매출채권 회수, 2024년 수준 근처)</td><td class="num">32.2%(2025년 수준 유지)</td><td class="num">28%</td></tr>
+<tr><td>할인율(WACC)</td><td class="num">8.0%</td><td class="num">9.0%</td><td class="num">8.3%</td></tr>
+<tr><td>영구성장률</td><td class="num">2%</td><td class="num">2%</td><td class="num">2%</td></tr>
+<tr><td>5년 FCFF 현재가치 합</td><td class="num">744.1</td><td class="num">512.1</td><td class="num">595.1</td></tr>
+<tr><td>영구가치 현재가치(비중)</td><td class="num">2,826.4 (79.2%)</td><td class="num">1,461.9 (74.1%)</td><td class="num">2,067.1 (77.6%)</td></tr>
+<tr><td><b>주당 가치</b></td><td class="num"><b>31,833원</b></td><td class="num"><b>15,867원</b></td><td class="num">22,750원</td></tr>
+</tbody></table>
+<p>A ÷ B = 2.006배. B에서 출발해 가정을 A의 것으로 하나씩 바꾸면(운전자본 → 영업이익률 → 성장률 → 할인율): 18,625(+2,758) → 23,006(+4,381) → 26,539(+3,533) → 31,833(+5,294). 바꾸는 순서를 달리하면 각 몫이 달라집니다(순서 효과, G3에서 실험에 표시할지 정함). 10.3절 본문은 할인율부터 바꾸는 단계(19,246원)를 계산하지 않습니다(L2 답). A의 2027~2030 FCFF 현재가치가 해마다 108.1로 같은 것은 FCFF 성장률 8%와 할인율 8%가 같아서 생긴 우연입니다. L2: B의 가정에서 할인율만 A의 8.0%로 바꾸면 <b>19,246원</b>.</p>
+</section>
+
+<section id="curriculum-sources">
+<h2>교과과정 비교에 쓴 자료</h2>
+<p>제작 문서의 비교 표가 말한 자료 가운데 실제로 열어 본 것만 적습니다. 모두 2026-10-13에 열었습니다.</p>
+<ul>
+<li><b>OpenStax 『Principles of Finance』 [S2] [S7] [S9]</b>(대학 교재): 6.5절 “Market Value Ratios”(EPS·PER·BPS), 11.2절 “Dividend Discount Models (DDMs)”(고든 모형과 r &gt; g 조건), 15.3절 “The Capital Asset Pricing Model (CAPM)”. 배수는 6장(재무비율)의 한 절, 주식 가치는 배당 할인 모형 중심, CAPM은 위험과 수익 장에 따로 있음. 열어 본 절에는 FCFF·EV·민감도 표가 없음.</li>
+<li><b>Damodaran 강의 자료 [S1] [S3] [S5] [S6]</b>(뉴욕대 스턴): 배수 강의(Session 16, EV와 EV/EBITDA), PBR 결정 요인 쪽(ROE와 자기자본비용의 차이), FCFF 강의(세후 영업이익 − 순설비투자 − 운전자본 증가, 안정 성장 조건), 국가별 위험 프리미엄 표.</li>
+<li><b>CFA Institute 2026 교과과정 Level II “Discounted Dividend Valuation” 소개 쪽 [S8]</b>와 수험 요약 [S4]: 고든 모형, 지속 가능 성장률 g = b × ROE, 정당화 PER·PBR.</li>
+<li><b>LibreTexts 대학 강좌 10.3 [S10]</b>: WACC 식과 시장가 가중.</li>
+</ul>
+<p>요약하면, 열어 본 대학 교재는 배수와 배당 할인, CAPM을 서로 다른 장에 두고, 실무 강의(Damodaran)는 FCFF와 EV 배수, 안정 성장 조건을 한 흐름으로 묶습니다. 같은 회사 하나를 배수와 DCF로 함께 매기고, 가정을 바꿀 때 결론이 얼마나 움직이는지 표로 보이고, 두 분석가의 값 차이를 가정별로 나누는 일은 열어 본 자료 어디에도 계산으로 나오지 않습니다. 이것이 8장 대표 실험과 마지막 과제를 세운 근거입니다. 한국 대학의 기업가치평가 강의 계획서와 금융감독원·금융투자협회의 투자자 교육 자료는 이번에 열지 못해 근거로 쓰지 않았습니다(후속 과제).</p>
+</section>
+
+<section id="unverified">
+<h2>확인하지 못한 것</h2>
+<ul>
+<li>⏱ <b>한국거래소가 발표한 코스피 PER·PBR·배당수익률 원값</b>(정보데이터시스템이 빈 쪽으로 옴). 시장 배수는 보도·증권사·컨설팅 보고서로만 읽었고 기준이 서로 다름.</li>
+<li>⏱ <b>국고채 10년 금리의 공식 원값</b>(금융투자협회 채권정보센터·한국은행 경제통계). 서울 채권시장 장 마감 보도로만 확인.</li>
+<li>⏱ Damodaran 국가별 위험 프리미엄의 2026년 7월 갱신판 여부(열어 본 쪽은 2026-01-05 갱신). 미국 국채 기준 프리미엄을 원화 국고채 금리에 더하는 방식의 타당성(이 책의 단순화로 표시).</li>
+<li>한국어 공식 기관(금융감독원·한국거래소·금융투자협회)의 PER·PBR·EV/EBITDA 용어 정의. e-금융교육센터 첫 화면은 열렸지만 해당 쪽을 찾지 못함.</li>
+<li>EBITDA가 K-IFRS가 정한 표시 항목이 아니라는 점(기준서 원문 미열람, 5권과 같은 접속 제한).</li>
+<li>한국 법인세의 실제 세율 구간. 이 책은 5권과 같은 20% 가정을 쓰고 실제 세율이라고 쓰지 않음.</li>
+<li>한국 증권사 보고서에서 “목표주가”의 기간 관행(흔히 12개월이라고 알려짐)을 공식·학술 자료로 확인하지 못함. 마지막 과제는 두 분석가의 값을 “2025년 말 기준 주당 가치”로 정의해 이 문제를 피하고, 그 정의를 과제 문장에 적음.</li>
+<li>CFA 교재 본문(소개 쪽만 읽음), OpenStax WACC 절(가져오기 오류), Damodaran FCFF 질문 쪽(가져오기 오류).</li>
+<li>한국 주식의 베타 자료. 6장은 베타 1.0을 가정으로 두고, 추정은 9권(준비 중)으로 넘김.</li>
+<li>“새벽전자”를 한국거래소 상장회사 목록에서 직접 조회하지 못함(웹 검색만).</li>
+<li>교과과정 비교의 한국 쪽 교육 자료와 한국 대학 강의 계획서.</li>
+</ul>
+</section>
+
+<section id="sources">
+<h2>출처 목록</h2>
+<p>모든 출처의 확인일(연 날)은 2026-10-13입니다. 괄호 안은 출처 종류입니다.</p>
+<ol style="list-style:none;padding-left:0">
+<li>[S1] Aswath Damodaran, “Country Default Spreads and Risk Premiums” (Last updated: January 5, 2026) — <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/ctryprem.html">pages.stern.nyu.edu/~adamodar/…/ctryprem.html</a> (학술 원문, 교수 추정치)</li>
+<li>[S2] OpenStax, Principles of Finance, 6.5 Market Value Ratios — <a href="https://openstax.org/books/principles-finance/pages/6-5-market-value-ratios">openstax.org/books/principles-finance/pages/6-5-market-value-ratios</a> (대학 교재)</li>
+<li>[S3] Aswath Damodaran, “Determinants of Price to Book Ratios” (날짜 표시 없음, 예시는 2001년) — <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/invfables/pbvdeterminants.htm">pages.stern.nyu.edu/~adamodar/…/pbvdeterminants.htm</a> (학술 원문)</li>
+<li>[S4] AnalystPrep, CFA Level II 학습 노트 “Fundamental Factors that Affect Alternative Price Multiples and Dividend Yield” — <a href="https://analystprep.com/study-notes/cfa-level-2/fundamental-factors-that-affect-alternative-price-multiples-and-dividend-yield/">analystprep.com/…/fundamental-factors-…</a> (2차 자료, 수험 요약)</li>
+<li>[S5] Aswath Damodaran, “Session 16: More Earnings Multiples” 강의 슬라이드 — <a href="https://pages.stern.nyu.edu/~adamodar/pdfiles/valonlineslides/session16.pdf">pages.stern.nyu.edu/~adamodar/pdfiles/valonlineslides/session16.pdf</a> (학술 원문)</li>
+<li>[S6] Aswath Damodaran, FCFF 강의 쪽 — <a href="https://pages.stern.nyu.edu/~adamodar/New_Home_Page/lectures/fcff.html">pages.stern.nyu.edu/~adamodar/New_Home_Page/lectures/fcff.html</a> (학술 원문)</li>
+<li>[S7] OpenStax, Principles of Finance, 11.2 Dividend Discount Models (DDMs) — <a href="https://openstax.org/books/principles-finance/pages/11-2-dividend-discount-models-ddms">openstax.org/…/11-2-dividend-discount-models-ddms</a> (대학 교재)</li>
+<li>[S8] CFA Institute, “Discounted Dividend Valuation” (2026 Curriculum, Level II 소개 쪽) — <a href="https://cfainstitute.org/insights/professional-learning/refresher-readings/2026/discounted-dividend-valuation">cfainstitute.org/…/2026/discounted-dividend-valuation</a> (전문 기관 원문)</li>
+<li>[S9] OpenStax, Principles of Finance, 15.3 The Capital Asset Pricing Model (CAPM) — <a href="https://openstax.org/books/principles-finance/pages/15-3-the-capital-asset-pricing-model-capm">openstax.org/…/15-3-the-capital-asset-pricing-model-capm</a> (대학 교재)</li>
+<li>[S10] Andrew Carr, Principles of Financial Management 10.3 “Weighted Average Cost of Capital (WACC)”, Business LibreTexts(Aurora University, CC BY 4.0) — <a href="https://biz.libretexts.org/Courses/Aurora_University/Principles_of_Financial_Management/10:_Financing_Decisions/10.03:_Weighted_Average_Cost_of_Capital_(WACC)">biz.libretexts.org/…/10.03</a> (대학 강좌, 2차 자료)</li>
+<li>[S11] SBS Biz, 국고채 금리 장 마감 기사 (2026-10-08) — <a href="https://biz.sbs.co.kr/amp/article/20000339059">biz.sbs.co.kr/amp/article/20000339059</a> (보도)</li>
+<li>[S12] SBS Biz, 「국고채 금리 혼조…장 막판 주요국 금리 상승에 장기물 ↑」 (2026-10-01) — <a href="https://biz.sbs.co.kr/amp/article/20000337916">biz.sbs.co.kr/amp/article/20000337916</a> (보도)</li>
+<li>[S13] Investor.gov(미국 SEC), Glossary “Price-Earnings (P/E) Ratio” — <a href="https://www.investor.gov/introduction-investing/investing-basics/glossary/price-earnings-pe-ratio">investor.gov/…/price-earnings-pe-ratio</a> (감독기관 투자자 안내)</li>
+<li>[S14] “Question of the Week: How are dividend yields calculated?” (nssc.novascotia.ca, 날짜·기관 표시 확인 못함) — <a href="https://nssc.novascotia.ca/node/1146043">nssc.novascotia.ca/node/1146043</a> (2차 자료)</li>
+<li>[S15] 파이낸셜뉴스, 코스피 12개월 선행 PER 기사 (2026-04-16, FnGuide 집계 인용) — <a href="https://www.fnnews.com/news/202604161223293282">fnnews.com/news/202604161223293282</a> (보도)</li>
+<li>[S16] SBS Biz, 「한투증권, 이달 코스피 등락 범위 5500~7500 제시」 (2026-08-04) — <a href="https://biz.sbs.co.kr/amp/article/20000326482">biz.sbs.co.kr/amp/article/20000326482</a> (보도, 증권사 분석 인용)</li>
+<li>[S17] The Asia Business Daily(아시아경제 영문), “KOSPI Still Undervalued... Disclosure of Low PBR Companies Likely to Accelerate” (2026-06-11, BCG 보고서 인용) — <a href="https://view.asiae.co.kr/en/article/2026061014394064718">view.asiae.co.kr/en/article/2026061014394064718</a> (보도)</li>
+<li>[S18] 헤럴드경제(미주판), 「코스피 상장사 64% PBR 1배도 안된다」 (2026-04-21, 거래소 집계 인용) — <a href="https://www.heraldk.com/article/2026042118071852448">heraldk.com/article/2026042118071852448</a> (보도)</li>
+<li>[S19] 웹 검색 “"새벽전자" 주식회사 상장” (2026-10-13) — 같은 이름의 한국 상장사 결과 없음 (검색 기록)</li>
+<li>[S20] 3권 「금리와 채권」 조사 노트 2-8(국고채 2026-10-07 장 마감 값)과 3권 7·8장 본문 — <a href="../../bonds/docs/research.html">books/bonds/docs/research.html</a> (시리즈 내부 자료)</li>
+<li>[S21] 뉴시스, 12개월 선행 PER 기사 (2026-05-09) — <a href="https://mobile.newsis.com/view/NISX20260508_0003622223">mobile.newsis.com/view/NISX20260508_0003622223</a> (보도, 증권사 분석가 발언 인용)</li>
+</ol>
+</section>
+</main>
+</body>
+</html>
