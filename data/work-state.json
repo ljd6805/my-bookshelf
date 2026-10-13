@@ -357,21 +357,23 @@
       },
       {
         "name": "AI·기초 6권(ai·transformer·algorithms·information·llm-performance·linear-algebra)",
-        "status": "reviewed",
+        "status": "approved",
         "pr": 64,
         "edits": 97,
         "approved_by": [
           "나래",
-          "정민"
+          "정민",
+          "한결"
         ]
       },
       {
         "name": "기초 5권(llm-gpu·computer·probability·rag·knowledge-graph)",
-        "status": "reviewed",
+        "status": "approved",
         "edits": 83,
         "approved_by": [
           "나래",
-          "정민"
+          "정민",
+          "한결"
         ],
         "pr": 64
       },
