@@ -90,6 +90,7 @@
 <li><strong>제목 메모(K7).</strong> 장별 메모와 따로 <code>&lt;h4 id="style-k-titles"&gt;제목·설명·머리글&lt;/h4&gt;</code> 표를 하나 둡니다. 책 설명·장 제목·부제·화면 머리글·실험 제목을 행마다 인용하고, 고친 제목과 근거 지침(K7과 함께 K2·K4·K5 등)을 적습니다. 그대로 둔 제목도 이유와 함께 적습니다.</li>
 <li><strong>뜻 보존 검수.</strong> 팩트·출처 검수 회차에 <code>&lt;tr data-check="wording"&gt;</code> 행을 두고 상태(ok·fixed·open·n/a)와 대조한 문장 수, 되돌린 문장을 적습니다. 문체 편집이 없던 검수라면 n/a와 그 이유를 씁니다.</li>
 <li><strong>제목·그림 설명 대조.</strong> 2026-10-14 이후 검수 회차에는 <code>&lt;tr data-check="titles"&gt;</code> 행을 둡니다. 제목·부제·목차와 본문, 그림 설명·레이블·대체 텍스트와 대상이 맞는지 대조한 위치·판정·수정 요청 또는 그대로 둔 이유를 적고, 해당 요소가 없으면 없다고 적습니다.</li>
+<li><strong>검수자의 공통 질문 답.</strong> 2026-10-14 이후 검수 회차에는 <code>&lt;tr data-check="Q1"&gt;</code>~<code>"Q4"</code> 네 행을 두고, 다온의 대조표와 따로 유진이 직접 읽은 위치와 판정을 적습니다.</li>
 </ol></section>
 
 <section id="check"><span class="no">08</span><h2>검사</h2><p><code>python3 scripts/validate.py</code>가 2026-10-13 이후 날짜의 기록을 검사합니다. 그 전 기록은 지침이 생기기 전에 쓴 것이라 소급하지 않습니다.</p>

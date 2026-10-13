@@ -15,6 +15,8 @@ WORDING_CHECK, WORDING_DATE = 'wording', '2026-10-13'
 # Guideline v1.2: the independent checker also matches titles, captions, labels and alt text
 # against what they name (docs/11-korean-writing.html#k6). Required from this day.
 TITLES_CHECK, TITLES_DATE = 'titles', '2026-10-14'
+# Guideline v1.3: the independent checker answers the four shared questions apart from the editor.
+QUESTION_CHECKS = ('Q1', 'Q2', 'Q3', 'Q4')
 CHECK_STATUS = {'ok', 'fixed', 'open', 'n/a'}
 RESULTS = {'passed', 'fixed', 'open'}
 DATE = re.compile(r'^\d{4}-\d{2}-\d{2}$')
@@ -56,7 +58,7 @@ def round_errors(record):
         errors.append('latest review is still open: fix the findings and record a new round')
     day = a.get('data-date', '')
     checks = (CHECKS + ((WORDING_CHECK,) if day >= WORDING_DATE else ())
-              + ((TITLES_CHECK,) if day >= TITLES_DATE else ()))
+              + ((TITLES_CHECK,) + QUESTION_CHECKS if day >= TITLES_DATE else ()))
     for check in checks:
         status = record['checks'].get(check)
         if status not in CHECK_STATUS:
