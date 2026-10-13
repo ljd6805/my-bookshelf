@@ -5,7 +5,7 @@
 const U=VUI,M=VMath,A=M.ASSUME,E=U.ek,W=U.won,N=U.n1;
 const MAN=x=>`${U.fmt(x)}만 주`;
 VLabs['price-basics']=el=>{
- U.setup(el,U.number('pprice','주가 (원)',1,10000000,10,A.price,'새벽전자 2026년 4월 주가(가정)')+U.number('pshares','주식 수 (만 주)',1,1000000,1,A.shares/1e4)+U.number('pni','한 해 순이익 (억 원)',-100000,100000,0.1,A.years[2025].ni,'2025 사업연도, 5권 마지막 과제')+U.number('peq','기말 자본 (억 원)',-100000,100000,0.1,A.years[2025].equity,'2025년 말, 5권 마지막 과제')+U.select('psplit','액면분할',[['1','나누지 않음'],['2','1주를 2주로'],['5','1주를 5주로'],['10','1주를 10주로']],'2'));
+ U.setup(el,U.number('pprice','주가 (원)',1,10000000,10,A.price,'새벽전자 2026년 4월 주가(가정)')+U.number('pshares','주식 수 (만 주)',1,1000000,1,A.shares/1e4)+U.number('pni','한 해 순이익 (억 원)',-100000,100000,0.1,A.years[2025].ni,'2025 사업연도, 5권 마지막 과제')+U.number('peq','기말 자본 (억 원)',-100000,100000,0.1,A.years[2025].equity,'2025년 말, 5권 마지막 과제')+U.select('psplit','액면분할',[['1','나누지 않음'],['2','1주를 2주로'],['5','1주를 5주로'],['10','1주를 10주로']],'1'));
  U.bind(el,()=>{
   const price=U.num(el,'pprice'),sh=U.num(el,'pshares'),ni=U.num(el,'pni'),eq=U.num(el,'peq'),f=Number(U.value(el,'psplit'));
   for(const [v,name,why] of [[price,'주가','1원에서 1,000만 원 사이로 넣어야 합니다.'],[sh,'주식 수','1만 주에서 100억 주 사이로 넣어야 합니다.'],[ni,'순이익','−10조 원에서 10조 원 사이의 숫자(억 원)를 넣어야 합니다.'],[eq,'기말 자본','−10조 원에서 10조 원 사이의 숫자(억 원)를 넣어야 합니다.']])if(v===null)return U.result(el,'',U.problem(name,why));

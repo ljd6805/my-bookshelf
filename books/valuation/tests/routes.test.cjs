@@ -5,7 +5,7 @@ const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f
 const load=()=>{const ctx={window:{}};vm.runInNewContext(read('js/content.js'),ctx);return JSON.parse(JSON.stringify(ctx.window.VBook));};
 const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].split(',');
 const IDS=['price','per','dividend','ev','fcf','wacc','terminal','sensitivity','implied','final'],LABS=['price-basics','multiple-compare','dividend-yield','ev-bridge','fcff-forecast','wacc-build','terminal-steps','dcf-sensitivity','implied-assumption','analyst-gap'];
-const LAB_FILES=['labs-multiples','labs-dcf','labs-sensitivity','labs-final'],VERSION='20261013v1';
+const LAB_FILES=['labs-multiples','labs-dcf','labs-sensitivity','labs-final'],VERSION='20261013v2';
 const esc=s=>s.replace(/[-]/g,'\\-');
 const figures=()=>{const ctx={window:{VMath:require('../js/math.js')}};ctx.window.window=ctx.window;vm.runInNewContext(read('js/figures.js'),ctx.window);return ctx.window.VFigures;};
 test('chapter ids are stable, unique and listed in book-routes in order',()=>{assert.deepEqual(B.chapters.map(c=>c.id),IDS);assert.deepEqual(routes,['home','chapters','sources',...IDS]);});
@@ -27,7 +27,7 @@ test('every function in the book scripts stays under 100 lines',()=>{
 });
 test('every chapter has a figure without broken numbers',()=>{const G=figures();for(const id of IDS){const f=G.render(id);assert.ok(f&&f.svg.startsWith('<svg')&&f.caption.length>20,id);assert.doesNotMatch(f.svg+f.caption,/NaN|undefined|Infinity/,id);}});
 test('figures carry the numbers the prose uses, and never an L2 answer',()=>{
- const G=figures(),want={price:['2,000억 원','1,648원','9,008원','10,000원','824원'],per:['12.14배','2.22배','18.3%','19,776원','17,971원'],dividend:['2.0%','24.3%','9.14%','13.9%'],ev:['2,114억 원','2,387.2억 원','8.59배','16,978원','19,776원'],fcf:['84억 원','−225.2억 원','196.8억 원','595.1억 원'],wacc:['9.3%','4.05%','81.6%','8.335%','2026-10-08'],terminal:['194억 원','3,079.6억 원','2,067.1억 원','77.6%','2,662.2억 원','22,750원'],sensitivity:['18,971원','27,968원','20,095원','25,404원'],implied:['0.25%','9.0%'],final:['15,867원','+2,758원','+4,381원','+3,533원','+5,294원','31,833원','15,966원']};
+ const G=figures(),want={price:['2,000억 원','1,648원','9,008원','4,000원','330원'],per:['12.14배','2.22배','18.3%','19,776원','17,971원'],dividend:['2.0%','24.3%','9.14%','13.9%'],ev:['2,114억 원','2,387.2억 원','8.59배','16,978원','19,776원'],fcf:['84억 원','−225.2억 원','196.8억 원','595.1억 원'],wacc:['9.3%','4.05%','81.6%','8.335%','2026-10-08'],terminal:['194억 원','3,079.6억 원','2,067.1억 원','77.6%','2,662.2억 원','22,750원'],sensitivity:['18,971원','27,968원','20,095원','25,404원'],implied:['0.25%','9.0%'],final:['15,867원','+2,758원','+4,381원','+3,533원','+5,294원','31,833원','15,966원']};
  for(const [id,list] of Object.entries(want))for(const s of list)assert.ok(G.render(id).caption.includes(s),`${id}: ${s} in ${G.render(id).caption}`);
  const all=IDS.map(id=>G.render(id).svg+G.render(id).caption).join(' ');
  for(const l2 of ['24,336','19,246','3,379','10.77%','8.98%','1,666.7','1,083.2','46.3억','6.67배','9.67배','7.12%','7.4%'])assert.ok(!all.includes(l2),'figure shows an L2 answer '+l2);

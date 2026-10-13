@@ -128,6 +128,8 @@ fieldset.cards .control{padding:4px 0}
 /* 마지막 과제 표: 칸이 좁으면 줄을 바꿔 세 칸이 모두 보이게 하고, 그래도 넘치면 is-wide 안내와 함께 옆으로 민다. */
 .lab .table-wrap.fit td,.lab .table-wrap.fit th{white-space:normal}
 .lab .table-wrap.fit td:first-child{min-width:6.5em}
+/* 세 칸 표(8장 1%p당 변화)는 카드로 바꾸지 않고 좁은 화면에서도 한 표로 둔다. */
+.lab .chart .table-wrap.compact table{min-width:0}.lab .table-wrap.compact td:first-child{min-width:0}.lab .table-wrap.compact th,.lab .table-wrap.compact td{padding-left:6px;padding-right:6px}
 .lab .chart .table-wrap.fit table{min-width:0}
 .lab .table-wrap.fit td{overflow-wrap:anywhere;font-family:var(--font-sans)}.lab .table-wrap.fit td b{white-space:nowrap}
 @media(max-width:400px){.lab .table-wrap.fit td:first-child{min-width:0}.lab .table-wrap.fit td,.lab .table-wrap.fit th{padding-inline:6px}}

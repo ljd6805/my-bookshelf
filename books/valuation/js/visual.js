@@ -61,7 +61,7 @@ const RATE_NOTE='금리와 위험 프리미엄은 바뀌므로 확인일을 보�
 const ADVICE_NOTE='가상의 회사와 가상의 분석가로 계산한 사례이며, 특정 주식을 사고팔라는 권유가 아닙니다. 학습용 계산, 투자 권유 아님.';
 const svg=(label,body,h=280,vw=480)=>`<svg viewBox="0 0 ${vw} ${h}"${vw>480?' class="cols-wide"':''} role="img" aria-label="${esc(label)}">${body}</svg>`;
 /* fit: 좁은 화면에서 행마다 칸을 위아래로 쌓는다. 'cards': 민감도 표처럼 칸이 많은 표를 행마다 카드로 묶고 칸을 여러 줄로 감싼다. 두 경우 모두 칸 이름을 data-label로 붙인다. */
-function table(head,rows,caption='',fit=false){const cls=fit==='cards'?' cards':fit?' fit':'';return `<div class="table-wrap${cls}" tabindex="0" role="region" aria-label="${esc(caption||'결과 표')}"><table>${caption?`<caption>${esc(caption)}</caption>`:''}<thead><tr>${head.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${fit?` data-label="${esc(String(head[i]).replace(/<[^>]+>/g,''))}"`:''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
+function table(head,rows,caption='',fit=false){const cls=fit==='cards'?' cards':fit==='compact'?' compact':fit?' fit':'';return `<div class="table-wrap${cls}" tabindex="0" role="region" aria-label="${esc(caption||'결과 표')}"><table>${caption?`<caption>${esc(caption)}</caption>`:''}<thead><tr>${head.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${fit?` data-label="${esc(String(head[i]).replace(/<[^>]+>/g,''))}"`:''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
 /* 축 눈금: lo~hi를 1·2·5×10^k 간격으로 나눈 둥근 값들. */
 function niceTicks(lo,hi,count=4){
  const span=hi-lo;if(!(span>0))return [lo];

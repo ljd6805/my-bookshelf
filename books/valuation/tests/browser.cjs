@@ -13,7 +13,7 @@ const BAD=/NaN|undefined|Infinity/;
 const SLOW_MS=300;
 /* 기본값에서 결과 문장(readout)에 꼭 나와야 하는 숫자: 본문(js/content.js)과 같은 값이다. */
 const DEFAULTS={
- 'price-basics':['2,000억 원','EPS = 164.8억 원 ÷ 1,000만 주 = 1,648원','9,008원','주가 10,000원, EPS 824원, BPS 4,504원으로','✓ 같음','실제 계산'],
+ 'price-basics':['2,000억 원','EPS = 164.8억 원 ÷ 1,000만 주 = 1,648원','9,008원','주식을 나누지 않았습니다','실제 계산'],
  'multiple-compare':['PER = 20,000 ÷ 1,648원 = 12.14배','2.22배','ROE 18.3%','= PBR ✓ 맞음','19,776원','17,971원'],
  'dividend-yield':['2.00%','24.3%','r = 428원 ÷ 20,000원 + 7.0% = 9.14%','13.9%'],
  'ev-bridge':['387.2억 원','2,387.2억 원','8.59배','주당 16,978원','16,978원~19,776원'],
@@ -27,10 +27,10 @@ const DEFAULTS={
 const CHART={'analyst-gap':['31,833','15,867'],'dcf-sensitivity':['▲'],'wacc-build':['확인일 2026-10-08']};
 /* 비교 예제 [번호, 꼭 나와야 하는 숫자](결과 문장과 그림·표 글자를 합쳐서 찾는다). */
 const PRESETS={
- 'price-basics':[[0,['1,360원','7,760원']],[1,['주식을 나누지 않았습니다']],[2,['주가 4,000원','1/5']]],
+ 'price-basics':[[0,['1,360원','7,760원']],[1,['주가 4,000원','1/5','✓ 같음']],[2,['주가 2,000원','1/10','2,000억 원 그대로']]],
  'multiple-compare':[[0,['14.71배']],[1,['✗ 어긋남']],[2,['선행 PER','11.56배']]],
  'dividend-yield':[[0,['7.10%']],[1,['11.18%']],[2,['8.71%']]],
- 'ev-bridge':[[0,['114억 원','8.81배']],[1,['17,978원']],[2,['21,148원']]],
+ 'ev-bridge':[[0,['114억 원','8.81배']],[1,['237.2억 원','2,237.2억 원','8.05배','18,478원']],[2,['21,148원']]],
  'fcff-forecast':[[0,['508.9억 원']],[1,['663.1억 원']],[2,['660.8억 원']]],
  'wacc-build':[[0,['26,771원']],[1,['19,641원']],[2,['28,601원']],[3,['18,971원']]],
  'terminal-steps':[[0,['19,914원']],[1,['24,970원']],[2,['33,448원']],[3,['752,382원','99.2%']]],
@@ -54,9 +54,12 @@ const L2={
  'implied-assumption':[{ibasis:'forward',iper:25,ipay:40,ir:9},['g = 9.0% − 40.0% ÷ 25.0 = 7.40%']],
  'analyst-gap':[{gs4:'wcRatio',gs1:'r'},['할인율을 바꾸면 19,246원']]
 };
+/* 확인 문제의 답: 기본 화면과 비교 예제에는 나오지 않는다(독자가 입력을 바꿔야 닿는다). */
+const QUIZ_ANSWER={'price-basics':['주가 10,000원, EPS 824원'],'ev-bridge':['2,287.2억 원','8.23배'],'dcf-sensitivity':['20,189원','20,190원'],'analyst-gap':['22,135원','+3,510원']};
+const noQuiz=(t,id,what)=>{for(const s of QUIZ_ANSWER[id]||[])assert.ok(!t.includes(s),`${id} ${what} shows the quiz answer ${s}`);};
 /* 다른 입력에 따라 쓰이는 칸은 그 상태를 먼저 만든 뒤 검사한다. */
 const CONTEXT={tnext:{tmode:'direct'}};
-const FIGURES={price:['2,000억 원'],terminal:['22,750원','77.6%'],sensitivity:['18,971원 ↔ 27,968원'],final:['31,833원','15,867원','15,966원']};
+const FIGURES={price:['2,000억 원','4,000원','330원'],terminal:['22,750원','77.6%'],sensitivity:['18,971원 ↔ 27,968원'],final:['31,833원','15,867원','15,966원']};
 const freePort=()=>new Promise(res=>{const s=net.createServer();s.listen(0,'127.0.0.1',()=>{const p=s.address().port;s.close(()=>res(p));});});
 async function serve(){
  if(process.env.BOOK_URL)return {url:process.env.BOOK_URL,stop:()=>{}};
@@ -82,7 +85,7 @@ const reset=lab=>lab.getByRole('button',{name:'실험 초기화',exact:true}).cl
 async function timed(lab,id){const ms=Number(await lab.locator('.lab-inner').getAttribute('data-ms'));report.timing[id]=Math.max(report.timing[id]||0,ms);assert.ok(ms<SLOW_MS,`${id}: recompute took ${ms}ms`);}
 async function presets(lab,id){
  const n=await lab.locator('[data-preset]').count();
- for(let i=0;i<n;i++){await reset(lab);const b=lab.locator('[data-preset]').nth(i);await b.click();assert.equal(await b.getAttribute('aria-pressed'),'true');await timed(lab,id);const t=await allText(lab);assert.doesNotMatch(t,BAD,`${id} preset ${i}`);for(const [k,list] of PRESETS[id]||[])if(k===i)has(t,list,`${id} preset ${i}`);for(const s of L2[id][1])assert.ok(!t.includes(s),`${id} preset ${i} shows the L2 answer ${s}`);}
+ for(let i=0;i<n;i++){await reset(lab);const b=lab.locator('[data-preset]').nth(i);await b.click();assert.equal(await b.getAttribute('aria-pressed'),'true');await timed(lab,id);const t=await allText(lab);assert.doesNotMatch(t,BAD,`${id} preset ${i}`);for(const [k,list] of PRESETS[id]||[])if(k===i)has(t,list,`${id} preset ${i}`);for(const s of L2[id][1])assert.ok(!t.includes(s),`${id} preset ${i} shows the L2 answer ${s}`);noQuiz(t,id,'preset '+i);}
  return n;
 }
 async function l2(lab,width,id){
@@ -116,7 +119,7 @@ async function controlsCheck(lab,id){
 }
 async function labCheck(lab,width,id){
  await svgInside(lab,`${id}@${width}`);
- const before=await readout(lab);has(before,DEFAULTS[id],id);assert.doesNotMatch(before,BAD,id);
+ const before=await readout(lab);has(before,DEFAULTS[id],id);noQuiz(await allText(lab),id,'default');assert.doesNotMatch(before,BAD,id);
  if(CHART[id])has(await allText(lab)+await lab.innerText(),CHART[id],id+' chart');
  assert.match(before,/실제 계산|미리 정한 가상 시나리오|시각적 비유/,`${id}: result is labelled`);
  const nTables=await tables(lab,id);
@@ -177,6 +180,7 @@ async function sensitivityFit(page,url){
   assert.ok(fit.length>=2,`sensitivity tables @${w}`);
   for(const f of fit.filter(x=>x.cards))assert.ok(f.sw<=f.cw+1,`sensitivity table "${f.label}" scrolls sideways at ${w}: ${f.sw} > ${f.cw}`);
   assert.ok(fit.some(x=>x.cards),'two-way tables use cards');
+  const pt=await s.locator('.chart .table-wrap.compact').evaluate(e=>({sw:e.scrollWidth,cw:e.clientWidth,wide:e.classList.contains('is-wide'),row:getComputedStyle(e.querySelector('tbody tr')).display}));assert.ok(pt.sw<=pt.cw+1&&!pt.wide&&pt.row==='table-row',`1%p table is not a compact table at ${w}: ${JSON.stringify(pt)}`);
   const t=await s.innerText();has(t,['막대 순서','영구가치 비중','1%p당 변화'],`sensitivity text @${w}`);
   await page.locator('#lab-dcf-sensitivity .chart').screenshot({path:path.join(output,`sensitivity-${w}.png`)});
   for(const [ch,lab] of [['ev','ev-bridge'],['final','analyst-gap']]){await frame(page,url,w,ch);const ov=await page.locator(`#lab-${lab} .chart svg`).first().evaluate(OVERLAP);assert.equal(ov,0,`${lab} axis labels overlap at ${w}`);}

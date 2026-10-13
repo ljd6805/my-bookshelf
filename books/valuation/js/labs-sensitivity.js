@@ -61,7 +61,7 @@ VLabs['dcf-sensitivity']=el=>{
   try{
    const mid=M.value(o.base),g=grid(o),tor=M.tornado(ranges(o),o.base),pp=perPoints(o.base),d=M.dcf(o.base),pv=M.peerValues();
    const lo=Math.min(...tor.map(r=>r.low)),hi=Math.max(...tor.map(r=>r.high)),rs=M.rangeSentence(Math.min(lo,pv.low),Math.max(hi,pv.high));
-   const ppt=U.table(['가정','+1%p','−1%p'],pp.map(p=>[NAME[p.k],p.up,p.down]),'1%p당 주당 가치 변화 (원)',true);
+   const ppt=U.table(['가정','+1%p','−1%p'],pp.map(p=>[NAME[p.k],p.up,p.down]),'1%p당 주당 가치 변화 (원)','compact');
    U.result(el,g.html+tornadoSvg(tor,mid)+ppt+rangeSvg(pv,lo,hi,mid,rs),text(o,mid,tor,pp,d.tvShare,rs,pv));
   }catch(e){U.result(el,'',U.problem(/g ≥ r/.test(e.message)?'영구성장률과 할인율':'기준안',U.why(e)));}
  });

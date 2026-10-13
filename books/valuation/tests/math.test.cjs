@@ -20,6 +20,7 @@ put('impG',M.implied('growth'));put('impR',M.implied('r'));put('impAll',['margin
 put('gPeers',[M.impliedG(8,0.5,0.09),M.impliedG(11,0.35,0.09),M.impliedG(18,0.2,0.09)]);
 const RS=[0.073,0.078,0.083,0.088,0.093];
 put('sG',M.sensitivity('r',RS,'growth',[0.01,0.03,0.05,0.07,0.09]));put('sM',M.sensitivity('r',RS,'margin',[0.10,0.11,0.12,0.13,0.14]));put('sT',M.sensitivity('r',RS,'gT',[0.01,0.015,0.02,0.025,0.03]));
+put('q8',{inputs:[0.04,0.088],cells:[M.value({growth:0.04,r:0.088}),M.value({growth:0.04,r:0.083}),M.value({growth:0.04,r:0.093})]});put('q10',M.gapSteps(['wcRatio','r','margin','growth']));
 put('range',M.rangeSentence(Math.min(PV.low,C.tornado[0].low),C.tornado[0].high));
 /* 확인·전이 문제와 복습 문제의 계산(새 사례와 오답 보기 포함) */
 put('q',{y16:400/16000,rent:[1200/30000,1200/25000],nwc322:1890*0.322,dNwc322:1890*0.322-580,evWrong:2487.2/278,cash162:450-162.8,
@@ -81,6 +82,8 @@ test('V-4 EV 2,114 → 2,387.2, EBITDA 240 · 278, 8.81 · 8.59, 중앙값 7.5�
  assert.deepEqual([C.ev24.netDebt,C.ev24.ev,C.ev24.ebitda,f2(C.ev24.evEbitda)],[114,2114,240,'8.81']);assert.deepEqual([f1(C.ev25.netDebt),f1(C.ev25.ev),C.ev25.ebitda,f2(C.ev25.evEbitda)],['387.2','2387.2',278,'8.59']);
  assert.deepEqual([PV.evValue,f1(PV.equityByEv),w(PV.low),w(PV.high)],[2085,'1697.8','16,978','19,776']);assert.equal(f1(C.evDiff),'273.2');
  assert.deepEqual([f1(C.evCash.ev),f2(C.evCash.evEbitda)],['2287.2','8.23']);
+ /* 4장 비교 예제 ‘차입금 300억 원’(확인 문제의 2,287.2억 원과 겹치지 않는다) */
+ const d300=M.ev(2000,300,62.8);assert.deepEqual([f1(d300.netDebt),f1(d300.ev),f2(d300.ev/278),w((7.5*278-d300.netDebt)*1e8/1e7)],['237.2','2237.2','8.05','18,478']);
  const a=M.ev(1000,0,0),b=M.ev(1000,500,50);assert.deepEqual([f2(a.ev/150),f2(b.ev/150)],['6.67','9.67']);
  assert.throws(()=>M.ev(1000,-1,0),RangeError);assert.deepEqual(M.equityValue(2662,387,1e7).perShare,(2662-387)*10);
 });
@@ -128,7 +131,8 @@ test('V-8 한 번에 하나: 18,971↔27,968 · 20,095↔25,404 · 21,682↔25,2
  assert.deepEqual([C.range.low,C.range.high],[17000,28000]);assert.deepEqual([pct(0.322-0.28),pct(0.28-0.18)],['4.2','10.0']);
 });
 
-test('V-8 표: 성장률 × 할인율, 영업이익률 × 할인율, 영구성장률 × 할인율(10원 반올림); 확인 20,400 · 25,460; L2 24,336',()=>{
+test('V-8 표: 성장률 × 할인율, 영업이익률 × 할인율, 영구성장률 × 할인율(10원 반올림); 확인 표 밖 칸 20,189(20,190); L2 24,336',()=>{
+ assert.deepEqual(C.q8.cells.map(v=>[w(v),w10(v)]),[['20,189','20,190'],['22,131','22,130'],['18,514','18,510']]);assert.ok(C.q8.cells[0]>M.r10(C.sG[3][1].value)&&C.q8.cells[0]<M.r10(C.sG[3][2].value),'between the neighbouring cells');
  assert.deepEqual(C.sG.map(r=>r.map(c=>w10(c.value))),[['24,760','26,310','27,970','29,760','31,680'],['22,400','23,710','25,130','26,660','28,290'],['20,400','21,530','22,750','24,060','25,460'],['18,710','19,680','20,720','21,840','23,040'],['17,240','18,070','18,970','19,940','20,970']]);
  assert.deepEqual([0,2,4].map(i=>C.sM[i].map(c=>w10(c.value))),[['21,640','24,810','27,970','31,130','34,290'],['17,440','20,100','22,750','25,400','28,060'],['14,400','16,690','18,970','21,260','23,540']]);
  assert.deepEqual([0,2,4].map(i=>C.sT[i].map(c=>w10(c.value))),[['25,360','26,550','27,970','29,680','31,780'],['21,140','21,880','22,750','23,760','24,970'],['17,940','18,420','18,970','19,600','20,330']]);
@@ -157,7 +161,8 @@ test('V-9 주가 20,000원 = 성장률 0.25% 또는 할인율 9.0%, 비교 회�
  assert.throws(()=>M.implied('tax'),RangeError);assert.throws(()=>M.implied('growth',1e9),/no solution/);
 });
 
-test('V-10 A 31,833 · B 15,867(2.01배), 744.1 · 512.1, 79.2% · 74.1%, B → A 18,625 · 23,006 · 26,539 · 31,833; L2 19,246; 확인 +3,379',()=>{
+test('V-10 A 31,833 · B 15,867(2.01배), 744.1 · 512.1, 79.2% · 74.1%, B → A 18,625 · 23,006 · 26,539 · 31,833; L2 19,246; 확인 운전자본 → 할인율 순서의 할인율 몫 +3,510',()=>{
+ assert.deepEqual(C.q10.steps.slice(0,2).map(s=>[s.key,w(s.value),w(s.delta)]),[['wcRatio','18,625','2,758'],['r','22,135','3,510']]);assert.ok(C.q10.steps[1].delta<F.gap.steps[3].delta);
  assert.deepEqual([w(F.A.perShare),w(F.B.perShare),f2(F.ratio),w(F.diff)],['31,833','15,867','2.01','15,966']);
  assert.deepEqual([f1(F.A.pvSum),f1(F.B.pvSum),f1(F.A.tvPv),f1(F.B.tvPv),pct(F.A.tvShare),pct(F.B.tvShare)],['744.1','512.1','2826.4','1461.9','79.2','74.1']);
  assert.deepEqual(F.gap.steps.map(s=>[s.key,w(s.value),w(s.delta)]),[['wcRatio','18,625','2,758'],['margin','23,006','4,381'],['growth','26,539','3,533'],['r','31,833','5,294']]);
@@ -181,7 +186,7 @@ test('the numbers in docs/index.html #curriculum-case and #chapters (해결 결�
  for(const s of l1)assert.ok(L.includes(s),'chapters L1: '+s);
  const l2=['(시가총액 600억 원, EPS 1,200원, BPS 9,000원)','(PBR 1.5배, PER 15배)','(3.0%, 30%, 7.12%)','(6.67배, 9.67배)','(FCFF 50억 원, 현재가치 약 46.3억 원)','(10.77%, 약 8.98%)','(1,666.7억 원, 약 1,083.2억 원, 2,000억 원으로 20%)','(오른다, 24,336원)','(7.4%)','(19,246원)'];
  for(const s of l2)assert.ok(L.includes(s),'chapters L2: '+s);
- const check=['(10,000원, 824원, 2,000억 원 그대로)','(2.34배)','(2.5%)','(2,287.2억 원, 8.23배)','(1,890 × 32.2% − 580 = 28.6억 원','(8.3%, 약 7.5%: (2,000 × 8.3% + 450 × 4.05%) ÷ 2,450 = 7.52%)','(계산하지 않고 “g ≥ r” 오류)','(20,400원, 25,460원)','(약 5.64%)','(작다: 19,246 − 15,867 = +3,379원','(4.0%, 4.8%)','(2억 원, 1년 뒤 첫 지급이면 약 3억 3,333만 원)','(50만 원'];
+ const check=['(10,000원, 824원, 2,000억 원 그대로)','(2.34배)','(2.5%)','(2,287.2억 원, 8.23배)','(1,890 × 32.2% − 580 = 28.6억 원','(8.3%, 약 7.5%: (2,000 × 8.3% + 450 × 4.05%) ÷ 2,450 = 7.52%)','(계산하지 않고 “g ≥ r” 오류)','(약 20,190원: 20,189원으로 이웃 칸 19,680원과 20,720원 사이)','(약 5.64%)','(작다: 22,135 − 18,625 = +3,510원','(4.0%, 4.8%)','(2억 원, 1년 뒤 첫 지급이면 약 3억 3,333만 원)','(50만 원'];
  for(const s of check)assert.ok(L.includes(s),'chapters check/transfer: '+s);
 });
 
