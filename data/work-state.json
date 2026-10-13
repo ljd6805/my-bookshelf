@@ -461,7 +461,7 @@
     "plan": "/mnt/project-files/stock-books/proposal.md, /mnt/project-files/stock-books/vol5-handoff.md",
     "docs": "books/statements/docs/index.html",
     "research": "books/statements/docs/research.html",
-    "status": "published: G0~G5 팀장 승인, G6·G7 승인 대기",
+    "status": "published: G0~G7 팀장 승인, 팩트·출처 검수 1회차 fixed, 2026-10-13 서가 공개",
     "done": [
       "기획(#plan·#opposition·#links), 교과과정(#curriculum·#curriculum-map·#curriculum-compare·#curriculum-case), 장 설계(#chapters) 초안",
       "research.html 출처 S1~S22와 계산값 V-1~V-10",
@@ -491,7 +491,7 @@
       "확인 못함: 한국은행 기업경영분석의 이자보상비율 산식 원문, Sloan(1996) 원문",
       "검수에서 다시 열지 못한 출처 목록은 books/statements/docs/fact-review.html 참고"
     ],
-    "next": "G6 정민·G7 한결 승인 뒤 PR 병합, 시리즈 다음 권(proposal.md §4: 6권 가치 평가)",
+    "next": "PR 병합, 시리즈 다음 권(proposal.md §4: 6권 가치 평가)",
     "fact_review": "books/statements/docs/fact-review.html (1회차 fixed: facts·terms·sources·wording fixed, numbers·experiments ok)"
   }
 }

@@ -56,4 +56,5 @@ jobs:
       - run: npm test --prefix books/bonds
       - run: npm test --prefix books/tax
       - run: npm test --prefix books/etf
+      - run: npm test --prefix books/statements
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v
