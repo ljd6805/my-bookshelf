@@ -21,7 +21,7 @@ F.price=()=>{
  const b=M.basics(),s=M.split({},5);
  let st=t(20,26,'1주를 5주로 나누면: 한 주의 숫자는 5분의 1, 회사 전체는 그대로',{size:13,w:700,a:'start'})+bars([['주가',b.price],['주가(분할 뒤)',s.price,'▼ '],['EPS ×10',b.eps*10,false,Wn(b.eps)],['EPS ×10(분할 뒤)',s.eps*10,'▼ ',Wn(s.eps)]],{x0:40,gap:150,bw:80,top:60,zero:190,scale:b.price,f:Wn});
  st+=t(320,232,`시가총액 ${fx(b.price)}원 × 1,000만 주 = ${E(b.cap)} = ${fx(s.price)}원 × 5,000만 주`,{size:13,w:700});
- return {svg:svg(`주가 ${Wn(b.price)}, EPS ${Wn(b.eps)}이 분할 뒤 ${Wn(s.price)}, ${Wn(s.eps)}; 시가총액 ${E(b.cap)} 그대로`,st,246),caption:`새벽전자의 시가총액은 ${fx(b.price)}원 × 1,000만 주 = ${E(b.cap)}이고, EPS는 ${Wn(b.eps)}, BPS는 ${Wn(b.bps)}입니다. 1주를 5주로 나누면 주가 ${Wn(s.price)}, EPS ${Wn(s.eps)}, BPS ${Wn(s.bps)}으로 한 주의 숫자만 5분의 1이 되고 시가총액은 ${E(s.cap)} 그대로입니다(EPS 막대는 10배로 늘려 그렸고, ▼는 분할 뒤 줄어든 값입니다).`};
+ return {svg:svg(`주가 ${Wn(b.price)}, EPS ${Wn(b.eps)}이 분할 뒤 ${Wn(s.price)}, ${Wn(s.eps)}; 시가총액 ${E(b.cap)} 그대로`,st,246),caption:`새벽전자의 시가총액은 ${fx(b.price)}원 × 1,000만 주 = ${E(b.cap)}이고, EPS는 ${Wn(b.eps)}, BPS는 ${Wn(b.bps)}입니다. 1주를 5주로 나누면 주가 ${Wn(s.price)}, EPS ${Wn(s.eps)}, BPS ${Wn(s.bps)}으로 한 주의 숫자만 5분의 1이 되고 시가총액은 ${E(s.cap)} 그대로입니다(EPS 막대는 10배로 늘려 그렸고, ▼는 분할 뒤 줄어든 값에 붙인 표시입니다).`};
 };
 F.per=()=>{
  const T=M.peerTable(),m=M.multiples(),pv=M.peerValues(),items=[...T.map(p=>[`비교 회사 ${p.name}`,p.per]),['새벽전자',m.per,true]];
