@@ -35,18 +35,23 @@ function pensionChart(o){
  return U.columns({labels:items.map(x=>x[0]),values:items.map(x=>x[1]),mark:i=>i===3,fmt:v=>F(v),tick:v=>F(v/10000)+'만',title:'원 · 세후 = 세전 수익 + 공제 − 꺼낼 때 세금',h:240,label:items.map(x=>`${x[0]} ${W(x[1])}`).join(', ')});
 }
 TLabs.pension=el=>{
- U.setup(el,`<fieldset class="step"><legend>1단계 · 넣을 때</legend>${U.select('pacct','계좌',ACCTS,'saving')+U.number('pamt','한 해 납입액 (원)',0,18000000,100000,10000000)+U.select('pband','총급여 구간',[['under','5,500만 원 이하 (공제율 16.5%)'],['over','5,500만 원 초과 (공제율 13.2%)']],'under')}</fieldset><fieldset class="step"><legend>2단계 · 꺼낼 때</legend>${U.select('pwithdraw','꺼내는 방법',[['annuity','55세 이후 연금으로 (5.5%)'],['early','3년 뒤 중도 인출 (16.5%)']],'annuity')+U.number('pdefer','늦게 내는 세금 (원)',0,100000000,10000,1000000)+U.number('pyears','세금을 내는 해까지 남은 해 (년)',0,50,1,10)+U.range('prate','할인율 (%)',0,8,.5,3,'1권 할인 계산')}</fieldset>`);
- U.bind(el,()=>{
-  const acct=U.value(el,'pacct'),amt=U.num(el,'pamt'),band=U.value(el,'pband'),mode=U.value(el,'pwithdraw'),defer=U.num(el,'pdefer'),yrs=U.num(el,'pyears'),r=+U.value(el,'prate')/100;
+ U.setup(el,`<fieldset class="step"><legend>1단계 · 넣을 때</legend>${U.select('pacct','계좌',ACCTS,'saving')+U.number('pamt','한 해 납입액 (원)',0,18000000,100000,10000000)+U.select('pband','총급여 구간',[['under','5,500만 원 이하 (공제율 16.5%)'],['over','5,500만 원 초과 (공제율 13.2%)']],'under')}</fieldset><fieldset class="step"><legend>2단계 · 꺼낼 때</legend>${U.select('pwithdraw','꺼내는 방법',[['annuity','55세 이후 연금으로 (5.5%)'],['early','3년 뒤 중도 인출 (16.5%)']],'annuity')}</fieldset><fieldset class="step"><legend>늦게 내는 세금의 오늘 가치</legend>${U.number('pdefer','늦게 내는 세금 (원)',0,100000000,1,M.pensionOutcome(base(10000000),'saving','under','annuity').tax,'직접 바꾸기 전까지는 2단계에서 계산한 세금을 따라갑니다')+U.number('pyears','세금을 내는 해까지 남은 해 (년)',0,50,1,10)+U.range('prate','할인율 (%)',0,8,.5,3,'1권 할인 계산')}</fieldset>`);
+ let touched=false;
+ U.bind(el,e=>{
+  if(e&&e.target&&e.target.id==='pdefer')touched=true;
+  const acct=U.value(el,'pacct'),amt=U.num(el,'pamt'),band=U.value(el,'pband'),mode=U.value(el,'pwithdraw'),yrs=U.num(el,'pyears'),r=+U.value(el,'prate')/100;
   if(amt===null)return U.result(el,'',U.problem('납입액','0에서 1,800만 원 사이의 원 단위 숫자를 넣어야 합니다.'));
-  if(defer===null)return U.result(el,'',U.problem('늦게 내는 세금','0 이상의 원 단위 숫자를 넣어야 합니다.'));
   if(yrs===null||!Number.isInteger(yrs))return U.result(el,'',U.problem('남은 해','0에서 50 사이의 정수(년)를 넣어야 합니다.'));
-  const c=M.pensionCredit(amt,acct,band),f=base(amt),o=M.pensionOutcome(f,acct,band,mode),pv=M.presentValue(defer,r,yrs),name=ACCTS.find(a=>a[0]===acct)[1].split(' (')[0];
+  const c=M.pensionCredit(amt,acct,band),f=base(amt),o=M.pensionOutcome(f,acct,band,mode);
+  if(!touched)el.querySelector('#pdefer').value=o.tax;
+  const defer=U.num(el,'pdefer');
+  if(defer===null)return U.result(el,'',U.problem('늦게 내는 세금','0 이상의 원 단위 숫자를 넣어야 합니다.'));
+  const pv=M.presentValue(defer,r,yrs),name=ACCTS.find(a=>a[0]===acct)[1].split(' (')[0];
   const step1=`<b>1단계 넣을 때</b>: ${name}에 ${W(amt)}을 넣으면 공제 대상은 한도 ${W(c.limit)}까지인 ${W(c.base)}이고, × ${U.rp(c.rate)} = <b>${W(c.credit)}</b>을 다음 해 연말정산에서 돌려받습니다.`;
   const out=mode==='early'?`3년 뒤 중도에 꺼내면 공제받은 원금 ${W(c.base)}과 수익 ${W(f.pretax)}에 16.5%가 붙어 세금 <b>${W(o.tax)}</b>, 세후 <b>${W(o.after)}</b>입니다. 받은 공제 <b>${W(c.credit)}</b>, 공제받은 원금 몫 기타소득세 <b>${W(o.principalTax)}</b>, 차이 <b>${U.sfmt(c.credit-o.principalTax)}원</b>입니다.`
    :`55세 이후 연금으로 받으면 공제받은 원금 ${W(c.base)}과 수익 ${W(f.pretax)}에 5.5%가 붙어 세금 <b>${W(o.tax)}</b>, 세후 <b>${W(o.after)}</b>입니다(그때까지 세율이 그대로라는 가정).`;
   const nc=amt>c.base?` 공제받지 않은 원금 ${W(amt-c.base)}은 세금 없이 나온다고 놓았습니다. 이 규칙과 돈이 빠지는 순서는 <b>확인 못함</b>입니다.`:'';
-  const step2=`<b>2단계 꺼낼 때</b>(3년 동안 연 4% + 2%, 세전 수익 ${W(f.pretax)}): ${out}${nc}<br>세금을 늦게 내는 값: ${yrs}년 뒤 내는 세금 ${W(defer)}은 할인율 ${F(r*100,1)}%에서 오늘 가치 <b>${W(pv)}</b>입니다. 세금이 없어지는 것이 아니라 늦게 내는 것입니다.`;
+  const step2=`<b>2단계 꺼낼 때</b>(3년 동안 연 4% + 2%, 세전 수익 ${W(f.pretax)}): ${out}${nc}<br><b>늦게 내는 세금의 오늘 가치</b>: ${yrs}년 뒤 내는 세금 ${W(defer)}${defer===o.tax?'(2단계에서 계산한 세금)':''}은 할인율 ${F(r*100,1)}%에서 오늘 가치 <b>${W(pv)}</b>입니다. 세금이 없어지는 것이 아니라 늦게 내는 것입니다.`;
   U.result(el,pensionChart({pretax:f.pretax,credit:c.credit,tax:o.tax,after:o.after}),`${note()}${step1}<br>${step2}${U.kind(['real','news','scenario'].concat(nc?['unknown']:[]),'연금 수령액이 연 1,500만 원을 넘는 경우와 70세 이후의 낮은 세율은 계산에 넣지 않았습니다.')}`);
  });
 };

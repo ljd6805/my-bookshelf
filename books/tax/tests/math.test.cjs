@@ -128,11 +128,17 @@ test('10장 마지막 과제: X·Y·Z, 13.2%, 전부 3년 뒤, 가격 상승 0%(
  assert.throws(()=>M.planOutcome('W'),RangeError);
 });
 
+test('ch9 L2: Nuri200 for five years, general vs ISA',()=>{
+ const c=M.afterTaxTable({principal:10000000,years:5,growth:0.04,payout:0.02,kind:'kequity'}).cells;
+ const ref=Math.floor(1000000*0.154+1e-7),pretax=Math.round(1e7*1.04**5)-1e7+1000000;
+ assert.equal(c.general.after,pretax-ref);assert.equal(c.isa.after,pretax);assert.equal(c.isa.after-c.general.after,154000);assert.equal(c.general.after,3012529);
+});
+
 test('the numbers in docs/index.html #curriculum-case and #chapters L2 cells are the numbers above',()=>{
  const doc=read('docs/index.html'),caseText=doc.slice(doc.indexOf('id="curriculum-case"'),doc.indexOf('id="chapters"'));
  for(const s of ['1,848,640원','169,200원','28,000원','2,800원','1,248,640원','165만 원','11만 원','1,756,240원','1,563,950원','3,166,529원','115,486원','487,645원','1,826,143원','2,406,965원','1,543,615원','92,400원','284,690원','99만 원','48만 원'])assert.ok(caseText.includes(s),'case: '+s);
  const L2=doc.slice(doc.indexOf('id="chapters"'),doc.indexOf('id="style"'));
- for(const s of ['18,480원','120,000원','480만 원','44만 원','693,000원','123만 2,000원','121만 원','2,772,960원','76,523원','427,035원','350,512원','79만 2,000원','99만 원','19만 8,000원','46,200원','142,345원','1,240,200원','600,000원','1,203,240원','744,093원'])assert.ok(L2.includes(s),'chapters: '+s);
+ for(const s of ['18,480원','120,000원','480만 원','44만 원','693,000원','123만 2,000원','121만 원','2,772,960원','76,523원','427,035원','350,512원','79만 2,000원','99만 원','19만 8,000원','3,012,529원','3,166,529원','154,000원','1,240,200원','600,000원','1,203,240원','744,093원'])assert.ok(L2.includes(s),'chapters: '+s);
 });
 
 test('rates live in one table with the check date, and the unverified rules are named',()=>{

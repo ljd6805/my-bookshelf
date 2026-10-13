@@ -11,7 +11,7 @@ function gainsText(a,gain,loss,hold,share){
  if(a==='domestic'){const big=M.isBigHolder(hold,share/100),b=R.bigHolder,base=Math.max(0,gain-loss),tax=M.domesticGainTax(base,big);
   return {tax,base,big,who:big?'다음 해 5월 본인 신고':'—',line:big?`보유액 ${W(hold)} 또는 지분율 ${F(share,2)}%가 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%) 이상이라 <b>대주주</b>입니다. 과세표준 3억 원까지 22%, 넘는 몫 27.5%(지방세 포함)로 양도세 <b>${W(tax)}</b>입니다. 대주주의 기본공제와 1년 미만 보유 세율은 확인 못함이라 넣지 않았습니다.`:`보유액 ${W(hold)}, 지분율 ${F(share,2)}%로 기준(종목당 ${F(b.value/1e8)}억 원, 코스피 ${F(b.shareKospi*100)}%)에 못 미쳐 <b>소액주주</b>입니다. 차익이 얼마든 양도세는 <b>0원</b>이고, 팔 때 거래세만 냅니다(2장).`};}
  const t=M.foreignGainTax(gain,loss);
- return {tax:t.tax,base:t.base,who:'다음 해 5월 본인 신고',line:`(차익 ${W(gain)}${loss?` − 같은 해 손실 ${W(loss)}`:''} − 공제 ${W(R.foreign.deduction)}) = 과세표준 ${W(t.base)}, × 22% = 양도세 <b>${W(t.tax)}</b>입니다. 증권사가 떼지 않으므로 다음 해 5월에 본인이 신고해 냅니다.${loss?' 같은 해 다른 해외 자산의 손실을 뺀 것은 보도에서 확인 못한 가정입니다.':''}`};
+ return {tax:t.tax,base:t.base,who:'본인 신고(시기는 확인 못함)',line:`(차익 ${W(gain)}${loss?` − 같은 해 손실 ${W(loss)}`:''} − 공제 ${W(R.foreign.deduction)}) = 과세표준 ${W(t.base)}, × 22% = 양도세 <b>${W(t.tax)}</b>입니다. 증권사가 떼지 않아 본인이 신고합니다(신고 시기는 확인 못함).${loss?' 같은 해 다른 해외 자산의 손실을 뺀 것은 보도에서 확인 못한 가정입니다.':''}`};
 }
 TLabs.gains=el=>{
  U.setup(el,U.select('gasset','자산',ASSETS,'domestic')+U.number('ggain','차익 (원)',0,100000000000,10000,1248640)+U.number('gloss','같은 해 다른 자산의 손실 (원)',0,100000000000,10000,0)+U.number('ghold','종목당 보유액 (원, 국내 상장주식)',0,1000000000000,1000000,11248640,'대주주 판정용')+U.number('gshare','지분율 (%, 국내 상장주식)',0,100,0.001,0.001));

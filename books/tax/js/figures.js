@@ -15,6 +15,7 @@ const base=()=>M.roundFlows(M.flows(M.BASE.principal,M.BASE.years,M.BASE.growth,
 function bars(items,{x0=70,gap=140,bw=86,top=50,bottom=210,max}={}){
  const hi=max||Math.max(...items.map(i=>i[1]),1),Y=v=>bottom-v/hi*(bottom-top);let s=`<path d="M${x0-20} ${bottom}H${x0+gap*items.length}" stroke="var(--line)"/>`;
  items.forEach(([n,v,on],i)=>{const x=x0+i*gap;s+=up(x,Y(v),bw,bottom-Y(v),on?'var(--accent)':'var(--blue)',i*.2)+t(x+bw/2,Y(v)-8,(on?'▲ ':'')+W(v),{size:13,w:700})+t(x+bw/2,bottom+20,n,{size:12});});
+ if(items.some(i=>i[2]))s+=t(620,247,'▲ 이 장에서 볼 칸',{a:'end',size:11,fill:'var(--muted)'});
  return s;
 }
 const F={};
@@ -40,8 +41,8 @@ F.dividend=()=>{
 F.gains=()=>{
  const f=base(),big=M.domesticGainTax(f.gain,true),small=M.domesticGainTax(f.gain,false),fg=M.foreignGainTax(10000000);
  let s=bars([['새벽전자 · 소액주주',small],['새벽전자 · 대주주',big],['먼바다500 · 차익 1,000만',fg.tax,true]],{x0:90,gap:170,bw:100,max:fg.tax});
- s+=t(320,24,'차익에 붙는 양도세 · 누가 내고 언제 내나',{size:13,w:700});
- return {svg:svg(`양도세: 소액주주 ${W(small)}, 대주주 ${W(big)}, 먼바다500 ${W(fg.tax)}`,s,250),caption:`새벽전자 차익 ${W(f.gain)}에 소액주주는 양도세 ${W(small)}이고, 대주주라면 22%를 적용해 ${W(big)}입니다. 해외 상장 먼바다500의 차익 1,000만 원은 250만 원을 뺀 ${W(fg.base)}에 22%를 매겨 ${W(fg.tax)}이고, 증권사가 떼지 않으므로 다음 해 5월에 본인이 신고합니다.`};
+ s+=t(320,24,'차익에 붙는 양도세 · 누가 내나',{size:13,w:700});
+ return {svg:svg(`양도세: 소액주주 ${W(small)}, 대주주 ${W(big)}, 먼바다500 ${W(fg.tax)}`,s,250),caption:`새벽전자 차익 ${W(f.gain)}에 소액주주는 양도세 ${W(small)}이고, 대주주라면 22%를 적용해 ${W(big)}입니다. 해외 상장 먼바다500의 차익 1,000만 원은 250만 원을 뺀 ${W(fg.base)}에 22%를 매겨 ${W(fg.tax)}이고, 증권사가 떼지 않아 본인이 신고합니다(신고 시기는 확인 못함).`};
 };
 F.threshold=()=>{
  const total=21000000,r=M.extraTax(total,0.24),line=M.RATES.threshold,X=v=>60+v/25000000*520;

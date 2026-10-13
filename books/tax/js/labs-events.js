@@ -13,15 +13,15 @@ function timeline(kind,prin,income,gain){
  if(kind==='stock'){const s=M.stt('kospi',sale);rows.sell=[`증권거래세 ${W(s.tax)} + 농어촌특별세 ${W(s.rural)} · 소액주주라 양도세 없음`,s.each,'증권사가 뗌'];}
  if(kind==='kequity')rows.sell=['ETF라 거래세 없음 · 국내주식형이라 차익 비과세',0,'—'];
  if(kind==='kother')rows.sell=['차익에 배당소득세 15.4% · ETF라 거래세 없음',w154(gain),'증권사가 뗌(원천징수)'];
- if(kind==='foreign')rows.sell=['팔 때는 떼지 않음 · 차익은 해가 바뀐 뒤 신고',0,'—'];
- if(kind==='bond')rows.sell=['가격 몫은 개인에게 비과세(보도 기준) · 채권 매도의 거래세는 확인 못함, 0으로 둠',0,'—'];
+ if(kind==='foreign')rows.sell=['팔 때는 떼지 않음 · 한 해 차익을 모아 본인이 신고',0,'—'];
+ if(kind==='bond')rows.sell=['중간에 판 매매차익은 개인에게 비과세(보도 기준) · 나라 3년의 가격 몫을 비과세로 둔 것은 이 책의 가정 · 채권 매도의 거래세는 확인 못함, 0으로 둠',0,'—'];
  const total=income+(kind==='kother'?gain:0),over=total>R.threshold;
- rows.year=kind==='foreign'?[`양도소득세: (차익 − 250만 원) × 22% · 다음 해 5월 본인 신고`,M.foreignGainTax(gain).tax,'본인이 신고']:[over?'이자·배당 합계가 2,000만 원을 넘어 넘는 몫은 종합과세(5장)':'이자·배당 합계가 2,000만 원 이하라 더 낼 세금 없음',0,over?'본인이 신고':'—'];
+ rows.year=kind==='foreign'?[`양도소득세: (차익 − 250만 원) × 22% · 증권사가 떼지 않아 본인이 신고(신고 시기는 확인 못함)`,M.foreignGainTax(gain).tax,'본인이 신고']:[over?'이자·배당 합계가 2,000만 원을 넘어 넘는 몫은 종합과세(5장)':'이자·배당 합계가 2,000만 원 이하라 더 낼 세금 없음',0,over?'본인이 신고':'—'];
  return rows;
 }
 function timelineChart(rows,pick){
- let s=`<text x="12" y="18" class="series">투자 한 건의 네 사건 · ▲ 고른 사건</text><path d="M30 92H450" stroke="var(--line)" stroke-width="2"/>`;
- EVENTS.forEach(([k,name],i)=>{const x=40+i*136,on=k===pick,tax=rows[k][1];s+=`<rect x="${x}" y="60" width="116" height="64" rx="8" fill="var(--panel2)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2.5:1}"/><text x="${x+58}" y="84" text-anchor="middle" class="mark-t">${on?'▲ ':''}${name}</text><text x="${x+58}" y="108" text-anchor="middle" class="axis">${tax?W(tax):'0원'}</text>`;});
+ let s=`<text x="12" y="18" class="series">투자 한 건의 네 사건 · ▲ 고른 사건</text><path d="M12 92H468" stroke="var(--line)" stroke-width="2"/>`;
+ EVENTS.forEach(([k,name],i)=>{const x=12+i*116,on=k===pick,tax=rows[k][1];s+=`<rect x="${x}" y="60" width="104" height="64" rx="8" fill="var(--panel2)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2.5:1}"/><text x="${x+52}" y="84" text-anchor="middle" class="mark-t">${on?'▲ ':''}${name}</text><text x="${x+52}" y="108" text-anchor="middle" class="axis">${tax?W(tax):'0원'}</text>`;});
  return U.svg(`네 사건의 세금: ${EVENTS.map(([k,n])=>`${n} ${W(rows[k][1])}`).join(', ')}`,s,150);
 }
 TLabs['tax-map']=el=>{

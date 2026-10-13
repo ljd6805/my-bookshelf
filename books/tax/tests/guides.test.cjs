@@ -33,6 +33,6 @@ test('chapter recall equals the L1 cell of the design table',()=>{
 });
 test('app.js info[lab][2] equals the L2 cell of the design table',()=>{IDS.forEach((id,i)=>{const l2=cell(id,'L2');assert.ok(l2,`${id}: no L2 cell`);assert.equal(L2(LABS[i]),l2,LABS[i]);});});
 test('every reading ends by answering its L2 question with the computed numbers',()=>{
- const want={'tax-map':['3,080원','15,400원','18,480원'],stt:['120,000원'],withhold:['4,800,000원'],gains:['44만 원','5월'],threshold:['693,000원'],'etf-tax':['1,232,000원','1,210,000원'],isa:['2,772,960원','76,523원','350,512원'],pension:['792,000원','990,000원','−198,000원'],'after-tax':['46,200원','142,345원'],'final-order':['1,240,200원','600,000원','1,203,240원']};
+ const want={'tax-map':['3,080원','15,400원','18,480원'],stt:['120,000원'],withhold:['4,800,000원'],gains:['44만 원','본인이 신고'],threshold:['693,000원'],'etf-tax':['1,232,000원','1,210,000원'],isa:['2,772,960원','76,523원','350,512원'],pension:['792,000원','990,000원','−198,000원'],'after-tax':['3,012,529원','3,166,529원','154,000원'],'final-order':['1,240,200원','600,000원','1,203,240원']};
  for(const [id,list] of Object.entries(want)){const last=G[id][2].split(/(?<=다\.)\s/).pop();for(const s of list)assert.ok(last.includes(s),`${id}: ${s} in last sentence: ${last}`);}
 });

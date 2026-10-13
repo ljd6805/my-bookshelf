@@ -81,7 +81,7 @@ function xy(o){
  let s=`<path d="M${L} ${T}V${B}H${R}" stroke="var(--line)" fill="none"/>`;
  niceTicks(y0,y1,4).forEach(v=>{s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--line)" stroke-opacity=".5"/><text x="${L-6}" y="${(Y(v)+4).toFixed(1)}" text-anchor="end" class="axis">${esc(yf(v))}</text>`;});
  (o.xticks||niceTicks(x0,x1,5)).forEach(v=>{s+=`<text x="${X(v).toFixed(1)}" y="${B+17}" text-anchor="middle" class="axis">${esc(xf(v))}</text>`;});
- if(o.xlab)s+=`<text x="${R}" y="${h-2}" text-anchor="end" class="axis">${esc(o.xlab)}</text>`;
+ if(o.xlab)s+=`<text x="${R-4}" y="${B-6}" text-anchor="end" class="axis">${esc(o.xlab)}</text>`;
  (o.hlines||[]).forEach(([v,t])=>{s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--muted)" stroke-dasharray="4 4"/>${t?`<text x="${R-4}" y="${(Y(v)-5).toFixed(1)}" text-anchor="end" class="axis">${esc(t)}</text>`:''}`;});
  (o.vlines||[]).forEach(([v,t])=>{s+=`<path d="M${X(v).toFixed(1)} ${T}V${B}" stroke="var(--orange)" stroke-dasharray="3 3"/>${t?`<text x="${Math.min(R,X(v)+4).toFixed(1)}" y="${T+12}" class="mark-t"${X(v)>R-110?' text-anchor="end"':''}>${esc(t)}</text>`:''}`;});
  S.forEach((ser,k)=>{const d=ser.pts.filter(p=>Number.isFinite(p[1])).map((p,i)=>`${i?'L':'M'}${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('');const dash=ser.dash??DASH[k%4];
@@ -96,7 +96,7 @@ function xy(o){
 }
 /* 가운데 0선(또는 base선)을 두는 세로 막대. o = {labels, values, base, mark(i), fmt, tick, h, label, title, colors}. mark(i)가 참인 막대에는 ▲ 표시를 붙인다. */
 function columns(o){
- const h=o.h||260,L=56,R=468,T=30,B=h-34,n=o.values.length,base=o.base??0,vf=o.fmt||(v=>sfmt(v,2));
+ const h=o.h||260,L=72,R=468,T=30,B=h-34,n=o.values.length,base=o.base??0,vf=o.fmt||(v=>sfmt(v,2));
  const ext=[...o.values,base,...(o.extra||[])],lo0=Math.min(...ext),hi0=Math.max(...ext),pad=(hi0-lo0)*.14||.1,lo=o.lo??lo0-pad,hi=hi0+pad;
  const Y=v=>B-(v-lo)/(hi-lo)*(B-T),w=(R-L)/n,bw=Math.max(4,w*.6);
  let s=`<path d="M${L} ${Y(base).toFixed(1)}H${R}" stroke="var(--muted)"/>`;

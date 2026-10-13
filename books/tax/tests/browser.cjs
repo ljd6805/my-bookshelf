@@ -7,7 +7,7 @@ const {chromium}=require('playwright');
 const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),net=require('node:net'),assert=require('node:assert/strict'),{spawn}=require('node:child_process');
 const ROOT=path.resolve(__dirname,'../../..');
 const output=process.env.BOOK_EVIDENCE||path.join(os.tmpdir(),'tax-evidence');
-const report={date:'2026-10-13',views:[],labs:[],l2:[],timing:{},art:[],errors:[],console:[]};
+const report={date:'2026-10-13',views:[],labs:[],l2:[],timing:{},art:[],errors:[],console:[],missing:[],svgTexts:0};
 const BAD=/NaN|undefined|Infinity/;
 const SLOW_MS=300;
 /* 기본값에서 결과 문장(readout)에 꼭 나와야 하는 숫자: 본문(js/content.js)과 같은 값이다. CHART는 그림·표 쪽 글자. */
@@ -19,7 +19,7 @@ const DEFAULTS={
  threshold:['1,000,000원','110,000원','24%','가정'],
  'etf-tax':['284,690원','1,563,950원','192,290원','8,333,333원'],
  isa:['1,848,640원','세금 0원','284,690원'],
- pension:['990,000원','431,675원','2,406,965원','744,093원','확인 못함'],
+ pension:['990,000원','431,675원','2,406,965원','431,675원(2단계에서 계산한 세금)','321,206원','확인 못함'],
  'after-tax':['1,848,640원','1,563,950원','2,406,965원','1,543,615원','92,400원','284,690원','보도·안내 기준(공식 원문 미확인)'],
  'final-order':['2,447,635원','1,848,640원','2,333,759원','739,456원','1,708,179원','3년 뒤 손에 쥐는 금액 아님','X입니다']
 };
@@ -29,11 +29,11 @@ const PRESETS={
  'tax-map':[[0,['92,400원','1번']],[1,['284,690원','192,290원','2번']],[2,['92,400원','본인이 신고']]],
  stt:[[0,['20,000원']],[1,['10,000원']],[2,['480,000원']],[3,['0원']]],
  withhold:[[0,['70,000원','7,000원','423,000원']],[1,['169,200원']],[2,['2,800,000원','16,920,000원']]],
- gains:[[0,['7,500,000원','1,650,000원','5월']],[1,['양도세 0원']],[2,['대주주','274,700원']]],
+ gains:[[0,['7,500,000원','1,650,000원','본인이 신고합니다(신고 시기는 확인 못함)']],[1,['양도세 0원']],[2,['대주주','274,700원']]],
  threshold:[[0,['더 낼 세금은 0원']],[1,['정확히 2,000만 원도']],[2,['5,000,000원','55,000원']]],
  'etf-tax':[[0,['92,400원','1,756,240원']],[1,['1,756,240원']],[2,['1,540,000원','1,650,000원','110,000원']]],
  isa:[[0,['3,166,529원','115,486원','487,645원','372,159원']],[1,['4,000,000원','487,645원']],[2,['22,497원','1,826,143원','확인 못함']],[3,['187,264원','1,028,736원']]],
- pension:[[0,['1,485,000원','2,562,269원']],[1,['1,295,025원','1,543,615원','차이 0원']],[2,['792,000원','2,208,965원']]],
+ pension:[[0,['1,485,000원','2,562,269원','586,507원(2단계에서 계산한 세금)']],[1,['1,295,025원','1,543,615원','차이 0원','963,620원']],[2,['792,000원','2,208,965원']]],
  'after-tax':[[0,['1,756,240원']],[1,['살 수 없습니다(보도 기준)']],[2,['2,208,965원','1,345,615원']],[3,['5,754,867원','6,327,002원']]],
  'final-order':[[0,['2,249,635원','2,135,759원']],[1,['1,665,625원','1,551,749원','중도 인출']],[2,['3,751,616원','3,078,606원','3,554,674원']]]
 };
@@ -42,12 +42,12 @@ const L2={
  'tax-map':[null,{mprod:'kother',mincome:20000,mgain:100000},['3,080원','15,400원','2번','18,480원']],
  stt:[null,{smarket:'konex',samt:5000000,stimes:24},['120,000원']],
  withhold:[null,{wkind:'dividend',wamt:30000000,whigh:true},['4,800,000원']],
- gains:[null,{gasset:'fetf',ggain:6000000,gloss:1500000},['2,000,000원','440,000원','5월']],
+ gains:[null,{gasset:'fetf',ggain:6000000,gloss:1500000},['2,000,000원','440,000원','본인이 신고']],
  threshold:[null,{ttotal:23000000,trate:35},['3,000,000원','693,000원']],
  'etf-tax':[null,{eprod:'kother',egain:8000000,eincome:0},['1,232,000원','1,210,000원','22,000원']],
  isa:[null,{iprin:15000000},['2,772,960원','76,523원','427,035원','350,512원']],
  pension:[null,{pacct:'saving',pamt:6000000,pband:'over',pwithdraw:'early'},['792,000원','990,000원','−198,000원']],
- 'after-tax':[null,{cprin:5000000},['46,200원','142,345원']],
+ 'after-tax':[null,{cprod:'kequity',cyears:5},['3,012,529원','3,166,529원','154,000원']],
  'final-order':[null,{fgrowth:0},['1,240,200원','600,000원','1,203,240원']]
 };
 /* 다른 입력에 따라 쓰이는 칸은 그 상태를 먼저 만든 뒤 검사한다. */
@@ -69,6 +69,7 @@ async function frame(page,url,width,id){
  assert.ok(d.scroll<=width,`${id}@${width}: overflow ${d.scroll}`);assert.ok(d.returnVisible,`${id}: shelf return hidden`);
  if(id!=='home')assert.ok(d.figure,`${id}: no .figure-art`);
  if(FIGURES[id])has(await page.locator('.concept-diagram figcaption').innerText(),FIGURES[id],`${id} figure caption`);
+ await svgInside(page.locator(id==='home'?'.hero':'.concept-diagram'),`${id} figure@${width}`);
  report.views.push({width,id,...d});
 }
 const state=lab=>lab.evaluate(l=>l.querySelector('.chart').innerHTML+l.querySelector('.readout').innerText);
@@ -92,7 +93,13 @@ async function tables(lab,id){
  for(const x of t){assert.equal(x.tab,'0',`${id}: table tabindex`);assert.equal(x.role,'region',`${id}: table role`);assert.ok(x.label.length>4,`${id}: table label`);assert.ok(!x.over||/auto|scroll/.test(x.overflow),`${id}: table overflow without scroll`);}
  return t.length;
 }
+/* 그림(실험 그림·장 그림·표지 실험)의 글자 상자가 각 SVG의 viewBox 안에 있는지 잰다. */
+async function svgInside(scope,what){
+ const bad=await scope.evaluate(root=>{const out=[];let n=0;root.querySelectorAll('svg[viewBox]').forEach(s=>{const vb=s.viewBox.baseVal;if(!vb||!vb.width)return;s.querySelectorAll('text').forEach(t=>{if(!t.textContent.trim())return;n++;const b=t.getBBox();if(b.x<-0.5||b.y<-0.5||b.x+b.width>vb.width+0.5||b.y+b.height>vb.height+0.5)out.push(`${t.textContent} [${b.x.toFixed(1)},${b.y.toFixed(1)},${(b.x+b.width).toFixed(1)},${(b.y+b.height).toFixed(1)}] in ${vb.width}x${vb.height}`);});});return {out,n};});
+ report.svgTexts+=bad.n;assert.deepEqual(bad.out,[],`${what}: SVG text outside its viewBox`);
+}
 async function labCheck(lab,width,id){
+ await svgInside(lab,`${id}@${width}`);
  const before=await lab.locator('.readout').innerText();has(before,DEFAULTS[id],id);assert.doesNotMatch(before,BAD,id);
  if(CHART[id])has(await allText(lab),CHART[id],id+' chart');
  assert.match(before,/실제 계산|보도 기준|가상 시나리오|확인 못함|시각적 비유/,`${id}: result is labelled`);
@@ -169,7 +176,7 @@ async function run(){
  const server=await serve(),url=server.url;report.url=url;
  const browser=await chromium.launch({headless:true,executablePath:process.env.PW_EXECUTABLE_PATH||'/opt/pw-browsers/chromium-1194/chrome-linux/chrome',args:['--no-sandbox']});
  try{
-  const page=await browser.newPage({reducedMotion:'reduce'});page.on('pageerror',e=>report.errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')report.console.push(m.text());});
+  const page=await browser.newPage({reducedMotion:'reduce'});page.on('pageerror',e=>report.errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')report.console.push(m.text()+' @ '+page.url().replace(/^https?:\/\/[^/]+/,''));});page.on('response',r=>{if(r.status()>=400)report.missing.push(`${r.status()} ${r.url()}`);});
   await page.goto(url);const chapters=await page.evaluate(()=>TBook.chapters.map(c=>({id:c.id,answer:c.quiz[2],transfer:c.transfer[2],labs:c.labs})));
   for(const width of [1280,390,320]){
    await frame(page,url,width,'home');
@@ -177,10 +184,11 @@ async function run(){
    for(const c of chapters){await frame(page,url,width,c.id);for(const id of c.labs)await labCheck(page.locator('#lab-'+id),width,id);await quiz(page,c);}
   }
   await errorStates(page,url);await extras(page,url);await artCheck(page,url);
-  const consoleErrors=report.console.filter(t=>!/favicon|404|review\.json/.test(t));
+  const missing=report.missing.filter(u=>!/\/favicon\.ico$/.test(u));assert.deepEqual(missing,[],'missing files');
+  const consoleErrors=report.console.filter(t=>!/^Failed to load resource/.test(t));
   assert.equal(report.errors.length,0,report.errors.join('\n'));assert.equal(consoleErrors.length,0,consoleErrors.join('\n'));
   report.success=true;fs.writeFileSync(path.join(output,'browser-results.json'),JSON.stringify(report,null,2));
-  console.log(JSON.stringify({views:report.views.length,labs:report.labs.length,l2:report.l2.length,timing:report.timing,art:report.art,errors:report.errors,console:report.console,success:true,output}));
+  console.log(JSON.stringify({views:report.views.length,labs:report.labs.length,l2:report.l2.length,timing:report.timing,art:report.art,errors:report.errors,console:report.console,missing:report.missing,svgTexts:report.svgTexts,success:true,output}));
  }finally{await browser.close();server.stop();}
 }
 run().catch(e=>{console.error(e);fs.mkdirSync(output,{recursive:true});fs.writeFileSync(path.join(output,'browser-results.json'),JSON.stringify({...report,success:false,failure:String(e)},null,2));process.exitCode=1;});

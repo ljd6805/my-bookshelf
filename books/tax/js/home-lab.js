@@ -8,7 +8,7 @@ function mount(el){
  function update(){
   const p=Number(input.value)*10000,t=M.afterTaxTable({...M.BASE,principal:p,kind:'kother',band:'under'}),c=t.cells,vals=[c.general.after,c.isa.after,c.annuity.after];
   el.querySelector('#home-amt-value').textContent=U.fmt(input.value);
-  box.innerHTML=U.columns({labels:['일반계좌','ISA','연금저축 · 연금 수령'],values:vals,fmt:v=>U.fmt(v),tick:v=>`${U.fmt(v/10000)}만`,mark:i=>i===2,title:`원금 ${U.fmt(p/10000)}만 원, 3년 세후 수익 (원)`,h:230,label:`세후 수익: 일반계좌 ${W(vals[0])}, ISA ${W(vals[1])}, 연금저축 ${W(vals[2])}`});
+  box.innerHTML=U.columns({labels:['일반계좌','ISA','연금저축 · 연금 수령'],values:vals,fmt:v=>U.fmt(v),tick:v=>`${U.fmt(v/10000)}만`,mark:i=>i===2,title:`원금 ${U.fmt(p/10000)}만 원, 3년 세후 수익 (원) · ▲ 연금 수령 칸`,h:230,label:`세후 수익: 일반계좌 ${W(vals[0])}, ISA ${W(vals[1])}, 연금저축 ${W(vals[2])}`});
   out.innerHTML=`누리 해외100 <b>${W(p)}</b>, 3년 세전 수익 ${W(t.flows.pretax)}이 일반계좌에서는 <b>${W(vals[0])}</b>, ISA에서는 <b>${W(vals[1])}</b>, 연금저축에서 55세 이후 연금으로 받으면 <b>${W(vals[2])}</b>(받은 공제 ${W(c.annuity.detail.credit)} 포함)으로 남습니다. 수익은 같고, 어느 계좌에 두었는지에 따라 붙는 세금이 다릅니다.<br><span class="kind-tag">${U.KINDS.real}</span> <span class="kind-tag">${U.KINDS.news}</span> <span class="kind-tag">${U.KINDS.scenario}</span>`;
  }
  const click=e=>{const b=e.target.closest('[data-amt]');if(b){input.value=b.dataset.amt;update();}};
