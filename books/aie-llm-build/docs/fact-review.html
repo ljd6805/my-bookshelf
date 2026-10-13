@@ -4,7 +4,7 @@
 <h1>팩트·출처 검수 기록 · LLM 직접 만들기</h1>
 <p>「AI 엔지니어링 처음부터」 11권(books/aie-llm-build)을 쓴 에이전트가 아닌 별도 검수 에이전트가 원본 레슨(phases/10-llms-from-scratch, MIT)과 인용 논문에 비추어 확인한 결과입니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
-<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리(56c7001 위, PR 3에서 커밋))으로 바뀐 문장 26개: js/content.js 24, js/lab-guides.js 1, js/figures.js 1. 메인 세션이 옮긴 다른 책 링크 이름 1개(js/content.js)와 data/catalog.json의 이 책 설명 1·장 색인 5·장 목록 1, index.html의 자산 버전 3개도 대조함. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="passed">
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리(56c7001 위, PR 3에서 커밋))으로 바뀐 문장 26개: js/content.js 24, js/lab-guides.js 1, js/figures.js 1. 메인 세션이 옮긴 다른 책 링크 이름 1개(js/content.js)와 data/catalog.json의 이 책 설명 1·장 색인 5·장 목록 1, index.html의 자산 버전 3개도 대조함. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="fixed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자는 Claude · 유진 뜻 보존 검수 세션이고, 이 책의 문장을 고친 다온 세션의 결론은 건네받지 않았습니다. 집필자(문체 개정)는 Claude · 다온 문체 개정 세션(스레드 「기존 책 한국어 지침 검수」)입니다. <code>git diff HEAD -- books/aie-llm-build/ data/catalog.json</code>으로 원래 문장(HEAD 56c7001)과 고친 문장(작업 트리)을 한 쌍씩 뽑아, 문체 비평 메모(docs/index.html의 <code>style-pass</code>, 제목 표 <code>style-k-titles</code>와 장별 표)의 반영함 행과 맞춰 읽었습니다. 고친 문장은 그 장의 첫 두 문단·상세 절·실험 안내와 함께 다시 읽어, 제목과 부제가 장이 실제로 다루는 내용보다 넓어지거나 좁아지지 않았는지도 봤습니다. 이 책의 style-pass에는 집필 쪽 사실 수정 문단이 없어 사실 수정 대조는 해당하지 않습니다.</p>
 <table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
@@ -13,7 +13,7 @@
 <tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음(계산 변경 없음)</td><td>diff를 문자열 단위로 나눠 보니 바뀐 것은 글 문자열과 index.html의 <code>?v=20261013-k</code> 세 곳뿐이고 math.js·labs-*.js의 계산 코드는 바뀌지 않음. <code>npm test</code> 30개 통과, 루트 <code>node --test tests/test_book_content.mjs</code> 5개 통과</td></tr>
 <tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>figures.js 8장 그림 설명의 “비평 모델”을 “가치 모델”로 바꾼 것은 8장 본문(“PPO처럼 … 가치 모델”)·출처 설명(“가치 모델 대신 집단 표준화”)과 이름을 맞춘 것이라 맞습니다. “파이프라인 거품”, “바닥”, “SFT”, “KV 캐시”, “설계 항목 여섯 가지”(부제·본문·상세 절 제목 세 곳 같음)가 책 안에서 한 이름으로 남았습니다. 장 ID·앵커·정답 번호·출처 번호는 그대로입니다. catalog의 장 색인 12개와 장 목록 6개가 content.js 제목과 같고(마지막 장은 서재 관례대로 “마지막 · ”), 이 책에서 나가는 링크 20개의 이름이 도착 장의 현재 제목과 같으며, 다른 책에서 이 책으로 오는 링크 6개의 이름도 새 제목과 같습니다</td></tr>
 <tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. 참고 자료 배열과 장별 source 번호에 바뀐 곳이 없음</td></tr>
-<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>대조한 문장 26개, 되돌린 문장 0개</td><td>바뀐 문장마다 수치·단위·조건과 단서·가능성의 정도(K3)·인과관계·비교 대상을 원래 문장과 대조. 메모의 반영함 행 34개가 diff의 26곳을 모두 덮고(제목·부제는 제목 표와 장별 표에 함께 적힘), 메모에 없는 diff는 메인 세션이 옮긴 링크 이름 1개뿐입니다. 판단이 갈리는 네 곳은 아래 비고로 남기고 되돌리지 않았습니다</td></tr>
+<tr data-check="wording" data-status="fixed"><td>문체 편집 뒤 뜻 보존</td><td>대조한 문장 26개, 되돌린 문장 0개</td><td>바뀐 문장마다 수치·단위·조건과 단서·가능성의 정도(K3)·인과관계·비교 대상을 원래 문장과 대조. 메모의 반영함 행 34개가 diff의 26곳을 모두 덮고(제목·부제는 제목 표와 장별 표에 함께 적힘), 메모에 없는 diff는 메인 세션이 옮긴 링크 이름 1개뿐입니다. 판단이 갈리는 네 곳은 아래 비고로 남기고 되돌리지 않았습니다</td></tr>
 </tbody></table>
 <h3>발견과 수정</h3>
 <p>뜻이나 조건이 달라져 되돌린 문장은 없습니다. 아래는 고치지 않고 남긴 관찰입니다.</p>

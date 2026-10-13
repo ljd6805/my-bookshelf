@@ -4,7 +4,7 @@
 <h1>팩트·출처 검수 기록 · 도구와 프로토콜</h1>
 <p>「AI 엔지니어링 처음부터」 14권 《도구와 프로토콜 · 함수 호출에서 MCP와 스킬까지》를 쓰지 않은 검수 에이전트가 확인한 결과입니다. 규칙의 배경은 서재의 <a href="../../../docs/03-verification.html#fact-review">검증 문서</a>에 있고, 책 문서 허브는 <a href="index.html">여기</a>입니다.</p>
 
-<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리, 56c7001 위)으로 바뀐 문장 20개: js/content.js 16(문체 12, 다른 책 링크 이름 4), js/lab-guides.js 1, js/labs-ops.js 2(사실 수정), index.html 꼬리말 1. 함께 바뀐 data/catalog.json의 이 책 장 색인 3개도 대조. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="passed">
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리, 56c7001 위)으로 바뀐 문장 20개: js/content.js 16(문체 12, 다른 책 링크 이름 4), js/lab-guides.js 1, js/labs-ops.js 2(사실 수정), index.html 꼬리말 1. 함께 바뀐 data/catalog.json의 이 책 장 색인 3개도 대조. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="fixed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자: Claude · 유진 뜻 보존 검수 세션. 집필자: 다온 문체 개정 세션(스레드 「기존 책 한국어 지침 검수」)이며, 이 검수자는 그 세션의 문장을 쓰지 않았고 결론도 건네받지 않았습니다. 원래 문장은 HEAD(56c7001), 고친 문장은 작업 트리에서 <code>git diff HEAD -- books/aie-tools/ data/catalog.json</code>으로 보고 한 문장씩 대조했습니다. 대상은 문체 비평 메모(docs/index.html의 style-pass)의 “반영함” 행 14개, 집필 쪽이 고친 마지막 과제 실험의 사실 수정 2곳, 메인 세션이 고친 다른 책 링크 이름 4곳입니다.</p>
 <table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
@@ -13,7 +13,7 @@
 <tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음</td><td>labs-ops.js 변경은 INC 배열의 보고 이름 문자열과 결과 문장뿐이고 키(confirm 등)와 계산 호출은 그대로. 결과 문장의 새 주장을 책 코드와 따로 계산해 대조: CHECKS(선 위 5·고정 3·토큰 4·트레이스 6·장부 4분)와 ORDERS로 보고별 누적 시간을 구하면 confirm 신뢰 경계부터 3분(선 위부터 8, 시간부터 18), proxy500 선 위부터 5분(12, 11), crossToken 신뢰 경계부터 7분(12, 22), slow 시간부터 6분(18, 22), double 시간·재시도부터 15분(16, 22). 증상이 가리키는 순서가 다섯 보고 모두 가장 짧아 “이 시나리오에서처럼 … 줄일 수 있습니다”를 뒷받침함. 책 테스트 npm test 27개, 루트 tests/test_book_content.mjs 5개 통과</td></tr>
 <tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음(비고 1)</td><td>5장 제목을 MCP의 세 이름(도구·자원·프롬프트)으로 바꾼 것과 10장 제목의 “게이트웨이”가 용어 풀이·부제와 같음. 장 ID 12개·정답 번호·링크 주소·출처 번호가 그대로임을 diff로 확인. catalog 장 색인 12개가 content.js 장 제목과 같고, 장 목록 5개는 바뀐 장을 포함하지 않아 그대로 맞음. 이 책의 다른 책 링크 이름 4곳(aie-llm-apps #tools, aie-workbench #remote, aie-autonomy #durable, aie-agents #defend)이 각 책의 현재 장 제목과 같음</td></tr>
 <tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
-<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>20문장 대조, 되돌린 문장 0</td><td>문장마다 수치·조건·가능성의 정도·인과관계를 원래 문장과 대조. 7장 “두 번 실행하게 하므로” → “두 번 실행되므로”는 확신의 정도가 같고, 10장 “~할 뿐” 단서와 마지막 장 “~일 뿐” 단서가 남아 있음. 메모의 반영함 14행과 diff의 문체 변경 14곳(content.js 12, lab-guides.js 1, index.html 1)이 하나씩 맞음. 사실 수정 2곳은 메모 둘째 문단에 적혀 있음. 링크 이름 4곳은 메인 세션의 반영 몫이라 불일치로 보지 않음</td></tr>
+<tr data-check="wording" data-status="fixed"><td>문체 편집 뒤 뜻 보존</td><td>20문장 대조, 되돌린 문장 0</td><td>문장마다 수치·조건·가능성의 정도·인과관계를 원래 문장과 대조. 7장 “두 번 실행하게 하므로” → “두 번 실행되므로”는 확신의 정도가 같고, 10장 “~할 뿐” 단서와 마지막 장 “~일 뿐” 단서가 남아 있음. 메모의 반영함 14행과 diff의 문체 변경 14곳(content.js 12, lab-guides.js 1, index.html 1)이 하나씩 맞음. 사실 수정 2곳은 메모 둘째 문단에 적혀 있음. 링크 이름 4곳은 메인 세션의 반영 몫이라 불일치로 보지 않음</td></tr>
 </tbody></table>
 <h3>발견과 수정</h3>
 <p>뜻이나 조건이 달라져 되돌린 문장은 없습니다. 아래 첫 행은 제목이라 규칙대로 되돌리지 않고 보고합니다.</p>
