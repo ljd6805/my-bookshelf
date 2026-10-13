@@ -137,6 +137,17 @@ class TeamGates(unittest.TestCase):
         outside = STYLE_K.replace('<table class="guideline-check">', '</section><section id="x"><table class="guideline-check">', 1)
         self.assertTrue(self.run_check(SECTIONS + outside + new))
 
+    def test_revision_does_not_judge_old_memos_retroactively(self):
+        bid = sorted(LEGACY)[0]
+        rev = TEMPLATE.replace('data-kind="new" data-date="2026-10-12"', 'data-kind="revision" data-date="2026-11-02"')
+        old = '<h3 id="style-a"></h3><table><tr><td>옛 메모</td><td>진단</td></tr></table>'
+        one = f'<section id="style">{CHECK}{old}<h3 id="style-b"></h3>{MEMO}</section>'
+        self.assertEqual(self.run_check(SECTIONS + one + rev, bid=bid, review='2026-11-01'), [])
+        none = f'<section id="style">{CHECK}{old}</section>'
+        self.assertTrue(any('any memo' in e for e in self.run_check(SECTIONS + none + rev, bid=bid, review='2026-11-01')))
+        mixed = one.replace(MEMO, MEMO.replace('</table>', '<tr><td>태그 없음</td><td>x</td></tr></table>'))
+        self.assertTrue(any('style-b' in e for e in self.run_check(SECTIONS + mixed + rev, bid=bid, review='2026-11-01')))
+
 
 if __name__ == '__main__':
     unittest.main()

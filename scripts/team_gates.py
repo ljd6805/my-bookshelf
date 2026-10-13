@@ -170,20 +170,25 @@ def approval_errors(record, leads):
     return errors
 
 
-def guideline_errors(doc):
-    """G4 under the Korean writing guideline: K1~K6 checked, every memo row names its guideline."""
+def guideline_errors(doc, kind):
+    """G4 under the Korean writing guideline: K1~K6 checked, every memo row names its guideline.
+
+    A revision round checks only the memos it tagged, so older chapters' memos written before
+    the guideline (2026-10-13) are not judged retroactively; it needs at least one tagged memo.
+    """
     errors = []
     missing = [k for k in GUIDELINES if len(doc.guideline_rows.get(k, [])) < 3
                or not all(doc.guideline_rows[k][1:3])]
     if missing:
         errors.append('G4 needs <table class="guideline-check"> inside <section id="style"> with a filled '
                       f'row per guideline (docs/11-korean-writing.html#record): missing {", ".join(missing)}')
+    tagged = {memo for memo, codes in doc.memo_rows if codes}
+    scope = doc.style if kind == 'new' else tagged
     untagged = sorted({memo for memo, codes in doc.memo_rows
-                       if not codes or any(c not in GUIDELINES for c in codes)})
+                       if memo in scope and (not codes or any(c not in GUIDELINES for c in codes))})
     if untagged:
         errors.append('G4 style memo rows need data-guideline with K1~K6: ' + ', '.join(untagged))
-    tagged = {memo for memo, _ in doc.memo_rows}
-    empty = sorted(doc.style - tagged)
+    empty = sorted(doc.style - tagged) if kind == 'new' else ([] if tagged else ['any memo'])
     if empty:
         errors.append('G4 style memos need at least one critique row with data-guideline: ' + ', '.join(empty))
     return errors
@@ -216,7 +221,7 @@ def artifact_errors(book, gates, kind, day=''):
             errors.append('G4 needs a style critique memo per chapter inside <section id="style">: '
                           f'missing {", ".join(missing) or "any memo"}')
         if day >= GUIDELINE_DATE:
-            errors += guideline_errors(doc)
+            errors += guideline_errors(doc, kind)
     return errors
 
 
