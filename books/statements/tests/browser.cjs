@@ -157,6 +157,7 @@ async function artCheck(page,url){
  await page.goto(url);await page.setContent(`<!doctype html><html data-motion="reduce"><body>${fs.readFileSync(path.join(__dirname,'..','assets/shelf-illustration.svg'),'utf8')}</body></html>`);
  assert.equal(await page.evaluate(()=>getComputedStyle(document.querySelector('.fs-ill-grow')).animationName),'none','shelf art stops under html[data-motion=reduce]');
 }
+const OVERLAP=s=>{const b=[...s.querySelectorAll('text.axis')].filter(t=>t.getAttribute('text-anchor')==='middle').map(t=>t.getBBox());let n=0;for(let i=0;i<b.length;i++)for(let j=i+1;j<b.length;j++){const a=b[i],c=b[j];if(Math.abs(a.y-c.y)<1&&a.x<c.x+c.width&&c.x<a.x+a.width)n++;}return n;};
 async function extras(page,url){
  const shot=(loc,name)=>loc.screenshot({style:'header,.skip{visibility:hidden!important}',path:path.join(output,name)});
  await frame(page,url,1280,'home');await page.screenshot({path:path.join(output,'home-desktop.png')});
@@ -189,8 +190,10 @@ async function extras(page,url){
  for(const w of [1280,390,320]){
   await frame(page,url,w,'final');const fit=await page.locator('#lab-final-check .chart .table-wrap.fit').evaluate(e=>({sw:e.scrollWidth,cw:e.clientWidth,head:[...e.querySelectorAll('th')].map(x=>x.innerText)}));
   assert.ok(fit.sw<=fit.cw+1,`final horizon table overflows at ${w}: ${fit.sw} > ${fit.cw}`);assert.equal(fit.head[1],'확인할 것');
-  await frame(page,url,w,'cashflow');const ov=await page.locator('#lab-cfo-bridge .chart svg').evaluate(s=>{const b=[...s.querySelectorAll('text.axis')].filter(t=>+t.getAttribute('y')>200).map(t=>t.getBBox());let n=0;for(let i=0;i<b.length;i++)for(let j=i+1;j<b.length;j++){const a=b[i],c=b[j];if(Math.abs(a.y-c.y)<1&&a.x<c.x+c.width&&c.x<a.x+a.width)n++;}return n;});
+  await frame(page,url,w,'cashflow');const ov=await page.locator('#lab-cfo-bridge .chart svg').evaluate(OVERLAP);
   assert.equal(ov,0,`cfo-bridge axis labels overlap at ${w}`);
+  await frame(page,url,w,'final');const ov2=await page.locator('#lab-final-check .chart svg').first().evaluate(OVERLAP);assert.equal(ov2,0,`final-check axis labels overlap at ${w}`);
+  await frame(page,url,w,'cashflow');const t4=await page.locator('#lab-cfo-bridge .chart .table-wrap').evaluate(e=>e.scrollWidth<=e.clientWidth+1);assert.ok(t4,`cfo-bridge table overflows at ${w}`);
  }
  /* 10장: 신호 표는 적어 둔 조건 아래에 접혀 있고, 적어 둔 조건은 이 브라우저에만 남는다. */
  await frame(page,url,390,'final');const fc=page.locator('#lab-final-check');

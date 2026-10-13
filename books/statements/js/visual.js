@@ -55,7 +55,7 @@ const kind=(ks,more='')=>`<br>${[].concat(ks).map(k=>`<span class="kind-tag${['g
 /* 규칙 숫자를 쓰는 결과 위에 붙는 확인일 문장. 규칙을 바꾸려면 js/math.js의 RULES만 고친다. */
 const RULE_NOTE=`제출 기한과 감사의견에 따른 조치는 ${M.CHECKED} 확인 기준입니다. 기준과 공시 규칙은 바뀌므로 한국회계기준원·금융감독원·한국거래소의 공식 자료로 다시 확인하세요.`;
 const ADVICE_NOTE='가상의 회사로 계산한 사례이며, 특정 주식을 사고팔라는 권유가 아닙니다. 학습용 계산, 투자 권유 아님.';
-const svg=(label,body,h=280)=>`<svg viewBox="0 0 480 ${h}" role="img" aria-label="${esc(label)}">${body}</svg>`;
+const svg=(label,body,h=280,vw=480)=>`<svg viewBox="0 0 ${vw} ${h}"${vw>480?' class="cols-wide"':''} role="img" aria-label="${esc(label)}">${body}</svg>`;
 function table(head,rows,caption='',fit=false){return `<div class="table-wrap${fit?' fit':''}" tabindex="0" role="region" aria-label="${esc(caption||'결과 표')} · 좁은 화면에서는 옆으로 밀어 볼 수 있습니다"><table>${caption?`<caption>${esc(caption)}</caption>`:''}<thead><tr>${head.map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${fit?` data-label="${esc(String(head[i]).replace(/<[^>]+>/g,''))}"`:''}>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
 /* 대조 한 줄: 색이 아니라 ✓/✗ 글자와 "맞음/어긋남"으로 상태를 적는다. */
 const checkLine=c=>`<li class="${c.ok?'is-ok':'is-bad'}">${esc(c.name)} ${c.ok?'✓ 맞음':'✗ 어긋남'} <span class="caption">(${n1(c.left)} = ${n1(c.right)}${c.ok?'':' 아님'})</span></li>`;
@@ -77,7 +77,7 @@ Object.assign(window.SUI,(()=>{
 const {esc,sfmt,svg,niceTicks}=SUI;
 /* o = {labels, values, base, mark(i), fmt, tick, h, label, title, colors, notes}. mark(i)가 참인 막대에는 ▲ 표시를 붙인다. notes[i]는 막대 위 둘째 줄 글. */
 function columns(o){
- const h=o.h||260,L=64,R=470,T=o.title?40:22,B=h-(o.twoLine?48:32),n=o.values.length,base=o.base??0,vf=o.fmt||(v=>sfmt(v,1));
+ const h=o.h||260,VW=o.vw||480,L=64,R=VW-10,T=o.title?40:22,B=h-(o.twoLine?48:32),n=o.values.length,base=o.base??0,vf=o.fmt||(v=>sfmt(v,1));
  const ext=[...o.values,base],lo0=Math.min(...ext),hi0=Math.max(...ext),pad=(hi0-lo0)*.16||1,lo=lo0<base?lo0-pad:lo0,hi=hi0+pad;
  const Y=v=>B-(v-lo)/((hi-lo)||1)*(B-T),w=(R-L)/n,bw=Math.max(6,Math.min(64,w*.62));
  let s=`<path d="M${L} ${Y(base).toFixed(1)}H${R}" stroke="var(--muted)"/>`;
@@ -87,7 +87,7 @@ function columns(o){
   s+=`<text x="${(x+bw/2).toFixed(1)}" y="${(v>=base?y-6:y+hh+15).toFixed(1)}" text-anchor="middle" class="price">${on?'▲':''}${esc(o.vtext?o.vtext(v,i):vf(v))}</text>`;
   const [a,b]=String(o.labels[i]).split('|');s+=`<text x="${(x+bw/2).toFixed(1)}" y="${B+18}" text-anchor="middle" class="axis">${esc(a)}</text>`;if(b)s+=`<text x="${(x+bw/2).toFixed(1)}" y="${B+34}" text-anchor="middle" class="axis">${esc(b)}</text>`;});
  if(o.title)s+=`<text x="10" y="18" class="series">${esc(o.title)}</text>`;
- return svg(o.label||o.title||'막대 그림',s,h);
+ return svg(o.label||o.title||'막대 그림',s,h,VW);
 }
 /* 가로 막대 묶음. o = {groups:[{title, rows:[[이름, 값, 글, 강조]]}], max(그룹마다 최댓값 배열 또는 하나), label}. 값이 null이면 "없음"으로 적는다. */
 function hbars(o){

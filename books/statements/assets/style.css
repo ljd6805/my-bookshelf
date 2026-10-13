@@ -153,3 +153,5 @@ fieldset.cards .control{padding:4px 0}
 
 /* 좁은 화면의 마지막 과제 표: 행마다 칸을 위아래로 쌓고 칸 이름을 앞에 붙여 옆으로 밀지 않고 읽는다. */
 @media(max-width:480px){.lab .table-wrap.fit thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.lab .table-wrap.fit table,.lab .table-wrap.fit tbody,.lab .table-wrap.fit tr,.lab .table-wrap.fit td{display:block;width:100%}.lab .table-wrap.fit tr{border:1px solid var(--line);border-radius:6px;margin:0 0 8px}.lab .table-wrap.fit td{border:0;border-bottom:1px solid var(--line)}.lab .table-wrap.fit td:last-child{border-bottom:0}.lab .table-wrap.fit td:before{content:attr(data-label);display:block;font-size:.8em;color:var(--accent);font-weight:700}.lab .table-wrap.fit td b{white-space:normal}.lab .table-wrap.fit caption{display:block;width:100%}}
+/* 두 해 막대 그림처럼 막대가 많은 그림은 좁은 화면에서 더 넓게 그리고 옆으로 민다. */
+@media(max-width:760px){.lab .chart svg.cols-wide{min-width:520px}}
