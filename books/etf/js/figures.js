@@ -50,7 +50,7 @@ F.nav=()=>{
 F.cost=()=>{
  const g=M.costGap(1e7,.05,M.etfCost('nuri').total,M.etfCost('garam').total,10),c=M.etfCost('nuri'),X=y=>70+y*52,Y=v=>210-(v-1e7)/(g.b-1e7)*150;
  let s=`<path d="M70 210H600" stroke="var(--line)"/>`;const d=k=>[...Array(11).keys()].map(y=>`${y?'L':'M'}${X(y)} ${Y(M.grow(1e7,.05,M.etfCost(k).total,y)).toFixed(1)}`).join('');
- s+=`<path class="fig-draw" d="${d('garam')}" fill="none" stroke="var(--accent)" stroke-width="2.5"/><path class="fig-draw" d="${d('nuri')}" fill="none" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="6 4"/>`;
+ s+=`<path class="fig-draw" d="${d('garam')}" fill="none" stroke="var(--accent)" stroke-width="2.5"/><path d="${d('nuri')}" fill="none" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="6 4"/>`;
  s+=t(X(10)-6,Y(g.b)-8,`━ 가람200 ${W(g.b)}`,{size:12,a:'end',w:700})+t(X(10)-6,Y(g.a)+18,`┅ 누리200 ${W(g.a)}`,{size:12,a:'end',w:700})+t(70,228,'0년',{size:11})+t(X(10),228,'10년',{size:11});
  s+=t(20,24,`추적 괴리 7.80% − 8.00% = ${fx(M.trackingDiff(.078,.08)*100,2)}%p · 누리200 총비용 ${fx(c.total*100,2)}%(TER ${fx(c.ter*100,2)}%) · 가람200 ${fx(M.etfCost('garam').total*100,2)}%`,{size:12.5,w:700,a:'start'});
  return {svg:svg(`1,000만 원 10년(연 5% 가정): 누리200 ${W(g.a)}, 가람200 ${W(g.b)}, 차이 ${W(g.diff)}`,s,240),caption:`추적 괴리는 7.80% − 8.00% = ${fx(M.trackingDiff(.078,.08)*100,2)}%p입니다. 누리200의 TER은 ${fx(c.ter*100,2)}%, 총비용은 ${fx(c.total*100,2)}%이고 가람200은 ${fx(M.etfCost('garam').total*100,2)}%입니다. 1,000만 원을 10년 두고 비용 전 수익률을 연 5%로 놓으면 ${W(g.a)}과 ${W(g.b)}으로 ${W(g.diff)}이 벌어집니다.`};

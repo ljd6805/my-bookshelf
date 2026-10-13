@@ -29,7 +29,7 @@ html[data-motion=reduce] .ef-ill-calm{animation:none;opacity:1}
 <text class="ef-ill-small" x="170" y="16" text-anchor="middle">같은 ETF, 장중 시장가와 iNAV</text>
 <path class="ef-ill-axis" d="M28 150H312M28 34V150"/>
 <text class="ef-ill-small" x="28" y="164">09:00</text>
-<text class="ef-ill-small" x="250" y="164" text-anchor="end">15:20</text>
+<text class="ef-ill-small" x="250" y="164" text-anchor="end">15:00</text>
 <path class="ef-ill-inav" d="M32 112C70 110 100 108 140 106S210 105 250 105"/>
 <text class="ef-ill-word" x="36" y="128">iNAV</text>
 <g class="ef-ill-drift"><path class="ef-ill-price" d="M32 108C70 106 100 104 140 102S210 101 250 101"/></g>
