@@ -178,7 +178,7 @@ window.LAViews = {
   "title": "둘째 열을 돌려 넓이 재기",
   "desc": "θ를 바꾸면 청록 화살표(둘째 열)가 돌고, 파란 면(옮겨진 단위 정사각형)의 넓이가 바뀝니다. 앞뒤가 뒤집히면 붉은 점선 면으로 표시합니다.",
   "html": "<div class=\"lab-columns\"><div class=\"controls\"><div class=\"field\"><label for=\"det-theta\">둘째 열 방향 θ</label><input type=\"range\" id=\"det-theta\" name=\"theta\" min=\"0\" max=\"180\" step=\"5\" value=\"120\" data-digits=\"0\" data-unit=\"°\"><output for=\"det-theta\">120°</output></div></div><div class=\"stage\"><svg role=\"img\" aria-labelledby=\"lab-det-svg\"><title id=\"lab-det-svg\">두 열 화살표가 만드는 평행사변형과 옮겨진 노래 점. 수치는 옆의 결과 문장에 있습니다.</title></svg></div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>θ = 120°이면 det M = 3.07로, 넓이 1이 3.07이 되고 방향은 그대로입니다.</p></div><p class=\"caption lab-note\"><b>계산 조건</b> M = [1.5, 1.5cos θ ; 1.5, 1.5sin θ]. θ는 0~180°, 5° 간격. |det M| &lt; 0.05이면 ‘납작해짐’으로 표시합니다. 노래 점은 M·s 위치에 그립니다.</p>",
-  "task": "θ를 50°, 45°, 40°로 차례로 바꿔 보세요. 면이 얇아지다 선이 되고, 다시 뒤집혀 펼쳐지는 장면에서 행렬식의 부호가 왜 필요한지 보입니다.",
+  "task": "θ를 50°, 45°, 40°로 차례로 바꿔 보세요. 면이 얇아지다 선이 되고, 다시 뒤집혀 펼쳐지는 장면에서 행렬식의 부호가 왜 필요한지 볼 수 있습니다.",
   "guide": [
    "첫째 열은 (1.5, 1.5)로 고정하고 둘째 열의 방향만 돌리며, 단위 정사각형의 넓이가 몇 배가 되는지 봅니다.",
    [
@@ -208,7 +208,7 @@ window.LAViews = {
   "title": "기록에서 노래 되찾기",
   "desc": "기록된 점수 b₁, b₂와 규칙의 d를 바꿔 보세요. 붉은 점선은 식 ①, 보라 실선은 식 ②의 직선입니다. 보라 점이 되찾은 노래입니다.",
   "html": "<div class=\"lab-columns\"><div class=\"controls\"><div class=\"field\"><label for=\"s-b1\">기록 b₁</label><input type=\"range\" id=\"s-b1\" name=\"b1\" min=\"-6\" max=\"6\" step=\"0.25\" value=\"5.5\" data-digits=\"2\"><output for=\"s-b1\">5.50</output></div>\n<div class=\"field\"><label for=\"s-b2\">기록 b₂</label><input type=\"range\" id=\"s-b2\" name=\"b2\" min=\"-6\" max=\"6\" step=\"0.25\" value=\"4.25\" data-digits=\"2\"><output for=\"s-b2\">4.25</output></div>\n<div class=\"field\"><label for=\"s-d\">규칙의 d</label><input type=\"range\" id=\"s-d\" name=\"d\" min=\"0\" max=\"2\" step=\"0.05\" value=\"1.5\" data-digits=\"2\"><output for=\"s-d\">1.50</output></div></div><div class=\"stage\"><svg role=\"img\" aria-labelledby=\"lab-solve-svg\"><title id=\"lab-solve-svg\">두 식의 직선과 교점. 수치는 옆의 결과 문장에 있습니다.</title></svg></div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>d = 1.5, b = (5.5, 4.25)이면 det M = 2이고 x = (2, 1.5), 아침 달리기입니다.</p></div><p class=\"caption lab-note\"><b>계산 조건</b> M = [2, 1 ; 1, d]. b₁, b₂는 −6~6(0.25 간격), d는 0~2(0.05 간격). |det M| &lt; 0.02이면 하나의 답을 정할 수 없다고 판단해 해를 표시하지 않습니다. 되찾은 노래가 그림 범위(−4~4) 밖이면 점은 보이지 않고 숫자만 나옵니다.</p>",
-  "task": "d를 1.5와 0.6에 각각 두고 b₂를 4.25 ↔ 4.5로 바꿔 보세요. 같은 0.25의 기록 오차가 답을 얼마나 움직이는지 비교하면, ‘풀 수 있다’와 ‘믿을 수 있다’가 다른 말이라는 것이 보입니다.",
+  "task": "d를 1.5와 0.6에 각각 두고 b₂를 4.25 ↔ 4.5로 바꿔 보세요. 같은 0.25의 기록 오차가 답을 얼마나 움직이는지 비교하면, ‘풀 수 있다’와 ‘믿을 수 있다’가 다른 말이라는 것을 볼 수 있습니다.",
   "guide": [
    "기록된 점수 b와 규칙 M = [2, 1 ; 1, d]에서 원래 노래 x를 되찾습니다. 두 직선의 교점이 답입니다.",
    [
@@ -364,7 +364,7 @@ window.LAViews = {
   "title": "가장 많이 퍼지는 방향 찾기",
   "desc": "방향 θ를 바꾸면 붉은 점선이 평균을 지나며 돌고, 노래들의 그림자(붉은 작은 점)가 그 위에 맺힙니다. 아래 곡선은 θ마다의 분산입니다. 곡선의 꼭대기를 찾아보세요.",
   "html": "<div class=\"lab-columns\"><div class=\"controls\"><div class=\"field\"><label for=\"p-theta\">방향 θ</label><input type=\"range\" id=\"p-theta\" name=\"theta\" min=\"0\" max=\"179\" step=\"1\" value=\"0\" data-digits=\"0\" data-unit=\"°\"><output for=\"p-theta\">0°</output></div>\n<label><input type=\"checkbox\" name=\"show\" id=\"p-show\"> 공분산 행렬의 첫째 고유벡터 보기(보라 선)</label>\n<div class=\"buttons\"><button type=\"button\" data-snap>가장 긴 방향으로 맞추기</button></div></div><div class=\"stage\">\n<svg role=\"img\" aria-labelledby=\"lab-pca-svg\"><title id=\"lab-pca-svg\">노래 점과 평균을 지나는 시험 방향 선, 그 위의 그림자. 수치는 옆의 결과 문장에 있습니다.</title></svg>\n<svg class=\"var-chart\" viewBox=\"0 0 360 122\" role=\"img\" aria-labelledby=\"lab-pca-chart\"><title id=\"lab-pca-chart\">방향 θ에 따른 투영 분산 곡선. 약 42°에서 가장 높고 약 132°에서 가장 낮습니다.</title></svg>\n</div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>θ = 0°에서 분산은 4.34로 전체 7.96의 55%입니다. 가장 큰 값은 θ ≈ 42°에서 94%입니다.</p></div><p class=\"caption lab-note\"><b>계산 조건</b> 입력: θ = 0~179°. 계산: 평균을 뺀 노래 dᵢ의 투영 점수 dᵢ·u의 분산 = uᵀCu (C는 n = 8로 나눈 공분산 행렬). 출력은 특징 점수의 제곱 단위입니다. ‘가장 긴 방향’은 C의 고유벡터로 계산한 각도를 정수로 반올림합니다.</p>",
-  "task": "θ를 0°에서 179°까지 천천히 밀며 아래 곡선 위의 점을 따라가 보세요. 꼭대기와 바닥이 정확히 90° 떨어져 있는 것을 확인하면, 8장의 ‘대칭행렬의 고유벡터는 직각’이 데이터에서 어떻게 나타나는지 보입니다.",
+  "task": "θ를 0°에서 179°까지 천천히 밀며 아래 곡선 위의 점을 따라가 보세요. 꼭대기와 바닥이 정확히 90° 떨어져 있는 것을 확인하면, 8장의 ‘대칭행렬의 고유벡터는 직각’이 데이터에서 어떻게 나타나는지 볼 수 있습니다.",
   "guide": [
    "평균을 지나는 방향 θ로 노래들을 투영하고, 그 점수가 얼마나 퍼지는지(분산) 잽니다.",
    [
@@ -394,7 +394,7 @@ window.LAViews = {
   "title": "노래를 은닉 공간으로 보내기",
   "desc": "왼쪽은 원래 노래 공간입니다. 붉은 점선은 h₁ = 0, 보라 선은 h₂ = 0이 되는 경계선입니다. 오른쪽은 한 층을 지난 뒤의 공간(h₁, h₂)입니다. 편향을 옮기고 ReLU를 켜고 끄며 비교하세요.",
   "html": "<div class=\"lab-columns wide\"><div class=\"controls\"><div class=\"field\"><label for=\"l-b1\">편향 b₁ (취향 문턱)</label><input type=\"range\" id=\"l-b1\" name=\"b1\" min=\"-3\" max=\"3\" step=\"0.25\" value=\"0\" data-digits=\"2\"><output for=\"l-b1\">0.00</output></div>\n<div class=\"field\"><label for=\"l-b2\">편향 b₂</label><input type=\"range\" id=\"l-b2\" name=\"b2\" min=\"-3\" max=\"3\" step=\"0.25\" value=\"0\" data-digits=\"2\"><output for=\"l-b2\">0.00</output></div>\n<label><input type=\"checkbox\" name=\"relu\" id=\"l-relu\" checked> ReLU 켜기</label></div><div class=\"stage two-planes\">\n<figure><svg role=\"img\" aria-labelledby=\"lab-l1\"><title id=\"lab-l1\">원래 노래 공간과 두 경계선</title></svg><figcaption>입력 공간 (빠르기, 에너지)</figcaption></figure>\n<figure><svg role=\"img\" aria-labelledby=\"lab-l2\"><title id=\"lab-l2\">한 층을 지난 은닉 공간의 노래 점</title></svg><figcaption>은닉 공간 (h₁, h₂)</figcaption></figure>\n</div></div><div class=\"readout\" role=\"status\" aria-live=\"polite\"><p>b = (0, 0), ReLU를 켜면 h₁이 0인 노래는 4곡입니다.</p></div><div class=\"ranking table-scroll\"></div><p class=\"caption lab-note\"><b>계산 조건</b> W = [0.45, 0.89 ; 0.89, −0.45](고정), b₁·b₂는 −3~3. 표는 h₁이 큰 순서입니다. 이 W와 b는 학습한 값이 아니라 설명을 위해 직접 정한 값입니다. 실제 신경망은 데이터로부터 W와 b를 학습합니다.</p>",
-  "task": "b₁을 −2로 둔 채 ReLU를 켰다 껐다 해 보세요. 꺼져 있을 때는 오른쪽 그림이 왼쪽을 돌려 놓은 것이고, 켜면 대부분의 노래가 축 위로 접힙니다. 신경망에서 ‘비선형’이 무엇을 뜻하는지 한 장면으로 보입니다.",
+  "task": "b₁을 −2로 둔 채 ReLU를 켰다 껐다 해 보세요. 꺼져 있을 때는 오른쪽 그림이 왼쪽을 돌려 놓은 것이고, 켜면 대부분의 노래가 축 위로 접힙니다. 신경망에서 ‘비선형’이 무엇을 뜻하는지 한 장면으로 볼 수 있습니다.",
   "guide": [
    "h = ReLU(W·x + b)를 계산해 노래를 은닉 공간으로 보냅니다. 편향은 경계선을 옮기고 ReLU는 경계 아래를 0으로 접습니다.",
    [

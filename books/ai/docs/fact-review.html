@@ -5,6 +5,26 @@
 <h1>팩트·출처 검수 기록 · AI Book · 직접 실험하는 AI 교과서</h1>
 <p>책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 2341e1b)으로 바뀐 문장 19개: js/content.js 19개, index.html은 content.js 자산 버전(20261012-case3 → 20261013-k)만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="2341e1b" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자: Claude · 유진 뜻 보존 검수 세션. 집필자(문체 개정): Claude · 다온 문체 개정 세션. 기준 커밋 0f2c248과 개정 커밋 2341e1b 사이의 <code>books/ai/</code> diff를 낱말 단위로 펼쳐, 바뀐 문장 19개를 원래 문장과 하나씩 대조했습니다. 이 책에는 사실 수정이 없고 문체 손질만 있습니다. 다온의 메모(<code>docs/index.html</code>의 2026-10-13 문체 비평)에 있는 "반영함" 19행과 diff를 맞춰 보았습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 2장 첫 문단은 "그 값"을 "그 가중치와 편향"으로 밝혔는데, 1장 본문과 사례 계획(손으로 정한 가중치)과 맞아 새 주장이 아닙니다</td><td>고친 문장이 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 대조</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음. 4/√(4×14) ≈ 0.535, 단어 14개 중 4개, 400토큰, 100 GB/s, 5 TFLOPS, 시험 질문 10개, 모터 20대가 그대로입니다</td><td>고친 문장의 숫자·단위를 원래 문장과 대조</td></tr>
+<tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>계산 코드 변경 없음. diff는 content.js의 글 필드와 자산 버전뿐입니다</td><td>diff에 계산 코드 변경이 없음을 확인, <code>npm test</code> 20개 통과, 루트 <code>tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음. 경사하강법·파라미터·기울기·ReLU·RLHF·RAG·환각·임계값이 같은 이름으로 남았습니다. 장 ID, 장 제목, 확인 문제의 정답 번호, 더 읽어 보기 링크(../computer/#gates, ../computer/#encoding, ../aie-vision/#pixels 등)도 그대로입니다</td><td>diff에서 장 ID·title·정답 번호·링크 필드가 바뀌지 않았음을 확인</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>19문장 대조, 되돌린 문장 0</td><td>원래 문장과 고친 문장을 나란히 놓고 수치·조건·범위·가능성의 정도(K3)·인과관계를 대조. 메모의 반영함 19행과 diff의 19곳이 하나씩 맞음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>없음. 뜻이나 조건이 달라져 되돌린 문장은 없습니다. 아래 두 곳은 뜻이 같다고 보아 그대로 두었고, 미묘한 차이만 비고로 남깁니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문장 / 고친 문장</th><th>살핀 점</th><th>처리</th></tr></thead><tbody>
+<tr><td>#neuron, #tokens 더 읽어 보기(js/content.js)</td><td>"… 무엇을 바꾸는지 보입니다." / "… 볼 수 있습니다.", "… 왜 필요한지 보입니다." / "… 알 수 있습니다."</td><td>"보인다"(드러난다)가 "볼 수 있다"(가능성)로 조금 약해졌지만, 다른 책으로 가는 이유를 안내하는 문장이라 독자에게 생기는 일은 같습니다</td><td>비고, 그대로 둠</td></tr>
+<tr><td>#rag 셋째 문단(js/content.js)</td><td>"이 실험은 고정된 문서 집합의 키워드 검색을 사용해 검색 단계만 투명하게 보여 줍니다." / "이 실험은 고정된 문서 집합에서 키워드 검색만 하므로, 검색 단계에서 무엇이 일어나는지 그대로 볼 수 있습니다."</td><td>"만"이 "검색 단계"에서 "키워드 검색"으로 옮겨 갔고 "-므로"가 이유를 잇습니다. 실험이 생성을 하지 않고 검색 단계만 다룬다는 범위는 같은 장 식 설명("LLM 생성은 사용하지 않으며")과 맞고, 원래 문장의 "사용해"에도 같은 수단 관계가 있어 새 인과는 아닙니다</td><td>비고, 그대로 둠</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>브라우저에서 고친 문장이 실제 화면에 나오는 모습은 보지 않았습니다. 바뀐 것이 글자뿐이고 자산 버전이 함께 올라간 것만 확인했습니다. 다온이 "그대로 둠"으로 남긴 문장(12장 "문턱"과 "임계값" 병용 등)은 이번 대조 범위가 아닙니다.</p>
+</section>
 <section class="fact-review" id="review-2026-10-12-common-case-r3" data-reviewer="Claude 검수 세션 (공통 사례 검수 r3)" data-author="Claude 공통 사례 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="r2에서 열린 10장 inference 넷째 문단 마지막 문장(13장 KV 길이 설명)의 수정과 자산 버전 case3 갱신, 세 화면 폭과 브라우저 실험 재확인" data-result="passed" data-commit="d84be5b">
 <h2>2026-10-12 공통 사례 검수 (r3)</h2>
 <p>검수자: Claude 검수 세션 (공통 사례 검수 r3, 검수팀 정민·건우·유진·채원 역할). 집필자: Claude 공통 사례 집필 세션 (2026-10-12, 커밋 d84be5b). 범위: r2에서 연 10장 문장의 수정과 자산 버전 갱신. 이 세션은 이 원고를 쓰지 않았습니다.</p>

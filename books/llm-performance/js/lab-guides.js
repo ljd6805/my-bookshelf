@@ -15,7 +15,7 @@ const guides={
  metrics:['첫 대기와 이후 간격을 따로 바꿔 전체 시간을 비교합니다.',[['기준',{ttft:400,gap:20,count:32}],['첫 대기 절반',{ttft:200,gap:20,count:32}],['토큰 하나',{ttft:400,gap:20,count:1}]],'기준은 1,020 ms, 첫 대기 절반은 820 ms입니다. 출력 하나에서는 ITL이 정의되지 않습니다. 실제 산술 계산입니다.'],
  timing:['CPU 제출 완료와 GPU 계산 완료를 구분합니다.',[['기준',{count:20,launch:.02,gpu:2}],['GPU 두 배 빠름',{count:20,launch:.02,gpu:1}],['제출이 더 느림',{count:20,launch:.2,gpu:.1}]],'기준은 제출 0.40 ms, GPU 구간 40 ms, 완료 40.02 ms입니다. 일정 비용을 가정한 스케줄 계산입니다.'],
  pipeline:['서로 독립인 묶음끼리 겹쳐 실행할 수 있는 부분을 찾습니다.',[['직렬',{chunks:4,copy:3,compute:6,overlap:0}],['겹침',{chunks:4,copy:3,compute:6,overlap:1}],['묶음 하나',{chunks:1,copy:3,compute:6,overlap:1}]],'네 묶음은 직렬 36 ms, 겹침 27 ms입니다. 묶음 하나는 두 방식 모두 9 ms입니다. 경합을 생략한 계산 모형입니다.'],
- roofline:['같은 측정 구간의 연산·이동·시간을 대응시킵니다.',[['기준',{gb:4,gflop:16,elapsed:10}],['연산 집약적',{gb:.25,gflop:1024,elapsed:25}],['범위 불일치',{gb:4,gflop:16,elapsed:2}]],'기준 메모리 하한은 8 ms입니다. 2 ms를 넣으면 가정한 상한과 맞지 않습니다. 입력 숫자는 가상 분석 사례입니다.']
+ roofline:['같은 측정 구간의 연산량·이동량·시간을 맞춰 봅니다.',[['기준',{gb:4,gflop:16,elapsed:10}],['연산 집약적',{gb:.25,gflop:1024,elapsed:25}],['범위 불일치',{gb:4,gflop:16,elapsed:2}]],'기준 메모리 하한은 8 ms입니다. 2 ms를 넣으면 가정한 상한과 맞지 않습니다. 입력 숫자는 가상 분석 사례입니다.']
 };
 function mount(id,el){
  const [purpose,presets,reading]=guides[id],box=document.createElement('div');box.className='lab-guide';

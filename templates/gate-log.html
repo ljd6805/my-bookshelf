@@ -8,6 +8,7 @@
 <ul>
 <li>책을 한 번 만들거나 크게 고칠 때마다 <code>&lt;table class="gate-round"&gt;</code> 하나를 둡니다. 다시 고치면 표를 지우지 않고 새 표를 더합니다. 검사기는 <code>data-date</code>가 가장 늦은 표를 봅니다.</li>
 <li><code>data-kind="new"</code>: 새 책이나 시리즈의 새 권. G0~G7 여덟 관문이 모두 있어야 합니다.</li>
+<li><code>data-kind="style"</code>: <a href="../docs/11-korean-writing.html">한국어 문장 지침</a>으로 모든 장의 문장만 다시 다듬은 경우(<a href="../docs/10-agent-team.html#style-pass">문체 개정</a>). 목차·조사·실험이 그대로이므로 G4·G6·G7만 적습니다. G4는 글작성팀장 나래가 승인하고, <code>id="style"</code> 절에 지침 대조표와 장마다 <code>id="style-k-장ID"</code> 메모(행마다 <code>data-guideline</code>)가 있어야 합니다. 학습 리허설 절은 요구하지 않습니다. G6 검수 회차에는 유진의 <code>wording</code> 판정이 있어야 합니다.</li>
 <li><code>data-kind="revision"</code>: 장 추가·재구성이나 실험 계산 변경처럼 크게 고친 경우. G2·G3·G4·G6·G7이 있어야 하고, 연결이 바뀌었다면 G1·G5도 적습니다. 규칙 이후에 만든 책은 개정 표를 더해도 처음 만든 <code>new</code> 표가 남아 있어야 하고, 그 표도 함께 검사합니다.</li>
 <li>제작 기록 표는 <code>&lt;section id="log"&gt;</code> 안에 둡니다. 날짜가 같은 표가 둘이면 문서에서 뒤에 있는 표를 최신으로 봅니다. 한 표 안에 같은 관문 행을 두 번 쓰면 실패합니다.</li>
 <li>관문 하나가 한 행입니다. <code>&lt;tr data-gate="G4"&gt;</code>에 칸 세 개(관문 이름, 넘긴 산출물, 한 줄 기록)를 두고, 둘째·셋째 칸을 비우지 않습니다.</li>

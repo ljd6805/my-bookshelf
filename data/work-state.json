@@ -335,6 +335,60 @@
       "정민",
       "한결"
     ],
-    "next": "기존 공개 도서에 지침 대조 적용: 문체 비평 메모가 있는 13권부터, 금융 시리즈(4·1·12·8권) → AI 책 → 나머지 순으로 장마다 K1~K6 대조표를 더하고 유진의 wording 검수 회차를 남긴다. 집필 중인 금융 3권은 첫 G4부터 적용한다."
+    "next": "기존 공개 도서 적용은 korean_style_pass에서 진행 중"
+  },
+  "korean_style_pass": {
+    "status": "in_progress",
+    "date": "2026-10-13",
+    "request": "새 한국어 문장 지침(K1~K6)으로 기존의 모든 책도 검수 (스레드 「기존 책 한국어 지침 검수」)",
+    "rule": "문장만 다듬는 문체 개정은 data-kind=\"style\" 관문 표(G4 나래·G6 정민·G7 한결)와 장마다 style-k-장ID 메모 (docs/10-agent-team.html#style-pass, scripts/team_gates.py)",
+    "scope": "공개된 36권 가운데 지침으로 처음부터 쓴 금융 3권을 뺀 35권",
+    "batches": [
+      {
+        "name": "금융 4권(market·money·grid·volatility)",
+        "status": "approved",
+        "edits": 46,
+        "approved_by": [
+          "나래",
+          "정민",
+          "한결"
+        ],
+        "pr": 64
+      },
+      {
+        "name": "AI·기초 6권(ai·transformer·algorithms·information·llm-performance·linear-algebra)",
+        "status": "approved",
+        "pr": 64,
+        "edits": 97,
+        "approved_by": [
+          "나래",
+          "정민",
+          "한결"
+        ]
+      },
+      {
+        "name": "기초 5권(llm-gpu·computer·probability·rag·knowledge-graph)",
+        "status": "approved",
+        "edits": 83,
+        "approved_by": [
+          "나래",
+          "정민",
+          "한결"
+        ],
+        "pr": 64
+      },
+      {
+        "name": "AI 엔지니어링 시리즈 20권(aie-*)",
+        "status": "in_progress",
+        "note": "1~5권(workbench·math·ml·deep·vision) 다온 마침, 6~20권 대기"
+      }
+    ],
+    "evidence": "docs/03-verification.html#korean-style-pass, 책마다 docs/index.html의 div.style-pass와 data-kind=style 표, docs/fact-review.html의 review-2026-10-13-style",
+    "remaining": [
+      "4권 6장 '종가는 … 휘둘리지 않게 합니다' 주어 어긋남",
+      "8권에서 '실제 기록'이 가상 데이터라는 점을 처음 나오는 자리에 밝혔는지 확인",
+      "style 표를 실제 내용 개정에 쓰는 것을 막는 자동 검사는 없음(G7 판단에 맡김)"
+    ],
+    "next": "남은 묶음을 같은 절차(다온 → 유진 새 세션 → 나래·정민·한결 새 세션 승인)로 진행하고 묶음마다 PR"
   }
 }
