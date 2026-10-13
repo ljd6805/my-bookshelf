@@ -24,9 +24,17 @@ class FactReviewRecords(unittest.TestCase):
     def test_wording_check_from_its_rule_date(self):
         no_wording = TEMPLATE.replace('data-check="wording"', 'data-check="x"')
         self.assertTrue(any('wording' in e for e in review_errors(no_wording)))
-        self.assertEqual(review_errors(no_wording.replace('data-date="2026-10-13"', 'data-date="2026-10-12"')), [])
+        self.assertEqual(review_errors(no_wording.replace('data-date="2026-10-14"', 'data-date="2026-10-12"')), [])
         self.assertTrue(review_errors(TEMPLATE.replace('data-check="wording" data-status="fixed"',
                                                        'data-check="wording" data-status="open"')))
+
+    def test_titles_check_from_its_rule_date(self):
+        no_titles = TEMPLATE.replace('data-check="titles"', 'data-check="x"')
+        self.assertTrue(any('titles' in e for e in review_errors(no_titles)))
+        self.assertEqual(review_errors(no_titles.replace('data-date="2026-10-14"', 'data-date="2026-10-13"')), [])
+        no_q2 = TEMPLATE.replace('data-check="Q2"', 'data-check="x"')
+        self.assertTrue(any('Q2' in e for e in review_errors(no_q2)))
+        self.assertEqual(review_errors(no_q2.replace('data-date="2026-10-14"', 'data-date="2026-10-13"')), [])
 
     def test_published_book_needs_a_record_unless_pending(self):
         with tempfile.TemporaryDirectory() as name:
