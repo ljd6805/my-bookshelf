@@ -17,7 +17,7 @@ function calcChart(cells,pretax,mode){
 function taxChart(d){const items=[['거래세',d.stt],['분배·배당·이자',d.income],['차익',d.gain]];return U.columns({labels:items.map(x=>x[0]),values:items.map(x=>x[1]),fmt:v=>`${F(v)}원`,tick:v=>F(v),title:'일반계좌에서 빠지는 세금의 종류',h:200,label:items.map(x=>`${x[0]} ${W(x[1])}`).join(', ')});}
 function row(k,name,c,mode){
  if(c.blocked)return [name,'—','—',`<b>계산 안 함</b>`,BLOCK[c.blocked]];
- const d=c.detail,credit=d.credit?W(d.credit):'—',memo={general:'',isa:`순이익 ${W(d.net)} − 비과세 ${W(d.limit)}`,annuity:'5.5%, 55세 이후',early:'16.5%, 보유 기간 끝'}[k];
+ const d=c.detail,credit=d.credit?W(d.credit):'—',memo={general:'',isa:`순이익 ${W(d.net)} − 비과세 ${W(d.limit)}`,annuity:'5.5%, 55세 이후',early:'16.5%, 보유 기간 끝'}[k]+(d.capped?` · 손실로 남은 잔고 ${W(d.balance)}까지만 과세`:'');
  return [(k===mode?'▲ ':'')+name,W(c.tax),credit,`<b>${W(c.after)}</b>`,memo+(c.sttUnknown!=null?` · 거래세가 빠진다고 놓으면 ${W(c.sttUnknown)}(확인 못함)`:'')];
 }
 TLabs['after-tax']=el=>{

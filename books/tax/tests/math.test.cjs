@@ -99,6 +99,9 @@ test('8장 연금: 공제 99만 원, 2,406,965원·1,543,615원, IRP, 13.2%, L2 
  const f6=M.roundFlows(M.flows(6000000,3,0.04,0.02)),o=M.pensionOutcome(f6,'saving','over','early');
  assert.deepEqual([o.credit,o.principalTax,o.credit-o.principalTax],[792000,990000,-198000]);
  assert.equal(M.pensionOutcome(f6,'saving','under','early').credit-M.pensionOutcome(f6,'saving','under','early').principalTax,0,'16.5%: principal tax cancels the credit');
+ const lost=M.roundFlows(M.flows(6000000,30,-0.10,0)),la=M.pensionOutcome(lost),le=M.pensionOutcome(lost,'saving','under','early');
+ assert.deepEqual([la.balance,la.taxed,la.tax,le.tax,la.capped],[254347,254347,13989,41967,true],'loss: tax only the remaining balance');
+ assert.equal(M.pensionOutcome(M.roundFlows(M.flows(6000000,3,0,0))).taxed,6000000,'zero return: taxed = credited principal');
  assert.equal(M.presentValue(1000000,0.03,10),744093);assert.equal(M.presentValue(1000000,0.03,0),1000000);
  assert.equal(100000-M.presentValue(100000,0.04,5),17808,'전이: 유예의 값 약 1만 7,807원(오늘 가치를 버려 1원 차이)');
  assert.ok(Math.abs((100000-100000/Math.pow(1.04,5))-17807.29)<0.01);

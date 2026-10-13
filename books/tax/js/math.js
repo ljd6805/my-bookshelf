@@ -99,12 +99,14 @@ function isaTax(kind,f,type='general',withStt=false){
 }
 
 /* ── 8장 연금저축·IRP ── 공제 = min(납입, 한도) × 공제율. 꺼낼 때는 공제받은 원금과 모든 수익에 세금,
-   공제받지 않은 원금은 세금 없이 나온다고 놓는다(확인 못함). account: saving(연금저축 600만), irp(900만), both(합산 900만). */
+   공제받지 않은 원금은 세금 없이 나온다고 놓는다(확인 못함). 손실로 계좌 잔고가 공제받은 원금보다 작으면 남은 잔고까지만 세금을 매긴다.
+   account: saving(연금저축 600만), irp(900만), both(합산 900만). */
 function creditRate(band){return band==='over'?RATES.pension.creditHigh:RATES.pension.creditLow;}
 function pensionCredit(amount,account='saving',band='under'){money(amount,'amount');const p=RATES.pension,limit=account==='saving'?p.limitSaving:p.limitTotal,base=Math.min(amount,limit);return {base,limit,rate:creditRate(band),credit:floor(base*creditRate(band))};}
 function pensionOutcome(f,account='saving',band='under',mode='annuity'){
- const c=pensionCredit(f.principal,account,band),rate=mode==='early'?RATES.pension.early:RATES.pension.annuity,taxed=c.base+Math.max(0,f.pretax),tax=floor(taxed*rate);
- return {...c,mode,rateOut:rate,taxed,tax,principalTax:floor(c.base*rate),after:f.pretax-tax+c.credit};
+ const c=pensionCredit(f.principal,account,band),rate=mode==='early'?RATES.pension.early:RATES.pension.annuity,balance=Math.max(0,f.principal+f.pretax);
+ const taxed=Math.min(c.base+Math.max(0,f.pretax),balance),tax=floor(taxed*rate);
+ return {...c,mode,rateOut:rate,balance,capped:taxed<c.base,taxed,tax,principalTax:floor(Math.min(c.base,balance)*rate),after:f.pretax-tax+c.credit};
 }
 /* 늦게 내는 세금의 오늘 가치. 할인율 r, n년 뒤. 원 미만은 버린다. */
 function presentValue(amount,r,n){money(amount,'amount');need(r>-1,'rate must be above −100%');need(n>=0,'years must be ≥ 0');return floor(amount/Math.pow(1+r,n));}
