@@ -302,24 +302,22 @@
   },
   "interest_bonds": {
     "book": "books/bonds/",
-    "series": "finance-from-scratch 3권 (시리즈 다섯 번째)",
+    "series": "finance-from-scratch 3권 (시리즈 다섯 번째 출간)",
     "plan": "/mnt/project-files/stock-books/proposal.md",
     "docs": "books/bonds/docs/index.html",
     "research": "books/bonds/docs/research.html",
-    "status": "G0~G5 승인, G6 팩트·출처 검수 1회차 fixed; 지침 K1~K6 대조와 wording 검수 진행 중",
-    "completed": [
-      "기획서·목차·조사 노트·계산 모듈과 테스트",
-      "원고 10장·복습 30문항·실험 10개·표지·서가 삽화",
-      "G3 설계표, 다온 문체 메모, 채원 리허설",
-      "서가 등록(카탈로그·노선 rates-and-assets·들어오는 링크 3개)",
-      "팩트·출처 검수 1회차(오류 5건 수정)"
+    "fact_review": "books/bonds/docs/fact-review.html (1회차 fixed, wording ok)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 49개",
+      "브라우저 1280/390/320 61개 화면·실험 30회·예측 질문 30회",
+      "validate.py·build_catalog.py --check·서가 단위 테스트(Python·Node)"
     ],
     "remaining": [
-      "다온 지침 대조표(K1~K6), 유진 wording 대조",
-      "G6 정민·G7 한결 승인",
-      "2026-10-22 기준금리 결정 결과 재확인(공개 뒤 수정 회차)"
+      "2026-10-22 금통위 결정 뒤 2장 상자·조사 노트 2-1행·1·2장 사례 문장을 고치는 수정 회차",
+      "한국은행·금융투자협회 채권정보센터 원문 미열람, 국고채 2년물 현재 발행 여부, 국고채 날짜 셈 관행"
     ],
-    "next": "지침 대조와 wording 검수 뒤 G6·G7 승인, PR"
+    "next": "PR 병합 뒤 시리즈 다음 권(proposal.md §4: 11권 세금과 계좌)"
   },
   "korean_writing_guidelines": {
     "status": "done",
