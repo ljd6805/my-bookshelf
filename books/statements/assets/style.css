@@ -129,6 +129,7 @@ fieldset.cards .control{padding:4px 0}
 .lab .table-wrap.fit td,.lab .table-wrap.fit th{white-space:normal}
 .lab .table-wrap.fit td:first-child{min-width:6.5em}
 .lab .chart .table-wrap.fit table{min-width:0}
+.lab .table-wrap.fit td{overflow-wrap:anywhere;font-family:var(--font-sans)}.lab .table-wrap.fit td b{white-space:nowrap}
 @media(max-width:400px){.lab .table-wrap.fit td:first-child{min-width:0}.lab .table-wrap.fit td,.lab .table-wrap.fit th{padding-inline:6px}}
 
 /* 재무제표 읽기: 세 재무제표 나란히, 대조 줄, 단계, 끌어 놓기 칸, 쓰기 칸 */
@@ -149,3 +150,6 @@ fieldset.cards .control{padding:4px 0}
 .control textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--chart);color:var(--text);font:inherit;resize:vertical}
 .control input[type=date]{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--text);font-family:var(--font-mono);min-height:42px}
 @media(max-width:760px){.fs-board{grid-template-columns:1fr;margin:8px 0}.lab .chart .fs-three .table-wrap table{min-width:0}}
+
+/* 좁은 화면의 마지막 과제 표: 행마다 칸을 위아래로 쌓고 칸 이름을 앞에 붙여 옆으로 밀지 않고 읽는다. */
+@media(max-width:480px){.lab .table-wrap.fit thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.lab .table-wrap.fit table,.lab .table-wrap.fit tbody,.lab .table-wrap.fit tr,.lab .table-wrap.fit td{display:block;width:100%}.lab .table-wrap.fit tr{border:1px solid var(--line);border-radius:6px;margin:0 0 8px}.lab .table-wrap.fit td{border:0;border-bottom:1px solid var(--line)}.lab .table-wrap.fit td:last-child{border-bottom:0}.lab .table-wrap.fit td:before{content:attr(data-label);display:block;font-size:.8em;color:var(--accent);font-weight:700}.lab .table-wrap.fit td b{white-space:normal}.lab .table-wrap.fit caption{display:block;width:100%}}

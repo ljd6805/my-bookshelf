@@ -19,11 +19,11 @@ const DEFAULTS={
  'three-statement-link':['순이익 136억 원','영업활동 현금흐름 156억 원','기말 현금 136억 원','1,156 = 부채 380 + 자본 776','자산 = 부채 + 자본 ✓ 맞음','모두 ✓ 맞음','차입하지 않습니다'],
  'ratio-table':['영업이익률 12.0%','9.07%','ROE 18.7%','부채비율 49.0%','297.8%','15.0배','56.0일','59.1일','9.07% × 총자산회전율 1.36회 × 자기자본승수 1.52배'],
  'accrual-alarm':['1.15','−1.8%','위험 신호 없음','매출채권·재고 증가는 50억 원','24 + 오경보 97 = 121건','19.8%','특정 주식을 사고팔라는 권유가 아닙니다'],
- 'filing-deadline':['2025-03-31(월)','사업보고서','조치 없음','한국거래소 안내 원문'],
+ 'filing-deadline':['2025-03-31(월)','사업보고서','안내에 조치 사유로 적히지 않음','한국거래소 안내 원문'],
  'industry-compare':['6.56회','59.1일','56.0일','53.6%','16회','22.8일','9.1일','30.0%','재고 없음','73.0일','10.0%'],
  'final-check':['+21.2%','−53.8%','−83.2억 원','56.0일','87.2일','250억 원','20억 원','10.8배','2026-05-15','2026-08-14','2027-03-31','네 줄 모두 ✓ 맞음','학습용 계산, 투자 권유 아님']
 };
-const CHART={'three-statement-link':['손익계산서','현금흐름표 (간접법)','기말 재무상태표','이익잉여금 626'],'final-check':['(가) 2026년 4월','2026-05-15(금)','2027-03-31(수)'],'filing-deadline':['시각적 비유','안내에 조치 사유로 적히지 않음']};
+const CHART={'three-statement-link':['손익계산서','현금흐름표 (간접법)','기말 재무상태표','이익잉여금 626'],'final-check':['(가) 2026년 4월','2026-05-15(금)','2027-03-31(수)'],'filing-deadline':['시각적 비유','안내에 조치 사유로 적히지 않음'],'cfo-bridge':['누적 76','누적 36','재무활동 (배당 −40)','현금 증감 (기초 100 → 기말 136)']};
 /* 비교 예제 [번호, 꼭 나와야 하는 숫자](결과 문장과 그림·표 글자를 합쳐서 찾는다). */
 const PRESETS={
  'accrual-timeline':[[0,['2025 회계연도에는 매출 30억 원, 현금 유입 30억 원']],[1,['2025 회계연도에는 매출 30억 원, 현금 유입 30억 원']],[2,['2024 회계연도에는 매출 50억 원, 현금 유입 20억 원, 현금 유출 15억 원, 자산으로 산 것 65억 원, 그해 말 아직 내지 않은 대금 50억 원','현금 유입 30억 원, 현금 유출 50억 원']]],
@@ -185,6 +185,13 @@ async function extras(page,url){
  for(const [k,v] of Object.entries({aa0:10,aa1:25,aa2:20,ad2:'2024-03-10'}))await setValue(at,k,v);
  let tx=await at.locator('.readout').innerText();assert.match(tx,/2024 회계연도 매출채권 증가 = 외상 판매 25 − 회수 20 = 5억 원이라 그해 말에 받을 돈 5억 원이 매출채권으로 남습니다/);assert.doesNotMatch(tx,/남는 매출채권이 없습니다/);
  await setValue(at,'aa2',25);tx=await at.locator('.readout').innerText();assert.match(tx,/외상 판매 25 − 회수 25 = 0억 원이라 그해 말에 남는 매출채권이 없습니다/);await reset(at);
+ /* 10장 확인 시점 표와 4장 그림: 세 폭에서 표가 옆으로 넘치지 않고, 가로축 이름표가 서로 겹치지 않는다. */
+ for(const w of [1280,390,320]){
+  await frame(page,url,w,'final');const fit=await page.locator('#lab-final-check .chart .table-wrap.fit').evaluate(e=>({sw:e.scrollWidth,cw:e.clientWidth,head:[...e.querySelectorAll('th')].map(x=>x.innerText)}));
+  assert.ok(fit.sw<=fit.cw+1,`final horizon table overflows at ${w}: ${fit.sw} > ${fit.cw}`);assert.equal(fit.head[1],'확인할 것');
+  await frame(page,url,w,'cashflow');const ov=await page.locator('#lab-cfo-bridge .chart svg').evaluate(s=>{const b=[...s.querySelectorAll('text.axis')].filter(t=>+t.getAttribute('y')>200).map(t=>t.getBBox());let n=0;for(let i=0;i<b.length;i++)for(let j=i+1;j<b.length;j++){const a=b[i],c=b[j];if(Math.abs(a.y-c.y)<1&&a.x<c.x+c.width&&c.x<a.x+a.width)n++;}return n;});
+  assert.equal(ov,0,`cfo-bridge axis labels overlap at ${w}`);
+ }
  /* 10장: 신호 표는 적어 둔 조건 아래에 접혀 있고, 적어 둔 조건은 이 브라우저에만 남는다. */
  await frame(page,url,390,'final');const fc=page.locator('#lab-final-check');
  assert.equal(await fc.locator('fieldset ~ details.fs-signals').count(),1,'signal table sits below the notes');assert.equal(await fc.locator('details.fs-signals').getAttribute('open'),null,'signal table starts folded');

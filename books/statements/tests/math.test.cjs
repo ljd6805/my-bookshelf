@@ -31,6 +31,7 @@ put('rvInv',M.linkedYear(M.OPENING,{...M.YEARS[2024],inv:300}));put('rvCfoInv50'
 /* 4·8·9장 확인 문제(새 사례): 가상의 회사 간접법, 9월 결산 회사의 사업보고서 기한, 가상의 식품 도매 회사 매출채권 회전일수 */
 put('qCfoNew',M.cfoBridge({ni:40,dep:25,dAR:20,dInv:-10,dAP:-5}));put('qCfoWrong',{invSign:40+25-20-10-5,apSign:40+25-20+10+5});
 put('qD9',M.deadline('2025-09-30','annual'));put('qD9q',M.deadline('2025-09-30','quarter'));
+put('qRoa',{d:M.dupont(30,600,400,250),avg:(300+500)/2,end:30/500});put('qRate5',{i:M.interestEstimate(200,0.05,250,0.05),bondOnly:250*0.05});put('qRate5c',{c:216/M.interestEstimate(200,0.05,250,0.05),c2:216/12.5});
 put('qFood',M.industryRow({name:'가상의 식품 도매 회사',sales:730,cogs:500,invOpen:20,invClose:20,arClose:60,ppeShare:0.2}));put('qFoodWrong',{pctRead:60/730,turnover:730/60});
 
 test('assumptions and rules live in one table each, with the check date',()=>{
@@ -155,6 +156,10 @@ test('4·8·9장 확인 문제(새 사례): 영업현금흐름 50, 9월 결산 �
  assert.equal(C.qCfoNew.cfo,50);assert.deepEqual([C.qCfoWrong.invSign,C.qCfoWrong.apSign],[30,60]);
  assert.deepEqual([C.qD9.date,C.qD9.weekday,C.qD9q.date],['2025-12-29','월','2025-11-14']);
  assert.deepEqual([f1(C.qFood.arDays),pct(C.qFoodWrong.pctRead),f1(C.qFoodWrong.turnover)],['30.0','8.2','12.2']);
+});
+test('6장 확인 문제 ROA 7.5% · 6.0% · 12.0%, 10장 복습 금리 5% → 22.5억 원 · 9.6배',()=>{
+ assert.deepEqual([pct(C.qRoa.d.margin*C.qRoa.d.turnover),pct(C.qRoa.end),pct(C.qRoa.d.roe),C.qRoa.avg],['7.5','6.0','12.0',400]);
+ assert.deepEqual([C.qRate5.i,f1(C.qRate5c.c),f1(C.qRate5c.c2)],[22.5,'9.6','17.3']);
 });
 test('V-9 업종: 새벽전자 6.56회·59.1일·56.0일·53.6%, 유통 16회·22.8일·9.1일, 소프트웨어 73.0일, L2 12회·30.4일',()=>{
  const t=C.ind;assert.deepEqual([t.saebyeok.invTurnover.toFixed(2),f1(t.saebyeok.invDays),f1(t.saebyeok.arDays),pct(t.saebyeok.ppeShare)],['6.56','59.1','56.0','53.6']);

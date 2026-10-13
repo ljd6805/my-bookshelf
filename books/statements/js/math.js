@@ -36,7 +36,7 @@ const RULES={
  extensionBizDays:5,     // 사업보고서 연장신고 시 5영업일 안에서 연장(한국거래소 안내, 3-1)
  grade:{annualDays:'official',interimDays:'news',audit:'official',holiday:'unknown'},
  audit:{                 // 유가증권시장 감사의견에 따른 조치(한국거래소 안내 원문, 3-5). 코스닥·이의신청·개선기간은 다루지 않음
-  unqualified:'조치 없음(감사의견에 따른 조치 사유가 아님)',
+  unqualified:'안내에 조치 사유로 적히지 않음',
   qualifiedScope:'관리종목 지정(사실 확인일 다음날)',
   qualifiedScopeAgain:'상장폐지 절차 진행(관리종목 상태에서 다시 범위제한 한정)',
   qualifiedOther:'감사범위 제한이 아닌 한정은 이 안내의 조치 사유로 적히지 않음',
