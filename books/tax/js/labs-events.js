@@ -4,6 +4,7 @@
 'use strict';
 const U=TUI,M=TMath,F=U.fmt,W=U.won0,R=M.RATES;
 const w154=x=>M.floor(x*M.withholdRate());
+const amt=v=>v===null?'5장에서 계산':W(v);
 const note=()=>`<span class="rate-note">${U.RATE_NOTE}</span><br>`;
 /* 1장: 사건 네 개(산다·받는다·판다·해가 바뀐다)마다 붙는 세금과 떼는 쪽. */
 const EVENTS=[['buy','산다'],['receive','받는다'],['sell','판다'],['year','해가 바뀐다']];
@@ -16,13 +17,13 @@ function timeline(kind,prin,income,gain){
  if(kind==='foreign')rows.sell=['양도소득세: (차익 − 250만 원) × 22% · 팔 때 생긴 차익에 붙고, 증권사가 떼지 않아 본인이 신고(신고 시기는 확인 못함)',M.foreignGainTax(gain).tax,'본인이 신고'];
  if(kind==='bond')rows.sell=['중간에 판 매매차익은 개인에게 비과세(보도 기준) · 나라 3년의 가격 몫을 비과세로 둔 것은 이 책의 가정 · 채권 매도의 거래세는 확인 못함, 0으로 둠',0,'—'];
  const total=income+(kind==='kother'?gain:0),over=total>R.threshold;
- rows.year=[over?'이자·배당 합계가 2,000만 원을 넘어 넘는 몫은 종합과세(5장)':'이자·배당 합계가 2,000만 원 이하라 더 낼 세금 없음',0,over?'본인이 신고':'—'];
+ rows.year=[over?'이자·배당 합계가 2,000만 원을 넘어 넘는 몫은 종합과세(더 낼 세금은 한계세율이 있어야 해서 5장에서 계산)':'이자·배당 합계가 2,000만 원 이하라 더 낼 세금 없음',over?null:0,over?'본인이 신고':'—'];
  return rows;
 }
 function timelineChart(rows,pick){
  let s=`<text x="12" y="18" class="series">투자 한 건의 네 사건 · ▲ 고른 사건</text><path d="M12 92H468" stroke="var(--line)" stroke-width="2"/>`;
- EVENTS.forEach(([k,name],i)=>{const x=12+i*116,on=k===pick,tax=rows[k][1];s+=`<rect x="${x}" y="60" width="104" height="64" rx="8" fill="var(--panel2)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2.5:1}"/><text x="${x+52}" y="84" text-anchor="middle" class="mark-t">${on?'▲ ':''}${name}</text><text x="${x+52}" y="108" text-anchor="middle" class="axis">${tax?W(tax):'0원'}</text>`;});
- return U.svg(`네 사건의 세금: ${EVENTS.map(([k,n])=>`${n} ${W(rows[k][1])}`).join(', ')}`,s,150);
+ EVENTS.forEach(([k,name],i)=>{const x=12+i*116,on=k===pick,tax=rows[k][1];s+=`<rect x="${x}" y="60" width="104" height="64" rx="8" fill="var(--panel2)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2.5:1}"/><text x="${x+52}" y="84" text-anchor="middle" class="mark-t">${on?'▲ ':''}${name}</text><text x="${x+52}" y="108" text-anchor="middle" class="axis">${tax===null?'5장에서 계산':tax?W(tax):'0원'}</text>`;});
+ return U.svg(`네 사건의 세금: ${EVENTS.map(([k,n])=>`${n} ${amt(rows[k][1])}`).join(', ')}`,s,150);
 }
 TLabs['tax-map']=el=>{
  U.setup(el,U.select('mprod','상품',Object.keys(U.PRODUCTS).map(k=>[k,`${U.pname(k)} (${U.PRODUCTS[k][1]})`]),'stock')+U.number('mprin','산 금액 (원)',0,10000000000,10000,10000000)+U.number('mincome','받은 배당·분배금·이자 합계 (원)',0,1000000000,1000,200000)+U.number('mgain','판 차익 (원)',0,10000000000,1000,1248640,'손해를 본 매도는 2장에서')+U.select('mevent','자세히 볼 사건',EVENTS,'receive')+`<div class="buttons" aria-label="사건 단추">${EVENTS.map(([k,n])=>`<button type="button" data-event="${k}">${n}</button>`).join('')}</div>`);
@@ -33,8 +34,8 @@ TLabs['tax-map']=el=>{
   if(income===null)return U.result(el,'',U.problem('받은 돈','0 이상의 원 단위 숫자를 넣어야 합니다.'));
   if(gain===null)return U.result(el,'',U.problem('판 차익','0 이상의 원 단위 숫자를 넣어야 합니다.'));
   const rows=timeline(kind,prin,income,gain),list=EVENTS.filter(([k])=>rows[k][1]>0),total=list.reduce((s,[k])=>s+rows[k][1],0),name=EVENTS.find(([k])=>k===pick)[1];
-  const tbl=U.table(['사건','붙는 세금','금액','떼는 쪽'],EVENTS.map(([k,n])=>[(k===pick?'▲ ':'')+n,rows[k][0],`<b>${W(rows[k][1])}</b>`,rows[k][2]]),`${U.pname(kind)} · 받은 돈 ${W(income)}, 차익 ${W(gain)}`);
-  U.result(el,timelineChart(rows,pick)+tbl,`${note()}<b>${U.pname(kind)}</b>: “${name}”에서 붙는 세금은 ${rows[pick][0]}이고 <b>${W(rows[pick][1])}</b>입니다.${rows[pick][2]==='—'?'':` 떼는 쪽: ${rows[pick][2]}.`}<br>네 사건을 모두 지나면 세금은 <b>${list.length}번</b> 빠지고 합계 <b>${W(total)}</b>입니다${list.length?`(${list.map(([k,n])=>`${n} ${W(rows[k][1])}`).join(', ')})`:''}. 어떤 세금을 내는지는 사건이 정하고, 떼는 쪽은 원천징수가 있는지가 정합니다.${U.kind(['real','news'],kind==='bond'?'채권 매도의 거래세는 확인하지 못해 0으로 두었습니다.':'수수료는 0으로 두었습니다(4권 #cost).')}`);
+  const tbl=U.table(['사건','붙는 세금','금액','떼는 쪽'],EVENTS.map(([k,n])=>[(k===pick?'▲ ':'')+n,rows[k][0],`<b>${amt(rows[k][1])}</b>`,rows[k][2]]),`${U.pname(kind)} · 받은 돈 ${W(income)}, 차익 ${W(gain)}`);
+  U.result(el,timelineChart(rows,pick)+tbl,`${note()}<b>${U.pname(kind)}</b>: “${name}”에서 붙는 세금은 ${rows[pick][0]}이고 <b>${amt(rows[pick][1])}</b>입니다.${rows[pick][2]==='—'?'':` 떼는 쪽: ${rows[pick][2]}.`}<br>네 사건을 모두 지나면 세금은 <b>${list.length}번</b> 빠지고 합계 <b>${W(total)}</b>입니다${list.length?`(${list.map(([k,n])=>`${n} ${amt(rows[k][1])}`).join(', ')})`:''}${rows.year[1]===null?'. 이 합계에는 “해가 바뀐다”에서 더 낼 종합과세 세금이 빠져 있습니다(한계세율이 있어야 계산할 수 있어 5장에서 계산)':''}. 어떤 세금을 내는지는 사건이 정하고, 떼는 쪽은 원천징수가 있는지가 정합니다.${U.kind(['real','news'],kind==='bond'?'채권 매도의 거래세는 확인하지 못해 0으로 두었습니다.':'수수료는 0으로 두었습니다(4권 #cost).')}`);
  });
 };
 /* 2장: 증권거래세. 시장 × 매도 금액 × 1년 매도 횟수. */

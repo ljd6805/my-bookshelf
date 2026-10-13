@@ -137,6 +137,7 @@ async function errorStates(page,url){
   ['map','tax-map',async l=>{await setValue(l,'mincome',-1);},/✗ 받은 돈을 확인해 주세요/],
   ['trade','stt',async l=>{await setValue(l,'stimes',2.5);},/✗ 매도 횟수를 확인해 주세요/],
   ['dividend','withhold',async l=>{await setValue(l,'wkind','interest');await setValue(l,'whigh',true);},/✗ 고배당 기업 분리과세는/],
+  ['map','tax-map',async l=>{await setValue(l,'mprod','bond');await setValue(l,'mincome',30000000);},/종합과세 세금이 빠져 있습니다[\s\S]*5장에서 계산/],
   ['gains','gains',async l=>{await setValue(l,'ggain',-5);},/✗ .*확인해 주세요/],
   ['threshold','threshold',async l=>{await setValue(l,'ttotal',20000001);},/1원만 다른 소득과 합쳐/],
   ['etf','etf-tax',async l=>{await setValue(l,'egain','');},/✗ .*확인해 주세요/],
