@@ -5,7 +5,7 @@
 import {
   LEVEL_LABEL, LEVEL_MARK, studyKey, folderFromPath, parseState, markOpened, markRead,
   recordAnswer, recordRecall, resetChapterReview, level, summary, pickRecall,
-} from './study-model.mjs?v=20261012-study1';
+} from './study-model.mjs?v=20261013-notes1';
 
 const folder = folderFromPath(location.pathname);
 const tag = document.querySelector('script[data-book-study]');
