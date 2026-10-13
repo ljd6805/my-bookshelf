@@ -1,0 +1,46 @@
+<svg class="tx-ill" viewBox="0 0 340 180" role="img" aria-labelledby="tx-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="tx-ill-title">같은 세전 수익 1,848,640원을 쌓은 막대 세 개. 일반계좌 막대는 윗부분의 세금 조각이 떨어져 나가고, ISA 막대는 그대로 남고, 연금저축 막대는 세금 조각이 떨어져 나간 뒤 위에 세액공제 블록이 내려앉아 세 막대의 키가 달라지는 과정</title>
+<style>
+.tx-ill-bg{fill:#faf6fa}
+.tx-ill-word{font:600 10px sans-serif;fill:#2a1830}
+.tx-ill-small{font:500 9px sans-serif;fill:#634f6b}
+.tx-ill-num{font:700 9.5px sans-serif;fill:#8a2f86}
+.tx-ill-tax{fill:#c9772f}
+.tx-ill-bar{fill:#8a2f86}
+.tx-ill-credit{fill:#1f6474}
+.tx-ill-line{stroke:#dccbe0;stroke-width:1.2}
+.tx-ill-pre{stroke:#634f6b;stroke-width:1;stroke-dasharray:3 3}
+.tx-ill-fly{transform-box:view-box;animation:tx-ill-drop 8s ease-in-out infinite}
+.tx-ill-fly2{transform-box:view-box;animation:tx-ill-drop2 8s ease-in-out infinite}
+.tx-ill-add{transform-box:view-box;animation:tx-ill-land 8s ease-in-out infinite}
+.tx-ill-cue{opacity:0;animation:tx-ill-show 8s ease-in-out infinite}
+@keyframes tx-ill-drop{0%,15%{transform:translate(0,0);opacity:1}35%,85%{transform:translate(26px,-6px);opacity:0}100%{transform:translate(0,0);opacity:1}}
+@keyframes tx-ill-drop2{0%,25%{transform:translate(0,0);opacity:1}45%,85%{transform:translate(26px,-6px);opacity:0}100%{transform:translate(0,0);opacity:1}}
+@keyframes tx-ill-land{0%,45%{transform:translate(0,-30px);opacity:0}60%,85%{transform:translate(0,0);opacity:1}95%,100%{transform:translate(0,-30px);opacity:0}}
+@keyframes tx-ill-show{0%,55%{opacity:0}65%,85%{opacity:1}95%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.tx-ill-fly,.tx-ill-fly2{animation:none;opacity:0}.tx-ill-add{animation:none;transform:translate(0,0);opacity:1}.tx-ill-cue{animation:none;opacity:1}}
+html[data-motion=reduce] .tx-ill-fly,html[data-motion=reduce] .tx-ill-fly2{animation:none;opacity:0}
+html[data-motion=reduce] .tx-ill-add{animation:none;transform:translate(0,0);opacity:1}
+html[data-motion=reduce] .tx-ill-cue{animation:none;opacity:1}
+</style>
+<rect class="tx-ill-bg" width="340" height="180" rx="10"/>
+<text class="tx-ill-small" x="170" y="15" text-anchor="middle">같은 세전 수익을 어느 계좌에 두었나</text>
+<path class="tx-ill-pre" d="M36 60H304"/>
+<text class="tx-ill-small" x="36" y="55">세전 1,848,640원</text>
+<path class="tx-ill-line" d="M30 142H310"/>
+<rect class="tx-ill-bar" x="50" y="72.6" width="50" height="69.4"/>
+<rect class="tx-ill-tax tx-ill-fly" x="50" y="60" width="50" height="12.6"/>
+<rect class="tx-ill-bar" x="145" y="60" width="50" height="82"/>
+<rect class="tx-ill-bar" x="240" y="79.1" width="50" height="62.9"/>
+<rect class="tx-ill-tax tx-ill-fly2" x="240" y="60" width="50" height="19.1"/>
+<rect class="tx-ill-credit tx-ill-add" x="240" y="35.2" width="50" height="43.9"/>
+<text class="tx-ill-word" x="75" y="156" text-anchor="middle">일반계좌</text>
+<text class="tx-ill-word" x="170" y="156" text-anchor="middle">ISA</text>
+<text class="tx-ill-word" x="265" y="156" text-anchor="middle">연금저축</text>
+<g class="tx-ill-cue">
+<text class="tx-ill-num" x="75" y="170" text-anchor="middle">1,563,950원</text>
+<text class="tx-ill-num" x="170" y="170" text-anchor="middle">1,848,640원</text>
+<text class="tx-ill-num" x="265" y="170" text-anchor="middle">2,406,965원</text>
+<text class="tx-ill-small" x="265" y="30" text-anchor="middle">+ 공제 990,000원</text>
+</g>
+</svg>
