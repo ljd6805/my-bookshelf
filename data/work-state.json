@@ -287,7 +287,7 @@
     "docs": "books/volatility/docs/index.html",
     "research": "books/volatility/docs/research.html",
     "fact_review": "books/volatility/docs/fact-review.html (1회차 fixed)",
-    "status": "published: G0~G7 팀장 승인",
+    "status": "published: G0~G7 팀장 승인, PR #61 병합(자동 리뷰 두 건 반영)",
     "verification": [
       "책 테스트 50개",
       "브라우저 1280/390/320 48개 화면·실험 30회·예측 질문 30회",
@@ -296,10 +296,28 @@
     "remaining": [
       "레버리지 ETP 거래 요건 공식 원문 대조(2026년 7월 강화 시행일)",
       "실제 지수 데이터로 첨도·자기상관 계산",
-      "읽기 순서 도구가 사이 권이 비면 시리즈 근거를 못 쓰는 문제(reading_order.py series_reason)",
       "공통 서가 펼침 화면의 삽화 최소 높이"
     ],
     "next": "제안서 순서대로 3권 「금리와 채권」을 같은 절차로 시작"
+  },
+  "interest_bonds": {
+    "book": "books/bonds/",
+    "series": "finance-from-scratch 3권 (시리즈 다섯 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md",
+    "docs": "books/bonds/docs/index.html",
+    "research": "books/bonds/docs/research.html",
+    "fact_review": "books/bonds/docs/fact-review.html (1회차 fixed, wording ok)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 49개",
+      "브라우저 1280/390/320 61개 화면·실험 30회·예측 질문 30회",
+      "validate.py·build_catalog.py --check·서가 단위 테스트(Python·Node)"
+    ],
+    "remaining": [
+      "2026-10-22 금통위 결정 뒤 2장 상자·조사 노트 2-1행·1·2장 사례 문장을 고치는 수정 회차",
+      "한국은행·금융투자협회 채권정보센터 원문 미열람, 국고채 2년물 현재 발행 여부, 국고채 날짜 셈 관행"
+    ],
+    "next": "PR 병합 뒤 시리즈 다음 권(proposal.md §4: 11권 세금과 계좌)"
   },
   "korean_writing_guidelines": {
     "status": "done",

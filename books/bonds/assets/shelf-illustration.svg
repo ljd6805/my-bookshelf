@@ -1,0 +1,50 @@
+<svg class="bo-ill" viewBox="0 0 340 180" role="img" aria-labelledby="bo-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="bo-ill-title">금리 쪽 끝이 올라가면 채권 값 쪽 끝이 내려가는 시소 두 개. 짧은 판의 3년 채권은 조금 기울고, 긴 판의 10년 채권은 같은 금리 변화에도 훨씬 크게 기울었다가 다시 수평으로 돌아오는 과정</title>
+<style>
+.bo-ill-bg{fill:#f5f7fb}
+.bo-ill-word{font:600 10px sans-serif;fill:#16233a}
+.bo-ill-small{font:500 9px sans-serif;fill:#4f5f78}
+.bo-ill-rate{font:700 9.5px sans-serif;fill:#9a4a12}
+.bo-ill-blue{fill:#1d5fc0}
+.bo-ill-plank{fill:#16233a}
+.bo-ill-pivot{fill:#4f5f78}
+.bo-ill-weight{fill:#9a4a12}
+.bo-ill-bond{fill:#1d5fc0}
+.bo-ill-ground{stroke:#c8d3e3;stroke-width:1.2}
+.bo-ill-short{transform-box:view-box;transform-origin:170px 62px;animation:bo-ill-tilt-s 7s ease-in-out infinite}
+.bo-ill-long{transform-box:view-box;transform-origin:170px 128px;animation:bo-ill-tilt-l 7s ease-in-out infinite}
+.bo-ill-cue{opacity:0;animation:bo-ill-show 7s ease-in-out infinite}
+@keyframes bo-ill-tilt-s{0%,14%{transform:rotate(0deg)}42%,74%{transform:rotate(4deg)}96%,100%{transform:rotate(0deg)}}
+@keyframes bo-ill-tilt-l{0%,14%{transform:rotate(0deg)}42%,74%{transform:rotate(11deg)}96%,100%{transform:rotate(0deg)}}
+@keyframes bo-ill-show{0%,30%{opacity:0}42%,74%{opacity:1}88%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.bo-ill-short{animation:none;transform:rotate(4deg)}.bo-ill-long{animation:none;transform:rotate(11deg)}.bo-ill-cue{animation:none;opacity:1}}
+html[data-motion=reduce] .bo-ill-short{animation:none;transform:rotate(4deg)}
+html[data-motion=reduce] .bo-ill-long{animation:none;transform:rotate(11deg)}
+html[data-motion=reduce] .bo-ill-cue{animation:none;opacity:1}
+</style>
+<rect class="bo-ill-bg" width="340" height="180" rx="10"/>
+<text class="bo-ill-small" x="170" y="16" text-anchor="middle">금리 쪽이 오르면 값 쪽이 내려간다 · 긴 채권일수록 크게</text>
+<path class="bo-ill-ground" d="M20 84H320M20 150H320"/>
+<path class="bo-ill-pivot" d="M170 64l10 20h-20z"/>
+<path class="bo-ill-pivot" d="M170 130l10 20h-20z"/>
+<g class="bo-ill-short">
+<rect class="bo-ill-plank" x="104" y="59" width="132" height="5" rx="2"/>
+<rect class="bo-ill-weight" x="104" y="47" width="14" height="12" rx="2"/>
+<rect class="bo-ill-bond" x="222" y="47" width="14" height="12" rx="2"/>
+<text class="bo-ill-word" x="104" y="42">금리</text>
+<text class="bo-ill-word bo-ill-blue" x="236" y="42" text-anchor="end">3년 값</text>
+</g>
+<g class="bo-ill-long">
+<rect class="bo-ill-plank" x="44" y="125" width="252" height="5" rx="2"/>
+<rect class="bo-ill-weight" x="44" y="113" width="14" height="12" rx="2"/>
+<rect class="bo-ill-bond" x="282" y="113" width="14" height="12" rx="2"/>
+<text class="bo-ill-word" x="44" y="108">금리</text>
+<text class="bo-ill-word bo-ill-blue" x="296" y="108" text-anchor="end">10년 값</text>
+</g>
+<g class="bo-ill-cue">
+<text class="bo-ill-rate" x="24" y="30">▲ 금리 +1%p</text>
+<text class="bo-ill-rate" x="318" y="80" text-anchor="end">3년 −2.76%</text>
+<text class="bo-ill-rate" x="318" y="100" text-anchor="end">10년 −7.63%</text>
+</g>
+<text class="bo-ill-small" x="170" y="171" text-anchor="middle">가상의 나라 3년·나라 10년 · 2026-10-07 국고채 금리에서 +1%p</text>
+</svg>

@@ -53,4 +53,5 @@ jobs:
       - run: npm test --prefix books/money
       - run: npm test --prefix books/grid
       - run: npm test --prefix books/volatility
+      - run: npm test --prefix books/bonds
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v
