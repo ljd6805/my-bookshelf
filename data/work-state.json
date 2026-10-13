@@ -457,21 +457,27 @@
   },
   "financial_statements": {
     "book": "books/statements/",
-    "series": "finance-from-scratch 5권",
+    "series": "finance-from-scratch 5권 (시리즈 여덟 번째 출간)",
     "plan": "/mnt/project-files/stock-books/proposal.md, /mnt/project-files/stock-books/vol5-handoff.md",
     "docs": "books/statements/docs/index.html",
     "research": "books/statements/docs/research.html",
-    "status": "writing: G0~G2 초안, 팀장 보류 사항 반영 뒤 재승인 대기",
+    "status": "published: G0~G5 팀장 승인, G6·G7 승인 대기",
     "done": [
       "기획(#plan·#opposition·#links), 교과과정(#curriculum·#curriculum-map·#curriculum-compare·#curriculum-case), 장 설계(#chapters) 초안",
       "research.html 출처 S1~S22와 계산값 V-1~V-10",
       "books/statements/AGENTS.md 책별 규칙",
-      "G0·G1·G2 보류 사항 반영: 부제 2안, 2026년 4월 시나리오, 연말 차입·금리 4%, L2 숫자 교체, K7 제목 다섯 곳, 장 시간 165분"
+      "G0·G1·G2 보류 사항 반영: 부제 2안, 2026년 4월 시나리오, 연말 차입·금리 4%, L2 숫자 교체, K7 제목 다섯 곳, 장 시간 165분",
+      "원고 10장(js/content.js), 계산 모델 SMath(js/math.js), 실험 10개와 실험 안내, 복습 문항 31개(review.json)",
+      "G3 은재·지안, G4 나래·리안·지안 보류 반영 뒤 승인; 다온 문체 메모 77행(반영함 31), 채원 첫 독자 리허설",
+      "서가 등록: 장 색인 10개, 개념 두 개(규칙과 논리 추론·기저율과 문턱), 노선 profit-to-cash, 시리즈 5권, 들어오는 링크 5개(G5 서윤 승인)",
+      "팩트·출처 검수 1회차 fixed: 4장 퀴즈 재고 감소 이유, Sloan 척도 과장, 자본잠식률 산식(KRX 안내에 있음), 7장 결과 문장, 이자보상배율 풀이, 복습 문항 한 곳"
     ],
-    "evidence": "새벽전자 2023~2025 재무제표와 장별 L2 답을 스크립트로 계산하고 대조 네 줄(자산=부채+자본, 이익잉여금, 현금, 유형자산)을 assert로 확인",
+    "evidence": "책 테스트 62개(대조 네 줄을 무작위 입력 500개·3개 연도로 검사), 브라우저 1280/390/320 실험 10개·예측 30개·그림 글자 viewBox, 검수 세션이 Python으로 대표값을 따로 계산해 일치",
     "verification": [
-      "재무제표 모델 스크립트 assert(대조 네 줄·L2 답·이자보상배율 10.8배)",
-      "validate.py"
+      "책 테스트 62개",
+      "브라우저 1280/390/320 모든 장·실험 10개·예측 질문 30개",
+      "validate.py·build_catalog.py --check·서가 단위 테스트",
+      "팩트 검수에서 대표값을 책 코드와 따로 Python으로 계산"
     ],
     "remaining": [
       "확인 못함: K-IFRS 1001·1007·1118 원문(법령정보센터·회계기준원 접속 차단)",
@@ -480,8 +486,12 @@
       "확인 못함: 자본시장법 제159·160조 원문",
       "확인 못함: '새벽전자'와 같은 이름의 상장사가 없는지 KRX 상장 목록 조회",
       "확인 못함: 코스닥시장 정기공시 유의사항(유가증권시장 문서만 확인)",
-      "G3 이후 본문·실험·테스트·검수 전부"
+      "확인 못함: K-IFRS 1118의 조기 적용 허용 여부(국제 기준 IFRS 18은 허용)",
+      "확인 못함: 관리종목·강조사항·사실 확인일의 규정·기준서 원문 정의(책은 \"이 책의 풀이\"로 표기)",
+      "확인 못함: 한국은행 기업경영분석의 이자보상비율 산식 원문, Sloan(1996) 원문",
+      "검수에서 다시 열지 못한 출처 목록은 books/statements/docs/fact-review.html 참고"
     ],
-    "next": "팀장 재승인 뒤 G3(본문·실험 구현)와 제작 기록 관문 행"
+    "next": "G6 정민·G7 한결 승인 뒤 PR 병합, 시리즈 다음 권(proposal.md §4: 6권 가치 평가)",
+    "fact_review": "books/statements/docs/fact-review.html (1회차 fixed: facts·terms·sources·wording fixed, numbers·experiments ok)"
   }
 }
