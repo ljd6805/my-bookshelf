@@ -336,5 +336,25 @@
       "한결"
     ],
     "next": "기존 공개 도서에 지침 대조 적용: 문체 비평 메모가 있는 13권부터, 금융 시리즈(4·1·12·8권) → AI 책 → 나머지 순으로 장마다 K1~K6 대조표를 더하고 유진의 wording 검수 회차를 남긴다. 집필 중인 금융 3권은 첫 G4부터 적용한다."
+  },
+  "tax_accounts": {
+    "book": "books/tax/",
+    "series": "finance-from-scratch 11권 (시리즈 여섯 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md, /mnt/project-files/stock-books/vol11-handoff.md",
+    "docs": "books/tax/docs/index.html",
+    "research": "books/tax/docs/research.html",
+    "fact_review": "books/tax/docs/fact-review.html (1회차 fixed, wording fixed)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 41개",
+      "브라우저 1280/390/320 모든 장·실험 10개·예측 질문, 실험 그림 글자 viewBox·표 행 보임 검사",
+      "validate.py·build_catalog.py --check·서가 단위 테스트(Python·Node)"
+    ],
+    "remaining": [
+      "세율·한도는 모두 2026-10-13 보도·안내 기준: 국가법령정보센터(증권거래세법 시행령·소득세법·조세특례제한법)·국세청 원문으로 조사 노트 행을 다시 확인해야 함(이 환경은 공식 누리집 접속 차단)",
+      "확인 못함으로 둔 규칙: ISA 안 매도의 거래세, 연금저축의 국내 개별주식, 공제받지 않은 연금 원금의 인출 과세, 해외 자산 양도세 신고 시기와 같은 해 손익통산, 보유기간과세 기준가격 산식",
+      "2026년 세법개정안(2026-08-03 발표)의 국회 통과 여부를 확인한 뒤 수정 회차"
+    ],
+    "next": "PR 병합 뒤 시리즈 다음 권(proposal.md §4: 7권 지수와 ETF)"
   }
 }
