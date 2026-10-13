@@ -118,7 +118,10 @@ function waterfall(o){
 function hbars(o){
  const L=o.left||130,R=o.right||380,row=22;let y=8,s='';
  o.groups.forEach((g,gi)=>{const max=[].concat(o.max)[gi]??Math.max(1e-9,...g.rows.map(r=>Math.abs(r[1]||0)));y+=16;s+=`<text x="10" y="${y}" class="series">${esc(g.title)}</text>`;y+=8;
-  g.rows.forEach(([name,v,label,on])=>{const w=v?Math.max(2,Math.abs(v)/max*(R-L)):0;s+=`<text x="${L-8}" y="${y+15}" text-anchor="end" class="axis">${on?'▲ ':''}${esc(name)}</text>`;if(w)s+=`<rect x="${L}" y="${y+3}" width="${w.toFixed(1)}" height="16" rx="2" fill="${on?'var(--accent)':'var(--blue)'}"/>`;s+=`<text x="${(L+w+6).toFixed(1)}" y="${y+15}" class="price">${esc(label)}</text>`;y+=row;});y+=6;});
+  /* 음수가 있으면 0 기준선을 오른쪽으로 옮겨 음수 막대는 왼쪽으로, 양수 막대는 오른쪽으로 그린다. */
+  const neg=Math.max(0,...g.rows.map(r=>-(r[1]||0))),span=neg>0?Math.max(0,...g.rows.map(r=>r[1]||0))+neg:max,Z=L+neg/span*(R-L),k=(R-L)/span,y0=y;
+  g.rows.forEach(([name,v,label,on])=>{const w=v?Math.max(2,Math.abs(v)*k):0,x=v<0?Z-w:Z;s+=`<text x="${L-8}" y="${y+15}" text-anchor="end" class="axis">${on?'▲ ':''}${esc(name)}</text>`;if(w)s+=`<rect x="${x.toFixed(1)}" y="${y+3}" width="${w.toFixed(1)}" height="16" rx="2" fill="${v<0?'var(--orange)':on?'var(--accent)':'var(--blue)'}"/>`;s+=`<text x="${((v<0?Z:Z+w)+6).toFixed(1)}" y="${y+15}" class="price">${esc(label)}</text>`;y+=row;});
+  if(neg>0)s+=`<path d="M${Z.toFixed(1)} ${y0}V${y}" stroke="var(--muted)"/>`;y+=6;});
  return svg(o.label,s,y+6);
 }
 function thumbnail(i){
