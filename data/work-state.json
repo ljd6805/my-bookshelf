@@ -516,33 +516,35 @@
   },
   "valuation": {
     "book": "books/valuation/",
-    "series": "finance-from-scratch 6권 (시리즈 아홉 번째 출간 예정)",
+    "series": "finance-from-scratch 6권 (시리즈 아홉 번째 출간)",
     "plan": "/mnt/project-files/stock-books/proposal.md (### 6권), /mnt/project-files/stock-books/vol6-handoff.md",
     "docs": "books/valuation/docs/index.html",
     "research": "books/valuation/docs/research.html",
-    "status": "writing: G0~G2 산출물 초안. 해원 G2 승인(관문 행은 해원이 적음), 한결·서윤 보류 사항 반영 완료·재점검 대기. 책 본문·카탈로그 등록 없음",
+    "fact_review": "books/valuation/docs/fact-review.html",
+    "status": "G0~G5 승인, 팩트·출처 검수 1회차 fixed. G6(정민)·G7(한결) 승인 뒤 PR 병합",
     "done": [
-      "기획(#plan·#opposition·#links), 교과과정(#curriculum·#curriculum-map·#curriculum-compare·#curriculum-case), 장 설계(#chapters, L1·L2와 숫자 답) 초안; #style·#rehearsal·#log는 빈 절",
-      "research.html 사실 표 1-1~4-2, 출처 S1~S21, 기준값 V-1~V-10, 오해 목록, 확인하지 못한 것",
-      "books/valuation/AGENTS.md 책별 규칙",
-      "K7 점검: 제목 1안·2안 제안(2안 「기업 가치 평가 · PER·PBR·EV/EBITDA와 현금흐름 할인으로 주당 가치의 범위 계산하기」), 장 제목 9개와 대표 실험 이름(DCF 민감도 판 → DCF 민감도 표) 고침 제안",
-      "새벽전자 가치 평가 기준값을 파이썬으로 계산: 기준안 22,750원, 배수 범위 16,978~19,776원, 분석가 A 31,833원·B 15,867원(2.01배)",
-      "1차 검토 반영(2026-10-13): 서윤 G1 결정(제목 「기업 가치 평가 · 배수 비교와 현금흐름 할인으로 주당 가치의 범위 계산하기」, 시리즈 6권 이름, 색 plum, 책등 가치 평가, 둘째 개념 기울기와 역전파, value-basis 노선·rates-and-assets #wacc), 마지막 과제 이름 '주당 가치'로, 목표주가 기간 문장, 금리 확인일 2026-10-08 꼬리표, 예측 FCFF 문장(2026 196.8 중 50.8 운전자본 회수, 2027~2030 126.9~146.9), 해원 비차단 지적(3장 한 단계 단순화, 9장 후행 PER 2.59%·5.64%·7.80%, 8장 막대 순서·비대칭, 10.3절)"
+      "10장·10개 실험(VMath 계산 모형, 기준안 22,750원/주, WACC 8.335%→8.3%, 배수 범위 16,978~19,776원, 분석가 A 31,833원·B 15,867원), 복습 30문항, 책 테스트 64개와 browser.cjs",
+      "G3: EBITDA 단정 → '확인하지 못함', 부채 비용 만기 차이 유지(맞추면 WACC 8.40%, 22,318원, −1.9%; 은재 결정), 1장 기본값·4장 예제가 확인 문제 답을 보이지 않게, 8·10장 새 확인 문제",
+      "다온 문체 비평(K1~K7·Q1~Q4 대조표, style-k-titles, 장별 메모 3차까지), 5장·9장 제목 다듬음",
+      "채원 첫 독자 리허설(막힘 없음, 개선점 15개 반영: 1·2·7·10장 새 확인 문제, 칸 옆 오류 표시, 용어 풀이, 그림 2-1 겹침, 10장 단추 이름·표 폭)",
+      "G4: 5장 부제 FCFF 정의, 2장 다의 PBR, 9장 결과 읽기, 표지 기업가치 막대 비율",
+      "서가 등록(plum, 금융 끝, 책등 '가치 평가'), 장 색인 10개, 개념 할인과 현재가치(#fcf·#terminal)·기울기와 역전파(#sensitivity), 새 노선 value-basis, rates-and-assets #wacc 정거장, 시리즈 6권 book_id, 들어오는 링크 5개(5권 #ratios·#final, 3권 #equity, 1권 #npv, 확률과 통계 #interval), 5권 마지막 링크를 6권 #price로",
+      "팩트·출처 검수 1회차 fixed(검수팀 새 세션): 7장 실험 재투자 문장(g 4.76~5% 구간), 조사 노트 행 3-4"
     ],
-    "evidence": "세션 임시 폴더의 val.py~val4.py(기준안·A·B 값과 g ≥ r 오류를 assert, val4.py가 예측 FCFF·32.2%일 때 21,682원·1%p당 변화 확인), 5권 math.js ASSUME과 research V-2~V-10의 재무 숫자, 웹에서 연 출처 21개(research.html #sources)",
+    "evidence": "books/valuation/tests(math·content·routes·guides 64개, browser.cjs 1280·390·320px 67개 화면·실험 30회·L2 30회), 검수 세션의 독립 파이썬 재계산(fact-review.html)",
     "verification": [
-      "python3 scripts/validate.py (G2 초안 작성 뒤 실행, 결과는 인계 메모와 03-verification #valuation-check)",
-      "기준값은 초안 작성 세션의 스크립트만으로 계산; 책 코드·검수 세션 대조 없음"
+      "python3 scripts/validate.py",
+      "python3 scripts/build_catalog.py --check",
+      "node --test tests/*.mjs",
+      "cd books/valuation && npm test (64)",
+      "books/valuation/tests/browser.cjs"
     ],
     "remaining": [
-      "결정 대기: 세전 부채 비용 3년 회사채 5.06% 유지 vs 10년 국고채 + 1.10%p(WACC 8.40%, 22,318원) (은재, G3); 마지막 과제 순서 효과 표시 (지안, G3)",
-      "확인 못함: 한국 증권사 목표주가의 기간 관행(12개월이 흔하다고 알려짐)",
-      "확인 못함: 한국거래소 발표 코스피 PER·PBR 원값(data.krx.co.kr 빈 쪽), 국고채 10년 공식 원값(보도만), 한국어 공식 기관의 배수 정의",
-      "확인 못함: Damodaran 국가 위험 프리미엄 2026년 7월 갱신 여부, 미국 기준 프리미엄을 원화 금리에 더하는 방식의 타당성(이 책의 단순화로 표시)",
-      "확인 못함: EBITDA가 K-IFRS 표시 항목이 아니라는 기준서 원문, 한국 증권사 목표주가의 기간 관행, 한국 주식 베타 자료, OpenStax WACC 절·CFA 교재 본문",
-      "확인 못함: '새벽전자' KRX 상장 목록 직접 조회(웹 검색만)",
-      "G3: js/math.js·content.js·실험 10개·review.json, 수아의 기준값 대조; G5: catalog 등록·들어오는 링크 5개; G6: 새 세션 팩트·출처 검수"
+      "확인 못함: 국고채 10년 공식 원값(보도 4.395%만), 한국거래소 코스피 PER 원값, Damodaran 2026년 7월 갱신 여부와 미국 기준 프리미엄을 원화 금리에 더하는 방식의 타당성, EBITDA가 K-IFRS 표시 항목이 아니라는 기준서 원문, 한국 증권사 목표주가 기간 관행, 한국어 공식 배수 정의, CFA 교재 본문, 반기·분기 45일 기한 법령 원문",
+      "알려진 단순화: 서가 삽화가 다섯 해 막대와 영구가치 막대를 다른 축척으로 그리고 할인 애니메이션이 다섯 막대를 같은 비율(.95)로 줄임(리안 G4: 다음 삽화 손질 때 끊김 표시나 '높이는 비율만' 메모)",
+      "선택: 기울기와 역전파 개념 요약이 ML 쪽 문장('학습 방향을 정한다')이라 가치 평가 민감도도 아우르게 다듬기(서윤 G5 비차단)",
+      "금리 시점 민감: 2026-10-22 기준금리 결정 뒤 무위험 금리·3권 스프레드 재확인"
     ],
-    "next": "한결(G0)·서윤(G1)이 보류 반영본을 다시 점검하고 #log에 G0·G1 행, 해원이 G2 행을 추가(초안 세션은 승인하지 않음). 그 뒤 G3"
+    "next": "G6 정민·G7 한결 승인 → PR 병합. 다음 권: 2권 거시경제"
   }
 }
