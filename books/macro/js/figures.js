@@ -84,7 +84,7 @@ F.leading=()=>{
  return {svg:svg(`동행을 늦춘 달 수마다 상관계수 r을 견준 막대그래프: 시차별 r ${tb.rows.map(x=>`${x.k}달 ${fx(x.r,2)}`).join(', ')}`,s,256),caption:`가상 자료의 r은 시차 0에서 ${fx(tb.rows[0].r,2)}, 2달 ${fx(tb.rows[2].r,2)}, ${best.k}달 ${fx(best.r,2)}(쌍 ${best.n}개), 4달 ${fx(tb.rows[4].r,2)}입니다. 동행을 세 달 전 선행 × 0.8로 만든 자료라 ▲ 세 달에서 가장 큰 r이 나오는 것은 만든 방식대로이고, 원인은 따로 확인합니다.`};
 };
 F.crisis=()=>{
- const C=M.MARKET.crisis,N=M.crisisNumbers(),lanes=[['1997',[`11-21 구제금융 신청`,`12-03 IMF ${C.y1997.imf}억 달러`,`12-23 ${fx(C.y1997.usdkrwPeak,1)}원`]],['2008',[`8월 ${fx(C.y2008.rateFrom,2)}%로 인상`,`${fx(C.y2008.rateFrom,2)}% → ${fx(C.y2008.rateTo,2)}%`,`10-30 스와프 ${C.y2008.swap}억 달러`]],['2020',[`03-16 ${fx(C.y2020.rateFrom,2)}% → ${fx(C.y2020.rateTo,2)}%`,`03-19 스와프 ${C.y2020.swap}억 달러`,`다음 날 ${fx(C.y2020.nextDayClose,1)}원`]]];
+ const C=M.MARKET.crisis,N=M.crisisNumbers(),lanes=[['1997',[`11-21 구제금융 신청`,`12-04 IMF ${C.y1997.imf}억 달러`,`12-23 ${fx(C.y1997.usdkrwPeak,1)}원`]],['2008',[`8월 ${fx(C.y2008.rateFrom,2)}%로 인상`,`${fx(C.y2008.rateFrom,2)}% → ${fx(C.y2008.rateTo,2)}%`,`10-30 스와프 ${C.y2008.swap}억 달러`]],['2020',[`03-16 ${fx(C.y2020.rateFrom,2)}% → ${fx(C.y2020.rateTo,2)}%`,`03-19 스와프 ${C.y2020.swap}억 달러`,`다음 날 ${fx(C.y2020.nextDayClose,1)}원`]]];
  let s=t(20,26,'세 위기에서 일어난 차례 (보도·학술 기준)',{size:13,w:700,a:'start'});
  lanes.forEach(([y,ev],k)=>{const yy=66+k*56;s+=t(30,yy+5,y,{size:14,w:700,a:'start'})+`<path class="fig-dash" d="M90 ${yy}H620" stroke="var(--line)"/>`;ev.forEach((e,i)=>{const x=110+i*175;s+=`<circle cx="${x}" cy="${yy}" r="6" fill="${i===ev.length-1?'var(--accent)':'var(--blue)'}"/>`+t(x+10,yy-9,e,{size:12,a:'start'});});});
  s+=t(320,240,`1997년 1달러당 원화 ${sp(N.fx1997.perDollar*100,1)}% · 2008년 4분기 연율 ${fx(N.annual2008*100,1)}%`,{size:13,w:700});

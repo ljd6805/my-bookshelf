@@ -23,7 +23,7 @@ MLabs['lag-correlation']=el=>{
  });
 };
 const CASES={
- '1997':{title:'1997 외환위기',grade:'보도',steps:[[CR.y1997.request,'정부, IMF 구제금융 신청 발표'],[CR.y1997.imfDate,`IMF ${CR.y1997.imf}억 달러 승인`],[CR.y1997.peakDate,`원/달러 ${U.fmt(CR.y1997.usdkrwPeak,1)}원(11월까지 ${CR.y1997.usdkrwBefore}원대)`],['1998년',`성장률 ${U.sfmt(CR.y1997.growth1998.first,1)}%(처음 계열)·${U.sfmt(CR.y1997.growth1998.current,1)}%(현재 계열로 보도, 차이의 까닭 확인 중)`]]},
+ '1997':{title:'1997 외환위기',grade:'보도',steps:[[CR.y1997.request,'정부, IMF 구제금융 신청 발표'],[CR.y1997.imfDate,`IMF 이사회, 약 ${CR.y1997.imf}억 달러 승인(워싱턴 시각, IMF 보도자료)`],[CR.y1997.peakDate,`원/달러 ${U.fmt(CR.y1997.usdkrwPeak,1)}원(11월까지 ${CR.y1997.usdkrwBefore}원대)`],['1998년',`성장률 ${U.sfmt(CR.y1997.growth1998.first,1)}%(이전 계열, 2020·2023년 보도)·${U.sfmt(CR.y1997.growth1998.current,1)}%(현재 계열, 2025년 보도, 차이의 까닭 확인 중)`]]},
  '2008':{title:'2008 세계 금융위기',grade:'학술 요약·보도',steps:[[CR.y2008.raised,`기준금리 ${U.sfmt(CR.y2008.rateBefore,2)}% → ${U.sfmt(CR.y2008.rateFrom,2)}%(물가 때문에 올린 상태)`],['2008-09~2009-02',`기준금리 ${U.sfmt(CR.y2008.rateFrom,2)}% → ${U.sfmt(CR.y2008.rateTo,2)}%`],[CR.y2008.swapDate,`한미 통화스와프 ${CR.y2008.swap}억 달러`],['2008년 4분기',`산출 전기 대비 ${U.sfmt(CR.y2008.q4QoQ,1)}%(연율 약 ${CR.y2008.q4Annualized}%로 요약됨)`]]},
  '2020':{title:'2020 코로나19 충격',grade:'보도',steps:[[CR.y2020.cutDate,`임시 회의, 기준금리 ${U.sfmt(CR.y2020.rateFrom,2)}% → ${U.sfmt(CR.y2020.rateTo,2)}%`],[CR.y2020.swapDate,`한미 통화스와프 ${CR.y2020.swap}억 달러`],['다음 날',`원/달러 종가 ${U.fmt(CR.y2020.nextDayClose,1)}원(${U.sfmt(CR.y2020.nextDayChange,1)}원)`],['2020년',`연간 성장률 ${U.sfmt(CR.y2020.growth2020,1)}%`]]}
 };

@@ -82,10 +82,10 @@ const MARKET={
   {what:'8월 산업활동동향(경기종합지수)',date:'2026-09-30',grade:'보도'},
   {what:'9월 소비자물가동향',date:'2026-10-02',grade:'공식 원문(재게시)'},
   {what:'8월 국제수지(잠정)',date:'2026-10-08',grade:'보도'},
-  {what:'금융통화위원회 기준금리 결정',date:'2026-10-22',grade:'공식 원문(재게시)'}
+  {what:'금융통화위원회 기준금리 결정',date:'2026-10-22',grade:'공식 원문(재게시)·2차 자료'}
  ],
  crisis:{
-  y1997:{request:'1997-11-21',imf:210,imfDate:'1997-12-03',usdkrwBefore:900,usdkrwPeak:1962.0,peakDate:'1997-12-23',growth1998:{first:-5.1,current:-4.9},grade:'보도'},
+  y1997:{request:'1997-11-21',imf:210,imfDate:'1997-12-04',imfDateNote:'워싱턴 시각, IMF 보도자료 97/55(국내 보도에는 12-03도 있음)',usdkrwBefore:900,usdkrwPeak:1962.0,peakDate:'1997-12-23',growth1998:{first:-5.1,current:-4.9,firstReported:[2020,2023],currentReported:2025},grade:'보도'},
   y2008:{rateBefore:5.00,raised:'2008-08',rateFrom:5.25,rateTo:2.00,krwWeaker:40,swap:300,swapDate:'2008-10-30',q4QoQ:-4.5,q4Annualized:17,grade:'학술'},
   y2020:{rateFrom:1.25,rateTo:0.75,cutDate:'2020-03-16',swap:600,swapDate:'2020-03-19',nextDayClose:1246.5,nextDayChange:-39.2,growth2020:-0.7,grade:'보도'}
  }
