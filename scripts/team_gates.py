@@ -42,6 +42,9 @@ GUIDELINE_DATE = '2026-10-13'
 # G4 rounds on or after this day also need a filled K7 row and a tagged style-k-titles memo.
 TITLE_GUIDELINE, TITLE_MEMO = 'K7', 'style-k-titles'
 MEMO_CODES = GUIDELINES + (TITLE_GUIDELINE,)
+# Guideline v1.3 (2026-10-13) added four questions the editor and the independent checker both
+# answer. G4 rounds from this day on also fill Q1~Q4 rows in the guideline-check table.
+QUESTIONS, QUESTION_DATE = tuple(f'Q{n}' for n in range(1, 5)), '2026-10-14'
 
 # Books whose first gate round was recorded before lead sign-offs were required
 # (2026-10-12). That round needs no data-approved; any later round of theirs does.
@@ -179,15 +182,17 @@ def approval_errors(record, leads):
     return errors
 
 
-def guideline_errors(doc, kind, anchors=()):
+def guideline_errors(doc, kind, anchors=(), day=''):
     """G4 under the Korean writing guideline: K1~K7 checked, every memo row names its guideline.
 
     A revision round checks only the memos it tagged, so older chapters' memos written before
     the guideline (2026-10-13) are not judged retroactively; it needs at least one tagged memo.
-    A style pass needs a tagged style-k-<chapter> memo for every chapter.
+    A style pass needs a tagged style-k-<chapter> memo for every chapter. From QUESTION_DATE
+    the table also answers the v1.3 questions Q1~Q4.
     """
     errors = []
-    missing = [k for k in MEMO_CODES if len(doc.guideline_rows.get(k, [])) < 3
+    rows = MEMO_CODES + (QUESTIONS if day >= QUESTION_DATE else ())
+    missing = [k for k in rows if len(doc.guideline_rows.get(k, [])) < 3
                or not all(doc.guideline_rows[k][1:3])]
     if missing:
         errors.append('G4 needs <table class="guideline-check"> inside <section id="style"> with a filled '
@@ -253,7 +258,7 @@ def artifact_errors(book, gates, kind, day=''):
             errors.append('G4 needs a style critique memo per chapter inside <section id="style">: '
                           f'missing {", ".join(missing) or "any memo"}')
         if day >= GUIDELINE_DATE or kind == 'style':
-            errors += guideline_errors(doc, kind, book['anchors'])
+            errors += guideline_errors(doc, kind, book['anchors'], day)
     return errors
 
 

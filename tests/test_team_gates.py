@@ -11,6 +11,7 @@ SECTIONS = (''.join(f'<section id="{i}"></section>' for i in ('plan', 'curriculu
 STYLE = '<section id="style"><h3 id="style-a"></h3><h3 id="style-b"></h3></section>'
 CHECK = ('<table class="guideline-check"><tr><th>지침</th><th>찾은 것</th><th>처리</th></tr>'
          + ''.join(f'<tr data-guideline="K{n}"><td>K{n}</td><td>읽은 곳</td><td>처리</td></tr>' for n in range(1, 8))
+         + ''.join(f'<tr data-guideline="Q{n}"><td>Q{n}</td><td>읽은 곳</td><td>답</td></tr>' for n in range(1, 5))
          + '</table>')
 MEMO = '<table><tr><th>인용</th></tr><tr data-guideline="K3 K5"><td>문장</td><td>진단</td></tr></table>'
 TITLES = f'<h4 id="style-k-titles"></h4>{MEMO}'
@@ -138,6 +139,15 @@ class TeamGates(unittest.TestCase):
                             for e in self.run_check(SECTIONS + untagged + new)))
         outside = STYLE_K.replace('<table class="guideline-check">', '</section><section id="x"><table class="guideline-check">', 1)
         self.assertTrue(self.run_check(SECTIONS + outside + new))
+
+    def test_v13_questions_from_their_rule_date(self):
+        style = f'<section id="style">{CHECK}{TITLES}<h3 id="style-a"></h3>{MEMO}<h3 id="style-b"></h3>{MEMO}</section>'
+        no_q = style.replace('<tr data-guideline="Q3"><td>Q3</td><td>읽은 곳</td>', '<tr data-guideline="Q3"><td>Q3</td><td></td>')
+        on = TEMPLATE.replace('data-date="2026-10-12"', 'data-date="2026-10-14"')
+        before = TEMPLATE.replace('data-date="2026-10-12"', 'data-date="2026-10-13"')
+        self.assertEqual(self.run_check(SECTIONS + style + on), [])
+        self.assertEqual(self.run_check(SECTIONS + no_q + before), [])
+        self.assertTrue(any('missing Q3' in e for e in self.run_check(SECTIONS + no_q + on)))
 
     def test_revision_does_not_judge_old_memos_retroactively(self):
         bid = sorted(LEGACY)[0]
