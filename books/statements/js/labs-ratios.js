@@ -49,7 +49,7 @@ function grid(a){
  return U.svg(`회사 1,000개 가운데 문제·경보 ${n[0]}, 문제·경보 없음 ${n[1]}, 정상·경보 ${n[2]}, 정상·경보 없음 ${n[3]}`,s,Y+25*ch+64);
 }
 SLabs['accrual-alarm']=el=>{
- U.setup(el,`<fieldset class="step"><legend>1단계 · 발생액 비율</legend>${U.select('qyear','새벽전자 사업연도로 채우기',[['2024','2024'],['2025','2025']],'2024')}${U.number('qni','순이익 (억 원)',-10000,10000,0.1,136)}${U.number('qcfo','영업활동 현금흐름 (억 원)',-10000,10000,0.1,156)}${U.number('qavg','평균 총자산 (억 원)',1,100000,0.1,1103)}</fieldset><fieldset class="step"><legend>2단계 · 경보 1,000건 세기</legend>${U.number('qbase','기저율: 실제로 문제가 있는 회사 비율 (%)',0,100,0.1,3)}${U.number('qhit','적중률: 문제 회사에서 경보가 울릴 확률 (%)',0,100,0.1,80)}${U.number('qfalse','오경보율: 정상 회사에서 경보가 울릴 확률 (%)',0,100,0.1,10)}</fieldset>`);
+ U.setup(el,`<fieldset class="step"><legend>1단계 · 발생액 비율</legend>${U.select('qyear','새벽전자 사업연도로 채우기',[['2024','2024'],['2025','2025']],'2024')}${U.number('qni','순이익 (억 원)',-10000,10000,0.1,136)}${U.number('qcfo','영업활동 현금흐름 (억 원)',-10000,10000,0.1,156)}${U.number('qavg','평균 총자산 (억 원)',1,100000,0.1,1103)}</fieldset><fieldset class="step"><legend>2단계 · 회사 1,000개에서 경보 세기</legend>${U.number('qbase','기저율: 실제로 문제가 있는 회사 비율 (%)',0,100,0.1,3)}${U.number('qhit','적중률: 문제 회사에서 경보가 울릴 확률 (%)',0,100,0.1,80)}${U.number('qfalse','오경보율: 정상 회사에서 경보가 울릴 확률 (%)',0,100,0.1,10)}</fieldset>`);
  U.bind(el,e=>{
   if(e&&e.type==='change'&&e.target.id==='qyear')U.fill(el,QIN(U.value(el,'qyear')));
   const nm={qni:'순이익',qcfo:'영업활동 현금흐름',qavg:'평균 총자산',qbase:'기저율',qhit:'적중률',qfalse:'오경보율'},v=Object.fromEntries(Object.keys(nm).map(k=>[k,U.num(el,k)])),bad=Object.keys(nm).find(k=>v[k]===null);
@@ -58,7 +58,7 @@ SLabs['accrual-alarm']=el=>{
   const same=Object.entries(QIN(y)).every(([k,x])=>M.r1(x)===M.r1(v[k])),p=PARTS(y),pa=M.accrualParts(p),signal=v.qcfo<v.qni;
   const parts=same?U.columns({labels:['매출채권|증가','재고|증가','매입채무|증가(−)','감가상각|(−)','순이익 −|영업현금'],values:[p.dAR,p.dInv,-p.dAP,-p.dep,pa.gap],mark:i=>i===4,fmt:v=>N(v),title:`${y}년 순이익과 영업현금흐름의 차이를 만든 줄`,twoLine:true,h:250,label:`매출채권 증가 ${E(p.dAR)}, 재고 증가 ${E(p.dInv)}, 매입채무 증가 ${E(p.dAP)}, 감가상각 ${E(p.dep)}, 차이 ${E(pa.gap)}`}):'<p class="caption chart-note">직접 넣은 숫자라 차이를 만든 줄의 내역은 그리지 않습니다. 사업연도를 다시 고르면 그 해의 내역이 나옵니다.</p>';
   const share=same&&pa.gap>0?` 차이 ${E(pa.gap)} 가운데 매출채권·재고 증가가 ${E(pa.arInv)}(${P(pa.share,0)})입니다.`:same?` 차이는 ${E(pa.gap)}이고, 매출채권·재고 증가는 ${E(pa.arInv)}입니다.`:'';
-  const t2=U.table(['','경보 울림','경보 안 울림','합계'],[['실제 문제',N(a.tp),N(M.r1(a.bad-a.tp)),N(a.bad)],['정상',N(a.fp),N(M.r1(a.good-a.fp)),N(a.good)],['합계',`<b>${N(a.alarms)}</b>`,N(M.r1(1000-a.alarms)),'1,000']],'경보 1,000건 표 (기대 개수)');
+  const t2=U.table(['','경보 울림','경보 안 울림','합계'],[['실제 문제',N(a.tp),N(M.r1(a.bad-a.tp)),N(a.bad)],['정상',N(a.fp),N(M.r1(a.good-a.fp)),N(a.good)],['합계',`<b>${N(a.alarms)}</b>`,N(M.r1(1000-a.alarms)),'1,000']],'회사 1,000개와 경보 표 (기대 개수)');
   const text=`영업현금흐름 ÷ 순이익 = <b>${cn===null?'순이익이 0이라 계산하지 않음':U.sfmt(cn,2)}</b>, 발생액 비율 = (${N(v.qni)} − ${v.qcfo<0?`(${N(v.qcfo)})`:N(v.qcfo)}) ÷ ${N(v.qavg)} = <b>${P(ratio)}</b>입니다.${share} <span class="${signal?'is-bad':'is-ok'}">${signal?'▲ 위험 신호 있음: 영업현금흐름이 순이익보다 적어 더 확인할 신호입니다':'위험 신호 없음: 영업현금흐름이 순이익 이상입니다'}</span>(판정이 아니라 더 확인할 신호).<br>회사 1,000개에 기저율 ${U.fmt(v.qbase,1)}%면 실제 문제 ${N(a.bad)}개, 경보는 적중 ${N(a.tp)} + 오경보 ${N(a.fp)} = <b>${N(a.alarms)}건</b>이고, 경보가 울린 회사 가운데 실제 문제 비율은 <b>${a.precision===null?'경보가 없어 계산하지 않음':P(a.precision)}</b>입니다. ${U.ADVICE_NOTE}${U.kind(['real','scenario','simple'],'발생액 비율의 정의와 신호 기준, 적중률·오경보율은 이 책의 단순화와 가정입니다. 격자는 기대 개수를 반올림해 칠합니다.')}`;
   U.result(el,parts+grid(a)+t2,text);
  });

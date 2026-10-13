@@ -30,7 +30,7 @@ function links(lk,open){
  s+=t(402,58,`이익잉여금 ${N(lk.close.re)}`,'price')+t(402,108,`현금 ${N(lk.close.cash)}`,'price')+t(402,158,`유형자산 ${N(lk.close.ppe)}`,'price');
  s+=t(402,76,`(${N(open.re)} + ${N(lk.is.ni)} − 배당 ${N(-lk.cf.dividend)})`)+t(402,126,`(기초 ${N(open.cash)})`)+t(402,176,`(− 감가상각 ${N(lk.dep)})`);
  s+=ar(140,54,184,54)+ar(296,104,346,104)+ar(296,154,346,154)+`<path d="M140 62C230 86 300 76 346 62" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#fs-ar)"/>`;
- return U.svg(`세 재무제표의 연결: 순이익 ${N(lk.is.ni)}이 이익잉여금 ${N(lk.close.re)}으로, 현금 증감 ${N(lk.cf.net)}이 기말 현금 ${N(lk.close.cash)}으로, 설비투자가 유형자산 ${N(lk.close.ppe)}으로 이어짐`,s,200);
+ return U.svg(`세 재무제표의 연결: 순이익 ${N(lk.is.ni)}${U.josa(N(lk.is.ni),'이','가')} 이익잉여금 ${N(lk.close.re)}${U.josa(N(lk.close.re),'으로','로')}, 현금 증감 ${N(lk.cf.net)}${U.josa(N(lk.cf.net),'이','가')} 기말 현금 ${N(lk.close.cash)}${U.josa(N(lk.close.cash),'으로','로')}, 설비투자가 유형자산 ${N(lk.close.ppe)}${U.josa(N(lk.close.ppe),'으로','로')} 이어짐`,s,200);
 }
 const strip=stage=>`<ol class="stage-list" aria-label="다섯 단계">${STAGES.map(([n,q],i)=>`<li${i===stage?' class="current" aria-current="step"':''}><b>${i+1}. ${n}</b>${i===stage?' · ▶ 지금 단계':''}<span>예측: ${q}</span></li>`).join('')}</ol>`;
 SLabs['three-statement-link']=el=>{
