@@ -2291,6 +2291,77 @@
         }
       ],
       "short_title": "가격 변동"
+    },
+    {
+      "id": "interest-bonds",
+      "title": "금리와 채권 · 기준금리에서 채권 가격까지",
+      "spine_title": "금리와 채권",
+      "spine_category": "금융",
+      "color": "blue",
+      "description": "하린이 기준금리 뉴스에서 출발해 가상의 국채·회사채로 현금흐름, 가격과 만기수익률, 듀레이션, 수익률 곡선, 신용 스프레드, 고든 모형을 10개 장과 10개 실험으로 계산합니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/bonds/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 금리가 오르면 만기가 긴 채권일수록 크게 기웁니다.",
+      "cover_art": "books/bonds/assets/cover-art.svg",
+      "cover_meta": "10장 · 10개 실험",
+      "status": "published",
+      "url": "books/bonds/",
+      "keywords": [
+        "금리",
+        "채권",
+        "기준금리",
+        "전달 경로",
+        "콜금리",
+        "CD",
+        "COFIX",
+        "국고채",
+        "표면금리",
+        "이표채",
+        "할인채",
+        "채권 가격",
+        "만기수익률",
+        "YTM",
+        "경과이자",
+        "깨끗한 가격",
+        "더러운 가격",
+        "듀레이션",
+        "수정 듀레이션",
+        "볼록성",
+        "DV01",
+        "수익률 곡선",
+        "장단기 금리차",
+        "기간 프리미엄",
+        "신용 스프레드",
+        "신용등급",
+        "부도",
+        "회수율",
+        "고든 모형",
+        "할인율",
+        "피셔 관계",
+        "개인투자용 국채"
+      ],
+      "chapters": [
+        {
+          "title": "전체 10개 장",
+          "url": "books/bonds/#chapters"
+        },
+        {
+          "title": "04 · 채권 가격과 만기수익률",
+          "url": "books/bonds/#price"
+        },
+        {
+          "title": "05 · 듀레이션: 금리에 얼마나 민감한가",
+          "url": "books/bonds/#duration"
+        },
+        {
+          "title": "06 · 수익률 곡선과 장단기 금리차",
+          "url": "books/bonds/#curve"
+        },
+        {
+          "title": "마지막 과제 · 금리 인하가 예고된 해",
+          "url": "books/bonds/#final"
+        }
+      ],
+      "short_title": "금리와 채권"
     }
   ],
   "learning_paths": [
@@ -3309,6 +3380,63 @@
         "오르는 장에서 보유보다 덜 버는 까닭을 칸이 비는 과정으로 설명할 수 있는가",
         "내리는 장에서 평균 단가가 내려가도 손실이 남는 까닭을 말할 수 있는가"
       ]
+    },
+    {
+      "id": "rates-and-assets",
+      "title": "금리 1%p가 자산마다 다르게 걸리는 까닭",
+      "question": "금리가 오르면 내 자산은 어떻게 될까?",
+      "audience": "“금리가 오르면 채권 가격이 내린다”를 외웠지만 왜 그런지, 얼마나 내리는지는 설명하지 못하는 독자",
+      "prerequisites": "백분율과 거듭제곱 계산, 현재가치가 무엇인지",
+      "start": "하린은 같은 주에 “기준금리 두 번 연속 인상” 뉴스를 듣고, 정기예금 금리가 올랐다는 말과 동료의 채권 펀드가 손실을 봤다는 말을 함께 듣는다.",
+      "steps": [
+        {
+          "book_id": "money-time-value",
+          "url": "books/money/#discount",
+          "task": "미래의 돈을 오늘로 데려오기 실험에서 미래에 받을 돈을 1,000만 원으로 두고, 몇 년 뒤를 3년과 30년으로 바꾸며 할인율을 3%에서 5%로 올렸을 때 현재가치가 각각 얼마나 줄어드는지 비교한다",
+          "minutes": 14,
+          "why": "채권 가격은 미래의 돈을 오늘로 옮긴 값이고, 먼 돈일수록 할인율에 민감하다",
+          "record": "할인율 5%에서 30년 뒤 1,000만 원의 현재가치"
+        },
+        {
+          "book_id": "interest-bonds",
+          "url": "books/bonds/#price",
+          "task": "가격과 만기수익률 오가기 실험에서 채권은 나라 3년, 계산 방향은 금리 → 가격으로 두고 시장 금리 y를 3.0% → 3.875% → 5.0%로 바꾸며 할증·액면가·할인 채권을 차례로 만든다",
+          "minutes": 16,
+          "why": "이미 정해진 이자를 주는 증서는 새 금리가 오르면 값을 낮춰야 팔린다",
+          "record": "세 금리에서의 가격(○원, ○원, ○원)"
+        },
+        {
+          "book_id": "aie-02-math",
+          "url": "books/aie-math/#derivative",
+          "task": "수치 미분의 h 고르기 실험에서 간격 h를 10⁻⁵와 10⁻¹³으로 바꾸며 가운데 차분의 상대 오차를 비교한다(미분이 익숙하면 건너뛰어도 된다)",
+          "minutes": 15,
+          "why": "듀레이션은 가격을 금리로 미분한 값이므로, 입력을 아주 조금 바꿨을 때 출력이 변하는 비율을 먼저 손으로 재 본다",
+          "record": "h=10⁻⁵와 10⁻¹³에서 가운데 차분의 오차, 그리고 너무 작은 h에서 오차가 다시 커지는 이유"
+        },
+        {
+          "book_id": "interest-bonds",
+          "url": "books/bonds/#duration",
+          "task": "금리 1%p에 몇 % 움직이나 실험에서 나라 3년·나라 10년·10년 할인채를 모두 켜고 금리 변화 Δy를 +1%p로 두어 정확한 가격 변화와 듀레이션 어림, 볼록성까지 더한 어림을 견준다",
+          "minutes": 18,
+          "why": "같은 1%p라도 만기와 이표에 따라 가격이 몇 배 다르게 움직인다",
+          "record": "세 채권의 수정 듀레이션과 +1%p 때 가격 변화"
+        },
+        {
+          "book_id": "interest-bonds",
+          "url": "books/bonds/#equity",
+          "task": "고든 모형과 할인율 실험에서 할인율 r을 8% → 7%로 낮추고, 배당 성장률 g를 3%로 그대로 둘 때와 2.5%로 0.5%p 함께 낮출 때의 값 변화를 견준다",
+          "minutes": 15,
+          "why": "주식도 미래 배당의 현재가치라 할인율에 민감하지만, 금리를 움직인 원인이 성장 기대도 바꾼다",
+          "record": "두 경우의 값 변화(○%, ○%)"
+        }
+      ],
+      "challenge": "금리가 1%p 오른다고 놓고 예금·나라 3년·나라 10년·10년 할인채·누리200의 값이 각각 어느 쪽으로 얼마나 움직이는지 한 장의 “금리 1%p 변화에 대한 자산별 반응표”로 적고, 그 차이를 할인율·만기·성장 기대 가운데 무엇이 만들었는지 설명한다.",
+      "checks": [
+        "금리가 오르면 이미 발행된 채권의 가격이 왜 내리는지 현재가치로 말할 수 있는가",
+        "같은 1%p에 나라 10년이 나라 3년보다 크게 움직이는 까닭을 듀레이션으로 설명할 수 있는가",
+        "듀레이션 어림이 큰 금리 변화에서 빗나가는 방향과 볼록성의 몫을 말할 수 있는가",
+        "할인율이 내려도 주가가 고든 모형만큼 오르지 않을 수 있는 까닭을 말할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -3458,8 +3586,8 @@
         {
           "number": 3,
           "title": "금리와 채권",
-          "status": "planned",
-          "next_why": "금리가 자산 가격의 기준선임을 보았으니, 실제로 증권을 사고파는 시장의 규칙으로 들어갑니다."
+          "next_why": "금리가 자산 가격의 기준선임을 보았으니, 실제로 증권을 사고파는 시장의 규칙으로 들어갑니다.",
+          "book_id": "interest-bonds"
         },
         {
           "number": 4,
@@ -3929,7 +4057,17 @@
     "books/volatility/#trend": "07 · 추세와 박스권: 분산비로 흔들림의 모양 재기",
     "books/volatility/#cross": "08 · 가격은 한 선을 몇 번 건너나: 구간 통과 횟수",
     "books/volatility/#drawdown": "09 · 가장 아팠던 때와 돌아오는 데 걸린 날: 최대 낙폭과 회복 기간",
-    "books/volatility/#final": "마지막 과제 · 하린의 1년 기록 두 장"
+    "books/volatility/#final": "마지막 과제 · 하린의 1년 기록 두 장",
+    "books/bonds/#rate": "01 · 금리는 돈의 가격: 누가 누구에게 빌리는 값인가",
+    "books/bonds/#transmit": "02 · 기준금리가 시장금리로 전달되는 길",
+    "books/bonds/#bond": "03 · 채권이란: 빌려준 돈의 증서",
+    "books/bonds/#price": "04 · 채권 가격과 만기수익률",
+    "books/bonds/#duration": "05 · 듀레이션: 금리에 얼마나 민감한가",
+    "books/bonds/#curve": "06 · 수익률 곡선과 장단기 금리차",
+    "books/bonds/#credit": "07 · 신용과 스프레드: 국채·회사채",
+    "books/bonds/#equity": "08 · 금리와 주가: 할인율로 이어진 관계",
+    "books/bonds/#holding": "09 · 개인이 채권을 갖는 이유와 방법",
+    "books/bonds/#final": "마지막 과제 · 금리 인하가 예고된 해"
   },
   "concepts": [
     {
@@ -4076,7 +4214,8 @@
         "books/grid/#box",
         "books/grid/#range",
         "books/volatility/#measure",
-        "books/volatility/#drag"
+        "books/volatility/#drag",
+        "books/bonds/#duration"
       ]
     },
     {
@@ -4539,7 +4678,9 @@
       "chapters": [
         "books/money/#discount",
         "books/money/#npv",
-        "books/aie-rl/#mdp"
+        "books/aie-rl/#mdp",
+        "books/bonds/#price",
+        "books/bonds/#equity"
       ]
     }
   ]
