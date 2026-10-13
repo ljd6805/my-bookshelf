@@ -1806,7 +1806,7 @@
     },
     {
       "id": "aie-18-production",
-      "title": "AI 인프라와 운영 · 모델 서버에서 운영 장부까지",
+      "title": "AI 인프라와 운영 · 모델 서버에서 비용·장애 관리까지",
       "spine_title": "인프라운영",
       "spine_category": "AI공학",
       "color": "violet",
@@ -1939,7 +1939,7 @@
     },
     {
       "id": "aie-20-capstone",
-      "title": "캡스톤 · 배운 도구로 제품 하나를 끝까지",
+      "title": "캡스톤 · 배운 도구로 제품 하나를 끝까지 만들어 보기",
       "spine_title": "캡스톤",
       "spine_category": "AI공학",
       "color": "blue",

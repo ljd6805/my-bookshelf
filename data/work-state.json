@@ -397,8 +397,6 @@
     ],
     "evidence": "docs/03-verification.html#korean-style-pass, 책마다 docs/index.html의 div.style-pass와 data-kind=style 표, docs/fact-review.html의 review-2026-10-13-style",
     "remaining": [
-      "자율 시스템 1장 부제 '단계마다의 작은 실패 확률이 곱해지는'을 '단계 성공 확률'로 맞추기(유진·나래 비차단 의견, 다음 문장 손질 때 유진 대조)",
-      "AI 인프라·캡스톤 책 제목(부제) 제안은 서재 주인 확인 전까지 미반영",
       "4권 6장 '종가는 … 휘둘리지 않게 합니다' 주어 어긋남",
       "8권에서 '실제 기록'이 가상 데이터라는 점을 처음 나오는 자리에 밝혔는지 확인",
       "style 표를 실제 내용 개정에 쓰는 것을 막는 자동 검사는 없음(G7 판단에 맡김; PR 66에서 한결이 js 변경이 본문에 맞춘 문구뿐임을 확인)",

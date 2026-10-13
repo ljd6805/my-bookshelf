@@ -1,4 +1,4 @@
-# 캡스톤 · 배운 도구로 제품 하나를 끝까지 작업 규칙
+# 캡스톤 · 배운 도구로 제품 하나를 끝까지 만들어 보기 작업 규칙
 
 - 이 책의 개발 원본은 `my-bookshelf/books/aie-capstone/`이다. 루트 `AGENTS.md`와 `docs/08-book-template.html`을 따른다.
 - 「AI 엔지니어링 처음부터」 시리즈 20(마지막 권)권이다. 원본 커리큘럼 rohitg00/ai-engineering-from-scratch(MIT)의 Phase 19 · Capstone Projects(큰 프로젝트 17개와 구현 트랙 레슨 68개, 모두 85개)를 한국어로 재구성했다. 원문과 코드를 옮기지 않는다.

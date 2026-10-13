@@ -1,4 +1,4 @@
-# 캡스톤 · 배운 도구로 제품 하나를 끝까지
+# 캡스톤 · 배운 도구로 제품 하나를 끝까지 만들어 보기
 
 「AI 엔지니어링 처음부터」 시리즈 20권(마지막 권). 원본 커리큘럼 [rohitg00/ai-engineering-from-scratch](https://github.com/rohitg00/ai-engineering-from-scratch)(MIT)의 Phase 19 · Capstone Projects 프로젝트 85개를 한국어로 새로 쓴 12장·15개 실험의 인터랙티브 책입니다. 여섯 명의 플랫폼 팀이 개발자 200명을 위한 사내 AI 개발 도우미 "모루"를 만들며, 매 장 비용·지연·품질·위험의 교환을 직접 계산하고 마지막 장에서 출시 사양표를 맞춥니다.
 
