@@ -1,0 +1,50 @@
+<svg class="fs-ill" viewBox="0 0 340 180" role="img" aria-labelledby="fs-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="fs-ill-title">외상 판매가 늘어나는 한 해: 손익계산서의 매출 막대가 올라가고, 재무상태표의 매출채권 막대도 함께 올라가는 동안, 현금흐름표의 현금 막대는 줄어드는 과정</title>
+<style>
+.fs-ill-bg{fill:#f5f8f3}
+.fs-ill-word{font:600 10px sans-serif;fill:#1f2a1f}
+.fs-ill-small{font:500 9px sans-serif;fill:#4f5f4f}
+.fs-ill-up{font:700 9.5px sans-serif;fill:#3d6b38}
+.fs-ill-down{font:700 9.5px sans-serif;fill:#9a4a12}
+.fs-ill-panel{fill:#ffffff;stroke:#cbd8c6;stroke-width:1.2}
+.fs-ill-base{stroke:#9fb59b;stroke-width:1.2}
+.fs-ill-sales{fill:#3d6b38}
+.fs-ill-ar{fill:#7fae78}
+.fs-ill-cash{fill:#9a4a12}
+.fs-ill-flow{fill:none;stroke:#3d6b38;stroke-width:1.6;stroke-dasharray:4 4}
+.fs-ill-coin{fill:#f4b26e;stroke:#9a4a12;stroke-width:1}
+.fs-ill-grow{transform-box:fill-box;transform-origin:50% 100%;animation:fs-ill-grow 9s ease-in-out infinite}
+.fs-ill-grow2{transform-box:fill-box;transform-origin:50% 100%;animation:fs-ill-grow2 9s ease-in-out infinite}
+.fs-ill-shrink{transform-box:fill-box;transform-origin:50% 100%;animation:fs-ill-shrink 9s ease-in-out infinite}
+.fs-ill-move{animation:fs-ill-move 9s ease-in-out infinite}
+.fs-ill-note{opacity:0;animation:fs-ill-note 9s ease-in-out infinite}
+@keyframes fs-ill-grow{0%,10%{transform:scaleY(.55)}35%,90%{transform:scaleY(1)}100%{transform:scaleY(.55)}}
+@keyframes fs-ill-grow2{0%,25%{transform:scaleY(.5)}50%,90%{transform:scaleY(1)}100%{transform:scaleY(.5)}}
+@keyframes fs-ill-shrink{0%,40%{transform:scaleY(1)}65%,90%{transform:scaleY(.35)}100%{transform:scaleY(1)}}
+@keyframes fs-ill-move{0%,12%{transform:translate(0,0);opacity:0}18%{opacity:1}45%{transform:translate(110px,0);opacity:1}55%,100%{transform:translate(110px,0);opacity:0}}
+@keyframes fs-ill-note{0%,60%{opacity:0}70%,92%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.fs-ill-grow,.fs-ill-grow2{animation:none;transform:none}.fs-ill-shrink{animation:none;transform:scaleY(.35)}.fs-ill-move{animation:none;opacity:0}.fs-ill-note{animation:none;opacity:1}}
+html[data-motion=reduce] .fs-ill-grow,html[data-motion=reduce] .fs-ill-grow2{animation:none;transform:none}
+html[data-motion=reduce] .fs-ill-shrink{animation:none;transform:scaleY(.35)}
+html[data-motion=reduce] .fs-ill-move{animation:none;opacity:0}
+html[data-motion=reduce] .fs-ill-note{animation:none;opacity:1}
+</style>
+<rect class="fs-ill-bg" width="340" height="180" rx="10"/>
+<text class="fs-ill-small" x="170" y="16" text-anchor="middle">외상 판매가 늘어난 한 해</text>
+<rect class="fs-ill-panel" x="14" y="26" width="96" height="120" rx="6"/>
+<rect class="fs-ill-panel" x="122" y="26" width="96" height="120" rx="6"/>
+<rect class="fs-ill-panel" x="230" y="26" width="96" height="120" rx="6"/>
+<text class="fs-ill-word" x="62" y="42" text-anchor="middle">손익: 매출</text>
+<text class="fs-ill-word" x="170" y="42" text-anchor="middle">재무상태: 채권</text>
+<text class="fs-ill-word" x="278" y="42" text-anchor="middle">현금흐름: 현금</text>
+<path class="fs-ill-base" d="M26 132H98M134 132H206M242 132H314"/>
+<rect class="fs-ill-sales fs-ill-grow" x="44" y="58" width="36" height="74" rx="2"/>
+<rect class="fs-ill-ar fs-ill-grow2" x="152" y="62" width="36" height="70" rx="2"/>
+<rect class="fs-ill-cash fs-ill-shrink" x="260" y="60" width="36" height="72" rx="2"/>
+<path class="fs-ill-flow" d="M84 96H148M192 100H256"/>
+<g class="fs-ill-move"><circle class="fs-ill-coin" cx="92" cy="96" r="6"/><text class="fs-ill-small" x="92" y="112" text-anchor="middle">외상</text></g>
+<text class="fs-ill-up" x="62" y="160" text-anchor="middle">매출 ▲</text>
+<text class="fs-ill-up" x="170" y="160" text-anchor="middle">매출채권 ▲</text>
+<text class="fs-ill-down" x="278" y="160" text-anchor="middle">현금 ▼</text>
+<g class="fs-ill-note"><text class="fs-ill-down" x="170" y="174" text-anchor="middle">이익은 늘어도 현금은 줄어듦</text></g>
+</svg>

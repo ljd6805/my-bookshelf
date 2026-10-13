@@ -1,0 +1,33 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="손익계산서·현금흐름표·재무상태표 세 장이 나란히 놓이고, 손익계산서의 순이익 136이 재무상태표의 이익잉여금 626으로, 현금흐름표의 현금 증감 +36이 재무상태표의 현금 136으로 선으로 이어진 그림" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-node" d="M8 8H100V128H8Z"/>
+<path class="cv-node" d="M114 8H206V128H114Z"/>
+<path class="cv-node" d="M220 8H312V128H220Z"/>
+<text class="cv-text cv-bold" x="54" y="22" text-anchor="middle">손익계산서</text>
+<text class="cv-text cv-bold" x="160" y="22" text-anchor="middle">현금흐름표</text>
+<text class="cv-text cv-bold" x="266" y="22" text-anchor="middle">재무상태표</text>
+<path class="cv-hair" d="M14 28H94M120 28H200M226 28H306"/>
+<text class="cv-text" x="14" y="42">매출 1,500</text>
+<text class="cv-text" x="14" y="56">영업이익 180</text>
+<path class="cv-hair cv-dash" d="M14 64H94"/>
+<rect class="cv-tint" x="12" y="84" width="84" height="16" rx="2"/>
+<text class="cv-text" x="14" y="95">순이익 136</text>
+<text class="cv-text" x="120" y="42">순이익 136</text>
+<text class="cv-text" x="120" y="56">영업 156</text>
+<text class="cv-text" x="120" y="70">투자 −80</text>
+<text class="cv-text" x="120" y="84">재무 −40</text>
+<rect class="cv-tint" x="118" y="98" width="84" height="16" rx="2"/>
+<text class="cv-text" x="120" y="109">현금 +36</text>
+<rect class="cv-tint" x="224" y="32" width="84" height="16" rx="2"/>
+<text class="cv-text" x="226" y="43">현금 136</text>
+<text class="cv-text" x="226" y="58">유형자산 620</text>
+<text class="cv-text" x="226" y="73">부채 380</text>
+<rect class="cv-tint" x="224" y="98" width="84" height="16" rx="2"/>
+<text class="cv-text" x="226" y="109">이익잉여금 626</text>
+<path class="cv-line cv-thin" d="M96 92C150 136 190 136 218 108"/>
+<path class="cv-head" d="M222 105l-7 0l3 6z"/>
+<path class="cv-line cv-thin" d="M202 104C212 92 210 52 218 42"/>
+<path class="cv-head" d="M222 39l-7 1l5 5z"/>
+<circle class="cv-dot" cx="96" cy="92" r="3"/>
+<circle class="cv-dot" cx="202" cy="106" r="3"/>
+<text class="cv-text cv-muted" x="160" y="144" text-anchor="middle">자산 1,156 = 부채 380 + 자본 776</text>
+</svg>
