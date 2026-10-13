@@ -5,6 +5,29 @@
 <h1>팩트·출처 검수 기록 · 정보는 몇 비트인가 · 엔트로피에서 압축과 토큰까지</h1>
 <p>이 책을 쓰지 않은 에이전트가 사실·수치·실험 계산·용어·출처를 확인한 결과입니다. 다시 검수하면 새 회차를 위에 더합니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 2341e1b)으로 바뀐 문장 22개: js/content.js 18(사실 수정 1 포함), js/lab-guides.js 2, review.json 2(사실 수정 1 포함). index.html은 스크립트 주소의 ?v= 두 곳만 바뀜. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="2341e1b" data-result="fixed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 Claude · 유진 뜻 보존 검수 세션입니다. 이 책의 문장을 고친 다온 세션과 다른 세션이고, 그 세션의 판단을 건네받지 않은 채 <code>git diff 0f2c248 2341e1b -- books/information/</code>로 원래 문장과 고친 문장을 하나씩 맞대어 읽었습니다. 집필자는 Claude · 다온 문체 개정 세션이며, 같은 커밋에는 다온이 사실 문제로 넘긴 두 곳을 집필 쪽이 고친 문장도 들어 있습니다. 문체로 고친 20곳은 wording 항목에서, 사실 수정 2곳은 facts 항목에서 원고와 대조했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>사실 수정 2곳이 맞게 고쳐졌음을 확인. 문체로 고친 20곳은 새 사실을 더하거나 원래 주장을 바꾸지 않음</td><td>5장 연결 문장은 장 안의 정의(“D(P‖Q) | 늘어난 비트”, “늘어난 2.61비트가 KL”)와 H(P,Q) = H(P) + D(P‖Q)에 대조했고, 9장 복습 보기는 같은 문항의 해설(“오류를 임의로 작게 하는 부호가 있다”)과 섀넌 채널 부호화 정리의 존재 진술에 대조했습니다. 2장 맥밀런 문장은 고친 뒤에도 “크래프트 부등식을 풀어 읽을 수 있는 모든 부호로 넓혔다”는 표준 결과(맥밀런 1956)와 맞습니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>바뀐 숫자 없음</td><td>2.097·2.072·0.025, 2.61·7.82·7.49·180, α = 1, 619·8,427·4,666, 0.05, 4/7·0.571·0.714·0.569·534, 5.580·5.917, 1,387을 원래 문장과 하나씩 대조했습니다. 5장에서 7.49비트보다 긴 대상이 7.82비트로 드러난 것은 원래 계산과 맞는 쪽으로 읽히게 된 것입니다.</td></tr>
+<tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff에 js/labs*.js 변경이 없고, js/content.js·js/lab-guides.js·review.json은 문자열만 바뀌었습니다. index.html의 변경은 content.js와 lab-guides.js 주소의 ?v= 갱신뿐입니다. 책 테스트 35개와 루트 tests/test_book_content.mjs 5개가 통과했습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>용어가 본문 이름에 맞게 남음</td><td>3장 링크의 “과소추정”은 본문의 “센 엔트로피는 실제보다 작게 나옵니다”와 같은 말로 바뀌었고, 9장 “채널 부호 없이”는 같은 장 셋째 문단의 “채널 부호”, 실험 선택지 “부호 없음”과 어긋나지 않습니다. 장 ID·장 제목·정답 번호(context 1번 answer 1, channel 2번 answer 2)·링크 주소는 그대로입니다.</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인했습니다.</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>문체로 고친 20곳을 대조, 되돌린 문장 0</td><td>문장마다 수치·단위, 조건과 단서, 가능성·확신의 정도(K3), 인과, 비교 대상, 용어를 원래 문장과 맞대었습니다. 메모의 “(반영함)” 20행(content.js 17, lab-guides.js 2, review.json 1)이 diff의 문체 변경 20곳과 하나씩 맞고, 메모에 없는 문장 변경은 없습니다.</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>되돌린 문장은 없습니다. 판단을 적어 둘 곳은 아래와 같습니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문장 / 고친 문장</th><th>대조 결과</th><th>처리</th></tr></thead><tbody>
+<tr><td>#mismatch js/content.js 더 읽어 보기 (사실 수정)</td><td>“손실을 교차 엔트로피, 곧 이 장의 “늘어난 비트”로” / “손실을 교차 엔트로피(엔트로피에 이 장의 “늘어난 비트”를 더한 평균 길이)로”</td><td>이 장에서 늘어난 비트는 KL이므로 원래 문장은 교차 엔트로피와 KL을 같다고 묶었습니다. 고친 문장은 H(P,Q) = H(P) + D(P‖Q)와 맞습니다.</td><td>맞게 고쳐짐</td></tr>
+<tr><td>review.json channel 2번 보기 3 (사실 수정)</td><td>“전송률 0.714 아래면 긴 부호로 오류를 얼마든지 줄인다” / “전송률 0.714 아래면 오류를 얼마든지 작게 하는 긴 부호가 있다”</td><td>정리는 그런 부호가 있다는 존재 진술이고, 해설 문장과도 이제 같은 정도로 말합니다. 정답 번호 2는 그대로입니다.</td><td>맞게 고쳐짐</td></tr>
+<tr><td>#perplexity js/content.js</td><td>“…몇 비트 짧게 적는지가, … 알려 주는 양의 추정입니다” / “…적는지를 보면, … 양을 추정할 수 있습니다”</td><td>“추정”이라는 정도는 남았고, 그 차이로 추정한다는 내용도 같습니다. “할 수 있다”가 약해 보일 수는 있지만 주장의 범위를 바꾸지는 않는다고 판단했습니다.</td><td>그대로 둠</td></tr>
+<tr><td>비고: 메모와의 어긋남</td><td>5장 연결 문장과 9장 복습 보기</td><td>메모 행은 “그대로 둠: 유진에게 넘김”이지만 diff에는 집필 쪽의 사실 수정이 들어 있습니다. 브리프에 따라 발견이 아니라 비고로 적고, 집필 쪽이 G4 기록에서 맞춥니다.</td><td>비고</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<p>5장 “실제 허프만 부호는 이보다 길고, 그 차이는 1비트 안쪽입니다”는 원래 문장(“1비트 안쪽에서 깁니다”)과 뜻이 같아 wording으로는 문제가 없습니다. 다만 Q로 지은 허프만 부호를 P로 쟀을 때 평균 길이가 언제나 이상적 길이 −log₂Q의 평균 이상이고 1비트 안이라는 보장은 일반적으로 없습니다(그 범위가 보장되는 것은 ⌈−log₂Q⌉ 길이의 섀넌 부호입니다). 이 책의 도윤·윤슬 자료에서 성립하는지는 계산하지 않았으므로, 이번 범위 밖의 권고로 집필 쪽에 넘깁니다. 화면에서 고친 문장을 직접 읽어 보는 브라우저 확인은 하지 않았습니다.</p>
+<h3>후속 수정 (집필 쪽, 같은 날)</h3><p>위 “확인하지 못한 것”의 5장 문장 “실제 허프만 부호는 이보다 길고, 그 차이는 1비트 안쪽입니다”는 일반적으로 보장되지 않아(Q로 지은 허프만 부호를 P로 재면 이상적 길이보다 짧을 수도 있음), 보장되는 범위만 남겨 “길이를 정수 비트로 올려 ⌈−log₂Q⌉로 쓰면 글자마다 1비트 안쪽으로 길어집니다”로 고쳤습니다. 이 수정은 G6에서 정민이 확인합니다.</p></section>
+
 <section class="fact-review" id="review-2026-10-12-g6-r2" data-reviewer="Claude · G6 검수 세션(information)" data-author="Claude · information 집필 세션" data-date="2026-10-12" data-scope="1회차 반려 수정 커밋 0964efd의 books/information 변경 전부(content.js·review.json·labs-codes.js·labs-models.js·lab-guides.js·figures.js·app.js·math.js 주석·docs/index.html·tests), 본문 확인·전이 문제 22문항과 복습 퀴즈 22문항의 정답 번호 전수 재확인, 바뀐 문장의 수치 재계산, 1280·390·320px 브라우저 재확인" data-result="fixed" data-commit="8aba268">
 <h2>2026-10-12 G6 검수 (2회차)</h2>
 <p>검수자: Claude · G6 검수 세션(information). 1회차와 같은 검수 세션이고, 집필이나 수정에는 참여하지 않았습니다. 집필자: Claude · information 집필 세션(수정 커밋 0964efd). 검수한 트리: HEAD 8aba268(0964efd 이후 books/information 변경은 fact-review.html뿐). 바뀐 수치는 1회차의 독립 Python 스크립트(책 코드와 tests/reference.py 미사용)로 다시 계산했고, 정답 번호는 content.js와 review.json을 읽어 44문항 모두 정답 보기의 내용을 직접 확인했습니다.</p>
