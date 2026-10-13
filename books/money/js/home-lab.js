@@ -3,7 +3,7 @@
 window.MHome=(()=>{
 function mount(el){
  const M=MMath,U=MUI,TODAY=1e7,OFFER=1.03e7;
- el.innerHTML=`<div class="lab-top"><span>오늘 1,000만 원과 1년 뒤 1,030만 원, 어느 쪽이 무거울까</span><span>TIME SCALE / 시간 저울</span></div><div class="home-scale"></div><div class="network-controls">${U.range('home-rate','하린이 맡길 수 있는 금리 (연 %)',0,8,.1,3)}<div class="buttons"><button type="button" data-rate="2">연 2%</button><button type="button" data-rate="3">연 3%</button><button type="button" data-rate="4">연 4%</button></div><div class="home-result" role="status" aria-live="polite"></div></div><details class="network-explain"><summary>무엇을 계산하나요?</summary><p>오늘 받은 1,000만 원을 고른 금리의 예금에 1년 넣었을 때의 금액(1,000만 × (1 + 금리))을 왼쪽 접시에, 친구가 약속한 1년 뒤 1,030만 원을 오른쪽 접시에 올립니다. 세금·물가·약속이 깨질 위험은 뺐고, 금리는 가정입니다. 1장에서 같은 저울을 기간과 금액까지 바꾸며 다시 봅니다.</p></details>`;
+ el.innerHTML=`<div class="lab-top"><span>오늘 1,000만 원과 1년 뒤 1,030만 원, 어느 쪽의 가치가 클까</span><span>TIME SCALE / 시간 저울</span></div><div class="home-scale"></div><div class="network-controls">${U.range('home-rate','하린이 맡길 수 있는 금리 (연 %)',0,8,.1,3)}<div class="buttons"><button type="button" data-rate="2">연 2%</button><button type="button" data-rate="3">연 3%</button><button type="button" data-rate="4">연 4%</button></div><div class="home-result" role="status" aria-live="polite"></div></div><details class="network-explain"><summary>무엇을 계산하나요?</summary><p>오늘 받은 1,000만 원을 고른 금리의 예금에 1년 넣었을 때의 금액(1,000만 × (1 + 금리))을 왼쪽 접시에, 친구가 약속한 1년 뒤 1,030만 원을 오른쪽 접시에 올립니다. 세금·물가·약속이 깨질 위험은 뺐고, 금리는 가정입니다. 1장에서 같은 저울을 기간과 금액까지 바꾸며 다시 봅니다.</p></details>`;
  const input=el.querySelector('#home-rate'),box=el.querySelector('.home-scale'),out=el.querySelector('.home-result');
  function update(){
   const r=Number(input.value),moved=M.compoundFV(TODAY,r,1),gap=moved-OFFER;
