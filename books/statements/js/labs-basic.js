@@ -16,6 +16,7 @@ SLabs['accrual-timeline']=el=>{
   if(ba>=0)return U.result(el,'',U.problem(`${TXS[ba][1]} 금액`,'0에서 1,000 사이의 숫자(억 원)를 넣어야 합니다.'));
   if(bd>=0)return U.result(el,'',U.problem(`${TXS[bd][1]} 날짜`,'2024-01-01에서 2025-12-31 사이의 날짜를 골라야 합니다.'));
   if(pay===null)return U.result(el,'',U.problem('설비 대금을 낸 날','2024-01-01에서 2025-12-31 사이의 날짜를 골라야 합니다.'));
+  if(amts[4]>0&&pay<days[4])return U.result(el,'',U.problem('설비 대금을 낸 날','설비가 들어온 날과 같거나 그 뒤여야 합니다. 미리 낸 대금(선급금)은 이 실험에서 다루지 않습니다.'));
   const txs=TXS.map(([type],i)=>({type,amount:amts[i],date:days[i],...(type==='buyEquipment'?{pay}:{})})),out=M.accrual(txs.filter(t=>t.amount>0),close);
   const years=Object.keys(out).sort(),zero={revenue:0,cashIn:0,cashOut:0,assetsBought:0,payable:0};
   const txRows=txs.map((t,i)=>[TXS[i][1],t.amount?E(t.amount):'0 (넣지 않음)',t.date+(t.pay?` · 대금 ${t.pay}`:''),`${M.fiscalYear(t.date,close)} 회계연도${t.pay&&M.fiscalYear(t.pay,close)!==M.fiscalYear(t.date,close)?` · 대금 ${M.fiscalYear(t.pay,close)}`:''}`]);

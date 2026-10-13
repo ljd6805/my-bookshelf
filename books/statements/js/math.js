@@ -59,7 +59,7 @@ const same=(a,b)=>Math.abs(a-b)<1e-6;
 
 /* ── 1장 발생주의 ── 거래: {type, amount, date('YYYY-MM-DD'), pay?(대금 날짜)}.
    type: cashSale(매출·현금 같은 날), creditSale(매출만), collect(현금만, 앞서 외상으로 판 대금), buyInventory(재고 매입, 현금 지급; 비용 아님),
-   buyEquipment(설비 구입: 자산은 date, 현금은 pay 또는 date). close: 결산일 'MM-DD'(기본 12-31). 결과는 회계연도(결산일이 속한 해)별 매출·현금 유입·유출. */
+   buyEquipment(설비 구입: 자산은 date, 현금은 pay 또는 date; pay가 date보다 앞서는 선급은 다루지 않아 오류). close: 결산일 'MM-DD'(기본 12-31). 결과는 회계연도(결산일이 속한 해)별 매출·현금 유입·유출. */
 const TX=['cashSale','creditSale','collect','buyInventory','buyEquipment'];
 function fiscalYear(date,close='12-31'){
  need(/^\d{4}-\d{2}-\d{2}$/.test(date),'date must look like YYYY-MM-DD');need(/^\d{2}-\d{2}$/.test(close),'close must look like MM-DD');
@@ -73,7 +73,7 @@ function accrual(txs,close='12-31'){
   if(t.type==='cashSale'){row(fy).revenue+=t.amount;row(fy).cashIn+=t.amount;}
   else if(t.type==='creditSale')row(fy).revenue+=t.amount;
   else if(t.type==='collect')row(fy).cashIn+=t.amount;
-  else{const py=fiscalYear(t.pay||t.date,close);row(fy).assetsBought+=t.amount;row(py).cashOut+=t.amount;if(py!==fy)row(fy).payable+=t.amount;}
+  else{need(!t.pay||t.pay>=t.date,'payment date must not be before the purchase date (prepayment is not modelled)');const py=fiscalYear(t.pay||t.date,close);row(fy).assetsBought+=t.amount;row(py).cashOut+=t.amount;if(py!==fy)row(fy).payable+=t.amount;}
  }
  return out;
 }

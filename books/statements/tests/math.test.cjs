@@ -214,3 +214,9 @@ test('every function in math.js stays under 100 lines',()=>{
  const lines=read('js/math.js').split('\n');let depth=0,start=null;
  lines.forEach((line,i)=>{const o=(line.match(/\{/g)||[]).length,c=(line.match(/\}/g)||[]).length;if(start===null&&/(function\b|=>\s*\{)/.test(line)&&depth===1)start=[i,depth];depth+=o-c;if(start&&depth<=start[1]){assert.ok(i-start[0]+1<=100,`math.js:${start[0]+1} ${i-start[0]+1} lines`);start=null;}});
 });
+
+test('설비 대금을 들여온 날보다 먼저 낸 선급은 다루지 않고 오류로 막는다',()=>{
+ assert.throws(()=>M.accrual([{type:'buyEquipment',amount:50,date:'2024-12-28',pay:'2024-12-10'}],'12-15'),/prepayment/);
+ const ok=M.accrual([{type:'buyEquipment',amount:50,date:'2024-12-28',pay:'2024-12-28'}],'12-15');
+ assert.equal(ok[2025].payable,0);assert.equal(ok[2025].cashOut,50);
+});
