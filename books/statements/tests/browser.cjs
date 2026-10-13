@@ -23,7 +23,7 @@ const DEFAULTS={
  'industry-compare':['6.56회','59.1일','56.0일','53.6%','16회','22.8일','9.1일','30.0%','재고 없음','73.0일','10.0%'],
  'final-check':['+21.2%','−53.8%','−83.2억 원','56.0일','87.2일','250억 원','20억 원','10.8배','2026-05-15','2026-08-14','2027-03-31','네 줄 모두 ✓ 맞음','학습용 계산, 투자 권유 아님']
 };
-const CHART={'three-statement-link':['손익계산서','현금흐름표 (간접법)','기말 재무상태표','이익잉여금 626'],'final-check':['위험 신호 있음','위험 신호 없음','(가) 2026년 4월','2026-05-15(금)','2027-03-31(수)'],'filing-deadline':['시각적 비유']};
+const CHART={'three-statement-link':['손익계산서','현금흐름표 (간접법)','기말 재무상태표','이익잉여금 626'],'final-check':['(가) 2026년 4월','2026-05-15(금)','2027-03-31(수)'],'filing-deadline':['시각적 비유','안내에 조치 사유로 적히지 않음']};
 /* 비교 예제 [번호, 꼭 나와야 하는 숫자](결과 문장과 그림·표 글자를 합쳐서 찾는다). */
 const PRESETS={
  'accrual-timeline':[[0,['2025 회계연도에는 매출 30억 원, 현금 유입 30억 원']],[1,['2025 회계연도에는 매출 30억 원, 현금 유입 30억 원']],[2,['2024 회계연도에는 매출 50억 원, 현금 유입 20억 원, 현금 유출 15억 원, 자산으로 산 것 65억 원, 그해 말 아직 내지 않은 대금 50억 원','현금 유입 30억 원, 현금 유출 50억 원']]],
@@ -89,7 +89,7 @@ async function l2(lab,width,id){
 }
 /* 표의 모든 행이 세로로 잘리지 않고 보이는지 잰다. 가로로 넘치면 is-wide 안내 문구가 붙어야 한다. */
 async function tables(lab,id){
- const r=await lab.locator('.table-wrap').evaluateAll(els=>els.map(e=>{const w=e.getBoundingClientRect();const rows=[...e.querySelectorAll('tbody tr')].map(tr=>{const b=tr.getBoundingClientRect();return {head:tr.cells[0].innerText.trim(),ok:b.height>0&&b.top>=w.top-0.5&&b.bottom<=w.bottom+0.5};});return {vclip:e.scrollHeight>e.clientHeight+1,wide:e.scrollWidth>e.clientWidth+1,cue:e.classList.contains('is-wide'),rows,tab:e.getAttribute('tabindex'),role:e.getAttribute('role'),label:e.getAttribute('aria-label')||'',overflow:getComputedStyle(e).overflowX};}));
+ const r=await lab.locator('.table-wrap').evaluateAll(els=>els.filter(e=>!e.closest('details:not([open])')).map(e=>{const w=e.getBoundingClientRect();const rows=[...e.querySelectorAll('tbody tr')].map(tr=>{const b=tr.getBoundingClientRect();return {head:tr.cells[0].innerText.trim(),ok:b.height>0&&b.top>=w.top-0.5&&b.bottom<=w.bottom+0.5};});return {vclip:e.scrollHeight>e.clientHeight+1,wide:e.scrollWidth>e.clientWidth+1,cue:e.classList.contains('is-wide'),rows,tab:e.getAttribute('tabindex'),role:e.getAttribute('role'),label:e.getAttribute('aria-label')||'',overflow:getComputedStyle(e).overflowX};}));
  for(const x of r){assert.ok(!x.vclip,`${id}: table clipped vertically`);for(const row of x.rows)assert.ok(row.ok,`${id}: row ${row.head} not fully visible`);assert.equal(x.cue,x.wide,`${id}: wide-table cue`);assert.equal(x.tab,'0',`${id}: table tabindex`);assert.equal(x.role,'region',`${id}: table role`);assert.ok(x.label.length>4,`${id}: table label`);assert.ok(!x.wide||/auto|scroll/.test(x.overflow),`${id}: table overflow without scroll`);}
  return r.length;
 }
@@ -179,6 +179,19 @@ async function extras(page,url){
  await r.evaluate(e=>{e.value=430;e.dispatchEvent(new Event('input',{bubbles:true}));});assert.match(await page.locator('.home-result').innerText(),/영업활동 현금흐름 −44억 원[\s\S]*기말 현금 86억 원[\s\S]*150억 원 단기차입/);
  await frame(page,url,390,'final');assert.match(await page.locator('#lab-final-check .rate-banner').innerText(),/학습용 계산, 투자 권유 아님[\s\S]*공식 자료로 다시 확인하세요/);
  await frame(page,url,390,'dart');assert.match(await page.locator('#lab-filing-deadline .rate-banner').innerText(),/2026-10-13 확인 기준/);
+ /* 1장 L2 경로: 외상 판매와 회수가 같은 회계연도면 매출채권 증가를 식으로 적고, 두 금액이 같을 때만 남는 매출채권이 없다고 쓴다. */
+ await frame(page,url,390,'basics');const at=page.locator('#lab-accrual-timeline');
+ assert.doesNotMatch(await at.locator('.readout').innerText(),/남는 매출채권이 없습니다/,'different years keep the receivable');
+ for(const [k,v] of Object.entries({aa0:10,aa1:25,aa2:20,ad2:'2024-03-10'}))await setValue(at,k,v);
+ let tx=await at.locator('.readout').innerText();assert.match(tx,/2024 회계연도 매출채권 증가 = 외상 판매 25 − 회수 20 = 5억 원이라 그해 말에 받을 돈 5억 원이 매출채권으로 남습니다/);assert.doesNotMatch(tx,/남는 매출채권이 없습니다/);
+ await setValue(at,'aa2',25);tx=await at.locator('.readout').innerText();assert.match(tx,/외상 판매 25 − 회수 25 = 0억 원이라 그해 말에 남는 매출채권이 없습니다/);await reset(at);
+ /* 10장: 신호 표는 적어 둔 조건 아래에 접혀 있고, 적어 둔 조건은 이 브라우저에만 남는다. */
+ await frame(page,url,390,'final');const fc=page.locator('#lab-final-check');
+ assert.equal(await fc.locator('fieldset ~ details.fs-signals').count(),1,'signal table sits below the notes');assert.equal(await fc.locator('details.fs-signals').getAttribute('open'),null,'signal table starts folded');
+ await fc.locator('details.fs-signals summary').click();assert.match(await fc.locator('[data-signals]').innerText(),/위험 신호 있음[\s\S]*위험 신호 없음/);
+ assert.match(await fc.locator('legend').innerText(),/이 브라우저에만 남고/);
+ await page.fill('#fnote1','1분기 매출채권이 줄면');await page.reload();await page.locator('#fnote1').waitFor();assert.equal(await page.inputValue('#fnote1'),'1분기 매출채권이 줄면','note kept in this browser');
+ assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('bookshelf:statements:v1:final-notes'))[0]),'1분기 매출채권이 줄면');await page.evaluate(()=>localStorage.removeItem('bookshelf:statements:v1:final-notes'));
  await frame(page,url,390,'income');await page.fill('#guess-income-steps','150억 원, 10.0%');await page.locator('#lab-income-steps summary').click();await page.waitForFunction(()=>/내 예측: 150억 원/.test(document.querySelector('#lab-income-steps .guess-echo').innerText),null,{timeout:3000});
  assert.equal(await page.locator('#isgafix').isDisabled(),true);await page.selectOption('#isgamode','fixed');assert.equal(await page.locator('#isgafix').isDisabled(),false,'fixed SG&A input enabled');
  await frame(page,url,320,'ratios');await page.getByRole('button',{name:'목차',exact:true}).click();assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await page.locator('#menu').getAttribute('aria-expanded'),'false');

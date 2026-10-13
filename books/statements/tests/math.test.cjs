@@ -28,6 +28,10 @@ put('rvSga285',M.incomeStatement({sga:285}));put('rvS2000',M.incomeStatement({sa
 put('borrow50T',M.totals(C.borrow50));put('sale30T',M.totals(C.sale30));put('rvPayAPT',M.totals(C.rvPayAP));put('rvSale20T',M.totals(C.rvSale20));
 put('a3rest',{noAlarmBad:C.a3.bad-C.a3.tp,noAlarmGood:C.a3.good-C.a3.fp,quiet:1000-C.a3.alarms});put('rvExtra',{re:530+C.rvSales1600.is.ni,eqRatio:900.8/600,cfoNi:100/80});
 put('rvInv',M.linkedYear(M.OPENING,{...M.YEARS[2024],inv:300}));put('rvCfoInv50',M.cfoBridge({ni:136,dep:60,dAR:30,dInv:50,dAP:10}));
+/* 4·8·9장 확인 문제(새 사례): 가상의 회사 간접법, 9월 결산 회사의 사업보고서 기한, 가상의 식품 도매 회사 매출채권 회전일수 */
+put('qCfoNew',M.cfoBridge({ni:40,dep:25,dAR:20,dInv:-10,dAP:-5}));put('qCfoWrong',{invSign:40+25-20-10-5,apSign:40+25-20+10+5});
+put('qD9',M.deadline('2025-09-30','annual'));put('qD9q',M.deadline('2025-09-30','quarter'));
+put('qFood',M.industryRow({name:'가상의 식품 도매 회사',sales:730,cogs:500,invOpen:20,invClose:20,arClose:60,ppeShare:0.2}));put('qFoodWrong',{pctRead:60/730,turnover:730/60});
 
 test('assumptions and rules live in one table each, with the check date',()=>{
  assert.equal(M.CHECKED,'2026-10-13');assert.equal(M.ASSUME.cogsRate,.70);assert.equal(M.ASSUME.taxRate,.20);assert.equal(M.ASSUME.minCash,50);assert.equal(M.ASSUME.borrowStep,50);
@@ -147,6 +151,11 @@ test('V-8 제출 기한: 2025-03-31(월) · 2026-03-31(화) · 2026-08-14(금) �
  assert.match(M.auditAction('disclaimer').action,/상장폐지/);assert.match(M.auditAction('qualifiedScope').action,/관리종목/);assert.throws(()=>M.auditAction('good'),RangeError);
 });
 
+test('4·8·9장 확인 문제(새 사례): 영업현금흐름 50, 9월 결산 사업보고서 기한 2025-12-29(월), 매출채권 회전일수 30.0일',()=>{
+ assert.equal(C.qCfoNew.cfo,50);assert.deepEqual([C.qCfoWrong.invSign,C.qCfoWrong.apSign],[30,60]);
+ assert.deepEqual([C.qD9.date,C.qD9.weekday,C.qD9q.date],['2025-12-29','월','2025-11-14']);
+ assert.deepEqual([f1(C.qFood.arDays),pct(C.qFoodWrong.pctRead),f1(C.qFoodWrong.turnover)],['30.0','8.2','12.2']);
+});
 test('V-9 업종: 새벽전자 6.56회·59.1일·56.0일·53.6%, 유통 16회·22.8일·9.1일, 소프트웨어 73.0일, L2 12회·30.4일',()=>{
  const t=C.ind;assert.deepEqual([t.saebyeok.invTurnover.toFixed(2),f1(t.saebyeok.invDays),f1(t.saebyeok.arDays),pct(t.saebyeok.ppeShare)],['6.56','59.1','56.0','53.6']);
  assert.deepEqual([t.retail.invTurnover,f1(t.retail.invDays),f1(t.retail.arDays)],[16,'22.8','9.1']);assert.deepEqual([t.software.invTurnover,t.software.invDays,f1(t.software.arDays)],[null,null,'73.0']);

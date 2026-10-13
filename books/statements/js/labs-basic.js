@@ -22,8 +22,9 @@ SLabs['accrual-timeline']=el=>{
   const yRows=years.map(y=>{const r=out[y];return [`${y} 회계연도`,`<b>${E(r.revenue)}</b>`,`<b>${E(r.cashIn)}</b>`,E(r.cashOut),E(r.assetsBought),E(r.payable)];});
   const chart=years.length?U.columns({labels:years.flatMap(y=>[`${y}|매출`,`${y}|현금 유입`]),values:years.flatMap(y=>[out[y].revenue,out[y].cashIn]),mark:i=>i%2===0,colors:years.flatMap(()=>['var(--accent)','var(--blue)']),fmt:v=>N(v),title:'회계연도별 ▲매출과 현금 유입 (억 원)',twoLine:true,h:250,label:years.map(y=>`${y} 회계연도 매출 ${E(out[y].revenue)}, 현금 유입 ${E(out[y].cashIn)}`).join('; ')}):'';
   const say=years.map(y=>{const r={...zero,...out[y]};return `${y} 회계연도에는 매출 <b>${E(r.revenue)}</b>, 현금 유입 <b>${E(r.cashIn)}</b>, 현금 유출 ${E(r.cashOut)}${r.assetsBought?`, 자산으로 산 것 ${E(r.assetsBought)}`:''}${r.payable?`, 그해 말 아직 내지 않은 대금 ${E(r.payable)}`:''}`;}).join('이고, ');
-  const credit=txs[1].amount,cfy=M.fiscalYear(txs[1].date,close),kfy=M.fiscalYear(txs[2].date,close);
-  const ar=credit&&txs[2].amount&&cfy!==kfy?`<br>외상 판매 ${E(credit)}${U.josa(E(credit),'은','는')} ${cfy} 회계연도 매출이고 대금은 ${kfy} 회계연도에 들어오므로, ${cfy} 회계연도 말 재무상태표에는 받을 돈이 매출채권으로 남습니다.`:credit&&cfy===kfy?`<br>결산일을 ${close}${U.josa(close,'으로','로')} 두면 외상 판매와 대금 회수가 같은 ${cfy} 회계연도에 들어가 그해 말에 남는 매출채권이 없습니다.`:'';
+  const credit=txs[1].amount,collect=txs[2].amount,diff=M.r1(credit-collect),cfy=M.fiscalYear(txs[1].date,close),kfy=M.fiscalYear(txs[2].date,close);
+  const same=`<br>결산일을 ${close}${U.josa(close,'으로','로')} 두면 외상 판매와 대금 회수가 같은 ${cfy} 회계연도에 들어갑니다. ${cfy} 회계연도 매출채권 증가 = 외상 판매 ${N(credit)} − 회수 ${N(collect)} = <b>${N(diff)}억 원</b>${diff===0?'이라 그해 말에 남는 매출채권이 없습니다.':diff>0?`이라 그해 말에 받을 돈 ${E(diff)}${U.josa(E(diff),'이','가')} 매출채권으로 남습니다.`:'입니다. 음수는 회수가 그해 외상 판매보다 많다는 뜻입니다.'}`;
+  const ar=credit&&collect&&cfy!==kfy?`<br>외상 판매 ${E(credit)}${U.josa(E(credit),'은','는')} ${cfy} 회계연도 매출이고 대금은 ${kfy} 회계연도에 들어오므로, ${cfy} 회계연도 말 재무상태표에는 받을 돈이 매출채권으로 남습니다.`:credit&&cfy===kfy?same:'';
   U.result(el,chart+U.table(['회계연도','매출','현금 유입','현금 유출','자산으로 산 것','미지급 대금'],yRows,`결산일 ${close} 기준 회계연도별 합계 (억 원)`)+U.table(['거래','금액','날짜','들어가는 해'],txRows,'거래 다섯 건과 들어가는 회계연도'),
    `${years.length?say+'입니다.':'금액이 0이 아닌 거래가 없어 기록되는 것이 없습니다.'}${ar}<br>매출은 물건을 넘긴 날, 현금은 돈이 오간 날의 회계연도에 적습니다. 재고 매입과 설비 구입은 비용이 아니라 자산으로 기록됩니다.${U.kind(['real','scenario'],'거래 금액과 날짜는 가상이고, 수익 인식 기준의 세부(여러 해 계약·반품)는 넣지 않았습니다.')}`);
  });
