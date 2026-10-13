@@ -379,17 +379,19 @@
       },
       {
         "name": "제목·설명·머리글 점검(서재 주인 피드백) 20권 + 금리와 채권 본문",
-        "status": "G7 대기",
+        "status": "approved",
         "approved_by": [
           "나래",
-          "정민"
+          "정민",
+          "한결"
         ],
-        "note": "docs/11#titles 사례, catalog 장 색인·링크 이름 반영"
+        "note": "docs/11#titles 사례, catalog 장 색인·링크 이름 반영",
+        "pr": 65
       },
       {
         "name": "AI 엔지니어링 시리즈 20권(aie-*)",
         "status": "in_progress",
-        "note": "1~10권은 PR 2(나래·정민 승인, G7 대기), 11~20권은 다온·사실 수정 마침, 유진 대기(PR 3)"
+        "note": "1~10권은 PR 65(나래·정민·한결 승인), 11~20권은 다온·사실 수정 마침, 유진 검수 중(PR 3)"
       }
     ],
     "evidence": "docs/03-verification.html#korean-style-pass, 책마다 docs/index.html의 div.style-pass와 data-kind=style 표, docs/fact-review.html의 review-2026-10-13-style",
