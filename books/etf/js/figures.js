@@ -24,7 +24,7 @@ F.index=()=>{
  let s=bars([['새벽전자',2200e8,true,'2,200억'],['A사',1000e8,false,'1,000억'],['B사',1000e8,false,'1,000억'],['합',today,true,fx(today/1e8)+'억']],{x0:50,gap:120,bw:80,max:today,top:56,bottom:200});
  s+=`<path d="M${50+3*120-10} ${(200-base/today*144).toFixed(1)}H${50+3*120+90}" stroke="var(--orange)" stroke-dasharray="6 4"/>`+t(560,(200-base/today*144-6).toFixed(1),`┅ 기준 ${E(base)} = 100`,{size:12,a:'end'});
  s+=t(20,26,`지수 = ${fx(today/1e8)}억 ÷ ${fx(base/1e8)}억 × 100 = ${fx(lvl,2)}`,{size:14,w:700,a:'start'})+t(20,44,`B사 → C사(1,500억): 기준을 약 ${E(fixed)}으로 고치면 ${fx(M.indexLevel(after,fixed),2)}, 그대로면 ${fx(jump,2)}`,{size:12,a:'start',fill:'var(--muted)'});
- return {svg:svg(`세 종목 지수: 합 ${E(today)}, 기준 ${E(base)}, 지수 ${fx(lvl,2)}`,s,240),caption:`기준일 세 종목 합 ${E(base)}을 100으로 두고, 새벽전자만 10% 오르면 합이 ${E(today)}이 되어 지수는 ${fx(lvl,2)}입니다. 이날 B사를 C사(1,500억 원)로 바꾸면 기준 시가총액을 약 ${E(fixed)}으로 고쳐 ${fx(M.indexLevel(after,fixed),2)}을 잇고, 고치지 않으면 ${fx(jump,2)}로 뜁니다.`};
+ return {svg:svg(`세 종목 지수: 합 ${E(today)}, 기준 ${E(base)}, 지수 ${fx(lvl,2)}`,s,240),caption:`기준일 세 종목 합 ${E(base)}을 100으로 두고, 새벽전자만 10% 오르면 합이 ${E(today)}이 되어 지수는 ${fx(lvl,2)}입니다. 이날 B사를 C사(1,500억 원)로 바꾸면 기준 시가총액을 약 ${E(fixed)}으로 고쳐 ${fx(M.indexLevel(after,fixed),2)}을 잇고, 고치지 않으면 ${fx(jump,2)}으로 뜁니다.`};
 };
 F.weight=()=>{
  const r=[.1,-.05,0],ms=[['cap','시가총액'],['float','유동시가총액'],['equal','동일']],w=ms.map(([m])=>M.weights(S,m)),ret=w.map(x=>M.indexReturn(x,r)),cols=['var(--accent)','var(--blue)','var(--orange)'];

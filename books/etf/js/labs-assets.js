@@ -31,12 +31,12 @@ ELabs.underlying=el=>{
   const repName=REPS.find(x=>x[0]===rep)[1],rtext=`<b>2단계</b> ${repName}: 자산을 직접 담음 ${yes(risk.holds)}, 거래상대방 위험 <b>${risk.counterparty?'있음':'없음'}</b>, 발행사 신용위험 <b>${risk.issuerCredit?'있음':'없음'}</b>, 만기 <b>${risk.maturity?'있음':'없음'}</b>.`;
   const sum=`네 ETF: 누리200 ${rows.kstock.value} · 누리 국채3년 ${rows.bond.value} · 금 현물 ${rows.gold.value} · 누리 해외100 ${rows.foreign.value}.`;
   const why=pick==='foreign'&&time==='day'?' 한국 장중에는 해외 시장이 닫혀 실시간 지수가 없어 이 값은 추정값이고, 시장가와의 차이가 국내 주식 ETF보다 커질 수 있습니다.':'';
-  U.result(el,chart+tbl+rtbl,`<b>1단계</b> ${name}: ${r.how}. 기초자산 시장은 ${r.open}, iNAV는 ${r.kind}입니다.${why}<br>${sum}<br>${rtext}${U.kind(['real','unknown'].concat(pick==='foreign'||pick==='gold'?[]:['scenario']),'해외 iNAV 식은 출처가 직접 적은 방식이 아니라 이 책의 단순화이고(환헤지 없음, 원 미만 반올림), 금 현물 ETF는 금 가격 변화 하나로 단순화했습니다. 나라 3년은 표면금리 3.875%, 반년 이표, 만기 3년, 금리 3.961%로 다시 계산한 값입니다.')}`);
+  U.result(el,chart+tbl+rtbl,`<b>1단계</b> ${name}: ${r.how}. 기초자산 시장: ${r.open} · iNAV: ${r.kind}.${why}<br>${sum}<br>${rtext}${U.kind(['real','unknown'].concat(pick==='foreign'||pick==='gold'?[]:['scenario']),'해외 iNAV 식은 출처가 직접 적은 방식이 아니라 이 책의 단순화이고(환헤지 없음, 원 미만 반올림), 금 현물 ETF는 금 가격 변화 하나로 단순화했습니다. 나라 3년은 표면금리 3.875%, 반년 이표, 만기 3년, 금리 3.961%로 다시 계산한 값입니다.')}`);
  });
 };
 /* 8장: 상장 시장 → (국내면) 기초자산과 국내 주식 비중 → 과세 유형과 매매차익 세율. 금액은 계산하지 않는다(11권 #etf). */
 const UNDERS=[['kstock','국내 주식'],['bond','채권'],['commodity','원자재 (금 등)'],['fstock','해외 주식'],['derivative','파생 (레버리지·인버스 등)']];
-const TYPES={kequity:['국내주식형','국내 상장 + 국내 주식 60% 이상','매매차익 비과세'],kother:['그 밖의 국내 상장','국내 상장 + 채권·원자재·해외주식·파생 등','매매차익 15.4% 배당소득'],foreign:['해외 상장','해외 거래소 상장','22% 양도소득']};
+const TYPES={kequity:['국내주식형','국내 상장 + 국내 주식 60% 이상','매매차익 비과세'],kother:['그 밖의 국내 상장','국내 상장 + 채권·원자재·해외 주식·파생 등','매매차익 15.4% 배당소득'],foreign:['해외 상장','해외 거래소 상장','22% 양도소득']};
 function treeChart(list,isK,type){
  const t=(x,y,s,c='axis',a='middle')=>`<text x="${x}" y="${y}" text-anchor="${a}" class="${c}">${s}</text>`,node=(x,y,w,label,on)=>`<rect x="${x}" y="${y}" width="${w}" height="38" rx="8" fill="var(--panel2)" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?2.5:1}"/>`+t(x+w/2,y+24,(on?'▲ ':'')+label,on?'series':'axis');
  const ln=(d,on)=>`<path d="${d}" fill="none" stroke="${on?'var(--accent)':'var(--line)'}" stroke-width="${on?3:1.5}"/>`;
