@@ -4,7 +4,7 @@
 <h1>팩트·출처 검수 기록 · 강화학습</h1>
 <p>「AI 엔지니어링 처음부터」 10권 《강화학습 · 보상에서 정책까지》(<code>books/aie-rl/</code>)의 검수 기록입니다. 규칙과 절차는 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
-<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정과 제목·설명·머리글 점검, 사실 수정 2곳(커밋 2e54405), 다른 책 링크 이름 반영(커밋 ff884c4)으로 fd860a3 이후 바뀐 문장 55개: js/content.js 54(다온 반영함 49, 집필 쪽 사실 수정 2, 링크 이름 3), js/labs-policy.js 1(반영함). 실험 계산·출처 목록·장 ID는 바뀌지 않음" data-commit="2e54405" data-result="passed">
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정과 제목·설명·머리글 점검, 사실 수정 2곳(커밋 2e54405), 다른 책 링크 이름 반영(커밋 ff884c4)으로 fd860a3 이후 바뀐 문장 55개: js/content.js 54(다온 반영함 49, 집필 쪽 사실 수정 2, 링크 이름 3), js/labs-policy.js 1(반영함). 실험 계산·출처 목록·장 ID는 바뀌지 않음" data-commit="2e54405" data-result="fixed">
 <h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
 <p>검수자는 Claude 유진 뜻 보존 검수 세션입니다. 이 책의 문장을 고치지 않았고, 다온 세션의 결론을 건네받지 않은 채 <code>git diff fd860a3 HEAD -- books/aie-rl/</code>로 원래 문장과 고친 문장을 하나씩 맞대어 읽었습니다. 집필자는 Claude 다온 문체 개정 세션입니다. 범위는 본문 문체 개정 25곳, 제목·설명·머리글 점검 25곳(장 제목 10개, 부제 7개, 장 질문 1개, 표지·흐름 머리글 3곳, 실험 제목 4개), 다온이 넘긴 뒤 집필 쪽이 고친 사실 2곳, 메인 세션이 바꾼 다른 책 링크 이름 3개, 그리고 data/catalog.json의 장 색인·책 장 목록·책 설명이 content.js와 맞는지입니다.</p>
 <table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
@@ -12,8 +12,8 @@
 <tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>달라진 숫자 없음</td><td>고친 문장의 숫자(4×4, −59.1·−59.4, 4,000번, 210×160×3 = 100,800, 10⁴³, 2013·2015, 1±ε, 11점, ε 0.05·0.2)를 원래 문장과 대조. 수식 ∇J = E[G·∇log π_θ(a|s)]는 그대로</td></tr>
 <tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>js/labs-policy.js의 바뀐 줄은 결과 문장 문자열 하나이고, 조건 분기(gradZero, A·r 비교)는 그대로. 책 테스트 31개 통과, 루트 tests/test_book_content.mjs 5개 통과</td></tr>
 <tr data-check="terms" data-status="ok"><td>용어</td><td>용어가 더 일관됨</td><td>“배달 로봇”→“배송 로봇” 2곳은 다른 장·카탈로그와 같은 이름. 잘린 목적 실험의 “신뢰 구간”→“1−ε~1+ε 범위”는 통계 용어와 7장의 TRPO “신뢰 영역”이 겹치지 않게 함. “해킹”→“보상 해킹”은 8장이 정의한 용어. 장 제목에 붙은 “동적계획법”·“몬테카를로”는 본문 이름과 같음. 장 ID 12개는 그대로</td></tr>
-<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. 다른 책 링크 3개는 주소가 그대로이고 이름만 바뀜(아래 비고). 사실 수정이 본문에 새로 이름을 든 Sutton 외(2000)는 출처 목록에 없음(아래 비고)</td></tr>
-<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>55개 대조, 되돌린 문장 0개</td><td>다온 메모의 “(반영함)” 50행(장 메모 25, 제목·설명·머리글 25)이 diff와 하나씩 맞음. 의무(“두어야 합니다”, “검토해야 합니다”)와 가능성(“알 수 있습니다”, “떠올릴 수 있습니다”)이 원래 문장의 정도와 같은지, 조건(“~면”, “~라면”)이 남았는지 앞뒤 문단과 함께 읽음</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. 다른 책 링크 3개는 주소가 그대로이고 이름만 바뀜(아래 비고). 사실 수정이 본문에 새로 이름을 든 Sutton 외(2000)는 출처 목록에 없음(아래 비고)</td></tr>
+<tr data-check="wording" data-status="fixed"><td>문체 편집 뒤 뜻 보존</td><td>55개 대조, 되돌린 문장 0개</td><td>다온 메모의 “(반영함)” 50행(장 메모 25, 제목·설명·머리글 25)이 diff와 하나씩 맞음. 의무(“두어야 합니다”, “검토해야 합니다”)와 가능성(“알 수 있습니다”, “떠올릴 수 있습니다”)이 원래 문장의 정도와 같은지, 조건(“~면”, “~라면”)이 남았는지 앞뒤 문단과 함께 읽음</td></tr>
 </tbody></table>
 <h3>발견과 수정</h3>
 <p>뜻이나 조건이 달라져 되돌린 문장은 없습니다. 아래는 고치지 않고 남기는 비고입니다.</p>
@@ -32,6 +32,7 @@
 <h3>확인하지 못한 것</h3>
 <ul><li>Mnih 등(2013·2015), Williams(1992), Sutton 외(2000)의 원문은 이번 세션에서 다시 열지 않았고, 장치의 도입 시점과 귀속은 검수자가 아는 서지 내용으로 대조했습니다.</li><li>원본 Phase 9 레슨의 원문과 다온이 고친 장 메모의 “원본은 ~라고 설명합니다” 문장들을 한 줄씩 다시 대조하지 않았습니다. 고친 문장이 원래 문장과 같은 주장을 담는지까지만 확인했습니다.</li><li>실제 브라우저에서 길어진 장 제목(예: “상태가 너무 많을 때: 신경망 Q와 세 가지 안정 장치”)이 목차와 320px 화면에서 잘리지 않는지 눈으로 확인하지 않았습니다.</li></ul>
 <p>후속 반영(집필 쪽, 2026-10-13): 위 제안대로 data/catalog.json 설명을 “장이 넘어갈수록 … 차례로 새 문제로 나옵니다”로 고쳐, 네 문제가 모든 장에 나오는 것처럼 읽히지 않게 했습니다. Sutton 등(2000)을 출처 목록에 더하는 일은 문체 개정 범위 밖이라 다음 보충으로 남깁니다.</p>
+<p>정민 G6 의견에 따라 sources를 ok로 고침: 본문이 Sutton 등(2000)을 들지만 출처 목록에는 아직 없습니다. 목록 추가는 다음 보충으로 남깁니다.</p>
 </section>
 
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="#mdp 상세 절 “덤 보상을 주어도 정책이 바뀌지 않게”와 출처 43(Ng·Harada·Russell 1999), #td·#multi 확인 문제 교체, #games “더 읽어 보기”의 aie-llm-build #sft 링크, index.html 자산 버전, tests/browser.cjs 테마 단추 이름" data-result="fixed">
