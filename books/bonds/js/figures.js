@@ -13,11 +13,11 @@ const N3={face:10000,couponRate:0.03875,years:3,freq:2},N10={face:10000,couponRa
 const CURVE={spread0:0.002,horizon:1,tpMax:0.015,tpHalf:5},cy=(b,c,T,o={})=>M.yieldCurveModel(Object.assign({base:b,change:c},CURVE,o),[T])[0].yield;
 const F={};
 F.rate=()=>{
- const total=M.compoundValue(1,0.0479,10)-1,items=[['예금 (가상)',0.035],['광고의 평균',total/10],['연 복리 금리',0.0479]],Y=v=>210-v*100*26;
+ const total=M.compoundValue(1,0.0479,10)-1,items=[['예금 (가상)',0.035],['기사의 평균',total/10],['연 복리 금리',0.0479]],Y=v=>210-v*100*26;
  let s=`<path d="M70 210H600" stroke="var(--line)"/>`;
  items.forEach(([n,v],i)=>{const x=110+i*170;s+=up(x,Y(v),90,210-Y(v),i===2?'var(--accent)':'var(--blue)',i*.25)+t(x+45,Y(v)-8,rt(v,2),{size:15,w:700})+t(x+45,232,n,{size:12});});
  s+=t(320,24,`10년 총수익 ${fx(total*100,2)}% ÷ 10 = ${fx(total*10,2)}% · 1.0479¹⁰ − 1 = ${fx(total*100,2)}%`,{size:13,w:700});
- return {svg:svg(`예금 3.5%, 광고의 평균 ${rt(total/10,2)}, 해마다 복리로 붙는 금리 4.79%를 견준 막대`,s,250),caption:`개인투자용 국채 10년물의 총수익 ${fx(total*100,2)}%를 10으로 나누면 ${rt(total/10,2)}, 반올림해 광고의 “평균 연 6.0%”가 됩니다. 해마다 복리로 붙는 금리는 4.79%이고, 예금 3.5%와 나란히 놓을 숫자는 이쪽입니다.`};
+ return {svg:svg(`예금 3.5%, 기사의 평균 ${rt(total/10,2)}, 해마다 복리로 붙는 금리 4.79%를 견준 막대`,s,250),caption:`개인투자용 국채 10년물의 총수익 ${fx(total*100,2)}%를 10으로 나누면 ${rt(total/10,2)}, 반올림해 기사의 “평균 연 6.0%”가 됩니다. 해마다 복리로 붙는 금리는 4.79%이고, 예금 3.5%와 나란히 놓을 숫자는 이쪽입니다.`};
 };
 F.transmit=()=>{
  const rows=[['기준금리',0.03,'10-12'],['CD 91일',0.0324,'10-07'],['COFIX',0.0318,'8월'],['예금 평균',0.0314,'8월'],['국고 3년',0.03961,'10-07'],['국고 10년',0.04376,'10-07'],['신용대출',0.0633,'8월']],X=v=>170+(v-0.02)/0.05*420;

@@ -342,6 +342,8 @@ test('review.json numbers',()=>{
  assert.equal(won(M.priceFromYield(NARA3,0.03)),'10249.25');assert.equal(won(M.accruedInterest(NARA3,73,182)),'77.71');
  assert.equal(M.modifiedDuration(Z10,0.04376).toFixed(2),'9.79');assert.equal(pc(M.priceChange(NARA10,0.04376,-0.01).exact),'8.39');
  assert.equal(M.gordonValue(2,0.08,0).toFixed(0),'25');
+ /* transmit: 1.00%p 인하를 믿던 시장에서 0.50%p만 내리고 추가 기대가 사라지면 */
+ assert.deepEqual([pc(cy(0.03,-0.01,3),3),pc(cy(0.025,0,3),3),pc(cy(0.025,0,3)-cy(0.03,-0.01,3),2)],['2.929','3.263','0.33']);
  const h=M.holdingReturn(NARA3,0.03961,0.04961,1);assert.deepEqual([pc(h.totalReturn),pc(h.priceReturn),won(h.price1)],['2.08','-1.81','9795.63']);
 });
 

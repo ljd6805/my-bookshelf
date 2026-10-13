@@ -2,7 +2,7 @@
 (()=>{
 'use strict';
 const U=BUI,M=BMath,F=U.fmt,P=U.pct,R=U.rate;
-/* 1장: 세 거래의 방향(시각적 비유)과 광고 숫자 읽기, 피셔 관계. */
+/* 1장: 세 거래의 방향(시각적 비유)과 기사 숫자 읽기, 피셔 관계. */
 const TX={
  deposit:['예금','하린','물결은행','1,000만 원을 맡김','이자 연 3.5%',0.035,'물결은행은 가상의 은행, 3.5%는 1권 조사에 맞춘 가상 금리'],
  credit:['신용대출','물결은행','하린','돈을 빌려줌','이자 연 6.33%',0.0633,'6.33%는 2026년 8월 예금은행 일반신용대출 평균(실제 통계)'],
@@ -14,15 +14,15 @@ function arrows(k){
  return U.svg(`${name}: ${lender}${U.josa(lender,'이','가')} ${borrower}에게 돈을 빌려주고, ${borrower}${U.josa(borrower,'이','가')} ${lender}에게 이자를 냅니다`,`<defs><marker id="bo-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--text)"/></marker></defs><text x="20" y="20" class="series">${U.esc(name)} · 누가 누구에게 내나</text>${box(30,lender+' (빌려준 쪽)')}${box(320,borrower+' (빌린 쪽)')}<path d="M164 56H314" stroke="var(--text)" stroke-width="2" marker-end="url(#bo-ah)"/><text x="240" y="48" text-anchor="middle" class="axis">→ 지금: ${U.esc(now)}</text><path d="M316 84H166" stroke="var(--accent)" stroke-width="2.6" stroke-dasharray="6 4" marker-end="url(#bo-ah)"/><text x="240" y="108" text-anchor="middle" class="mark-t">← 해마다: ${U.esc(interest)}</text>`,124);
 }
 BLabs['who-pays']=el=>{
- U.setup(el,U.select('wtx','거래 고르기',[['deposit','예금 (하린 → 은행에 맡김)'],['credit','신용대출 (은행 → 하린에게 빌려줌)'],['treasury','국채 (하린 → 나라에 빌려줌)']],'treasury')+U.number('wtotal','광고의 만기 총수익 (%)','',10000,0.01,59.7,'원금과 이자를 합쳐 늘어난 비율, 세전')+U.number('wyears','만기 (년)',1,30,1,10)+U.number('wnom','다시 보기 · 명목 금리 (%)','',100,0.1,3.5)+U.number('winf','다시 보기 · 물가 상승률 (%)','',100,0.1,2.9,'2026년 9월 소비자물가 1년 상승률 2.9%'));
+ U.setup(el,U.select('wtx','거래 고르기',[['deposit','예금 (하린 → 은행에 맡김)'],['credit','신용대출 (은행 → 하린에게 빌려줌)'],['treasury','국채 (하린 → 나라에 빌려줌)']],'treasury')+U.number('wtotal','기사에 실린 만기 총수익 (%)','',10000,0.01,59.7,'원금과 이자를 합쳐 늘어난 비율, 세전')+U.number('wyears','만기 (년)',1,30,1,10)+U.number('wnom','다시 보기 · 명목 금리 (%)','',100,0.1,3.5)+U.number('winf','다시 보기 · 물가 상승률 (%)','',100,0.1,2.9,'2026년 9월 소비자물가 1년 상승률 2.9%'));
  U.bind(el,()=>{
   const k=U.value(el,'wtx'),total=U.num(el,'wtotal'),n=U.num(el,'wyears'),nom=U.num(el,'wnom'),inf=U.num(el,'winf');
   if(total===null||total<=-100)return U.result(el,arrows(k),U.problem('총수익','−100%보다 큰 숫자여야 합니다(원금보다 많이 잃을 수는 없습니다).'));
   if(n===null||!Number.isInteger(n))return U.result(el,arrows(k),U.problem('만기','1에서 30 사이의 정수(년)를 넣어야 합니다.'));
   if(nom===null||inf===null||inf<=-100)return U.result(el,arrows(k),U.problem('명목 금리와 물가','숫자를 넣고, 물가 상승률은 −100%보다 커야 합니다.'));
   const t=total/100,avg=t/n,cagr=Math.pow(1+t,1/n)-1,tx=TX[k],tr=M.compoundValue(1,0.0479,10)-1,real=M.realRate(nom/100,inf/100),approx=M.realRateApprox(nom/100,inf/100);
-  const chart=arrows(k)+U.columns({labels:['예금 (가상)',`${tx[0].slice(0,4)}`,'광고의 평균','연 복리'],values:[3.5,tx[5]*100,avg*100,cagr*100],fmt:v=>`${F(v,2)}%`,tick:v=>`${F(v,0)}%`,mark:i=>i===3,title:'연 몇 %로 읽을까 (▲ 해마다 복리로 붙는 금리)',label:`예금 3.5%, 광고의 평균 ${P(avg)}, 연 복리 ${R(cagr)}`,h:230});
-  U.result(el,chart,`<b>${tx[0]}</b>: ${tx[1]}${U.josa(tx[1],'이','가')} 빌려준 쪽이라 ${tx[2]}${U.josa(tx[2],'이','가')} ${tx[1]}에게 <b>${tx[4]}</b>를 냅니다. ${tx[6]}.<br>광고 읽기: ${F(n)}년 총수익 <b>${F(total,2)}%</b>를 ${F(n)}${U.josa(F(n),'으로','로')} 나눈 단순 평균은 <b>${P(avg)}</b>(반올림하면 ${P(avg,1)})입니다. 해마다 복리로 붙는 금리로 바꾸면 (1 + ${F(t,4)})^(1/${F(n)}) − 1 = <b>${R(cagr)}</b>입니다. 예금 3.5%와 나란히 놓을 숫자는 이쪽입니다.<br>확인: 10년물 연 4.79%를 해마다 복리로 붙이면 1.0479¹⁰ − 1 = <b>${P(tr)}</b>로 보도의 59.7%와 맞습니다.<br>다시 보기(피셔 관계): 명목 ${F(nom,2)}%, 물가 ${F(inf,2)}%면 실질 = (1 + 명목) ÷ (1 + 물가) − 1 = <b>${R(real)}</b>, 어림식 명목 − 물가는 ${P(approx,1)}입니다.${U.kind(['real','metaphor'],'화살표 그림은 시각적 비유입니다. 개인투자용 국채 조건은 2026년 10월분 세전 값(확인 2026-10-12)입니다.')}`);
+  const chart=arrows(k)+U.columns({labels:['예금 (가상)',`${tx[0].slice(0,4)}`,'기사의 평균','연 복리'],values:[3.5,tx[5]*100,avg*100,cagr*100],fmt:v=>`${F(v,2)}%`,tick:v=>`${F(v,0)}%`,mark:i=>i===3,title:'연 몇 %로 읽을까 (▲ 해마다 복리로 붙는 금리)',label:`예금 3.5%, 기사의 평균 ${P(avg)}, 연 복리 ${R(cagr)}`,h:230});
+  U.result(el,chart,`<b>${tx[0]}</b>: ${tx[1]}${U.josa(tx[1],'이','가')} 빌려준 쪽이라 ${tx[2]}${U.josa(tx[2],'이','가')} ${tx[1]}에게 <b>${tx[4]}</b>를 냅니다. ${tx[6]}.<br>기사 숫자 읽기: ${F(n)}년 총수익 <b>${F(total,2)}%</b>를 ${F(n)}${U.josa(F(n),'으로','로')} 나눈 단순 평균은 <b>${P(avg)}</b>(반올림하면 ${P(avg,1)})입니다. 해마다 복리로 붙는 금리로 바꾸면 (1 + ${F(t,4)})^(1/${F(n)}) − 1 = <b>${R(cagr)}</b>입니다. 예금 3.5%와 나란히 놓을 숫자는 이쪽입니다.<br>확인: 10년물 연 4.79%를 해마다 복리로 붙이면 1.0479¹⁰ − 1 = <b>${P(tr)}</b>로 보도의 59.7%와 맞습니다.<br>다시 보기(피셔 관계): 명목 ${F(nom,2)}%, 물가 ${F(inf,2)}%면 실질 = (1 + 명목) ÷ (1 + 물가) − 1 = <b>${R(real)}</b>, 어림식 명목 − 물가는 ${P(approx,1)}입니다.${U.kind(['real','metaphor'],'화살표 그림은 시각적 비유입니다. 개인투자용 국채 조건은 2026년 10월분 세전 값(확인 2026-10-12)입니다.')}`);
  });
 };
 /* 2장: 기준금리 사다리. 짧은 칸은 정해 둔 전달 속도(가상 시나리오), 긴 칸은 6장 놀이판 모형으로 계산한다. */
