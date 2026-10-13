@@ -323,7 +323,7 @@
     "status": "done",
     "date": "2026-10-13",
     "request": "서재 주인이 운영하는 편집실의 한국어 문장 지침을 도서 검수에 강하게 쓰도록 구성",
-    "source": "https://ljd6805.github.io/mail-reports/team/korean-writing-guidelines.html (v1.1, ljd6805/mail-reports 커밋 4737628)",
+    "source": "https://ljd6805.github.io/mail-reports/team/korean-writing-guidelines.html (v1.3, ljd6805/mail-reports 커밋 645a55a; 처음 들여온 것은 v1.1 커밋 4737628)",
     "done": [
       "docs/11-korean-writing.html: 지침 K1~K6, 비교 사례 20개 요약, 역할, 기록 형식, 검사",
       "다온 G4 메모: 지침 대조표(K1~K6)와 행마다 data-guideline, team_gates.py가 2026-10-13 이후 G4를 검사(개정 회차는 태그된 메모만)",
@@ -335,7 +335,20 @@
       "정민",
       "한결"
     ],
-    "next": "기존 공개 도서 적용은 korean_style_pass에서 진행 중"
+    "next": "기존 공개 도서 적용은 korean_style_pass에서 진행 중",
+    "v1_3": {
+      "status": "done",
+      "date": "2026-10-13",
+      "request": "서재 주인: 지침 v1.3으로 서가 지침도 갱신",
+      "done": [
+        "docs/11: K1 본문 밖 글자, K3 제안과 효과 검증, K4 문단 연결, K6 제목·그림 설명 대조, K7은 원본 지침 7과 서재 덧붙임을 합침, 공통 질문 Q1~Q4, 변경 이력",
+        "team_gates.py: 2026-10-14 이후 G4 대조표에 Q1~Q4 행",
+        "fact_review.py: 2026-10-14 이후 검수 회차에 titles 항목",
+        "다온·나래·준서·유진·정민·소율 페르소나, AGENTS.md, docs/10, 양식 두 개, 단위 테스트 2개"
+      ],
+      "existing_books": "alt·aria-label·figcaption 훑어봄, 분명한 위반 없음, 다시 검수하지 않음",
+      "next": "다음 문체 개정 때 그림 설명·대체 글을 K1·K6으로 함께 읽기; 금융 5권은 v1.3을 따름"
+    }
   },
   "korean_style_pass": {
     "status": "done",
