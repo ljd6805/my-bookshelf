@@ -1715,7 +1715,7 @@
           "url": "books/aie-autonomy/#chapters"
         },
         {
-          "title": "01 · 한 번 답하기에서 밤새 일하기로",
+          "title": "01 · 긴 실행에서 단계별 실패 확률이 곱해지는 계산",
           "url": "books/aie-autonomy/#horizon"
         },
         {
@@ -3905,14 +3905,14 @@
     "books/aie-agents/#gates": "10 · 완료 보고를 검증 게이트와 리뷰어로 확인하기",
     "books/aie-agents/#frame": "11 · 만들기 전에 결과를 정하고 위험한 가정 찾기",
     "books/aie-agents/#final": "마지막 · 가장 작은 조각을 고르고 파일럿 결과 판정하기",
-    "books/aie-autonomy/#horizon": "01 · 한 번 답하기에서 밤새 일하기로",
+    "books/aie-autonomy/#horizon": "01 · 긴 실행에서 단계별 실패 확률이 곱해지는 계산",
     "books/aie-autonomy/#star": "02 · 맞힌 풀이만 남겨서 배우기",
     "books/aie-autonomy/#evolve": "03 · 평가기가 재는 것만 키우는 진화 고리",
     "books/aie-autonomy/#research": "04 · 연구 전체를 에이전트에게 맡기면",
     "books/aie-autonomy/#bounded": "05 · 자기 개선 고리에 네 관문 세우기",
     "books/aie-autonomy/#permission": "06 · 코딩 에이전트의 뼈대와 권한 모드",
     "books/aie-autonomy/#browser": "07 · 읽은 글이 명령이 될 때",
-    "books/aie-autonomy/#durable": "08 · 끊긴 실행을 이어 가고, 같은 행동은 한 번만",
+    "books/aie-autonomy/#durable": "08 · 끊긴 실행을 이어 가고, 같은 행동은 한 번만 하기",
     "books/aie-autonomy/#budget": "09 · 비용 상한과 멈춤 장치",
     "books/aie-autonomy/#guard": "10 · 원칙의 우선순위와 입출력 분류기",
     "books/aie-autonomy/#policy": "11 · 연구소 확장 정책과 외부 평가",

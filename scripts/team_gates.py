@@ -214,7 +214,7 @@ def style_pass_errors(doc, tagged, anchors):
     errors = []
     missing = sorted(scope - doc.style)
     if missing:
-        errors.append('style pass needs a K1~K6 memo per chapter: missing ' + ', '.join(missing))
+        errors.append('style pass needs a K1~K7 memo per chapter: missing ' + ', '.join(missing))
     untagged = sorted({memo for memo, codes in doc.memo_rows
                        if memo in scope and (not codes or any(c not in MEMO_CODES for c in codes))})
     if untagged:
