@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="지수와 ETF의 사실 표, 오해 목록, 기준값, 교과과정 비교 자료, 확인하지 못한 것, 출처 목록.">
+<title>조사 노트 · 지수와 ETF</title>
+<link rel="stylesheet" href="../../../assets/project-docs.css">
+<style>
+  table{border-collapse:collapse;width:100%;margin:12px 0 24px}
+  th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}
+  .ok{font-weight:600}
+  .num{font-family:var(--font-mono,monospace)}
+  .wrap{overflow-x:auto}
+  code{font-family:var(--font-mono,monospace)}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">지수와 ETF · 제작 문서</a><span>책 본문은 G4에서 만듭니다</span></header>
+<main style="max-width:1100px;margin:auto;padding:32px 16px">
+<p><a href="index.html">제작 문서로 돌아가기</a></p>
+<h1>조사 노트 · 지수와 ETF</h1>
+
+<section id="intro">
+<h2>이 노트에 대하여</h2>
+<p>지식조사팀장 은재가 G2 목차(<a href="index.html#curriculum">제작 문서 2절</a>)를 받아 정리했습니다. 확인일(연 날)은 모두 <b>2026-10-13</b>입니다. 범위는 2026년 10월 현재 한국 거래소에 상장된 지수·ETF에 관한 규칙과 정의입니다: 코스피·코스피200의 계산과 구성, ETF의 설정·환매, NAV·iNAV·괴리율, 유동성공급자(LP), 추적 오차와 비용, 분배금, 레버리지·인버스 ETF의 구조와 거래 요건, 합성 ETF와 ETN, ETF 호가단위와 가격제한폭, ETF 과세 유형의 요약.</p>
+<p>출처 등급은 앞선 권의 조사 노트와 같습니다. <b>공식 원문 확인</b>은 거래소·감독기관·지수 산출 기관의 글이나 문서를 직접 읽은 경우, <b>보도로 확인</b>은 기사·운용사·증권사·은행 안내처럼 2차 자료로만 확인한 경우, <b>확인 못함</b>은 원문을 읽지 못했거나 자료끼리 어긋나 판단을 미룬 경우입니다. 기준값은 <b>계산으로 확인</b>입니다. 한국거래소가 만든 문서를 증권사 서버의 사본으로 읽은 경우는 “공식 문서(사본)”라고 따로 적었습니다.</p>
+<p><b>열리지 않은 곳.</b> 한국거래소 지수 누리집(index.krx.co.kr), 재정경제부 시사경제용어사전(mofe.go.kr), 국가지표체계(index.go.kr), 삼성자산운용 ETF 안내 일부(samsungfund.com), KB자산운용 안내(kbam.co.kr)는 내용 가져오기 도구가 robots 제한으로 거부했습니다. 한국거래소 규정포털의 ETF 쪽(발행제도·매매절차·LP제도, regulation.krx.co.kr/…/RGL030601xx)과 정보데이터 쪽 ETF 안내(open.krx.co.kr의 시장구조·합성 ETF·용어사전)는 열렸지만 메뉴만 보이고 본문이 없었습니다(본문을 스크립트로 불러오는 것으로 보임). 같은 규정포털의 호가가격단위·가격제한폭·매매수량단위 해설 쪽은 본문이 보였습니다. 명령줄(curl)로 거래소에 연결하는 시도는 프록시가 거부했습니다. 그래서 LP 의무·괴리율 공시 기준·iNAV 공표 주기·레버리지 요건·분배금 기준일은 모두 보도와 안내로만 확인했습니다.</p>
+<p><b>시점에 민감한 항목</b>에는 ⏱를 붙였습니다. 2026년에는 괴리율 공시가 급증한 3월, 단일종목 레버리지 상품이 허용된 5월, 그 요건을 강화한 7~8월, LP의 종가 괴리율 관리 기준이 바뀐 8월 19일, 거래소 애프터마켓이 열린 9월 14일이 있었습니다. 사실 표의 “장” 칸은 그 행을 쓰는 장의 ID(index, weight, creation, nav, cost, leverage, assets, tax, choose, final)입니다. “원문이 말하는 것” 칸은 열어 본 쪽이 실제로 적은 내용을 옮긴 것이고, 따옴표 안은 원문 그대로입니다. 참고한 기사·안내는 사실 확인에만 썼고, 책의 문장과 예시는 구조만 참고해 새로 씁니다. 이 책은 특정 ETF·운용사·증권사를 권하지 않습니다.</p>
+</section>
+
+<section id="facts">
+<h2>사실 표</h2>
+<h3 id="facts-index">지수의 계산과 구성</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>1-1</td><td>index · weight</td><td>코스피200의 기준시점과 계산</td><td>[S4] 9.1절: “비교시점의 시가총액을 기준시점의 시가총액으로 나눈 후 기준지수를 곱하여 산출하며, 기준시점은 1990년 1월 3일, 기준지수는 100으로 합니다.” 9.2절: “KOSPI 200 지수는 유동주식수로 가중하여 산출합니다.” 연혁: 2007년 “비유동주식을 전부 지수산출에서 제외”. [S5]도 1990-01-03 = 100, 2007년 유동주식 가중 도입을 적음.</td><td>방법론 2020년 12월판</td><td>[S4] [S5] · 2026-10-13</td><td class="ok">공식 문서(사본)로 확인</td></tr>
+<tr><td>1-2</td><td>index</td><td>코스피200의 종목 선정</td><td>[S4] 6.2절: 심사 대상 종목을 “글로벌 산업분류(GICS)를 참고하여 다음 10개 산업군으로 분류합니다.” 6.4.1절: 산업군마다 일평균 시가총액 순으로 “누적시가총액이 처음으로 해당 산업군 전체시가총액의 85%에 해당하는 종목까지 선정”하고, 거래대금 순위가 산업군 상위 85% 밖이면 제외. 6.1.1절: 유동주식비율 10% 미만 종목 제외. 6.3.2절: 심사 기간은 기준일 전 최근 6개월. 200종목에 못 미치거나 넘을 때의 조정 규칙(6.4.2절). 8.2절: 신규상장 종목이 유가증권시장 보통주 시가총액 상위 50위 안이면 상장 뒤 15매매거래일 평균으로 정기변경 전에 편입할 수 있음.</td><td>방법론 2020년 12월판</td><td>[S4] · 2026-10-13</td><td class="ok">공식 문서(사본)로 확인. 2021년 이후 개정 여부는 확인 못함</td></tr>
+<tr><td>1-3 ⏱</td><td>index</td><td>코스피200 정기변경</td><td>[S4] 7.1절: “매년 2회 정기적으로 구성종목을 변경하며”, “정기변경일은 KOSPI 200 선물시장 6월, 12월 결제월 최종거래일의 다음 매매거래일입니다.” [S8] 2026-05-22 기사: “코스피 200은 4종목 … 교체된다”, “구성종목 변경은 다음달 12일부터 반영된다”, “한국거래소는 매년 6월과 12월 정기적으로 대표 지수 구성종목 정기변경을 진행한다.” 정기변경 뒤 코스피200 구성종목 시가총액이 유가증권시장 전체의 94.9%.</td><td>2026년 6월 정기변경</td><td>[S4] [S8] · 2026-10-13</td><td class="ok">공식 문서(사본)와 보도가 같음</td></tr>
+<tr><td>1-4</td><td>index · weight</td><td>코스피200의 비중 상한(30% CAP)</td><td>[S4] 연혁: 2019-06-14 “30% CAP 도입”, 2020-04-27 “30% CAP 폐지”. 2020년 12월판 문서에는 현재 적용되는 상한 규칙이 없음.</td><td>2020-04-27 폐지</td><td>[S4] · 2026-10-13</td><td>공식 문서(사본)로 확인. 2021년 이후 다시 도입되었는지는 확인 못함(검색에서 찾지 못함)</td></tr>
+<tr><td>1-5</td><td>index</td><td>코스피의 기준시점과 계산</td><td>[S6] “KOSPI was introduced in 1983 with the base value of 100 as of 4 January 1980.” 시가총액 방식, “Current index = Current total market cap of constituents × 100 / Base Market Capitalization.” 구성은 유가증권시장의 모든 보통주. [S7] “1980년 1월 4일의 시가총액을 기준시점(기준지수 100)으로 삼아 현재의 지수를 산출한다.”(2026-07-14 게재)</td><td>현행</td><td>[S6] [S7] · 2026-10-13</td><td>보도로 확인(백과사전·투자 정보 글 두 곳). 한국거래소 원문 미열람. 코스피에 유동주식 가중이 적용되는지는 두 출처 모두 말하지 않아 확인 못함</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-structure">ETF의 구조: 설정·환매와 분배금</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>2-1</td><td>creation · nav</td><td>설정·환매, AP, 설정단위(CU)</td><td>[S18] “ETF의 설정/환매는 사전에 정한 설정단위 (CU, Creation Unit)에 맞추어 이루어지게 되는데”, 기관투자자는 “지정참가회사(AP)로 지정된 금융투자업자를 통해 ETF를 직접 설정/환매”. [S36] AP는 대개 큰 증권사이고, 큰 단위(“e.g., 50,000 ETF shares”)로 설정·환매하며, 설정은 정해진 증권 바구니와 현금을 ETF에 넣는 것이고 “The redemption process is the reverse of the creation process.”</td><td>현행</td><td>[S18] [S36] · 2026-10-13</td><td>보도로 확인(운용사 안내) + 미국 감독기관 원문(미국 제도). 한국거래소 발행제도 본문은 열리지 않음. 한국 ETF의 실제 CU 크기는 상품마다 다르다고 보고 책의 10만 좌는 가정으로 표시</td></tr>
+<tr><td>2-2</td><td>creation · nav</td><td>NAV 공표</td><td>[S9] NAV는 “거래일 다음 날 오전에 한국거래소를 통해 공시됩니다.” 같은 쪽 FAQ에는 “매일 저녁 장 마감 이후 1일 1회”라는 설명도 있음.</td><td>2025-05-12 게재</td><td>[S9] · 2026-10-13</td><td>보도로 확인(은행 안내). 같은 쪽 안에서 공표 시점 표현이 엇갈려 “하루 한 번”까지만 씀</td></tr>
+<tr><td>2-3 ⏱</td><td>creation</td><td>분배금 지급 기준일</td><td>[S19] “주식형 ETF의 경우는 1, 4, 7, 10월 그리고 12월의 마지막 영업일이 ‘분배금 지급기준일’이고”, 대부분의 다른 ETF는 12월 마지막 영업일, 분배 재원이 부족하면 지급하지 않을 수 있음. [S26] 한 리츠 ETF가 2024-01-30부터 지급 기준일을 “매 1월, 4월, 7월, 10월 마지막 영업일”에서 “매월 마지막 영업일”로 바꾼 공시(월 분배 상품). [S27] 2024년 12월 기사: 31일 기준일 분배금을 받으려면 26일까지 보유하거나 사야 하고 27일 이후 매수분은 받지 못하며, 분배금은 1월 2일 지급.</td><td>현행(상품마다 다름)</td><td>[S19] [S26] [S27] · 2026-10-13</td><td>보도로 확인. 책은 “상품마다 집합투자규약이 정한다”로 쓰고 주식형 분기 기준은 운용사 안내로 표시</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-nav">NAV·iNAV·괴리율과 LP</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>3-1</td><td>nav · final</td><td>괴리율의 정의와 식</td><td>[S9] 괴리율은 “ETF의 시장가격이 이론적인 가치인 iNAV(실시간 추정 순자산가치)와 얼마나 차이가 나는지를 나타내는 비율”, 예: “iNAV가 10,000원인 ETF가 시장에서 10,200원에 거래되고 있다면 괴리율은 +2%”. [S18] 상장폐지 사유 설명에 “(ETF 종가 - 순자산가치)/순자산가치가 3%를 초과한 일자”. [S29] 괴리율은 “시장가격과 내재가치(ETF는 순자산가치, ETN은 지표가치)의 차이”.</td><td>현행</td><td>[S9] [S18] [S29] · 2026-10-13</td><td>보도로 확인. 식 (시장가 − NAV) ÷ NAV × 100은 [S9]의 예와 [S18]의 식이 같음. [S18]의 예시 표는 “괴리율(C/B)”로 적어 분모가 시장가로 읽힐 여지가 있어, 책은 [S18] 본문 식을 따름</td></tr>
+<tr><td>3-2 ⏱</td><td>nav · final</td><td>괴리율 공시 기준: 국내 1%, 해외 2%</td><td>[S9] “국내 자산에 투자하는 ETF는 ±1%를, 해외 자산에 투자하는 ETF는 ±2%를 초과하는 괴리율이 발생할 때 그 사실을 공시하도록 규정하고 있습니다.” [S10] 2026-03-10: “국내 자산 ETF의 괴리율 공시는 1%를 초과하면, 해외 투자는 2%를 넘으면 이뤄진다”, 집계 출처는 “한국거래소 전자공시시스템(KIND)”. [S12] 2026-07-13: “국내형 ETF·ETN은 괴리율이 1%를 넘길 경우, 해외형은 2% 초과시 공시해야 한다.” [S13] 2026-09-07에도 같은 기준.</td><td>2026-09-07 보도까지 같은 기준</td><td>[S9] [S10] [S12] [S13] · 2026-10-13</td><td>보도로 확인(네 곳이 같음). 근거 규정 원문과, 판정이 종가 기준인지 장중 기준인지는 확인 못함</td></tr>
+<tr><td>3-3 ⏱</td><td>nav · final</td><td>LP의 종가 괴리율 관리 기준 변경</td><td>[S14] 2026-07-16: “유동성공급자(LP)의 종가 괴리율 관리 기준은 국내 기초자산 상품의 경우 현행 3%에서 2%로, 해외 기초자산 상품은 6%에서 5%로 낮아진다.” [S13] 2026-09-07: “지난달 19일부터 ETF와 ETN에 대한 괴리율 관리의무를 기존 국내 3%·해외 6%에서 국내 2%·해외 5%로 강화한 바 있다.” 강화 뒤 괴리율 공시가 일평균 49건에서 29건으로 줄었다고 씀. [S11] 2026-06-09: 괴리율 의무 범위(당시 국내 3%, 해외 6%)의 두 배에 이르면 투자유의종목으로 지정될 수 있다고 씀.</td><td>2026-08-19부터</td><td>[S11] [S13] [S14] · 2026-10-13</td><td>보도로 확인(값은 두 곳이 같음. 시행일 2026-08-19는 [S13] 한 곳만 적고 [S14]에는 이 기준의 시행일이 없음, G6 검수에서 바로잡음). 투자유의종목 지정 기준이 새 기준(2%·5%)의 두 배로 바뀌었는지는 확인 못함</td></tr>
+<tr><td>3-4 ⏱</td><td>nav · final</td><td>LP의 호가 의무와 면제 시간</td><td>[S18] “LP는 매수와 매도 양쪽 방향으로 최소 100주(좌) 이상씩 호가를 제출해야 하는데”, “통상 신고스프레드 비율은 1% 이내이며”, “오전 동시호가 시간(08:00~09:00), 증권시장 개시 후 5분간(09:00~09:05) 및 오후 동시호가 시간(15:20~15:30) 동안에는 LP의 호가제시 의무가 면제”. [S31] 2023-12-28: LP는 “공정가치와 매매호가간 차이인 ‘호가 스프레드’가 0.5~1%를 초과할 시 5분 이내 호가를 제출할 의무를 지닌다.” [S11] 2026-06-09: “동시호가 접수 시간대에는 LP의 호가 제시 의무가 면제되는데”, 장 시작 전 08:30~09:00, 09:00~09:05, “장 마감 직전(오후 3시20분~3시30분)”. [S13] “호가 제출 의무가 없어 괴리율이 치솟는 장 마감 동시호가 시간”. [S32] 2026-10-06: “신고한 기준보다 스프레드가 벌어진 상태에서 필요한 호가를 제출하지 않으면 의무 위반”, 한 단일종목 레버리지 ETF의 2026-08-03 호가 의무 이행률 67.53%. [S29] LP는 “정규시장 매매거래시간 중 유동성공급호가 제출”, “예외적으로 유동성공급호가를 제출하지 아니할 수 있는 시간대*등”이 있고, 각주에 “시가결정(단일가매매 방식)을 위한 호가 접수시간(08:30 ~ 09:00)”, “정규시장 개시 후 5분간(09:00 ~ 09:05)”, “종가결정(단일가매매 방식)을 위한 호가 접수시간(15:20 ~ 15:30)”을 예로 듦(끝에 “등”).</td><td>현행(2026-10-06 보도까지)</td><td>[S11] [S13] [S18] [S29] [S31] [S32] · 2026-10-13</td><td>보도로 확인. 장 마감 단일가(15:20~15:30) 면제는 네 곳이 같음. 장 시작 전 면제 시작 시각은 [S11]·[S29] 두 곳이 08:30, [S18] 한 곳이 08:00으로 어긋나 확인 못함(08:30 쪽이 두 곳이지만 한국거래소 원문을 열지 못해 정하지 않음). 스프레드 비율은 “통상 1% 이내”, “0.5~1%”로 상품별 신고값이라 책은 숫자 하나로 단정하지 않음. 한국거래소 LP 규정 본문 미열람</td></tr>
+<tr><td>3-5</td><td>nav · assets</td><td>iNAV와 공표 주기</td><td>[S21] 2025-03-26: iNAV는 “장 중 10초마다 업데이트되며”, LP가 “별도로 지수를 받아 자체적으로 iNAV를 산출하기 때문”. [S20] 2026-04-14: iNAV는 장중 자산 가치 변화를 “실시간으로 보여주는 지표”, 거래소가 프리·애프터마켓에서는 “iNAV를 따로 산출하지 않는 방향으로 논의”, LP는 정규장에서도 “자체 산출한 프락시 iNAV”로 호가를 냄(G6 검수에서 원문 문장으로 고침). [S9] iNAV는 거래 시간 중 실시간으로 추정한 이론 가치.</td><td>현행</td><td>[S9] [S20] [S21] · 2026-10-13</td><td>보도로 확인. “10초”는 기사 한 곳뿐이라 책은 “10초마다 갱신된다는 보도”로 씀. 누가 공식 iNAV를 산출·공표하는지(거래소·산출 기관·LP)는 기사끼리 표현이 달라 확인 못함</td></tr>
+<tr><td>3-6</td><td>nav · final</td><td>장 마감 단일가 시간과 ETF 거래 시간</td><td>4권 조사 노트: 정규시장 09:00~15:30, 장 마감 전 15:20~15:30 단일가. 거래소 애프터마켓(2026-09-14 개설) 대상에서 ETF·ETN 제외. [S20]은 프리·애프터마켓 시행이 9월 14일로 연기되었다고 씀.</td><td>2026-09-14 이후</td><td>4권 조사 노트 1-5, [S20] · 2026-10-13</td><td>4권 노트의 공식 원문 확인 행을 그대로 씀(이번 세션에서 다시 열지 않음)</td></tr>
+<tr><td>3-7</td><td>nav · choose</td><td>ETF 호가가격단위와 매매수량단위</td><td>[S1] ETF·ETN: “2,000원 미만 | 1원”, “2,000원 이상 | 5원”. [S3] “상장지수집합투자기구 집합투자증권(ETF): 1주”, 시간외시장도 1주.</td><td>현행</td><td>[S1] [S3] · 2026-10-13</td><td class="ok">공식 원문 확인. 4권의 “2천 원 미만 1원, 이상 5원”과 같음</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-cost">추적 오차·추적 괴리와 비용</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>4-1</td><td>cost</td><td>추적 오차와 추적 괴리의 정의</td><td>[S23] “Tracking difference measures an ETF’s performance against its benchmark index over a specific period of time”, 계산은 “Subtract the index's total return from the ETF's total return”, “The formal definition of tracking error is the annualised standard deviation of tracking difference”, “ETF providers define tracking error in different ways.” [S24] tracking error는 얼마나 꾸준히 따라가는지, tracking difference는 지수보다 덜하거나 더한 성과. [S9] 추적오차는 “기초지수의 수익률과 ETF의 NAV(순자산가치) 수익률 간의 차이”(한국 안내는 기간 차이를 추적오차라고 부름). [S25] 2022-06-27: 추적오차는 “0에 가까울수록 좋은 것으로 평가된다.”</td><td>현행</td><td>[S9] [S23] [S24] [S25] · 2026-10-13</td><td>보도로 확인(운용사·분석 기관·은행). 한국어 용어 “추적 괴리(율)”를 기간 수익률 차이(tracking difference)로, “추적 오차(율)”를 그 흔들림(tracking error)으로 쓰는 것은 이 책의 정의. 한국 안내가 “추적오차”를 기간 차이로도 쓰므로 책에서 두 용법을 함께 밝힘. 한국거래소의 공식 용어 정의는 확인 못함</td></tr>
+<tr><td>4-2</td><td>cost · choose</td><td>총보수·TER·매매중개수수료·총비용</td><td>[S22] 2025-03-26: “일반적으로 운용보수, 신탁보수, 사무보수, 지정참가보수라는 4대 보수를 ETF 총보수로 통칭”, 기타비용은 “회계감사비용, 예탁결제비용, 지수사용료 등”, “여기에 기타비용이라는 것을 더한 것이 TER이라고 하는 합성총보수”, 매매중개수수료율은 ETF가 자산을 사고팔 때 드는 비용, “합성총보수에 매매중개수수료율이 더해져서 최종적으로 투자자들이 지불하는 총비용”. 같은 기사는 “실비용”이라는 말을 정의 없이 씀.</td><td>2025-03-26 게재</td><td>[S22] · 2026-10-13</td><td>보도로 확인. 금융투자협회 공시 항목명(“실부담비용” 등)과 공시 위치는 확인 못함</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-leverage">레버리지·인버스 ETF</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>5-1</td><td>leverage</td><td>일일 배수 목표와 재조정</td><td>[S19] “레버리지 ETF는 하루 단위로 기초지수 수익률의 2배에 상응하는 성과를 목표로 운용됩니다”, “매일매일 주가변동에 따라 주식비중을 조정해 주어야 하기 때문에 거래비용이 많이 발생”, “레버리지 ETF의 누적수익률은 장기적으로 기초지수의 2배 수익률과 크게 다를 수 있습니다”, “레버리지 ETF는 그 구조상 주가지수 선물과 같은 파생상품을 적극적으로 투자하게 됩니다.” 8권 조사 노트도 일일 재조정과 값의 깎임을 다룸.</td><td>현행</td><td>[S19] · 2026-10-13, 8권 조사 노트</td><td>보도로 확인(운용사 안내). 재조정 매매 금액의 식(목표 노출 − 하루 뒤 노출)은 계산으로 확인(V-6)</td></tr>
+<tr><td>5-2</td><td>leverage</td><td>레버리지 ETF의 가격제한폭</td><td>[S2] “기준가격 대비 상하 30%”, “기초자산 가격변화의 일정배율(음의 배율도 포함)로 연동하는 레버리지ETF는 그 배율만큼 가격제한폭을 확대하여 적용”, 예: “레버리지 2배인 ETF 가격제한폭 : 60%”. 같은 쪽에 레버리지 ETN 문장은 없음.</td><td>현행</td><td>[S2] · 2026-10-13</td><td class="ok">공식 원문 확인(ETF). ETN은 확인 못함</td></tr>
+<tr><td>5-3 ⏱</td><td>leverage</td><td>지수형 레버리지 ETF·ETN 거래 요건(2020년 제도)</td><td>[S17] 2020-09-16: “계좌에 예탁금을 1천만원 이상 보유해야 하고”, 예탁금은 “계좌에 보유한 현금 및 주식 평가금”, 조건은 “투자 경험, 신용상태, 투자목적 등에 따라” 다를 수 있음, 금융투자교육원 “온라인 레버리지 ETF, ETN 사전교육”(약 1시간), 2020-09-07 시행, 기존 투자자는 2021-01-03까지 유예. [S16] 2026-05-20: “국내 상장 레버리지 ETF에는 기본예탁금 규제가 적용됐지만”.</td><td>2020-09-07 시행</td><td>[S16] [S17] · 2026-10-13</td><td>보도로 확인(증권사 안내). 2026년 변경 뒤에도 지수형 상품의 기본예탁금이 1,000만 원인지는 확인 못함(8권 노트도 같은 빈칸)</td></tr>
+<tr><td>5-4 ⏱</td><td>leverage</td><td>해외 상장 레버리지 ETP 기본예탁금(2026년 5월)</td><td>[S16] 2026-05-20: “해외 레버리지 ETF·ETN를 처음 거래하는 투자자는 기본예탁금 1000만원을 충족해야 한다”, 기존 거래 경험자는 제외, 원화·대용증권·외화 예수금 인정, “각 국가별 매매일 기준으로 이달 22일부터 적용”, 근거는 “지난달 10일 금융투자협회의 금융투자회사의 영업 및 업무에 관한 규정이 개정된 데 따른 것”, 배경은 금융위원회의 2026-01-30 “국내·해외 상장 ETF 간 비대칭 규제 해소 방안”. 단일종목 레버리지·인버스 ETP 심화 사전교육도 22일부터.</td><td>2026-05-22</td><td>[S16] · 2026-10-13</td><td>보도로 확인(기사 한 곳, 규정 원문 미열람). 8권 조사 노트 2-7과 같은 내용</td></tr>
+<tr><td>5-5 ⏱</td><td>leverage</td><td>단일종목 레버리지 상품 요건 강화(2026년 7~8월)</td><td>[S14] 2026-07-16: 국내외 단일종목 레버리지 ETF·ETN을 새로 사거나 더 사려면 “기본예탁금 3000만원”, 교육 “현재 2시간에서 3시간으로”, 60점 미만이면 다시 학습, 국내 단일종목 상품 거래 단위는 “오는 11월 현행 1좌에서 20좌로 확대될 예정”(잠정), 기본예탁금 상향은 “다음 달 5일경부터”, 대용증권 불인정은 “내달 19일경부터”. [S15] 같은 날: 기본예탁금 “현행 1000만 원에서 3000만 원으로”, “오직 현금만 인정”, “다음 달 5일부터”, 산정 방식 개편은 “다음 달 19일부터”.</td><td>2026-08-05·08-19, 거래 단위는 2026-11 예정</td><td>[S14] [S15] · 2026-10-13</td><td>보도로 확인(두 곳이 같음). 실제 시행 여부와 20좌 시행은 확인 못함(G6 재확인). 8권 노트 2-8은 다른 기사의 “31일 조기 시행”과 어긋난다고 적음</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-assets">합성 ETF와 ETN</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>6-1</td><td>assets</td><td>합성 ETF와 거래상대방 위험</td><td>[S28] 2023-11-06: “합성ETF의 가장 대표적인 위험요인은 거래상대방 위험(counter-party risk)이다”, “스왑 계약의 거래상대방인 증권사의 재정 상황이 악화되어 합성ETF가 약속된 수익률을 받지 못할 위험”. 운용사는 담보를 받고 담보 내역을 공개하며, 여러 거래상대방과 계약하는 추세라고 설명. [S19] “합성복제는 수익률 스왑(Swap)이라는 장외파생상품을 적극적으로 활용하며”. [S18] 합성 ETF 상장폐지 사유에 거래상대방의 장외파생상품 인가 취소 등.</td><td>2023-11-06 보고서</td><td>[S18] [S19] [S28] · 2026-10-13</td><td>보도로 확인(연구기관 보고서·운용사 안내). 한국거래소 “합성ETF의 이해” 본문은 열리지 않음</td></tr>
+<tr><td>6-2</td><td>assets</td><td>ETN과 발행사 신용위험</td><td>[S29] 2024-01-31 심의: “상장지수증권은 증권회사의 신용으로 발행하며 만기가 존재합니다”, 비교표에 ETN은 “발행자의 신용위험 노출”, ETF는 만기 없음. [S30] “An ETN is an unsecured debt instrument”, “ETNs are unsecured debt, which introduces credit risk”, “ETNs don't hold the securities they are tracking.” 4권 조사 노트 14-3도 ETN의 발행사 신용위험을 적음.</td><td>현행</td><td>[S29] [S30] · 2026-10-13, 4권 조사 노트 14-3</td><td>보도로 확인(증권사 위험 고지·미국 안내). [S29] 비교표의 “ETF: 한국거래소가 계약이행 보증” 문구는 매매 결제 보증을 뜻하는지 상품의 신용 보증을 뜻하는지 분명하지 않아 책에 쓰지 않음</td></tr>
+<tr><td>6-3</td><td>assets · final</td><td>해외 기초자산 ETF의 iNAV</td><td>[S20] “현재 정규장에서도 증권사 LP들은 iNAV를 참고 자료로 확인하고, 실제 호가 제출은 자체 산출한 프락시 iNAV를 사용하고 있다”(G6 검수에서 원문 확인). [S10] 지수 변동이 클 때 LP 가격 조정이 시장 속도를 따라가지 못했다고 전함. 해외 지수 시장이 닫힌 시간에 iNAV를 환율·선물로 추정한다는 설명을 직접 적은 출처는 찾지 못함.</td><td>현행</td><td>[S10] [S20] · 2026-10-13</td><td>확인 못함(추정 방식). 책은 “환율과 해외 지수 선물로 추정한다고 놓은 이 책의 단순화”로 쓰고, 7장 iNAV 식을 “가정”으로 표시</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-tax">ETF 과세 요약(11권과 같은 출처)</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>장</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>7-1 ⏱</td><td>tax · choose</td><td>ETF 매도 거래세와 세 과세 유형</td><td>[S34] “ETF를 팔 때는 증권거래세가 부과되지 않아요”, 국내 주식형은 매매차익 비과세·분배금 15.4%, 나머지는 매매차익에 15.4%이며 “‘실제 매매한 가격 차이와 매매한 날의 과표기준가 차이 중 적은 액수’에 대해 세금”, 해외 상장 ETF는 22%·250만 원 공제(2024-03-06 갱신). [S33] 2026-08-21: “국내주식을 60% 이상 담고 있는 국내주식형 ETF는 일반계좌에서 매매차익이 비과세”, “채권, 원자재, 해외주식, 파생형 ETF의 경우 매매차익과 분배금 모두 배당소득세”, 해외 상장 ETF는 “250만원 초과분에 대해 양도소득세 22%”, “해외 상장 ETF는 ISA와 연금계좌에서 모두 거래할 수 없다.”</td><td>현행</td><td>[S33] [S34] · 2026-10-13, 11권 조사 노트 5-1~5-4</td><td>보도로 확인(11권과 같은 수준). [S33]은 “파생형”을 적을 뿐 2배 레버리지 ETF를 따로 말하지 않지만, [S34]는 국내 주식형을 뺀 나머지 ETF에 “채권형 ETF, 레버리지나 선물 ETF, 해외 지수를 추종하는 ETF 등이 모두 포함됩니다”라고 적어 누리200 2배를 15.4% 유형에 넣는 근거가 됨(G6 검수에서 원문 확인). 8장은 유형과 세율만 보이고 금액 계산은 11권 #etf로 보냄</td></tr>
+<tr><td>7-2 ⏱</td><td>tax</td><td>국내 상장 금 현물 ETF의 과세 유형(8장 L2)</td><td>[S33]의 규칙 “채권, 원자재, 해외주식, 파생형 ETF의 경우 매매차익과 분배금 모두 배당소득세”(11권이 쓴 규칙)에 금은 원자재로 들어갑니다. [S38] 2026-07-16: 국내 상장 금 ETF는 “매매차익에 배당소득세 15.4%, 금융소득종합과세 포함.”(현물형·선물형을 나누지 않음), KRX 금현물은 “매매차익 비과세: 양도소득세·배당소득세 모두 없습니다.” [S37] 2026-01-26: “ETF 운용보수와 매매차익에 대한 15.4%의 배당소득세가 발생한다”는 문장은 금 선물 ETF 문단에 붙어 있고, KRX 금시장은 “양도세와 배당소득세에 대한 비과세 혜택”. [S39] 2025-02-23: “국내 상장 ETF는 매도 시 발생하는 매매차익이 배당소득으로 과세된다.”, “실제 발생한 매매차익과 자산운용사에서 고시하는 과표기준가 증가분 중 적은 금액이 과세 대상으로, 15.4% 세율로 원천징수 된다.”(금 ETF를 다룬 세무 문답, 현물형·선물형을 나누지 않음). KRX 금시장 직접 매매는 ETF가 아니므로 8장에서 금 현물 ETF와 섞지 않습니다. 금 현물 ETF만 따로 다룬 글은 찾지 못했습니다.</td><td>현행</td><td>[S33] [S37] [S38] [S39] · 2026-10-13</td><td>보도·블로그로 확인(약함, [S39]를 더해 보도 두 곳과 블로그 하나). 11권 규칙과 일치해 L2 답 3개(누리 국채3년·금 현물 ETF·누리 해외100)로 씀. 국세청·법령 원문은 열지 못함, G6 재확인</td></tr>
+<tr><td>7-3</td><td>tax</td><td>과표기준가의 뜻(8장 공식 아래 설명)</td><td>[S34] (2024-03-06 갱신) “과표기준가란, 과세표준기준가격의 준말로, ETF 수익 중 과세 대상이 되는 금액만을 계산한 가격을 뜻해요.” 시장 가격과 “차이가 있습니다”, “해당 ETF 운용사 홈페이지에도 과표기준가를 게시하고 있고요.” 세금은 “‘실제 매매한 가격 차이와 매매한 날의 과표기준가 차이 중 적은 액수’”에 매긴다는 예(9,900원에 사서 10,500원에 팔면 실제 차익 600원, 과표기준가 차이 500원이면 500원에 과세).</td><td>현행(2024-03-06 갱신)</td><td>[S34] · 2026-10-13</td><td>증권 앱 안내 한 곳으로 확인(약함). 과표기준가를 계산하는 방법은 출처에 없어 확인 못함. 국세청·법령 원문 미열람</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="misconceptions">
+<h2>오해 목록</h2>
+<p>오해 수집가 태오가 장마다 처음 배우는 사람이 잘못 믿기 쉬운 것을 두 개씩 골랐습니다. 바른 설명은 사실 표의 행이나 아래 기준값에 기댑니다.</p>
+<div class="wrap"><table>
+<thead><tr><th>장</th><th>흔한 오해</th><th>바른 설명</th><th>근거</th></tr></thead>
+<tbody>
+<tr><td>index</td><td>지수는 구성 종목 주가의 평균이다.</td><td>코스피·코스피200은 시가총액(코스피200은 유동주식 기준)의 합을 기준시점의 합과 견준 비율이다. 주가가 높은 종목이 아니라 시가총액이 큰 종목이 지수를 많이 움직인다.</td><td>1-1, 1-5</td></tr>
+<tr><td>index</td><td>코스피200은 시가총액 상위 200종목을 그대로 고른다.</td><td>산업군별로 누적 시가총액 85%까지 고르고 거래대금 조건과 종목 수 조정을 거친다.</td><td>1-2</td></tr>
+<tr><td>weight</td><td>지수가 3% 올랐으면 담긴 종목도 대부분 3% 올랐다.</td><td>지수 수익률은 비중 × 수익률의 합이라, 큰 종목 하나가 많이 올라도 지수가 크게 오른다.</td><td>V-2</td></tr>
+<tr><td>weight</td><td>동일 가중 지수는 한 번 맞춰 두면 그대로 간다.</td><td>가격이 움직이면 비중이 다시 달라지므로 정해진 때마다 비중을 다시 맞춰야 한다.</td><td>V-2</td></tr>
+<tr><td>creation</td><td>ETF를 많이 사면 ETF 가격이 지수보다 오른다.</td><td>AP가 설정으로 좌수를 늘릴 수 있어 1좌당 NAV는 그대로이고, 시장가가 NAV보다 높아지면 설정·매도 차익이 생겨 차이가 줄어든다.</td><td>2-1, V-3</td></tr>
+<tr><td>creation</td><td>내가 ETF를 사면 운용사가 그 돈으로 주식을 산다.</td><td>개인은 거래소에서 다른 투자자(대개 LP)에게서 사고, 새 좌수는 AP의 설정으로만 생긴다.</td><td>2-1, [S36]</td></tr>
+<tr><td>nav</td><td>괴리율이 플러스면 인기가 많다는 좋은 신호다.</td><td>시장가가 NAV보다 비싸다는 뜻이고, 괴리가 사라지면 그만큼 잃는다.</td><td>3-1, V-8</td></tr>
+<tr><td>nav</td><td>LP는 하루 종일 호가를 내야 한다.</td><td>장 시작 전후와 장 마감 단일가(15:20~15:30)에는 호가 의무가 면제된다고 안내된다(보도 기준).</td><td>3-4</td></tr>
+<tr><td>cost</td><td>총보수가 비용의 전부다.</td><td>기타비용을 더한 TER, 매매중개수수료까지 더한 총비용이 있고, 추적 괴리에는 이 밖의 요인도 들어간다.</td><td>4-2</td></tr>
+<tr><td>cost</td><td>추적 오차가 작으면 지수와의 수익률 차이도 작다.</td><td>추적 오차는 하루 차이의 흔들림이고, 기간 수익률 차이(추적 괴리)는 흔들림 없이 꾸준히 클 수 있다.</td><td>4-1</td></tr>
+<tr><td>leverage</td><td>2배 ETF를 1년 들면 1년 지수 수익률의 2배가 된다.</td><td>하루 단위로 2배를 목표로 하고, 장기 누적 수익률은 2배와 크게 다를 수 있다.</td><td>5-1, 8권 #drag</td></tr>
+<tr><td>leverage</td><td>레버리지 ETF는 돈을 빌려 주식을 두 배로 산다.</td><td>주가지수 선물 같은 파생상품으로 노출을 만들고, 날마다 노출을 다시 맞춘다.</td><td>5-1</td></tr>
+<tr><td>assets</td><td>해외 지수 ETF의 iNAV도 국내 ETF처럼 실시간 지수로 계산된다.</td><td>해외 시장이 닫힌 시간에는 실시간 지수가 없어 추정값이 되고, 공시 기준도 2%로 다르다(보도 기준).</td><td>3-2, 6-3</td></tr>
+<tr><td>assets</td><td>ETN도 ETF처럼 자산을 따로 맡겨 둔다.</td><td>ETN은 증권사가 자기 신용으로 발행하고 만기가 있어 발행사 신용위험이 있다.</td><td>6-2</td></tr>
+<tr><td>tax</td><td>ETF는 모두 매매차익이 비과세다.</td><td>국내주식형만 비과세이고, 그 밖의 국내 상장 ETF는 차익에도 15.4%, 해외 상장 ETF는 양도소득세다(보도 기준).</td><td>7-1</td></tr>
+<tr><td>tax</td><td>ETF를 팔 때도 주식처럼 거래세가 붙는다.</td><td>ETF 매도에는 증권거래세가 없다(보도 기준).</td><td>7-1</td></tr>
+<tr><td>choose</td><td>보수가 가장 낮은 ETF가 언제나 비용이 가장 적다.</td><td>자주 사고팔면 스프레드 비용이 보수 차이보다 커질 수 있다.</td><td>V-7</td></tr>
+<tr><td>choose</td><td>같은 지수를 따라가면 어느 ETF든 결과가 같다.</td><td>총비용·추적 괴리·스프레드·괴리율이 달라 같은 지수에서도 결과가 갈린다.</td><td>4-1, 4-2, V-5</td></tr>
+<tr><td>final</td><td>15:25 화면의 가격에 반드시 체결된다.</td><td>15:20~15:30은 단일가 시간이라 화면은 예상 체결가이고, 15:30에 가격 하나로 체결된다.</td><td>3-6, 4권 #auction</td></tr>
+<tr><td>final</td><td>괴리율이 높으면 곧 더 오를 신호다.</td><td>괴리는 NAV와 시장가의 차이일 뿐이고, LP 호가가 돌아오거나 AP가 설정하면 줄어드는 쪽으로 움직일 수 있다.</td><td>3-3, 3-4</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="values">
+<h2>기준값</h2>
+<p>지식조사팀이 파이썬으로 계산한 값입니다(세션 임시 폴더의 스크립트, 책에는 넣지 않음). 모든 상품·회사·경로는 가상이고 값은 미리 정한 시나리오입니다. G3에서 js/math.js가 같은 값을 내는지 수아가 대조합니다.</p>
+<h3 id="values-index">V-1 세 종목 지수 (1장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>기준일 시가총액: 새벽전자 20,000원 × 1,000만 주, A사 50,000원 × 200만 주, B사 10,000원 × 1,000만 주</td><td class="num">2,000억 + 1,000억 + 1,000억 = 4,000억 원 → 100</td></tr>
+<tr><td>새벽전자 +10%</td><td class="num">4,200억 원 → 105.00</td></tr>
+<tr><td>L2: A사 +6%, B사 −20%</td><td class="num">3,860억 원 → 96.50</td></tr>
+<tr><td>확인: 4,400억 원</td><td class="num">110.00</td></tr>
+</tbody></table>
+<h3 id="values-weight">V-2 가중 방식별 지수 수익률 (2장, 유동비율 50%·80%·100% 가정)</h3>
+<table><thead><tr><th>하루 수익률(새벽·A·B)</th><th>시가총액 가중</th><th>유동시가총액 가중</th><th>동일 가중</th></tr></thead><tbody>
+<tr><td>+10%, −5%, 0%</td><td class="num">+3.75%</td><td class="num">+2.14%</td><td class="num">+1.67%</td></tr>
+<tr><td>L2: −8%, +4%, +2%</td><td class="num">−2.50%</td><td class="num">−1.00%</td><td class="num">−0.67%</td></tr>
+</tbody></table>
+<p>비중: 시가총액 50%·25%·25%, 유동시가총액 35.71%·28.57%·35.71%, 동일 33.33%씩.</p>
+<h3 id="values-creation">V-3 설정·환매와 NAV (3장, 설정단위 10만 좌는 가정)</h3>
+<table><thead><tr><th>입력</th><th>좌수</th><th>순자산</th><th>1좌당 NAV</th></tr></thead><tbody>
+<tr><td>본문: 3,000억 원·1,000만 좌에 3 CU 설정</td><td class="num">1,030만 좌</td><td class="num">3,090억 원</td><td class="num">30,000원</td></tr>
+<tr><td>L2: 1,500억 원·500만 좌에 4 CU 설정</td><td class="num">540만 좌</td><td class="num">1,620억 원</td><td class="num">30,000원</td></tr>
+</tbody></table>
+<h3 id="values-nav">V-4 괴리율 (4장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>지수 300.00 → 303.60(+1.2%), iNAV 30,360원, 시장가 30,400원</td><td class="num">+0.13% (0.1318%)</td></tr>
+<tr><td>호가 한 칸 5원 ÷ 30,000원</td><td class="num">0.0167%</td></tr>
+<tr><td>L2: 누리 해외100 NAV 12,000원, 종가 12,270원</td><td class="num">+2.25% (해외 공시 기준 2% 초과, LP 관리 기준 5% 미만, 보도 기준)</td></tr>
+<tr><td>확인: NAV 30,000원, 시장가 29,850원</td><td class="num">−0.50%</td></tr>
+</tbody></table>
+<h3 id="values-cost">V-5 총비용과 10년 뒤 금액 (5장, V = 원금 × ((1 + r)(1 − c))¹⁰, r = 5%)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>추적 괴리: 지수 +8.00%, NAV +7.80%</td><td class="num">−0.20%p</td></tr>
+<tr><td>누리200: 총보수 0.15% + 기타비용 0.03% = TER 0.18%, + 매매중개수수료 0.04% = 총비용 0.22%</td><td class="num">1,000만 원 → 15,934,116원</td></tr>
+<tr><td>가람200: 총비용 0.13%</td><td class="num">1,000만 원 → 16,078,424원</td></tr>
+<tr><td>본문 예: 1,000만 원·10년 차이</td><td class="num">144,308원</td></tr>
+<tr><td>L2: 2,000만 원·20년, 누리200(0.22%) / 가람200(0.13%)</td><td class="num">50,779,213원 / 51,703,147원, 차이 923,933원(반올림 전 차이 923,933.20원; 반올림한 두 금액의 차는 923,934원)</td></tr>
+<tr><td>확인: 0.07% + 0.02% + 0.05%</td><td class="num">TER 0.09%, 총비용 0.14%</td></tr>
+</tbody></table>
+<h3 id="values-leverage">V-6 재조정 매매 (6장, 장 마감 뒤 목표 노출 = 배수 × 새 순자산)</h3>
+<table><thead><tr><th>입력</th><th>하루 뒤 노출</th><th>새 순자산</th><th>목표 노출</th><th>매매</th></tr></thead><tbody>
+<tr><td>2배, 순자산 100억, 지수 +10%</td><td class="num">220억</td><td class="num">120억</td><td class="num">240억</td><td class="num">20억 원 매수</td></tr>
+<tr><td>2배, 순자산 100억, 지수 −10%</td><td class="num">180억</td><td class="num">80억</td><td class="num">160억</td><td class="num">20억 원 매도</td></tr>
+<tr><td>L2: −1배, 순자산 100억, 지수 +5%</td><td class="num">매도 노출 105억</td><td class="num">95억</td><td class="num">매도 노출 95억</td><td class="num">10억 원 되삼(매도 노출 축소)</td></tr>
+<tr><td>확인: 2배, 순자산 50억, 지수 −4%</td><td class="num">96억</td><td class="num">46억</td><td class="num">92억</td><td class="num">4억 원 매도</td></tr>
+</tbody></table>
+<p>비용·차입 이자·추적 괴리는 넣지 않았습니다. 8권 #drag의 값(지수 +1.5%·−1.478%를 한 쌍으로 2배 상품 × 0.99956, 8권 마지막 과제 95.97)은 이 표와 따로 8권 계산을 그대로 인용하며, 6장 본문이 아니라 “8권을 먼저 읽었다면” 곁글에만 씁니다.</p>
+<h3 id="values-assets">V-7 해외 기초자산 iNAV 추정과 비교표 비용 (7·9장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>7장 본문: 전일 NAV 12,000원, 환율 +1%, 선물 0%</td><td class="num">12,120원</td></tr>
+<tr><td>7장 L2: 환율 −0.5%, 선물 +0.8%</td><td class="num">12,000 × 0.995 × 1.008 = 12,035.52 → 12,036원</td></tr>
+<tr><td>7장 확인: 환율 +2%</td><td class="num">12,240원</td></tr>
+<tr><td>9장: 600만 원 10년, r = 5%, 누리200(0.22%) / 가람200(0.13%)</td><td class="num">9,560,470원 / 9,647,055원, 차이 86,585원</td></tr>
+<tr><td>9장: 600만 원 한 번 왕복 스프레드(5원·30원 ÷ 30,000원)</td><td class="num">1,000원 / 6,000원</td></tr>
+<tr><td>9장 본문: 300만 원(100주) × 한 달 20번 왕복</td><td class="num">10,000원 / 60,000원</td></tr>
+<tr><td>9장 L2: 450만 원 ÷ 30,000원 = 150주 × 한 달 30번 왕복(5원·30원 × 150주 × 30)</td><td class="num">22,500원 / 135,000원</td></tr>
+</tbody></table>
+<h3 id="values-final">V-8 마지막 과제와 장별 작은 숫자</h3>
+<table><thead><tr><th>장</th><th>계산</th><th>값</th></tr></thead><tbody>
+<tr><td>final</td><td>누리200 예상 체결가 30,900원, iNAV 30,000원</td><td class="num">괴리율 +3.00%</td></tr>
+<tr><td>final</td><td>1,000만 원 ÷ 30,900원(1주 단위 버림)</td><td class="num">323주, 9,980,700원</td></tr>
+<tr><td>final</td><td>다음 거래일 NAV 30,000원으로 돌아오면(지수 그대로)</td><td class="num">9,690,000원, −290,700원, −2.91%(= 1 − 1/1.03)</td></tr>
+<tr><td>final L2</td><td>누리 해외100 12,300원 / iNAV 12,000원, 500만 원</td><td class="num">+2.50%, 406주 4,993,800원 → 4,872,000원, −121,800원</td></tr>
+<tr><td>tax L2</td><td>가람200·누리 국채3년·금 현물 ETF·누리 해외100·먼바다500 가운데 매매차익 15.4% 배당소득세 유형(7-1, 7-2)</td><td class="num">3개(국채3년·금 현물·해외100). 가람200 비과세, 먼바다500 양도소득세</td></tr>
+<tr><td>tax 확인</td><td>누리 해외100 / 먼바다500의 유형 차이</td><td class="num">상장 시장(국내 → 15.4% 배당소득, 해외 → 22% 양도소득)</td></tr>
+</tbody></table>
+</section>
+
+<section id="curriculum-sources">
+<h2>교과과정 비교에 쓴 자료</h2>
+<p>제작 문서의 비교 표(해원·가온)가 말한 자료 가운데 실제로 열어 본 것만 적습니다. 모두 2026-10-13에 열었습니다.</p>
+<ul>
+<li><b>LibreTexts 『Investment Fundamentals for College Students』(Reedley College) 11장 [S35]</b>: 절 목록은 What Are Investment Funds?, Mutual Funds, Exchange-Traded Funds (ETFs), Index Investing, Active vs. Passive Investing, Funds in Retirement Portfolios. 지수 펀드와 ETF는 지수와 같은 종목을 담는다고 쓰고, ETF의 장점으로 “Lower expense ratios in many cases”. 지수 계산, 추적 오차, 괴리, 설정·환매, 레버리지 ETF는 다루지 않음.</li>
+<li><b>SEC 「Updated Investor Bulletin: Exchange-Traded Funds」(2023-02-23) [S36]</b>: AP와 설정단위, 시장가와 NAV의 차이와 프리미엄, 차익거래, 투자설명서의 비용 확인, 고르기 전 확인할 것. 레버리지·인버스는 별도 안내로 연결하고 ETN은 범위 밖이라고 밝힘. 미국 제도 기준.</li>
+<li><b>미래에셋자산운용 TIGER ETF 아카데미 중급 [S19]·심화 [S18]</b>, <b>KB Think [S9]</b>, <b>한국거래소 KOSPI 200 방법론 [S4]</b>: 한국 운용사·은행·거래소 칸.</li>
+</ul>
+<p>요약하면, 열어 본 대학 교재는 ETF를 펀드의 한 종류로 장단점만 소개하고, 감독기관 안내는 설정·환매와 프리미엄을 설명하지만 계산은 하지 않으며, 한국 안내는 괴리율 기준과 LP 의무를 숫자로 적지만 지수 계산과 연결하지 않습니다. 이 책이 지수 계산 두 장으로 시작하고 괴리율을 대표 실험으로 삼는 근거입니다. 금융투자협회·금융투자교육원의 ETF 교육 자료, 한국 대학의 투자론 강의 계획서, Bodie·Kane·Marcus 『Investments』의 투자회사 장은 열지 못해 근거로 쓰지 않았습니다.</p>
+</section>
+
+<section id="unverified">
+<h2>확인하지 못한 것</h2>
+<ul>
+<li><b>한국거래소 ETF 규정 본문</b>(발행제도·매매절차·LP제도): 쪽은 열렸지만 본문이 보이지 않았습니다. LP 호가 의무의 정확한 조건(신고 스프레드 비율의 범위, 몇 분 안에 호가를 내야 하는지, 최소 수량), 의무 면제 시간의 장 시작 전 시각(08:00과 08:30이 자료마다 다름)은 보도·운용사 안내로만 적습니다.</li>
+<li>⏱ <b>괴리율 공시 기준의 근거 규정</b>과, 1%·2% 판정이 종가 기준인지 장중 기준인지.</li>
+<li>⏱ LP 종가 괴리율 관리 기준 변경(2026-08-19, 국내 2%·해외 5%) 뒤의 투자유의종목 지정 기준.</li>
+<li>iNAV를 공식으로 산출·공표하는 주체와 주기. “10초”는 기사 한 곳([S21])뿐입니다. 해외 기초자산 ETF의 iNAV를 한국 장중에 어떻게 추정하는지(환율·선물 사용 여부)를 직접 적은 출처를 찾지 못해, 7장 식은 이 책의 단순화로 표시합니다.</li>
+<li>코스피200 방법론의 2021년 이후 개정(비중 상한 재도입 여부 포함). 열어 본 문서는 2020년 12월판입니다. 한국거래소 지수 누리집은 robots 제한으로 열리지 않았습니다.</li>
+<li>코스피(종합주가지수)에 유동주식 가중이 적용되는지. 두 출처([S6] [S7])가 모두 말하지 않습니다. 책은 “전체 상장 보통주의 시가총액”까지만 씁니다.</li>
+<li>한국에서 쓰는 “추적오차율”, “추적괴리율”의 공식 정의. 책은 tracking error와 tracking difference의 국제 정의([S23])를 따르고, 한국 안내가 추적오차를 기간 차이로도 쓴다는 것을 함께 밝힙니다.</li>
+<li>금융투자협회의 ETF 비용 공시 항목 이름(“실부담비용” 등)과 위치.</li>
+<li>⏱ 지수형 레버리지 ETF의 기본예탁금이 2026년 변경 뒤에도 1,000만 원인지와 사전교육 시간. 단일종목 상품 요건(3,000만 원, 3시간, 20좌)의 실제 시행일과 20좌 시행 여부(11월 예정 보도). 레버리지 ETN의 가격제한폭.</li>
+<li>한국 ETF의 실제 설정단위 크기. 책의 10만 좌는 가정입니다.</li>
+<li>분배금 지급 기준일의 근거(집합투자규약)와 주식형 ETF의 분기 기준이 모든 운용사에 같은지.</li>
+<li>새 가상 이름 “가람200”, “누리 국채3년”을 거래소 상품 목록에서 직접 조회하지 못했습니다(웹 검색으로만 같은 이름이 없음을 확인).</li>
+<li>교과과정 비교의 한국 쪽 교육 자료(금융투자협회·금융투자교육원)와 한국 대학 강의 계획서.</li>
+</ul>
+</section>
+
+<section id="sources">
+<h2>출처 목록</h2>
+<p>모든 출처의 확인일(연 날)은 2026-10-13입니다. 기사와 글은 게재일을 함께 적었습니다. 괄호 안은 출처 종류입니다.</p>
+<ol style="list-style:none;padding-left:0">
+<li>[S1] 한국거래소 규정포털, 호가·호가가격단위 — <a href="https://regulation.krx.co.kr/contents/RGL/03/03010100/RGL03010100T3.jsp">regulation.krx.co.kr/…/RGL03010100T3.jsp</a> (공식)</li>
+<li>[S2] 한국거래소 규정포털, 가격제한폭 — <a href="https://regulation.krx.co.kr/contents/RGL/03/03010100/RGL03010100T5.jsp">regulation.krx.co.kr/…/RGL03010100T5.jsp</a> (공식)</li>
+<li>[S3] 한국거래소 규정포털, 매매수량단위 — <a href="https://regulation.krx.co.kr/contents/RGL/03/03010100/RGL03010100T4.jsp">regulation.krx.co.kr/…/RGL03010100T4.jsp</a> (공식)</li>
+<li>[S4] 한국거래소, KOSPI 200 지수 방법론 (2020년 12월판, 미래에셋증권 서버의 사본) — <a href="https://securities.miraeasset.com/public/hks4000/1645492744763.pdf">securities.miraeasset.com/public/hks4000/1645492744763.pdf</a> (공식 문서 사본)</li>
+<li>[S5] Wikipedia, KOSPI 200 — <a href="https://en.wikipedia.org/wiki/KOSPI_200">en.wikipedia.org/wiki/KOSPI_200</a> (백과사전)</li>
+<li>[S6] Wikipedia, KOSPI — <a href="https://en.wikipedia.org/wiki/KOSPI">en.wikipedia.org/wiki/KOSPI</a> (백과사전)</li>
+<li>[S7] 불스토리, KOSPI(코스피)란? 코스피지수·유가증권시장 개념과 산출 기준 (2026-07-14) — <a href="https://bullstory.io/blog/kospi코스피란-코스피지수유가증권시장-개념과-산출-기준">bullstory.io/blog/…</a> (투자 정보 글)</li>
+<li>[S8] 머니투데이, 코스피 200, GS건설·세방전지 OUT, HD건설기계·달바글로벌 IN (2026-05-22) — <a href="https://www.mt.co.kr/article/2026052216475197563">mt.co.kr/article/2026052216475197563</a> (보도)</li>
+<li>[S9] KB국민은행 KB Think, ETF NAV, 괴리율, 추적오차 (2025-05-12) — <a href="https://kbthink.com/content/tam-dcp-cms/main/guide/etf-terms.html">kbthink.com/…/etf-terms.html</a> (은행 안내)</li>
+<li>[S10] 헤럴드경제, “내 ETF 가격이 이상해” 괴리율 공시 엿새만에 400건 돌파 (2026-03-10) — <a href="https://www.heraldk.com/article/2026031021400031389">heraldk.com/article/2026031021400031389</a> (보도)</li>
+<li>[S11] 뉴시스, 괴리율이 86%라고?…ETF 급팽창 속 커지는 ‘LP 호가공백’ 우려 (2026-06-09) — <a href="https://www.newsis.com/view/NISX20260609_0003661923">newsis.com/view/NISX20260609_0003661923</a> (보도)</li>
+<li>[S12] 파이낸셜뉴스, 현기증 증시에 ETP 괴리율 최대치 육박…투자 주의보 (2026-07-13) — <a href="https://www.fnnews.com/news/202607131618007022">fnnews.com/news/202607131618007022</a> (보도)</li>
+<li>[S13] 파이낸셜뉴스, 증시 변동성 잦아들자… ETP 괴리율 공시 급감 (2026-09-07) — <a href="https://www.fnnews.com/news/202609071834094296">fnnews.com/news/202609071834094296</a> (보도)</li>
+<li>[S14] 파이낸셜뉴스, 단일종목 레버리지 예탁금 3천만원으로 강화… 신규상장 금지 (2026-07-16) — <a href="https://www.fnnews.com/news/202607161824498605">fnnews.com/news/202607161824498605</a> (보도)</li>
+<li>[S15] 뉴스1(다음 게재), ‘삼전닉스’ 레버리지 예탁금 1000만→3000만원 ‘현금만 인정’(상보) (2026-07-16) — <a href="https://v.daum.net/v/20260716163952724">v.daum.net/v/20260716163952724</a> (보도)</li>
+<li>[S16] 헤럴드경제, 1000만원 없으면 레버리지 ETF 아예 못 산다…22일부터 적용 (2026-05-20) — <a href="https://www.heraldk.com/article/2026052005390064971">heraldk.com/article/2026052005390064971</a> (보도)</li>
+<li>[S17] 미래에셋증권 블로그, 레버리지 ETP 기본예탁금과 사전교육 안내 (2020-09-16) — <a href="https://securities.miraeasset.com/public/mw/blog/html/20200916195431.html">securities.miraeasset.com/…/20200916195431.html</a> (증권사 안내)</li>
+<li>[S18] 미래에셋자산운용 TIGER ETF 아카데미, 심화 (게재일 표시 확인 못함) — <a href="https://investments.miraeasset.com/tigeretf/ko/academy/advanced/content.do">investments.miraeasset.com/tigeretf/ko/academy/advanced/content.do</a> (운용사 안내)</li>
+<li>[S19] 미래에셋자산운용 TIGER ETF 아카데미, 중급 (게재일 표시 확인 못함) — <a href="https://investments.miraeasset.com/tigeretf/ko/academy/intermediate/content.do">investments.miraeasset.com/tigeretf/ko/academy/intermediate/content.do</a> (운용사 안내)</li>
+<li>[S20] 한국경제, [단독] 거래소, 프리·애프터마켓서 ETF iNAV 공개 안 한다 (2026-04-14) — <a href="https://www.hankyung.com/amp/2026041487276">hankyung.com/amp/2026041487276</a> (보도)</li>
+<li>[S21] 뉴데일리경제, (iNAV 관련 기사, 2025-03-26) — <a href="https://biz.newdaily.co.kr/site/data/html/2025/03/26/2025032600078.html">biz.newdaily.co.kr/…/2025032600078.html</a> (보도. 기사 제목 “[단독]미래에셋운용 야심작 TDF ETF, 상장일 iNAV 산출 오류에 늑장공시”는 G6 검수에서 다시 열어 확인)</li>
+<li>[S22] 비즈워치, 비슷한 ETF가 너무 많다! 어떤 걸 골라야 할까? (2025-03-26) — <a href="https://news.bizwatch.co.kr/article/market/2025/03/26/0014">news.bizwatch.co.kr/article/market/2025/03/26/0014</a> (보도)</li>
+<li>[S23] Vanguard UK, What affects index tracking (게재일 표시 없음) — <a href="https://www.vanguard.co.uk/professional/vanguard-365/investment-knowledge/etf-knowledge/what-affects-index-tracking">vanguard.co.uk/…/what-affects-index-tracking</a> (운용사 안내, 해외)</li>
+<li>[S24] Morningstar UK, On the right track: measuring tracking efficiency in ETFs (게재일 표시 없음) — <a href="https://morningstar.co.uk/uk/news/105511/on-the-right-track-measuring-tracking-efficiency-in-etfs.aspx">morningstar.co.uk/uk/news/105511/…</a> (분석 기관 글, 해외)</li>
+<li>[S25] 딜사이트, [ETF점검] 벌어지는 추적오차, 위험 시그널일까 (2022-06-27) — <a href="https://dealsite.co.kr/articles/88466">dealsite.co.kr/articles/88466</a> (보도)</li>
+<li>[S26] PLUS ETF(한화자산운용) 공지, ETF 기타시장안내 공시 - 분배금 지급기준일 변경 예정 안내 (2024-01-29) — <a href="https://www.plusetf.co.kr/customer/announce/detail?n=39">plusetf.co.kr/customer/announce/detail?n=39</a> (운용사 공지)</li>
+<li>[S27] 스마트투데이, 월배당 ETF, 26일까지..펀드 환매, 24일까지 (2024-12-23) — <a href="https://www.smarttoday.co.kr/ko-kr/articles/68076">smarttoday.co.kr/ko-kr/articles/68076</a> (보도)</li>
+<li>[S28] 자본시장연구원 권민경, 합성ETF 시장의 성장과 투자자 유의 사항 (자본시장포커스 2023-22호, 2023-11-06) — <a href="https://www.kcmi.re.kr/publications/pub_detail_view?cno=6213">kcmi.re.kr/publications/pub_detail_view?cno=6213</a> (연구기관)</li>
+<li>[S29] 키움증권, 상장지수증권(ETN) 투자에 관한 핵심(요약) 위험 고지 (심의 2024-01-31) — <a href="https://download.kiwoom.com/web/ETN_NOTE.pdf">download.kiwoom.com/web/ETN_NOTE.pdf</a> (증권사 위험 고지)</li>
+<li>[S30] etf.com, ETN vs ETF: What's the Difference? (게재일 표시 확인 못함) — <a href="https://www.etf.com/node/73453.md">etf.com/node/73453.md</a> (투자 정보, 해외)</li>
+<li>[S31] 파이낸셜뉴스, ETF LP 무차입 공매도 의혹···금감원 “현장 점검해봤더니” (2023-12-28) — <a href="https://www.fnnews.com/news/202312271652431182">fnnews.com/news/202312271652431182</a> (보도)</li>
+<li>[S32] 뉴스토마토, 단일종목 레버리지 LP, 급락장 호가 이행률 67.5%까지 ‘뚝’ (2026-10-06) — <a href="https://newstomato.com/ReadNews.aspx?no=1315757">newstomato.com/ReadNews.aspx?no=1315757</a> (보도)</li>
+<li>[S33] 아시아경제, 무조건 절세되는 줄 알았더니 세금 더 낸다?…잘못 담으면 손해 보는 ‘ETF’ [재테크 풍향계] (2026-08-21) — <a href="https://view.asiae.co.kr/article/2026081915244676925">view.asiae.co.kr/article/2026081915244676925</a> (보도)</li>
+<li>[S34] 토스피드, 살 때보다 팔 때 알아야 할, ETF 세금의 모든 것 (2024-03-06 갱신) — <a href="https://toss.im/tossfeed/article/etf-and-tax">toss.im/tossfeed/article/etf-and-tax</a> (증권 앱 안내)</li>
+<li>[S35] LibreTexts, Investment Fundamentals for College Students, 11: Mutual Funds, ETFs, and Index Investing — <a href="https://biz.libretexts.org/Courses/Reedley_College/Investment_Fundamentals_for_College_Students/11%3A_Mutual_Funds_ETFs_and_Index_Investing">biz.libretexts.org/…/11:_Mutual_Funds_ETFs_and_Index_Investing</a> (교재)</li>
+<li>[S36] 미국 증권거래위원회(SEC) investor.gov, Updated Investor Bulletin: Exchange-Traded Funds (2023-02-23) — <a href="https://www.investor.gov/news-alerts/investor-bulletins/investor-bulletin-exchange-traded-funds-etfs">investor.gov/…/investor-bulletin-exchange-traded-funds-etfs</a> (미국 감독기관, 공식)</li>
+<li>[S37] 매일경제(다음 게재), “무작정 골드바 사두면 되나요?”…세금 따져보면 KRX금시장 유리 (2026-01-26) — <a href="https://v.daum.net/v/20260126060003073">v.daum.net/v/20260126060003073</a> (보도)</li>
+<li>[S38] 위키독스 블로그 Insight_Lab, 글 24323 “금 투자, 어떻게 사야 세금 덜 낼까? KRX 금현물·골드뱅킹·금 ETF·골드바 세금 비교 (2026)”(제목은 G6 검수에서 확인) (2026-07-16 게재) — <a href="https://wikidocs.net/blog/@Insight_Lab/24323/">wikidocs.net/blog/@Insight_Lab/24323/</a> (개인 블로그, 약함)</li>
+<li>[S39] 파이낸셜뉴스, 30대 직장인 “너도나도 금 산다는데···금은방? ETF? KRX?” [세무 재테크 Q&amp;A] (2025-02-23) — <a href="https://www.fnnews.com/news/202502210847318773">fnnews.com/news/202502210847318773</a> (보도, 확인 2026-10-13)</li>
+</ol>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<svg class="ef-ill" viewBox="0 0 340 180" role="img" aria-labelledby="ef-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="ef-ill-title">장중 iNAV 선은 거의 평평한데 시장가 점선이 그 위로 떠올라 괴리가 벌어지고, 오른쪽에서 LP 매도 호가가 들어오자 시장가가 다시 iNAV 쪽으로 내려와 괴리가 줄어드는 과정</title>
+<style>
+.ef-ill-bg{fill:#f4f9f9}
+.ef-ill-word{font:600 10px sans-serif;fill:#13282b}
+.ef-ill-small{font:500 9px sans-serif;fill:#4b6266}
+.ef-ill-num{font:700 9.5px sans-serif;fill:#9a4a12}
+.ef-ill-axis{stroke:#c8dfe1;stroke-width:1.2}
+.ef-ill-inav{fill:none;stroke:#0b6f78;stroke-width:2.4}
+.ef-ill-price{fill:none;stroke:#9a4a12;stroke-width:2;stroke-dasharray:5 4}
+.ef-ill-lp{fill:#0b6f78}
+.ef-ill-lptext{font:700 9px sans-serif;fill:#fff}
+.ef-ill-gapline{stroke:#9a4a12;stroke-width:1.2}
+.ef-ill-drift{transform-box:view-box;animation:ef-ill-drift 9s ease-in-out infinite}
+.ef-ill-quote{transform-box:view-box;animation:ef-ill-quote 9s ease-in-out infinite}
+.ef-ill-gap{opacity:0;animation:ef-ill-gap 9s ease-in-out infinite}
+.ef-ill-calm{opacity:0;animation:ef-ill-calm 9s ease-in-out infinite}
+@keyframes ef-ill-drift{0%,10%{transform:translate(0,0)}35%,55%{transform:translate(0,-34px)}75%,92%{transform:translate(0,0)}100%{transform:translate(0,0)}}
+@keyframes ef-ill-quote{0%,48%{transform:translate(70px,0);opacity:0}62%,92%{transform:translate(0,0);opacity:1}100%{transform:translate(70px,0);opacity:0}}
+@keyframes ef-ill-gap{0%,28%{opacity:0}36%,54%{opacity:1}62%,100%{opacity:0}}
+@keyframes ef-ill-calm{0%,70%{opacity:0}78%,92%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.ef-ill-drift{animation:none;transform:translate(0,0)}.ef-ill-quote{animation:none;transform:translate(0,0);opacity:1}.ef-ill-gap{animation:none;opacity:0}.ef-ill-calm{animation:none;opacity:1}}
+html[data-motion=reduce] .ef-ill-drift{animation:none;transform:translate(0,0)}
+html[data-motion=reduce] .ef-ill-quote{animation:none;transform:translate(0,0);opacity:1}
+html[data-motion=reduce] .ef-ill-gap{animation:none;opacity:0}
+html[data-motion=reduce] .ef-ill-calm{animation:none;opacity:1}
+</style>
+<rect class="ef-ill-bg" width="340" height="180" rx="10"/>
+<text class="ef-ill-small" x="170" y="16" text-anchor="middle">같은 ETF, 장중 시장가와 iNAV</text>
+<path class="ef-ill-axis" d="M28 150H312M28 34V150"/>
+<text class="ef-ill-small" x="28" y="164">09:00</text>
+<text class="ef-ill-small" x="250" y="164" text-anchor="end">15:00</text>
+<path class="ef-ill-inav" d="M32 112C70 110 100 108 140 106S210 105 250 105"/>
+<text class="ef-ill-word" x="36" y="128">iNAV</text>
+<g class="ef-ill-drift"><path class="ef-ill-price" d="M32 108C70 106 100 104 140 102S210 101 250 101"/></g>
+<text class="ef-ill-word" x="36" y="96">시장가</text>
+<g class="ef-ill-gap"><path class="ef-ill-gapline" d="M204 70V104M200 70H208M200 104H208"/><text class="ef-ill-num" x="198" y="62" text-anchor="end">괴리 벌어짐</text></g>
+<g class="ef-ill-quote"><rect class="ef-ill-lp" x="256" y="92" width="72" height="26" rx="4"/><text class="ef-ill-lptext" x="292" y="109" text-anchor="middle">LP 매도 호가</text></g>
+<g class="ef-ill-calm"><text class="ef-ill-num" x="200" y="88" text-anchor="middle">괴리 줄어듦</text></g>
+</svg>

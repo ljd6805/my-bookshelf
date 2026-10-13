@@ -424,5 +424,35 @@
       "2026년 세법개정안(2026-08-03 발표)의 국회 통과 여부를 확인한 뒤 수정 회차"
     ],
     "next": "PR 병합 뒤 시리즈 다음 권(proposal.md §4: 7권 지수와 ETF)"
+  },
+  "index_etf": {
+    "book": "books/etf/",
+    "series": "finance-from-scratch 7권 (시리즈 일곱 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md, /mnt/project-files/stock-books/vol7-handoff.md",
+    "docs": "books/etf/docs/index.html",
+    "research": "books/etf/docs/research.html",
+    "fact_review": "books/etf/docs/fact-review.html (1회차 fixed: facts·sources fixed, numbers·experiments·terms·wording ok)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 56개",
+      "브라우저 1280/390/320 모든 장·실험 10개·예측 질문 30개, 그림 글자 viewBox 검사",
+      "validate.py·build_catalog.py --check·서가 단위 테스트(Python·Node)",
+      "팩트 검수에서 대표값을 책 코드와 따로 Python으로 계산해 일치 확인"
+    ],
+    "remaining": [
+      "확인 못함: 한국거래소 ETF LP 규정 본문(호가 의무 조건·스프레드 비율)",
+      "확인 못함: 괴리율 공시 기준(국내 1%·해외 2%)의 근거 규정과 종가 기준 여부",
+      "확인 못함: 코스피200 방법론의 2021년 이후 개정 여부(2020년 12월판까지 확인)",
+      "확인 못함: 장 시작 전·단일가 시간의 LP 호가 의무 면제 시간",
+      "확인 못함: 해외 기초자산 ETF의 iNAV 산출 방식(전일 종가·환율·선물 반영)",
+      "확인 못함: 코스피(전체 지수)의 유동주식 반영 여부",
+      "확인 못함: 레버리지 상품 기본예탁금(지수형 1,000만 원 유지 여부)과 단일종목 상품 거래 단위 20좌 시행",
+      "확인 못함: iNAV를 공식으로 산출·공표하는 주체와 10초 주기(2025-03-26 보도 한 곳)",
+      "확인 못함: 국내 ETF의 실제 설정 단위(CU) 크기(책은 가상 10만 좌)",
+      "확인 못함: 2026-08-19 이후 괴리율 투자유의종목 지정 기준",
+      "확인 못함: ETF 과세 유형·금 현물 ETF·과표기준가 산식의 국세청·법령 원문(보도·안내 기준)",
+      "검수에서 다시 열지 못한 출처 목록은 books/etf/docs/fact-review.html 참고"
+    ],
+    "next": "PR 병합 뒤 시리즈 다음 권(proposal.md §4: 5권 재무제표)"
   }
 }

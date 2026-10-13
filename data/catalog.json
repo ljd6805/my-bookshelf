@@ -2429,6 +2429,77 @@
         }
       ],
       "short_title": "세금과 계좌"
+    },
+    {
+      "id": "index-etf",
+      "title": "지수와 ETF · 기초지수·NAV·괴리율로 ETF 비교하기",
+      "spine_title": "지수와 ETF",
+      "spine_category": "금융",
+      "color": "aqua",
+      "description": "코스피200 같은 지수를 계산하는 방법에서 시작해 ETF의 설정·환매, NAV와 괴리율, 총비용, 레버리지 ETF의 재조정 금액을 계산하고 ETF 셋을 한 표에 놓고 비교합니다. 규칙은 2026-10-13 보도 기준입니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/etf/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 15:00 LP 매도 호가가 들어오자 시장가가 iNAV 근처로 내려옵니다.",
+      "cover_art": "books/etf/assets/cover-art.svg",
+      "cover_meta": "10장 · 10개 실험",
+      "status": "published",
+      "url": "books/etf/",
+      "keywords": [
+        "지수",
+        "ETF",
+        "코스피",
+        "코스피200",
+        "시가총액 방식",
+        "유동시가총액",
+        "동일 가중",
+        "정기변경",
+        "설정",
+        "환매",
+        "지정참가회사",
+        "AP",
+        "설정단위",
+        "CU",
+        "NAV",
+        "iNAV",
+        "괴리율",
+        "유동성공급자",
+        "LP",
+        "단일가",
+        "추적 오차",
+        "추적 괴리",
+        "총보수",
+        "TER",
+        "총비용",
+        "레버리지 ETF",
+        "인버스 ETF",
+        "일일 재조정",
+        "채권 ETF",
+        "합성 ETF",
+        "ETN",
+        "ETF 과세"
+      ],
+      "chapters": [
+        {
+          "title": "전체 10개 장",
+          "url": "books/etf/#chapters"
+        },
+        {
+          "title": "01 · 코스피와 코스피200 지수를 계산하는 방법",
+          "url": "books/etf/#index"
+        },
+        {
+          "title": "04 · NAV·iNAV로 괴리율을 계산하고 유동성공급자(LP) 호가 확인하기",
+          "url": "books/etf/#nav"
+        },
+        {
+          "title": "09 · 목적에 맞는 ETF 고르기: 기초지수·비용·괴리율·거래량·세금 비교표",
+          "url": "books/etf/#choose"
+        },
+        {
+          "title": "마지막 과제 · 장 마감 직전 괴리율 +3%인 ETF의 손익을 시점별로 계산하고 원인 확인하기",
+          "url": "books/etf/#final"
+        }
+      ],
+      "short_title": "지수와 ETF"
     }
   ],
   "learning_paths": [
@@ -3561,6 +3632,55 @@
         "ISA의 비과세 한도와 9.9% 분리과세로 세금을 계산할 수 있는가",
         "연금저축의 세액공제와 중도 인출 세금을 함께 놓고 세후 금액을 비교할 수 있는가"
       ]
+    },
+    {
+      "id": "etf-price-gap",
+      "title": "ETF 가격이 NAV와 다를 때 무엇을 확인할까",
+      "question": "ETF 앱에 괴리율 +3.00%가 보이면, 그 숫자는 무엇을 뜻하고 무엇부터 확인해야 할까?",
+      "audience": "ETF를 사 본 적은 있지만 NAV·괴리율·유동성공급자(LP)가 무엇인지 모르는 독자",
+      "prerequisites": "백분율 계산, 호가창에서 매수·매도 호가를 읽는 법",
+      "start": "하린은 장 마감 직전 앱에서 누리200 ETF의 가격 30,900원과 iNAV 30,000원, 괴리율 +3.00%를 보고 1,000만 원어치 사려던 주문을 멈춘다.",
+      "steps": [
+        {
+          "book_id": "securities-market",
+          "url": "books/market/#book",
+          "task": "시장가 주문의 평균 체결가와 미끄러짐 실험에서 시장가 매수 수량을 100주, 1,000주, 3,000주로 바꾸며 맞은편 매도 호가를 몇 칸 먹는지와 평균 체결가를 본다",
+          "minutes": 14,
+          "why": "ETF 시장가도 호가창에서 정해지고, LP 호가가 없으면 시장가 주문이 먹은 칸 수만큼 가격이 NAV에서 벌어진다",
+          "record": "수량별 평균 체결가(○원, ○원, ○원)"
+        },
+        {
+          "book_id": "securities-market",
+          "url": "books/market/#auction",
+          "task": "단일가 실험에서 주문 묶음을 ‘장 마감 · 매도가 몰림’으로 고르고 더해 넣는 시장가 매수 수량을 0주와 600주로 바꿔 체결가와 체결 수량을 본다",
+          "minutes": 16,
+          "why": "장 마감 15:20~15:30은 단일가 시간이고, 이 책 마지막 과제의 시각이다",
+          "record": "0주와 600주일 때의 체결가와 체결 수량"
+        },
+        {
+          "book_id": "index-etf",
+          "url": "books/etf/#nav",
+          "task": "지수·iNAV·시장가 괴리율 실험 2단계에서 장중 시각 10:30, 시장가 매수 수량 1,000주로 두고 ‘LP 호가 켜기’를 켰다 끄며 괴리율을 본 뒤, LP를 켠 채 시각을 15:25로 옮겨 괴리율을 다시 본다",
+          "minutes": 20,
+          "why": "누가 호가를 내는지가 괴리의 크기를 정하고, 장 마감 단일가 시간에는 LP 호가 의무가 면제된다(보도 기준)",
+          "record": "10:30 LP 켬·LP 끔, 15:25 LP 켬일 때의 괴리율(○%, ○%, ○%)"
+        },
+        {
+          "book_id": "index-etf",
+          "url": "books/etf/#final",
+          "task": "마지막 과제 실험에서 매수 금액 1,000만 원, ETF 누리200, 15:25 예상 체결가 30,900원, iNAV 30,000원으로 두고 시점 단추를 (가)·(나)·(다)로 바꿔 시점별 손익을 본 뒤, 확인 순서표 여섯 칸을 차례로 채운다",
+          "minutes": 25,
+          "why": "괴리율 숫자 하나를 어느 시각에, 어떤 기준으로 계산한 숫자인지와 함께 읽어야 손익을 말할 수 있다",
+          "record": "시점별 손익과 확인 순서표"
+        }
+      ],
+      "challenge": "내가 보는 ETF 하나를 골라 장중과 장 마감 단일가 시간의 괴리율을 적고, 그 괴리가 사라질 때의 손익을 계산한 뒤, 시각·iNAV 기준·LP 호가·공시 기준·같은 지수의 다른 ETF를 확인한 순서와 확인일을 함께 적는다.",
+      "checks": [
+        "괴리율을 (시장가 − NAV) ÷ NAV × 100으로 계산할 수 있는가",
+        "LP 호가가 있을 때와 빠질 때 시장가 주문의 체결가가 왜 달라지는지 호가창으로 말할 수 있는가",
+        "장 마감 단일가 시간에 화면의 가격이 체결가가 아니라 예상 체결가라는 것을 설명할 수 있는가",
+        "3% 웃돈이 괴리가 사라질 때 손실로 바뀌는 금액을 시점별로 계산할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -3734,8 +3854,8 @@
         {
           "number": 7,
           "title": "지수와 ETF",
-          "status": "planned",
-          "next_why": "상품의 구조를 알았으니, 그 가격이 얼마나 흔들리는지 수로 잽니다."
+          "next_why": "지수와 ETF의 구조와 비용을 계산했으니, 그 가격이 하루하루 얼마나 흔들리는지 수익률과 표준편차로 잽니다.",
+          "book_id": "index-etf"
         },
         {
           "number": 8,
@@ -4201,7 +4321,17 @@
     "books/tax/#isa": "07 · ISA: 비과세 한도와 9.9% 분리과세",
     "books/tax/#pension": "08 · 연금저축과 IRP: 세액공제와 연금소득세",
     "books/tax/#order": "09 · 계좌별 세후 수익 비교",
-    "books/tax/#final": "마지막 과제 · 1,000만 원을 세 계좌에 나눈 세 가지 배분안의 세후 금액 비교"
+    "books/tax/#final": "마지막 과제 · 1,000만 원을 세 계좌에 나눈 세 가지 배분안의 세후 금액 비교",
+    "books/etf/#index": "01 · 코스피와 코스피200 지수를 계산하는 방법",
+    "books/etf/#weight": "02 · 시가총액·유동시가총액·동일 가중으로 같은 하루의 지수 수익률 계산하기",
+    "books/etf/#creation": "03 · 펀드와 ETF의 차이: 설정·환매와 거래소 매매",
+    "books/etf/#nav": "04 · NAV·iNAV로 괴리율을 계산하고 유동성공급자(LP) 호가 확인하기",
+    "books/etf/#cost": "05 · 추적 괴리·추적 오차와 총비용 계산하기",
+    "books/etf/#leverage": "06 · 레버리지·인버스 ETF가 장 마감 뒤 사고파는 금액 계산하기",
+    "books/etf/#assets": "07 · 채권·금·해외 지수 ETF의 iNAV를 계산하고 합성 ETF·ETN의 위험 비교하기",
+    "books/etf/#tax": "08 · 기초자산과 상장 시장으로 ETF의 과세 유형을 가리고 세율 확인하기",
+    "books/etf/#choose": "09 · 목적에 맞는 ETF 고르기: 기초지수·비용·괴리율·거래량·세금 비교표",
+    "books/etf/#final": "마지막 과제 · 장 마감 직전 괴리율 +3%인 ETF의 손익을 시점별로 계산하고 원인 확인하기"
   },
   "concepts": [
     {
@@ -4267,7 +4397,9 @@
         "books/aie-vision/#pixels",
         "books/aie-transformer/#selfattn",
         "books/transformer/#lookup",
-        "books/transformer/#qkv"
+        "books/transformer/#qkv",
+        "books/etf/#index",
+        "books/etf/#weight"
       ]
     },
     {
@@ -4832,7 +4964,9 @@
         "books/market/#cost",
         "books/grid/#cell",
         "books/tax/#trade",
-        "books/tax/#order"
+        "books/tax/#order",
+        "books/etf/#cost",
+        "books/etf/#tax"
       ]
     }
   ]
