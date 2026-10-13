@@ -521,7 +521,7 @@
     "docs": "books/valuation/docs/index.html",
     "research": "books/valuation/docs/research.html",
     "fact_review": "books/valuation/docs/fact-review.html",
-    "status": "G0~G5 승인, 팩트·출처 검수 1회차 fixed. G6(정민)·G7(한결) 승인 뒤 PR 병합",
+    "status": "G0~G7 승인, 팩트·출처 검수 1회차 fixed, published",
     "done": [
       "10장·10개 실험(VMath 계산 모형, 기준안 22,750원/주, WACC 8.335%→8.3%, 배수 범위 16,978~19,776원, 분석가 A 31,833원·B 15,867원), 복습 30문항, 책 테스트 64개와 browser.cjs",
       "G3: EBITDA 단정 → '확인하지 못함', 부채 비용 만기 차이 유지(맞추면 WACC 8.40%, 22,318원, −1.9%; 은재 결정), 1장 기본값·4장 예제가 확인 문제 답을 보이지 않게, 8·10장 새 확인 문제",
@@ -545,6 +545,6 @@
       "선택: 기울기와 역전파 개념 요약이 ML 쪽 문장('학습 방향을 정한다')이라 가치 평가 민감도도 아우르게 다듬기(서윤 G5 비차단)",
       "금리 시점 민감: 2026-10-22 기준금리 결정 뒤 무위험 금리·3권 스프레드 재확인"
     ],
-    "next": "G6 정민·G7 한결 승인 → PR 병합. 다음 권: 2권 거시경제"
+    "next": "PR CI 통과 뒤 병합. 다음 권: 2권 거시경제"
   }
 }
