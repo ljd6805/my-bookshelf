@@ -11,7 +11,8 @@ const f3=v=>U.sfmt(M.r3(v),3);
 function peakText(s,keys=['e','y','pi']){
  const p=M.peaks(s),moved=keys.filter(k=>p[k].q!==null&&Math.abs(p[k].value)>1e-12);
  if(!moved.length)return {text:'네 줄이 모두 기준선(편차 0)에 있습니다. 손잡이를 움직여 보세요',order:''};
- const order=[...moved].sort((a,b)=>p[a].q-p[b].q).map(k=>NAME[k].replace(' 상승률',''));
+ const groups=[];[...moved].sort((a,b)=>p[a].q-p[b].q).forEach(k=>{const g=groups[groups.length-1];if(g&&p[g[0]].q===p[k].q)g.push(k);else groups.push([k]);});
+ const order=groups.map(g=>g.length>1?g.map(k=>NAME[k].replace(' 상승률','')).join('·')+'(같은 분기)':NAME[g[0]].replace(' 상승률',''));
  return {p,text:`이 모형에서 ${moved.map(k=>`${NAME[k]}${U.josa(NAME[k],'은','는')} ${p[k].q}분기째 <b>${f2(k,p[k].value)}</b>`).join(', ')}가 가장 큰 편차입니다`,order:order.join(' → ')};
 }
 /* 그림 두 장(GDP·물가, 시장 금리·환율)과 분기 표. extra는 표에 더할 열 [[이름, 값 배열]]. */

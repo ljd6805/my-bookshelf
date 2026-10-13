@@ -68,7 +68,7 @@ F.fx=()=>{
  return {svg:svg(`환율이 바뀌기 전과 뒤에 두 가상 회사의 원화 금액을 견준 막대그래프: 새벽전자 ${M.wonText(ex.before)}에서 ${M.wonText(ex.after)}, 온결식품 ${M.wonText(im.before)}에서 ${M.wonText(im.after)}`,s,246),caption:`새벽전자의 수출 대금 100만 달러는 ${M.wonText(ex.before)}에서 ${M.wonText(ex.after)}로, 온결식품의 수입 대금 40만 달러는 ${M.wonText(im.before)}에서 ${M.wonText(im.after)}로 바뀝니다(▲ 이후, 1,311.7원으로 반올림한 환율). 같은 원화 강세가 받는 쪽의 매출과 내는 쪽의 비용을 함께 줄입니다.`};
 };
 F.trade=()=>{
- const T=A.trade,ca=M.currentAccount(),items=[['상품',T.goods],['서비스',T.services],['본원소득',T.primary],['이전소득',T.secondary]],k=150/T.goods,zero=190;
+ const T=A.trade,ca=M.currentAccount(),items=[['상품',T.goods],['서비스',T.services],['본원소득',T.primary],['이전소득',T.secondary]],k=130/T.goods,zero=190;
  let run=0,s=t(20,26,'네 수지를 차례로 더하면 (억 달러)',{size:13,w:700,a:'start'})+`<path d="M20 ${zero}H630" stroke="var(--line)"/>`;
  items.forEach(([n,v],i)=>{const x=40+i*115,a=run,b=run+v,y=zero-Math.max(a,b)*k,h=Math.abs(v)*k;s+=up(x,y,70,h,v<0?'var(--orange)':'var(--blue)',i*.15)+t(x+35,y-8,sp(v,0),{size:13,w:700})+t(x+35,zero+20,n,{size:12});run=b;});
  s+=up(500,zero-ca.ca*k,80,ca.ca*k,'var(--accent)',.6)+t(540,zero-ca.ca*k-8,`▲ ${sp(ca.ca,0)}`,{size:13,w:700})+t(540,zero+20,'경상수지',{size:12});
