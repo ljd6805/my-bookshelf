@@ -600,5 +600,33 @@
       "pending": "fact-review.html은 34dd6bc에서 생김. validate.py 남은 오류는 macro 제작 기록의 G6·G7 관문 행 없음 2개(test_team_gates 1건 실패도 같은 원인)"
     },
     "fact_review": "books/macro/docs/fact-review.html 1회차 fixed: 1997 IMF 이사회 승인일 1997-12-04(워싱턴 시각, IMF 보도자료 97/55 [S40], content.js·math.js·labs-signals.js·figures.js·research.html), 1998 성장률 −5.1%(이전 계열, 2020·2023 보도)·−4.9%(현재 계열, 2025 보도), 8장 발표 달력 10-22 등급 '공식 원문(재게시)·2차 자료', 자산 버전 20261013v7. 4장 제목 '…시나리오 모형으로 정책 시차 읽기'는 부제가 시차를 가정이라고 밝혀 그대로 둠(정민 G6 동의)"
+  },
+  "allocation": {
+    "book": "books/allocation/",
+    "series": "finance-from-scratch 9권 (시리즈 열한 번째 출간 예정)",
+    "plan": "/mnt/project-files/stock-books/proposal.md (### 9권), /mnt/project-files/stock-books/vol9-handoff.md",
+    "docs": "books/allocation/docs/index.html",
+    "research": "books/allocation/docs/research.html",
+    "status": "draft: G0~G2 입력 초안(2026-10-13, 작성 세션). 팀장 점검 전이며 관문 행 없음. 서가(data/catalog.json) 미등록, 책 본문·실험 없음",
+    "done": [
+      "기획(#plan 기획서 다섯 문장·제목 두 안·독자·끝의 행동·대표 실험 '포트폴리오 비중 실험'·공통 사례·마지막 과제·범위·증거의 종류·#time-sensitive·#opposition·#links·#links-open), 교과과정(#curriculum 10장 171분·선수 관계·#curriculum-map·범위 표·#curriculum-compare·#curriculum-case), 장 설계(#chapters, L1·L2와 따로 계산한 답, 확인·전이); #style·#rehearsal·#log는 빈 절",
+      "research.html 장별 사실 표(1-1~10-3), 오해 목록 20개, 기준값 V-0~V-10과 확인·전이 추가 값, 교과과정 비교 자료, 확인하지 못한 것, 출처 S1~S25(S4·S18·S19 비움)",
+      "books/allocation/AGENTS.md 책별 규칙(al- 접두어, 가상 자산 가정 한 곳, 모델 ≠ 예측, 투자 권유 금지와 금지 낱말, 켈리는 계산 연습, ⏱ 값 셋과 재확인일 2027-04-13·G6 시작일, 실험 기본값이 답을 보이지 않게, 12권 링크 없음, 제목 공백 제외 32자 이내)",
+      "K7 점검: 가제 「위험을 나누는 법 · 분산투자에서 자산배분까지」 → 1안 「자산배분 · 상관과 비중으로 포트폴리오 위험을 계산하고 계좌 비중 다시 짜기」(32자, 제안), 2안 「분산투자와 자산배분 · 상관으로 포트폴리오 위험을 계산하고 비중 정하기」(31자); 장 제목 10개, 대표 실험 이름(포트폴리오 구름 → 포트폴리오 비중 실험), 9장 '상관이 1이 된다' 단정 고침",
+      "기준값을 파이썬(numpy)으로 책 코드 없이 계산: 접점 22.52·13.30·64.18%(샤프 0.3463), 최소분산 14.29%·5.27%, β 1.3118, 리밸런싱 세 규칙 끝 금액, 켈리 f* 0.10과 배수별 성장률, 위기 상관 60/40 10.59% → 19.80%, 윤 씨 안 A·B·C"
+    ],
+    "evidence": "세션 임시 폴더 scratchpad/alloc/v.py~v5.py(고윳값 ≥ 0, 위험 기여 합 100%, 현금 혼합 시 샤프 불변 확인), OpenStax 『Principles of Finance』 15.2~15.4, RePEc·ESSEC·NBER 서지와 초록, MacLean·Thorp·Ziemba(2010), Vanguard(2010), CFA Institute 블로그(2012), 보도(퇴직연금 70% 한도·TDF·주식채권 상관), 서재 안 재인용(6권·8권·11권·2권·「벡터와 행렬」·「모델을 움직이는 수학」) — research.html #sources",
+    "verification": [
+      "2026-10-13 작성 세션: python3 scripts/validate.py 0 errors(초안 추가 전후 같음)",
+      "L2 답 10개와 확인·전이 값을 별도 스크립트로 다시 계산해 문서와 대조"
+    ],
+    "remaining": [
+      "서윤 G1 결정: 제목(1안/2안), 색(plum 제안/violet), 책등 '자산배분', book_id asset-allocation, 시리즈 9권 이름 '자산배분', 새 개념 '제약 속 최적화' 여부, 노선 correlated-losses 정거장과 #final 추가 여부, value-basis에 #beta 추가 여부, 들어오는 링크 후보",
+      "한결 G0: 윤 씨 과제와 켈리 장의 학습용 조건, ⏱ 재확인 기준",
+      "해원 G2: 171분, 5·8장 제목 길이, 2장 고윳값 깊이",
+      "⏱ 퇴직연금 위험자산 70% 한도(보도 두 곳, 완화 검토 중), 6권 국고채 4.4%(2026-10-08)·주식 위험 프리미엄 4.9%(2026-01-05): 고정 재확인일 2027-04-13과 G6 시작일에 다시 확인",
+      "확인 못함(접속 차단, 우회하지 않음): fsc.go.kr·law.go.kr·AAII(로봇 배제), nobelprize.org·Wiley DOI(가져오기 오류) → 70% 한도 법령·감독규정 원문, 1990년 노벨상 공식 문구, Markowitz·Sharpe·Kelly·Longin·Solnik 본문, Evans·Archer·Statman·Brinson 원 논문, 한국 쪽 교과과정 자료, 새벽전자·누리200의 KRX 목록 직접 조회"
+    ],
+    "next": "팀장(한결·서윤·해원) 점검과 결정 → 반영 → G3(은재·지안: 조사 보강, js/math.js·content.js·실험 10개·review.json)"
   }
 }

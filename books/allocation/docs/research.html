@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="자산배분 책의 장별 사실 표, 오해 목록, 가상 자산의 가정과 기준값, 교과과정 비교 자료, 확인하지 못한 것, 출처 목록.">
+<title>조사 노트 · 자산배분</title>
+<link rel="stylesheet" href="../../../assets/project-docs.css">
+<style>
+  table{border-collapse:collapse;width:100%;margin:12px 0 24px}
+  th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}
+  .num{font-family:var(--font-mono,monospace)}
+  .wrap{overflow-x:auto}
+  code{font-family:var(--font-mono,monospace)}
+  #sources a{overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">자산배분 · 제작 문서</a><span>책 본문은 G4에서 만듭니다</span></header>
+<main style="max-width:1100px;margin:auto;padding:32px 16px">
+<p><a href="index.html">제작 문서로 돌아가기</a></p>
+<h1>조사 노트 · 자산배분</h1>
+
+<section id="intro">
+<h2>이 노트에 대하여</h2>
+<p>G0~G2 작성 세션이 지식조사팀장 은재의 점검 목록(장마다 사실 주장 표, 출처와 확인일, 시점에 민감한 항목 표시, 참고 자료는 구조만 참고한다는 메모)에 맞춰 정리한 <b>초안</b>입니다. 은재의 승인 전 문서입니다. 확인일(연 날)은 모두 <b>2026-10-13</b>입니다. 범위는 분산투자와 종목 수, 공분산·상관 행렬, 두 자산 포트폴리오, 효율적 투자선과 샤프 비율, 베타와 CAPM, 주식·채권·현금 배분, 리밸런싱, 켈리 기준, 위기 때의 상관입니다.</p>
+<p>출처 등급은 다섯으로 나눕니다. <b>공식 원문</b>은 감독기관·정부 부처·거래소가 낸 자료를 직접 읽은 경우, <b>학술 원문·서지</b>는 논문을 직접 읽었거나 학술 데이터베이스(RePEc, 저자 소속 기관 쪽)에서 서지와 초록을 확인한 경우, <b>교재</b>는 대학 교재(OpenStax 『Principles of Finance』)를 읽은 경우, <b>보도</b>는 신문·방송 기사와 업계 글로 읽은 경우, <b>계산</b>은 정의에서 바로 나오는 식이나 이 노트의 기준값입니다. 같은 서재의 다른 책에서 가져온 값은 <b>서재 안 재인용</b>으로 적습니다.</p>
+<p><b>이 책의 숫자 대부분은 가상입니다.</b> 자산 다섯 개(새벽전자, 누리200, 해외주식 묶음, 채권 묶음, 현금)의 기대수익·표준편차·상관은 초안 작성 세션이 정한 <b>가정</b>이고, 실제 시장 자료에서 추정하지 않았습니다(<a href="#values-assets">V-0</a>). 실제 숫자는 퇴직연금 위험자산 한도, 적격 TDF, 6권에서 가져온 국고채 금리와 주식 위험 프리미엄, 그리고 연구 결과(분산 효과, 자산배분 연구, 위기 상관, 켈리 기준의 성질)뿐입니다.</p>
+<p><b>열리지 않은 곳.</b> 금융위원회(fsc.go.kr)와 AAII는 내용 가져오기 도구가 로봇 배제 규칙(robots.txt) 때문에 거절했고, 우회하지 않았습니다. 노벨상 누리집(nobelprize.org)과 Wiley의 DOI 쪽, OpenStax 『Principles of Finance』 15.3절 이전의 일부 쪽 주소는 가져오기 오류로 열리지 않았습니다. 그래서 <b>퇴직연금 위험자산 70% 한도의 법령·감독규정 원문</b>과 <b>1990년 노벨 경제학상의 공식 수상 이유 문구</b>는 이번에 읽지 못했습니다.</p>
+<p><b>시점에 민감한 항목</b>에는 ⏱를 붙였습니다. 퇴직연금 위험자산 70% 한도는 2026년 6월 보도 기준으로 완화를 검토 중이라 바뀔 수 있습니다. 6권에서 가져온 국고채 10년 금리(4.395%, 2026-10-08)와 주식 위험 프리미엄(4.87%, 2026-01-05)도 시점 값입니다. <b>고정 재확인일은 2027-04-13</b>(확인일에서 여섯 달 뒤)이고, 그 전이라도 G6 시작일에 ⏱ 항목을 모두 다시 엽니다. “장” 칸은 그 행을 쓰는 장 ID(diversify, matrix, pair, frontier, beta, mix, rebalance, kelly, crisis, final)입니다. 따옴표 안은 원문 그대로이고, 책의 문장과 예시는 구조만 참고해 새로 씁니다. 이 책은 투자 권유를 하지 않고, 실제 독자에게 권하는 비중을 내놓지 않습니다.</p>
+</section>
+
+<section id="facts">
+<h2>사실 표 (장마다 하나)</h2>
+
+<h3 id="facts-diversify">1장 diversify · 분산투자와 종목 수</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>1-1</td><td>분산투자와 상관</td><td>[S1] “Combining stocks that are not perfectly positively correlated in a portfolio decreases risk.” “As you add more stocks to a portfolio, the volatility, or standard deviation, of the portfolio decreases.”</td><td>교재</td><td>[S1] · 2026-10-13</td><td>교재 원문 확인. 종목 수에 따른 표준편차 식은 이 절에 없어 이 노트의 계산(V-1)</td></tr>
+<tr><td>1-2</td><td>체계적 위험과 비체계적 위험</td><td>[S1] “Portfolio diversification protects you from being significantly impacted by unsystematic risk.” “This systematic risk cannot be eliminated through diversification.”</td><td>교재</td><td>[S1]</td><td>교재 원문 확인</td></tr>
+<tr><td>1-3</td><td>포트폴리오 선택 이론의 출발</td><td>Markowitz, “Portfolio Selection”, Journal of Finance 7(1), 77–91, 1952.</td><td>1952</td><td>[S5] · 2026-10-13</td><td>학술 서지(RePEc 저자 쪽). 논문 본문은 열지 않음. 1990년 노벨 경제학상(Markowitz·Miller·Sharpe) 공식 문구는 nobelprize.org 가져오기 오류로 확인 못함</td></tr>
+<tr><td>1-4</td><td>“열 종목이면 충분하다”와 반론</td><td>[S10] Evans and Archer(1968)는 무작위·동일 비중 포트폴리오에서 “approximately ten stocks will suffice”라고 결론. Statman(1987)은 빌려 투자하는 경우 최소 30종목, 빌려주는 경우 40종목이 필요하다고 주장. Bird and Tippet(1986)은 방법을 비판. 보고서 결론은 모든 포트폴리오에 맞는 숫자 X는 없다는 것.</td><td>1968·1987</td><td>[S10] · 2026-10-13</td><td>대학 실습 보고서(2차)로 확인. 원 논문 서지는 보고서에 없어 본문은 “연구마다 다르다”는 결론과 두 숫자만 2차 자료로 씀</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-matrix">2장 matrix · 공분산 행렬과 상관 행렬</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>2-1</td><td>상관계수의 범위와 뜻</td><td>[S1] “A correlation coefficient of 1 means that there is a perfect, positive correlation between the two variables.” “Stocks that are in the same industry will tend to be more strongly correlated.”</td><td>교재</td><td>[S1]</td><td>교재 원문 확인</td></tr>
+<tr><td>2-2</td><td>공분산 = 상관 × 두 표준편차, 공분산 행렬</td><td>Cov(i, j) = ρᵢⱼσᵢσⱼ. 대각선은 분산. 비중 벡터 w의 포트폴리오 분산은 wᵀΣw.</td><td>—</td><td>계산(정의)</td><td>정의에서 나오는 식. 같은 이차식 uᵀCu를 서재의 「벡터와 행렬」 9장이 “u 방향 분산”으로 계산함 [S20]</td></tr>
+<tr><td>2-3</td><td>상관 행렬이 될 수 있는 조건</td><td>상관 행렬은 고윳값이 모두 0 이상(양의 준정부호)이어야 함. ρ₁₂ = 0.9, ρ₁₃ = 0.9, ρ₂₃ = −0.9 같은 표는 고윳값 −0.8이 나와 실제 자료의 상관 행렬이 될 수 없음.</td><td>—</td><td>계산(V-2)</td><td>정의와 계산. 교재 원문 근거는 이번에 찾지 않음(선형대수의 일반 성질)</td></tr>
+<tr><td>2-4</td><td>상관 행렬의 첫 고유벡터와 공통 요인</td><td>모든 쌍의 상관이 ρ인 N개 자산의 상관 행렬은 가장 큰 고윳값이 1 + (N − 1)ρ이고 그 고유벡터는 모든 칸이 같은 방향(“다 같이 움직이는” 방향). N = 4, ρ = 0.5면 2.5로 전체(4)의 62.5%.</td><td>—</td><td>계산(V-2)</td><td>계산. 이 방향을 “시장 요인”이라 부르는 것은 해석이며, 실제 시장 자료의 주성분 비율은 확인하지 않음</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-pair">3장 pair · 두 자산 포트폴리오</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>3-1</td><td>두 자산 포트폴리오의 변동성</td><td>[S1] “the volatility of the portfolio is not simply the average of the volatility of each stock held independently.”</td><td>교재</td><td>[S1]</td><td>교재 원문 확인. 식 σₚ² = w²σ₁² + (1 − w)²σ₂² + 2w(1 − w)ρσ₁σ₂는 이 절에 없어 계산(정의)</td></tr>
+<tr><td>3-2</td><td>최소분산 비중</td><td>w* = (σ₂² − ρσ₁σ₂) / (σ₁² + σ₂² − 2ρσ₁σ₂). 공매도를 허용하지 않으면 0과 1 사이로 자름.</td><td>—</td><td>계산(V-3)</td><td>미분으로 나오는 식. ρ = 0.5, σ 20%·10%처럼 w*가 0이 되는 경우가 있음(V-3 비고)</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-frontier">4장 frontier · 효율적 투자선과 샤프 비율</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>4-1</td><td>샤프 비율</td><td>[S2] “The Sharpe ratio is computed as a portfolio's risk premium divided by the standard deviation of the portfolio's return.” Sharpe Ratio = (Rₚ − R_f) / σₚ.</td><td>교재</td><td>[S2] · 2026-10-13</td><td>교재 원문 확인</td></tr>
+<tr><td>4-2</td><td>트레이너 비율과 젠센 알파(곁글)</td><td>[S2] 트레이너 비율은 분모에 베타, 젠센 알파 = Rₚ − [R_f + βₚ(R_m − R_f)].</td><td>교재</td><td>[S2]</td><td>교재 원문 확인. 본문은 5장 곁글에서 이름과 식만</td></tr>
+<tr><td>4-3</td><td>효율적 투자선과 접점 포트폴리오</td><td>위험 자산만 섞을 때 같은 표준편차에서 기대수익이 가장 높은 점들의 곡선이 효율적 투자선이고, 무위험 자산을 더하면 샤프 비율이 가장 높은 위험 자산 묶음(접점 포트폴리오)과 현금을 잇는 직선이 됨. 접점 비중은 Σ⁻¹(μ − r_f)에 비례.</td><td>—</td><td>계산(V-4) · [S5]</td><td>교재 [S1]의 열린 쪽에는 효율적 투자선이 없음(“The page does not mention it”). 식은 계산으로, 이론의 출처는 Markowitz(1952)[S5] 서지로만 적음. 교재 원문 근거는 확인 못함</td></tr>
+<tr><td>4-4</td><td>제약이 있는 최적화</td><td>서재의 「모델을 움직이는 수학」 5장 곁글이 볼록 집합·볼록 함수와 제약이 있는 최적화를 다룸.</td><td>—</td><td>[S21]</td><td>서재 안 재인용. 비중 합 = 1, 비중 ≥ 0 이라는 제약이 이 장의 예</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-beta">5장 beta · 베타 추정과 CAPM</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>5-1</td><td>CAPM 식</td><td>[S3] “Re = Rf + Beta × (Rm − Rf)”.</td><td>교재</td><td>[S3] · 2026-10-13</td><td>교재 원문 확인</td></tr>
+<tr><td>5-2</td><td>베타의 뜻과 추정</td><td>[S3] “The measure of how much a stock moves with the market is known as its beta.” 교재는 2018~2020년 월간 수익률을 시장 수익률에 대해 찍고 “The slope of this line, 1.39, is DAL’s beta.”라고 회귀선의 기울기로 추정.</td><td>교재</td><td>[S3]</td><td>교재 원문 확인. 공분산 ÷ 시장 분산 식은 이 절에 없어 계산(정의, V-5). 회귀 기울기와 같은 값</td></tr>
+<tr><td>5-3</td><td>CAPM 논문</td><td>Sharpe, “Capital Asset Prices: A Theory of Market Equilibrium under Conditions of Risk”, Journal of Finance 19(3), 425–442, 1964년 9월.</td><td>1964</td><td>[S6] · 2026-10-13</td><td>학술 서지(RePEc). 본문은 열지 않음</td></tr>
+<tr><td>5-4 ⏱</td><td>무위험 금리와 주식 위험 프리미엄(6권 값)</td><td>6권 6장: 국고채 10년 4.395%(2026-10-08 장 마감 보도) → 4.4%, Damodaran 한국 주식 위험 프리미엄 4.87%(2026-01-05) → 4.9%, 새벽전자 베타 1.0 가정 → 자기자본비용 9.3%. 베타 추정은 “9권(준비 중)이 다룰 내용”.</td><td>2026-10-08·2026-01-05</td><td>[S22] · 2026-10-13</td><td>서재 안 재인용(6권 조사 노트와 본문). 이 책은 다시 열지 않고 6권 값을 그대로 씀. 5장은 이 값을 L1과 계산 예로만 쓰고, 고정 재확인일에 6권과 함께 다시 확인</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-mix">6장 mix · 주식·채권·현금 배분</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>6-1</td><td>자산배분 연구의 바른 인용</td><td>[S12] Brinson·Hood·Beebower(1986)는 미국 대형 연금 91곳의 1974~1983년 분기 수익률에서 자산배분이 수익률의 시간에 따른 “variation”을 평균 93.6% 설명한다고 보고(수익률 수준이나 펀드 사이 차이가 아님). Nuttall and Nuttall(1998)은 인용 50건 가운데 49건이 부정확했다고 봄. Ibbotson and Kaplan(2000): 시간에 따른 변동은 약 90%, 펀드 사이 차이는 약 40%, 수익률 수준은 약 100%.</td><td>1986·2000</td><td>[S12] · 2026-10-13</td><td>전문가 단체 블로그(CFA Institute, 2012)로 확인. 원 논문은 열지 않음. 본문은 “같은 연구를 세 질문으로 다르게 읽는다”는 구조로만 씀</td></tr>
+<tr><td>6-2 ⏱</td><td>퇴직연금(DC·IRP) 위험자산 한도 70%</td><td>[S13] 퇴직연금 계좌는 주식 같은 위험자산을 최대 70%까지, 나머지 30%는 예금·채권 같은 안전자산으로. 채권혼합형 ETF는 안전자산으로 분류. 2026년 초 고용노동부·금융당국이 완화를 긍정적으로 검토했으나 2026-06-23 기사 시점에는 “검토 단계”이고 확정된 변경 없음. 연금저축에는 한도 없음.</td><td>2026-06-23 보도</td><td>[S13] · 2026-10-13</td><td>보도. 법령·감독규정 원문(fsc.go.kr 로봇 배제, law.go.kr 로봇 배제)은 확인 못함. 마지막 과제에서 윤 씨의 IRP 1억 원에 이 한도를 “2026-10-13 확인 기준, 보도”로 적용. 고정 재확인일 2027-04-13</td></tr>
+<tr><td>6-3 ⏱</td><td>적격 TDF의 예외</td><td>[S14] “적격 TDF는 퇴직연금의 위험자산 투자한도 70% 제한이 풀리면서 적립금의 100%까지 투자할 수 있다.” 2026-04-01부터 감독규정 시행세칙 개정 등 시행, 적격 TDF 이름에 “적격” 표기. 2025년 말 TDF 199개 가운데 195개(98%)가 적격.</td><td>2026-03-31 보도</td><td>[S14] · 2026-10-13</td><td>보도. 본문은 “예외가 있다”는 사실과 날짜만 쓰고 상품을 고르게 하지 않음</td></tr>
+<tr><td>6-4</td><td>1년 손실의 어림 μ − 2σ의 한계</td><td>정규분포를 가정하면 1년 수익률이 μ − 2σ 아래로 떨어질 확률은 약 2.3%. 서재의 8권 5장은 실제 지수 수익률의 꼬리가 정규분포보다 두껍다는 보고를 소개함.</td><td>—</td><td>계산 · [S23]</td><td>계산과 서재 안 재인용. 본문은 “정규분포 어림, 실제는 더 나쁠 수 있음”을 같이 적음</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-rebalance">7장 rebalance · 리밸런싱</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>7-1</td><td>리밸런싱의 목적</td><td>[S11] 목표는 “to minimize risk relative to a target asset allocation, rather than to maximize returns.”</td><td>2010</td><td>[S11] · 2026-10-13</td><td>운용사 연구 보고서(Vanguard, 2010) PDF 사본으로 확인. 운용사 자료라 본문은 “한 운용사의 연구”로 밝힘</td></tr>
+<tr><td>7-2</td><td>점검 주기와 기준</td><td>[S11] 1926~2009년 미국 주식·채권 자료에서 “no optimal frequency or threshold”. 월·분기·연 단위의 위험 조정 수익은 크게 다르지 않고 비용은 주기가 짧을수록 커짐(월간 무조건 1,008회 대 연간 83회). 넓게 분산한 주식·채권 펀드라면 “annual or semiannual monitoring, with rebalancing at 5% thresholds”를 합리적인 균형으로 제시. 낮은 주식·채권 상관이 이어진다는 가정에 기댐.</td><td>2010</td><td>[S11]</td><td>운용사 연구. 이 책은 “연 1회”와 “±5%p”를 두 규칙의 예로 쓰고 권하지 않음. 같은 저자들의 이후 판은 열지 않음</td></tr>
+<tr><td>7-3</td><td>리밸런싱의 비용</td><td>거래세·세금·수수료가 매매마다 빠짐. 서재의 11권 2장(증권거래세)과 1권 9장(수수료).</td><td>—</td><td>[S24]</td><td>서재 안 재인용. 세율 숫자는 이 책에 다시 쓰지 않고 11권으로 링크(세율은 바뀜)</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-kelly">8장 kelly · 포지션 크기와 켈리 기준 (계산 연습)</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>8-1</td><td>켈리 논문</td><td>Kelly, J. L., Jr., “A New Interpretation of Information Rate”, Bell System Technical Journal 35(4), 917–926, 1956년 7월.</td><td>1956</td><td>[S7] · 2026-10-13</td><td>학술 서지(인터넷 아카이브의 BSTJ 쪽). 본문 PDF는 열지 않음. 식 f* = p − q/b는 계산(정의, V-8)</td></tr>
+<tr><td>8-2</td><td>켈리 기준의 좋은 성질과 나쁜 성질</td><td>[S8] 켈리는 “maximizes the limiting exponential growth rate of wealth”. 연속 시간 가정에서 “exactly twice the Kelly wager”를 걸면 성장률이 무위험 금리로 떨어짐. “growth is traded off for security with the use of fractional Kelly strategies.” “the Kelly criterion can be very risky in the short term.” “the extreme sensitivity of E log calculations to errors in mean estimates.”</td><td>2010</td><td>[S8] · 2026-10-13</td><td>학술 원문(MacLean·Thorp·Ziemba 2010, 대학 강의 자료로 게시된 사본). 본문의 경고 문장의 근거</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-crisis">9장 crisis · 위기 때의 상관</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>원문이 말하는 것</th><th>기준 시점</th><th>출처 · 연 날</th><th>등급 · 확인 상태</th></tr></thead>
+<tbody>
+<tr><td>9-1</td><td>큰 하락 때 상관이 높아짐</td><td>[S9] Longin and Solnik(2001), Journal of Finance 56(2), 649–676. 1959~1996년 다섯 큰 시장의 월간 자료에서 “the correlation of large negative returns is much greater than expected under the assumption of multivariate normality.” 큰 상승 때의 상관은 정규 모형과 맞음.</td><td>2001</td><td>[S9] · 2026-10-13</td><td>학술 서지와 초록(저자 소속 학교 쪽). 본문은 열지 않음</td></tr>
+<tr><td>9-2</td><td>위기 때 잰 상관의 함정</td><td>[S15] Forbes and Rigobon, “No Contagion, Only Interdependence” (NBER WP 7267, 1999; Journal of Finance 57(5), 2223–2261, 2002): 위기 때 변동성이 커지면 보정하지 않은 상관 추정이 위로 치우침(“biased upward”).</td><td>1999·2002</td><td>[S15] · 2026-10-13</td><td>학술 초록(NBER). 학술지 권·쪽은 검색 결과의 Wiley 서지로만 확인. 본문은 “위기 때 상관이 올라간 것처럼 보이는 몫의 일부는 변동성 때문일 수 있다”를 9-1과 짝으로 씀</td></tr>
+<tr><td>9-3</td><td>주식과 채권이 함께 떨어진 해</td><td>[S16] 한 분석(Roitholt Group 인용)에서 60/40 포트폴리오가 2022년 17% 손실로 적어도 1937년 이후 가장 나빴고, 금리 상승으로 주식과 채권 가격이 함께 떨어짐. 2021~2023년 3년 동안 주식과 채권이 1997년 이후 가장 많이 같은 방향으로 움직였다고 적음(상관계수는 없음).</td><td>2023-12-17 보도</td><td>[S16] · 2026-10-13</td><td>보도(미국 자료 인용). 한국 자료가 아님을 밝히고, 숫자 17%는 “보도 기준”으로만 씀. 확인 문제의 답으로 쓰지 않음</td></tr>
+<tr><td>9-4</td><td>주식·채권 상관이 예전만큼 믿을 만하지 않다는 운용사 견해</td><td>[S17] 블랙록 관계자가 “현재 주식과 채권 간의 상관관계는 이전만큼 신뢰할 수 없다”고 말함(2025-06-26 발언).</td><td>2025-06-30 보도</td><td>[S17]</td><td>보도. 한 운용사의 견해로만 소개(곁글 후보). 상관이 양으로 돌아섰다는 숫자는 기사에 없음</td></tr>
+<tr><td>9-5</td><td>한국의 세 위기와 지표</td><td>서재의 2권 9장: 1997년 원/달러 1,962.0원(12-23), 2008년 기준금리 5.25% → 2.00%, 2020년 0.75%로 인하와 600억 달러 통화스와프.</td><td>—</td><td>[S25]</td><td>서재 안 재인용(2권 조사 노트 4-1~4-8). 이 장은 L1로만 씀</td></tr>
+</tbody></table></div>
+
+<h3 id="facts-final">마지막 과제 final · 윤 씨의 계좌 (가상)</h3>
+<div class="wrap"><table>
+<thead><tr><th>#</th><th>항목</th><th>확인한 것</th><th>확인 상태</th></tr></thead>
+<tbody>
+<tr><td>10-1</td><td>윤 씨</td><td>은퇴 10년 전인 가상 인물. 기획안(stock-books/proposal.md 9권)이 정한 이름. 나이·자산·목표는 이 책의 가정(V-10).</td><td>가상. 실제 인물이 아님을 과제 화면에 적음</td></tr>
+<tr><td>10-2</td><td>새벽전자·누리200</td><td>시리즈 공통 가상 회사·가상 지수(8권이 누리200을 생성기 경로로 씀). 2026-10-13 웹 검색으로 같은 이름의 한국 상장 회사·지수는 찾지 못함(앞선 권의 확인과 같음).</td><td>웹 검색으로만 확인. 한국거래소 목록 직접 조회 못함</td></tr>
+<tr><td>10-3 ⏱</td><td>IRP 위험자산 한도</td><td>6-2행과 같음. 윤 씨의 IRP 1억 원에서 위험자산 비중이 70% 이하인지 확인하는 칸을 둠.</td><td>보도 기준, 2027-04-13 재확인</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="misconceptions">
+<h2>오해 목록</h2>
+<p>오해 수집가 태오의 몫을 초안 작성 세션이 미리 채웠습니다(태오가 G3 전에 고침). 기획안의 독자(“종목은 여럿 샀는데 다 같이 떨어져 놀란 사람”)의 출발점을 장마다 두 개씩 나눴습니다.</p>
+<div class="wrap"><table>
+<thead><tr><th>장</th><th>흔한 오해</th><th>바른 설명</th><th>근거</th></tr></thead>
+<tbody>
+<tr><td>diversify</td><td>종목 수를 늘리면 위험은 0에 가까워진다.</td><td>모든 쌍의 상관이 ρ면 종목을 무한히 늘려도 표준편차는 σ√ρ 아래로 내려가지 않는다(σ 30%, ρ 0.3이면 16.43%).</td><td>1-2, V-1</td></tr>
+<tr><td>diversify</td><td>종목을 여럿 샀으니 분산투자를 했다.</td><td>같은 업종처럼 상관이 높은 종목끼리는 여럿이어도 위험이 별로 줄지 않는다.</td><td>2-1, V-1</td></tr>
+<tr><td>matrix</td><td>상관계수 표는 아무 숫자나 채울 수 있다.</td><td>세 쌍의 상관은 서로 묶여 있어 고윳값이 음수가 되는 표는 실제 자료에서 나올 수 없다.</td><td>2-3, V-2</td></tr>
+<tr><td>matrix</td><td>상관이 0이면 두 자산은 아무 관계가 없다.</td><td>상관은 직선 관계만 잰다. 또 표본에서 잰 상관은 기간에 따라 흔들린다(9장).</td><td>2-1</td></tr>
+<tr><td>pair</td><td>두 자산을 섞은 포트폴리오의 표준편차는 두 표준편차의 가중평균이다.</td><td>상관이 1일 때만 그렇다. 1보다 작으면 가중평균보다 작다(60/40: 13.2% 대 10.59%).</td><td>3-1, V-3</td></tr>
+<tr><td>pair</td><td>위험이 가장 작은 포트폴리오는 채권 100%다.</td><td>상관이 낮으면 주식을 조금 섞은 쪽이 채권만보다 표준편차가 작을 수 있다(이 책 가정에서 주식 14.3%일 때 5.27%).</td><td>3-2, V-3</td></tr>
+<tr><td>frontier</td><td>기대수익이 가장 높은 포트폴리오가 가장 좋다.</td><td>같은 표준편차에서 기대수익이 가장 높은 점들(효율적 투자선) 가운데 어디를 고를지는 감당할 위험이 정한다.</td><td>4-3, V-4</td></tr>
+<tr><td>frontier</td><td>효율적 투자선은 미래에도 그대로다.</td><td>입력(기대수익·표준편차·상관)은 추정값이라 조금만 바뀌어도 비중이 크게 바뀐다. 이 책의 숫자는 가정이다.</td><td>4-3, 8-2</td></tr>
+<tr><td>beta</td><td>베타가 높으면 주가가 더 많이 오른다.</td><td>베타는 시장과 함께 움직이는 정도다. 시장이 내릴 때도 더 크게 내린다.</td><td>5-2</td></tr>
+<tr><td>beta</td><td>베타는 회사마다 정해진 숫자다.</td><td>베타는 고른 기간과 수익률 간격(월간·주간)에 따라 달라지는 추정값이다.</td><td>5-2, V-5</td></tr>
+<tr><td>mix</td><td>“자산배분이 수익의 90%를 결정한다.”</td><td>원 연구는 시간에 따른 수익률 변동의 설명 비율이었고, 펀드 사이 차이는 약 40%였다.</td><td>6-1</td></tr>
+<tr><td>mix</td><td>표준편차 10%면 1년에 10%보다 더 잃을 일은 없다.</td><td>표준편차는 평균에서 흩어진 크기다. 정규 어림으로도 μ − 2σ 아래가 약 2.3% 확률로 나오고, 실제 꼬리는 더 두껍다.</td><td>6-4</td></tr>
+<tr><td>rebalance</td><td>리밸런싱은 수익을 높이는 기술이다.</td><td>목표 비중에서 위험이 벗어나지 않게 하는 규칙이다. 수익이 높아질지는 경로에 달렸다.</td><td>7-1</td></tr>
+<tr><td>rebalance</td><td>자주 맞출수록 좋다.</td><td>한 운용사 연구에서 주기별 위험 조정 수익은 크게 다르지 않았고 비용은 주기가 짧을수록 커졌다.</td><td>7-2</td></tr>
+<tr><td>kelly</td><td>켈리 비율대로 걸면 돈을 가장 빨리 불린다.</td><td>확률과 배당을 정확히 알 때 장기 성장률이 가장 높다는 뜻이다. 추정이 틀리면 지나치게 걸게 되고 짧은 기간의 낙폭이 크다.</td><td>8-2, V-8</td></tr>
+<tr><td>kelly</td><td>많이 걸수록 기대 수익도 커지니 더 많이 거는 것이 낫다.</td><td>켈리의 두 배를 걸면 장기 성장률이 0 근처로 떨어진다(이 책의 동전 예에서 −0.014%/회).</td><td>8-2, V-8</td></tr>
+<tr><td>crisis</td><td>분산투자를 했으니 폭락장에서도 안전하다.</td><td>큰 하락 때 상관이 높아지는 경향이 보고되었다. 상관이 1에 가까우면 분산 효과가 거의 사라진다.</td><td>9-1, V-9</td></tr>
+<tr><td>crisis</td><td>채권은 언제나 주식과 반대로 움직인다.</td><td>2022년처럼 금리가 오를 때 둘이 함께 떨어진 해가 있었다(미국 자료, 보도).</td><td>9-3</td></tr>
+<tr><td>final</td><td>은퇴가 가까우면 정답 비중이 하나 있다.</td><td>목표·기간·견딜 손실·현금 필요가 사람마다 달라 비중은 가정에서 나온다. 이 책은 가상 인물의 예 하나를 계산할 뿐이다.</td><td>V-10</td></tr>
+<tr><td>final</td><td>한 종목 비중은 내가 잘 아는 회사라면 커도 된다.</td><td>비중 30%인 한 종목이 계좌 위험의 약 59%를 차지할 수 있다(V-10의 위험 기여).</td><td>V-10</td></tr>
+</tbody></table></div>
+</section>
+
+<section id="values">
+<h2>기준값</h2>
+<p>모두 <b>계산</b>입니다. 초안 작성 세션이 파이썬(numpy)으로 계산했습니다(세션 임시 폴더의 <code>v.py</code>~<code>v5.py</code>, 책에는 넣지 않음). 출력은 소수 셋째 자리까지 적고, 본문 글자는 %·%p 소수 둘째 자리, 원화 금액은 만 원 단위로 씁니다.</p>
+
+<h3 id="values-assets">V-0 가상 자산의 가정 (모든 장 공통, 미리 정한 가정)</h3>
+<p><b>이 가정은 예측이 아닙니다.</b> 1년 단위 기대수익(μ)·표준편차(σ)·상관(ρ)을 초안 작성 세션이 “방향이 교재 서술과 어긋나지 않게” 정했습니다. 실제 시장 자료에서 추정하지 않았습니다.</p>
+<table><thead><tr><th>자산(가상)</th><th>μ</th><th>σ</th><th>비고</th></tr></thead><tbody>
+<tr><td>새벽전자(한 종목)</td><td class="num">9.0%</td><td class="num">35%</td><td>누리200과 ρ 0.67(베타로 바꾸면 0.67 × 35 ÷ 18 ≈ 1.30)</td></tr>
+<tr><td>누리200(국내 주식 지수)</td><td class="num">7.0%</td><td class="num">18%</td><td>해외주식과 ρ 0.6, 채권과 ρ −0.2</td></tr>
+<tr><td>해외주식 묶음</td><td class="num">6.5%</td><td class="num">16%</td><td>새벽전자와 ρ 0.4, 채권과 ρ 0</td></tr>
+<tr><td>채권 묶음</td><td class="num">3.5%</td><td class="num">6%</td><td>새벽전자와 ρ −0.1</td></tr>
+<tr><td>현금</td><td class="num">2.5%</td><td class="num">0%</td><td>무위험 자산으로 둠(모형의 r_f). 5장의 CAPM 계산 예는 6권의 4.4%를 따로 씀</td></tr>
+</tbody></table>
+<p>평상시 상관 행렬(5×5)의 고윳값은 0.260, 0.589, 1.000, 1.001, 2.150으로 모두 양수입니다. 위기 상관(주식끼리 0.9, 주식·채권 +0.3)의 고윳값도 0.1, 0.1, 0.861, 1, 2.939로 양수입니다. 원화 기준·환율·세금·보수는 넣지 않았습니다(이 책의 단순화).</p>
+
+<h3 id="values-diversify">V-1 종목 수와 표준편차 (1장)</h3>
+<p>식: 동일 비중 N종목, 각 σ, 모든 쌍의 상관 ρ → σₚ = √(σ²/N + (1 − 1/N)ρσ²), N → ∞이면 σ√ρ.</p>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: σ 30%, ρ 0.3, N = 1, 2, 5, 10, 30, ∞</td><td class="num">30.00, 24.19, 19.90, 18.25, 17.06, 16.43%</td></tr>
+<tr><td>확인: σ 30%, ρ 0, N = 9</td><td class="num">30 ÷ √9 = 10.00%</td></tr>
+<tr><td>전이: ρ = 1이면 N에 관계없이</td><td class="num">30.00%</td></tr>
+<tr><td>L2: σ 20%, ρ 0.5, N = 4 / ∞</td><td class="num">15.81% / 14.14%</td></tr>
+</tbody></table>
+
+<h3 id="values-matrix">V-2 공분산·상관 행렬 (2장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: 누리200·해외주식·채권, σ 18·16·6%, ρ 0.6·−0.2·0</td><td class="num">Σ = [0.0324, 0.01728, −0.00216 ; 0.01728, 0.0256, 0 ; −0.00216, 0, 0.0036]. 상관 행렬 고윳값 0.368, 1.000, 1.632</td></tr>
+<tr><td>본문: 네 종목, 모든 쌍 ρ 0.5</td><td class="num">고윳값 2.5, 0.5, 0.5, 0.5. 첫 고윳값 비중 62.5%, 고유벡터는 네 칸이 같은 값</td></tr>
+<tr><td>확인: ρ₁₂ 0.9, ρ₁₃ 0.9, ρ₂₃ −0.9</td><td class="num">고윳값 −0.8, 1.9, 1.9 → 상관 행렬이 될 수 없음</td></tr>
+<tr><td>L2: σ 25%·10%, ρ 0.4의 공분산</td><td class="num">0.4 × 0.25 × 0.10 = 0.0100(퍼센트 단위로 100 %²)</td></tr>
+</tbody></table>
+
+<h3 id="values-pair">V-3 두 자산 포트폴리오 (3장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: 누리200(7%, 18%)과 채권(3.5%, 6%), ρ −0.2, 주식 비중 0·20·40·60·80·100%</td><td class="num">σ 6.00, 5.39, 7.38, 10.58, 14.21, 18.00% / μ 3.5, 4.2, 4.9, 5.6, 6.3, 7.0%</td></tr>
+<tr><td>본문: 최소분산 비중</td><td class="num">주식 14.29%, σ 5.27%, μ 4.00%</td></tr>
+<tr><td>확인: 같은 두 자산, ρ = 1, 주식 60%</td><td class="num">0.6 × 18 + 0.4 × 6 = 13.20%</td></tr>
+<tr><td>L2: σ 20%·10%, ρ 0, 50/50 / 최소분산 비중</td><td class="num">σ √(0.01 + 0.0025) = 11.18% / 첫 자산 20%, σ 8.94%</td></tr>
+<tr><td>비고(본문에 쓰지 않음): σ 20%·10%, ρ 0.5</td><td class="num">최소분산 비중이 0(작은 쪽 100%)이 됨. ρ가 σ작은/σ큰 이상이면 섞어도 작은 쪽보다 줄지 않음</td></tr>
+</tbody></table>
+
+<h3 id="values-frontier">V-4 효율적 투자선과 샤프 비율 (4장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>누리200·해외주식·채권(V-0), r_f 2.5%: 접점 포트폴리오</td><td class="num">비중 22.52 / 13.30 / 64.18%, μ 4.687%, σ 6.316%, 샤프 0.3463</td></tr>
+<tr><td>최소분산 포트폴리오(제약 없음)</td><td class="num">비중 13.19 / 1.92 / 84.89%, μ 4.019%, σ 5.264%</td></tr>
+<tr><td>비교: 주식만 / 누리200 60·채권 40 / 30·30·40 / 채권만</td><td class="num">샤프 0.250 / 0.293 / 0.322 / 0.167</td></tr>
+<tr><td>공매도 없이 σ 8%에서 기대수익이 가장 높은 점(0.1%p 격자 탐색)</td><td class="num">비중 29.3 / 21.8 / 48.9%, μ 5.18%, σ 8.03%</td></tr>
+<tr><td>접점 + 현금으로 σ 5%</td><td class="num">접점 79.16%, 현금 20.84%, μ 4.23%</td></tr>
+<tr><td>확인: 접점에 현금을 섞을 때 샤프 비율</td><td class="num">변하지 않음(0.3463)</td></tr>
+<tr><td>L2: X(8%, 20%), Y(5%, 10%), r_f 3% / Y와 현금으로 σ 5%</td><td class="num">샤프 X 0.25, Y 0.20 / Y 50%, μ 4.0%</td></tr>
+</tbody></table>
+<p>모든 접점·최소분산 비중이 0 이상이라 이 가정에서는 공매도 없이도 같은 답이 나옵니다. 입력을 조금 바꾸면 음수 비중이 나올 수 있다는 것은 G3 실험에서 “공매도 허용” 단추로 보입니다.</p>
+
+<h3 id="values-beta">V-5 베타와 CAPM (5장)</h3>
+<p>본문 자료(가상, 12개월 월간 수익률 %): 누리200 2, −1, 3, −4, 1, 5, −2, 0, 4, −3, 2, 1 / 새벽전자 3.8, −3.1, 4.1, −3.0, 0.5, 7.7, −2.4, −0.8, 6.4, −3.7, 0.8, 2.5(누리200 × 1.3 + 작은 개별 움직임 + 0.2로 만든 값).</p>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: 베타 = Cov ÷ Var(표본, n − 1)</td><td class="num">β 1.3118, 상관 0.9435</td></tr>
+<tr><td>본문: CAPM(6권 값 r_f 4.4%, 주식 위험 프리미엄 4.9%), β 1.31</td><td class="num">4.4 + 1.31 × 4.9 = 10.82%</td></tr>
+<tr><td>본문: 위험 나누기, V-0 가정의 새벽전자(σ 35%, 누리200과 ρ 0.67), σ_m 18%</td><td class="num">β = 0.67 × 35 ÷ 18 ≈ 1.303, 체계적 몫 (β × 18)² ÷ 35² = ρ² = 0.4489 ≈ 44.9%, 개별 위험 σ 35 × √(1 − 0.4489) ≈ 26.0%. β를 1.3으로 반올림해 계산하면 44.7%가 나오므로 화면에는 반올림하지 않은 값을 씀. 12개월 가상 자료로 추정한 β 1.3118과는 다른 숫자(가정과 추정을 구별)</td></tr>
+<tr><td>확인: β = 0이면</td><td class="num">요구수익률 = 무위험 금리 4.4%</td></tr>
+<tr><td>L2(가상, 6개월): 시장 1, −2, 3, 0, −1, 2 / 종목 1, −1, 2, 0, −1, 2</td><td class="num">β = 12.5 ÷ 17.5 = 0.7143</td></tr>
+</tbody></table>
+
+<h3 id="values-mix">V-6 주식·채권·현금 배분 (6장)</h3>
+<table><thead><tr><th>주식·채권·현금</th><th>μ</th><th>σ</th><th>μ − 2σ (정규 어림)</th></tr></thead><tbody>
+<tr><td>80·10·10</td><td class="num">6.20%</td><td class="num">14.29%</td><td class="num">−22.38%</td></tr>
+<tr><td>60·30·10</td><td class="num">5.50%</td><td class="num">10.59%</td><td class="num">−15.68%</td></tr>
+<tr><td>40·50·10</td><td class="num">4.80%</td><td class="num">7.23%</td><td class="num">−9.65%</td></tr>
+<tr><td>20·70·10</td><td class="num">4.10%</td><td class="num">4.96%</td><td class="num">−5.81%</td></tr>
+</tbody></table>
+<p>확인: 주식 60%·현금 40%의 σ = 0.6 × 18 = 10.80%. L2: 현금 없이 주식·채권(ρ −0.2)으로 σ 8%를 맞추는 주식 비중 = 44.26%(μ 5.05%). 전이: 같은 두 자산으로 σ 12%를 맞추는 주식 비중 = 67.98%(μ 5.88%).</p>
+
+<h3 id="values-rebalance">V-7 리밸런싱 (7장, 가상 4년 경로)</h3>
+<p>시작 1억 원(주식 6,000만·채권 4,000만), 주식 수익률 +30%, −25%, +20%, +10%, 채권 +2%, +6%, +1%, +3%(가상). 매매 비용·세금은 넣지 않음.</p>
+<table><thead><tr><th>규칙</th><th>해마다 연말 주식 비중 · 매매(+ = 주식 매도, 만 원)</th><th>4년 뒤</th></tr></thead><tbody>
+<tr><td>맞추지 않음</td><td class="num">65.66% · 57.49% · 61.64% · 63.19%</td><td class="num">1억 2,221만 원</td></tr>
+<tr><td>연 1회 60%로</td><td class="num">65.66% +672.0 · 51.49% −883.9 · 64.06% +473.5 · 61.57% +196.1</td><td class="num">1억 2,511만 원</td></tr>
+<tr><td>±5%p 벗어날 때만</td><td class="num">65.66% +672.0 · 51.49% −883.9 · 64.06% 그대로 · 65.56% +697.0</td><td class="num">1억 2,544만 원</td></tr>
+</tbody></table>
+<p>최종 금액의 순서는 이 경로에서만의 결과이며 규칙의 우열이 아닙니다. 확인: 1년 차 65.66%는 ±5%p 띠를 벗어나므로 맞춤. L2: 2,000만 원 50/50, 주식 +30%·채권 0% → 주식 1,300만·채권 1,000만, 주식 비중 56.52%, 맞추려면 주식 150만 원 매도.</p>
+
+<h3 id="values-kelly">V-8 켈리 기준 (8장, 계산 연습)</h3>
+<p>식: 이기면 건 돈의 b배를 받고 지면 건 돈을 잃는 내기, 이길 확률 p, q = 1 − p → f* = p − q/b. 한 번당 기대 로그 성장 g(f) = p·ln(1 + bf) + q·ln(1 − f).</p>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: p 0.55, b 1</td><td class="num">f* 0.10. g(f*) 0.005008, g(f*/2) 0.003753, g(2f*) −0.000138, g(3f*) −0.016203</td></tr>
+<tr><td>본문: 100번 뒤 재산의 중앙값 배수(e^(100g))</td><td class="num">f* 1.650배, 절반 1.455배, 두 배 0.986배</td></tr>
+<tr><td>본문: 다섯 번 연속으로 질 때</td><td class="num">f*: 0.9⁵ = 0.5905(−40.95%), 2f*: 0.8⁵ = 0.3277(−67.23%)</td></tr>
+<tr><td>본문: 연속 근사 f = (μ − r)/σ², μ 7%, r 2.5%, σ 18%</td><td class="num">1.3889(빌려서 139% 투자). μ를 5%로 잘못 알았다면 0.7716, 4%면 0.4630</td></tr>
+<tr><td>확인: p 0.5, b 1</td><td class="num">f* 0(우위가 없으면 걸지 않음)</td></tr>
+<tr><td>L2: p 0.45, b 2</td><td class="num">f* = 0.45 − 0.55 ÷ 2 = 0.175</td></tr>
+</tbody></table>
+
+<h3 id="values-crisis">V-9 위기 때의 상관 (9장)</h3>
+<table><thead><tr><th>입력</th><th>값</th></tr></thead><tbody>
+<tr><td>본문: 네 종목 동일 비중, σ 25%, ρ 0.3 → 0.8</td><td class="num">17.23% → 23.05%</td></tr>
+<tr><td>본문: 주식 60·채권 40, 평상시(σ 18·6, ρ −0.2)</td><td class="num">10.59%</td></tr>
+<tr><td>본문: 위기 가정(σ 30·8, ρ +0.5) / 같은 σ에 ρ −0.2</td><td class="num">19.80% / 17.64%</td></tr>
+<tr><td>확인: 네 종목 ρ → 1</td><td class="num">25.00%(한 종목과 같음)</td></tr>
+<tr><td>L2: 주식 60·채권 40, σ 30·6, ρ +0.3</td><td class="num">18.86%</td></tr>
+</tbody></table>
+
+<h3 id="values-final">V-10 마지막 과제: 윤 씨의 계좌 (가상)</h3>
+<p>윤 씨(가상): 55세, 은퇴까지 10년, 금융자산 3억 원(이 가운데 IRP 1억 원). 윤 씨가 과제에서 밝힌 조건(가정): 위기 시나리오 한 해 손실을 4,500만 원(−15%) 안으로, 은퇴 첫 3년 생활비의 일부를 채권·현금으로. 위기 시나리오(가상): 새벽전자 −50%, 누리200 −35%, 해외주식 −30%, 채권 +2%, 현금 +2.5%.</p>
+<table><thead><tr><th>안</th><th>새벽전자·누리200·해외·채권·현금</th><th>μ</th><th>σ(평상시)</th><th>σ(위기 상관)</th><th>위기 시나리오</th></tr></thead><tbody>
+<tr><td>A 지금</td><td class="num">30·30·20·10·10</td><td class="num">6.70%</td><td class="num">16.46%</td><td class="num">18.72%</td><td class="num">−31.05%(−9,315만 원)</td></tr>
+<tr><td>B 풀이 예시</td><td class="num">5·20·20·40·15</td><td class="num">4.93%</td><td class="num">7.38%</td><td class="num">9.30%</td><td class="num">−14.33%(−4,298만 원)</td></tr>
+<tr><td>C (L2)</td><td class="num">10·25·25·30·10</td><td class="num">5.58%</td><td class="num">10.06%</td><td class="num">12.27%</td><td class="num">−20.40%(−6,120만 원)</td></tr>
+</tbody></table>
+<p>위험 기여(평상시, 표준편차에서 차지하는 몫): A에서 새벽전자 59.42%, 누리200 28.36%, 해외 12.56%, 채권 −0.34%. B에서 새벽전자 16.71%, 누리200 41.06%, 해외 35.60%, 채권 6.63%. IRP 확인 예: IRP 1억 원에 누리200 5,000만·해외 2,000만·채권 3,000만이면 위험자산 70%로 한도(보도 기준)와 같음. B는 정답이 아니라 조건을 만족하는 예 하나입니다.</p>
+<h3 id="values-transfer">확인·전이 문항의 추가 값 (제작 문서 #chapters에서 새로 쓴 것)</h3>
+<table><thead><tr><th>장</th><th>문항</th><th>값</th></tr></thead><tbody>
+<tr><td>matrix</td><td>전이: 종목 10개, 모든 쌍 ρ 0.5의 첫 고윳값</td><td class="num">1 + 9 × 0.5 = 5.5 (전체 10의 55%)</td></tr>
+<tr><td>pair</td><td>전이: ρ = −1, σ 20%·10%에서 σ 0을 만드는 첫 자산 비중</td><td class="num">10 ÷ (20 + 10) ≈ 33.3%</td></tr>
+<tr><td>frontier</td><td>전이: (9%, 18%)와 (6%, 9%), r_f 3%의 샤프 비율</td><td class="num">0.333과 0.333 (같음)</td></tr>
+<tr><td>beta</td><td>전이: σ 40%, σ_m 20%, ρ 0.5의 베타</td><td class="num">0.5 × 40 ÷ 20 = 1.0</td></tr>
+<tr><td>kelly</td><td>전이: 승률 60%로 알고 f* 0.20, 실제 승률 55%(f* 0.10)</td><td class="num">2배</td></tr>
+<tr><td>final</td><td>전이: 한도 6,000만 원(−20%)에서 안 C(−6,120만 원)</td><td class="num">넘음</td></tr>
+</tbody></table>
+</section>
+
+<section id="curriculum-sources">
+<h2>교과과정 비교에 쓴 자료</h2>
+<p>제작 문서의 비교 표가 말한 자료 가운데 실제로 열어 본 것만 적습니다. 모두 2026-10-13에 열었습니다.</p>
+<ul>
+<li><b>OpenStax 『Principles of Finance』 15장 [S1]~[S3]</b>(대학 교재, Dahlquist·Knight): 15.2절(여러 자산의 위험과 수익, 분산투자·상관·체계적 위험), 15.3절(CAPM, 회귀로 베타 추정), 15.4절(샤프·트레이너·젠센). 열린 쪽에 두 자산 표준편차 식과 효율적 투자선은 없음. 리밸런싱·켈리·위기 상관도 없음.</li>
+<li><b>Vanguard 연구 보고서 [S11]</b>(운용사, 2010): 리밸런싱의 목적과 주기·기준 비교.</li>
+<li><b>CFA Institute 블로그 [S12]</b>(전문가 단체, 2012): 자산배분 연구를 세 질문으로 나눠 읽는 형식.</li>
+<li><b>MacLean·Thorp·Ziemba [S8]</b>(학술, 2010): 켈리 기준을 좋은 성질과 나쁜 성질로 나눠 정리한 형식.</li>
+<li><b>서재 안의 책</b>: 「벡터와 행렬」 3·8·9장(투영·고유벡터·주성분, 공분산 행렬의 uᵀCu), 「모델을 움직이는 수학」 5장(경사하강과 제약 최적화 곁글), 「확률과 통계」 9장(상관과 인과), 8권(표준편차·두꺼운 꼬리·낙폭), 6권 6장(CAPM과 베타 1.0 가정).</li>
+</ul>
+<p>요약하면, 열어 본 교재는 위험과 수익 → 분산 → CAPM → 성과 지표 순서로 가고 한 사람의 계좌를 다시 짜는 활동이 없습니다. 운용사·학술 자료는 리밸런싱과 켈리를 따로 다룹니다. 가상 자산 다섯 개의 같은 가정으로 분산 → 행렬 → 투자선 → 베타 → 배분 → 리밸런싱 → 크기 → 위기까지 잇고, 마지막에 가상 인물의 계좌를 조건과 함께 다시 짜는 흐름은 열어 본 자료 어디에도 없어서 이 책의 대표 실험과 마지막 과제로 세웠습니다. 한국 대학의 투자론 강의 계획서와 금융투자협회·금융감독원의 교육 자료는 이번에 열지 않았습니다(후속 과제).</p>
+</section>
+
+<section id="unverified">
+<h2>확인하지 못한 것</h2>
+<ul>
+<li>⏱ 퇴직연금 위험자산 70% 한도의 법령·감독규정 원문(fsc.go.kr·law.go.kr 로봇 배제, 보도 두 곳으로만 확인)과 완화 검토의 결과(2026-06-23 기사 시점 “검토 단계”). 고정 재확인일 2027-04-13, 그리고 G6 시작일.</li>
+<li>⏱ 적격 TDF 예외의 감독규정 원문과 2026-04-01 개정 내용(보도 한 곳).</li>
+<li>⏱ 6권에서 가져온 국고채 10년 금리 4.395%(2026-10-08)와 Damodaran 주식 위험 프리미엄 4.87%(2026-01-05)의 최신 값(6권과 같은 날 다시 확인).</li>
+<li>1990년 노벨 경제학상 공식 수상 이유 문구(nobelprize.org 가져오기 오류).</li>
+<li>Markowitz(1952)·Sharpe(1964)·Kelly(1956)·Longin and Solnik(2001) 논문 본문(서지와 초록만 확인).</li>
+<li>Evans and Archer(1968)·Statman(1987)의 원 논문(대학 실습 보고서로 2차 확인).</li>
+<li>Brinson·Hood·Beebower(1986)·Ibbotson and Kaplan(2000) 원 논문(CFA Institute 블로그로 확인).</li>
+<li>효율적 투자선과 두 자산 표준편차 식의 교재 원문(OpenStax 15.2절 열린 쪽에 없음).</li>
+<li>한국 시장의 실제 상관·베타 자료(이 책은 가상 자산만 씀). 한국 주식·채권 상관이 2022년 무렵 어땠는지(미국 자료 보도만 확인).</li>
+<li>AAII에 실린 Vanguard 보고서 요약(로봇 배제). 보고서 PDF 사본으로 대신함.</li>
+<li>“새벽전자”, “누리200”을 한국거래소 목록에서 직접 조회하지 못함(웹 검색만).</li>
+<li>교과과정 비교의 한국 쪽 자료(한국 대학 투자론 강의 계획서, 금융투자협회·금융감독원 교육 자료).</li>
+</ul>
+</section>
+
+<section id="sources">
+<h2>출처 목록</h2>
+<p>모든 출처의 확인일(연 날)은 2026-10-13입니다. 괄호 안은 출처 종류입니다.</p>
+<ol style="list-style:none;padding-left:0">
+<li>[S1] Dahlquist·Knight, Principles of Finance, OpenStax, 15.2 Risk and Return to Multiple Assets — <a href="https://openstax.org/books/principles-finance/pages/15-2-risk-and-return-to-multiple-assets">https://openstax.org/books/principles-finance/pages/15-2-risk-and-return-to-multiple-assets</a> (대학 교재)</li>
+<li>[S2] 같은 책 15.4 Applications in Performance Measurement — <a href="https://openstax.org/books/principles-finance/pages/15-4-applications-in-performance-measurement">https://openstax.org/books/principles-finance/pages/15-4-applications-in-performance-measurement</a> (대학 교재)</li>
+<li>[S3] 같은 책 15.3 The Capital Asset Pricing Model (CAPM) — <a href="https://openstax.org/books/principles-finance/pages/15-3-the-capital-asset-pricing-model-capm">https://openstax.org/books/principles-finance/pages/15-3-the-capital-asset-pricing-model-capm</a> (대학 교재)</li>
+<li>[S5] RePEc, Harry Markowitz 저자 쪽(“Portfolio Selection”, Journal of Finance 7(1), 77–91) — <a href="https://econpapers.repec.org/RAS/pma73.htm">https://econpapers.repec.org/RAS/pma73.htm</a> (학술 서지)</li>
+<li>[S6] RePEc, Sharpe(1964) “Capital Asset Prices: A Theory of Market Equilibrium under Conditions of Risk” — <a href="https://ideas.repec.org/a/bla/jfinan/v19y1964i3p425-442.html">https://ideas.repec.org/a/bla/jfinan/v19y1964i3p425-442.html</a> (학술 서지)</li>
+<li>[S7] Internet Archive, BSTJ 35:4, July 1956: A New Interpretation of Information Rate (Kelly, J. L., Jr.) — <a href="https://archive.org/details/bstj35-4-917">https://archive.org/details/bstj35-4-917</a> (학술 서지)</li>
+<li>[S8] MacLean·Thorp·Ziemba, Good and bad properties of the Kelly criterion (2010) — <a href="https://www.stat.berkeley.edu/~aldous/157/Papers/Good_Bad_Kelly.pdf">https://www.stat.berkeley.edu/~aldous/157/Papers/Good_Bad_Kelly.pdf</a> (학술 원문, 강의 자료로 게시된 사본)</li>
+<li>[S9] ESSEC, Longin·Solnik “Extreme Correlation of International Equity Markets” (Journal of Finance 56(2), 649–676, 2001) — <a href="https://faculty.essec.edu/en/research/extreme-correlation-of-international-equity-markets">https://faculty.essec.edu/en/research/extreme-correlation-of-international-equity-markets</a> (학술 서지·초록)</li>
+<li>[S10] Kellogg School practicum report, Diversification Benefits (2004) — <a href="https://kellogg.northwestern.edu/faculty/jagannathan/teaching/practicum/2004/files/Final-Reports/DiversificationBenefits.pdf">https://kellogg.northwestern.edu/faculty/jagannathan/teaching/practicum/2004/files/Final-Reports/DiversificationBenefits.pdf</a> (대학 실습 보고서, 2차)</li>
+<li>[S11] Jaconetti·Kinniry·Zilbering, Best practices for portfolio rebalancing, Vanguard Research (2010-07) — <a href="https://indexacapital.com/bundles/unaiadvisor/docs/papers/2010-Vanguard-Best-practices-for-portfolio-rebalancing.pdf?v=241">https://indexacapital.com/bundles/unaiadvisor/docs/papers/2010-Vanguard-Best-practices-for-portfolio-rebalancing.pdf?v=241</a> (운용사 연구, 제3자 게시 사본)</li>
+<li>[S12] Larrabee, Setting the Record Straight on Asset Allocation, CFA Institute Enterprising Investor (2012-02-16) — <a href="https://rpc.cfainstitute.org/blogs/enterprising-investor/2012/setting-the-record-straight-on-asset-allocation">https://rpc.cfainstitute.org/blogs/enterprising-investor/2012/setting-the-record-straight-on-asset-allocation</a> (전문가 단체 글)</li>
+<li>[S13] 헤럴드경제, 퇴직연금에 걸린 ‘70% 룰’ 족쇄 언제쯤 풀리나 (2026-06-23) — <a href="https://www.heraldk.com/article/2026062318205779499">https://www.heraldk.com/article/2026062318205779499</a> (보도)</li>
+<li>[S14] 비즈니스워치, TDF 미국쏠림 막는다…국가별 투자비중 80% 이내로 제한 (2026-03-31) — <a href="https://news.bizwatch.co.kr/article/market/2026/03/31/0014">https://news.bizwatch.co.kr/article/market/2026/03/31/0014</a> (보도)</li>
+<li>[S15] NBER, Forbes·Rigobon “No Contagion, Only Interdependence: Measuring Stock Market Co-movements” (WP 7267, 1999) — <a href="https://www.nber.org/papers/w7267">https://www.nber.org/papers/w7267</a> (학술 초록)</li>
+<li>[S16] 머니투데이, 전통의 60/40 포트폴리오, 이젠 무용지물?[PADO] (2023-12-17) — <a href="https://www.mt.co.kr/world/2023/12/17/2023121513132398782">https://www.mt.co.kr/world/2023/12/17/2023121513132398782</a> (보도)</li>
+<li>[S17] SBS Biz, 블랙록 “주식·채권 상관관계 믿을 수 없어” (2025-06-30) — <a href="https://biz.sbs.co.kr/amp/article/20000243495">https://biz.sbs.co.kr/amp/article/20000243495</a> (보도)</li>
+<li>[S20] 이 서재 「벡터와 행렬」 8·9장(고유벡터, 주성분, uᵀCu) — <a href="../../linear-algebra/#pca">books/linear-algebra/#pca</a> (서재 안)</li>
+<li>[S21] 이 서재 「모델을 움직이는 수학」 5장(경사하강, 볼록 최적화와 제약 곁글) — <a href="../../aie-math/#optimize">books/aie-math/#optimize</a> (서재 안)</li>
+<li>[S22] 이 서재 6권 「기업 가치 평가」 6장과 조사 노트(국고채 금리, 주식 위험 프리미엄, 베타 1.0 가정) — <a href="../../valuation/docs/research.html">books/valuation/docs/research.html</a> (서재 안 재인용, 이번에 원문 다시 열지 않음)</li>
+<li>[S23] 이 서재 8권 「가격은 어떻게 흔들리는가」 3·5·9장(표준편차와 연율화, 두꺼운 꼬리, 최대 낙폭) — <a href="../../volatility/docs/research.html">books/volatility/docs/research.html</a> (서재 안 재인용)</li>
+<li>[S24] 이 서재 11권 「세금과 계좌」 2·8장, 1권 9장(거래세, 연금 계좌, 수수료) — <a href="../../tax/docs/research.html">books/tax/docs/research.html</a> (서재 안 재인용)</li>
+<li>[S25] 이 서재 2권 「거시경제」 조사 노트 4-1~4-8행(1997·2008·2020 위기) — <a href="../../macro/docs/research.html">books/macro/docs/research.html</a> (서재 안 재인용)</li>
+</ol>
+<p>번호 S4·S18·S19는 비워 두었습니다(초안 중에 뺀 출처). 은재가 정리할 때 번호를 다시 매길 수 있습니다.</p>
+</section>
+</main>
+</body>
+</html>
