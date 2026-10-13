@@ -1,5 +1,5 @@
 /* content.js와 review.json의 구조 검사: 장 ID·필드·실험 ID, docs/index.html #curriculum의 제목·부·시간, #chapters의 L1과 recall,
-   다른 책 링크의 이름과 앵커(data/catalog.json chapter_index), 출처 표기, 권유·판정 말투, 6권(준비 중)과 없는 책으로 가는 링크.
+   다른 책 링크의 이름과 앵커(data/catalog.json chapter_index), 출처 표기, 권유·판정 말투, 공개된 6권 「기업 가치 평가」로 가는 링크와 없는 책으로 가는 링크.
    index.html이 생기면 routes.test.cjs가 화면 쪽을 맡는다. */
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f),'utf8');
@@ -50,12 +50,13 @@ test('cross links use catalog chapter labels, existing anchors and folders, and 
   const m=url.match(/^\.\.\/([a-z0-9-]+)\/#([a-z0-9-]+)$/);assert.ok(m,url);assert.ok(fs.existsSync(path.join(base,'..',m[1])),'missing book folder: '+m[1]);
   const key=`books/${m[1]}/#${m[2]}`,label=catalog.chapter_index[key];assert.ok(label,'not in chapter_index: '+key);
   assert.equal(name,`${titles['books/'+m[1]+'/']} ${label}`,c.id+' link name');assert.ok(why.length>15,c.id);
-  if(['grid','tax','etf','volatility'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
+  if(['valuation','grid','tax','etf','volatility'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
  }
 });
-test('vol 6 is named as text “6권(준비 중)” only; no link to books/valuation or any other unpublished folder',()=>{
- const src=read('js/content.js')+read('review.json');assert.doesNotMatch(src,/valuation|\.\.\/(?!market|money|bonds|grid|tax|etf|knowledge-graph|probability)[a-z-]+\//);
- assert.match(src,/6권\(준비 중\)/);assert.doesNotMatch(src,/6권[^(]{0,3}<a|href=[^>]*6권/);
+test('vol 6 is named by its published title and linked from #ratios and #final; no link to any unpublished folder',()=>{
+ const src=read('js/content.js')+read('review.json');assert.doesNotMatch(src,/\.\.\/(?!market|money|bonds|grid|tax|etf|knowledge-graph|probability|valuation)[a-z-]+\//);
+ assert.doesNotMatch(src,/6권\(준비 중\)/);assert.match(src,/6권 「기업 가치 평가」/);
+ const to6=B.chapters.filter(c=>c.cross.some(x=>x[1].startsWith('../valuation/'))).map(c=>c.id);assert.deepEqual(to6,['ratios','final']);
 });
 test('terms and symbols are explained at first use; fictional names are called 가상 at first mention',()=>{
  const text=B.chapters.map(c=>[c.subtitle,c.desc,...c.paragraphs,c.formula,c.formulaNote].join(' ')).join(' ');

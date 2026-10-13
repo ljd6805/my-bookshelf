@@ -1,0 +1,26 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="2026~2030년 FCFF 막대 다섯 개와 큰 영구가치 막대가 할인 화살표를 지나 왼쪽의 기업가치 막대 2,662.2로 모이고, 그 막대에서 순차입금 387.2를 덜어 주주 몫 2,275.0이 남는 그림" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M8 128H312"/>
+<rect class="cv-bar cv-dash" x="18" y="36" width="40" height="13"/>
+<rect class="cv-fill" x="18" y="49" width="40" height="79"/>
+<text class="cv-text" x="62" y="46">− 순차입금 387.2</text>
+<text class="cv-text cv-inverse" x="38" y="80" text-anchor="middle">주주 몫</text>
+<text class="cv-text cv-inverse" x="38" y="92" text-anchor="middle">2,275.0</text>
+<text class="cv-text" x="38" y="140" text-anchor="middle">기업가치 2,662.2</text>
+<rect class="cv-bar" x="150" y="79" width="12" height="49"/>
+<rect class="cv-bar" x="166" y="96" width="12" height="32"/>
+<rect class="cv-bar" x="182" y="95" width="12" height="33"/>
+<rect class="cv-bar" x="198" y="93" width="12" height="35"/>
+<rect class="cv-bar" x="214" y="91" width="12" height="37"/>
+<rect class="cv-tint" x="248" y="22" width="44" height="106"/>
+<rect class="cv-bar" x="248" y="22" width="44" height="106"/>
+<text class="cv-text" x="188" y="140" text-anchor="middle">FCFF 2026~2030</text>
+<text class="cv-text" x="270" y="140" text-anchor="middle">영구가치</text>
+<text class="cv-text" x="270" y="16" text-anchor="middle">3,079.6</text>
+<text class="cv-text" x="188" y="72" text-anchor="middle">196.8 … 146.9</text>
+<path class="cv-line cv-thin" d="M240 48C190 30 120 40 66 60"/>
+<path class="cv-head" d="M62 62l8-6l1 7z"/>
+<path class="cv-line cv-thin" d="M146 104C120 104 92 100 66 92"/>
+<path class="cv-head" d="M62 91l8-4l-1 7z"/>
+<text class="cv-text" x="104" y="64" text-anchor="middle">할인 8.3%</text>
+<text class="cv-text cv-muted" x="104" y="118" text-anchor="middle">÷ (1 + r)^t</text>
+</svg>

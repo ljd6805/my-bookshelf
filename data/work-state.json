@@ -513,5 +513,38 @@
     ],
     "next": "PR 병합, 시리즈 다음 권(proposal.md §4: 6권 가치 평가)",
     "fact_review": "books/statements/docs/fact-review.html (1회차 fixed: facts·terms·sources·wording fixed, numbers·experiments ok)"
+  },
+  "valuation": {
+    "book": "books/valuation/",
+    "series": "finance-from-scratch 6권 (시리즈 아홉 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md (### 6권), /mnt/project-files/stock-books/vol6-handoff.md",
+    "docs": "books/valuation/docs/index.html",
+    "research": "books/valuation/docs/research.html",
+    "fact_review": "books/valuation/docs/fact-review.html",
+    "status": "G0~G7 승인, 팩트·출처 검수 1회차 fixed, published",
+    "done": [
+      "10장·10개 실험(VMath 계산 모형, 기준안 22,750원/주, WACC 8.335%→8.3%, 배수 범위 16,978~19,776원, 분석가 A 31,833원·B 15,867원), 복습 30문항, 책 테스트 64개와 browser.cjs",
+      "G3: EBITDA 단정 → '확인하지 못함', 부채 비용 만기 차이 유지(맞추면 WACC 8.40%, 22,318원, −1.9%; 은재 결정), 1장 기본값·4장 예제가 확인 문제 답을 보이지 않게, 8·10장 새 확인 문제",
+      "다온 문체 비평(K1~K7·Q1~Q4 대조표, style-k-titles, 장별 메모 3차까지), 5장·9장 제목 다듬음",
+      "채원 첫 독자 리허설(막힘 없음, 개선점 15개 반영: 1·2·7·10장 새 확인 문제, 칸 옆 오류 표시, 용어 풀이, 그림 2-1 겹침, 10장 단추 이름·표 폭)",
+      "G4: 5장 부제 FCFF 정의, 2장 다의 PBR, 9장 결과 읽기, 표지 기업가치 막대 비율",
+      "서가 등록(plum, 금융 끝, 책등 '가치 평가'), 장 색인 10개, 개념 할인과 현재가치(#fcf·#terminal)·기울기와 역전파(#sensitivity), 새 노선 value-basis, rates-and-assets #wacc 정거장, 시리즈 6권 book_id, 들어오는 링크 5개(5권 #ratios·#final, 3권 #equity, 1권 #npv, 확률과 통계 #interval), 5권 마지막 링크를 6권 #price로",
+      "팩트·출처 검수 1회차 fixed(검수팀 새 세션): 7장 실험 재투자 문장(g 4.76~5% 구간), 조사 노트 행 3-4"
+    ],
+    "evidence": "books/valuation/tests(math·content·routes·guides 64개, browser.cjs 1280·390·320px 67개 화면·실험 30회·L2 30회), 검수 세션의 독립 파이썬 재계산(fact-review.html)",
+    "verification": [
+      "python3 scripts/validate.py",
+      "python3 scripts/build_catalog.py --check",
+      "node --test tests/*.mjs",
+      "cd books/valuation && npm test (64)",
+      "books/valuation/tests/browser.cjs"
+    ],
+    "remaining": [
+      "확인 못함: 국고채 10년 공식 원값(보도 4.395%만), 한국거래소 코스피 PER 원값, Damodaran 2026년 7월 갱신 여부와 미국 기준 프리미엄을 원화 금리에 더하는 방식의 타당성, EBITDA가 K-IFRS 표시 항목이 아니라는 기준서 원문, 한국 증권사 목표주가 기간 관행, 한국어 공식 배수 정의, CFA 교재 본문, 반기·분기 45일 기한 법령 원문, 한국 법인세의 실제 세율 구간(이 책은 5권과 같은 20% 가정), OpenStax WACC 절(16.2)과 Damodaran FCFF 질문 쪽(가져오기 오류), 한국 주식의 베타 자료(6장은 β 1.0 가정, 추정은 9권), 교과과정 비교의 한국 쪽 교육 자료(금융감독원·금융투자협회)와 한국 대학 강의 계획서, 새벽전자 한국거래소 상장 목록 직접 조회",
+      "알려진 단순화: 서가 삽화가 다섯 해 막대와 영구가치 막대를 다른 축척으로 그리고 할인 애니메이션이 다섯 막대를 같은 비율(.95)로 줄임(리안 G4: 다음 삽화 손질 때 끊김 표시나 '높이는 비율만' 메모)",
+      "선택: 기울기와 역전파 개념 요약이 ML 쪽 문장('학습 방향을 정한다')이라 가치 평가 민감도도 아우르게 다듬기(서윤 G5 비차단)",
+      "금리 시점 민감: 2026-10-22 기준금리 결정 뒤 무위험 금리·3권 스프레드 재확인"
+    ],
+    "next": "PR CI 통과 뒤 병합. 다음 권: 2권 거시경제"
   }
 }
