@@ -165,3 +165,13 @@ fieldset.cards .control{padding:4px 0}
 .deep-reading .table-wrap.fit thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.deep-reading .table-wrap.fit table,.deep-reading .table-wrap.fit tbody,.deep-reading .table-wrap.fit tr,.deep-reading .table-wrap.fit td,.deep-reading .table-wrap.fit th{display:block;width:100%}.deep-reading .table-wrap.fit tr{border:1px solid var(--line);border-radius:6px;margin:0 0 8px}.deep-reading .table-wrap.fit td,.deep-reading .table-wrap.fit th{border:0;border-bottom:1px solid var(--line)}.deep-reading .table-wrap.fit td:before{content:attr(data-label);display:block;font-size:.8em;color:var(--accent);font-weight:700}}
 .lab .table-wrap.cards td b{white-space:nowrap}
 .stage-list li b{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+/* 틀린 칸: 굵은 테두리와 ✗ 글자를 함께 둔다(색만으로 알리지 않음). */
+.control input[aria-invalid=true]{border:2px solid var(--orange);outline-offset:2px}
+.control .field-error{display:block;color:var(--orange);font-size:12px;font-weight:700;margin-top:4px}
+/* 10장 과제 표: 확인할 자료와 날짜를 둘째 칸에 두고 칸 안에서 줄을 바꿔 1280px 칸 폭 안에 들어가게 한다. */
+.lab .chart .table-wrap.task table{min-width:0}
+.lab .table-wrap.task td:nth-child(2){white-space:normal;min-width:11em}
+.lab .table-wrap.task td:first-child{min-width:7em}
+.lab .table-wrap.task td:nth-child(3){white-space:normal}
+.narrow-note{display:none}
+@media (max-width:600px){.narrow-note{display:block;font-weight:600}}

@@ -21,6 +21,12 @@ put('gPeers',[M.impliedG(8,0.5,0.09),M.impliedG(11,0.35,0.09),M.impliedG(18,0.2,
 const RS=[0.073,0.078,0.083,0.088,0.093];
 put('sG',M.sensitivity('r',RS,'growth',[0.01,0.03,0.05,0.07,0.09]));put('sM',M.sensitivity('r',RS,'margin',[0.10,0.11,0.12,0.13,0.14]));put('sT',M.sensitivity('r',RS,'gT',[0.01,0.015,0.02,0.025,0.03]));
 put('q8',{inputs:[0.04,0.088],cells:[M.value({growth:0.04,r:0.088}),M.value({growth:0.04,r:0.083}),M.value({growth:0.04,r:0.093})]});put('q10',M.gapSteps(['wcRatio','r','margin','growth']));
+put('newCheck',{split4:M.split(undefined,4),cap4:[2000/4,2000*4],pbrMa:[0.12*9,9/12,12/9,9,0.12],g1:M.dcf({gT:0.01}),g3:M.dcf({gT:0.03}),rThird:M.gapSteps(['wcRatio','margin','r','growth'])});
+test('새 확인 문제: 1주를 4주로 5,000 · 412, 마 PBR 1.08, g 1% 비중 76.2%(1,905.9 ÷ 2,500.9), 할인율 둘째 몫 +3,510 · 셋째 +4,244',()=>{
+ const X=C.newCheck;assert.deepEqual([X.split4.price,w(X.split4.eps),X.split4.cap],[5000,'412',2000]);assert.equal(f2(X.pbrMa[0]),'1.08');
+ assert.deepEqual([f1(X.g1.tvPv),f1(X.g1.firm),pct(X.g1.tvShare),pct(X.g3.tvShare)],['1905.9','2500.9','76.2','79.4']);
+ assert.deepEqual([w(C.q10.steps[1].delta),w(X.rThird.steps[2].delta)],['3,510','4,244']);
+});
 put('range',M.rangeSentence(Math.min(PV.low,C.tornado[0].low),C.tornado[0].high));
 /* 확인·전이 문제와 복습 문제의 계산(새 사례와 오답 보기 포함) */
 put('q',{y16:400/16000,rent:[1200/30000,1200/25000],nwc322:1890*0.322,dNwc322:1890*0.322-580,evWrong:2487.2/278,cash162:450-162.8,
@@ -186,7 +192,7 @@ test('the numbers in docs/index.html #curriculum-case and #chapters (해결 결�
  for(const s of l1)assert.ok(L.includes(s),'chapters L1: '+s);
  const l2=['(시가총액 600억 원, EPS 1,200원, BPS 9,000원)','(PBR 1.5배, PER 15배)','(3.0%, 30%, 7.12%)','(6.67배, 9.67배)','(FCFF 50억 원, 현재가치 약 46.3억 원)','(10.77%, 약 8.98%)','(1,666.7억 원, 약 1,083.2억 원, 2,000억 원으로 20%)','(오른다, 24,336원)','(7.4%)','(19,246원)'];
  for(const s of l2)assert.ok(L.includes(s),'chapters L2: '+s);
- const check=['(10,000원, 824원, 2,000억 원 그대로)','(2.34배)','(2.5%)','(2,287.2억 원, 8.23배)','(1,890 × 32.2% − 580 = 28.6억 원','(8.3%, 약 7.5%: (2,000 × 8.3% + 450 × 4.05%) ÷ 2,450 = 7.52%)','(계산하지 않고 “g ≥ r” 오류)','(약 20,190원: 20,189원으로 이웃 칸 19,680원과 20,720원 사이)','(약 5.64%)','(작다: 22,135 − 18,625 = +3,510원','(4.0%, 4.8%)','(2억 원, 1년 뒤 첫 지급이면 약 3억 3,333만 원)','(50만 원'];
+ const check=['(5,000원, 412원, 2,000억 원 그대로)','(1.08배)','(2.5%)','(2,287.2억 원, 8.23배)','(1,890 × 32.2% − 580 = 28.6억 원','(8.3%, 약 7.5%: (2,000 × 8.3% + 450 × 4.05%) ÷ 2,450 = 7.52%)','(약 76.2%: 1,905.9 ÷ 2,500.9)','(약 20,190원: 20,189원으로 이웃 칸 19,680원과 20,720원 사이)','(약 5.64%)','(+3,510원: 22,135 − 18,625','(4.0%, 4.8%)','(2억 원, 1년 뒤 첫 지급이면 약 3억 3,333만 원)','(50만 원'];
  for(const s of check)assert.ok(L.includes(s),'chapters check/transfer: '+s);
 });
 

@@ -28,12 +28,12 @@ function ranges(o){const b=o.base;return {r:[b.r+o.srr,b.r-o.srr],margin:[b.marg
 /* 가정별 변화 폭 막대: 기준안 세로선을 사이에 두고 낮은 값에서 높은 값까지. 위에서부터 폭이 큰 순서. */
 function tornadoSvg(rows,mid){
  const L=150,R=470,G=56,T=30,h=T+rows.length*34+34,lo=Math.min(...rows.map(r=>r.low),mid),hi=Math.max(...rows.map(r=>r.high),mid),X=v=>L+G+(v-lo)/((hi-lo)||1)*(R-L-2*G);
- let s=`<text x="10" y="18" class="series">가정별 변화 폭 (원, 위에서부터 큰 순서)</text><path d="M${X(mid).toFixed(1)} ${T-4}V${h-26}" stroke="var(--muted)" stroke-dasharray="4 3"/><text x="${X(mid).toFixed(1)}" y="${h-10}" text-anchor="middle" class="axis">기준안 ${U.won10(mid)}</text>`;
+ let s=`<text x="10" y="18" class="series">가정별 변화 폭 (원, 위에서부터 큰 순서)</text><path d="M${X(mid).toFixed(1)} ${T-4}V${h-26}" stroke="var(--muted)" stroke-dasharray="4 3"/><text x="${X(mid).toFixed(1)}" y="${h-10}" text-anchor="middle" class="axis">기준안 ${U.won(mid)}</text>`;
  rows.forEach((r,i)=>{const y=T+i*34;
   s+=`<text x="${L-8}" y="${y+12}" text-anchor="end" class="axis">${i+1}. ${NAME[r.key]}</text><text x="${L-8}" y="${y+27}" text-anchor="end" class="axis">${P(r.from)}↔${P(r.to)}</text>`;
   s+=`<rect x="${X(r.low).toFixed(1)}" y="${y+6}" width="${Math.max(2,X(r.high)-X(r.low)).toFixed(1)}" height="18" rx="2" fill="${i===0?'var(--accent)':'var(--blue)'}"/>`;
-  s+=`<text x="${(X(r.low)-4).toFixed(1)}" y="${y+20}" text-anchor="end" class="price">${U.won10(r.low)}</text><text x="${(X(r.high)+4).toFixed(1)}" y="${y+20}" text-anchor="start" class="price">${U.won10(r.high)}</text>`;});
- return U.svg(`가정별 변화 폭: ${rows.map(r=>`${NAME[r.key]} ${U.won10(r.low)}~${U.won10(r.high)}`).join(', ')}`,s,h);
+  s+=`<text x="${(X(r.low)-4).toFixed(1)}" y="${y+20}" text-anchor="end" class="price">${U.won(r.low)}</text><text x="${(X(r.high)+4).toFixed(1)}" y="${y+20}" text-anchor="start" class="price">${U.won(r.high)}</text>`;});
+ return U.svg(`가정별 변화 폭: ${rows.map(r=>`${NAME[r.key]} ${U.won(r.low)}~${U.won(r.high)}`).join(', ')}`,s,h);
 }
 /* 한 축 그림: 배수 범위, DCF 범위, 주가 20,000원 선, 기준안 점. */
 function rangeSvg(pv,lo,hi,mid,rs){

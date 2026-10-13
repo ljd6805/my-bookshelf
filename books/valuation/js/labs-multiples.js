@@ -18,12 +18,22 @@ VLabs['price-basics']=el=>{
  });
 };
 /* 점 그림: 가로 ROE, 세로 PBR. 같은 해 이익·같은 시점 자본이면 점은 원점에서 나온 기울기 PER의 직선 위에 있다. */
+/* 점 이름표: 오른쪽 → 왼쪽 → 위 → 아래 순서로 놓아 보고, 다른 점과 이미 놓은 이름표에 겹치지 않는 첫 자리를 쓴다(글자 폭은 어림). */
+function placeLabels(pts,L,R,T){
+ const boxes=[],hit=(a,b)=>a.x<b.x+b.w&&b.x<a.x+a.w&&a.y<b.y+b.h&&b.y<a.y+a.h,dots=pts.map(p=>({x:p.x-p.r,y:p.y-p.r,w:2*p.r,h:2*p.r}));
+ return pts.map((p,i)=>{const w=[...p.text].length*12.5,h=15;
+  const tries=[[p.x+p.r+4,p.y-h/2],[p.x-p.r-4-w,p.y-h/2],[p.x-w/2,p.y-p.r-3-h],[p.x-w/2,p.y+p.r+3]].map(([x,y])=>({x,y,w,h}));
+  const ok=b=>b.x>=L&&b.x+b.w<=R+18&&b.y>=T-16&&!dots.some((d,j)=>j!==i&&hit(b,d))&&!boxes.some(o=>hit(b,o));
+  const b=tries.find(ok)||tries[0];boxes.push(b);
+  return `<text x="${b.x.toFixed(1)}" y="${(b.y+h-3).toFixed(1)}" text-anchor="start" class="price">${U.esc(p.text)}</text>`;}).join('');
+}
 function scatter(points,label){
  const L=56,R=460,T=20,B=240,mx=Math.max(...points.map(p=>p.x),0.05)*1.2,my=Math.max(...points.map(p=>p.y),0.5)*1.2,X=v=>L+Math.max(0,v)/mx*(R-L),Y=v=>B-Math.max(0,v)/my*(B-T);
  let s=`<path d="M${L} ${B}H${R}M${L} ${B}V${T}" stroke="var(--muted)"/>`;
  U.niceTicks(0,mx,4).forEach(v=>{s+=`<text x="${X(v).toFixed(1)}" y="${B+16}" text-anchor="middle" class="axis">${U.pct(v,0)}</text>`;});
- U.niceTicks(0,my,4).forEach(v=>{s+=`<text x="${L-6}" y="${(Y(v)+4).toFixed(1)}" text-anchor="end" class="axis">${U.sfmt(v,1)}</text>`;});
- points.forEach(p=>{s+=`<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="${p.on?7:5}" fill="${p.on?'var(--accent)':'var(--blue)'}"/><text x="${(X(p.x)+(X(p.x)>R-80?-9:9)).toFixed(1)}" y="${(Y(p.y)+4).toFixed(1)}" text-anchor="${X(p.x)>R-80?'end':'start'}" class="price">${p.on?'▲ ':''}${U.esc(p.name)}</text>`;});
+ U.niceTicks(0,my,4).filter(v=>v>0).forEach(v=>{s+=`<text x="${L-6}" y="${(Y(v)+4).toFixed(1)}" text-anchor="end" class="axis">${U.sfmt(v,1)}</text>`;});
+ points.forEach(p=>{s+=`<circle cx="${X(p.x).toFixed(1)}" cy="${Y(p.y).toFixed(1)}" r="${p.on?7:5}" fill="${p.on?'var(--accent)':'var(--blue)'}"/>`;});
+ s+=placeLabels(points.map(p=>({x:X(p.x),y:Y(p.y),r:p.on?7:5,text:(p.on?'▲ ':'')+p.name})),L,R,T);
  s+=`<text x="${R}" y="${B+34}" text-anchor="end" class="axis">가로 ROE · 세로 PBR(배)</text>`;
  return U.svg(label,s,282);
 }
@@ -41,7 +51,7 @@ VLabs['multiple-compare']=el=>{
   const roe=same?m.roe:y.ni/other.equity,ok=Math.abs(roe*per-m.pbr)<1e-9,sb={year,per,pbr:m.pbr,roe,eps:m.eps};
   const t=M.peerTable(),pv=M.peerValues(year),custom={per:cp,roe:cr/100,pbr:cp*cr/100},per2=custom.pbr/(cr2/100);
   const pts=[...t.map(p=>({name:p.name,x:p.roe,y:p.pbr})),{name:'새벽전자',x:roe,y:m.pbr,on:true},{name:'직접',x:custom.roe,y:custom.pbr}];
-  const chart=scatter(pts,`ROE와 PBR: ${t.map(p=>`${p.name} ${U.pct(p.roe)}·${U.times(p.pbr)}`).join(', ')}, 새벽전자 ${U.pct(roe)}·${U.times(m.pbr)}`)+U.table(['회사','PER','ROE','PBR = ROE × PER','매출 성장률','배당성향'],peerRows(t,sb,custom),'비교 회사 가·나·다·라와 새벽전자',true);
+  const chart=scatter(pts,`ROE와 PBR: ${t.map(p=>`${p.name} ${U.pct(p.roe)}·${U.times(p.pbr)}`).join(', ')}, 새벽전자 ${U.pct(roe)}·${U.times(m.pbr)}`)+U.table(['회사','PER','ROE','PBR = ROE × PER','매출 성장률(새벽전자는 기준안 가정)','배당성향'],peerRows(t,sb,custom),'비교 회사 가·나·다·라와 새벽전자',true);
   const mix=same?'':`${year} 순이익 ${N(y.ni)}억 원을 ${year===2025?2024:2025}년 말 자본 ${N(other.equity)}억 원으로 나눴습니다. `;
   const chk=ok?`= PBR ✓ 맞음`:`≠ PBR ${U.times(m.pbr)} ✗ 어긋남 · ${mix}${fwd?'선행 PER에는 다음 해 이익이 들어가 ':''}PER과 ROE의 기준이 섞였습니다`;
   U.result(el,chart,`새벽전자 ${year}: ${fwd?'선행 ':''}PER = ${U.fmt(A.price)} ÷ ${W(fwd?m.eps*(1+A.base.growth):m.eps)} = <b>${U.times(per)}</b>, PBR = ${U.fmt(A.price)} ÷ ${W(m.bps)} = <b>${U.times(m.pbr)}</b>, ROE <b>${U.pct(roe)}</b>. ROE × PER = ${U.sfmt(roe,3)} × ${U.times(per)} = ${U.sfmt(roe*per,2)} ${chk}.<br>PER이 가장 낮은 비교 회사 가(8배)는 ROE 9.0%, 매출 성장률 2%로 넷 가운데 둘 다 가장 낮습니다. 비교 회사 중앙값 PER ${U.times(pv.median.per)} × EPS ${W(m.eps)} = <b>${W(pv.values.per)}</b>, 중앙값 PBR ${U.times(pv.median.pbr,3)} × BPS ${W(m.bps)} = <b>${W(pv.values.pbr)}</b>.<br>직접 넣은 회사: PBR = ${U.pct(custom.roe)} × ${U.times(cp,1)} = <b>${U.times(custom.pbr)}</b>. PBR이 그대로이고 ROE가 ${U.pct(cr2/100)}가 되면 PER = ${U.times(custom.pbr)} ÷ ${U.pct(cr2/100)} = <b>${U.times(per2)}</b>.${U.kind(['real','scenario'],fwd?`<span class="kind-tag model-tag">${U.KINDS.simple}</span>`:'')}`);
@@ -65,9 +75,10 @@ VLabs['ev-bridge']=el=>{
   const cap=U.num(el,'ecap'),debt=U.num(el,'edebt'),cash=U.num(el,'ecash'),eb=U.num(el,'eebitda'),mult=U.num(el,'emult');
   for(const [v,name,why] of [[cap,'시가총액','0 이상의 숫자(억 원)를 넣어야 합니다.'],[debt,'차입금','0 이상의 숫자(억 원)를 넣어야 합니다.'],[cash,'현금','0 이상의 숫자(억 원)를 넣어야 합니다.'],[eb,'EBITDA','숫자(억 원)를 넣어야 합니다.'],[mult,'EV/EBITDA 배수','0에서 50 사이의 배수를 넣어야 합니다.']])if(v===null)return U.result(el,'',U.problem(name,why));
   if(eb<=0)return U.result(el,'',U.problem('EBITDA','0 이하라 EV/EBITDA를 계산할 수 없습니다. 0보다 큰 값을 넣어 주세요.'));
-  const x=M.ev(cap,debt,cash),firm=mult*eb,eq=M.equityValue(firm,x.netDebt),pv=M.peerValues();
+  const x=M.ev(cap,debt,cash),firm=mult*eb,eq=M.equityValue(firm,x.netDebt),pv=M.peerValues(),y0=A.years[U.value(el,'eyear')];
+  const same=cap===M.basics().cap&&debt===y0.debt&&cash===y0.cash&&Math.abs(eb-(y0.op+y0.dep))<1e-9,per=same?'새벽전자 주식 1,000만 주로 나누면':'주식 수를 새벽전자와 같은 1,000만 주로 놓고 나누면';
   const chart=U.waterfall({title:'EV = 시가총액 + 차입금 − 현금 (억 원)',start:['시가총액',cap],steps:[['차입금',debt],['현금|(빼기)',-cash]],end:['EV',x.ev],fmt:v=>N(v),twoLine:true,label:`시가총액 ${N(cap)} + 차입금 ${N(debt)} − 현금 ${N(cash)} = EV ${N(x.ev)}억 원`});
-  U.result(el,chart,`순차입금 = ${N(debt)} − ${N(cash)} = <b>${E(x.netDebt)}</b>, EV = ${N(cap)} + ${N(x.netDebt)} = <b>${E(x.ev)}</b>, EV/EBITDA = ${N(x.ev)} ÷ ${N(eb)} = <b>${U.times(x.ev/eb)}</b>.<br>배수 ${U.times(mult,1)}로 매긴 기업가치 ${U.times(mult,1)} × ${N(eb)} = ${E(firm)}에서 순차입금 ${E(x.netDebt)}을 빼면 주주 몫 ${E(eq.equity)}, 새벽전자 주식 1,000만 주로 나누면 주당 <b>${W(eq.perShare)}</b>입니다.<br>비교 회사 중앙값 세 가지(EV/EBITDA·PBR·PER)로 매긴 2025년 말 새벽전자의 주당 가치: <b>${W(pv.low)}~${W(pv.high)}</b>.${U.kind(['real','scenario'],'EBITDA는 이 책이 영업이익 + 감가상각으로 계산한 값입니다. K-IFRS가 정한 표시 항목이 아니라는 점은 기준서 원문으로 확인하지 못했습니다.')}`);
+  U.result(el,chart,`순차입금 = ${N(debt)} − ${N(cash)} = <b>${E(x.netDebt)}</b>, EV = ${N(cap)} + ${N(x.netDebt)} = <b>${E(x.ev)}</b>, EV/EBITDA = ${N(x.ev)} ÷ ${N(eb)} = <b>${U.times(x.ev/eb)}</b>.<br>배수 ${U.times(mult,1)}로 매긴 기업가치 ${U.times(mult,1)} × ${N(eb)} = ${E(firm)}에서 순차입금 ${E(x.netDebt)}을 빼면 주주 몫 ${E(eq.equity)}, ${per} 주당 <b>${W(eq.perShare)}</b>입니다.<br>비교 회사 중앙값 세 가지(EV/EBITDA·PBR·PER)로 매긴 2025년 말 새벽전자의 주당 가치: <b>${W(pv.low)}~${W(pv.high)}</b>.${U.kind(['real','scenario'],'EBITDA는 이 책이 영업이익 + 감가상각으로 계산한 값입니다. K-IFRS가 정한 표시 항목이 아니라는 점은 기준서 원문으로 확인하지 못했습니다.')}`);
  });
 };
 })();

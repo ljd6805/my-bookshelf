@@ -13,20 +13,20 @@ const A=M.ASSUME,D=M.dcf();
 /* 막대 묶음(0선 기준, 음수는 아래로): items=[[이름, 값, 강조, 글]]. */
 function bars(items,{x0=60,gap=110,bw=70,top=60,zero=200,scale,f=N}={}){
  const hi=scale||Math.max(...items.map(i=>Math.abs(i[1])),1),H=v=>v/hi*(zero-top);let s=`<path d="M${x0-20} ${zero}H${Math.min(630,x0+gap*items.length)}" stroke="var(--line)"/>`;
- items.forEach(([n,v,on,label],i)=>{const x=x0+i*gap,h=Math.abs(H(v)),y=v>=0?zero-h:zero;s+=up(x,y,bw,h,on?'var(--accent)':'var(--blue)',i*.15)+t(x+bw/2,v>=0?y-8:y+h+16,(on?'▲ ':'')+(label||f(v)),{size:13,w:700})+t(x+bw/2,v>=0?zero+20:zero-8,n,{size:12});});
+ items.forEach(([n,v,on,label],i)=>{const x=x0+i*gap,h=Math.abs(H(v)),y=v>=0?zero-h:zero;s+=up(x,y,bw,h,on?'var(--accent)':'var(--blue)',i*.15)+t(x+bw/2,v>=0?y-8:y+h+16,(on===true?'▲ ':on||'')+(label||f(v)),{size:13,w:700})+t(x+bw/2,v>=0?zero+20:zero-8,n,{size:12});});
  return s;
 }
 const F={};
 F.price=()=>{
  const b=M.basics(),s=M.split({},5);
- let st=t(20,26,'1주를 5주로 나누면: 한 주의 숫자는 5분의 1, 회사 전체는 그대로',{size:13,w:700,a:'start'})+bars([['주가',b.price],['주가(분할 뒤)',s.price,true],['EPS ×10',b.eps*10,false,Wn(b.eps)],['EPS ×10(분할 뒤)',s.eps*10,true,Wn(s.eps)]],{x0:40,gap:150,bw:80,top:60,zero:190,scale:b.price,f:Wn});
+ let st=t(20,26,'1주를 5주로 나누면: 한 주의 숫자는 5분의 1, 회사 전체는 그대로',{size:13,w:700,a:'start'})+bars([['주가',b.price],['주가(분할 뒤)',s.price,'▼ '],['EPS ×10',b.eps*10,false,Wn(b.eps)],['EPS ×10(분할 뒤)',s.eps*10,'▼ ',Wn(s.eps)]],{x0:40,gap:150,bw:80,top:60,zero:190,scale:b.price,f:Wn});
  st+=t(320,232,`시가총액 ${fx(b.price)}원 × 1,000만 주 = ${E(b.cap)} = ${fx(s.price)}원 × 5,000만 주`,{size:13,w:700});
- return {svg:svg(`주가 ${Wn(b.price)}, EPS ${Wn(b.eps)}이 분할 뒤 ${Wn(s.price)}, ${Wn(s.eps)}; 시가총액 ${E(b.cap)} 그대로`,st,246),caption:`새벽전자의 시가총액은 ${fx(b.price)}원 × 1,000만 주 = ${E(b.cap)}이고, EPS는 ${Wn(b.eps)}, BPS는 ${Wn(b.bps)}입니다. 1주를 5주로 나누면 주가 ${Wn(s.price)}, EPS ${Wn(s.eps)}, BPS ${Wn(s.bps)}으로 한 주의 숫자만 5분의 1이 되고 시가총액은 ${E(s.cap)} 그대로입니다(EPS 막대는 10배로 늘려 그렸습니다).`};
+ return {svg:svg(`주가 ${Wn(b.price)}, EPS ${Wn(b.eps)}이 분할 뒤 ${Wn(s.price)}, ${Wn(s.eps)}; 시가총액 ${E(b.cap)} 그대로`,st,246),caption:`새벽전자의 시가총액은 ${fx(b.price)}원 × 1,000만 주 = ${E(b.cap)}이고, EPS는 ${Wn(b.eps)}, BPS는 ${Wn(b.bps)}입니다. 1주를 5주로 나누면 주가 ${Wn(s.price)}, EPS ${Wn(s.eps)}, BPS ${Wn(s.bps)}으로 한 주의 숫자만 5분의 1이 되고 시가총액은 ${E(s.cap)} 그대로입니다(EPS 막대는 10배로 늘려 그렸고, ▼는 분할 뒤 줄어든 값입니다).`};
 };
 F.per=()=>{
  const T=M.peerTable(),m=M.multiples(),pv=M.peerValues(),items=[...T.map(p=>[`비교 회사 ${p.name}`,p.per]),['새벽전자',m.per,true]];
  let s=t(20,26,'PER(배)과 비교 회사 중앙값',{size:13,w:700,a:'start'})+bars(items,{x0:40,gap:120,bw:70,top:50,zero:190,scale:20,f:v=>fx(v,2)+'배'});
- const y=190-pv.median.per/20*140;s+=`<path class="fig-dash" d="M20 ${y.toFixed(1)}H630" stroke="var(--orange)" stroke-width="2"/>`+t(630,y-6,`중앙값 ${fx(pv.median.per,2)}배`,{size:12,a:'end',fill:'var(--orange)',w:700});
+ const y=190-pv.median.per/20*140;s+=`<path class="fig-dash" d="M20 ${y.toFixed(1)}H630" stroke="var(--orange)" stroke-width="2"/>`+t(24,y-6,`중앙값 ${fx(pv.median.per,2)}배`,{size:12,a:'start',fill:'var(--orange)',w:700});
  s+=t(320,232,`PBR = ROE × PER: ${fx(m.roe,3)} × ${fx(m.per,2)} = ${fx(m.pbr,2)}배`,{size:13,w:700});
  return {svg:svg(`PER: ${items.map(i=>`${i[0]} ${fx(i[1],2)}배`).join(', ')}; 중앙값 ${fx(pv.median.per,2)}배`,s,246),caption:`새벽전자 2025는 PER ${fx(m.per,2)}배, PBR ${fx(m.pbr,2)}배, ROE ${P(m.roe)}이고 ${fx(m.roe,3)} × ${fx(m.per,2)} = ${fx(m.pbr,2)}로 맞습니다. 가상의 비교 회사 가·나·다·라의 PER 중앙값 ${fx(pv.median.per,2)}배를 EPS ${Wn(m.eps)}에 곱하면 ${Wn(pv.values.per)}, PBR 중앙값 ${fx(pv.median.pbr,3)}배를 BPS에 곱하면 ${Wn(pv.values.pbr)}입니다.`};
 };

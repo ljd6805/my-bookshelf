@@ -114,7 +114,8 @@ async function controlsCheck(lab,id){
   for(const v of values(c)){await setValue(lab,c.id,v);await timed(lab,id);assert.doesNotMatch(await state(lab),BAD,`${id}:${c.id}=${v}`);}
   if(await state(lab)===initial){await setValue(lab,c.id,c.tag==='SELECT'?c.options[0]:c.type==='checkbox'?false:c.min);assert.notEqual(await state(lab),initial,`${id}:${c.id} has no visible effect`);}
  }
- for(const c of controls.filter(x=>['number','text','date'].includes(x.type))){await reset(lab);await ctx(c);await setValue(lab,c.id,'');assert.match(await readout(lab),/✗ .*확인해 주세요/,`${id}:${c.id} empty`);}
+ for(const c of controls.filter(x=>['number','text','date'].includes(x.type))){await reset(lab);await ctx(c);await setValue(lab,c.id,'');assert.match(await readout(lab),/✗ .*확인해 주세요/,`${id}:${c.id} empty`);const fx=await lab.locator('#'+c.id).evaluate(e=>({inv:e.getAttribute('aria-invalid'),msg:e.parentElement.querySelector('.field-error')?.innerText||'',desc:e.getAttribute('aria-describedby')||''}));assert.equal(fx.inv,'true',`${id}:${c.id} aria-invalid`);assert.match(fx.msg,/^✗ /,`${id}:${c.id} visible hint`);assert.ok(fx.desc.includes(c.id+'-err'),`${id}:${c.id} describedby`);}
+ await reset(lab);assert.equal(await lab.locator('[aria-invalid=true],.field-error').count(),0,`${id}: reset clears field errors`);
  return controls.length;
 }
 async function labCheck(lab,width,id){
@@ -172,6 +173,13 @@ async function artCheck(page,url){
  await page.emulateMedia({reducedMotion:'reduce'});
 }
 const OVERLAP=s=>{const b=[...s.querySelectorAll('text.axis')].filter(t=>t.getAttribute('text-anchor')==='middle').map(t=>t.getBBox());let n=0;for(let i=0;i<b.length;i++)for(let j=i+1;j<b.length;j++){const a=b[i],c=b[j];if(Math.abs(a.y-c.y)<1&&a.x<c.x+c.width&&c.x<a.x+a.width)n++;}return n;};
+/* 2장: 그림 2-1과 실험 점 그림의 글자 상자가 서로 겹치지 않는다. 10장 과제 표는 1280px 칸 안에 들어간다. */
+const TEXT_OVERLAP=s=>{const b=[...s.querySelectorAll('text')].filter(t=>t.textContent.trim()).map(t=>({t:t.textContent,b:t.getBBox()}));const out=[];for(let i=0;i<b.length;i++)for(let j=i+1;j<b.length;j++){const a=b[i].b,c=b[j].b;if(a.x<c.x+c.width-0.5&&c.x<a.x+a.width-0.5&&a.y<c.y+c.height-0.5&&c.y<a.y+a.height-0.5)out.push(b[i].t+' / '+b[j].t);}return out;};
+async function labelsAndTask(page,url){
+ for(const w of [1280,390,320]){await frame(page,url,w,'per');assert.deepEqual(await page.locator('.concept-diagram svg').first().evaluate(TEXT_OVERLAP),[],`figure 2-1 labels overlap at ${w}`);assert.deepEqual(await page.locator('#lab-multiple-compare .chart svg').first().evaluate(TEXT_OVERLAP),[],`scatter labels overlap at ${w}`);}
+ await frame(page,url,1280,'final');const tk=await page.locator('#lab-analyst-gap .table-wrap.task').evaluate(e=>({sw:e.scrollWidth,cw:e.clientWidth,head:[...e.querySelectorAll('th')].map(x=>x.innerText)}));assert.ok(tk.sw<=tk.cw+1,`task table overflows at 1280: ${tk.sw} > ${tk.cw}`);assert.equal(tk.head[1],'확인할 자료와 날짜');
+ await frame(page,url,320,'final');assert.ok(await page.locator('#lab-analyst-gap .narrow-note').isVisible(),'narrow note at 320');await frame(page,url,1280,'final');assert.ok(!(await page.locator('#lab-analyst-gap .narrow-note').isVisible()),'no narrow note at 1280');
+}
 /* 8장: 세 폭에서 민감도 표가 옆으로 넘치지 않고(320px에서는 행마다 카드), 막대 순서 안내와 영구가치 비중이 보인다. 계단 막대의 축 이름표는 겹치지 않는다. */
 async function sensitivityFit(page,url){
  for(const w of [1280,390,320]){
@@ -221,7 +229,7 @@ async function run(){
    assert.match(await page.locator('.home-result').innerText(),/할인율 8\.3%[\s\S]*595\.1억 원[\s\S]*2,067\.1억 원[\s\S]*2,662\.2억 원[\s\S]*주당 22,750원/);
    for(const c of chapters){await frame(page,url,width,c.id);for(const id of c.labs)await labCheck(page.locator('#lab-'+id),width,id);await quiz(page,c);}
   }
-  await errorStates(page,url);await sensitivityFit(page,url);await extras(page,url);await artCheck(page,url);
+  await errorStates(page,url);await labelsAndTask(page,url);await sensitivityFit(page,url);await extras(page,url);await artCheck(page,url);
   const missing=report.missing.filter(u=>!/\/favicon\.ico$/.test(u));assert.deepEqual(missing,[],'missing files');
   const consoleErrors=report.console.filter(t=>!/^Failed to load resource/.test(t));
   assert.equal(report.errors.length,0,report.errors.join('\n'));assert.equal(consoleErrors.length,0,consoleErrors.join('\n'));
