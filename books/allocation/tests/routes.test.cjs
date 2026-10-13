@@ -5,7 +5,7 @@ const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f
 const load=()=>{const ctx={window:{}};vm.runInNewContext(read('js/content.js'),ctx);return JSON.parse(JSON.stringify(ctx.window.ABook));};
 const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].split(',');
 const IDS=['diversify','matrix','pair','frontier','beta','mix','rebalance','kelly','crisis','final'],LABS=['stock-count','covariance-matrix','two-asset-curve','efficient-frontier','beta-estimate','target-mix','rebalance-rules','kelly-growth','crisis-correlation','plan-conditions'];
-const LAB_FILES=['labs-risk','labs-frontier','labs-account','labs-stress','labs-final'],VERSION='20261013v2';
+const LAB_FILES=['labs-risk','labs-frontier','labs-account','labs-stress','labs-final'],VERSION='20261013v3';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(최적 비중|정답 비중|안전한 비중|추천|권합니다|권해 드|유리|사세요|파세요|사라|팔라|매수|(?<!공)매도|사 두세요|오를 것|내릴 것|반드시 오른|반드시 내린|싸다|비싸다|저평가|고평가)/;
 const esc=s=>s.replace(/[-]/g,'\\-');

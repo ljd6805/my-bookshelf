@@ -43,7 +43,7 @@ const MONTHS=M.ASSUME.months,joinList=a=>a.map(x=>U.sfmt(x,1).replace('−','-')
 ALabs['beta-estimate']=el=>{
  const R=M.MARKET;
  U.setup(el,U.text('bm','시장(누리200) 월간 수익률 (%, 쉼표로 나눔)',joinList(MONTHS.market),'12개월 가상 자료')+U.text('bs','종목(새벽전자) 월간 수익률 (%)',joinList(MONTHS.stock),'같은 달끼리 짝을 짓습니다')
-  +U.group('CAPM 입력 (⏱ 시점에 묶인 값)',U.number('brf','국고채 10년 금리 (%)',0,20,0.1,R.rf10y.value*100,`${R.rf10y.label} · ${R.rf10y.checked} 확인 기준`)+U.number('berp','주식 위험 프리미엄 (%)',0,20,0.1,R.erp.value*100,`${R.erp.label} · ${R.erp.checked} 확인 기준. 새 값이 나왔을 수 있습니다`))+`<p class="caption">${U.RECHECK}</p>`);
+  +U.group('CAPM 입력 (⏱ 시점에 묶인 값)',U.number('brf','국고채 10년 금리 (%)',0,20,0.1,R.rf10y.value*100,`${R.rf10y.label} · ${R.rf10y.checked} 확인 기준`)+U.number('berp','주식 위험 프리미엄 (%)',0,20,0.1,R.erp.value*100,`${R.erp.label} · Damodaran ${R.erp.edition} 판, ${R.erp.checked} 확인 기준. 다음 판에서 값이 바뀔 수 있습니다`))+`<p class="caption">${U.RECHECK}</p>`);
  U.bind(el,()=>{
   const m=U.list(el,'bm'),s=U.list(el,'bs'),rf=U.num(el,'brf'),erp=U.num(el,'berp');
   if(!m)return U.result(el,'',U.problem('시장 수익률','쉼표로 나눈 숫자를 3개 이상 넣어 주세요.'));if(!s)return U.result(el,'',U.problem('종목 수익률','쉼표로 나눈 숫자를 3개 이상 넣어 주세요.'));

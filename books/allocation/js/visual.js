@@ -70,7 +70,7 @@ const KELLY='이 비율은 따르는 값이 아니라 가정이 얼마나 공격
 const banner=(more='')=>`<p class="assume-banner"><b>${LABEL}</b>${more?`<br>${more}`:''}</p>`;
 /* 시점에 묶인 값(⏱)은 값·꼬리표·확인일을 함께 적는다. key: pensionLimit, tdfException, rf10y, erp. */
 function timed(key){const v=M.MARKET[key],val=key==='pensionLimit'?`위험자산 한도 ${sfmt(v.value*100,0)}%`:key==='tdfException'?'적격 TDF는 이 한도의 예외':key==='rf10y'?`국고채 10년 금리 ${pct(v.value,1)}`:`주식 위험 프리미엄 ${pct(v.value,1)}`;
- return `<span class="time-tag">⏱ ${val} · ${v.label} · ${v.checked} 확인 기준</span>`;}
+ return `<span class="time-tag">⏱ ${val} · ${v.label} · ${v.edition?`${v.edition} 판, `:''}${v.checked} 확인 기준</span>`;}
 const verdict=(ok,yes='만족',no='만족하지 못함')=>ok?`<span class="verdict ok">✓ ${yes}</span>`:`<span class="verdict bad">✗ ${no}</span>`;
 const svg=(label,body,h=280,vw=480)=>`<svg viewBox="0 0 ${vw} ${h}"${vw>480?' class="cols-wide"':''} role="img" aria-label="${esc(label)}">${body}</svg>`;
 /* fit: 좁은 화면에서 행마다 칸을 위아래로 쌓는다. 'cards': 칸이 많은 표를 행마다 카드로 묶는다. 'compact': 칸을 좁혀 한 표로 둔다. */

@@ -71,7 +71,7 @@ const MARKET={
  tdfException:{value:true,timeSensitive:true,checked:'2026-10-13',reported:'2026-03-31',effective:'2026-04-01',grade:'보도',source:'S14',
   label:'보도 기준 · 법령 원문 확인 못함',note:'적격 TDF는 70% 한도의 예외(상품 이름은 쓰지 않는다)'},
  rf10y:{value:0.044,raw:0.04395,timeSensitive:true,checked:'2026-10-08',grade:'서재 안 재인용',source:'S22',label:'6권 확인값 · 서재 안 재인용'},
- erp:{value:0.049,raw:0.0487,timeSensitive:true,checked:'2026-01-05',grade:'서재 안 재인용',source:'S22',label:'6권 확인값 · 서재 안 재인용',note:'2026-10-13 G3 재확인(은재): Damodaran 국가별 표는 아직 2026-01-05 판, 한국 4.87% 그대로. 다음 판에서 바뀔 수 있음'},
+ erp:{value:0.049,raw:0.0487,timeSensitive:true,edition:'2026-01-05',checked:'2026-10-13',grade:'서재 안 재인용',source:'S22',label:'6권 확인값 · 서재 안 재인용',note:'2026-10-13 G3 재확인(은재): Damodaran 국가별 표는 아직 2026-01-05 판, 한국 4.87% 그대로. 다음 판에서 바뀔 수 있음'},
  recheck:'한도와 금리는 바뀌므로 확인일을 보고 다시 확인하세요',
  nextRecheck:'2027-04-13'
 };
