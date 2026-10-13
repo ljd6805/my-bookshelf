@@ -4,6 +4,33 @@
 <h1>팩트·출처 검수 기록 · LLM 직접 만들기</h1>
 <p>「AI 엔지니어링 처음부터」 11권(books/aie-llm-build)을 쓴 에이전트가 아닌 별도 검수 에이전트가 원본 레슨(phases/10-llms-from-scratch, MIT)과 인용 논문에 비추어 확인한 결과입니다. <a href="index.html">프로젝트 문서로 돌아가기</a></p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리(56c7001 위, PR 3에서 커밋))으로 바뀐 문장 26개: js/content.js 24, js/lab-guides.js 1, js/figures.js 1. 메인 세션이 옮긴 다른 책 링크 이름 1개(js/content.js)와 data/catalog.json의 이 책 설명 1·장 색인 5·장 목록 1, index.html의 자산 버전 3개도 대조함. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 Claude · 유진 뜻 보존 검수 세션이고, 이 책의 문장을 고친 다온 세션의 결론은 건네받지 않았습니다. 집필자(문체 개정)는 Claude · 다온 문체 개정 세션(스레드 「기존 책 한국어 지침 검수」)입니다. <code>git diff HEAD -- books/aie-llm-build/ data/catalog.json</code>으로 원래 문장(HEAD 56c7001)과 고친 문장(작업 트리)을 한 쌍씩 뽑아, 문체 비평 메모(docs/index.html의 <code>style-pass</code>, 제목 표 <code>style-k-titles</code>와 장별 표)의 반영함 행과 맞춰 읽었습니다. 고친 문장은 그 장의 첫 두 문단·상세 절·실험 안내와 함께 다시 읽어, 제목과 부제가 장이 실제로 다루는 내용보다 넓어지거나 좁아지지 않았는지도 봤습니다. 이 책의 style-pass에는 집필 쪽 사실 수정 문단이 없어 사실 수정 대조는 해당하지 않습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>고친 26곳이 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 대조했습니다. 더해진 말(“말뭉치”, “원칙 문서의”, “데이터·텐서·파이프라인”, “초안 토큰 여러 개를 큰 모델이”, “양자화와 추측 디코딩”, “pre-norm을 유지”)은 모두 같은 장의 본문·상세 절·실험에 이미 있는 내용입니다. catalog 책 설명의 새 문장(“한 단계가 실패했을 때 어느 단계부터 다시 실행해야 하는지 계산”)은 #final 실험(고른 단계와 모든 하위 단계를 무효로 표시하고 가정한 시간을 더함)과 맞습니다</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장 안의 수치와 기호(ln V, 398바이트, 10번 276개, 30번 187개, 49번째 149개, 53바이트·53토큰·20토큰, 75%, (P−1)/(M+P−1), P = 4, M = 16, 15.8%, 18.75%, (P−1)/M, 5~10%, 1억 2,444만, 80억 3천만, 17.2GB, 16GB, 467억·129억, 256개 중 8개, 6,710억·375억, 512차원·64차원, 9.2GB, 7개마다 1개, 4층, 64K, 2,560개, 64·16·512)를 원래 문장과 한 글자씩 대조. 모두 같음</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>문제 없음(계산 변경 없음)</td><td>diff를 문자열 단위로 나눠 보니 바뀐 것은 글 문자열과 index.html의 <code>?v=20261013-k</code> 세 곳뿐이고 math.js·labs-*.js의 계산 코드는 바뀌지 않음. <code>npm test</code> 30개 통과, 루트 <code>node --test tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>figures.js 8장 그림 설명의 “비평 모델”을 “가치 모델”로 바꾼 것은 8장 본문(“PPO처럼 … 가치 모델”)·출처 설명(“가치 모델 대신 집단 표준화”)과 이름을 맞춘 것이라 맞습니다. “파이프라인 거품”, “바닥”, “SFT”, “KV 캐시”, “설계 항목 여섯 가지”(부제·본문·상세 절 제목 세 곳 같음)가 책 안에서 한 이름으로 남았습니다. 장 ID·앵커·정답 번호·출처 번호는 그대로입니다. catalog의 장 색인 12개와 장 목록 6개가 content.js 제목과 같고(마지막 장은 서재 관례대로 “마지막 · ”), 이 책에서 나가는 링크 20개의 이름이 도착 장의 현재 제목과 같으며, 다른 책에서 이 책으로 오는 링크 6개의 이름도 새 제목과 같습니다</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. 참고 자료 배열과 장별 source 번호에 바뀐 곳이 없음</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>대조한 문장 26개, 되돌린 문장 0개</td><td>바뀐 문장마다 수치·단위·조건과 단서·가능성의 정도(K3)·인과관계·비교 대상을 원래 문장과 대조. 메모의 반영함 행 34개가 diff의 26곳을 모두 덮고(제목·부제는 제목 표와 장별 표에 함께 적힘), 메모에 없는 diff는 메인 세션이 옮긴 링크 이름 1개뿐입니다. 판단이 갈리는 네 곳은 아래 비고로 남기고 되돌리지 않았습니다</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>뜻이나 조건이 달라져 되돌린 문장은 없습니다. 아래는 고치지 않고 남긴 관찰입니다.</p>
+<table><thead><tr><th>위치</th><th>원래 문장 / 고친 문장</th><th>무엇이 다른가</th><th>처리</th></tr></thead><tbody>
+<tr><td>#parallel 장 제목 (js/content.js, catalog 장 색인, 이 책으로 오는 링크 없음)</td><td>여러 GPU에 나누고 거품 줄이기 / 여러 GPU에 모델을 나누고 파이프라인 거품 줄이기</td><td>장이 비교하는 세 방향 가운데 데이터 병렬은 모델을 나누지 않고 복제합니다(본문 “GPU마다 모델 전체를 두고 배치를 나눈 뒤”). 첫 문단이 “모델을 여러 장에 나눠 올리는 일”을 장의 질문으로 세우므로 틀렸다고 보지는 않지만, 제목이 장의 범위보다 조금 좁습니다</td><td>제목이라 되돌리지 않고 보고. 다시 다듬는다면 “여러 GPU에 학습을 나누고 파이프라인 거품 줄이기”처럼 세 방향을 모두 덮는 말을 제안</td></tr>
+<tr><td>#serving 장 제목</td><td>가볍고 빠르게 내보내기 / 양자화와 추측 디코딩으로 가볍고 빠르게 서빙하기</td><td>장의 두 실험(양자화·추측 디코딩)과 맞습니다. 부제와 본문이 다루는 KV 캐시 절약은 제목에 없지만, 제목이 그것만 다룬다고 말하지는 않습니다</td><td>그대로 둠. 비고</td></tr>
+<tr><td>#parallel 둘째 문단 (js/content.js)</td><td>… 전문가 통신까지 계산 뒤에 숨깁니다 / … 전문가 사이의 통신까지 계산과 겹쳐 돌려 기다리는 시간으로 드러나지 않게 합니다</td><td>“계산과 겹쳐 돌려”는 상세 절의 “덮게 합니다”와 같은 뜻이라 맞습니다. 다만 DualPipe가 숨기는 것은 토큰을 다른 장비의 전문가에게 보내고 결과를 모으는 all-to-all 통신이라, “전문가 사이의 통신”은 원래의 “전문가 통신”보다 조금 덜 정확합니다</td><td>뜻이 크게 바뀌지 않아 되돌리지 않음. 다시 다듬는다면 “전문가 병렬의 통신”을 제안</td></tr>
+<tr><td>docs/index.html style-pass 지침 대조표 K6 행</td><td>“반영함 표시는 35개”</td><td>메모에서 “(반영함” 표시를 세면 34개입니다(제목 표 16, 장별 표 18). 고친 곳 26곳과 diff는 일치합니다</td><td>메모 기록의 개수 차이라 고치지 않고 적어 둠</td></tr>
+</tbody></table>
+<h3>확인하지 못한 것</h3>
+<ul><li>catalog.json의 다른 항목(개념·읽기 노선의 why 문장)에 옛 장 제목이 남았는지는 이 책 폴더 밖이라 장 색인·장 목록·책 설명만 대조했습니다.</li>
+<li>docs/registration.json에는 옛 장 제목 5개(“겹친 글을 걸러” 등)가 그대로 있습니다. 등록 당시의 기록이고 검사 스크립트가 읽지 않아 이번 회차에서는 고치지 않았습니다. 기록으로 둘지 새 제목으로 맞출지는 메인 세션이 정할 일입니다.</li>
+<li>바뀐 제목이 왼쪽 목차·이전·다음 단추·320px 화면에서 잘리지 않는지는 브라우저로 확인하지 않았습니다(이 회차는 문장 대조만 함).</li>
+<li>독자가 새 제목으로 장을 더 잘 고르는지 같은 학습 효과.</li></ul>
+<p>후속 반영(집필 쪽, 2026-10-13): 위 비고대로 parallel 장 제목을 “여러 GPU에 학습을 나누고 파이프라인 거품 줄이기”로 고쳐 데이터 병렬(모델 복제)까지 담았고 data/catalog.json과 다른 책 링크 이름도 맞췄습니다. DualPipe 문장은 “전문가 병렬의 통신”으로, 메모 K6 행의 반영함 수는 34개로 바로잡았습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-lab-contam" data-reviewer="Claude · 큰 실험 반영 검수 세션(aie-llm-build)" data-author="Claude · 큰 실험 반영 집필 세션(aie-llm-build)" data-date="2026-10-12" data-scope="#eval 둘째 실험 contam(평가 문항 오염 검사): math.js의 words·contamination과 DATA.contam, labs-align.js 화면, lab-guides.js 안내, #eval 첫 문단·상세 절 “평가 문항이 학습 데이터에 섞였는지 재기”·공식 칸, 출처 52(Brown 등 2020), math.test.cjs 새 검사, docs/index.html 3차 보충 절과 검증 표, registration.json·index.html의 실험 수 17" data-result="fixed">
 <h2>2026-10-12 큰 실험 반영 검수: 평가 문항 오염 검사(contam)</h2>
 <p>검수자: Claude · 큰 실험 반영 검수 세션(aie-llm-build), 검수팀 정민·유진·건우·채원·현석 관점, 새 문장은 글작성팀 다온의 관점으로 한 번 더 읽음. 집필자: Claude · 큰 실험 반영 집필 세션(aie-llm-build). 범위: 커밋되지 않은 변경 <code>git diff -- books/aie-llm-build</code> 전체. 집필 측 보고서는 읽지 않고 파일만 보고 판정했습니다.</p>

@@ -4,6 +4,33 @@
 <h1>팩트·출처 검수 기록 · AI 인프라와 운영</h1>
 <p>「AI 엔지니어링 처음부터」 18권 《AI 인프라와 운영 · 모델 서버에서 운영 장부까지》(books/aie-production)의 팩트·출처 검수 기록입니다. 제작 문서는 <a href="index.html">프로젝트 문서</a>에 있고, 규칙의 배경은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>에 있습니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리, 56c7001 위)으로 바뀐 문자열 74개: js/content.js 74개(다온 메모 반영함 55행에 해당하는 69개, 사실 수정 4개, 메인 세션이 맞춘 다른 책 링크 이름 1개), index.html은 자산 버전만. 제목·설명·머리글 점검(style-k-titles)에 따라 메인 세션이 바꾼 data/catalog.json의 책 설명·장 목록·장 색인(02~11장, 마지막 과제)도 포함. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수는 이 책의 문장을 고치지 않은 새 세션의 유진이 맡았고, 고친 사람은 다온 문체 개정 세션입니다. 원래 문장은 HEAD(56c7001), 고친 문장은 작업 트리에서 읽어 <code>git diff HEAD -- books/aie-production/ data/catalog.json</code>의 바뀐 문자열을 하나씩 원래 문장과 맞대었습니다. 다온 메모(<code>docs/index.html</code>의 style-pass)의 반영함 55행, 다온이 “그대로 둠”으로 넘기고 집필 쪽이 고친 사실 수정 세 건(문자열 4개), 메인 세션이 옮긴 카탈로그 항목과 링크 이름이 범위입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>새 사실이나 바뀐 주장 없음. 사실 수정 세 건은 모두 맞음</td><td>고친 문장마다 같은 장 본문·확인 문제·실험과 대조. 사실 수정: 01장 전이 문항 해설(“원본의 누리봇 조건” → “이 책의 누리봇 조건(시간당 $4, 2,300 tok/s, 100만 토큰당 $1.60)”)은 js/math.js의 NURI(gpuHour 4, tput 2300)와 실험 기본 단가 1.6에 맞음. 09장 첫 문단의 “네 손잡이” 삭제는 08장 본문이 넷을 프롬프트 캐시·의미 캐시·배치 API·모델 라우팅으로 세는 것과 어긋나지 않게 함. 마지막 과제의 “다섯 보고”·“운영 보고 다섯 건”은 js/labs-ops.js diagnose의 보고 ①~⑤와 맞음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>바뀐 수치·단위 없음. 01장 30%를 따로 계산해 일치</td><td>따로 계산: 2,300 × 3,600 ÷ 10⁶ = 8.28백만 토큰/시간, 손익분기 사용률 = 4 ÷ (8.28 × 1.60) = 4 ÷ 13.248 ≈ 0.302, 곧 30.2%로 해설의 “30%”와 그림 설명의 30.2%에 맞음. 같은 해설의 문제 조건도 1,000 × 3,600 = 360만, 3.6 × $0.50 = $1.80, 2 ÷ 1.8 ≈ 1.11로 111%가 맞음. 그 밖에 807ms·1,241ms·19.8ms, 0.23·0.49·0.55, 671MB·20ms·80ms, 800ms·750ms, 383초, $0.075·$0.0129·5.8배·300ms, 3%·40%·8%·3시간·30초, 99.5%·0.1%·5%·20%·1.1%·2.2배를 원래 문장과 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff가 js/content.js의 문자열과 index.html의 자산 버전(?v=20261013-k)뿐임을 확인. js/math.js·labs-*.js·lab-guides.js·figures.js는 바뀌지 않음. <code>npm test</code> 29개, 루트 <code>node --test tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>책 안 용어 유지, 바뀐 장 제목과 카탈로그·링크 일치</td><td>goodput, 청크 프리필, 접두부, 추측 디코딩, 분리 서빙, 잡음 바닥, 소진 속도가 그대로 남음. 묶음 이름 “서빙 준비”(01~03장)와 “비용과 게이트웨이”(08·09장)가 다섯 group 필드에 같게 바뀜. 새 장 제목 11개가 data/catalog.json 장 목록·장 색인과 같고(카탈로그는 마지막 장을 “마지막 · …”으로 적는 기존 방식), 다른 책에서 이 책으로 오는 링크 4개(information → #precision, aie-capstone → #engine, aie-safety → #gateway·#incident)와 이 책 안의 다른 책 링크 24개의 이름이 가리키는 장 제목과 같음. 메인 세션이 바꾼 링크 이름 “AI 안전과 윤리 08 · 조정 분류기를 여러 층 두고 문턱 정하기”는 aie-safety #guard의 실제 제목과 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. 본문의 출처 단서(“원본 커리큘럼 기준”, “원본 레슨 기준”, “이 책이 다시 재지 않았습니다”, 확인일)는 그대로</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>74개 문자열 대조, 되돌린 문장 0개</td><td>반영함 55행을 diff 문자열 69개와 짝지음(group 다섯, 절 제목 묶음 두 행이 문자열 여럿을 덮음). 메모에 반영함 행이 없는 diff 변경은 style-pass 둘째 문단에 적힌 사실 수정 4개와 메인 세션의 링크 이름 1개뿐. “때만”, “0대에서”, “이 책의 모형에서”, “수 있었습니다” 같은 조건·가능성 표현이 그대로인지 앞뒤 문단과 함께 읽음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>되돌린 문장은 없습니다. 제목은 되돌리지 않고 보고하라는 이번 회차 규칙에 따라, 판단이 갈릴 수 있는 곳을 비고로 남깁니다.</p>
+<ul>
+<li><strong>#rollout, js/content.js “카나리 운영 세부” 상자.</strong> 원래 “섀도가 비용 폭증을, 10% 카나리가 싫어요 증가를, 플래그 롤백이 30초 복구를 해 줄 수 있었습니다” → 고친 “섀도로 비용 폭증을, 10% 카나리로 싫어요 증가를 잡고, 플래그 롤백으로 30초 만에 복구할 수 있었습니다”. “잡고”가 “수 있었습니다” 안에 든다고 읽는 것이 자연스러워 가능성(일어나지 않은 일)의 뜻은 남습니다. 다만 “잡고”만 떼어 읽으면 실제로 잡은 것처럼 읽힐 여지가 있어 적어 둡니다.</li>
+<li><strong>#incident 제목.</strong> “사고를 미리 겪고, 기록으로 대응하기” → “관측·카오스 실험·AI SRE로 장애에 대비하기”. 장이 다루는 AI SRE는 사고가 난 뒤의 대응이라 “대비”가 대응까지 넓게 덮는지는 읽는 사람에 따라 갈립니다. 장의 범위를 넘지는 않아 그대로 둡니다.</li>
+<li><strong>#cost 제목.</strong> “청구서를 줄이는 네 손잡이” → “캐시·배치·라우팅으로 API 청구서 줄이기”. 본문이 세는 넷 가운데 의미 캐시는 “캐시”에 들고, 귀속은 부제가 따로 말합니다. 범위가 좁아지지 않았다고 봅니다.</li>
+<li><strong>표지 소개(hero).</strong> “GPU에서 청구서까지” → “GPU 메모리부터 청구서까지”. 책은 01장의 GPU 대여 비용에서 시작하므로 “GPU 메모리”가 출발점을 조금 좁힙니다. 표지 문구라 보고만 합니다.</li>
+<li><strong>#gateway 첫 문단(사실 수정).</strong> “네 손잡이”를 지운 뒤 같은 문장의 “손잡이가 서비스마다 흩어져 있으면”에서 “손잡이”가 가리키는 말이 앞에 없습니다. 책 전체가 설정값을 “손잡이”로 부르므로 뜻은 통하지만, 다음 개정에서 “이 설정이”처럼 이어 주면 좋겠습니다.</li>
+<li><strong>#platform 전이 문항 해설(사실 수정).</strong> 다온의 제안은 “30%는 원본이 든 값이자 이 책의 누리봇 조건에서 나온 값”이었고 집필 쪽은 “원본이 든 값이자”를 넣지 않았습니다. 본문 첫 문단이 이미 “원본은 … 약 30%로” 든다고 밝히므로 고친 문장도 맞습니다.</li>
+<li><strong>#metrics 부제.</strong> “서로 다른 고장을 재고” → “서로 다른 원인의 느림을 잽니다”. 넷 가운데 처리량은 느림이 아니라 양을 재므로 원래 문장과 같은 정도로 느슨합니다. 뜻이 바뀌지는 않았습니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul><li>브라우저에서 길어진 장 제목(예: 02장 “GPU 메모리 80GB에 가중치와 KV를 얼마나 담을까”)이 1280·390·320px의 목차·장 머리에서 잘리지 않는지(이 회차는 문장 대조만 함).</li><li>이 책 안의 링크 이름 “컴퓨터 비전 마지막 · 비 오는 밤, 새 카메라”는 실제 제목 “마지막 과제 · …”와 앞말이 다르지만 이번 개정 전부터 그랬고 카탈로그의 “마지막 · …” 표기와 같은 방식이라 손대지 않음.</li><li>서가 생성물(build_catalog.py)과 validate.py는 이 세션에서 돌리지 않음. 원본 레슨의 현재 내용(외부 접속 없이 책 안의 기록과만 대조함).</li></ul>
+<p>후속 반영(집필 쪽, 2026-10-13): 위 비고대로 11장 제목을 “관측·카오스 실험·AI SRE로 장애에 대비하고 대응하기”로 고쳐, 사고 뒤 대응을 맡는 AI SRE까지 제목에 담았습니다. data/catalog.json과 다른 책 링크 이름도 맞췄습니다.</p>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-lab-abpower" data-reviewer="Claude · 큰 실험 반영 검수 세션(aie-production)" data-author="Claude · 큰 실험 반영 집필 세션(aie-production)" data-date="2026-10-12" data-scope="미커밋 3차 보충: 10장(#rollout) 새 실험 abpower(js/math.js normInv·abSample, js/labs-ops.js, js/lab-guides.js 안내·예제 네 개), 10장 심화 상자 “표본 크기: A/B를 며칠 돌릴지 먼저 정하기”, 10장 확인 문제 교체·시간 20분, 참고 자료 Deng 외(2013) 설명, tests/math.test.cjs, index.html·README.md·docs/registration.json의 실험 수 18개, docs/index.html 3차 보충 절" data-result="fixed">
 <h2>2026-10-12 A/B 표본 크기 실험 검수 (검수팀 정민·유진·건우·채원·현석)</h2>
 <p>검수자: Claude · 큰 실험 반영 검수 세션(aie-production). 집필자: Claude · 큰 실험 반영 집필 세션(aie-production). 범위: 10장(#rollout) 새 실험 abpower와 그 계산·본문·확인 문제·출처 설명. 결과: fixed. 집필 세션의 보고는 읽지 않고 파일만으로 판정했습니다. 수치는 책 코드와 따로 Python <code>statistics.NormalDist</code>로 다시 계산해 node로 부른 책 함수와 Playwright로 본 화면 값에 대조했습니다.</p>

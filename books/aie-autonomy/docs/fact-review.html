@@ -4,6 +4,34 @@
 <h1>팩트·출처 검수 기록 · 자율 시스템</h1>
 <p>「AI 엔지니어링 처음부터」 16권 《자율 시스템 · 밤새 혼자 일하는 에이전트에 울타리 치기》(books/aie-autonomy/)의 팩트·출처 검수 기록입니다. 형식은 저장소의 <code>templates/fact-review.html</code>을 따릅니다. 프로젝트 문서로 돌아가려면 <a href="index.html#verification">검증 절</a>을 여세요.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리, 56c7001 위)으로 바뀐 문장 45개: js/content.js 44곳(제목·설명·머리글 27, 본문과 그림 흐름 상자 17), index.html의 &lt;title&gt; 1곳. 집필 쪽 사실 수정 1곳(#browser 깊이 읽기 장 번호), 메인 세션이 맞춘 다른 책 링크 이름 2곳, data/catalog.json의 책 제목 1·장 색인 9·장 목록 4도 대조. 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="fixed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 이 책의 문장을 고치지 않은 새 세션의 유진이고, 집필자는 문체 개정을 맡은 다온 세션입니다. HEAD(56c7001)의 원래 문장과 작업 트리의 고친 문장을 <code>git diff HEAD -- books/aie-autonomy/ data/catalog.json</code>로 꺼내 문장 단위로 하나씩 맞대었고, 고친 문장마다 앞뒤 문단과 용어집을 다시 읽었습니다. 책 제목과 장 제목은 그 장의 부제·본문·실험이 실제로 다루는 범위와 비교했습니다. 문장 1개를 원래 문장으로 되돌렸습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="fixed"><td>사실 주장</td><td>고침. #guard 깊이 읽기의 한 문장이 하드코딩 금지가 막는 범위를 넓혀 원래 문장으로 되돌렸습니다. 집필 쪽 사실 수정(#browser “8장의 뢰브 정리” → “5장의 뢰브 정리”)은 맞습니다.</td><td>뢰브의 정리를 다루는 깊이 읽기 “뢰브의 정리가 말하는 한계”가 5장(#bounded, 원본 레슨 08 Bounded Self-Improvement Designs)에 있고 8장은 #durable(내구 실행)임을 content.js의 장 순서와 sources 배열로 확인</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음. 68.9%, 2025년 8월 31일, 0.99⁷⁰ ≈ 49.5% 같은 수치와 날짜, 식은 바뀌지 않았습니다.</td><td>고친 문장의 숫자·단위·날짜를 원래 문장과 대조, formula 필드가 diff에서 같은지 확인</td></tr>
+<tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>바뀌지 않음. diff는 content.js의 글 필드(실험 breaker의 제목 문자열 포함)와 index.html의 &lt;title&gt;·자산 버전뿐이고, 실험 키와 math.js·labs-*.js·lab-guides.js·figures.js는 그대로입니다.</td><td><code>git diff HEAD --stat</code>로 바뀐 파일 확인, 되돌린 뒤 책 테스트 <code>npm test</code> 27개 통과, 루트 <code>node --test tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음. 부 이름 “실행 환경의 통제”(group 4곳·흐름 1곳)와 “원칙과 외부 평가”(group 3곳·흐름 1곳)가 모두 같이 바뀌었습니다. 6장 부제의 “정책”은 용어집의 권한 모드 정의(“…정하는 정책”)와 같고, 5장 제목의 “네 관문”은 gates 실험 제목·명세서 다섯째 줄과 같습니다. 본문에 남긴 “실행 울타리”는 10장 흐름 상자와 확인 문제가 함께 쓰는 이름입니다. 다른 책 링크 이름 2곳(AI 안전 #control, 주문 한 장이 체결되기까지 07 #limits)과 다른 책에서 이 책으로 오는 링크 이름 9곳, catalog의 장 색인 12개·장 목록 5개·책 제목이 content.js와 같습니다.</td><td>책 content.js를 node로 읽어 장 제목을 뽑고, 링크 대상 책의 장 제목·catalog 항목과 기계 대조</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 sources 배열과 링크 주소가 바뀌지 않았음을 확인</td></tr>
+<tr data-check="wording" data-status="fixed"><td>문체 편집 뒤 뜻 보존</td><td>대조한 문장 45개(content.js 44, index.html 1), 되돌린 문장 1개. 메모의 “(반영함)” 행 38개(제목 표를 가리키는 장 메모 행 3개 제외)가 diff와 맞습니다. 메모에 행이 없는 변경은 사실 수정 1곳과 메인 세션의 링크 이름 2곳이며, 사실 수정은 메모 둘째 문단에 원래 문장·고친 문장·이유가 적혀 있습니다.</td><td>K3(“만들 수 있으므로”, “관리할 위험”의 가능성·의무 정도), K5(범위·비교 대상), 인과관계를 행마다 확인</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>원래 문장 / 고친 문장</th><th>무엇이 달라졌나</th><th>처리</th></tr></thead><tbody>
+<tr><td>#guard 깊이 읽기 “하드코딩 금지와 소프트 기본값” 끝 문장 (js/content.js)</td><td>원래: “…사례 추론은 설득당할 수 있으므로, 전제에 흔들리지 않는 하드코딩 금지가 꼬리를 막습니다.” / 고친: “…사례 추론은 설득당할 수 있으므로, 그런 경우는 전제에 흔들리지 않는 하드코딩 금지가 막습니다.”</td><td>“꼬리”는 하드코딩 금지가 맡는 가장 위험한 끝의 경우를 가리킵니다. 고친 문장은 전제에 설득당하는 경우를 모두 하드코딩 금지가 막는다고 읽혀 주장의 범위가 넓어졌습니다. 바로 위 표가 밝히듯 하드코딩 금지는 생물·화학 무기 도움 같은 정해진 범주만 다룹니다(K5).</td><td>원래 문장으로 되돌리고, 메모 행의 “(반영함)”을 되돌린 이유로 바꿈. 같은 변경 덩어리의 깊이 읽기 제목 “분류기의 구성과 이를 넘는 공격”은 그대로 둠</td></tr>
+<tr><td>#browser 깊이 읽기 “이름 붙은 공격 표면” (js/content.js, 집필 쪽 사실 수정)</td><td>원래: “원본은 이 “고칠 수 없음”을 8장의 뢰브 정리와 같은 추론으로 봅니다.” / 고친: “…5장의 뢰브 정리와 같은 추론으로 봅니다.”</td><td>원본 레슨 번호 08을 이 책의 장 번호로 옮기지 않은 오류를 바로잡은 것으로, 고친 문장이 맞습니다.</td><td>확인, 그대로 둠</td></tr>
+</tbody></table>
+<p>비고(되돌리지 않음). 아래는 뜻은 통하지만 원래 문장과 미묘하게 다른 곳입니다.</p>
+<ul>
+<li>표지 둘째 줄 “어디까지 맡기고 어디에 울타리를 칠까.” → “어디까지 맡기고 무엇으로 통제할까.”: 원래 물음은 통제를 <em>어디에</em> 둘지(고리의 어느 지점), 고친 물음은 <em>무엇으로</em> 통제할지를 묻습니다. 책이 두 가지를 모두 다루므로 틀리지는 않습니다.</li>
+<li>책 제목 “…에이전트에 울타리 치기” → “…에이전트를 통제하는 법”(content.js meta.title, index.html &lt;title&gt;, catalog): 범위는 같습니다. 다만 책 폴더의 <code>docs/index.html</code> 첫 문단, <code>docs/registration.json</code>(책 제목과 #bounded 장 이름), 이 파일 머리글에는 옛 제목이 남아 있습니다. 등록 당시 기록이라 이번 회차에서는 고치지 않았고, 갱신 여부는 메인 세션에 넘깁니다.</li>
+<li>4장 부제 “연구 고리를 닫았지만” → “연구 고리를 자동으로 돌리지만”: “닫았다”는 고리를 사람 없이 끝까지 이었다는 이룬 일을, “돌린다”는 지금의 동작을 말합니다. 장 본문(AI Scientist v2의 전 과정 자동화)과 어긋나지 않습니다.</li>
+<li>6장 부제 “…정하는 사다리입니다” → “…정하는 정책입니다”: 용어집 정의와 맞지만, 권한 모드가 허용 정도에 따라 순서 지어진다는 뜻은 빠졌습니다. 실험 이름 “권한 모드 사다리”가 그 뜻을 남깁니다.</li>
+<li>8장 제목 “두 번은 하지 않게” → “같은 행동은 한 번만”: 멱등 키의 용어집 정의(“한 번만 실행되게”)와 같은 말이라 그대로 둡니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul><li>브라우저에서 바뀐 제목이 사이드바·장 머리·표지에서 어떻게 보이는지는 열어 보지 않았습니다. #durable 제목은 원래보다 길어 320px 화면 확인이 필요합니다.</li><li>“꼬리”를 원래 문장으로 되돌렸으므로, 다온이 지적한 “꼬리가 무엇인지 설명이 없다”는 문체 문제는 남아 있습니다. 뜻을 지키며 고치려면 “가장 위험한 끝의 경우”처럼 범위를 밝히는 새 문장이 필요하고, 그 문장은 다시 뜻 보존 검수를 받아야 합니다.</li><li>문체 개정이 독자의 이해를 실제로 돕는지는 사람 독자로 시험하지 않았습니다.</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="2차 보충의 미커밋 변경: 6장 ladder 실험의 오염 추적 손잡이와 math.js ladder(mode, workspace, taint), #permission 식 설명·“사슬을 보는 규칙”, 9장 #budget “궤적 감시와 감사 예산”과 AI 안전 #control 링크, 새 출처 Greenblatt 외(2023), lab-guides 예제, tests/browser.cjs 테마 단추" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 2차 보충의 미커밋 변경: 6장 ladder 실험의 오염 추적 손잡이와 math.js ladder(mode, workspace, taint), #permission 식 설명·“사슬을 보는 규칙”, 9장 #budget “궤적 감시와 감사 예산”과 AI 안전 #control 링크, 새 출처 Greenblatt 외(2023), lab-guides 예제, tests/browser.cjs 테마 단추. 결과: 고침.</p>

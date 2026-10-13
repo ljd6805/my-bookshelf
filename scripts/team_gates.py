@@ -38,6 +38,10 @@ RULE_DATE = '2026-10-12'
 # this day need the guideline-check table and a guideline on every style memo row.
 GUIDELINES = tuple(f'K{n}' for n in range(1, 7))
 GUIDELINE_DATE = '2026-10-13'
+# K7 (the bookshelf's own addition): titles, descriptions and headings say what the chapter does.
+# G4 rounds on or after this day also need a filled K7 row and a tagged style-k-titles memo.
+TITLE_GUIDELINE, TITLE_MEMO = 'K7', 'style-k-titles'
+MEMO_CODES = GUIDELINES + (TITLE_GUIDELINE,)
 
 # Books whose first gate round was recorded before lead sign-offs were required
 # (2026-10-12). That round needs no data-approved; any later round of theirs does.
@@ -176,26 +180,29 @@ def approval_errors(record, leads):
 
 
 def guideline_errors(doc, kind, anchors=()):
-    """G4 under the Korean writing guideline: K1~K6 checked, every memo row names its guideline.
+    """G4 under the Korean writing guideline: K1~K7 checked, every memo row names its guideline.
 
     A revision round checks only the memos it tagged, so older chapters' memos written before
     the guideline (2026-10-13) are not judged retroactively; it needs at least one tagged memo.
     A style pass needs a tagged style-k-<chapter> memo for every chapter.
     """
     errors = []
-    missing = [k for k in GUIDELINES if len(doc.guideline_rows.get(k, [])) < 3
+    missing = [k for k in MEMO_CODES if len(doc.guideline_rows.get(k, [])) < 3
                or not all(doc.guideline_rows[k][1:3])]
     if missing:
         errors.append('G4 needs <table class="guideline-check"> inside <section id="style"> with a filled '
                       f'row per guideline (docs/11-korean-writing.html#record): missing {", ".join(missing)}')
     tagged = {memo for memo, codes in doc.memo_rows if codes}
+    if TITLE_MEMO not in tagged:
+        errors.append(f'G4 needs a K7 title memo <h4 id="{TITLE_MEMO}"> inside <section id="style"> with at least '
+                      'one critique row with data-guideline (docs/11-korean-writing.html#k7)')
     if kind == 'style':
         return errors + style_pass_errors(doc, tagged, anchors)
     scope = doc.style if kind == 'new' else tagged
     untagged = sorted({memo for memo, codes in doc.memo_rows
-                       if memo in scope and (not codes or any(c not in GUIDELINES for c in codes))})
+                       if memo in scope and (not codes or any(c not in MEMO_CODES for c in codes))})
     if untagged:
-        errors.append('G4 style memo rows need data-guideline with K1~K6: ' + ', '.join(untagged))
+        errors.append('G4 style memo rows need data-guideline with K1~K7: ' + ', '.join(untagged))
     empty = sorted(doc.style - tagged) if kind == 'new' else ([] if tagged else ['any memo'])
     if empty:
         errors.append('G4 style memos need at least one critique row with data-guideline: ' + ', '.join(empty))
@@ -203,15 +210,15 @@ def guideline_errors(doc, kind, anchors=()):
 
 
 def style_pass_errors(doc, tagged, anchors):
-    scope = {STYLE_PASS_MEMO + a for a in anchors}
+    scope = {STYLE_PASS_MEMO + a for a in anchors} | {TITLE_MEMO}
     errors = []
     missing = sorted(scope - doc.style)
     if missing:
         errors.append('style pass needs a K1~K6 memo per chapter: missing ' + ', '.join(missing))
     untagged = sorted({memo for memo, codes in doc.memo_rows
-                       if memo in scope and (not codes or any(c not in GUIDELINES for c in codes))})
+                       if memo in scope and (not codes or any(c not in MEMO_CODES for c in codes))})
     if untagged:
-        errors.append('G4 style memo rows need data-guideline with K1~K6: ' + ', '.join(untagged))
+        errors.append('G4 style memo rows need data-guideline with K1~K7: ' + ', '.join(untagged))
     empty = sorted((scope & doc.style) - tagged)
     if empty:
         errors.append('G4 style memos need at least one critique row with data-guideline: ' + ', '.join(empty))

@@ -4,6 +4,28 @@
 <h1>팩트·출처 검수 기록 · 멀티 에이전트</h1>
 <p>《멀티 에이전트 · 여럿이 나눠 맡고 서로 확인하기》(books/aie-multiagent)를 쓰지 않은 에이전트가 검수한 기록입니다. 형식과 절차는 서재의 <a href="../../../templates/fact-review.html">검수 기록 양식</a>과 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>를 따릅니다. <a href="index.html#verification">프로젝트 문서의 검증 절</a>로 돌아갑니다.</p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(작업 트리, 56c7001 위)으로 바뀐 문장 23개: js/content.js 문자열 21개(다온 메모 반영함 21행, 사실 수정 1개), index.html 한 줄 소개 1개, 그리고 제목·설명·머리글 점검(style-k-titles)에 따라 메인 세션이 바꾼 data/catalog.json의 책 설명·장 목록·장 색인(01·11장). 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="작업 트리(56c7001 위, PR 3에서 커밋)" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수는 이 책의 문장을 고치지 않은 새 세션의 유진이 맡았고, 고친 사람은 다온 문체 개정 세션입니다. 원래 문장은 HEAD(56c7001), 고친 문장은 작업 트리에서 읽어 <code>git diff HEAD -- books/aie-multiagent/ data/catalog.json</code>의 바뀐 문자열을 하나씩 원래 문장과 맞대었습니다. 다온 메모(<code>docs/index.html</code>의 style-pass)에 있는 반영함 22행, 집필 쪽이 고친 사실 수정 1곳(09장 부제), 메인 세션이 옮긴 카탈로그 항목이 범위입니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>새 사실이나 바뀐 주장 없음. 사실 수정 1곳(09장 부제 “거래가 성사되고” → “거래가 더 자주 성사되고”)은 맞음</td><td>고친 문장마다 같은 장 본문·확인 문제·실험 안내와 대조. 09장 부제는 본문의 성사율 26.67% → 88.88%, lab-guides.js의 8라운드 87.7% 대 41.0%와 맞음</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>바뀐 수치·단위 없음</td><td>192,000·202,000, 20번·10만 토큰, 4.2%, f &lt; n/3, 26.67%·88.88%, 약 20%, 18만 건, 0.8, 6가지·약 360만 가지, 확인일 2026-10-08을 원래 문장과 한 글자씩 대조</td></tr>
+<tr data-check="experiments" data-status="ok"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff가 js/content.js의 문자열과 index.html 한 줄 소개·자산 버전(?v=20261013-k)뿐임을 확인. js/labs-*.js·lab-guides.js·math 코드는 바뀌지 않음. <code>npm test</code> 30개, 루트 <code>node --test tests/test_book_content.mjs</code> 5개 통과</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>책 안 용어 유지, 바뀐 장 제목과 카탈로그 일치</td><td>“품질 문”, “재시도 폭풍”, “손넘김(handoff)”, “긴 지평”, “닻”이 원래 이름으로 남음(“긴 지평”·“닻”은 괄호로). 01·11장 새 제목이 content.js·data/catalog.json의 장 목록·장 색인과 같고, 이 책 안의 다른 책 링크 이름 14개와 다른 책에서 이 책으로 오는 링크 3개(aie-capstone·aie-agents → #supervisor, aie-tools → #protocol)가 가리키는 장의 실제 제목과 같음</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인. 본문 인용 표기(“원본 커리큘럼 기준”, “논문 초록 기준”, 확인일)는 그대로</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>23개 대조, 되돌린 문장 0개</td><td>반영함 22행을 diff와 한 행씩 짝지음(08장 “닻”과 “약 20%” 두 행은 같은 문단 문자열 하나). 메모에 없는 diff 변경은 사실 수정 1곳뿐이고 style-pass 둘째 문단에 적혀 있음. 조건(“때만”, “절반보다 작을 때”, “일부”), 가능성(“수 있습니다”), 의무(“해야 합니다”)가 그대로인지 앞뒤 문단과 함께 읽음</td></tr>
+</tbody></table>
+<h3>발견과 수정</h3>
+<p>되돌린 문장은 없습니다. 판단이 갈릴 수 있어 되돌리지 않고 남겨 두는 비고는 셋입니다.</p>
+<ul>
+<li><strong>#consensus, js/content.js 둘째 문단.</strong> 원래 문장은 보고 세 개를 한 문장에 담아 “…쪽이었다고 보고합니다(논문 초록 기준)”로 맺었고, 고친 문장은 둘로 나눠 둘째 문장을 “…쪽이었습니다(논문 초록 기준, 확인일 2026-10-08)”로 맺습니다. 둘째 문장의 서술어에서 “보고합니다”가 빠졌지만 괄호의 출처 단서가 남아 있어 논문의 보고라는 점은 읽힙니다. “몇만”을 “몇 명만”으로 고친 것은 원래 뜻(소수)을 고정한 것으로 봅니다.</li>
+<li><strong>#debate 부제.</strong> “다수결은 서로 다른 실수를 할 때만 힘이 있습니다” → “다수결은 투표자들이 서로 다른 실수를 할 때만 한 명보다 정확해집니다”. “힘이 있다”를 “한 명보다 정확해진다”로 구체화했는데, 같은 장 확인 문제 이유(“독립일 때에만 다수결이 개인보다 나아집니다”)와 뜻이 같아 그대로 둡니다. 개인 정확도가 절반을 넘어야 한다는 조건은 원래 부제에도 없었습니다.</li>
+<li><strong>#market 부제(사실 수정).</strong> “더 자주 성사되고”는 원본 논문 결과(26.67% → 88.88%)와 실험의 3라운드 이상에는 맞지만, 실험의 1라운드에서는 제안 생성기 구매자가 1.7%로 순진한 구매자보다 낮습니다. 부제가 논문의 결론을 요약한 자리라 바른 문장으로 보고, 이 차이는 실험 결과 읽기가 이미 밝힙니다.</li>
+</ul>
+<h3>확인하지 못한 것</h3>
+<ul><li>브라우저에서 바뀐 제목·부제가 1280·390·320px에서 잘리지 않는지(이 회차는 문장 대조만 함).</li><li>서가 index.html과 다른 책 폴더는 읽기만 했고, 서가 생성물(build_catalog.py)과 validate.py는 이 세션에서 돌리지 않음. 원본 논문 초록의 현재 내용(외부 접속 없이 책 안의 기록과만 대조함).</li></ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12-supplement2" data-reviewer="Claude 검수 세션 (2차 보충 검수 r1)" data-author="Claude 2차 보충 집필 세션 (2026-10-12)" data-date="2026-10-12" data-scope="2차 보충의 미커밋 변경: 마지막 장 diagnose 실험의 질문 수 n(50~1,000) 손잡이와 math.js wilson·twoProp·evidence, 식 설명의 z 값, #social “시민 1,000명을 시뮬레이션하면 되지 않나?”와 교체한 확인 문제, 새 출처 Park 외 arXiv:2411.10109, lab-guides 예제, tests/browser.cjs 테마 단추" data-result="fixed">
 <h2>2026-10-12 2차 보충 검수 (r1)</h2>
 <p>검수자: Claude 검수 세션 (2차 보충 검수 r1). 집필자: Claude 2차 보충 집필 세션 (2026-10-12). 범위: 2차 보충의 미커밋 변경: 마지막 장 diagnose 실험의 질문 수 n(50~1,000) 손잡이와 math.js wilson·twoProp·evidence, 식 설명의 z 값, #social “시민 1,000명을 시뮬레이션하면 되지 않나?”와 교체한 확인 문제, 새 출처 Park 외 arXiv:2411.10109, lab-guides 예제, tests/browser.cjs 테마 단추. 결과: 고침.</p>
