@@ -1,0 +1,35 @@
+<svg class="al-ill" viewBox="0 0 340 180" role="img" aria-labelledby="al-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="al-ill-title">가상 지수 누리200(표준편차 18%)과 채권 묶음(6%)의 한 해 수익률이 출렁이는 선이 그려진 뒤, 둘을 60대 40으로 섞은 선이 상관 −0.2 덕분에 누리200보다 작게 출렁이며 그려지고 표준편차 띠가 10.58% 폭으로 펼쳐지는 과정(미리 정한 가정, 예측 아님)</title>
+<style>
+.al-ill-bg{fill:#fbf7ef}
+.al-ill-word{font:600 10px sans-serif;fill:#2a2116}
+.al-ill-small{font:500 9px sans-serif;fill:#5e5040}
+.al-ill-base{stroke:#e0d1b8;stroke-width:1}
+.al-ill-line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-dasharray:100;stroke-dashoffset:100}
+.al-ill-st{stroke:#b0392b;animation:al-ill-draw1 9s linear infinite}
+.al-ill-bd{stroke:#2d55ad;stroke-dasharray:3 2;animation:al-ill-fade2 9s linear infinite;stroke-dashoffset:0;opacity:0}
+.al-ill-mx{stroke:#8a5800;stroke-width:2.6;animation:al-ill-draw3 9s linear infinite}
+.al-ill-band{fill:#dd9a3f;opacity:.16}
+.al-ill-band-mx{fill:#dd9a3f;opacity:0;animation:al-ill-band 9s linear infinite}
+@keyframes al-ill-draw1{0%{stroke-dashoffset:100}25%,96%{stroke-dashoffset:0}100%{stroke-dashoffset:100}}
+@keyframes al-ill-fade2{0%,22%{opacity:0}34%,96%{opacity:1}100%{opacity:0}}
+@keyframes al-ill-draw3{0%,38%{stroke-dashoffset:100}66%,96%{stroke-dashoffset:0}100%{stroke-dashoffset:100}}
+@keyframes al-ill-band{0%,66%{opacity:0}74%,96%{opacity:.3}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.al-ill-st,.al-ill-mx{animation:none;stroke-dashoffset:0}.al-ill-bd{animation:none;opacity:1}.al-ill-band-mx{animation:none;opacity:.3}}
+html[data-motion=reduce] .al-ill-st,html[data-motion=reduce] .al-ill-mx{animation:none;stroke-dashoffset:0}html[data-motion=reduce] .al-ill-bd{animation:none;opacity:1}html[data-motion=reduce] .al-ill-band-mx{animation:none;opacity:.3}
+</style>
+<rect class="al-ill-bg" width="340" height="180" rx="10"/>
+<path class="al-ill-base" d="M96 44H288"/>
+<rect class="al-ill-band al-ill-band-st" x="96" y="35.4" width="192" height="17.3"/>
+<path class="al-ill-line al-ill-st" pathLength="100" d="M96 51.4L104 41.0L112 31.3L120 29.2L128 32.3L136 42.5L144 40.0L152 45.2L160 54.7L168 47.1L176 34.5L184 40.7L192 45.8L200 52.4L208 43.8L216 48.2L224 42.6L232 38.6L240 63.4L248 43.8L256 56.0L264 51.3L272 54.1L280 33.0L288 37.0"/>
+<text class="al-ill-word" x="10" y="41">누리200</text><text class="al-ill-small" x="10" y="54">σ 18%</text>
+<path class="al-ill-base" d="M96 96H288"/>
+<rect class="al-ill-band al-ill-band-bd" x="96" y="93.1" width="192" height="5.8"/>
+<path class="al-ill-line al-ill-bd" pathLength="100" d="M96 93.8L104 98.7L112 101.8L120 98.7L128 96.5L136 96.5L144 94.3L152 97.1L160 89.4L168 93.7L176 90.6L184 95.6L192 96.7L200 98.0L208 93.5L216 92.4L224 95.7L232 95.3L240 95.2L248 97.4L256 95.9L264 101.4L272 98.4L280 97.0L288 96.3"/>
+<text class="al-ill-word" x="10" y="93">채권 묶음</text><text class="al-ill-small" x="10" y="106">σ 6%</text>
+<path class="al-ill-base" d="M96 148H288"/>
+<rect class="al-ill-band al-ill-band-mx" x="96" y="142.9" width="192" height="10.2"/>
+<path class="al-ill-line al-ill-mx" pathLength="100" d="M96 151.6L104 147.3L112 142.7L120 140.2L128 141.2L136 147.3L144 144.9L152 149.1L160 151.8L168 149.0L176 140.1L184 145.9L192 149.4L200 153.9L208 146.9L216 149.0L224 147.1L232 144.5L240 159.3L248 148.4L256 155.2L264 154.6L272 155.0L280 141.8L288 143.9"/>
+<text class="al-ill-word" x="10" y="145">60/40 섞음</text><text class="al-ill-small" x="10" y="158">σ 10.58%</text>
+<text class="al-ill-small" x="288" y="174" text-anchor="end">해마다의 수익률 · 띠는 ±1 표준편차 · 상관 −0.2</text>
+</svg>
