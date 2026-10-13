@@ -17,8 +17,8 @@
 <text class="cv-text" x="270" y="140" text-anchor="middle">영구가치</text>
 <text class="cv-text" x="270" y="16" text-anchor="middle">3,079.6</text>
 <text class="cv-text" x="188" y="72" text-anchor="middle">196.8 … 146.9</text>
-<path class="cv-line cv-thin" d="M240 48C190 30 120 34 66 52"/>
-<path class="cv-head" d="M62 54l8-6l1 7z"/>
+<path class="cv-line cv-thin" d="M240 48C190 30 120 40 66 60"/>
+<path class="cv-head" d="M62 62l8-6l1 7z"/>
 <path class="cv-line cv-thin" d="M146 104C120 104 92 100 66 92"/>
 <path class="cv-head" d="M62 91l8-4l-1 7z"/>
 <text class="cv-text" x="104" y="64" text-anchor="middle">할인 8.3%</text>
