@@ -163,6 +163,9 @@ class TeamGates(unittest.TestCase):
             memos + style.replace('data-approved="나래"', 'data-approved="리안"'), bid=bid, review='2026-10-13')))
         no_check = memos.replace(CHECK, '')
         self.assertTrue(any('guideline-check' in e for e in self.run_check(no_check + style, bid=bid, review='2026-10-13')))
+        untagged = memos.replace('data-guideline="K3 K5"', '', 1)
+        self.assertTrue(any('need data-guideline' in e and 'style-k-a' in e
+                            for e in self.run_check(untagged + style, bid=bid, review='2026-10-13')))
         no_g6 = style.replace('data-gate="G6"', 'data-gate="G5"')
         self.assertTrue(any('missing gate G6' in e for e in self.run_check(memos + no_g6, bid=bid, review='2026-10-13')))
 
