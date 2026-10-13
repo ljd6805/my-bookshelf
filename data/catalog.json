@@ -2666,7 +2666,7 @@
       "color": "rose",
       "description": "GDP·물가 상승률·실업률을 계산하고, 정책 시나리오 모형에서 환율·GDP·물가가 반응하는 순서를 읽은 뒤, 물가 발표 뒤의 경로를 가설로 세웁니다. 실제 통계는 2026-10-13 확인 기준이며, 학습용이라 투자 권유가 아닙니다.",
       "illustration": "books/macro/assets/shelf-illustration.svg",
-      "illustration_caption": "미리 정한 시나리오 모형(예측 아님): 정책 금리 +0.25%p에 환율은 1분기째, GDP는 5분기째, 물가는 7분기째 가장 크게 반응합니다.",
+      "illustration_caption": "가정한 모형에서 금리를 올리면 환율, GDP, 물가 순서로 가장 크게 반응합니다(예측 아님).",
       "cover_art": "books/macro/assets/cover-art.svg",
       "cover_meta": "10장 · 10개 실험",
       "status": "published",
