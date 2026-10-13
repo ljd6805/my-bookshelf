@@ -36,7 +36,7 @@ const strip=stage=>`<ol class="stage-list" aria-label="다섯 단계">${STAGES.m
 SLabs['three-statement-link']=el=>{
  let stage=null;
  const num=(id,label,max,v)=>U.number(id,label,0,max,1,v);
- U.setup(el,`<div class="fs-inputs">${U.select('lbase','기초 재무상태표와 사업연도',[['2023','2024 사업연도 (기초 2023년 말)'],['2024','2025 사업연도 (기초 2024년 말)']],'2023','바꾸면 아래 칸이 그해 본문 값으로 바뀝니다')}${num('lsales','매출액 (억 원)',100000,1500)}${num('lar','기말 매출채권 (억 원)',10000,230)}${num('linv','기말 재고자산 (억 원)',10000,170)}${num('lcapex','설비투자 (억 원)',10000,80)}</div><details class="fs-more"><summary>더 바꾸기: 기말 매입채무와 배당</summary><div class="fs-inputs">${num('lap','기말 매입채무 (억 원)',10000,130)}${num('ldiv','배당 (억 원)',1000,40)}</div></details><p class="caption">위의 “비교 예제” 다섯 단추가 다섯 단계입니다. 단추를 누르기 전에 아래 단계 목록의 질문마다 바뀔 줄을 짐작해 두세요.</p>`,true);
+ U.setup(el,`<div class="fs-inputs">${U.select('lbase','기초 재무상태표와 사업연도',[['2023','2024 사업연도 (기초 2023년 말)'],['2024','2025 사업연도 (기초 2024년 말)']],'2023','바꾸면 아래 칸이 그해 본문 값으로 바뀝니다')}${num('lsales','매출액 (억 원)',100000,1500)}${num('lar','기말 매출채권 (억 원)',10000,230)}${num('linv','기말 재고자산 (억 원)',10000,170)}${num('lcapex','설비투자 (억 원)',10000,80)}</div><details class="fs-more"><summary>더 바꾸기: 기말 매입채무와 배당</summary><div class="fs-inputs">${num('lap','기말 매입채무 (억 원)',10000,130)}${num('ldiv','배당 (억 원)',1000,40)}</div></details><p class="caption">위의 번호 단추 다섯 개(1~5)가 다섯 단계입니다. 단추를 누르기 전에 아래 단계 목록의 질문마다 바뀔 줄을 짐작해 두세요.</p>`,true);
  U.on(el,'fs-preset',e=>{const k=STAGES.findIndex(s=>String(e.detail).includes(s[0]));stage=k>=0?k:null;el.dispatchEvent(new Event('fs-refresh'));});
  U.on(el,'input',e=>{if(e.isTrusted&&stage!==null){stage=null;el.dispatchEvent(new Event('fs-refresh'));}});
  U.bind(el,e=>{
