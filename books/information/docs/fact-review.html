@@ -14,7 +14,7 @@
 <tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>계산 코드 변경 없음</td><td>diff에 js/labs*.js 변경이 없고, js/content.js·js/lab-guides.js·review.json은 문자열만 바뀌었습니다. index.html의 변경은 content.js와 lab-guides.js 주소의 ?v= 갱신뿐입니다. 책 테스트 35개와 루트 tests/test_book_content.mjs 5개가 통과했습니다.</td></tr>
 <tr data-check="terms" data-status="ok"><td>용어</td><td>용어가 본문 이름에 맞게 남음</td><td>3장 링크의 “과소추정”은 본문의 “센 엔트로피는 실제보다 작게 나옵니다”와 같은 말로 바뀌었고, 9장 “채널 부호 없이”는 같은 장 셋째 문단의 “채널 부호”, 실험 선택지 “부호 없음”과 어긋나지 않습니다. 장 ID·장 제목·정답 번호(context 1번 answer 1, channel 2번 answer 2)·링크 주소는 그대로입니다.</td></tr>
 <tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 확인했습니다.</td></tr>
-<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>문체로 고친 20곳을 대조, 되돌린 문장 0</td><td>문장마다 수치·단위, 조건과 단서, 가능성·확신의 정도(K3), 인과, 비교 대상, 용어를 원래 문장과 맞대었습니다. 메모의 “(반영함)” 20행(content.js 17, lab-guides.js 2, review.json 1)이 diff의 문체 변경 20곳과 하나씩 맞고, 메모에 없는 문장 변경은 없습니다.</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>문체로 고친 20곳을 대조, 되돌린 문장 0</td><td>문장마다 수치·단위, 조건과 단서, 가능성·확신의 정도(K3), 인과, 비교 대상, 용어를 원래 문장과 맞대었습니다. 메모의 “(반영함)” 20행(content.js 17, lab-guides.js 2, review.json 1)이 diff의 문체 변경 20곳과 하나씩 맞고, 메모에 없는 문장 변경은 없습니다. 그 뒤 G4에서 lab-guides.js 한 곳을 원래 문장으로 되돌려 최종 반영은 19곳입니다(아래 후속 수정).</td></tr>
 </tbody></table>
 <h3>발견과 수정</h3>
 <p>되돌린 문장은 없습니다. 판단을 적어 둘 곳은 아래와 같습니다.</p>
@@ -26,7 +26,7 @@
 </tbody></table>
 <h3>확인하지 못한 것</h3>
 <p>5장 “실제 허프만 부호는 이보다 길고, 그 차이는 1비트 안쪽입니다”는 원래 문장(“1비트 안쪽에서 깁니다”)과 뜻이 같아 wording으로는 문제가 없습니다. 다만 Q로 지은 허프만 부호를 P로 쟀을 때 평균 길이가 언제나 이상적 길이 −log₂Q의 평균 이상이고 1비트 안이라는 보장은 일반적으로 없습니다(그 범위가 보장되는 것은 ⌈−log₂Q⌉ 길이의 섀넌 부호입니다). 이 책의 도윤·윤슬 자료에서 성립하는지는 계산하지 않았으므로, 이번 범위 밖의 권고로 집필 쪽에 넘깁니다. 화면에서 고친 문장을 직접 읽어 보는 브라우저 확인은 하지 않았습니다.</p>
-<h3>후속 수정 (집필 쪽, 같은 날)</h3><p>위 “확인하지 못한 것”의 5장 문장 “실제 허프만 부호는 이보다 길고, 그 차이는 1비트 안쪽입니다”는 일반적으로 보장되지 않아(Q로 지은 허프만 부호를 P로 재면 이상적 길이보다 짧을 수도 있음), 보장되는 범위만 남겨 “길이를 정수 비트로 올려 ⌈−log₂Q⌉로 쓰면 글자마다 1비트 안쪽으로 길어집니다”로 고쳤습니다. 이 수정(커밋 401b057, js/content.js 5장 formulaNote 한 곳)은 G6에서 정민이 확인했습니다: 글자마다 ⌈x⌉ − x는 0 이상 1 미만이고, Σ2^−⌈−log₂Q⌉ ≤ 1이라 그런 접두어 부호가 있으며, α &gt; 0이면 Q가 0이 되지 않습니다.</p></section>
+<h3>후속 수정 (집필 쪽, 같은 날)</h3><p>위 “확인하지 못한 것”의 5장 문장 “실제 허프만 부호는 이보다 길고, 그 차이는 1비트 안쪽입니다”는 일반적으로 보장되지 않아(Q로 지은 허프만 부호를 P로 재면 이상적 길이보다 짧을 수도 있음), 보장되는 범위만 남겨 “길이를 정수 비트로 올려 ⌈−log₂Q⌉로 쓰면 글자마다 1비트 안쪽으로 길어집니다”로 고쳤습니다. 이 수정(커밋 401b057, js/content.js 5장 formulaNote 한 곳)은 G6에서 정민이 확인했습니다: 글자마다 ⌈x⌉ − x는 0 이상 1 미만이고, Σ2^−⌈−log₂Q⌉ ≤ 1이라 그런 접두어 부호가 있으며, α &gt; 0이면 Q가 0이 되지 않습니다.</p><p>G4 점검에서 나래가 마지막 과제 안내(js/lab-guides.js final)의 “A 균등 모델(1,387비트)이 이깁니다”를 원래 문장 “…(1,387비트)가 이깁니다”로 되돌리게 했습니다. 괄호 뒤 조사는 괄호 앞말 “모델”에 맞추므로 원래의 “가”가 맞고, 다온의 진단이 틀렸다는 이유입니다. 되돌린 문장은 원문과 글자까지 같아 뜻 보존 판정에 영향이 없고, 문체로 고친 곳은 20곳에서 19곳(lab-guides.js 1곳)이 됩니다.</p></section>
 
 <section class="fact-review" id="review-2026-10-12-g6-r2" data-reviewer="Claude · G6 검수 세션(information)" data-author="Claude · information 집필 세션" data-date="2026-10-12" data-scope="1회차 반려 수정 커밋 0964efd의 books/information 변경 전부(content.js·review.json·labs-codes.js·labs-models.js·lab-guides.js·figures.js·app.js·math.js 주석·docs/index.html·tests), 본문 확인·전이 문제 22문항과 복습 퀴즈 22문항의 정답 번호 전수 재확인, 바뀐 문장의 수치 재계산, 1280·390·320px 브라우저 재확인" data-result="fixed" data-commit="8aba268">
 <h2>2026-10-12 G6 검수 (2회차)</h2>
