@@ -76,6 +76,8 @@ function navFromIndex(level,point=POINT){money(level,'index');return Math.round(
 function gap(price,nav0){money(price,'price');num(nav0,'nav');need(nav0>0,'nav must be > 0');return (price-nav0)/nav0;}
 function tick(price){money(price,'price');for(const [hi,t] of RULES.tick)if(price<hi)return t;}
 const tickUp=p=>Math.ceil(p/tick(p)-1e-9)*tick(p),tickDown=p=>Math.floor(p/tick(p)+1e-9)*tick(p);
+/* 한 호가 위·아래 칸(원 단위 가격). 2,000원 경계를 넘으면 넘어간 쪽의 호가단위를 쓴다(1,999 → 2,000 → 2,005, 2,000 → 1,999). */
+const nextUp=p=>tickUp(p+1),nextDown=p=>tickDown(p-1);
 /* 괴리율을 보도된 기준과 견준다. underlying: domestic | foreign. 기준선 위면 true(같으면 넘지 않음). */
 function gapCheck(g,underlying='domestic'){num(g,'gap');need(['domestic','foreign'].includes(underlying),'underlying must be domestic or foreign');const a=Math.abs(g);return {disclose:a>RULES.disclose[underlying]+1e-12,lpClose:a>RULES.lpClose[underlying]+1e-12,discloseLine:RULES.disclose[underlying],lpLine:RULES.lpClose[underlying]};}
 function lpExempt(time){const m=minutes(time);return RULES.lpExempt.some(([a,b])=>m>=minutes(a)&&m<minutes(b));}
@@ -85,11 +87,11 @@ function isAuction(time){const m=minutes(time);return m>=minutes(RULES.auction[0
 const OTHERS=[[0.005,100],[0.01,200],[0.02,300],[0.03,500],[0.05,1000]];
 function askBook(inav,lpOn,o={}){
  money(inav,'inav');const half=o.lpHalf??40,qty=o.lpQty??1000,levels=[];
- if(lpOn){const a=tickUp(inav+half);for(let i=0;i<5;i++)levels.push([a+i*tick(a),qty,'LP']);}
+ if(lpOn){let a=tickUp(inav+half);for(let i=0;i<5;i++){levels.push([a,qty,'LP']);a=nextUp(a);}}
  for(const [p,q] of OTHERS)levels.push([tickUp(inav*(1+p)),q,'others']);
  return levels.sort((x,y)=>x[0]-y[0]);
 }
-function bidBook(inav,lpOn,o={}){const half=o.lpHalf??40,qty=o.lpQty??1000,levels=[];if(lpOn){const b=tickDown(inav-half);for(let i=0;i<5;i++)levels.push([b-i*tick(b),qty,'LP']);}for(const [p,q] of OTHERS)levels.push([tickDown(inav*(1-p)),q,'others']);return levels.sort((x,y)=>y[0]-x[0]);}
+function bidBook(inav,lpOn,o={}){const half=o.lpHalf??40,qty=o.lpQty??1000,levels=[];if(lpOn){let b=tickDown(inav-half);for(let i=0;i<5;i++){levels.push([b,qty,'LP']);b=nextDown(b);}}for(const [p,q] of OTHERS)levels.push([tickDown(inav*(1-p)),q,'others']);return levels.sort((x,y)=>y[0]-x[0]);}
 /* 시장가 매수 qty주. 접속매매는 칸마다 그 가격에, 단일가는 모두 마지막 칸 가격 하나로 체결된다고 놓는다(다른 매수 주문은 없음). */
 function marketBuy(asks,qty,auction=false){
  need(Number.isInteger(qty)&&qty>=0,'qty must be a whole number ≥ 0');let left=qty,cost=0,last=null,levels=0;

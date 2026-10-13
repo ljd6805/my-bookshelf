@@ -191,3 +191,11 @@ test('every function in math.js stays under 100 lines',()=>{
  const lines=read('js/math.js').split('\n');let depth=0,start=null;
  lines.forEach((line,i)=>{const o=(line.match(/\{/g)||[]).length,c=(line.match(/\}/g)||[]).length;if(start===null&&/(function\b|=>\s*\{)/.test(line)&&depth===1)start=[i,depth];depth+=o-c;if(start&&depth<=start[1]){assert.ok(i-start[0]+1<=100,`math.js:${start[0]+1} ${i-start[0]+1} lines`);start=null;}});
 });
+
+test('LP 호가 사다리는 2,000원 경계에서 호가단위를 바꾼다', () => {
+  const lp = b => b.filter(l => l[2] === 'LP').map(l => l[0]);
+  assert.deepEqual(lp(M.askBook(1959, true)), [1999, 2000, 2005, 2010, 2015]);
+  assert.deepEqual(lp(M.bidBook(2041, true)), [2000, 1999, 1998, 1997, 1996]);
+  assert.deepEqual(lp(M.askBook(30360, true)), [30400, 30405, 30410, 30415, 30420]);
+});
+
