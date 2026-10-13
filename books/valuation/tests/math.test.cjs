@@ -27,6 +27,12 @@ put('q',{y16:400/16000,rent:[1200/30000,1200/25000],nwc322:1890*0.322,dNwc322:18
  ke12:M.capm(0.044,1.2,0.049),riskOnly:1.2*0.049,kdWrong:0.0506/0.8,meanPer:(8+11+13+18)/4,meanVal:12.5*1648,per11:11*1648,
  noWc:84+40,asym:[0.322-0.28,0.28-0.18],onePlus:[1.07,1.06,1.083],ndWrong:[450+62.8,250-62.8],pv1:146.9/1.083,denom:[0.083-0.02,0.083-0.025],pbr24:20000/7760,share75:3/4});
 
+/* 6장 3문단: 부채 비용 만기를 10년 국고채에 맞춘 비교(은재 G3 결정: 기준안은 유지) */
+put('matched',(()=>{const kdPre=M.MARKET.rf.raw+0.011,W=M.wacc({kdPre}),v=M.value({r:0.084});return {kdPre,wacc:W.wacc,v,drop:M.value()-v,dropPct:(M.value()-v)/M.value()};})());
+test('6장 만기 맞춘 부채 비용: 5.495% → WACC 8.40%, 22,318원(기준안보다 약 430원·1.9% 낮음)',()=>{
+ const X=C.matched;assert.deepEqual([pct(X.kdPre,3),pct(X.wacc,2),w(X.v),pct(X.dropPct,1)],['5.495','8.40','22,318','1.9']);assert.ok(Math.abs(X.drop-430)<10);
+});
+
 test('assumptions, market numbers and filing dates live in one table each, with check dates and grades',()=>{
  assert.equal(M.CHECKED,'2026-10-13');assert.equal(M.ASSUME.base.r,0.083);assert.equal(M.ASSUME.base.wcRatio,0.28);assert.equal(M.ASSUME.base.gT,0.02);
  assert.deepEqual([M.MARKET.rf.raw,M.MARKET.rf.date,M.MARKET.rf.grade],[0.04395,'2026-10-08','news']);assert.deepEqual([M.MARKET.erp.raw,M.MARKET.erp.date,M.MARKET.erp.grade],[0.0487,'2026-01-05','estimate']);

@@ -67,7 +67,7 @@ VLabs['ev-bridge']=el=>{
   if(eb<=0)return U.result(el,'',U.problem('EBITDA','0 이하라 EV/EBITDA를 계산할 수 없습니다. 0보다 큰 값을 넣어 주세요.'));
   const x=M.ev(cap,debt,cash),firm=mult*eb,eq=M.equityValue(firm,x.netDebt),pv=M.peerValues();
   const chart=U.waterfall({title:'EV = 시가총액 + 차입금 − 현금 (억 원)',start:['시가총액',cap],steps:[['차입금',debt],['현금|(빼기)',-cash]],end:['EV',x.ev],fmt:v=>N(v),twoLine:true,label:`시가총액 ${N(cap)} + 차입금 ${N(debt)} − 현금 ${N(cash)} = EV ${N(x.ev)}억 원`});
-  U.result(el,chart,`순차입금 = ${N(debt)} − ${N(cash)} = <b>${E(x.netDebt)}</b>, EV = ${N(cap)} + ${N(x.netDebt)} = <b>${E(x.ev)}</b>, EV/EBITDA = ${N(x.ev)} ÷ ${N(eb)} = <b>${U.times(x.ev/eb)}</b>.<br>배수 ${U.times(mult,1)}로 매긴 기업가치 ${U.times(mult,1)} × ${N(eb)} = ${E(firm)}에서 순차입금 ${E(x.netDebt)}을 빼면 주주 몫 ${E(eq.equity)}, 새벽전자 주식 1,000만 주로 나누면 주당 <b>${W(eq.perShare)}</b>입니다.<br>비교 회사 중앙값 세 가지(EV/EBITDA·PBR·PER)로 매긴 2025년 말 새벽전자의 주당 가치: <b>${W(pv.low)}~${W(pv.high)}</b>.${U.kind(['real','scenario'],'EBITDA는 K-IFRS가 표시하도록 정한 항목이 아니라 이 책이 영업이익 + 감가상각으로 계산한 값입니다.')}`);
+  U.result(el,chart,`순차입금 = ${N(debt)} − ${N(cash)} = <b>${E(x.netDebt)}</b>, EV = ${N(cap)} + ${N(x.netDebt)} = <b>${E(x.ev)}</b>, EV/EBITDA = ${N(x.ev)} ÷ ${N(eb)} = <b>${U.times(x.ev/eb)}</b>.<br>배수 ${U.times(mult,1)}로 매긴 기업가치 ${U.times(mult,1)} × ${N(eb)} = ${E(firm)}에서 순차입금 ${E(x.netDebt)}을 빼면 주주 몫 ${E(eq.equity)}, 새벽전자 주식 1,000만 주로 나누면 주당 <b>${W(eq.perShare)}</b>입니다.<br>비교 회사 중앙값 세 가지(EV/EBITDA·PBR·PER)로 매긴 2025년 말 새벽전자의 주당 가치: <b>${W(pv.low)}~${W(pv.high)}</b>.${U.kind(['real','scenario'],'EBITDA는 이 책이 영업이익 + 감가상각으로 계산한 값입니다. K-IFRS가 정한 표시 항목이 아니라는 점은 기준서 원문으로 확인하지 못했습니다.')}`);
  });
 };
 })();
