@@ -404,5 +404,25 @@
     ],
     "next": "35권 모두 문체 개정 마침(PR 64·65·66). 새 책과 다음 개정은 K1~K7로 씀. 2026-10-13 서재 주인이 AI 인프라(모델 서버에서 비용·장애 관리까지)·캡스톤(배운 도구로 제품 하나를 끝까지 만들어 보기) 제목을 골라 반영했고, 자율 시스템 1장 부제를 성공 확률로 바로잡음(유진 대조, 나래·한결 승인, PR 67). 남은 일: AI 인프라 표지·서가 삽화의 '운영 장부' 이름표는 다음 그림 손질 때 검토",
     "rule_k7": "제목·설명·머리글 지침 K7(docs/11#k7): 2026-10-13 이후 G4는 대조표 K7 행과 style-k-titles 메모 필요(scripts/team_gates.py)"
+  },
+  "tax_accounts": {
+    "book": "books/tax/",
+    "series": "finance-from-scratch 11권 (시리즈 여섯 번째 출간)",
+    "plan": "/mnt/project-files/stock-books/proposal.md, /mnt/project-files/stock-books/vol11-handoff.md",
+    "docs": "books/tax/docs/index.html",
+    "research": "books/tax/docs/research.html",
+    "fact_review": "books/tax/docs/fact-review.html (1회차 fixed, wording fixed)",
+    "status": "published: G0~G7 팀장 승인",
+    "verification": [
+      "책 테스트 41개",
+      "브라우저 1280/390/320 모든 장·실험 10개·예측 질문, 실험 그림 글자 viewBox·표 행 보임 검사",
+      "validate.py·build_catalog.py --check·서가 단위 테스트(Python·Node)"
+    ],
+    "remaining": [
+      "세율·한도는 모두 2026-10-13 보도·안내 기준: 국가법령정보센터(증권거래세법 시행령·소득세법·조세특례제한법)·국세청 원문으로 조사 노트 행을 다시 확인해야 함(이 환경은 공식 누리집 접속 차단)",
+      "확인 못함으로 둔 규칙: ISA 안 매도의 거래세, 연금저축의 국내 개별주식, 공제받지 않은 연금 원금의 인출 과세, 해외 자산 양도세 신고 시기와 같은 해 손익통산, 보유기간과세 기준가격 산식",
+      "2026년 세법개정안(2026-08-03 발표)의 국회 통과 여부를 확인한 뒤 수정 회차"
+    ],
+    "next": "PR 병합 뒤 시리즈 다음 권(proposal.md §4: 7권 지수와 ETF)"
   }
 }
