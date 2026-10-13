@@ -1,0 +1,64 @@
+<svg class="vl-ill" viewBox="0 0 340 180" role="img" aria-labelledby="vl-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="vl-ill-title">할인율 바늘이 7%와 9% 사이를 오가는 동안, 같은 미래 현금흐름의 현재가치 막대(특히 영구가치)가 줄었다 늘고, 새벽전자 주당 가치 표시가 29,944원과 19,990원 사이를 오르내리는 과정</title>
+<style>
+.vl-ill-bg{fill:#faf6fa}
+.vl-ill-word{font:600 10px sans-serif;fill:#2a1830}
+.vl-ill-small{font:500 9px sans-serif;fill:#634f6b}
+.vl-ill-up{font:700 9.5px sans-serif;fill:#8a2f86}
+.vl-ill-down{font:700 9.5px sans-serif;fill:#9a4a12}
+.vl-ill-arc{fill:none;stroke:#dccbe0;stroke-width:8;stroke-linecap:round}
+.vl-ill-tick{stroke:#634f6b;stroke-width:1.2}
+.vl-ill-hand{stroke:#8a2f86;stroke-width:3;stroke-linecap:round}
+.vl-ill-hub{fill:#8a2f86}
+.vl-ill-base{stroke:#b9a3bf;stroke-width:1.2}
+.vl-ill-cf{fill:#c58cc2}
+.vl-ill-term{fill:#8a2f86}
+.vl-ill-scale{stroke:#b9a3bf;stroke-width:2}
+.vl-ill-dot{fill:#f4b26e;stroke:#9a4a12;stroke-width:1.2}
+.vl-ill-needle{transform-box:view-box;transform-origin:62px 104px;animation:vl-ill-needle 8s ease-in-out infinite}
+.vl-ill-pv{transform-box:fill-box;transform-origin:50% 100%;animation:vl-ill-pv 8s ease-in-out infinite}
+.vl-ill-tv{transform-box:fill-box;transform-origin:50% 100%;animation:vl-ill-tv 8s ease-in-out infinite}
+.vl-ill-marker{animation:vl-ill-marker 8s ease-in-out infinite}
+.vl-ill-a{animation:vl-ill-a 8s ease-in-out infinite}
+.vl-ill-b{opacity:0;animation:vl-ill-b 8s ease-in-out infinite}
+@keyframes vl-ill-needle{0%,15%{transform:rotate(-45deg)}50%,65%{transform:rotate(45deg)}100%{transform:rotate(-45deg)}}
+@keyframes vl-ill-pv{0%,15%{transform:scaleY(1)}50%,65%{transform:scaleY(.95)}100%{transform:scaleY(1)}}
+@keyframes vl-ill-tv{0%,15%{transform:scaleY(1)}50%,65%{transform:scaleY(.651)}100%{transform:scaleY(1)}}
+@keyframes vl-ill-marker{0%,15%{transform:translate(0,0)}50%,65%{transform:translate(0,64px)}100%{transform:translate(0,0)}}
+@keyframes vl-ill-a{0%,22%{opacity:1}36%,80%{opacity:0}94%,100%{opacity:1}}
+@keyframes vl-ill-b{0%,22%{opacity:0}36%,80%{opacity:1}94%,100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.vl-ill-needle{animation:none;transform:rotate(-45deg)}.vl-ill-pv,.vl-ill-tv{animation:none;transform:none}.vl-ill-marker{animation:none;transform:none}.vl-ill-a{animation:none;opacity:1}.vl-ill-b{animation:none;opacity:0}}
+html[data-motion=reduce] .vl-ill-needle{animation:none;transform:rotate(-45deg)}
+html[data-motion=reduce] .vl-ill-pv,html[data-motion=reduce] .vl-ill-tv{animation:none;transform:none}
+html[data-motion=reduce] .vl-ill-marker{animation:none;transform:none}
+html[data-motion=reduce] .vl-ill-a{animation:none;opacity:1}
+html[data-motion=reduce] .vl-ill-b{animation:none;opacity:0}
+</style>
+<rect class="vl-ill-bg" width="340" height="180" rx="10"/>
+<text class="vl-ill-small" x="170" y="16" text-anchor="middle">할인율이 오르면 같은 현금흐름의 현재가치가 줄어듦</text>
+<path class="vl-ill-arc" d="M24 104A38 38 0 0 1 100 104"/>
+<path class="vl-ill-tick" d="M24 112V118M62 58V64M100 112V118"/>
+<text class="vl-ill-small" x="24" y="128" text-anchor="middle">6%</text>
+<text class="vl-ill-small" x="62" y="52" text-anchor="middle">8%</text>
+<text class="vl-ill-small" x="100" y="128" text-anchor="middle">10%</text>
+<g class="vl-ill-needle"><path class="vl-ill-hand" d="M62 104V72"/></g>
+<circle class="vl-ill-hub" cx="62" cy="104" r="5"/>
+<g class="vl-ill-a"><text class="vl-ill-up" x="62" y="146" text-anchor="middle">할인율 7%</text></g>
+<g class="vl-ill-b"><text class="vl-ill-down" x="62" y="146" text-anchor="middle">할인율 9%</text></g>
+<text class="vl-ill-word" x="124" y="32">현재가치 (억 원)</text>
+<path class="vl-ill-base" d="M120 150H232"/>
+<rect class="vl-ill-cf vl-ill-pv" x="124" y="117" width="11" height="33" rx="1.5"/>
+<rect class="vl-ill-cf vl-ill-pv" x="138" y="130" width="11" height="20" rx="1.5"/>
+<rect class="vl-ill-cf vl-ill-pv" x="152" y="130" width="11" height="20" rx="1.5"/>
+<rect class="vl-ill-cf vl-ill-pv" x="166" y="131" width="11" height="19" rx="1.5"/>
+<rect class="vl-ill-cf vl-ill-pv" x="180" y="131" width="11" height="19" rx="1.5"/>
+<rect class="vl-ill-term vl-ill-tv" x="200" y="40" width="28" height="110" rx="2"/>
+<text class="vl-ill-small" x="152" y="164" text-anchor="middle">2026~2030년</text>
+<text class="vl-ill-small" x="216" y="164" text-anchor="middle">2031년부터</text>
+<text class="vl-ill-word" x="306" y="32" text-anchor="middle">주당 가치</text>
+<path class="vl-ill-scale" d="M306 42V150"/>
+<g class="vl-ill-marker"><circle class="vl-ill-dot" cx="306" cy="53" r="6"/></g>
+<g class="vl-ill-a"><text class="vl-ill-up" x="296" y="57" text-anchor="end">29,944원</text></g>
+<g class="vl-ill-b"><text class="vl-ill-down" x="296" y="121" text-anchor="end">19,990원</text></g>
+<text class="vl-ill-small" x="170" y="176" text-anchor="middle">할인율 8.3%에서는 주당 22,750원 (가상의 회사 새벽전자)</text>
+</svg>
