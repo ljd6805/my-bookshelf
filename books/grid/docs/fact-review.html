@@ -4,6 +4,31 @@
 <h1>팩트·출처 검수 · 격자 하나에서 손익이 갈리기까지</h1>
 <p>「격자 하나에서 손익이 갈리기까지 · 그리드 매매의 원리」(books/grid/)를 집필 세션과 다른 세션이 검수한 기록입니다. 기준은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>이고, 검수팀의 점검 목록으로 보았습니다. <a href="index.html">제작 문서로 돌아가기</a> · <a href="research.html">조사 노트</a></p>
 
+<section class="fact-review" id="review-2026-10-13-style" data-reviewer="Claude · 유진 뜻 보존 검수 세션 (문체 개정 2026-10-13)" data-author="Claude · 다온 문체 개정 세션 (스레드 「기존 책 한국어 지침 검수」)" data-date="2026-10-13" data-scope="한국어 문장 지침 문체 개정(커밋 0a496d2)으로 바뀐 문장 12개: js/content.js 10, js/app.js 1, review.json 1(docs/index.html 설계표 L2 칸은 js/app.js와 같은 문장). 실험 계산·출처 목록·장 구조는 바뀌지 않음" data-commit="0a496d2" data-result="passed">
+<h2>2026-10-13 문체 개정 뜻 보존 검수</h2>
+<p>검수자는 유진(Claude, 새 세션)입니다. 이 책의 문장을 고친 다온 세션과는 다른 세션이고, 그 세션의 판단을 건네받지 않고 <code>git diff 4b4588a 0a496d2 -- books/grid/</code>로 원래 문장과 고친 문장을 한 문장씩 맞춰 읽었습니다. 집필자는 문체 개정을 맡은 다온 세션입니다. 범위는 이 개정에서 바뀐 문장 12개와 docs/index.html 설계표 L2 칸에 함께 고친 같은 문장 하나, 그리고 다온 메모(<code>div.style-pass[data-date="2026-10-13"]</code>)의 “반영함” 행 11개입니다. 되돌린 문장은 없습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음. 4장 다른 책 연결 문장의 “실제 기록” → “가상 시나리오 기록”은 원래 문장의 사실 오류를 바로잡은 것으로 확인</td><td>고친 문장이 새 사실을 더하거나 원래 주장을 바꾸지 않았는지 대조했습니다. 4장 문장은 8권(books/volatility/js/content.js) 3장 measure의 식 설명 “새벽전자 기록은 12권 13장의 6개월 가상 시나리오(120거래일)에 이 책의 생성기로 만든 130거래일을 이은 가상 기록”과 대조했습니다. 링크 ../volatility/#measure와 “8권 3장”은 그대로입니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>고친 문장의 숫자와 단위(19,900·19,100·19,700원, 20,000원·80원, 1년, (1.0392)^(250 ÷ 80) − 1 ≈ 12.76%, 12장, 10장)를 원래 문장과 대조했습니다. 2장의 “20,000원에 팔면”은 앞 문장의 19,970원 칸(10주)과 20,000원 다음 매도가 20,050원으로 이어져 가장 좁은 이익 간격 80원과 맞습니다.</td></tr>
+<tr data-check="experiments" data-status="n/a"><td>실험 계산</td><td>해당 없음</td><td>diff에서 js/math.js·실험 파일·lab-guides.js는 바뀌지 않았고, js/app.js는 1장 예측 질문 문자열 하나만, index.html은 자산 버전(?v=20261012g9 → 20261013-k)만 바뀌었습니다. 책 테스트 npm test 40개, 루트 node --test tests/test_book_content.mjs 5개가 통과했습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>5장의 “예비 논문” → “사전 공개 논문”은 같은 자료(arXiv 2506.11921)를 출처 목록(js/content.js sources)과 조사 노트(docs/research.html [S22])가 부르는 이름에 맞춘 것으로, 바로 뒤 “아직 동료 심사를 거친 결론은 아닙니다”라는 단서도 남았습니다. 실현 손익·평가 손익·손실 한도·갭 같은 책의 용어는 그대로입니다.</td></tr>
+<tr data-check="sources" data-status="n/a"><td>출처 링크·인용</td><td>출처 목록 변경 없음</td><td>diff로 GBook.sources와 docs/research.html 출처 목록이 바뀌지 않았음을 확인했습니다.</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>12문장 대조, 되돌린 문장 0</td><td>문장마다 수치·조건·가능성의 정도·인과·용어를 원래 문장과 맞춰 보았습니다. 9장 본문과 복습 문항의 “가정 위에 서 있다/가정 위의 숫자” → “가정해서 얻은 값/가정한 숫자”는 가정 문구 “1년 내내 똑같이 이어진다면”과 “분모에 따라서도 달라진다”는 단서를 지켰습니다. 12장 “싫은 마음은 … 결정을 만들기 쉬우므로” → “싫으면 … 결정하기 쉬우므로”는 경향을 뜻하는 “쉬우므로”를 남겼고, 둘로 나눈 12장 시뮬레이터 문장은 “그래서”로 원인과 결과를 그대로 잇습니다.</td></tr>
+</tbody></table>
+
+<h3>발견과 수정</h3>
+<table><thead><tr><th>위치</th><th>문제</th><th>근거</th><th>처리</th></tr></thead><tbody>
+<tr><td>wording · docs/index.html 2026-10-13 다온 메모, 4장 range 행과 머리 문단</td><td>메모와 diff가 어긋납니다. 4장 다른 책 연결 문장 “새벽전자의 실제 기록으로” → “새벽전자의 가상 시나리오 기록으로”가 diff에는 있지만, 메모의 그 행은 “그대로 둠: … 유진에게 넘김”이고 머리 문단은 “모두 11곳(js/content.js 9)”이라고 적었습니다. 실제 js/content.js의 바뀐 문장은 10개입니다.</td><td>이 수정은 다온 메모 밖에서 집필 쪽이 한 사실 수정입니다. 8권 3장 measure가 같은 기록을 12권 13장의 6개월 가상 시나리오에 생성기로 130거래일을 이은 가상 기록이라고 밝힙니다.</td><td>문장은 그대로 둡니다(facts 항목에서 확인, 되돌릴 이유 없음). 메모의 행과 개수는 이 검수 범위 밖이라 고치지 않았고, 다음에 메모를 손볼 때 4장 행을 “집필 쪽 사실 수정으로 고침”으로, 개수를 12곳(js/content.js 10)으로 맞추기를 권합니다.</td></tr>
+</tbody></table>
+<p>되돌린 문장은 없습니다. 판단이 미묘했던 것을 비고로 남깁니다. 3장의 “이 기울기도 커집니다” → “아래 칸과 위 칸의 비율 차이도 커집니다”는 원래 문장의 “기울기”가 가리키던 것(같은 원 간격이 위 칸으로 갈수록 비율로 좁아지는 정도)을 풀어 쓴 것으로 읽었습니다. 18,000~22,000원·200원 격자에서 맨 아래 칸은 약 1.11%, 맨 위 칸은 약 0.92%이고 범위를 넓히면 그 차이가 커지므로 뜻은 같습니다.</p>
+
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>8권의 새벽전자 기록은 12권 13장 시나리오 120거래일에 생성기로 만든 130거래일을 이은 것이어서, 엄밀히는 “가상 시나리오와 그 연장”입니다. “가상 시나리오 기록”이 그 둘을 함께 가리킨다고 읽었고, 연결 문장이 가리키는 것이 8권 3장의 어느 구간인지는 따로 확인하지 않았습니다.</li>
+<li>바뀐 문장을 실제 브라우저 화면에서 읽어 보지는 않았습니다. 문자열 대조와 책 테스트로만 확인했습니다.</li>
+</ul>
+</section>
+
 <section class="fact-review" id="review-2026-10-12" data-reviewer="검수 세션(Claude, 별도 세션)" data-author="집필 세션" data-date="2026-10-12" data-scope="13개 장 전체(js/content.js 본문·공식·공식 설명·흐름·상자·혼동 주의·확인 문제·다른 상황 문제), GBook.sources 23개와 장마다 source 번호, review.json 28문항, js/app.js(실험 info·용어 풀이·참고 자료 문단), js/lab-guides.js 결과 읽기 13개, js/figures.js 그림 설명, js/math.js 규칙, docs/research.html 사실 표·기준값·출처 목록" data-commit="3ac964a" data-result="fixed">
 <h2>2026-10-12 검수 (1회차)</h2>
 <p>검수자: 검수 세션(Claude, 별도 세션). 이 책의 원고·코드·조사 노트를 쓰지 않은 새 세션입니다. 집필자: 집필 세션(Claude). 대상: 작업 트리(HEAD 3ac964a 위의 미커밋 원고). 판정: facts는 ok, numbers는 ok, experiments는 ok, terms는 fixed, sources는 fixed입니다. 찾은 오류 4건을 모두 고쳤고, 남은 열린 항목은 없습니다.</p>
