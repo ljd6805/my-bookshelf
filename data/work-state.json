@@ -703,5 +703,28 @@
     "date": "2026-10-14",
     "summary": "금융 분류 하나를 경제(1~3권)·시장(4~7권)·투자(8~13권) 세 분류로 나눔. 사용자가 결정 카드에서 세 섬을 고름. 남은 10·13권은 투자로 등록.",
     "evidence": "docs/03-verification.html#finance-field-split, docs/04-site-plan.html#field-split"
+  },
+  "backtest": {
+    "book": "books/backtest (금융 시리즈 13권, 서가 미등록)",
+    "series": "finance-from-scratch 13권 「백테스트와 자동 매매」(마지막 권)",
+    "plan": "제목 「백테스트와 자동 매매 · 가정을 고쳐 수익률을 견주고 봇의 멈춤 조건 시험하기」, aqua, backtest-automation, 책등 백테스트, 분류 투자(서가 끝), 공통 인물 하린(12권), 지어낸 새벽전자 750거래일·가람200, 마지막 과제는 모의 서버 석 달 −2.97%의 손실 원인 나누기",
+    "docs": "books/backtest/docs/index.html",
+    "research": "books/backtest/docs/research.html",
+    "status": "G0~G2 2차 판(1차 점검 한결·서윤·해원 조건부 승인, 조건 26개 반영), 팀장 재점검 대기",
+    "done": [
+      "2026-10-14 G0~G2 초안(커밋 a9f649b)",
+      "2026-10-14 1차 점검: 한결 G0 조건 6, 서윤 G1 조건 10, 해원 G2 조건 10 → 2차 판에 반영(#links-open)"
+    ],
+    "evidence": "research.html #calc의 calc13.py·l2.py(정수 원), 해원 g2check.py 독립 계산 20개 일치",
+    "verification": [
+      "validate.py 오류 0, build_catalog.py --check 통과(2차 판)"
+    ],
+    "remaining": [
+      "G0~G2 재점검과 관문 행",
+      "은재 G3 전: 킬 스위치 KRX·금융위 문서 확인, Efron·Politis–Romano 인용 확인, ⏱ 거래세·수수료 재확인",
+      "교재 비교는 목차만 봄(대학 강의계획서·국내 투자자 교육 자료 못 엶)",
+      "공개 때 10권 마지막 장 '13권(준비 중)'을 링크로"
+    ],
+    "next": "G0 한결·G1 서윤·G2 해원 재점검"
   }
 }
