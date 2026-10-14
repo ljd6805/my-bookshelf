@@ -5,7 +5,7 @@ const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f
 const load=()=>{const ctx={window:{}};vm.runInNewContext(read('js/content.js'),ctx);return JSON.parse(JSON.stringify(ctx.window.ABook));};
 const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].split(',');
 const IDS=['diversify','matrix','pair','frontier','beta','mix','rebalance','kelly','crisis','final'],LABS=['stock-count','covariance-matrix','two-asset-curve','efficient-frontier','beta-estimate','target-mix','rebalance-rules','kelly-growth','crisis-correlation','plan-conditions'];
-const LAB_FILES=['labs-risk','labs-frontier','labs-account','labs-stress','labs-final'],VERSION='20261014v7';
+const LAB_FILES=['labs-risk','labs-frontier','labs-account','labs-stress','labs-final'],VERSION='20261014-a10';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(최적 비중|정답 비중|안전한 비중|추천|권합니다|권해 드|유리|사세요|파세요|사라|팔라|매수|(?<!공)매도|사 두세요|오를 것|내릴 것|반드시 오른|반드시 내린|싸다|비싸다|저평가|고평가)/;
 const esc=s=>s.replace(/[-]/g,'\\-');
@@ -42,10 +42,11 @@ test('header has the shelf return, menu order, light theme, type and study scrip
  assert.match(html,/<title>자산배분 · 상관으로 포트폴리오 위험을 계산하고 조건에 맞는 비중 찾기<\/title>/);
 });
 test('script load order: math → content → visual → figures → labs → home → guides → app',()=>{const order=[...html.matchAll(/<script src="js\/([a-z-]+)\.js/g)].map(m=>m[1]);assert.deepEqual(order,['math','content','visual','figures',...LAB_FILES,'home-lab','lab-guides','app']);});
-test('links point to existing books and routes; no link to grid or unpublished vol 10 and 13 folders',()=>{
+test('links point to existing books and routes; no link to grid or an unpublished folder; the last chapter leads to vol 10 #frame',()=>{
+ assert.match(read('js/app.js'),/<a href="\.\.\/psychology\/#frame">다음 권 · 행동재무학 01 · /,'last chapter next link');
  for(const c of B.chapters)for(const [name,url,why] of c.cross){assert.match(url,/^\.\.\/[a-z0-9-]+\/(#[a-z0-9-]+)?$/);assert.ok(name&&why.length>10,c.id);}
  for(const f of UI_FILES){
-  const src=read(f);assert.doesNotMatch(src,/\.\.\/(grid|psychology|behavior)\b/,f);
+  const src=read(f);assert.doesNotMatch(src,/\.\.\/(grid|behavior)\b/,f);
   for(const [,dir,anchor] of src.matchAll(/href="\.\.\/([a-z0-9-]+)\/(?:#([a-z0-9-]+))?"/g)){const idx=path.join(base,'..',dir,'index.html');assert.ok(fs.existsSync(idx),f+': '+dir);if(anchor){const r=fs.readFileSync(idx,'utf8').match(/name="book-routes" content="([^"]+)"/);assert.ok(r&&r[1].split(',').includes(anchor),f+': '+dir+'#'+anchor);}}
  }
 });

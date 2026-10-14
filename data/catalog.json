@@ -2684,6 +2684,79 @@
       "short_title": "자산배분"
     },
     {
+      "id": "behavioral-finance",
+      "title": "행동재무학 · 매매 기록에서 손실 회피와 과신의 흔적을 세고 규칙을 시험하기",
+      "spine_title": "행동재무학",
+      "spine_category": "투자",
+      "color": "blue",
+      "description": "가치 함수로 손실 회피의 크기를 계산하고, 가상 매매 일지에서 PGR·PLR로 처분 효과를 재고 예상 범위의 적중률과 회전율을 센 뒤, 미리 적은 규칙을 일지에 대입해 손익을 비교합니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/psychology/assets/shelf-illustration.svg",
+      "illustration_caption": "가상 일지에서 선우는 이익 난 세 종목을 일찍 팔고, 손실 난 온결식품은 오래 들고 있다가 팝니다(미리 정한 시나리오).",
+      "cover_art": "books/psychology/assets/cover-art.svg",
+      "cover_meta": "10장 · 10개 실험",
+      "status": "published",
+      "url": "books/psychology/",
+      "keywords": [
+        "행동재무학",
+        "손실 회피",
+        "전망 이론",
+        "가치 함수",
+        "확률 가중",
+        "틀 효과",
+        "기대값",
+        "처분 효과",
+        "PGR",
+        "PLR",
+        "실현 손익",
+        "평가 손익",
+        "기저율",
+        "베이즈 정리",
+        "확증 편향",
+        "우도비",
+        "오즈",
+        "과신",
+        "예상 범위",
+        "적중률",
+        "이항 확률",
+        "회전율",
+        "매매 비용",
+        "정보 폭포",
+        "결과 편향",
+        "사전 규칙",
+        "손실 한도",
+        "비중 한도",
+        "의사결정 일지",
+        "매매 일지",
+        "재현",
+        "선우",
+        "새벽전자",
+        "온결식품"
+      ],
+      "chapters": [
+        {
+          "title": "전체 10개 장",
+          "url": "books/psychology/#chapters"
+        },
+        {
+          "title": "01 · 같은 기대값의 선택지를 이익과 손실의 틀로 바꿔 선택이 갈리는지 기록하기",
+          "url": "books/psychology/#frame"
+        },
+        {
+          "title": "03 · 매매 기록에서 PGR과 PLR을 세어 처분 효과 측정하기",
+          "url": "books/psychology/#disposition"
+        },
+        {
+          "title": "09 · 사전 규칙을 매매 기록에 대입해 지켰을 때와 어겼을 때의 손익 비교하기",
+          "url": "books/psychology/#rules"
+        },
+        {
+          "title": "마지막 과제 · 가상 인물 선우의 26주 매매 일지에서 PGR·적중률·비용·규칙 위반을 계산하고 규칙 하나 고치기",
+          "url": "books/psychology/#final"
+        }
+      ],
+      "short_title": "행동재무학"
+    },
+    {
       "id": "tax-accounts",
       "title": "세금과 계좌 · 같은 수익, 다른 세후 수익",
       "spine_title": "세금 계좌",
@@ -4237,6 +4310,64 @@
         "여러 종목이 함께 움직이는 공통 방향을 공분산 행렬의 첫 고유벡터로 말할 수 있는가",
         "위기 때 커진 표준편차를 σ가 커진 몫과 상관이 오른 몫으로 나눠 설명할 수 있는가"
       ]
+    },
+    {
+      "id": "broken-rules",
+      "title": "정해 둔 손절 규칙을 손실 앞에서 왜 어길까",
+      "question": "미리 정한 손절 규칙을 손실 앞에서 왜 자꾸 어기고, 무엇을 적어 두면 장부에서 확인할 수 있을까?",
+      "audience": "손실 한도를 미리 정해 두고도 손실 앞에서 팔지 못하고 기다려 본 독자",
+      "prerequisites": "백분율, 기대값(확률을 곱해 더한 평균), 평균 단가라는 낱말",
+      "start": "가상 인물 선우는 매수하기 전에 ‘평균 단가보다 10% 낮으면 판다’는 규칙을 일지에 적어 두었지만, 26주 뒤 계좌가 2.15% 줄어든 것을 보고 ‘운이 나빴다’고만 적었다. 선우는 규칙을 언제 어겼고, 지켰다면 무엇이 달라졌는지 묻는다.",
+      "steps": [
+        {
+          "book_id": "grid-trading",
+          "url": "books/grid/#exit",
+          "task": "‘멈춤 가격과 손실 한도 시험하기’ 실험에서 ‘멈춤 가격 (원)’ 17,500, ‘손실 한도 규칙’ 켬, ‘손실 한도 (원)’ 100,000(기본값)으로 두고, 하락 경로에서 멈춤 가격이 걸리는 날과 손익, 손실 한도가 걸리는 날·가격·손익과 한도를 넘어선 폭을 읽는다",
+          "minutes": 16,
+          "why": "규칙을 미리 숫자로 정해 장부에서 시험하는 방법을 먼저 보아야, 그 규칙을 사람이 손실 앞에서 왜 어기는지 물을 수 있다",
+          "record": "두 규칙이 걸린 날과 손익, 손실 한도를 넘어선 금액"
+        },
+        {
+          "book_id": "behavioral-finance",
+          "url": "books/psychology/#prospect",
+          "task": "‘가치 함수 실험: 이익과 손실의 가치를 계산하고 반반 내기를 받아들이는 최소 이익 구하기’에서 ‘이익 G (만 원)’ 200, ‘손실 L (만 원)’ 100(기본값)인 반반 내기의 전망 가치와 받아들이는 최소 이익을 기본 모수로 읽은 뒤, ‘손실 회피 계수 λ’를 2.25에서 1로 낮춰 같은 두 값을 다시 읽는다",
+          "minutes": 18,
+          "why": "손실을 같은 크기의 이익보다 크게 느낀다고 놓으면 기대값이 양수인 선택도 거절하는 쪽으로 계산된다는 것을 숫자로 본다. 모수는 한 연구 참가자의 중앙값이며 사람마다 같은 상수가 아니다",
+          "record": "λ 2.25와 1의 전망 가치와 최소 이익(○, ○만 원)"
+        },
+        {
+          "book_id": "behavioral-finance",
+          "url": "books/psychology/#disposition",
+          "task": "‘처분 효과 측정 실험: 매도한 날마다 네 칸을 세어 PGR과 PLR 계산하기’에서 ‘일지 범위’를 ‘선우의 일지 1~13주’로 두고 매도한 날마다 채워지는 네 칸과 PGR·PLR을 읽은 뒤, ‘선우의 일지 14~26주’로 바꿔 같은 값을 읽는다",
+          "minutes": 16,
+          "why": "손실을 확정하기 싫은 마음이 실제 기록에서 ‘이익 종목을 더 자주 판다’는 숫자로 남는지 센다. 매도한 날이 범위마다 세 번뿐이라 이 숫자로 경향을 확정하지는 못한다",
+          "record": "두 범위의 PGR·PLR과 그 차이"
+        },
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#chance",
+          "task": "‘동전을 던지며 비율 지켜보기’ 실험에서 ‘앞면 확률 p’를 0.50으로 두고 ‘10번 던지기’를 누른 뒤 비율 p̂과 p와의 차이를 적고, ‘초기화’한 다음 ‘1,000번 던지기’를 눌러 같은 두 값을 적으며, 각각 회색 띠(p ± 0.05) 안에 드는지 본다",
+          "minutes": 15,
+          "why": "몇 번의 결과만으로 규칙의 좋고 나쁨을 판단하면 우연에 흔들린다는 것을 확인하고 마지막 정거장으로 간다",
+          "record": "10번과 1,000번 뒤의 p̂, p와의 차이, 띠 안에 들었는지"
+        },
+        {
+          "book_id": "behavioral-finance",
+          "url": "books/psychology/#rules",
+          "task": "‘규칙 대입 실험: 규칙이 걸린 주를 찾고 지켰을 때의 손익을 경로별로 계산하기’에서 ‘경로’를 ‘선우의 일지’로 두고 ‘R1: 평균 단가보다 몇 % 낮으면 팔기’ 10(기본값)으로 ‘R1 손실 한도 켜기’를 켜고 끄며 끝 금액을 종목별로 견준 뒤, ‘경로’를 ‘반등 경로(가정)’로 바꿔 같은 규칙의 손익을 본다",
+          "minutes": 18,
+          "why": "규칙을 지켰을 때의 차이를 계산하되, 같은 규칙이 다른 경로에서는 손해일 수 있어 한 경로의 결과로 규칙을 판정할 수 없다는 것까지 이 노선의 답으로 남긴다",
+          "record": "선우의 일지에서 두 종목의 규칙 손익과 반등 경로(가정)의 규칙 손익"
+        }
+      ],
+      "challenge": "「행동재무학」 마지막 과제에서 선우의 26주 일지 전체의 PGR·PLR, 90% 예상 범위의 적중률, 회전율과 비용, 규칙 위반을 계산하고, 규칙 하나를 고쳐 일지에 다시 대입한 결과와 그 규칙이 손해일 수 있는 경로를 적은 뒤, 네 칸짜리 의사결정 일지 양식을 설계해 선우의 기록으로 시험한다. 고친 규칙은 이 기록으로 연습한 계산이며 권하는 규칙이 아니다.",
+      "checks": [
+        "미리 정한 멈춤 가격과 손실 한도를 장부에 대입해 걸린 날과 손익을 읽을 수 있는가",
+        "손실 회피 계수 λ가 기대값이 양수인 내기의 전망 가치를 어떻게 바꾸는지 계산할 수 있는가",
+        "매도한 날마다 네 칸을 세어 PGR과 PLR을 계산하고, 기록 수가 적을 때 말할 수 있는 것과 없는 것을 나눌 수 있는가",
+        "적은 횟수의 비율이 많은 횟수의 비율보다 크게 흔들린다는 것을 동전 실험의 숫자로 말할 수 있는가",
+        "같은 규칙의 손익이 경로에 따라 달라져 한 경로의 결과로 규칙을 판정할 수 없는 까닭을 설명할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -4422,14 +4553,14 @@
         {
           "number": 9,
           "title": "자산배분",
-          "next_why": "조건에 맞는 비중과 되돌리는 규칙을 계산했으니, 그 규칙을 지키기 어렵게 만드는 마음의 함정을 들여다봅니다.",
+          "next_why": "조건에 맞는 비중과 되돌리는 규칙을 계산했으니, 그 규칙을 손실 앞에서 지키기 어렵게 만드는 손실 회피와 과신의 흔적을 매매 기록에서 셉니다.",
           "book_id": "asset-allocation"
         },
         {
           "number": 10,
-          "title": "투자자의 마음",
-          "status": "planned",
-          "next_why": "판단의 함정을 알았으니, 같은 수익을 세후로 지키는 세금과 계좌를 정리합니다."
+          "title": "행동재무학",
+          "next_why": "매매 기록에서 처분 효과와 매매 비용을 계산했으니, 같은 수익을 세후로 지키는 세금과 계좌를 정리합니다.",
+          "book_id": "behavioral-finance"
         },
         {
           "number": 11,
@@ -4927,7 +5058,17 @@
     "books/allocation/#rebalance": "07 · 비중이 벗어난 계좌를 연 1회와 ±5%p 기준으로 다시 맞추고 매매 금액 계산하기",
     "books/allocation/#kelly": "08 · 켈리 비율 계산하고 과대 베팅이 성장률을 낮추는 폭 확인하기(계산 연습)",
     "books/allocation/#crisis": "09 · 위기 때 상관이 높아지면 포트폴리오 표준편차가 얼마나 커지는지 계산하기",
-    "books/allocation/#final": "마지막 과제 · 가상 인물 윤 씨의 조건을 만족하는 비중을 찾고 위기 상관에서 다시 계산하기"
+    "books/allocation/#final": "마지막 과제 · 가상 인물 윤 씨의 조건을 만족하는 비중을 찾고 위기 상관에서 다시 계산하기",
+    "books/psychology/#frame": "01 · 같은 기대값의 선택지를 이익과 손실의 틀로 바꿔 선택이 갈리는지 기록하기",
+    "books/psychology/#prospect": "02 · 전망 이론의 가치 함수로 손실 회피의 크기 계산하고 확률 가중 곡선 읽기",
+    "books/psychology/#disposition": "03 · 매매 기록에서 PGR과 PLR을 세어 처분 효과 측정하기",
+    "books/psychology/#baserate": "04 · 기저율과 베이즈 정리로 ‘두 배 오를 종목’ 추천이 맞을 확률 계산하기",
+    "books/psychology/#confirm": "05 · 지지 증거만 넣은 확신과 반대 증거까지 우도비로 곱한 확신 비교하기",
+    "books/psychology/#overconfidence": "06 · 90% 예상 범위의 적중률을 세고 회전율로 매매 비용 계산하기",
+    "books/psychology/#herd": "07 · 앞사람의 선택을 따를 때 정보 폭포가 생기는 조건과 틀린 폭포의 확률 계산하기",
+    "books/psychology/#outcome": "08 · 기대값이 양수인 규칙이 손실로 끝날 확률을 계산해 결정과 결과 구별하기",
+    "books/psychology/#rules": "09 · 사전 규칙을 매매 기록에 대입해 지켰을 때와 어겼을 때의 손익 비교하기",
+    "books/psychology/#final": "마지막 과제 · 가상 인물 선우의 26주 매매 일지에서 PGR·적중률·비용·규칙 위반을 계산하고 규칙 하나 고치기"
   },
   "concepts": [
     {
@@ -5205,7 +5346,9 @@
         "books/aie-safety/#jailbreak",
         "books/aie-safety/#scheming",
         "books/aie-capstone/#verify",
-        "books/aie-capstone/#evals"
+        "books/aie-capstone/#evals",
+        "books/psychology/#overconfidence",
+        "books/psychology/#outcome"
       ]
     },
     {
@@ -5240,7 +5383,8 @@
         "books/aie-capstone/#safety",
         "books/ai/#final",
         "books/knowledge-graph/#extraction",
-        "books/statements/#quality"
+        "books/statements/#quality",
+        "books/psychology/#baserate"
       ]
     },
     {
@@ -5507,7 +5651,8 @@
         "books/aie-autonomy/#budget",
         "books/aie-autonomy/#durable",
         "books/grid/#exit",
-        "books/grid/#gap"
+        "books/grid/#gap",
+        "books/psychology/#rules"
       ]
     },
     {

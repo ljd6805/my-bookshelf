@@ -1,6 +1,6 @@
 /* content.js와 review.json의 구조 검사: 장 ID·필드·실험 ID, docs/index.html #curriculum의 제목·부·시간, #chapters의 L1과 recall, 확인·전이 문제,
    다른 책 링크의 이름과 앵커(data/catalog.json chapter_index), 출처 표기, 용어 풀이, 권유·단정 말투, 확인일·기준금리 문장, 이례적 값의 자리,
-   9·10권(준비 중)과 없는 책 폴더로 가는 링크. index.html이 생기면 화면 쪽 검사를 따로 더한다. */
+   9·10권 링크와 없는 책 폴더로 가는 링크. index.html이 생기면 화면 쪽 검사를 따로 더한다. */
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),M=require('../js/math.js');
 const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f),'utf8');
 const ctx={window:{}};vm.runInNewContext(read('js/content.js'),ctx);const B=JSON.parse(JSON.stringify(ctx.window.MBook)),R=JSON.parse(read('review.json'));
@@ -69,18 +69,17 @@ test('cross links use catalog chapter labels, existing anchors and folders, and 
   const key=`books/${m[1]}/#${m[2]}`,label=catalog.chapter_index[key];assert.ok(label,'not in chapter_index: '+key);
   assert.equal(name,`${titles['books/'+m[1]+'/']} ${label}`,c.id+' link name');assert.ok(why.length>15,c.id);
   if(m[1]==='bonds')assert.match(why,/^깊이 보기 \(다음 권\)/,c.id+' vol 3 is the next volume');
-  else if(['market','statements','valuation','etf','volatility','tax','allocation'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
+  else if(['market','statements','valuation','etf','volatility','tax','allocation','psychology'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
   else assert.doesNotMatch(why,/깊이 보기/,c.id+' '+m[1]+' is not a later volume');
  }
  const plan={gdp:['../money/#compound','../statements/#income'],prices:['../money/#inflation'],cycle:['../aie-rl/#mdp'],policy:['../money/#discount','../bonds/#transmit','../bonds/#curve'],
-  fiscal:['../bonds/#bond','../tax/#map'],fx:['../etf/#assets'],trade:[],leading:['../probability/#correlation','../volatility/#revert'],crisis:['../market/#limits','../volatility/#drawdown'],final:['../bonds/#final','../valuation/#wacc','../allocation/#crisis']};
+  fiscal:['../bonds/#bond','../tax/#map'],fx:['../etf/#assets'],trade:[],leading:['../probability/#correlation','../volatility/#revert'],crisis:['../market/#limits','../volatility/#drawdown'],final:['../bonds/#final','../valuation/#wacc','../allocation/#crisis','../psychology/#confirm']};
  for(const c of B.chapters)assert.deepEqual(c.cross.map(x=>x[1]),plan[c.id],c.id+' links follow plan #links');
 });
-test('vol 9 「자산배분」 is linked from #final (published 2026-10-13); vol 10 is named as text “10권(준비 중)” only; no link to an unpublished folder',()=>{
+test('vol 9 「자산배분」 is linked from #final (published 2026-10-13); vol 10 「행동재무학」 is linked from #final (published 2026-10-14); no link to an unpublished folder',()=>{
  const src=read('js/content.js')+read('review.json');
  for(const m of src.matchAll(/\.\.\/([a-z0-9-]+)\//g))assert.ok(fs.existsSync(path.join(base,'..',m[1],'index.html')),'link to a folder without a book: '+m[1]);
- assert.doesNotMatch(src,/psychology|macro\//);assert.doesNotMatch(src,/9권\(준비 중\)/);assert.match(src,/9권 「자산배분」/);assert.match(src,/10권\(준비 중\)/);
- assert.doesNotMatch(src,/(?<![\d.])10권(?!\(준비 중\))/);
+ assert.doesNotMatch(src,/macro\//);assert.doesNotMatch(src,/(9|10)권\(준비 중\)/);assert.match(src,/9권 「자산배분」/);assert.match(src,/10권 「행동재무학」/);
 });
 test('terms and symbols are explained at first use; fictional people and companies are called 가상 at first mention',()=>{
  const text=B.chapters.map(c=>[c.subtitle,c.desc,...c.paragraphs,c.formula,c.formulaNote].join(' ')).join(' ');

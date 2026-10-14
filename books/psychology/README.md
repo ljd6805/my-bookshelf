@@ -1,0 +1,11 @@
+# 행동재무학 · 매매 기록에서 손실 회피와 과신의 흔적을 세고 규칙을 시험하기
+
+정적 인터랙티브 교과서(「금융과 투자 처음부터」 10권). 가상의 인물 선우가 가상 계좌 2,000만 원으로 26주 동안 쓴 매매 일지를 장마다 다시 읽습니다. 같은 기대값의 선택지를 이익과 손실의 말로 바꿔 선택이 갈리는지 기록하고, 전망 이론의 가치 함수로 손실 회피의 크기(받아들이는 최소 이익)를 계산하며, 매도한 날마다 네 칸을 세어 PGR과 PLR로 처분 효과의 흔적을 측정합니다. 기저율과 베이즈 정리로 ‘두 배 오를 종목’ 추천이 맞을 확률을, 우도비로 지지 증거만 넣은 확신과 반대 증거까지 넣은 확신을, 90% 예상 범위의 적중률과 회전율에 따른 매매 비용을, 단순한 모형에서 틀린 정보 폭포의 확률을, 기대값이 양수인 규칙이 손실로 끝날 확률을 차례로 계산합니다. 9장은 처음 적은 규칙을 일지에 대입해 지켰을 때와 어겼을 때의 손익을 종목별로 견주고, 같은 규칙이 반등 경로(가정)에서 손해가 되는 계산을 함께 둡니다. 마지막 과제에서는 일지 전체를 점검하고 규칙 하나를 고친 뒤 의사결정 일지 양식을 설계해 시험합니다. 가상의 인물과 기록으로 만든 계산 연습이며, 어떤 규칙도 권하지 않습니다. 규칙이 손실을 줄이는지는 한 경로로 알 수 없습니다. 시점에 묶인 값(증권거래세 0.20%는 보도 기준 · 4권·11권 서재 안 재인용 · 법령 원문 확인 못함, 수수료 0.015%는 가정)은 2026-10-14 확인 기준입니다.
+
+현재 상태: 2026-10-14에 G0~G7 승인과 팩트·출처 검수 1회차(fixed)를 마치고 서가에 공개함. js/math.js(계산과 선우의 일지 JOURNAL), js/content.js(장 데이터), review.json(복습 문항), 화면(index.html, js/app.js·visual.js·figures.js·home-lab.js·lab-guides.js·실험 파일 labs-choice·labs-belief·labs-crowd·labs-rules·labs-final, css/style.css, assets/의 표지·서가 삽화·파비콘)과 tests/의 계산·원고·화면 구조 검사(npm test 57개), 브라우저 검사(tests/browser.cjs)가 있습니다. 문체 비평 메모는 docs/index.html #style, 검수 기록은 docs/fact-review.html에 있습니다.
+
+검사: `npm test --prefix books/psychology`
+
+브라우저 검사: 저장소 뿌리에서 `python3 -m http.server 8765`를 띄우고 `BOOK_URL=http://127.0.0.1:8765/books/psychology/ node books/psychology/tests/browser.cjs`(Playwright 필요, `BOOK_EVIDENCE`에 화면 사진을 남김)
+
+제작·조사·검증: [docs/index.html](docs/index.html), [docs/research.html](docs/research.html)

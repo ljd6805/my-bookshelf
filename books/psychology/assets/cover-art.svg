@@ -1,0 +1,27 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="선우의 매매 일지 한 쪽에 1~13주 매도한 날 세 번의 실현 이익·평가 이익·실현 손실·평가 손실 칸이 채워지고, 옆 막대에서 이익 종목을 판 비율 PGR 0.600이 손실 종목을 판 비율 PLR 0.000보다 높게 서 있는 그림(미리 정한 가상 시나리오)" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-node" x="14" y="14" width="184" height="122" rx="4"/>
+<path class="cv-hair" d="M18 35H194M18 59H194M18 83H194M18 107H194"/>
+<path class="cv-stroke cv-thin" d="M18 111H194"/>
+<text class="cv-text cv-muted" x="24" y="29">주</text>
+<text class="cv-text" x="72" y="29" text-anchor="middle">RG</text>
+<text class="cv-text" x="106" y="29" text-anchor="middle">PG</text>
+<text class="cv-text" x="140" y="29" text-anchor="middle">RL</text>
+<text class="cv-text" x="174" y="29" text-anchor="middle">PL</text>
+<text class="cv-text cv-muted" x="24" y="51">5주</text>
+<text class="cv-text" x="72" y="51" text-anchor="middle">1</text><text class="cv-text" x="106" y="51" text-anchor="middle">1</text><text class="cv-text" x="140" y="51" text-anchor="middle">0</text><text class="cv-text" x="174" y="51" text-anchor="middle">1</text>
+<text class="cv-text cv-muted" x="24" y="75">9주</text>
+<text class="cv-text" x="72" y="75" text-anchor="middle">1</text><text class="cv-text" x="106" y="75" text-anchor="middle">1</text><text class="cv-text" x="140" y="75" text-anchor="middle">0</text><text class="cv-text" x="174" y="75" text-anchor="middle">1</text>
+<text class="cv-text cv-muted" x="24" y="99">13주</text>
+<text class="cv-text" x="72" y="99" text-anchor="middle">1</text><text class="cv-text" x="106" y="99" text-anchor="middle">0</text><text class="cv-text" x="140" y="99" text-anchor="middle">0</text><text class="cv-text" x="174" y="99" text-anchor="middle">2</text>
+<text class="cv-text cv-muted" x="24" y="127">합</text>
+<rect class="cv-tint" x="60" y="115" width="24" height="17" rx="2"/>
+<text class="cv-text" x="72" y="127" text-anchor="middle">3</text><text class="cv-text" x="106" y="127" text-anchor="middle">2</text><text class="cv-text" x="140" y="127" text-anchor="middle">0</text><text class="cv-text" x="174" y="127" text-anchor="middle">4</text>
+<text class="cv-text cv-muted" x="306" y="29" text-anchor="end">1~13주</text>
+<path class="cv-stroke" d="M214 118H306"/>
+<rect class="cv-bar" x="226" y="70" width="26" height="48"/>
+<path class="cv-line cv-bold" d="M268 118H294"/>
+<text class="cv-text" x="239" y="64" text-anchor="middle">0.600</text>
+<text class="cv-text" x="281" y="111" text-anchor="middle">0.000</text>
+<text class="cv-text" x="239" y="131" text-anchor="middle">PGR</text>
+<text class="cv-text" x="281" y="131" text-anchor="middle">PLR</text>
+</svg>
