@@ -2,9 +2,9 @@
 <title id="bt-ill-title">봇의 매수 주문 하나가 접수에서 부분 체결, 취소로 옮겨 가는 동안 계좌의 주식 수는 늘고 봇 장부는 그대로 있어 두 칸이 어긋났다가, 대사한 뒤 장부를 고쳐 두 칸이 맞춰지는 과정(미리 정한 가상 시나리오, 시각적 비유)</title>
 <style>
 .bt-ill-bg{fill:#f4f9f9}
-.bt-ill-word{font:600 10px sans-serif;fill:#13292b}
-.bt-ill-small{font:500 9px sans-serif;fill:#435a5d}
-.bt-ill-big{font:700 15px sans-serif;fill:#13292b}
+.bt-ill-word{font:600 10px var(--font-sans,sans-serif);fill:#13292b}
+.bt-ill-small{font:500 9px var(--font-sans,sans-serif);fill:#435a5d}
+.bt-ill-big{font:700 15px var(--font-sans,sans-serif);fill:#13292b}
 .bt-ill-box{fill:#ffffff;stroke:#c9dcdd;stroke-width:1.2}
 .bt-ill-hot{fill:none;stroke:#0e6b68;stroke-width:2.6;opacity:0}
 .bt-ill-path{fill:none;stroke:#c9dcdd;stroke-width:1.5;stroke-dasharray:4 4}

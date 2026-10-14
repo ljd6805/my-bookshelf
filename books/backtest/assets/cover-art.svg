@@ -1,6 +1,5 @@
 <svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="같은 격자 규칙의 연 수익률 막대 여섯 개가 왼쪽부터 가정을 하나씩 고칠 때마다 낮아지는 계단: 12.25%에서 3.05%까지(미리 정한 가상 시나리오)" xmlns="http://www.w3.org/2000/svg">
 <text class="cv-text cv-muted" x="14" y="22">연 수익률(%) · 가정을 하나씩 고칠 때마다</text>
-<path class="cv-hair" d="M14 80H306"/>
 <path class="cv-stroke" d="M14 116H306"/>
 <rect class="cv-bar" x="40" y="46" width="26" height="70"/>
 <text class="cv-text" x="53" y="41" text-anchor="middle">12.25</text>

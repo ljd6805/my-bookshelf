@@ -67,7 +67,8 @@ const CONTEXT={kt:{ks:'direct'},aa:{ar:true},...Object.fromEntries([0,1,2,3,4,5]
 const noQuiz=(t,id,what)=>{for(const s of QUIZ_ANSWER[id]||[])assert.ok(!t.includes(s),`${id} ${what} shows the quiz answer ${s}`);};
 const freePort=()=>new Promise(res=>{const s=net.createServer();s.listen(0,'127.0.0.1',()=>{const p=s.address().port;s.close(()=>res(p));});});
 async function serve(){
- if(process.env.BOOK_URL)return {url:process.env.BOOK_URL,stop:()=>{}};
+ /* BOOK_URL은 책 폴더 주소로 맞춘다. 끝 /가 빠지면 url+'assets/…'가 /books/backtestassets/…가 되어 서가 삽화가 404로 나던 것을 막는다. */
+ if(process.env.BOOK_URL){const u=process.env.BOOK_URL.replace(/[#?].*$/,'');return {url:new URL('.',/\/$|\.html?$/.test(u)?u:u+'/').href,stop:()=>{}};}
  const port=await freePort(),proc=spawn('python3',['-m','http.server',String(port),'--bind','127.0.0.1'],{cwd:ROOT,stdio:'ignore'});
  const url=`http://127.0.0.1:${port}/books/backtest/`;
  for(let i=0;i<50;i++){try{const r=await fetch(url);if(r.ok)break;}catch{}await new Promise(r=>setTimeout(r,100));}
@@ -152,7 +153,7 @@ async function artCheck(page,url){
  for(const [file,width] of [['assets/shelf-illustration.svg',320],['assets/cover-art.svg',320],['assets/shelf-illustration.svg',1280]]){
   await page.setViewportSize({width,height:700});
   if(file.includes('cover')){await page.goto(url);await page.setContent(`<!doctype html><base href="${url}"><link rel="stylesheet" href="../../assets/type.css"><link rel="stylesheet" href="../../assets/reader.css"><div class="jacket-plate" style="width:${Math.min(320,width-32)}px;--glass:72,170,170;--edge:40,120,120">${fs.readFileSync(path.join(__dirname,'..',file),'utf8')}</div>`,{waitUntil:'domcontentloaded'});await page.waitForFunction(()=>!!document.querySelector('.cv-text')&&getComputedStyle(document.querySelector('.cv-text')).fontSize!=='',null,{timeout:5000});await page.evaluate(()=>document.fonts.ready);}
-  else await page.goto(url+file);
+  else{const res=await page.goto(new URL(file,url).href);assert.ok(res&&res.ok(),`${file}: ${res&&res.status()} ${new URL(file,url).href}`);}
   const r=await page.evaluate(()=>{const s=document.querySelector('svg'),vb=s.viewBox.baseVal;return {vb:[vb.width,vb.height],texts:[...s.querySelectorAll('text')].map(t=>{const b=t.getBBox();return {text:t.textContent,x:b.x,y:b.y,r:b.x+b.width,b:b.y+b.height};})};});
   const pad=file.includes('cover')?14:0;
   for(const t of r.texts)assert.ok(t.x>=pad-0.5&&t.y>=pad-1.5&&t.r<=r.vb[0]-pad+0.5&&t.b<=r.vb[1]-pad+1.5,`${file}: "${t.text}" outside the ${pad}px margin ${JSON.stringify(t)}`);
@@ -160,10 +161,10 @@ async function artCheck(page,url){
   report.art.push({file,width,texts:r.texts.length,maxRight:Math.max(...r.texts.map(t=>t.r)),viewBox:r.vb});
   await page.screenshot({path:path.join(output,`${path.basename(file,'.svg')}-${width}.png`)});
  }
- await page.emulateMedia({reducedMotion:'reduce'});await page.goto(url+'assets/shelf-illustration.svg');
+ await page.emulateMedia({reducedMotion:'reduce'});await page.goto(new URL('assets/shelf-illustration.svg',url).href);
  assert.deepEqual(await page.evaluate(ART_STATE),['none','none','none'],'shelf art stops under reduced motion');
  assert.equal(await page.evaluate(()=>getComputedStyle(document.querySelector('.bt-ill-match')).opacity),'1','reduced motion shows the reconciled end state');
- await page.emulateMedia({reducedMotion:'no-preference'});await page.goto(url+'assets/shelf-illustration.svg');
+ await page.emulateMedia({reducedMotion:'no-preference'});await page.goto(new URL('assets/shelf-illustration.svg',url).href);
  assert.deepEqual(await page.evaluate(ART_STATE),['bt-ill-move','bt-ill-s3','bt-ill-a1'],'shelf art animates');
  await page.goto(url);await page.setContent(`<!doctype html><html data-motion="reduce"><body>${fs.readFileSync(path.join(__dirname,'..','assets/shelf-illustration.svg'),'utf8')}</body></html>`);
  assert.deepEqual(await page.evaluate(ART_STATE),['none','none','none'],'shelf art stops under html[data-motion=reduce]');

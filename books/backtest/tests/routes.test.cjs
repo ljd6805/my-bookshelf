@@ -9,7 +9,7 @@ const IDS=['backtest','data','lookahead','fills','metrics','overfit','api','orde
 const LABS=['grid-run','assume-data','assume-code','assume-fills','sharpe-boot','is-oos','mock-api','order-recon','stop-rules','fill-match','loss-audit'];
 const SAME='백테스트 가정 하나씩 바꾸기 실험';
 const NAMES=['격자 규칙 백테스트 실행 실험',SAME,SAME,SAME,'샤프·최대 낙폭·부트스트랩 구간 실험','표본 안 1등의 표본 밖 성적 실험','모의 주문 요청·응답 실험','주문 상태와 잔고 대사 실험','봇 멈춤 조건 시험 실험','모의 서버·백테스트 체결 차이 기록 실험','격자 봇 손실 원인 조사 실험'];
-const LAB_FILES=['labs-backtest','labs-stats','labs-orders','labs-ops','labs-final'],VERSION='20261014bt4';
+const LAB_FILES=['labs-backtest','labs-stats','labs-orders','labs-ops','labs-final'],VERSION='20261014bt5';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(사세요|파세요|수익 보장|이기는 전략|검증된 전략|최적 설정|오를 것|내릴 것|추천합니다|권합니다|권해 드|매수하세요|매도하세요|맡기세요)/;
 const BROKERS=/(키움|미래에셋|삼성증권|한국투자|NH투자|KB증권|신한투자|대신증권|토스증권|하나증권|kiwoom|koreainvestment|KIS Developers)/i;
@@ -107,6 +107,12 @@ test('the cover is a different scene from the shelf illustration; the cover bars
  for(const s of M.waterfall().filter(x=>x.key!=='A0'))assert.ok(words(cover).has((s.ann*100).toFixed(2)),'cover bar '+s.key);
  for(const list of Object.values(ANSWERS))for(const s of list)assert.ok(!cover.includes(s)&&!shelf.includes(s),'art shows an answer: '+s);
  assert.doesNotMatch(cover,/bt-/);
+ /* 손으로 고른 ANSWERS만으로는 '4주'·'5위'·'15주' 같은 짧은 답이 빠지므로, docs #chapters의 L2 괄호 속 답에서 숫자(단위 포함)를 뽑아 두 삽화의 글자와 견준다. */
+ const NUM=/[−+-]?\d[\d,]*(?:\.\d+)?(?:%p|%|원|주|위|번|초째|초)?/g,doc=read('docs/index.html');
+ const l2=[...doc.matchAll(/<b>L2<\/b> (.*?)<\/td>/g)].map(m=>m[1].slice(m[1].lastIndexOf('? (')+2)).join(' ');
+ const answerNums=new Set([...l2.matchAll(NUM)].map(m=>m[0].replace(/^[+-]/,'').replace('−','')).filter(t=>/\D$|\./.test(t)));
+ assert.ok(answerNums.has('4주')&&answerNums.has('5위')&&answerNums.has('527,250원'),'L2 answers parsed from docs');
+ for(const [name,svg] of [['cover',cover],['shelf',shelf]])for(const w of words(svg))for(const [t] of w.matchAll(NUM)){const k=t.replace(/^[+−-]/,'');assert.ok(!answerNums.has(k),`${name} art shows an L2 answer number: ${k}`);}
 });
 /* 예측 질문(L2)은 docs/index.html #chapters 표의 L2 칸에서 괄호 속 답을 뺀 질문과 app.js info[lab][2]가 같아야 한다. */
 const L2=()=>Object.fromEntries(LABS.map(id=>[id,read('js/app.js').match(new RegExp(`(?:^|[{,\\s])'${esc(id)}':\\['[^']+','[^']+','([^']+)'`,'m'))?.[1]]));

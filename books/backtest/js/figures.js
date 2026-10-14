@@ -7,16 +7,19 @@
 const fx=(n,d=0)=>{const r=M.round(Number(n),d);return (r<0?'−':'')+Math.abs(r).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});};
 const P=(x,d=2)=>fx(x*100,d)+'%',W=640;
 const svg=(label,body,h=300)=>`<svg viewBox="0 0 ${W} ${h}" role="img" aria-label="${label}">${body}</svg>`;
-const t=(x,y,s,o={})=>`<text x="${(+x).toFixed(1)}" y="${(+y).toFixed(1)}" text-anchor="${o.a||'middle'}" font-size="${o.size||13}" fill="${o.fill||'var(--text)'}"${o.w?` font-weight="${o.w}"`:''}>${s}</text>`;
+/* o.halo: 선 위에 놓이는 글자 뒤에 그림 배경색 테두리를 깔아 선이 글자를 가로지르지 않게 한다. */
+const t=(x,y,s,o={})=>`<text x="${(+x).toFixed(1)}" y="${(+y).toFixed(1)}" text-anchor="${o.a||'middle'}" font-size="${o.size||13}" fill="${o.fill||'var(--text)'}"${o.w?` font-weight="${o.w}"`:''}${o.halo?' paint-order="stroke" stroke="var(--chart)" stroke-width="5" stroke-linejoin="round"':''}>${s}</text>`;
 const dot=(x,y,c,sh='●')=>sh==='▲'?`<path d="M${x.toFixed(1)} ${(y-6).toFixed(1)}l5.5 10h-11z" fill="${c}"/>`:sh==='◆'?`<path d="M${x.toFixed(1)} ${(y-6).toFixed(1)}l5 6l-5 6l-5-6z" fill="${c}"/>`:sh==='○'?`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="var(--chart)" stroke="${c}" stroke-width="2"/>`:`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4.5" fill="${c}"/>`;
-/* 선 그림. o={x:[lo,hi], y:[lo,hi,step,fmt], lines:[[pts, 색, 무늬]], refs:[[y, 글]], box:[L,R,T,B], xl, yl}. */
+/* 선 그림. o={x:[lo,hi], y:[lo,hi,step,fmt], xt:[가로축 눈금], lines:[[pts, 색, 무늬]], refs:[[y, 글]], box:[L,R,T,B], xl, yl}. 기준선 글자는 선을 모두 그린 뒤 배경 테두리와 함께 올린다. */
 function plot(o){
  const [L,R,T,B]=o.box||[72,620,30,240],[x0,x1]=o.x,[y0,y1,ys,yf]=o.y,X=v=>L+(v-x0)/(x1-x0)*(R-L),Y=v=>B-(v-y0)/(y1-y0)*(B-T);
  let s=`<path d="M${L} ${T}V${B}H${R}" fill="none" stroke="var(--muted)"/>`;
  for(let v=y0;v<=y1+1e-9;v+=ys)s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--line)" stroke-dasharray="2 5"/>`+t(L-8,Y(v)+4,yf(v),{a:'end',size:12,fill:'var(--muted)'});
- (o.refs||[]).forEach(([v,txt,below])=>{s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--orange)" stroke-dasharray="7 4"/>`+t(R,below?Y(v)+16:Y(v)-6,txt,{a:'end',size:12,fill:'var(--orange)'});});
+ (o.xt||[]).forEach(v=>{s+=`<path d="M${X(v).toFixed(1)} ${B}v4" stroke="var(--muted)"/>`+t(X(v),B+17,fx(v),{size:12,fill:'var(--muted)'});});
+ (o.refs||[]).forEach(([v])=>{s+=`<path d="M${L} ${Y(v).toFixed(1)}H${R}" stroke="var(--orange)" stroke-dasharray="7 4"/>`;});
  (o.lines||[]).forEach(([pts,c,dash])=>{s+=`<path d="M${pts.map(p=>`${X(p[0]).toFixed(1)} ${Y(p[1]).toFixed(1)}`).join('L')}" fill="none" stroke="${c}" stroke-width="2.2"${dash?` stroke-dasharray="${dash}"`:''}/>`;});
- if(o.xl)s+=t(R,B+30,o.xl,{a:'end',size:12,fill:'var(--muted)'});if(o.yl)s+=t(L,T-12,o.yl,{a:'start',size:12,fill:'var(--muted)'});
+ (o.refs||[]).forEach(([v,txt,below])=>{s+=t(R,below?Y(v)+16:Y(v)-6,txt,{a:'end',size:12,fill:'var(--orange)',halo:1});});
+ if(o.xl)s+=t(R,B+(o.xt?34:30),o.xl,{a:'end',size:12,fill:'var(--muted)'});if(o.yl)s+=t(L,T-12,o.yl,{a:'start',size:12,fill:'var(--muted)'});
  return {s,X,Y};
 }
 function bars(vals,labels,o){
@@ -26,18 +29,18 @@ function bars(vals,labels,o){
 }
 const legend=(items,y)=>items.map(([c,txt,dash],k)=>`<path d="M${72+k*210} ${y}h26" stroke="${c}" stroke-width="2.4"${dash?` stroke-dasharray="${dash}"`:''}/>`+t(104+k*210,y+4,txt,{a:'start',size:12})).join('');
 function figBacktest(){
- const R=M.records(),pts=R.bars.filter((_,d)=>d%3===0).map((b,k)=>[k*3,b[3]]),p=plot({x:[0,750],y:[16000,24000,2000,v=>fx(v)],lines:[[pts,'var(--blue)']],refs:[[22000,'격자 위 끝 22,000원'],[18000,'격자 아래 끝 18,000원'],[17500,'멈춤 17,500원',1]],xl:'일째(0일째부터)',yl:'원'});
+ const R=M.records(),pts=R.bars.filter((_,d)=>d%3===0).map((b,k)=>[k*3,b[3]]),p=plot({x:[0,750],y:[16000,24000,2000,v=>fx(v)],xt:[0,250,500,750],lines:[[pts,'var(--blue)']],refs:[[22000,'격자 위 끝 22,000원'],[18000,'격자 아래 끝 18,000원'],[17500,'멈춤 17,500원',1]],xl:'일째(0일째부터)',yl:'원'});
  const y3=p.X(500);return {svg:svg('새벽전자 750거래일 종가와 12권 격자의 범위',p.s+`<path d="M${y3.toFixed(1)} 30V240" stroke="var(--muted)" stroke-dasharray="3 4"/>`+t(y3+6,48,M.TEXT.madeYear3,{a:'start',size:12,fill:'var(--muted)'})+legend([['var(--blue)','새벽전자 종가(가상, 사흘마다)'],['var(--orange)','격자 범위와 멈춤 가격','7 4']],282),300),
   caption:`새벽전자의 750거래일 종가(가상 기록)와 12권 하린의 격자 범위(18,000~22,000원, 200원 간격 20칸), 멈춤 가격 17,500원입니다. 1장의 가정으로 3년을 이어 돌리면 왕복 ${fx(M.step('A1').trips)}번, 연 ${P(M.step('A1').ann)}입니다. ${M.TEXT.year3Note}.`};
 }
 function figData(){
- const R=M.records(),A=M.adjust(),n=250,pts=k=>k.slice(0,n).filter((_,d)=>d%2===0).map((b,i)=>[i*2,b[3]]),p=plot({x:[0,n],y:[16000,24000,2000,v=>fx(v)],lines:[[pts(R.bars),'var(--blue)'],[pts(A.bars),'var(--orange)','7 4']],refs:[[18000,'격자 칸 18,000원']],xl:'일째(1년째)',yl:'원'});
+ const R=M.records(),A=M.adjust(),n=250,pts=k=>k.slice(0,n).filter((_,d)=>d%2===0).map((b,i)=>[i*2,b[3]]),p=plot({x:[0,n],y:[16000,24000,2000,v=>fx(v)],xt:[0,50,100,150,200,250],lines:[[pts(R.bars),'var(--blue)'],[pts(A.bars),'var(--orange)','7 4']],refs:[[18000,'격자 칸 18,000원']],xl:'일째(1년째)',yl:'원'});
  return {svg:svg('1년째의 실제 종가와 수정 종가',p.s+legend([['var(--blue)','실제 거래 가격'],['var(--orange)','수정 종가(배당 세 번으로 거꾸로 맞춤)','7 4']],282),300),
   caption:`1년째의 실제 종가(실선)와 수정 종가(점선)입니다. 수정 종가는 뒤에 올 배당 세 번만큼 과거 가격을 낮춰 첫날 시가 ${fx(R.bars[0][0])}원이 ${fx(A.bars[0][0])}원이 되므로, 격자의 18,000원 칸이 그날 실제 가격과 다른 자리에 놓입니다.`};
 }
 function figLookahead(){
- const c=M.dayCompare(430),p=plot({x:[0,7],y:[17000,18800,400,v=>fx(v)],lines:[[c.points.map((v,i)=>[i,v]),'var(--blue)']],refs:[[17500,'멈춤 17,500원']],box:[72,600,40,230],xl:'하루 안의 점(0 = 장 시작, 7 = 장 마감)',yl:'원'});
- const pt=c.points,lo=pt.indexOf(Math.min(...pt));let s=p.s+pt.map((v,i)=>dot(p.X(i),p.Y(v),'var(--blue)')).join('')+dot(p.X(0),p.Y(pt[0]),'var(--accent)','▲')+t(p.X(0)+10,p.Y(pt[0])-10,`장 시작 ${fx(pt[0])}원(주문 시각)`,{a:'start',size:12})+dot(p.X(lo),p.Y(pt[lo]),'var(--orange)','◆')+t(p.X(lo),p.Y(pt[lo])+22,`저가 ${fx(c.bar[2])}원은 장 마감 뒤에 확정`,{size:12});
+ const c=M.dayCompare(430),p=plot({x:[0,7],y:[17000,18800,400,v=>fx(v)],xt:[0,1,2,3,4,5,6,7],lines:[[c.points.map((v,i)=>[i,v]),'var(--blue)']],refs:[[17500,'']],box:[72,600,40,230],xl:'하루 안의 점(0 = 장 시작, 7 = 장 마감)',yl:'원'});
+ const pt=c.points,lo=pt.indexOf(Math.min(...pt));let s=p.s+t(p.X(0)+8,p.Y(17500)-6,'멈춤 17,500원',{a:'start',size:12,fill:'var(--orange)',halo:1})+pt.map((v,i)=>dot(p.X(i),p.Y(v),'var(--blue)')).join('')+dot(p.X(0),p.Y(pt[0]),'var(--accent)','▲')+t(p.X(0)+10,p.Y(pt[0])-10,`장 시작 ${fx(pt[0])}원(주문 시각)`,{a:'start',size:12})+dot(p.X(lo),p.Y(pt[lo]),'var(--orange)','◆')+t(p.X(lo),p.Y(pt[lo])+22,`저가 ${fx(c.bar[2])}원은 장 마감 뒤에 확정`,{size:12});
  return {svg:svg('430일째 하루 안 경로: 장 시작 가격과 장 마감 뒤에 확정되는 저가',s,280),caption:`430일째 하루 안 경로(가상)입니다. ▲는 장 시작 가격 ${fx(c.bar[0])}원, ◆는 그날의 저가 ${fx(c.bar[2])}원입니다. 버그 줄은 장이 끝나야 알 수 있는 저가를 보고 장 시작 가격에 팔았습니다.`};
 }
 function figFills(){
@@ -46,7 +49,7 @@ function figFills(){
   caption:`3장을 고친 연 ${P(W5[0].ann)}에서 한 칸 하루 한 번, 한 눈금 지나야 체결, 수수료·거래세를 차례로 켜면 ${W5.slice(1,4).map(s=>P(s.ann)).join(' → ')}이고, 하루 안 경로로 계산하면 ${P(W5[4].ann)}입니다. ${M.TEXT.notExpected}.`};
 }
 function figMetrics(){
- const c=M.step('A5').curve,m=M.a5Stats(),pts=c.filter((_,i)=>i%3===0).map((v,k)=>[k*3+1,v/1e4]),p=plot({x:[1,750],y:[280,400,20,v=>fx(v)],lines:[[pts,'var(--accent)']],refs:[[300,'시작 300만 원']],xl:'번째 거래일',yl:'만 원'});
+ const c=M.step('A5').curve,m=M.a5Stats(),pts=c.filter((_,i)=>i%3===0).map((v,k)=>[k*3+1,v/1e4]),p=plot({x:[1,750],y:[280,400,20,v=>fx(v)],xt:[1,250,500,750],lines:[[pts,'var(--accent)']],refs:[[300,'시작 300만 원']],xl:'번째 거래일',yl:'만 원'});
  const pk=m.peakDay,tr=m.troughDay;
  return {svg:svg('4장 현실 가정의 평가 금액과 최대 낙폭',p.s+dot(p.X(pk),p.Y(c[pk-1]/1e4),'var(--blue)','▲')+t(p.X(pk),p.Y(c[pk-1]/1e4)-12,`고점(${pk}번째)`,{size:12})+dot(p.X(tr),p.Y(c[tr-1]/1e4),'var(--orange)','◆')+t(p.X(tr)-8,p.Y(c[tr-1]/1e4)+20,`저점(${tr}번째)`,{a:'end',size:12}),280),
   caption:`4장 현실 가정의 평가 금액입니다. 연 ${P(m.ann)}, 샤프 비율 ${fx(m.sharpe,3)}, 최대 낙폭 ${P(m.mdd)}이며 ▲ 고점에서 ◆ 저점까지 떨어진 뒤 끝까지 되찾지 못했습니다.`};
@@ -68,14 +71,14 @@ function figOrders(){
 }
 function figLimits(){
  const r=M.stopCheck(M.STOP_LOGS.dup,{loss:60000,count:20,same:true,hold:128,recon:true,delay:5}),rows=r.rows,n=rows.length,L=72,R=600,X=i=>L+i*(R-L)/(n-1),Y=v=>230-v/140*190;
- let s=`<path d="M${L} 40V230H${R}" fill="none" stroke="var(--muted)"/><path d="M${L} ${Y(128).toFixed(1)}H${R}" stroke="var(--orange)" stroke-dasharray="7 4"/>`+t(R,Y(128)-6,'보유 한도 128주',{a:'end',size:12,fill:'var(--orange)'});
+ let s=`<path d="M${L} 40V230H${R}" fill="none" stroke="var(--muted)"/><path d="M${L} ${Y(128).toFixed(1)}H${R}" stroke="var(--orange)" stroke-dasharray="7 4"/>`+t(R,Y(128)-6,'보유 한도 128주',{a:'end',size:12,fill:'var(--orange)'})+t(L,26,'주식 수(주)',{a:'start',size:12,fill:'var(--muted)'});
  [0,40,80,120].forEach(v=>{s+=t(L-8,Y(v)+4,`${v}`,{a:'end',size:12,fill:'var(--muted)'});});
  s+=`<path d="M${rows.map((x,i)=>`${X(i).toFixed(1)} ${Y(x.acct).toFixed(1)}`).join('L')}" fill="none" stroke="var(--accent)" stroke-width="2.2"/><path d="M${rows.map((x,i)=>`${X(i).toFixed(1)} ${Y(x.ledger).toFixed(1)}`).join('L')}" fill="none" stroke="var(--blue)" stroke-width="2.2" stroke-dasharray="7 4"/>`;
  rows.forEach((x,i)=>{s+=dot(X(i),Y(x.acct),'var(--accent)')+dot(X(i),Y(x.ledger),'var(--blue)','○');if(x.why&&x.why.length)s+=t(X(i),Y(x.acct)-14,'▲ '+x.why.map(w=>w==='same'?'같은 칸':w==='recon'?'대사':w).join('·'),{size:12,fill:'var(--orange)'});s+=t(X(i),250,x.check?'대사':x.open!=null?'시가':`${x.n}`,{size:12,fill:'var(--muted)'});});
  return {svg:svg('밤사이 같은 칸 세 번: 계좌와 장부의 주식 수',s+legend([['var(--accent)','계좌(서버가 아는 사실)'],['var(--blue)','봇 장부','7 4']],282),300),caption:`밤사이 같은 칸 세 번 기록에서 계좌(●)와 봇 장부(○)의 주식 수입니다. 보유 한도 128주는 걸리지 않고, 같은 칸 검사(▲)와 장 시작 전 대사(▲)가 걸립니다. 아래 숫자는 요청 번호입니다.`};
 }
 function figMonitor(){
- const rows=M.monitorDays(20),p=plot({x:[1,20],y:[-4000,1000,1000,v=>fx(v)],lines:[[rows.map(r=>[r.day+1,r.diffPnl]),'var(--accent)']],refs:[[0,'0원']],xl:'번째 거래일',yl:'누적 손익 차이(원)'});
+ const rows=M.monitorDays(20),p=plot({x:[1,20],y:[-4000,1000,1000,v=>fx(v)],xt:[1,5,10,15,20],lines:[[rows.map(r=>[r.day+1,r.diffPnl]),'var(--accent)']],refs:[[0,'0원']],xl:'번째 거래일',yl:'누적 손익 차이(원)'});
  return {svg:svg('모의 서버 운용 앞 20거래일의 누적 손익 차이',p.s+rows.map(r=>dot(p.X(r.day+1),p.Y(r.diffPnl),r.missed||r.extra?'var(--orange)':'var(--accent)',r.missed||r.extra?'◆':'●')).join(''),280),
   caption:`모의 서버 운용 앞 20거래일의 누적 손익 차이(모의 서버 − 백테스트)입니다. ◆는 놓친 체결이나 더 생긴 체결이 있던 날이고, 20일째 누적 차이는 ${fx(rows[19].diffPnl)}원입니다.`};
 }

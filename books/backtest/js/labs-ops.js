@@ -49,7 +49,7 @@ function directPart(el){
  U.flag(el.querySelector('#fb'),bt?'':'B·S, 칸, 체결 가격을 넣어 주세요');U.flag(el.querySelector('#fm'),mk?'':'B·S, 칸, 체결 가격을 넣어 주세요');
  if(!bt||!mk)return U.problem('체결 목록','줄마다(또는 ;로 나눠) “B 19000 18950”처럼 방향, 칸, 체결 가격을 넣어 주세요.');
  const m=M.matchFills(mk,bt,q);
- return `직접 입력: 백테스트 체결 ${m.btFills}건, 모의 서버 체결 ${m.mockFills}건 → 맞음 ${m.matched} · 놓침 ${m.missed} · 더 생김 ${m.extra}, 체결률 <b>${m.rate==null?'계산 못함(백테스트 체결 0건)':U.pct(m.rate,2)}</b>, 맞은 체결의 가격 차이 합계 <b>${W(m.priceDiff)}</b>(모의 서버 가격 − 백테스트 가격 × ${U.fmt(q)}주).`;
+ return `직접 입력: 백테스트 체결 ${m.btFills}건, 모의 서버 체결 ${m.mockFills}건 → 맞음 ${m.matched} · 놓침 ${m.missed} · 더 생김 ${m.extra}, 체결률 <b>${m.rate==null?'계산 못함(백테스트 체결 0건)':U.pct(m.rate,2)}</b>, 맞은 체결의 가격 차이 합계 <b>${W(m.priceDiff)}</b>((모의 서버 가격 − 백테스트 가격) × ${U.fmt(q)}주).`;
 }
 BLabs['fill-match']=el=>{
  U.setup(el,U.range('fd','모의 서버 운용 첫 며칠(이 장은 20거래일까지)',1,20,1,5)

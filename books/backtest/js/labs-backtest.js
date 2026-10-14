@@ -14,7 +14,7 @@ function runCharts(r,R){
  const step=Math.max(1,Math.ceil(days.length/120)),pick=set=>[...set].filter((d,k)=>k%step===0);
  const a=U.xy({series:[{name:'새벽전자 종가(가상 기록)',pts,color:'var(--blue)',width:1.6}],points:[...pick(buyDays).map((d,k)=>({name:k?null:'산 날(●, 일부만 표시)',x:d,y:R.bars[d][2],shape:'●',color:'var(--accent)'})),...pick(sellDays).map((d,k)=>({name:k?null:'판 날(○, 일부만 표시)',x:d,y:R.bars[d][1],shape:'○',color:'var(--orange)'}))],
   refs:[{y:S.stop,text:'멈춤 17,500원'}],xlabel:'일째(0일째부터)',ylabel:'원',ytick:v=>U.sfmt(v),h:300,label:`${r.from}~${r.to-1}일째 종가와 체결한 날`});
- const b=U.xy({series:[{name:'평가 금액(종가로 친 현금 + 주식)',pts:r.curve.map((v,i)=>[r.from+i,v/1e4]),color:'var(--accent)'}],refs:[{y:300,text:'시작 300만 원'}],xlabel:'일째',ylabel:'만 원',ytick:v=>U.sfmt(v),h:260,label:`평가 금액이 300만 원에서 ${U.sfmt(r.curve[r.curve.length-1]/1e4,1)}만 원`});
+ const b=U.xy({series:[{name:'평가 금액(종가로 친 현금 + 주식)',pts:r.curve.map((v,i)=>[r.from+i,v/1e4]),color:'var(--accent)'}],refs:[{y:300,text:'시작 300만 원'}],xlabel:'일째',ylabel:'만 원',ytick:v=>U.sfmt(v),h:260,label:`${r.from}~${r.from+r.curve.length-1}일째 평가 금액: 시작 300만 원, 끝 ${U.sfmt(r.curve[r.curve.length-1]/1e4,1)}만 원`});
  return a+b;
 }
 BLabs['grid-run']=el=>{
@@ -28,7 +28,7 @@ BLabs['grid-run']=el=>{
   if(b===null||s===null||q===null)cell=U.problem('칸 가격과 주식 수','1 이상의 정수로 넣어 주세요.');
   else if(b>=s)cell=U.problem('칸 가격','사는 가격이 파는 가격보다 낮아야 합니다.');
   else if(cl===null)cell=U.problem('종가 기록','쉼표로 나눈 숫자를 넣어 주세요.');
-  else{const c=M.closeOnlyCell(b,s,q,cl,U.checked(el,'ce'));cell=`칸 하나(${U.fmt(b)}원에 사서 ${U.fmt(s)}원에 팖, ${U.fmt(q)}주): 왕복 <b>${c.trips}번</b>, ${c.held?`끝에 ${U.fmt(q)}주를 들고 있어 왕복 손익만으로는 끝나지 않습니다(산 금액과 수수료 ${U.fmt(-c.net-0)}원이 들어가 있음)`:`수수료 ${U.fmt(c.fees)}원${U.checked(el,'ce')?'':'과 거래세'}를 뺀 손익 <b>${W(c.net)}</b>`}.`;}
+  else{const c=M.closeOnlyCell(b,s,q,cl,U.checked(el,'ce'));cell=`칸 하나(${U.fmt(b)}원에 사서 ${U.fmt(s)}원에 팖, ${U.fmt(q)}주): 왕복 <b>${c.trips}번</b>, ${c.held?`끝에 ${U.fmt(q)}주를 들고 있어 왕복 손익만으로는 끝나지 않습니다(산 금액과 수수료 ${U.fmt(-c.net-0)}원이 들어가 있음)`:`수수료 ${U.fmt(c.fees)}원${U.checked(el,'ce')?'을':'과 거래세를'} 뺀 손익 <b>${W(c.net)}</b>`}.`;}
   const text=`${y==='all'?'3년 이어서':['1년째','2년째','3년째(지어낸 3년째)'][+y]}: 왕복 <b>${U.fmt(r.trips)}번</b>, 멈춤 ${r.stops}번, 실현 손익 ${W(r.realized)}, 끝 평가 손익 ${W(r.unreal)}(끝에 ${r.shares}주), 배당 ${U.fmt(r.div)}원, 손익 <b>${W(r.pnl)}</b>, 연 수익률 <b>${p2(r.ann)}</b>.`
    +`<div class="not-counted"><b>이 계산이 쓰지 않은 것</b>${notCounted}</div>${cell}<br>${M.TEXT.notExpected}. ${M.TEXT.year3Note}.${U.kind(['real','scenario'])}`;
   U.result(el,runCharts(r,R),text);
