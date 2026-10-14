@@ -638,7 +638,7 @@
       "확인 못함: 국고채 10년 금리의 오늘 값(책은 날짜 붙은 2026-10-08 값), Markowitz·Sharpe·Kelly·Longin·Solnik 본문과 Brinson·Ibbotson·Kaplan·Nuttall·Evans·Archer·Statman 원 논문(서지·초록·2차 자료 범위), 1990년 노벨상 공식 문구, 셸 curl 링크 일괄 확인(프록시), 한국 시장 실제 상관·베타, 한국 쪽 교과과정 자료, 새벽전자·누리200 KRX 목록 직접 조회",
       "확인 못함: 학습 효과(독자가 조건을 만족하는 비중을 실제로 찾는지)는 측정하지 않음, 채원 리허설만; 실제 화면 읽기 프로그램·모바일 터치 미확인",
       "공통 서가 배치: 1280×720에서 모든 책의 펼친 면 삽화가 60px 안팎으로 작아지는 문제(G5에서 따로 넘김)",
-      "10권 「행동재무학」(books/psychology, book_id behavioral-finance) 공개 때(G5·G7) 이 책의 '10권(준비 중)'을 갚기: content.js 169행 → ../psychology/#rules, app.js 42행 권 이름 '행동재무학'과 문장 고침(아직 링크하지 않은 권은 13권만), app.js 77행 다음 이동 → ../psychology/#frame('다음 권 · 행동재무학 01', 11권 #order 연결은 10장 다른 책 연결로 옮김), review.json 142행은 글자만 '10권 「행동재무학」'. 끝나면 이 항목과 books/allocation/docs/index.html 403행 근처 기록을 완료로 바꿈(서윤 G1, 2026-10-14)"
+      "완료(2026-10-14, 10권 서가 등록): 10권 「행동재무학」(books/psychology, book_id behavioral-finance) 공개 때(G5·G7) 이 책의 '10권(준비 중)'을 갚기: content.js 169행 → ../psychology/#rules, app.js 42행 권 이름 '행동재무학'과 문장 고침(아직 링크하지 않은 권은 13권만), app.js 77행 다음 이동 → ../psychology/#frame('다음 권 · 행동재무학 01', 11권 #order 연결은 10장 다른 책 연결로 옮김), review.json 142행은 글자만 '10권 「행동재무학」'. 끝나면 이 항목과 books/allocation/docs/index.html 403행 근처 기록을 완료로 바꿈(서윤 G1, 2026-10-14) → content.js 10장 문장과 #final 다른 책 연결 ../psychology/#rules(깊이 보기(뒤 권)), app.js 42행 권 이름·문장(아직 링크하지 않은 권은 13권만), app.js 마지막 장 다음 이동 ../psychology/#frame \"다음 권 · 행동재무학 01 · …\"(11권 #order는 10장 다른 책 연결에 이미 있어 app.js에서만 지움), review.json 142행 글자, docs/index.html G7 남은 일 완료 표시, AGENTS.md 범위 경계 줄, 자산 버전 20261014-a10"
     ],
     "next": "G7 승인분 커밋(편집장 세션 밖에서). 공개 뒤 2027-04-13 ⏱ 넷 재확인(한결·은재)과 법령 원문 재시도",
     "shelf_registration": {
@@ -681,12 +681,23 @@
       "팀장 재점검과 관문 행: 한결 G0, 서윤 G1, 해원 G2가 2차 판을 다시 점검한 뒤 #log에 직접 적음",
       "G3 뒤에도 열린 것: 한국 개인투자자 매매 통계의 공식 출처(확인 전에는 쓰지 않음), 증권거래세 법령 원문(로봇 배제, G6 정민·G7 한결 재시도). 1981 재현·1992 식·BHW 본문은 G3 은재가 닫음",
       "⏱ 증권거래세 0.20%(보도 기준, 법령 원문 확인 못함)·수수료 0.015%(가정): G3 시작 은재, G6 시작일 정민, G7 커밋 직전 한결, 고정 재확인일 2027-04-14 한결·은재",
-      "G5: 들어오는 링크 아홉 자리와 확률과 통계 #bayes → #baserate, 12권 '판단의 함정' 낱말 바꿈 권고, blue 색 화면 확인(어색하면 plum)",
-      "G7: 시리즈 10권 status → book_id behavioral-finance, title '행동재무학', 9·10권 next_why 새 문장",
+      "G5: 들어오는 링크 아홉 자리와 확률과 통계 #bayes → #baserate, 12권 '판단의 함정' 낱말 바꿈 권고, blue 색 화면 확인(어색하면 plum) → 2026-10-14 서가 등록에서 적용함(아래 shelf_registration). blue는 1280·390·320·1280×720에서 이웃(amber·plum)과 겹치지 않고 위아래 단에도 같은 색이 붙지 않아 그대로 둠",
+      "G7: 시리즈 10권 status → book_id behavioral-finance, title '행동재무학', 9·10권 next_why 새 문장 → status·title·book_id는 2026-10-14 서가 등록에서 바꿈. 9·10권 next_why만 G7에 남음",
       "확인 못함: 행동재무학 교재·강의 계획서·한국 투자자 교육 자료, Shefrin·Statman·Fischhoff·Wason 본문, 온결식품·가람200·누리 해외100의 KRX 목록 직접 조회"
     ],
-    "next": "G4 관문 행(글작성팀장 나래 2차 점검·시각·실험팀장·지안), 학습 리허설(채원), G5 서가 등록(catalog는 다른 스레드의 재구성 뒤)과 blue 화면 확인, 들어오는 링크 아홉 자리, G6 새 세션 검수(유진 wording·titles·Q1~Q4 포함)"
-    },
+    "next": "G4 관문 행(글작성팀장 나래 2차 점검·시각·실험팀장·지안), 학습 리허설(채원), G5 서가 등록(catalog는 다른 스레드의 재구성 뒤)과 blue 화면 확인, 들어오는 링크 아홉 자리, G6 새 세션 검수(유진 wording·titles·Q1~Q4 포함)",
+    "shelf_registration": {
+      "date": "2026-10-14",
+      "by": "도현(기획·연결팀, 서윤 G1 결정대로)",
+      "state": "done, not committed",
+      "catalog": "투자 묶음 asset-allocation(amber) 다음, tax-accounts(plum) 앞 behavioral-finance blue 책등 '행동재무학'(서가 No. 41); 설명·그림 설명·표지·cover_meta '10장 · 10개 실험'; 장 링크 #frame·#disposition·#rules·#final; chapter_index 10장; series 10권 planned → book_id behavioral-finance, title 행동재무학 (next_why는 G7)",
+      "concepts": "기저율과 문턱 + #baserate, 멈춤과 한도 + #rules, 평가 숫자의 불확실성 + #overconfidence·#outcome; 새 개념 없음",
+      "path": "broken-rules 5단계 83분: grid #exit → psychology #prospect → #disposition → probability #chance → psychology #rules, 도전 과제 #final",
+      "incoming_links": "grid #slide→#prospect·#exit→#disposition('판단의 함정' → '손실을 확정하기 싫어하는 마음(손실 회피·처분 효과)'), allocation #final→#rules·마지막 장 다음 이동→#frame·SERIES·review.json 글자, macro #final→#confirm, valuation #final→#confirm, tax #final→#final(아직 링크하지 않은 권은 13권만), probability #bayes→#baserate; 책 ?v=20261014-a10(probability는 content.js만); allocation·macro·valuation 테스트를 10권 공개에 맞춤",
+      "visual_check": "Playwright chromium 1280×900·390·320·1280×720: 책등 18px 잘림·분류 겹침 없음, 펼친 책 삽화 높이 asset-allocation과 같음(1280×720 58px는 두 책 모두), 표지 정상, 노선 카드와 지식 지도 책 중심 보기에 개념 셋",
+      "pending": "validate.py 오류 4개는 등록 범위 밖: psychology fact-review 없음, G5·G6·G7 행 없음"
+    }
+  },
   "finance_field_split": {
     "date": "2026-10-14",
     "summary": "금융 분류 하나를 경제(1~3권)·시장(4~7권)·투자(8~13권) 세 분류로 나눔. 사용자가 결정 카드에서 세 섬을 고름. 남은 10·13권은 투자로 등록.",
