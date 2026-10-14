@@ -7,12 +7,12 @@
 (()=>{
 'use strict';
 const U=PUI,M=PMath,J=M.JOURNAL,F=M.FACTS;
-const man=x=>`${U.sfmt(x,0)}만 원`,sman=x=>`${U.splus(x,0)}만 원`,f2=x=>U.sfmt(x,2),f3=x=>x==null?'계산할 수 없음':U.sfmt(x,3);
+const man=x=>`${U.sfmt(x,0)}만 원`,sman=x=>`${U.splus(x,0)}만 원`,f2=x=>U.sfmt(x,2),fL=x=>U.sfmt(x,Math.abs(x*100-Math.round(x*100))<1e-9?2:3),f3=x=>x==null?'계산할 수 없음':U.sfmt(x,3);
 const PS=[['1/4',1/4],['1/3',1/3],['1/2',1/2],['2/3',2/3],['3/4',3/4]],pName=p=>(PS.find(x=>Math.abs(x[1]-p)<1e-9)||[String(p)])[0];
 /* ── 1장 ── */
 function frameInputs(){
  const m=J.memo.frame;
- return U.group('선택지 (만 원)',U.number('fs','시작 금액 (만 원)',100,10000,10,m.start)+U.number('fsure','확실한 쪽의 금액 (만 원)',0,5000,10,m.sure)+U.select('fp','모험하는 쪽의 확률',PS.map(([k])=>[k,k]),'1/3')+U.number('famt','모험하는 쪽의 금액 (만 원)',10,5000,10,m.amount,'손실 틀은 이 금액을 먼저 받았다고 친 뒤 묻습니다'))
+ return U.group('선택지 (만 원)',U.number('fs','시작 금액 (만 원)',100,10000,10,m.start)+U.number('fsure','확실한 쪽의 금액 (만 원)',0,5000,10,m.sure,'이익 틀 A의 금액입니다. 손실 틀 C는 이 금액 − 모험하는 쪽의 금액입니다')+U.select('fp','모험하는 쪽의 확률',PS.map(([k])=>[k,k]),'1/3')+U.number('famt','모험하는 쪽의 금액 (만 원)',10,5000,10,m.amount,'손실 틀은 이 금액을 먼저 받았다고 친 뒤 묻습니다'))
   +U.group('내 선택 (이 화면에서만 셉니다)',U.select('fg','이익 틀에서 고른 쪽',[['','아직 고르지 않음'],['sure','A · 확실한 쪽'],['risky','B · 모험하는 쪽']],'')+U.select('fl','손실 틀에서 고른 쪽',[['','아직 고르지 않음'],['sure','C · 확실한 쪽'],['risky','D · 모험하는 쪽']],''))
   +U.check('fshow','기대값과 끝 금액 펼치기',false,'두 틀에 모두 답한 뒤에 켜 보세요');
 }
@@ -62,7 +62,7 @@ PLabs['value-function']=el=>{
   if(G===null)return U.result(el,'',U.problem('이익 G','1만 원에서 1,000만 원 사이로 넣어 주세요.'));if(L===null)return U.result(el,'',U.problem('손실 L','1만 원에서 1,000만 원 사이로 넣어 주세요.'));
   if(lam===null)return U.result(el,'',U.problem('손실 회피 계수 λ','0.1에서 5 사이로 넣어 주세요.'));if(a===null||b===null)return U.result(el,'',U.problem(a===null?'α':'β','0.1에서 1.5 사이로 넣어 주세요.'));
   const wt=U.checked(el,'pw'),o={lambda:lam,alpha:a,beta:b,weighting:wt},r=M.prospect(G,L,o),th=M.threshold(L,o);
-  let chart=valueChart(G,L,o),text=`v(${U.sfmt(G,0)}) = ${U.sfmt(G,0)}^${f2(a)} = ${f2(r.vg)}, v(−${U.sfmt(L,0)}) = −${f2(lam)} × ${U.sfmt(L,0)}^${f2(b)} = ${f2(r.vl)}.<br>`;
+  let chart=valueChart(G,L,o),text=`v(${U.sfmt(G,0)}) = ${U.sfmt(G,0)}^${f2(a)} = ${f2(r.vg)}, v(−${U.sfmt(L,0)}) = −${fL(lam)} × ${U.sfmt(L,0)}^${f2(b)} = ${f2(r.vl)}.<br>`;
   text+=wt?`전망 가치 = ${U.sfmt(r.wg,4)} × ${f2(r.vg)} + ${U.sfmt(r.wl,4)} × (${f2(r.vl)}) = <b>${U.splus(r.value,2)}</b> `:`전망 가치 = 0.5 × ${f2(r.vg)} + 0.5 × (${f2(r.vl)}) = <b>${U.splus(r.value,2)}</b> `;
   text+=`${U.verdict(r.accept,'받아들임','거절')} · 기대값은 ${sman(r.ev)}입니다.<br>이 손실 L에서 받아들이는 최소 이익 = <b>${f2(th)}만 원</b>${wt?' (확률 가중 켬)':' (확률 가중 끔)'}.`;
   if(wt){const w=weightPart(o);chart+=w.tbl;text+=`<br>${w.text}`;}
@@ -76,8 +76,9 @@ function tallyTable(d){
 }
 PLabs['disposition-count']=el=>{
  U.setup(el,U.select('drange','일지 범위',[['1-13','선우의 일지 1~13주'],['14-26','선우의 일지 14~26주'],['direct','직접 입력(네 칸)']],'1-13','26주 전체는 마지막 과제에서 셉니다')
-  +U.group('직접 입력 (일지 범위에서 “직접 입력”을 고를 때)',U.number('dRG','실현 이익 RG',0,999,1,4)+U.number('dPG','평가 이익 PG',0,999,1,1)+U.number('dRL','실현 손실 RL',0,999,1,2)+U.number('dPL','평가 손실 PL',0,999,1,2)));
- U.bind(el,()=>{
+  +U.group('직접 입력 (칸을 고치면 일지 범위가 “직접 입력”으로 바뀝니다)',U.number('dRG','실현 이익 RG',0,999,1,4)+U.number('dPG','평가 이익 PG',0,999,1,1)+U.number('dRL','실현 손실 RL',0,999,1,2)+U.number('dPL','평가 손실 PL',0,999,1,2)));
+ U.bind(el,e=>{
+  if(e&&e.target&&/^d(RG|PG|RL|PL)$/.test(e.target.id))el.querySelector('#drange').value='direct';
   const range=U.value(el,'drange');let d,chart,head;
   if(range==='direct'){const v={};for(const [k,n] of [['dRG','실현 이익'],['dPG','평가 이익'],['dRL','실현 손실'],['dPL','평가 손실']]){v[k.slice(1)]=U.num(el,k,true);if(v[k.slice(1)]===null)return U.result(el,'',U.problem(n+' 칸','0 이상의 정수로 넣어 주세요.'));}
    d=M.pgrPlr(v);head='직접 넣은 네 칸';chart=U.table(['RG','PG','RL','PL'],[[d.RG,d.PG,d.RL,d.PL]],'직접 넣은 네 칸','compact');}

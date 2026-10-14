@@ -28,7 +28,7 @@ function auditPart(a){
 function rulePart(l1,l2){
  const R=M.ruleReplay({r1:l1,r2:l2}),p=M.pathRule(RB,l1),split=Object.entries(R.split).filter(([,v])=>v.diff!==0);
  const tbl=U.table(['종목','일지대로','고친 규칙대로','차이'],Object.entries(R.split).map(([n,v])=>[n,SW(v.actual),SW(v.rule),v.diff?`<b>${SW(v.diff)}</b>`:'0원']),`R1 −${U.sfmt(l1*100,1)}%를 지켰을 때의 종목별 손익`,'fit');
- const path=p.trigger==null?`같은 R1을 ${RB.label}에 대면 걸리지 않아 들고 있는 것과 같습니다(${SW(p.hold)}).`:`같은 R1을 ${RB.label}에 대면 규칙대로 ${SW(p.rule)}, 들고 있으면 ${SW(p.hold)}로 ${p.rule<p.hold?'규칙을 지킨 쪽이 손해입니다':'규칙을 지킨 쪽이 손실이 작습니다'}.`;
+ const path=p.trigger==null?`같은 R1을 ${RB.label}에 대면 걸리지 않아 들고 있는 것과 같습니다(${SW(p.hold)}).`:`같은 R1을 ${RB.label}에 대면 규칙대로 ${SW(p.rule)}, 들고 있으면 ${SW(p.hold)}${U.josa(SW(p.hold),'으로','로')} ${p.rule<p.hold?'규칙을 지킨 쪽이 손해입니다':'규칙을 지킨 쪽이 손실이 작습니다'}.`;
  const text=`(바) R1 −${U.sfmt(l1*100,1)}%를 지켰다면 끝 금액 <b>${W(R.rule)}</b>, 일지대로 ${W(R.actual)}, 차이 <b>${SW(R.diff)}</b>${split.length?`(${split.map(([n,v])=>`${n} ${SW(v.diff)}`).join(', ')})`:''}. “지켰다면”은 R1이 처음 걸린 주의 종가에 그 보유를 모두 팔고 그 종목의 이후 일지 매매(다시 사기와 물타기)는 하지 않는다고 놓은 계산입니다. R2 ${U.sfmt(l2*100,0)}%를 넘은 주는 ${R.r2.length}번입니다.<br>${path} 한 경로의 결과로 규칙을 판정할 수 없습니다.`;
  return {tbl,text};
 }
