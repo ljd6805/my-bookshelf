@@ -65,7 +65,7 @@ const kind=(ks,more='')=>`<br>${[].concat(ks).map(k=>`<span class="kind-tag${['g
 /* 시장 숫자의 확인일과 출처 등급(js/math.js MARKET). 계산에 쓴 값과 원래 값을 함께 적는다. */
 const GRADE={news:'보도·2차 자료',estimate:'교수 추정치',series:'앞선 권의 가상 설정',assumption:'이 책의 가정',academic:'대학 교재·강의 원문'};
 const RATE_NAME={rf:['국고채 10년 금리',3],erp:['한국 주식 위험 프리미엄',2],kd:['새벽전자 3년 회사채 할인 금리',3],beta:['베타',1]};
-const rateTag=key=>{const m=M.MARKET[key],[name,d]=RATE_NAME[key],v=m.raw??m.value;return `<span class="kind-tag model-tag">${name} ${key==='beta'?sfmt(v,1):pct(v,d)} · 확인일 ${m.date} · ${GRADE[m.grade]}</span>`;};
+const rateTag=key=>{const m=M.MARKET[key],[name,d]=RATE_NAME[key],v=m.raw??m.value;return `<span class="kind-tag model-tag">${name} ${key==='beta'?sfmt(v,1):pct(v,d)} · ${m.edition?`${m.edition}, ${m.checked} 확인`:`확인일 ${m.date}`} · ${GRADE[m.grade]}</span>`;};
 const RATE_NOTE='금리와 위험 프리미엄은 바뀌므로 확인일을 보고 다시 확인하세요.';
 const ADVICE_NOTE='가상의 회사와 가상의 분석가로 계산한 사례이며, 특정 주식을 사고팔라는 권유가 아닙니다. 학습용 계산, 투자 권유 아님.';
 const svg=(label,body,h=280,vw=480)=>`<svg viewBox="0 0 ${vw} ${h}"${vw>480?' class="cols-wide"':''} role="img" aria-label="${esc(label)}">${body}</svg>`;

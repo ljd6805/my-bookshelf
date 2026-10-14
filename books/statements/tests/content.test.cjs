@@ -50,12 +50,13 @@ test('cross links use catalog chapter labels, existing anchors and folders, and 
   const m=url.match(/^\.\.\/([a-z0-9-]+)\/#([a-z0-9-]+)$/);assert.ok(m,url);assert.ok(fs.existsSync(path.join(base,'..',m[1])),'missing book folder: '+m[1]);
   const key=`books/${m[1]}/#${m[2]}`,label=catalog.chapter_index[key];assert.ok(label,'not in chapter_index: '+key);
   assert.equal(name,`${titles['books/'+m[1]+'/']} ${label}`,c.id+' link name');assert.ok(why.length>15,c.id);
-  if(['valuation','grid','tax','etf','volatility'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
+  if(['valuation','grid','tax','etf','volatility','allocation'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
  }
 });
-test('vol 6 is named by its published title and linked from #ratios and #final; no link to any unpublished folder',()=>{
- const src=read('js/content.js')+read('review.json');assert.doesNotMatch(src,/\.\.\/(?!market|money|bonds|grid|tax|etf|knowledge-graph|probability|valuation)[a-z-]+\//);
- assert.doesNotMatch(src,/6권\(준비 중\)/);assert.match(src,/6권 「기업 가치 평가」/);
+test('vols 6 and 9 are named by their published titles; vol 6 linked from #ratios and #final, vol 9 from #final; no link to any unpublished folder',()=>{
+ const src=read('js/content.js')+read('review.json');assert.doesNotMatch(src,/\.\.\/(?!market|money|bonds|grid|tax|etf|knowledge-graph|probability|valuation|allocation)[a-z-]+\//);
+ assert.doesNotMatch(src,/(6|9)권\(준비 중\)/);assert.match(src,/6권 「기업 가치 평가」/);assert.match(src,/9권 「자산배분」/);
+ assert.deepEqual(B.chapters.filter(c=>c.cross.some(x=>x[1].startsWith('../allocation/'))).map(c=>c.id),['final']);
  const to6=B.chapters.filter(c=>c.cross.some(x=>x[1].startsWith('../valuation/'))).map(c=>c.id);assert.deepEqual(to6,['ratios','final']);
 });
 test('terms and symbols are explained at first use; fictional names are called 가상 at first mention',()=>{

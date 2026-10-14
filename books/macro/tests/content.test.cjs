@@ -69,18 +69,18 @@ test('cross links use catalog chapter labels, existing anchors and folders, and 
   const key=`books/${m[1]}/#${m[2]}`,label=catalog.chapter_index[key];assert.ok(label,'not in chapter_index: '+key);
   assert.equal(name,`${titles['books/'+m[1]+'/']} ${label}`,c.id+' link name');assert.ok(why.length>15,c.id);
   if(m[1]==='bonds')assert.match(why,/^깊이 보기 \(다음 권\)/,c.id+' vol 3 is the next volume');
-  else if(['market','statements','valuation','etf','volatility','tax'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
+  else if(['market','statements','valuation','etf','volatility','tax','allocation'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
   else assert.doesNotMatch(why,/깊이 보기/,c.id+' '+m[1]+' is not a later volume');
  }
  const plan={gdp:['../money/#compound','../statements/#income'],prices:['../money/#inflation'],cycle:['../aie-rl/#mdp'],policy:['../money/#discount','../bonds/#transmit','../bonds/#curve'],
-  fiscal:['../bonds/#bond','../tax/#map'],fx:['../etf/#assets'],trade:[],leading:['../probability/#correlation','../volatility/#revert'],crisis:['../market/#limits','../volatility/#drawdown'],final:['../bonds/#final','../valuation/#wacc']};
+  fiscal:['../bonds/#bond','../tax/#map'],fx:['../etf/#assets'],trade:[],leading:['../probability/#correlation','../volatility/#revert'],crisis:['../market/#limits','../volatility/#drawdown'],final:['../bonds/#final','../valuation/#wacc','../allocation/#crisis']};
  for(const c of B.chapters)assert.deepEqual(c.cross.map(x=>x[1]),plan[c.id],c.id+' links follow plan #links');
 });
-test('vols 9 and 10 are named as text “9권(준비 중)”, “10권(준비 중)” only; no link to an unpublished folder',()=>{
+test('vol 9 「자산배분」 is linked from #final (published 2026-10-13); vol 10 is named as text “10권(준비 중)” only; no link to an unpublished folder',()=>{
  const src=read('js/content.js')+read('review.json');
  for(const m of src.matchAll(/\.\.\/([a-z0-9-]+)\//g))assert.ok(fs.existsSync(path.join(base,'..',m[1],'index.html')),'link to a folder without a book: '+m[1]);
- assert.doesNotMatch(src,/allocation|psychology|macro\//);assert.match(src,/9권\(준비 중\)/);assert.match(src,/10권\(준비 중\)/);
- assert.doesNotMatch(src,/(?<![\d.])(9|10)권(?!\(준비 중\))/);
+ assert.doesNotMatch(src,/psychology|macro\//);assert.doesNotMatch(src,/9권\(준비 중\)/);assert.match(src,/9권 「자산배분」/);assert.match(src,/10권\(준비 중\)/);
+ assert.doesNotMatch(src,/(?<![\d.])10권(?!\(준비 중\))/);
 });
 test('terms and symbols are explained at first use; fictional people and companies are called 가상 at first mention',()=>{
  const text=B.chapters.map(c=>[c.subtitle,c.desc,...c.paragraphs,c.formula,c.formulaNote].join(' ')).join(' ');

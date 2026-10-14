@@ -64,18 +64,19 @@ test('cross links use catalog chapter labels, existing anchors and folders, and 
   const m=url.match(/^\.\.\/([a-z0-9-]+)\/#([a-z0-9-]+)$/);assert.ok(m,url);assert.ok(fs.existsSync(path.join(base,'..',m[1],'index.html')),'missing book: '+m[1]);
   const key=`books/${m[1]}/#${m[2]}`,label=catalog.chapter_index[key];assert.ok(label,'not in chapter_index: '+key);
   assert.equal(name,`${titles['books/'+m[1]+'/']} ${label}`,c.id+' link name');assert.ok(why.length>15,c.id);
-  if(['etf','volatility','tax','grid'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
+  if(['etf','volatility','tax','grid','allocation'].includes(m[1]))assert.match(why,/^깊이 보기 \(뒤 권\)/,c.id+' later volume '+m[1]);
   else assert.doesNotMatch(why,/깊이 보기/,c.id+' '+m[1]+' is not a later volume');
  }
  const targets=B.chapters.flatMap(c=>c.cross.map(x=>x[1]));
  for(const t of ['../market/#map','../etf/#weight','../statements/#ratios','../bonds/#equity','../market/#events','../tax/#dividend','../statements/#balance','../statements/#cashflow','../money/#npv','../bonds/#credit','../volatility/#measure','../probability/#interval','../statements/#final'])assert.ok(targets.includes(t),'planned link '+t);
  assert.ok(!targets.some(t=>t.startsWith('../grid/')),'vol 12 is not linked (plan #links)');
 });
-test('vols 9 and 10 are named as text “9권(준비 중)”, “10권(준비 중)” only; no link to books/allocation or any other unpublished folder',()=>{
+test('vol 9 「자산배분」 is linked (#beta, published 2026-10-13); vol 10 is named as text “10권(준비 중)” only; no link to an unpublished folder',()=>{
  const src=read('js/content.js')+read('review.json');
  for(const m of src.matchAll(/\.\.\/([a-z0-9-]+)\//g))assert.ok(fs.existsSync(path.join(base,'..',m[1],'index.html')),'link to a folder without a book: '+m[1]);
- assert.doesNotMatch(src,/allocation|psychology|macro|valuation\//);assert.match(src,/9권\(준비 중\)/);assert.match(src,/10권\(준비 중\)/);
- assert.doesNotMatch(src,/(9|10)권[^(]{0,3}<a|href=[^>]*(9|10)권/);assert.doesNotMatch(src,/(9|10)권(?!\(준비 중\))/);
+ assert.doesNotMatch(src,/psychology|macro|valuation\//);assert.doesNotMatch(src,/9권\(준비 중\)/);assert.match(src,/9권 「자산배분」/);assert.match(src,/10권\(준비 중\)/);
+ assert.ok(B.chapters.find(c=>c.id==='wacc').cross.some(x=>x[1]==='../allocation/#beta'),'#wacc links vol 9 #beta');
+ assert.doesNotMatch(src,/10권[^(]{0,3}<a|href=[^>]*10권/);assert.doesNotMatch(src,/10권(?!\(준비 중\))/);
 });
 test('terms and symbols are explained at first use; fictional names are called 가상 at first mention',()=>{
  const text=B.chapters.map(c=>[c.subtitle,c.desc,...c.paragraphs,c.formula,c.formulaNote].join(' ')).join(' ');

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-13",
+  "updated_at": "2026-10-14",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -600,5 +600,56 @@
       "pending": "fact-review.html은 34dd6bc에서 생김. validate.py 남은 오류는 macro 제작 기록의 G6·G7 관문 행 없음 2개(test_team_gates 1건 실패도 같은 원인)"
     },
     "fact_review": "books/macro/docs/fact-review.html 1회차 fixed: 1997 IMF 이사회 승인일 1997-12-04(워싱턴 시각, IMF 보도자료 97/55 [S40], content.js·math.js·labs-signals.js·figures.js·research.html), 1998 성장률 −5.1%(이전 계열, 2020·2023 보도)·−4.9%(현재 계열, 2025 보도), 8장 발표 달력 10-22 등급 '공식 원문(재게시)·2차 자료', 자산 버전 20261013v7. 4장 제목 '…시나리오 모형으로 정책 시차 읽기'는 부제가 시차를 가정이라고 밝혀 그대로 둠(정민 G6 동의)"
+  },
+  "allocation": {
+    "book": "books/allocation/",
+    "series": "finance-from-scratch 9권 (시리즈 열한 번째 출간 예정)",
+    "plan": "/mnt/project-files/stock-books/proposal.md (### 9권), /mnt/project-files/stock-books/vol9-handoff.md",
+    "docs": "books/allocation/docs/index.html",
+    "research": "books/allocation/docs/research.html",
+    "status": "published: G0 한결·G1 서윤·G2 해원·G3 은재·지안·G4 나래·리안·지안·G5 서윤·G6 정민·G7 한결 관문 행이 docs/index.html #log에 승인과 함께 있음. 서가 등록 커밋 7076510(금융 묶음 끝 42번째, 시리즈 9권 book_id asset-allocation). 팩트·출처 검수 1회차(2026-10-14, 유진, 검수 커밋 7076510, 반영 커밋 ca2d338) 열한 항목 ok 9·fixed 2, 결과 fixed. G7(2026-10-14, 한결) 승인: 커밋 직전 ⏱ 넷 재확인(모두 그대로, 책 파일·자산 버전 20261014v6 변경 없음), 시리즈 9권 next_why를 '조건에 맞는 비중과 되돌리는 규칙을 계산했으니, 그 규칙을 지키기 어렵게 만드는 마음의 함정을 들여다봅니다.'로 고침",
+    "done": [
+      "기획(#plan 기획서 다섯 문장·제목 두 안·독자·끝의 행동·대표 실험 '포트폴리오 비중 실험'·공통 사례·마지막 과제·범위·증거의 종류·#time-sensitive·#opposition·#links·#links-open), 교과과정(#curriculum 10장 171분·선수 관계·#curriculum-map·범위 표·#curriculum-compare·#curriculum-case), 장 설계(#chapters, L1·L2와 따로 계산한 답, 확인·전이); #style·#rehearsal·#log는 빈 절",
+      "research.html 장별 사실 표(1-1~10-3), 오해 목록 20개, 기준값 V-0~V-10과 확인·전이 추가 값, 교과과정 비교 자료, 확인하지 못한 것, 출처 S1~S25(S4·S18·S19 비움)",
+      "books/allocation/AGENTS.md 책별 규칙(al- 접두어, 가상 자산 가정 한 곳, 모델 ≠ 예측, 투자 권유 금지와 금지 낱말, 켈리는 계산 연습, ⏱ 값 셋과 재확인일 2027-04-13·G6 시작일, 실험 기본값이 답을 보이지 않게, 12권 링크 없음, 제목 공백 제외 32자 이내)",
+      "K7 점검: 가제 「위험을 나누는 법 · 분산투자에서 자산배분까지」 → 1안 「자산배분 · 상관과 비중으로 포트폴리오 위험을 계산하고 계좌 비중 다시 짜기」(32자, 제안), 2안 「분산투자와 자산배분 · 상관으로 포트폴리오 위험을 계산하고 비중 정하기」(31자); 장 제목 10개, 대표 실험 이름(포트폴리오 구름 → 포트폴리오 비중 실험), 9장 '상관이 1이 된다' 단정 고침",
+      "기준값을 파이썬(numpy)으로 책 코드 없이 계산: 접점 22.52·13.30·64.18%(샤프 0.3463), 최소분산 14.29%·5.27%, β 1.3118, 리밸런싱 세 규칙 끝 금액, 켈리 f* 0.10과 배수별 성장률, 위기 상관 60/40 10.58% → 19.79%(1차 점검에서 반올림 고침), 윤 씨 안 A·B·C",
+      "1차 점검 반영(2026-10-13): 서윤 G1 결정(제목 「자산배분 · 상관으로 포트폴리오 위험을 계산하고 조건에 맞는 비중 찾기」 30자, amber·대안 blue·CSS 새로 만들기, asset-allocation, 책등 자산배분, 시리즈 9권 '자산배분'과 next_why 안, 개념 흔들림과 분산 #diversify·#crisis와 차원 줄이기 #matrix, 새 개념 없음, 노선 correlated-losses 81분·#final 도전 과제, value-basis 변경 없음, 들어오는 링크 13곳), 한결·서윤 조건(윤 씨 조건 2를 생활비 연 3,000만 원·3년치 9,000만 원 이상으로 수치화하고 안 A·B·C·D 재판정, ⏱ 넷으로 통일(적격 TDF 추가), 70% 한도 보도 한 곳·꼬리표 '보도 기준 · 법령 원문 확인 못함', IRP 개별 주식 불가를 research 10-4로·(라)에 IRP 내용 정의, 재확인 담당, 켈리를 4부로·7장 남은 질문 고침, 켈리 실험의 하위 10%·절반 아래 경로 비율과 빌리지 않는다는 문장, (다) 위기 상관 고윳값 확인, 다루지 않는 것 셋), 해원 보류(반올림 10.58/19.79/7.22/4.95, 부 나눔, 10장 전이 안 D, 선수 2.1~2.3, 2장 고윳값은 실험이 계산, 장 제목 다섯, 비교 자료 등급, 작은 수정), 실험 작업용 이름 표시",
+      "서가 등록(2026-10-14, 도현): 카탈로그·장 색인·시리즈 9권·개념 둘·노선 correlated-losses·들어오는 링크 10곳; 1280·390·320·1280×720 확인. 커밋 전",
+      "G5(2026-10-14, 서윤) 승인: 서가 설명 K1·K7로 풂, 노선 #pca 이동 이유에 조건 붙임, 1280·390·320·1280×720 확인(커밋 7076510)",
+      "팩트·출처 검수 1회차(2026-10-14, 유진, 커밋 ca2d338): 별도 파이썬·Playwright 대조, 외부 출처 22곳 다시 엶, 5장 ⏱ 상자 문장 고침과 ?v=20261014v6",
+      "G6(2026-10-14, 정민) 승인: 검수자≠집필자, 열한 항목 열린 것 없음, 두 수정 반영 확인, 대표값 다시 계산(3장 14.29%·5.27%, 4장 접점 22.52·13.30·64.18%·0.3463, 5장 β 1.3118·10.82%, 9장 10.58%·19.79%, 10장 안 A −31.05%·안 B −14.325%, 8장 중앙값 1.650배), docs/03-verification.html#allocation-check와 이 항목을 다시 씀",
+      "G7(2026-10-14, 한결) 승인: G0~G6 조건을 책 파일과 대조(MARKET ⏱ 넷·꼬리표, K7 장 제목 10개, 7장 확인 63.50%, #plan·#curriculum·#chapters·#style·#rehearsal), ⏱ 재확인(70% 한도 그대로 — 코리아헤럴드 2026-09-30 폐지 논의 제동 보도; 적격 TDF 예외 뒤집은 보도 없음; 국고채 10년 4.395%는 SBS Biz 2026-10-08 기사와 같고 날짜 붙은 값으로 표시; Damodaran 2026-01-05 판·한국 4.87% 그대로; law.go.kr 로봇 배제로 법령 원문 다시 못 엶), 시리즈 9권 next_why 고침과 build_catalog.py"
+    ],
+    "evidence": "세션 임시 폴더 scratchpad/alloc/v.py~v5.py(고윳값 ≥ 0, 위험 기여 합 100%, 현금 혼합 시 샤프 불변 확인), OpenStax 『Principles of Finance』 15.2~15.4, RePEc·ESSEC·NBER 서지와 초록, MacLean·Thorp·Ziemba(2010), Vanguard(2010), CFA Institute 블로그(2012), 보도(퇴직연금 70% 한도·TDF·주식채권 상관), 서재 안 재인용(6권·8권·11권·2권·「벡터와 행렬」·「모델을 움직이는 수학」) — research.html #sources",
+    "verification": [
+      "2026-10-13 작성 세션: python3 scripts/validate.py 0 errors(초안·반영 전후 같음), build_catalog.py --check 통과",
+      "L2 답 10개, 확인·전이 값, 반영으로 바뀐 값(60/40 10.58%·19.79%, 6장 7.22%·4.95%, σ ≤ 8% 점 28.3·22.7·49.0%·μ 5.17%, 안 D −11.73%·σ 6.36%, 켈리 하위 10%와 절반 아래 경로 비율(동적 계획법), 위기 상관 고윳값)을 scratchpad/alloc/v6.py로 책 코드 없이 다시 계산해 문서와 대조",
+      "2026-10-14 G6 점검 세션(정민)에서 다시 실행: cd books/allocation && npm test 52개 통과",
+      "python3 -m http.server 8765 + NODE_PATH=/opt/node22/lib/node_modules node books/allocation/tests/browser.cjs 성공: 1280·390·320px 화면 55개, 실험 30회, L2 30회, SVG 글자 2,614개, 실험 다시 계산 최대 35.6ms(7장)",
+      "python3 scripts/validate.py: G6 행을 더한 뒤 allocation G7 관문 행 없음 오류 1개만(183개 HTML); build_catalog.py --check 통과",
+      "python3 -m unittest discover -s tests: 90개 중 같은 원인 1개 실패(test_team_gates)·1개 건너뜀; node --test tests/*.mjs 30개 통과",
+      "review.json 10장 × 3문항 = 30문항, 검수 세션이 정답 계산 대조",
+      "2026-10-14 G7 점검 세션(한결): python3 scripts/validate.py 오류 0개(183개 HTML), build_catalog.py --check 통과, python3 -m unittest discover -s tests 90개 통과·1개 건너뜀, node --test tests/*.mjs 30개 통과, cd books/allocation && npm test 52개 통과"
+    ],
+    "remaining": [
+      "⏱ 공개 뒤 고정 재확인 2027-04-13(담당 한결, 확인 작업 은재): 퇴직연금 70% 한도·적격 TDF 예외(보도 기준)·국고채 10년 4.4%(2026-10-08 값 4.395%)·주식 위험 프리미엄 4.9%(Damodaran 2026-01-05 판 4.87%)를 다시 열고, 바뀐 값은 js/math.js MARKET·화면 꼬리표·마지막 과제 (라)를 같은 커밋에서 고친 뒤 새 검수 회차로",
+      "법령 원문 재시도: 퇴직연금 위험자산 70% 한도와 적격 TDF 예외의 퇴직연금감독규정·시행세칙 원문(law.go.kr·fsc.go.kr 로봇 배제, 우회하지 않음; 고용노동부·통합연금포털 경로도), IRP 개별 주식 금지를 명시한 조항(지금은 과제의 가정). 확인되면 꼬리표 '보도 기준 · 법령 원문 확인 못함'을 고침",
+      "확인 못함: 국고채 10년 금리의 오늘 값(책은 날짜 붙은 2026-10-08 값), Markowitz·Sharpe·Kelly·Longin·Solnik 본문과 Brinson·Ibbotson·Kaplan·Nuttall·Evans·Archer·Statman 원 논문(서지·초록·2차 자료 범위), 1990년 노벨상 공식 문구, 셸 curl 링크 일괄 확인(프록시), 한국 시장 실제 상관·베타, 한국 쪽 교과과정 자료, 새벽전자·누리200 KRX 목록 직접 조회",
+      "확인 못함: 학습 효과(독자가 조건을 만족하는 비중을 실제로 찾는지)는 측정하지 않음, 채원 리허설만; 실제 화면 읽기 프로그램·모바일 터치 미확인",
+      "공통 서가 배치: 1280×720에서 모든 책의 펼친 면 삽화가 60px 안팎으로 작아지는 문제(G5에서 따로 넘김)",
+      "10권(투자자의 마음) 공개 때 이 책 10장의 '10권(준비 중)'을 링크로 바꾸기"
+    ],
+    "next": "G7 승인분 커밋(편집장 세션 밖에서). 공개 뒤 2027-04-13 ⏱ 넷 재확인(한결·은재)과 법령 원문 재시도",
+    "shelf_registration": {
+      "date": "2026-10-14",
+      "by": "도현(기획·연결팀)",
+      "state": "done, committed (7076510)",
+      "catalog": "금융 묶음 끝 42번째(macro rose 다음) asset-allocation amber 책등 '자산배분'; chapter_index 10장; series 9권 planned → book_id asset-allocation, title 자산배분 (next_why는 그대로 두고 G7에서 고침)",
+      "concepts": "흔들림과 분산 + #diversify·#crisis, 차원 줄이기 + #matrix; 새 개념 없음",
+      "path": "correlated-losses 5단계 81분: volatility #measure → probability #correlation → allocation #diversify → linear-algebra #pca → allocation #crisis, 도전 과제 #final",
+      "incoming_links": "volatility #final→#diversify, valuation #wacc→#beta(본문·cross·math.js·labs-dcf 힌트), bonds #equity→#beta·#final→#mix, etf #final→#mix, statements #final→#diversify, tax #final→#final, grid #capital→#mix, macro #final→#crisis, linear-algebra #pca→#matrix; SERIES 문장 일반형(grid·volatility·tax·etf·statements·valuation·macro); valuation ERP 표지 'Damodaran 2026-01-05 판, 2026-10-13 확인'; 책 ?v=20261014-a9; valuation·macro·statements 테스트를 9권 공개에 맞춤",
+      "pending": "해결됨: fact-review·G5·G6 행과 G4 style-r2 data-guideline. 남은 오류는 G7 행 없음 하나"
+    }
   }
 }
