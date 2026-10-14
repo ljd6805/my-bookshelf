@@ -199,3 +199,10 @@ test('every function in math.js stays under 100 lines',()=>{
  const lines=read('js/math.js').split('\n');let depth=0,start=null;
  lines.forEach((line,i)=>{const o=(line.match(/\{/g)||[]).length,c=(line.match(/\}/g)||[]).length;if(start===null&&/(function\b|=>\s*\{)/.test(line)&&depth===1)start=[i,depth];depth+=o-c;if(start&&depth<=start[1]){assert.ok(i-start[0]+1<=100,`math.js:${start[0]+1} ${i-start[0]+1} lines`);start=null;}});
 });
+
+test('edge inputs from the labs: equal expected returns, constant stock series, a losing believed bet',()=>{
+ const keep=A.mu[1];A.mu[1]=A.mu[3];   // 누리200 기대수익을 채권과 같게(4장 손잡이 3.5%)
+ try{const fr=M.frontier(9,true);assert.ok(fr.length>0);fr.forEach(p=>{assert.ok(Math.abs(p.w.reduce((a,b)=>a+b,0)-1)<1e-9);assert.ok(p.w.every(x=>x>=-1e-9));});}finally{A.mu[1]=keep;}
+ const flat=M.beta([1,2,3],[1,1,1]);assert.equal(flat.beta,0);assert.equal(flat.corr,null);
+ const lose=M.misread(0.40,0.55,1);assert.ok(Math.abs(lose.raw+0.2)<1e-12);assert.equal(lose.f,0);assert.equal(lose.times,0);assert.equal(lose.g,0);
+});

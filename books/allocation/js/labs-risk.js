@@ -11,7 +11,7 @@ ALabs['stock-count']=el=>{
  U.bind(el,()=>{
   const s=U.num(el,'cs'),r=U.num(el,'cr'),n=U.num(el,'cn',true);
   if(s===null)return U.result(el,'',U.problem('표준편차','0%에서 100% 사이로 넣어 주세요.'));if(r===null)return U.result(el,'',U.problem('상관','−1에서 1 사이로 넣어 주세요.'));if(n===null)return U.result(el,'',U.problem('종목 수','1 이상의 정수로 넣어 주세요.'));
-  const sg=s/100,ns=[...new Set([1,2,5,10,30,n])].sort((a,b)=>a-b);let vals;
+  const sg=s/100,ns=[...new Set([1,2,5,10,30,n])].filter(k=>k===n||k===1||r>=-1/(k-1)-1e-12).sort((a,b)=>a-b);let vals;
   try{vals=ns.map(k=>M.equalSigma(sg,r,k));}catch(e){return U.result(el,'',U.problem('상관',U.why(e)+` 지금 N = ${n}이면 ρ는 ${U.sfmt(-1/Math.max(1,n-1),3)} 이상이어야 합니다.`));}
   const now=M.equalSigma(sg,r,n),floor=r>=0?M.equalSigma(sg,r,Infinity):null,own=sg*sg/n,pair=(1-1/n)*r*sg*sg;
   const chart=U.columns({labels:ns.map(k=>`N ${k}`),values:vals.map(v=>v*100),mark:i=>ns[i]===n,fmt:v=>U.sfmt(v,2)+'%',tick:v=>U.sfmt(v,0)+'%',title:`종목 수에 따른 표준편차 (σ ${U.sfmt(s,1)}%, ρ ${U.sfmt(r,2)}) · ▲ 지금 N`,h:270,ref:floor!=null?{value:floor*100,text:`바닥 σ√ρ = ${p2(floor)}`}:null,label:ns.map((k,i)=>`N ${k}: ${p2(vals[i])}`).join(', ')+(floor!=null?`, 바닥 ${p2(floor)}`:'')})

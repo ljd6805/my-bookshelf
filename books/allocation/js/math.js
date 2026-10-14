@@ -200,8 +200,10 @@ function bestUnderSigma(target=ASSUME.frontierTarget,step=ASSUME.grid,idx=RISKY3
 function frontierPoint(target,longOnly=true,idx=RISKY3){
  const mu=idx.map(i=>ASSETS.mu[i]),cov=pick(covMatrix(),idx);
  // 합 1·μ = target을 만족하는 직선 w = a + t·d (세 자산)
- const d=[mu[1]-mu[2],mu[2]-mu[0],mu[0]-mu[1]];need(Math.abs(mu[0]-mu[2])>1e-12,'need different expected returns');
- const a0=[(target-mu[2])/(mu[0]-mu[2]),0,(mu[0]-target)/(mu[0]-mu[2])];
+ // 기대수익이 가장 많이 다른 두 자산으로 출발점 a0를 잡는다(두 자산의 μ가 같아도 계산된다).
+ const d=[mu[1]-mu[2],mu[2]-mu[0],mu[0]-mu[1]],pairs=[[0,1],[0,2],[1,2]],[p,q]=pairs.reduce((x,y)=>Math.abs(mu[y[0]]-mu[y[1]])>Math.abs(mu[x[0]]-mu[x[1]])?y:x);
+ need(Math.abs(mu[p]-mu[q])>1e-12,'need at least two different expected returns');
+ const a0=[0,0,0];a0[p]=(target-mu[q])/(mu[p]-mu[q]);a0[q]=1-a0[p];
  const qa=portVar(d,cov),qb=2*sum(d.map((x,i)=>x*matVec(cov,a0)[i]));let t=-qb/(2*qa),lo=-Infinity,hi=Infinity;
  if(longOnly){for(let i=0;i<3;i++){if(Math.abs(d[i])<1e-15){if(a0[i]<-1e-12)return null;continue;}const r=-a0[i]/d[i];if(d[i]>0)lo=Math.max(lo,r);else hi=Math.min(hi,r);}if(lo>hi+1e-12)return null;t=Math.min(hi,Math.max(lo,t));}
  const w=a0.map((x,i)=>x+t*d[i]);return {w,mu:target,sigma:Math.sqrt(Math.max(0,portVar(w,cov)))};
@@ -225,7 +227,7 @@ function beta(market=ASSUME.months.market,stock=ASSUME.months.stock){
  const n=market.length,mm=sum(market)/n,ms=sum(stock)/n;let c=0,vm=0,vs=0;
  for(let t=0;t<n;t++){c+=(market[t]-mm)*(stock[t]-ms);vm+=(market[t]-mm)**2;vs+=(stock[t]-ms)**2;}
  need(vm>0,'the market series has no variation');
- return {beta:c/vm,corr:c/Math.sqrt(vm*vs),cov:c/(n-1),varM:vm/(n-1),alpha:ms-(c/vm)*mm,n};
+ return {beta:c/vm,corr:vs>0?c/Math.sqrt(vm*vs):null,cov:c/(n-1),varM:vm/(n-1),alpha:ms-(c/vm)*mm,n};
 }
 const capm=(rf,b,erp)=>{num(rf,'rf');num(b,'beta');num(erp,'premium');return rf+b*erp;};
 /* V-0 가정의 베타·체계적 몫(= ρ²)·개별 표준편차. */
@@ -275,7 +277,8 @@ function kellyTable(o=ASSUME.kelly){
 }
 const kellyContinuous=(mu,r,sigma)=>{need(sigma>0,'sigma must be > 0');return (mu-r)/(sigma*sigma);};
 /* 승률을 잘못 알았을 때: 믿은 승률로 계산한 f를 실제 승률의 켈리 비율과 견준다. */
-function misread(believed,actual,b){const f=kellyF(believed,b),fa=kellyF(actual,b);return {f,actualKelly:fa,times:fa>0?f/fa:null,g:growth(Math.max(0,f),actual,b)};}
+/* 믿은 승률의 켈리 비율이 0 이하면 걸지 않는다(f = 0, 반대편에 거는 내기는 다루지 않는다). raw는 식이 낸 값. */
+function misread(believed,actual,b){const raw=kellyF(believed,b),f=Math.max(0,raw),fa=kellyF(actual,b);return {f,raw,actualKelly:fa,times:fa>0?f/fa:null,g:growth(f,actual,b)};}
 
 /* ── 9장 ── 같은 비중을 평상시와 위기 상관으로 다시 계산한다. */
 function crisisSigma(w,corr=crisisCorr(),sigma=ASSETS.sigma){return portSigma(w,covMatrix(sigma,corr));}

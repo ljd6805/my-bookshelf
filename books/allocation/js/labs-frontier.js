@@ -6,7 +6,7 @@
 (()=>{
 'use strict';
 const U=AUI,M=AMath,A=M.ASSETS;
-const p2=x=>U.pct(x,2),f4=x=>U.sfmt(x,4),W=w=>w.map(x=>U.sfmt(x*100,2)).join('·')+'%';
+const p2=x=>U.pct(x,2),f4=x=>U.sfmt(x,4),corrText=b=>b.corr==null?'정의되지 않음(종목 수익률이 모두 같아 흔들림이 0)':f4(b.corr),W=w=>w.map(x=>U.sfmt(x*100,2)).join('·')+'%';
 const CLOUD=[];for(let i=0;i<=10;i++)for(let j=0;i+j<=10;j++)CLOUD.push([0,i/10,j/10,(10-i-j)/10,0]);
 function frontierModel(rf,mu1,long){
  return U.withAssume({rf,mu:[null,mu1,null,null,rf]},()=>{const tan=M.tangency(long),mv=M.minVariance(long),fr0=M.frontier(25,long),fr=long?fr0:fr0.filter(p=>p.sigma<=0.241);
@@ -29,7 +29,8 @@ ALabs['efficient-frontier']=el=>{
   if(w.some(x=>x===null))return U.result(el,'',U.problem('비중','0%에서 100% 사이로 넣어 주세요.'));if(mu1===null)return U.result(el,'',U.problem('누리200 기대수익','0%에서 20% 사이로 넣어 주세요.'));if(t===null)return U.result(el,'',U.problem('맞출 표준편차','0%에서 50% 사이로 넣어 주세요.'));
   const tot=w[0]+w[1]+w[2];if(tot>100+1e-9)return U.result(el,'',U.problem('비중',`세 비중의 합이 ${U.sfmt(tot,0)}%로 100%를 넘습니다. 남는 몫을 현금이 받으므로 합은 100% 이하여야 합니다.`));
   const cmp=compare(el,rf,t/100);if(cmp.err)return U.result(el,'',cmp.err);
-  const md=frontierModel(rf,mu1/100,long),full=[0,w[0]/100,w[1]/100,w[2]/100,1-tot/100],nowS=U.withAssume({rf,mu:[null,mu1/100,null,null,rf]},()=>({mu:M.portMu(full),s:M.portSigma(full)}));
+  let md;try{md=frontierModel(rf,mu1/100,long);}catch(e){return U.result(el,'',U.problem('누리200 기대수익',U.why(e)));}
+  const full=[0,w[0]/100,w[1]/100,w[2]/100,1-tot/100],nowS=U.withAssume({rf,mu:[null,mu1/100,null,null,rf]},()=>({mu:M.portMu(full),s:M.portSigma(full)}));
   const tan=md.tan,cm=t/100<=tan.sigma+1e-12?U.withAssume({rf},()=>M.cashMix(tan,t/100)):null,xEnd=Math.max(20,...md.fr.map(p=>p.sigma*100))*1.02,sh=nowS.s>0?(nowS.mu-rf)/nowS.s:null;
   const chart=U.xy({dots:md.cloud,dotsName:'만들 수 있는 점 (비중 10%p 간격)',series:[{name:`효율적 투자선 (${long?'공매도 없음':'공매도 허용'})`,pts:md.fr.map(p=>[p.sigma*100,p.mu*100]),color:'var(--blue)',width:2.8},{name:'자본시장선 (현금 ↔ 접점)',pts:[[0,rf*100],[xEnd,(rf+tan.sharpe*xEnd/100)*100]],dash:'dash',color:'var(--accent)',width:1.8}],
    points:[{x:md.assets[0][0],y:md.assets[0][1],shape:'■',color:'var(--muted)',text:'누리200'},{x:md.assets[1][0],y:md.assets[1][1],shape:'■',color:'var(--muted)',text:'해외',anchor:'end',dx:-8,dy:14},{x:md.assets[2][0],y:md.assets[2][1],shape:'■',color:'var(--muted)',text:'채권',dy:16},
@@ -53,9 +54,9 @@ ALabs['beta-estimate']=el=>{
   const b2=M.round(b.beta,2),req=M.capm(rf,b2,erp),loo=m.length>=4?m.map((_,i)=>{try{return M.beta(m.filter((_,j)=>j!==i),s.filter((_,j)=>j!==i)).beta;}catch(e){return null;}}).filter(x=>x!=null):[];
   const lo=Math.min(...m),hi=Math.max(...m),line=[[lo,b.alpha+b.beta*lo],[hi,b.alpha+b.beta*hi]],sp=M.riskSplit();
   const chart=U.xy({series:[{name:`회귀선 (기울기 = 베타 ${f4(b.beta)})`,pts:line,color:'var(--accent)'}],points:m.map((x,i)=>({x,y:s[i],shape:'●',color:'var(--blue)'})).concat([{name:'한 달의 (시장, 종목) 수익률',x:m[0],y:s[0],shape:'●',color:'var(--blue)'}]),
-   xlabel:'시장 수익률 (%)',ylabel:'종목 수익률 (%)',xtick:v=>U.sfmt(v,0),ytick:v=>U.sfmt(v,0),title:`${m.length}개월 산점도와 회귀선`,h:360,label:`베타 ${f4(b.beta)}, 상관 ${f4(b.corr)}`});
+   xlabel:'시장 수익률 (%)',ylabel:'종목 수익률 (%)',xtick:v=>U.sfmt(v,0),ytick:v=>U.sfmt(v,0),title:`${m.length}개월 산점도와 회귀선`,h:360,label:`베타 ${f4(b.beta)}, 상관 ${corrText(b)}`});
   const range=loo.length?`<br>달 하나씩 빼고 다시 추정하면 β ${f4(Math.min(...loo))} ~ ${f4(Math.max(...loo))}${U.josa(f4(Math.max(...loo)),'으로','로')}, 같은 종목의 베타도 고른 기간에 따라 흔들립니다.`:'';
-  U.result(el,chart,`β = Cov ÷ Var = ${f4(b.cov)} ÷ ${f4(b.varM)} = <b>${f4(b.beta)}</b>(${m.length}개월, 표본 n − 1), 상관 ${f4(b.corr)}.${range}<br>CAPM: ${U.sfmt(rf,1)}% + ${U.sfmt(b2,2)} × ${U.sfmt(erp,1)}% = <b>${U.sfmt(req,2)}%</b>(베타를 ${U.sfmt(b2,2)}${U.josa(U.sfmt(b2,2),'으로','로')} 반올림해 계산). ${U.timed('rf10y')} ${U.timed('erp')}<br>V-0 가정의 새벽전자(상관 0.67, σ 35%, 시장 σ 18%): β ≈ ${U.sfmt(sp.beta,2)}, 체계적 몫 ${U.pct(sp.systematic,1)}(= ρ²), 개별 σ ${U.pct(sp.idio,1)}.${U.kind(['real','assume','relay'],U.RECHECK)}`);
+  U.result(el,chart,`β = Cov ÷ Var = ${f4(b.cov)} ÷ ${f4(b.varM)} = <b>${f4(b.beta)}</b>(${m.length}개월, 표본 n − 1), 상관 ${corrText(b)}.${range}<br>CAPM: ${U.sfmt(rf,1)}% + ${U.sfmt(b2,2)} × ${U.sfmt(erp,1)}% = <b>${U.sfmt(req,2)}%</b>(베타를 ${U.sfmt(b2,2)}${U.josa(U.sfmt(b2,2),'으로','로')} 반올림해 계산). ${U.timed('rf10y')} ${U.timed('erp')}<br>V-0 가정의 새벽전자(상관 0.67, σ 35%, 시장 σ 18%): β ≈ ${U.sfmt(sp.beta,2)}, 체계적 몫 ${U.pct(sp.systematic,1)}(= ρ²), 개별 σ ${U.pct(sp.idio,1)}.${U.kind(['real','assume','relay'],U.RECHECK)}`);
  });
 };
 })();
