@@ -73,6 +73,7 @@ test('look-ahead chapter (V-3): six stop days, bug prices, shares on day 430',()
 });
 test('fills chapter (V-4): bar calculators, round trips and the 430일째 bar',()=>{
  const {L2a,L2b,rt,rtEtf}=C.fills;assert.deepEqual([L2a.trips,L2a.total,L2a.fees,L2a.tax],[1,771,29,200]);assert.deepEqual([L2b.trips,L2b.held,L2b.total,L2b.fees],[0,true,736,14]);
+ const gap=M.barCell(19800,20000,5,[19700,20100,19600,19900]);assert.deepEqual([gap.trips,gap.fills[0][1],gap.total],[1,19700,1271],'opening below the resting buy fills at the open');
  assert.deepEqual([rt.feeBuy,rt.feeSell,rt.tax,rt.cost,rt.cost*3],[15,15,202,232,696]);assert.deepEqual([rtEtf.net,rtEtf.tax],[396,0]);
  const d=C.fills.day430;assert.deepEqual([d.low.buys,d.low.sells,d.high.buys,d.high.sells,d.path.buys,d.path.sells],[2,1,1,0,1,0]);assert.equal(d.points.length,8);
 });

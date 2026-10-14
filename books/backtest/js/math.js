@@ -82,7 +82,8 @@ function dayStart(b,o,pts,prev,levelsArr,t){
 /* 백테스트 한 번. days: mode가 path면 하루 여덟 점 목록, 아니면 막대 [시가, 고가, 저가, 종가]. 돌려주는 curve는 날마다 종가로 친 평가 금액. */
 function run(days,o={}){
  const L=o.levels||V12,q=o.qty||5,cap=o.capital||ASSUME.capital,mode=o.mode||'path',ex=o.ex||[],stop=o.stop==null?null:o.stop;
- const b=newBook(L,q,cap,o.cost!==false,!!o.through),curve=[],divCash=o.divCash!==false,start=o.start||0;let prev=null;
+ const b=newBook(L,q,cap,o.cost!==false,!!o.through),curve=[],divCash=o.divCash!==false,start=o.start||0;let prev=o.prev!=null?o.prev:null;
+ if(o.armed)b.armed.fill(true);
  for(let d=0;d<days.length;d++){
   const t=start+d,pts=points(days[d],mode);
   b.today=mode==='onefill'?new Set():null;
@@ -179,9 +180,9 @@ function stopDays(code,resume=code){
  const R=rec(),{book,curve}=run(R.bars,{mode:'optimistic',cost:false,laStop:code==='bug',laResume:resume==='bug',ex:D.EX,...ST});
  return {stops:book.stopLog.map(s=>({...s,low:R.bars[s.day][2],open:R.bars[s.day][0],close:R.bars[s.day][3]})),resumes:book.resumeLog,ann:ann(curve),pnl:curve[curve.length-1]-ASSUME.capital};
 }
-/* 4장: 칸 하나와 막대 하나(L2 계산기). 비어 있고 매수가 걸린 칸에서 시작한다. 끝 손익 = 실현 손익 + 종가로 친 평가 손익. */
+/* 4장: 칸 하나와 막대 하나(L2 계산기). 비어 있고 매수가 걸린 칸에서 시작한다(전날 종가는 매수 가격 바로 위로 두어, 시가가 매수 가격 이하로 열리면 걸린 주문이 시가에 체결된다). 끝 손익 = 실현 손익 + 종가로 친 평가 손익. */
 function barCell(buy,sell,qty,bar,mode='optimistic',through=false){
- const {book}=run([bar],{levels:[buy,sell],qty,mode,cost:true,through,capital:1e12});
+ const {book}=run([bar],{levels:[buy,sell],qty,mode,cost:true,through,capital:1e12,armed:true,prev:buy+1});
  const held=book.lots[0],unreal=held?qty*bar[3]-held:0;
  return {trips:book.trips,realized:book.realized,held:!!held,unreal,total:book.realized+unreal,fees:book.fees,tax:book.taxes,fills:book.fills.map(f=>[f[1],f[3]])};
 }
