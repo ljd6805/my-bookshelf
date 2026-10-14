@@ -1,0 +1,39 @@
+/* 실험 위 안내 상자: 확인할 것, 비교 예제, 초기화, 결과 읽기. 결과 읽기는 예측을 적은 뒤에 펼치도록 접어 두고, 펼치면 적어 둔 예측을 먼저 보여 준다.
+   결과 읽기의 숫자는 PMath 계산과 같다(tests/browser.cjs가 화면에서 다시 확인). 마지막 문장이 예측 질문(L2)의 답이다.
+   L2 사례와 확인 문제의 답은 어떤 비교 예제에도 넣지 않고, 독자가 입력을 바꿔 닿는다(책 AGENTS.md).
+   네 번째 칸 {afterGuess:true}가 있으면 비교 예제는 “내 예측 적어 두기”에 글을 쓴 뒤에 열린다(1장 두 틀, 9장 규칙 대입, 10장 일지 점검).
+   비교 예제를 누르면 실험을 초기화한 뒤 값을 넣고 실험 상자에 lab-preset 이벤트(예제 이름)를 보낸다. */
+window.PGuides=(()=>{
+const guides={
+ 'two-frame-choice':['같은 선택지를 이익의 말로 물을 때와 손실의 말로 물을 때 고른 쪽이 같은지 다른지 기록하고, 두 틀의 기대값과 끝 금액이 같다는 것을 계산으로 확인합니다.',[['시작 금액 2,000만 원',{fs:2000,fshow:true}],['확률 1/2, 금액 400만 원',{fp:'1/2',famt:400,fshow:true}],['확실한 쪽 250만 원, 금액 900만 원',{fsure:250,famt:900,fshow:true}]],'기본 문항은 A·B 기대 손익 +200만 원, C·D −400만 원이고 끝 금액 기대값은 넷 다 1,200만 원입니다. 시작 금액을 2,000만 원으로 올리면 기대 손익은 그대로이고 끝 금액 기대값만 2,200만 원이 됩니다. 확률 1/2, 금액 400만 원이면 C·D 기대 손익이 −200만 원으로 같습니다. 확실한 쪽 250만 원, 금액 900만 원이면 A +250만 원과 B +300만 원으로 기대값이 다릅니다. 어느 경우든 화면에는 고른 쪽이 같은지 다른지만 나오고, 새로고침하면 선택이 사라집니다. 예측 질문처럼 확률 1/4, 금액 800만 원을 넣고 펼치면 C·D 기대 손익은 모두 −600만 원으로 같습니다.',{afterGuess:true}],
+ 'value-function':['이익 쪽은 완만하고 손실 쪽은 가파른 가치 함수로 반반 내기의 전망 가치를 계산하고, 그 내기를 받아들이는 최소 이익이 λ와 α에 따라 어떻게 바뀌는지 봅니다.',[['λ 1 (손실을 이익과 같게)',{pl:1}],['α = β = 0.7',{pa:0.7,pb:0.7}],['확률 가중 켜기',{pw:true}]],'기본 모수에서 v(200) = 105.90, v(−100) = −129.47이고 전망 가치는 −11.79로 거절, 최소 이익은 251.31만 원입니다. λ를 1로 낮추면 전망 가치가 +24.18로 받아들이고 최소 이익은 100.00만 원입니다. α = β = 0.7이면 전망 가치 −7.86, 최소 이익 318.51만 원으로 굽음도 답을 바꿉니다. 확률 가중을 켜면 최소 이익이 274.07만 원이 되고, 1% 확률로 1,000만 원을 받는 내기의 확실성 등가는 37.24만 원입니다. 예측 질문처럼 λ 2.25, α = β = 1, 가중 끔으로 두면 최소 이익은 225.00만 원입니다.'],
+ 'disposition-count':['매도한 날마다 네 칸(실현 이익·평가 이익·실현 손실·평가 손실)을 세어 PGR과 PLR을 계산하고, 그 차이가 처분 효과의 흔적인지 읽습니다.',[['14~26주',{drange:'14-26'}],['직접 입력: 손실 종목 없음',{drange:'direct',dRG:2,dPG:1,dRL:0,dPL:0}],['직접 입력: 두 비율이 같음',{drange:'direct',dRG:1,dPG:2,dRL:1,dPL:2}]],'1~13주는 RG 3, PG 2, RL 0, PL 4로 PGR 0.600, PLR 0.000입니다. 14~26주는 RG 2, PG 0, RL 1, PL 4로 PGR 1.000, PLR 0.200이며 두 범위 모두 매도한 날이 세 번뿐입니다. 손실 종목이 없는 기록은 PLR을 계산할 수 없고, 1·2·1·2처럼 두 비율이 0.333으로 같으면 이 기록에서는 흔적이 보이지 않습니다. 예측 질문의 네 칸 2·6·1·9를 직접 넣으면 PGR 0.250, PLR 0.100, 차이 +0.150입니다.'],
+ 'base-rate-grid':['1,000종목 격자에서 추천받은 칸 가운데 실제로 두 배가 된 칸의 비율을 세어, 기저율이 낮으면 정확해 보이는 추천도 대부분 틀린다는 것을 봅니다.',[['기저율 10%',{bb:10}],['적중률 90%',{bh:90}],['오경보율 1%',{bf:1}]],'기본값(2%·60%·10%)에서 추천은 12 + 98 = 110개이고 맞을 확률은 10.9%입니다. 기저율을 10%로 올리면 40.0%, 적중률만 90%로 올리면 15.5%, 오경보율을 1%로 낮추면 55.0%입니다. 적중률보다 기저율과 오경보율이 답을 크게 바꿉니다. 예측 질문처럼 5%·80%·20%를 넣으면 약 17.4%입니다.'],
+ 'likelihood-odds':['사전 확률을 오즈로 바꾸고 켜진 증거의 우도비를 곱해 확신을 계산하며, 지지 증거만 넣었을 때와 견줍니다.',[['반대 증거 끄기',{ce3:false,ce4:false}],['사전 확률 20%',{cp:20}],['업종 기사 우도비 1',{cl1:1}]],'다섯 개를 모두 켜면 오즈 0.90으로 47.4%, 지지 증거만이면 4.50으로 81.8%입니다. 반대 증거 둘을 끄면 두 확신이 81.8%로 같아집니다. 사전 확률을 20%로 낮추면 모두 넣은 확신 18.4%, 지지만 52.9%입니다. 업종 기사의 우도비를 1로 두면 모두 37.5%, 지지만 75.0%로, 우도비 1인 증거는 확신을 움직이지 않습니다. 예측 질문처럼 사전 40%에 우도비 3인 지지 증거 하나와 0.25인 반대 증거 하나만 켜면 둘 다 넣은 확신 약 33.3%, 지지 증거만 약 66.7%입니다.'],
+ 'interval-cost':['90% 범위가 몇 번 맞았는지와 그 결과가 진짜 90% 범위에서 나올 확률을 계산하고, 연 회전율과 왕복 비용률로 매매 비용과 장기 금액 차이를 계산합니다.',[['연 회전율 75%',{ct:75}],['연 회전율 1,200%',{ct:1200}],['ETF만 사고팔기',{cetf:true}]],'선우의 범위 9개 가운데 6개가 맞아 66.7%이고, 진짜 90% 범위라면 8.1개쯤 맞아야 하며 6개 이하일 확률은 5.3%입니다. 실제 매매의 회전율은 연 284.7%, 비용 3만 5,284원입니다. 왕복 0.23%에서 연 회전율 300%의 연 비용은 0.69%p로 2,000만 원이 10년 뒤 3,355.3만 원(비용 없으면 3,581.7만 원)이고, 75%면 0.17%p로 3,523.8만 원, 1,200%면 2.76%p로 2,751.1만 원입니다. ETF만 사고팔면 거래세가 없어 0.09%p, 3,551.4만 원입니다. 세율과 수수료는 확인일 기준 값입니다. 예측 질문처럼 범위 20개, 맞은 수 11개를 넣으면 적중률 55.0%이고 진짜 90% 범위라면 18.0개쯤 맞아야 합니다.'],
+ 'info-cascade':['앞사람들의 행동만 보일 때 사거나 사지 않는 차이가 2가 되면 뒤의 사람이 자기 신호를 버리고 따르는 폭포가 생기는 것과, 폭포가 틀린 쪽으로 갈 확률을 봅니다.',[['신호 정확도 0.8',{hp:0.8}],['처음 두 사람이 나쁜 신호',{hs:'BBGGGGGGGG'}],['동전이 나오면 사지 않음',{hcoin:'skip'}]],'기본 줄(p 0.6)은 5번째 사람부터 모두 사는 맞는 폭포이고, 모형에서 틀린 폭포의 확률은 36.8%, 셋째 사람의 계산은 53.3%입니다. p를 0.8로 올리면 틀린 폭포가 14.3%로 줄지만 0이 되지는 않습니다. 처음 두 사람이 나쁜 신호를 받으면 뒤의 여덟 명이 좋은 신호를 받아도 3번째부터 모두 사지 않는 틀린 폭포가 됩니다. 동전이 나올 때 사지 않으면 같은 신호에서도 3번째부터 틀린 폭포가 됩니다. 신호를 공개하면 폭포가 생기지 않고 열 명의 다수결이 맞을 확률은 73.3%입니다. 예측 질문처럼 p를 0.7로 두면 셋째 사람이 좋은 종목이라고 볼 확률은 약 56.7%입니다.'],
+ 'loss-by-trials':['한 번 기대값이 양수인 규칙도 횟수가 적으면 합계가 음수로 끝날 확률이 크다는 것을 이항분포로 계산합니다.',[['횟수 100번',{on:100}],['횟수 250번',{on:250}],['승률 60%',{op:60}]],'승률 55%, ±1, 20번이면 한 번 기대값 +0.10, 합계가 음수일 확률 24.9%, 정확히 0일 확률 15.9%입니다. 100번이면 13.5%, 250번이면 4.9%로 줄지만 0은 아닙니다. 승률을 60%로 올리면 20번에서도 12.8%입니다. 예측 질문처럼 횟수를 10번으로 두면 음수일 확률 약 26.2%, 정확히 0일 확률 약 23.4%입니다.'],
+ 'rule-replay':['미리 정한 규칙이 걸린 주를 일지에서 찾고 지켰다면의 끝 금액을 종목별로 계산한 뒤, 같은 규칙을 반등 경로(가정)에 대 봅니다.',[['반등 경로(가정)',{rpath:'rebound'}],['R1 −15%',{rl1:15}],['R1 −5%',{rl1:5}]],'선우의 일지에서 R1(−10%)은 8주 온결식품 −10.35%, 14주 새벽전자 −11.64%에서 처음 걸리고, 지켰다면 끝 금액이 44만 4,934원 많습니다(온결식품 +67만 9,735원, 새벽전자 −23만 4,801원). 반등 경로(가정)에서는 R1대로 팔면 −63만 6,018원, 들고 있으면 +36만 1,832원으로 규칙을 지킨 쪽이 손해입니다. R1을 −15%로 바꾸면 지켰다면 오히려 82만 9,846원 적고, −5%면 93만 8,870원 많습니다. 한 경로의 결과로 규칙을 판정할 수 없습니다. 예측 질문처럼 300주, 규칙 가격 18,000원, 판 가격 16,500원을 넣으면 손실이 45만 원 더 큽니다.',{afterGuess:true}],
+ 'journal-audit':['일지 전체에서 편향의 흔적을 숫자로 찾고, 규칙 하나를 고쳐 다시 계산하며, 일지 양식의 칸이 선우의 매수에서 몇 번 빠졌는지 시험합니다.',[['R1 −15%로 고치기',{ar1:15,arshow:true}],['R1 −5%로 고치기',{ar1:5,arshow:true}],['양식에서 규칙 칸 빼기',{af3:false}]],'네 칸 양식에서 선우의 매수 9건은 반대 증거 5건, 적용할 규칙 9건을 빠뜨렸고, 규칙 칸을 빼면 반대 증거 5건만 남습니다. R1을 −15%로 고치면 지켰다면 끝 금액이 82만 9,846원 적고, 같은 R1은 반등 경로에서 걸리지 않습니다. −5%로 고치면 93만 8,870원 많지만, 반등 경로에서는 규칙대로 −33만 6,663원, 들고 있으면 +36만 1,832원으로 손해입니다. 예측 질문처럼 26주 전체를 세려면 점검표를 펼치세요. PGR 0.714, PLR 0.111입니다.',{afterGuess:true}]
+};
+function apply(el,values){Object.entries(values).forEach(([key,value])=>{const x=el.querySelector('#'+key);if(x.type==='checkbox')x.checked=!!value;else x.value=value;});}
+function mount(id,el){
+ const [purpose,presets,reading,opt={}]=guides[id],box=document.createElement('div');box.className='lab-guide';
+ const gate=!!opt.afterGuess,guessBox=()=>document.getElementById('guess-'+id);
+ box.innerHTML=`<p><b>무엇을 확인하나요?</b> ${purpose}</p><div class="buttons" aria-label="비교 예제">${presets.map((p,i)=>`<button data-preset="${i}" type="button"${gate?' disabled':''}>${p[0]}</button>`).join('')}<button data-initialize type="button">실험 초기화</button></div>${gate?'<p class="caption gate-note" role="status">비교 예제는 위 “내 예측 적어 두기”에 예측을 적으면 열립니다.</p>':''}<details class="guide-reading"><summary><b>결과 읽기</b> · 직접 바꿔 본 뒤에 펼쳐 보세요</summary><p class="guess-echo" hidden></p><p>${reading}</p></details>`;
+ el.parentElement.insertBefore(box,el);
+ if(gate){const g=guessBox(),note=box.querySelector('.gate-note'),open=()=>{const ok=!!(g&&g.value.trim());box.querySelectorAll('[data-preset]').forEach(b=>b.disabled=!ok);note.textContent=ok?'예측을 적었으니 비교 예제가 열렸습니다.':'비교 예제는 위 “내 예측 적어 두기”에 예측을 적으면 열립니다.';};if(g)g.addEventListener('input',open);open();}
+ const details=box.querySelector('details'),echo=box.querySelector('.guess-echo');
+ details.addEventListener('toggle',()=>{const guess=guessBox()?.value.trim();echo.hidden=!(details.open&&guess);if(guess)echo.textContent='내 예측: '+guess;});
+ box.onclick=e=>{const b=e.target.closest('button');if(!b||b.disabled)return;
+  if(b.hasAttribute('data-initialize')){PLabs[id](el);box.querySelectorAll('[aria-pressed]').forEach(x=>x.removeAttribute('aria-pressed'));return;}
+  const [name,values]=presets[+b.dataset.preset];PLabs[id](el);apply(el,values);
+  el.querySelector('#'+Object.keys(values)[0]).dispatchEvent(new Event('input',{bubbles:true}));
+  el.dispatchEvent(new CustomEvent('lab-preset',{detail:name}));
+  box.querySelectorAll('[data-preset]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+ };
+ el.addEventListener('input',e=>{if(e.isTrusted)box.querySelectorAll('[aria-pressed]').forEach(x=>x.removeAttribute('aria-pressed'));});
+ el.addEventListener('change',e=>{if(e.isTrusted)box.querySelectorAll('[aria-pressed]').forEach(x=>x.removeAttribute('aria-pressed'));});
+}
+return {mount,guides};
+})();
