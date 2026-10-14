@@ -2897,7 +2897,7 @@
       "spine_title": "백테스트",
       "spine_category": "투자",
       "color": "aqua",
-      "description": "가상 인물 하린의 격자 규칙을 가상 주식 3년 기록에 돌린 백테스트에서 가격 자료·미래 정보·체결 가정·비용을 하나씩 고쳐 연 수익률이 줄어드는 폭을 계산하고, 부트스트랩 구간과 설정 402개 중 표본 안 1등의 표본 밖 성적을 잽니다. 이어 가상 모의 서버에서 주문을 대사하고 봇의 멈춤 조건을 시험합니다. 학습용이며 투자 권유가 아닙니다.",
+      "description": "격자 규칙을 가상 3년 기록에 돌린 백테스트의 가정을 하나씩 고쳐 수익률이 줄어드는 폭을 계산하고, 설정 402개 중 고른 1등의 표본 밖 성적을 잰 뒤, 모의 서버에서 주문을 대사하고 봇의 멈춤 조건을 시험합니다. 학습용이며 투자 권유가 아닙니다.",
       "illustration": "books/backtest/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 부분 체결 뒤 취소된 주문으로 계좌와 봇 장부가 어긋났다가 대사 뒤 맞춰집니다.",
       "cover_art": "books/backtest/assets/cover-art.svg",

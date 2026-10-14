@@ -55,7 +55,7 @@ function choices(q,target,attr){return U.choiceOrder(q[1].length,q[2],target).ma
 function transferQuiz(c,index){if(!c.transfer)return '';return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer,(index+1)%3,'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;}
 function navLinks(index){
  const prev=index?`<a href="#${B.chapters[index-1].id}">이전 · ${B.chapters[index-1].title}</a>`:'<a href="#home">이전 · 표지</a>';
- const next=index<B.chapters.length-1?`<a href="#${B.chapters[index+1].id}">다음 · ${B.chapters[index+1].title}<small>이동 이유: ${B.chapters[index+1].desc}</small></a>`:'<a href="../market/#final">다른 책 · 주문 한 장이 체결되기까지 · 하린의 격자 주문표 진단<small>이동 이유: 이 책의 격자는 4권 마지막 과제에서 고친 주문표에서 출발했습니다. 6개월 장부를 읽은 지금 그 주문표를 다시 펼치면, 눈금과 비용 말고도 범위·자금·멈춤 규칙이라는 빈칸이 보입니다.</small></a>';
+ const next=index<B.chapters.length-1?`<a href="#${B.chapters[index+1].id}">다음 · ${B.chapters[index+1].title}<small>이동 이유: ${B.chapters[index+1].desc}</small></a>`:'<a href="../backtest/#backtest">다음 권 · 백테스트와 자동 매매 01 · 격자 규칙의 3년 백테스트에서 계산한 숫자와 계산하지 않은 가정 나누기<small>이동 이유: 격자 하나를 장부로 시험했으니, 같은 규칙을 3년 가상 기록에 돌린 백테스트 수익률이 가정과 운에 따라 얼마나 달라지는지 계산하고 모의 서버에서 주문 봇의 멈춤 조건을 시험합니다. 4권 마지막 과제의 주문표와 나란히 보려면 위 “다른 책으로 이어 읽기”로 갑니다.</small></a>';
  return `<nav class="chapter-nav" aria-label="이전·다음 장">${prev}${next}</nav>`;
 }
 function chapter(c,index){
