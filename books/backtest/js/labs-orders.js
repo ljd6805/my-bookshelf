@@ -62,9 +62,10 @@ BLabs['order-recon']=el=>{
   const hist=U.table(['차례','사건','상태','체결','취소','미체결','나간 주문'],r.hist.map((h,i)=>[i+1,`${EV_NAME[h.ev.type]}${h.ev.type==='fill'?` ${U.fmt(h.ev.qty)}주`:''}${h.ev.again?' (같은 사건 다시)':''}`,M.STATES[h.state]||'—',`${h.filled}주`,`${h.canceled}주`,`${h.open}주`,`${h.orders}건${h.orders>1?' ✗':''}`]),'사건마다 바뀐 상태','cards');
   const ok=r.diff.shares===0&&r.diff.cash===0;
   const recon=U.table(['','주식 수','현금 변화'],[['계좌(서버가 아는 사실)',`${U.fmt(r.account.shares)}주`,W(r.account.cash)],['봇 장부',`${U.fmt(r.ledger.shares)}주`,W(r.ledger.cash)],['차이(계좌 − 장부)',`<b>${U.splus(r.diff.shares)}주</b> ${ok?'✓':'✗'}`,`<b>${W(r.diff.cash)}</b>`]],'장부와 계좌 대사','fit');
-  const sum=o0.filled+o0.canceled+M.openQty(o0);
+  const sum=o0.filled+o0.canceled+M.openQty(o0),asked=evs.filter(e=>e.type==='fill'&&!e.again).reduce((t,e)=>t+e.qty,0);
   U.result(el,stateChart(r.hist,o0.state)+hist+recon,`첫 주문: <b>${M.STATES[o0.state]}</b>, 체결 ${o0.filled}주 + 취소 ${o0.canceled}주 + 미체결 ${M.openQty(o0)}주 = ${sum}주 ${U.verdict(sum===q||o0.state==='rejected','주문 수량과 같음','주문 수량과 다름')}.${r.orders.length>1?` 응답 없음 뒤 요청 ID 없이 다시 보내 <b>주문이 ${r.orders.length}건</b> 나갔습니다 ✗.`:''}`
    +`<br>대사: 계좌 ${U.fmt(r.account.shares)}주, 장부 ${U.fmt(r.ledger.shares)}주 → 주식 수 차이 <b>${U.splus(r.diff.shares)}주</b>, 현금 차이 <b>${W(r.diff.cash)}</b>(매수 금액과 수수료). ${ok?'✓ 장부와 계좌가 맞습니다.':'✗ 장부와 계좌가 다릅니다. 체결 통보를 장부에 반영하고 취소 확인의 취소 수량만큼만 지우면 맞습니다.'}`
+   +(asked>q?`<br>▲ 체결 통보 수량을 더하면 ${U.fmt(asked)}주로 주문 수량 ${U.fmt(q)}주보다 많습니다. 서버는 주문 수량을 넘겨 체결하지 않으므로 이 실험은 남은 수량까지만 셉니다.`:'')
    +`<br>같은 사건 번호를 두 번 받으면 상태는 바뀌지 않습니다. 수수료는 살 때 금액 × 15 ÷ 100,000(버림, 가정)입니다.${U.kind(['real','scenario'])} ${U.timed('fee')}`);
  });
 };

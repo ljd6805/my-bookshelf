@@ -46,9 +46,9 @@ BLabs['sharpe-boot']=el=>{
 
 /* ── 6장: 표본 안 1등의 표본 밖 성적 실험 ── */
 const cfgName=c=>`${U.fmt(c.low)}~${U.fmt(c.top)}원 · ${U.fmt(c.step)}원 · ${c.n}칸 · 칸당 ${c.q}주`;
-const ENS=[10,100,402,1000],SIM={};
+const ENS=[10,100,402,1000];let SIM=null;/* 모의실험은 N = 10·100·402·1,000을 한 난수 줄(씨앗 2028)로 차례로 돌린 값(BMath.emaxSim(), 본문·tests/math.test.cjs와 같은 값) */
 function emaxPart(el){
- const N=+U.value(el,'en'),shown=ENS.filter(x=>x<=N),sim=SIM[N]||(SIM[N]=M.emaxSim([N]));
+ const N=+U.value(el,'en'),shown=ENS.filter(x=>x<=N),sim=SIM||(SIM=M.emaxSim());
  const chart=U.columns({labels:shown.map(x=>`${U.fmt(x)}개`),values:shown.map(x=>M.emax(x).sharpe),fmt:v=>U.sfmt(v,3),tick:v=>U.sfmt(v,1),mark:i=>i===shown.length-1,label:'실력이 0인 설정들의 1등 연 샤프 기대값(500거래일 기준)',title:'1등 연 샤프 기대값(실력 0, 500거래일, ▲ 고른 칸)',h:230});
  return {chart,text:`기대 최대 샤프 칸: 실력이 0인 설정 ${U.fmt(N)}개를 500거래일로 재면 1등의 연 샤프 기대값 <b>${U.sfmt(M.emax(N).sharpe,3)}</b>(식, 접힌 상자), 모의실험 2,000번의 평균 ${U.sfmt(sim[N],3)}(난수 씨앗 2028).${N===1000?' 1,000개는 이 칸에만 있고, 실제로 시험한 설정은 402개입니다.':''}`};
 }
