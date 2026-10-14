@@ -614,7 +614,8 @@
       "books/allocation/AGENTS.md 책별 규칙(al- 접두어, 가상 자산 가정 한 곳, 모델 ≠ 예측, 투자 권유 금지와 금지 낱말, 켈리는 계산 연습, ⏱ 값 셋과 재확인일 2027-04-13·G6 시작일, 실험 기본값이 답을 보이지 않게, 12권 링크 없음, 제목 공백 제외 32자 이내)",
       "K7 점검: 가제 「위험을 나누는 법 · 분산투자에서 자산배분까지」 → 1안 「자산배분 · 상관과 비중으로 포트폴리오 위험을 계산하고 계좌 비중 다시 짜기」(32자, 제안), 2안 「분산투자와 자산배분 · 상관으로 포트폴리오 위험을 계산하고 비중 정하기」(31자); 장 제목 10개, 대표 실험 이름(포트폴리오 구름 → 포트폴리오 비중 실험), 9장 '상관이 1이 된다' 단정 고침",
       "기준값을 파이썬(numpy)으로 책 코드 없이 계산: 접점 22.52·13.30·64.18%(샤프 0.3463), 최소분산 14.29%·5.27%, β 1.3118, 리밸런싱 세 규칙 끝 금액, 켈리 f* 0.10과 배수별 성장률, 위기 상관 60/40 10.58% → 19.79%(1차 점검에서 반올림 고침), 윤 씨 안 A·B·C",
-      "1차 점검 반영(2026-10-13): 서윤 G1 결정(제목 「자산배분 · 상관으로 포트폴리오 위험을 계산하고 조건에 맞는 비중 찾기」 30자, amber·대안 blue·CSS 새로 만들기, asset-allocation, 책등 자산배분, 시리즈 9권 '자산배분'과 next_why 안, 개념 흔들림과 분산 #diversify·#crisis와 차원 줄이기 #matrix, 새 개념 없음, 노선 correlated-losses 81분·#final 도전 과제, value-basis 변경 없음, 들어오는 링크 13곳), 한결·서윤 조건(윤 씨 조건 2를 생활비 연 3,000만 원·3년치 9,000만 원 이상으로 수치화하고 안 A·B·C·D 재판정, ⏱ 넷으로 통일(적격 TDF 추가), 70% 한도 보도 한 곳·꼬리표 '보도 기준 · 법령 원문 확인 못함', IRP 개별 주식 불가를 research 10-4로·(라)에 IRP 내용 정의, 재확인 담당, 켈리를 4부로·7장 남은 질문 고침, 켈리 실험의 하위 10%·절반 아래 경로 비율과 빌리지 않는다는 문장, (다) 위기 상관 고윳값 확인, 다루지 않는 것 셋), 해원 보류(반올림 10.58/19.79/7.22/4.95, 부 나눔, 10장 전이 안 D, 선수 2.1~2.3, 2장 고윳값은 실험이 계산, 장 제목 다섯, 비교 자료 등급, 작은 수정), 실험 작업용 이름 표시"
+      "1차 점검 반영(2026-10-13): 서윤 G1 결정(제목 「자산배분 · 상관으로 포트폴리오 위험을 계산하고 조건에 맞는 비중 찾기」 30자, amber·대안 blue·CSS 새로 만들기, asset-allocation, 책등 자산배분, 시리즈 9권 '자산배분'과 next_why 안, 개념 흔들림과 분산 #diversify·#crisis와 차원 줄이기 #matrix, 새 개념 없음, 노선 correlated-losses 81분·#final 도전 과제, value-basis 변경 없음, 들어오는 링크 13곳), 한결·서윤 조건(윤 씨 조건 2를 생활비 연 3,000만 원·3년치 9,000만 원 이상으로 수치화하고 안 A·B·C·D 재판정, ⏱ 넷으로 통일(적격 TDF 추가), 70% 한도 보도 한 곳·꼬리표 '보도 기준 · 법령 원문 확인 못함', IRP 개별 주식 불가를 research 10-4로·(라)에 IRP 내용 정의, 재확인 담당, 켈리를 4부로·7장 남은 질문 고침, 켈리 실험의 하위 10%·절반 아래 경로 비율과 빌리지 않는다는 문장, (다) 위기 상관 고윳값 확인, 다루지 않는 것 셋), 해원 보류(반올림 10.58/19.79/7.22/4.95, 부 나눔, 10장 전이 안 D, 선수 2.1~2.3, 2장 고윳값은 실험이 계산, 장 제목 다섯, 비교 자료 등급, 작은 수정), 실험 작업용 이름 표시",
+      "서가 등록(2026-10-14, 도현): 카탈로그·장 색인·시리즈 9권·개념 둘·노선 correlated-losses·들어오는 링크 10곳; 1280·390·320·1280×720 확인. 커밋 전"
     ],
     "evidence": "세션 임시 폴더 scratchpad/alloc/v.py~v5.py(고윳값 ≥ 0, 위험 기여 합 100%, 현금 혼합 시 샤프 불변 확인), OpenStax 『Principles of Finance』 15.2~15.4, RePEc·ESSEC·NBER 서지와 초록, MacLean·Thorp·Ziemba(2010), Vanguard(2010), CFA Institute 블로그(2012), 보도(퇴직연금 70% 한도·TDF·주식채권 상관), 서재 안 재인용(6권·8권·11권·2권·「벡터와 행렬」·「모델을 움직이는 수학」) — research.html #sources",
     "verification": [
@@ -628,6 +629,16 @@
       "G5: amber가 서가에서 지나쳐 보이면 blue, 책 CSS·theme-color는 amber로 새로 만들기, 들어오는 링크 13곳 고치기와 금융 책 전체 '9권' grep. G7: 시리즈 9권 title·book_id·next_why",
       "확인 못함(접속 차단, 우회하지 않음): fsc.go.kr·law.go.kr·AAII(로봇 배제), nobelprize.org·Wiley DOI(가져오기 오류) → 70% 한도 법령·감독규정 원문, 1990년 노벨상 공식 문구, Markowitz·Sharpe·Kelly·Longin·Solnik 본문, Evans·Archer·Statman·Brinson 원 논문, 한국 쪽 교과과정 자료, 새벽전자·누리200의 KRX 목록 직접 조회"
     ],
-    "next": "해원 G2·한결 G0·서윤 G1 재점검 → G3(은재: ⏱ 넷 첫 재확인과 IRP 규칙 원문 / 지안: js/math.js·content.js·실험 10개·review.json). 공개 뒤 고정 재확인 2027-04-13(담당 한결, 확인 작업 은재): ⏱ 넷을 다시 열고 바뀐 값은 MARKET·꼬리표·마지막 과제 (라)를 같은 커밋에서 고침"
+    "next": "해원 G2·한결 G0·서윤 G1 재점검 → G3(은재: ⏱ 넷 첫 재확인과 IRP 규칙 원문 / 지안: js/math.js·content.js·실험 10개·review.json). 공개 뒤 고정 재확인 2027-04-13(담당 한결, 확인 작업 은재): ⏱ 넷을 다시 열고 바뀐 값은 MARKET·꼬리표·마지막 과제 (라)를 같은 커밋에서 고침",
+    "shelf_registration": {
+      "date": "2026-10-14",
+      "by": "도현(기획·연결팀)",
+      "state": "done, not committed",
+      "catalog": "금융 묶음 끝 42번째(macro rose 다음) asset-allocation amber 책등 '자산배분'; chapter_index 10장; series 9권 planned → book_id asset-allocation, title 자산배분 (next_why는 그대로 두고 G7에서 고침)",
+      "concepts": "흔들림과 분산 + #diversify·#crisis, 차원 줄이기 + #matrix; 새 개념 없음",
+      "path": "correlated-losses 5단계 81분: volatility #measure → probability #correlation → allocation #diversify → linear-algebra #pca → allocation #crisis, 도전 과제 #final",
+      "incoming_links": "volatility #final→#diversify, valuation #wacc→#beta(본문·cross·math.js·labs-dcf 힌트), bonds #equity→#beta·#final→#mix, etf #final→#mix, statements #final→#diversify, tax #final→#final, grid #capital→#mix, macro #final→#crisis, linear-algebra #pca→#matrix; SERIES 문장 일반형(grid·volatility·tax·etf·statements·valuation·macro); valuation ERP 표지 'Damodaran 2026-01-05 판, 2026-10-13 확인'; 책 ?v=20261014-a9; valuation·macro·statements 테스트를 9권 공개에 맞춤",
+      "pending": "validate.py 오류 5개는 등록 범위 밖: allocation fact-review 없음, G5·G6·G7 행 없음, G4 문체 메모 style-r2 행의 data-guideline 없음"
+    }
   }
 }

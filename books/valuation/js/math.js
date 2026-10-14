@@ -52,8 +52,8 @@ const ASSUME={
 /* grade: news(보도), academic(대학 교재·강의 원문), estimate(교수 개인 추정치), series(앞선 권의 가상 설정), assumption(이 책의 가정). */
 const MARKET={
  rf:{value:0.044,raw:0.04395,date:'2026-10-08',grade:'news',what:'국고채 10년 장 마감 금리(SBS Biz 보도). 4.4%로 둠. 이야기 시점 2026년 4월의 금리가 아님'},
- erp:{value:0.049,raw:0.0487,date:'2026-01-05',grade:'estimate',what:'한국 주식 위험 프리미엄 4.87% = 성숙 시장 4.23% + 국가 0.64%(Damodaran 갱신 표). 4.9%로 둠'},
- beta:{value:1.0,date:CHECKED,grade:'assumption',what:'베타 1.0(시장과 같이 움직인다고 놓은 가정). 추정은 9권(준비 중)'},
+ erp:{value:0.049,raw:0.0487,date:'2026-01-05',edition:'Damodaran 2026-01-05 판',checked:CHECKED,grade:'estimate',what:'한국 주식 위험 프리미엄 4.87% = 성숙 시장 4.23% + 국가 0.64%(Damodaran 갱신 표). 4.9%로 둠'},
+ beta:{value:1.0,date:CHECKED,grade:'assumption',what:'베타 1.0(시장과 같이 움직인다고 놓은 가정). 추정은 9권 5장'},
  kd:{value:0.0506,raw:0.05061,date:'2026-10-07',grade:'series',what:'새벽전자 3년 회사채 할인 금리 5.061%(3권 7장: 국채 금리 + 스프레드 1.10%p). 세전 부채 비용'},
  kospiForwardPer:{value:7.63,date:'2026-04-14',grade:'news',what:'코스피 12개월 선행 PER(FnGuide 집계, 파이낸셜뉴스 보도). 계산 입력으로 쓰지 않음'}
 };
