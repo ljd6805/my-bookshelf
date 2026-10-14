@@ -1,6 +1,6 @@
 /* content.js와 review.json의 구조 검사: 장 ID·필드·실험 ID, docs/index.html #curriculum의 제목·부·시간, #chapters의 L1과 recall, 확인·전이 문제,
    다른 책 링크의 이름과 앵커(data/catalog.json chapter_index)와 #links 계획, 출처 표기, 권유 말투, 면책 문장·켈리 문장·재확인 문장,
-   시점에 묶인 값(⏱)의 꼬리표, 가상 인물, 10권 「행동재무학」 링크와 13권(준비 중), 없는 책 폴더로 가는 링크. index.html이 생기면 화면 쪽 검사를 따로 더한다. */
+   시점에 묶인 값(⏱)의 꼬리표, 가상 인물, 10권 「행동재무학」·13권 「백테스트와 자동 매매」 링크, 없는 책 폴더로 가는 링크. index.html이 생기면 화면 쪽 검사를 따로 더한다. */
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),M=require('../js/math.js');
 const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f),'utf8');
 const ctx={window:{}};vm.runInNewContext(read('js/content.js'),ctx);const B=JSON.parse(JSON.stringify(ctx.window.ABook)),R=JSON.parse(read('review.json'));
@@ -72,11 +72,11 @@ test('cross links use catalog chapter labels, existing anchors and folders, foll
  for(const c of B.chapters)assert.deepEqual(c.cross.map(x=>x[1]),plan[c.id],c.id+' links follow plan #links');
  assert.doesNotMatch(read('js/content.js')+read('review.json'),/\.\.\/grid\//,'no link to vol 12 (plan #links)');
 });
-test('vol 10 「행동재무학」 is linked from #final (published 2026-10-14); vol 13 is named as text “13권(준비 중)” only; no link to an unpublished folder',()=>{
+test('vol 10 「행동재무학」 and vol 13 「백테스트와 자동 매매」 (#metrics) are linked from #final (published 2026-10-14); no link to a folder without a book',()=>{
  const src=read('js/content.js')+read('review.json');
  for(const m of src.matchAll(/\.\.\/([a-z0-9-]+)\//g))assert.ok(fs.existsSync(path.join(base,'..',m[1],'index.html')),'link to a folder without a book: '+m[1]);
- assert.doesNotMatch(src,/allocation\//);assert.doesNotMatch(src,/10권\(준비 중\)/);assert.match(src,/10권 「행동재무학」/);assert.match(src,/13권\(준비 중\)/);
- assert.doesNotMatch(src,/(?<![\d.])13권(?!\(준비 중\))/);
+ assert.doesNotMatch(src,/allocation\//);assert.doesNotMatch(src,/10권\(준비 중\)/);assert.match(src,/10권 「행동재무학」/);assert.doesNotMatch(src,/13권\(준비 중\)/);
+ assert.match(src,/<a href="\.\.\/backtest\/#metrics">13권 「백테스트와 자동 매매」 5장<\/a>/);
 });
 test('no advice wording anywhere; the disclaimer, the Kelly sentence, the weights note and the assumption label sit where G0/G1 asked',()=>{
  assert.doesNotMatch(unquote(read('js/content.js')),ADVICE);assert.doesNotMatch(unquote(read('review.json')),ADVICE);

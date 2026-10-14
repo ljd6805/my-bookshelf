@@ -1,6 +1,6 @@
 /* content.js와 review.json의 구조 검사: 장 ID·필드·실험 ID, docs/index.html #curriculum의 제목·부·시간, #chapters의 L1과 recall, 확인·전이 문제,
    다른 책 링크의 이름과 앵커(data/catalog.json chapter_index)와 #links 계획, 출처 표기, 권유 말투와 금지 낱말, 면책 문장·재확인 문장·모형 꼬리표,
-   1장의 “저장하지 않음” 문장, 시점에 묶인 값(⏱)의 꼬리표, 가상 인물, 재현에 실패한 효과를 쓰지 않음, 13권(준비 중)과 없는 책 폴더로 가는 링크,
+   1장의 “저장하지 않음” 문장, 시점에 묶인 값(⏱)의 꼬리표, 가상 인물, 재현에 실패한 효과를 쓰지 않음, 13권 「백테스트와 자동 매매」 링크와 없는 책 폴더로 가는 링크,
    마지막 과제의 풀이 상자. index.html이 생기면 화면 쪽 검사를 따로 더한다. */
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),M=require('../js/math.js');
 const base=path.resolve(__dirname,'..'),read=f=>fs.readFileSync(path.join(base,f),'utf8');
@@ -77,10 +77,10 @@ test('cross links use catalog chapter labels, existing anchors and folders, foll
  const links=doc.slice(doc.indexOf('id="links"'),doc.indexOf('id="links-open"'));
  for(const [id,urls] of Object.entries(plan))for(const u of urls){const [, folder,anchor]=u.match(/^\.\.\/([a-z-]+)\/#([a-z-]+)$/);assert.ok(links.includes(`#${id} →`),'plan #links lists #'+id);assert.ok(links.includes('#'+anchor),'plan #links names #'+anchor+' ('+folder+')');}
 });
-test('vol 13 is named as text “13권(준비 중)” only; no link to an unpublished folder or to this book',()=>{
+test('vol 13 「백테스트와 자동 매매」 is linked from #final to ../backtest/#fills (published 2026-10-14); no “13권(준비 중)” left; no link to a folder without a book or to this book',()=>{
  const src=read('js/content.js')+read('review.json');
  for(const m of src.matchAll(/\.\.\/([a-z0-9-]+)\//g))assert.ok(fs.existsSync(path.join(base,'..',m[1],'index.html')),'link to a folder without a book: '+m[1]);
- assert.doesNotMatch(src,/\.\.\/psychology\//);assert.match(src,/13권\(준비 중\)/);assert.doesNotMatch(src,/(?<![\d.])13권(?!\(준비 중\))/);
+ assert.doesNotMatch(src,/\.\.\/psychology\//);assert.doesNotMatch(src,/13권\(준비 중\)/);assert.match(src,/<a href="\.\.\/backtest\/#fills">13권 「백테스트와 자동 매매」 4장<\/a>/);
 });
 test('no advice wording or banned words; the disclaimer, re-check sentence, model and parameter notes sit where G0/G1 asked',()=>{
  assert.doesNotMatch(unquote(read('js/content.js')),ADVICE);assert.doesNotMatch(unquote(read('review.json')),ADVICE);

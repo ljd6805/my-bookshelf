@@ -1,0 +1,53 @@
+<svg class="bt-ill" viewBox="0 0 340 180" role="img" aria-labelledby="bt-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="bt-ill-title">봇의 매수 주문 하나가 접수에서 부분 체결, 취소로 옮겨 가는 동안 계좌의 주식 수는 늘고 봇 장부는 그대로 있어 두 칸이 어긋났다가, 대사한 뒤 장부를 고쳐 두 칸이 맞춰지는 과정(미리 정한 가상 시나리오, 시각적 비유)</title>
+<style>
+.bt-ill-bg{fill:#f4f9f9}
+.bt-ill-word{font:600 10px var(--font-sans,sans-serif);fill:#13292b}
+.bt-ill-small{font:500 9px var(--font-sans,sans-serif);fill:#435a5d}
+.bt-ill-big{font:700 15px var(--font-sans,sans-serif);fill:#13292b}
+.bt-ill-box{fill:#ffffff;stroke:#c9dcdd;stroke-width:1.2}
+.bt-ill-hot{fill:none;stroke:#0e6b68;stroke-width:2.6;opacity:0}
+.bt-ill-path{fill:none;stroke:#c9dcdd;stroke-width:1.5;stroke-dasharray:4 4}
+.bt-ill-token{fill:#0e6b68}
+.bt-ill-bad{fill:#a5401c}
+.bt-ill-ok{fill:#0e6b68}
+.bt-ill-move{animation:bt-ill-move 10s ease-in-out infinite}
+.bt-ill-s1{animation:bt-ill-s1 10s linear infinite}
+.bt-ill-s2{animation:bt-ill-s2 10s linear infinite}
+.bt-ill-s3{animation:bt-ill-s3 10s linear infinite}
+.bt-ill-a0{animation:bt-ill-a0 10s linear infinite}
+.bt-ill-a1{animation:bt-ill-a1 10s linear infinite}
+.bt-ill-l0{animation:bt-ill-l0 10s linear infinite}
+.bt-ill-l1{animation:bt-ill-l1 10s linear infinite}
+.bt-ill-diff{animation:bt-ill-diff 10s linear infinite}
+.bt-ill-match{animation:bt-ill-match 10s linear infinite}
+@keyframes bt-ill-move{0%,18%{transform:translateX(0)}30%,45%{transform:translateX(104px)}57%,100%{transform:translateX(208px)}}
+@keyframes bt-ill-s1{0%,22%{opacity:1}26%,100%{opacity:0}}
+@keyframes bt-ill-s2{0%,26%{opacity:0}30%,50%{opacity:1}54%,100%{opacity:0}}
+@keyframes bt-ill-s3{0%,54%{opacity:0}58%,96%{opacity:1}100%{opacity:0}}
+@keyframes bt-ill-a0{0%,28%{opacity:1}32%,100%{opacity:0}}
+@keyframes bt-ill-a1{0%,28%{opacity:0}32%,96%{opacity:1}100%{opacity:0}}
+@keyframes bt-ill-l0{0%,78%{opacity:1}82%,100%{opacity:0}}
+@keyframes bt-ill-l1{0%,78%{opacity:0}82%,96%{opacity:1}100%{opacity:0}}
+@keyframes bt-ill-diff{0%,30%{opacity:0}34%,78%{opacity:1}82%,100%{opacity:0}}
+@keyframes bt-ill-match{0%,80%{opacity:0}84%,96%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){.bt-ill-move,.bt-ill-s1,.bt-ill-s2,.bt-ill-s3,.bt-ill-a0,.bt-ill-a1,.bt-ill-l0,.bt-ill-l1,.bt-ill-diff,.bt-ill-match{animation:none}.bt-ill-move{transform:translateX(208px)}.bt-ill-s1,.bt-ill-s2,.bt-ill-a0,.bt-ill-l0,.bt-ill-diff{opacity:0}.bt-ill-s3,.bt-ill-a1,.bt-ill-l1,.bt-ill-match{opacity:1}}
+html[data-motion=reduce] .bt-ill-move,html[data-motion=reduce] .bt-ill-s1,html[data-motion=reduce] .bt-ill-s2,html[data-motion=reduce] .bt-ill-s3,html[data-motion=reduce] .bt-ill-a0,html[data-motion=reduce] .bt-ill-a1,html[data-motion=reduce] .bt-ill-l0,html[data-motion=reduce] .bt-ill-l1,html[data-motion=reduce] .bt-ill-diff,html[data-motion=reduce] .bt-ill-match{animation:none}
+html[data-motion=reduce] .bt-ill-move{transform:translateX(208px)}html[data-motion=reduce] .bt-ill-s1,html[data-motion=reduce] .bt-ill-s2,html[data-motion=reduce] .bt-ill-a0,html[data-motion=reduce] .bt-ill-l0,html[data-motion=reduce] .bt-ill-diff{opacity:0}html[data-motion=reduce] .bt-ill-s3,html[data-motion=reduce] .bt-ill-a1,html[data-motion=reduce] .bt-ill-l1,html[data-motion=reduce] .bt-ill-match{opacity:1}
+</style>
+<rect class="bt-ill-bg" width="340" height="180" rx="10"/>
+<text class="bt-ill-word" x="14" y="20">매수 주문 하나 · 모의 서버의 사건</text>
+<path class="bt-ill-path" d="M68 52H272"/>
+<rect class="bt-ill-box" x="20" y="34" width="96" height="36" rx="6"/><text class="bt-ill-word" x="68" y="56" text-anchor="middle">접수</text>
+<rect class="bt-ill-box" x="124" y="34" width="96" height="36" rx="6"/><text class="bt-ill-word" x="172" y="56" text-anchor="middle">부분 체결</text>
+<rect class="bt-ill-box" x="228" y="34" width="96" height="36" rx="6"/><text class="bt-ill-word" x="276" y="56" text-anchor="middle">취소</text>
+<rect class="bt-ill-hot bt-ill-s1" x="20" y="34" width="96" height="36" rx="6"/><rect class="bt-ill-hot bt-ill-s2" x="124" y="34" width="96" height="36" rx="6"/><rect class="bt-ill-hot bt-ill-s3" x="228" y="34" width="96" height="36" rx="6"/>
+<g class="bt-ill-move"><circle class="bt-ill-token" cx="68" cy="80" r="5"/></g>
+<rect class="bt-ill-box" x="20" y="96" width="140" height="58" rx="6"/><text class="bt-ill-small" x="32" y="114">계좌(서버가 아는 사실)</text>
+<text class="bt-ill-big bt-ill-a0" x="32" y="142">0주</text><text class="bt-ill-big bt-ill-a1" x="32" y="142">6주</text>
+<rect class="bt-ill-box" x="180" y="96" width="144" height="58" rx="6"/><text class="bt-ill-small" x="192" y="114">봇 장부</text>
+<text class="bt-ill-big bt-ill-l0" x="192" y="142">0주</text><text class="bt-ill-big bt-ill-l1" x="192" y="142">6주</text>
+<g class="bt-ill-diff"><text class="bt-ill-word bt-ill-bad" x="236" y="142">✗ 어긋남</text></g>
+<g class="bt-ill-match"><text class="bt-ill-word bt-ill-ok" x="236" y="142">✓ 대사 뒤 맞춤</text></g>
+<text class="bt-ill-small" x="14" y="172">체결 통보를 장부에 반영하면 두 칸이 같아집니다</text>
+</svg>

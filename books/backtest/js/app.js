@@ -1,0 +1,106 @@
+/* 화면에 쓰는 고정 자료: 실험 제목·설명·먼저 예측하기·직접 해 보기, 본문의 실험 이름, 예측 칸 안내, 다음 장으로 가는 이유, 학습 경로, 시리즈 문장, 용어.
+   실험 제목은 G2에서 정한 실험 이름 뒤에 독자가 하는 일을 적는다(K7). 예측 질문(L2)은 docs/index.html #chapters 표의 L2 칸에서 괄호 속 답을 뺀 질문과 같고(tests/routes.test.cjs)
+   답은 BMath 계산과 같다(tests/browser.cjs). 2·3·4장은 같은 실험(백테스트 가정 하나씩 바꾸기 실험)을 다른 칸으로 연다. */
+window.BApp=(()=>{
+'use strict';
+const info={
+ 'grid-run':['격자 규칙 백테스트 실행 실험: 기간을 바꿔 왕복 횟수·손익·연 수익률을 계산하고 계산하지 않은 가정 확인하기','기간(1년째·2년째·지어낸 3년째·3년 이어서)을 고르면 12권 하린의 격자 규칙을 1장의 가정(저가 먼저, 닿으면 체결, 비용 없음)으로 돌린 종가 그림, 체결한 날, 평가 금액 곡선, 왕복 횟수와 연 수익률이 나오고, 옆에 “이 계산이 쓰지 않은 것” 목록이 나옵니다. 아래 칸에서는 종가만 있는 기록으로 칸 하나를 직접 백테스트합니다.','가람200(가상 ETF, 거래세 없음)에 35,000원에 사서 35,500원에 파는 칸 하나(10주)를 둡니다. 종가만 있는 기록 35,100 → 34,900 → 35,600 → 35,300원에 “종가가 사는 가격 이하면 사는 가격에, 파는 가격 이상이면 파는 가격에 체결”이라는 가정으로 백테스트하면 왕복 몇 번이고 수수료를 뺀 손익은?','1년째와 지어낸 3년째의 연 수익률을 적고, 3년 이어서 돌린 값이 세 해의 평균과 왜 다른지 한 문장으로 적어 보세요. 이어서 칸 하나의 종가 기록에 사는 가격보다 낮은 값을 하나 더 넣으면 왕복이 늘어나는지 확인해 보세요.'],
+ 'assume-data':['백테스트 가정 하나씩 바꾸기 실험: 가격 자료 칸을 바꿔 체결 가격과 연 수익률을 견주고 빠진 종목의 몫 계산하기','다섯 칸 가운데 가격 자료 칸만 열려 있습니다. 실제 가격+배당 현금과 수정주가를 바꾸면 첫 막대의 가격, 체결 가격이 거래된 적 있는 값인지(✓·✗), 연 수익률이 표에 쌓입니다. 생존 편향 칸은 가상 종목 20개의 3년 수익률 평균을, 계산기는 분할 날의 두 수익률과 배당의 수정 계수를 계산합니다.','가상 종목이 1주를 2주로 나누는 액면분할을 했습니다. 분할 전날 종가 40,000원, 분할 날 종가 20,100원입니다. 수정하지 않은 가격으로 계산한 그날 수익률과 수정주가로 계산한 수익률은?','가격 자료를 수정주가로 바꿨을 때 거래된 적 없는 가격의 체결이 몇 건인지 적고, 종목 목록을 “지금 상장된 종목만”으로 바꾸면 평균이 얼마나 올라가는지 확인해 보세요.'],
+ 'assume-code':['백테스트 가정 하나씩 바꾸기 실험: 코드 줄마다 그 시각에 알 수 있던 값인지 확인하고 부풀린 매도 금액 계산하기','다섯 칸 가운데 멈춤 규칙 코드 칸만 열려 있습니다. 버그 줄과 고친 줄을 바꾸면 멈춘 날의 시가·저가·매도 가격·판 주식 수가 표로 나오고 연 수익률이 쌓입니다. 줄 찾기 칸에서 줄마다 “그 시각에 알 수 있었나”를 고르면 ✓·✗로 판정합니다.','40주를 들고 있습니다. 어느 날 시가 18,300원, 저가 17,300원, 종가 17,600원이었습니다(갭 없음). “저가가 17,500원 이하면 시가에 판다” 버그 줄과 “17,500원에 닿으면 그 가격에 판다” 줄의 매도 금액 차이는?','줄 찾기 칸의 다섯 줄을 모두 판정해 ✓가 몇 개인지 적고, 버그 줄로 되돌렸을 때 17,500원보다 높게 판 날이 몇 번인지 확인해 보세요.'],
+ 'assume-fills':['백테스트 가정 하나씩 바꾸기 실험: 순서·체결 규칙·비용을 하나씩 바꿔 줄어드는 연 수익률 계산하기','다섯 칸이 모두 열려 있고, 바꿀 때마다 표에 새 줄(연 수익률, 왕복, 멈춤, 수수료·거래세)이 쌓입니다. 다섯 칸을 모두 현실 가정으로 바꾸면 “하루 안 경로로 계산” 단추가 열립니다. 막대 하나의 세 순서, 칸 하나와 막대 하나, 왕복 비용은 아래 칸에서 계산합니다. 세율과 수수료는 확인일이 있는 ⏱ 값입니다.','19,800원에 사서 20,000원에 파는 칸(5주, 비어 있고 매수가 걸려 있음)이 있습니다. 하루 막대가 시가 19,900원, 고가 20,050원, 저가 19,780원, 종가 19,950원입니다. “저가 먼저” 가정이면 왕복 몇 번이고 비용을 뺀 손익은? “한 칸 하루 한 번” 가정이면?','칸을 한 번에 하나씩만 바꿔 줄마다 줄어든 폭을 적고, 어느 칸이 가장 크게 줄였는지 적어 보세요. 순서를 바꿔 비용부터 켜도 마지막 숫자가 같은지 확인해 보세요.'],
+ 'sharpe-boot':['샤프·최대 낙폭·부트스트랩 구간 실험: 평가 금액 곡선의 지표를 계산하고 연 수익률의 구간 구하기','4장 현실 가정의 평가 금액 곡선에서 연 수익률·연 변동성·샤프 비율(무위험 수익률 0)·최대 낙폭과 그 고점·저점이 나오고, 부트스트랩 횟수를 고르면 다시 뽑은 연 수익률의 막대 그림, 95% 구간, 0 아래 비율이 나옵니다. 해마다 샤프와 같은 기간 보유도 함께 나옵니다. 월 수익률 계산기는 직접 넣은 목록으로 계산합니다.','어느 계좌의 월 수익률 6개가 +2%, −1%, +3%, 0%, +1%, −2%입니다. 월 샤프 비율(무위험 0, 모표준편차)과 √12로 연율화한 값은? 평가 금액이 100 → 104 → 101 → 106 → 99 → 103(만 원)이면 최대 낙폭은?','부트스트랩을 1,000번과 1만 번으로 바꿔 95% 구간이 얼마나 움직이는지 적고, 해마다 샤프를 보고 지어낸 3년째가 구간을 넓히는 데 어떤 몫을 했을지 한 문장으로 적어 보세요.'],
+ 'is-oos':['표본 안 1등의 표본 밖 성적 실험: 설정 수를 바꿔 고른 1등의 표본 밖 순위와 걷기 전진 결과 계산하기','시험할 설정 수(10·100·402)를 고르면 1~2년째로 줄 세운 다섯 설정이 나오고, 그 가운데 하나를 3년째에 돌릴 설정으로 고르면 표본 밖 수익률, 표본 안 1등의 표본 밖 순위, 순위 상관, 산점도와 걷기 전진이 열립니다. 3년째 자료를 다른 기록으로 바꿀 수 있습니다. 기대 최대 샤프 칸은 실력이 0인 설정 수를 고릅니다.','설정 다섯 개의 표본 안 수익률이 A 18%, B 15%, C 12%, D 9%, E 6%이고 표본 밖 수익률이 A −2%, B 4%, C 7%, D 3%, E 5%입니다. 표본 안 1등 A의 표본 밖 순위와 두 수익률의 차이는?','설정 수를 10·100·402로 늘리며 표본 안 1등의 숫자와 표본 밖 순위를 표로 적고, 3년째 자료를 다른 기록으로 바꾸면 순위 상관이 어떻게 달라지는지 적어 보세요. 어느 설정도 권하는 값이 아닙니다.'],
+ 'mock-api':['모의 주문 요청·응답 실험: 요청을 보내 응답 코드를 읽고 초당 한도에서 주문이 모두 나가는 시간 계산하기','책 안의 가상 모의 서버에 주문 요청(가격, 수량, 요청 ID)을 보내면 초 구간마다 접수된 요청 수와 요청마다의 응답 코드·주문번호·통보가 나옵니다. 토큰 상태와 보내는 방식을 바꿀 수 있고, 키 칸에는 읽기 전용 “가상 키”만 있습니다. 호출 횟수 계산기는 하루 호출 수를 계산합니다.','모의 서버가 초당 2건만 받습니다(가상). 장 시작 전에 칸 20개의 주문을 모두 다시 걸면 마지막 주문은 시작 뒤 몇 초째 구간에 나가나?','보내는 방식을 “한꺼번에”로 바꿔 거절된 요청이 몇 건인지 적고, 요청 ID를 켠 채 마지막 요청을 다시 보내면 주문이 몇 건인지 확인해 보세요.'],
+ 'order-recon':['주문 상태와 잔고 대사 실험: 사건 순서를 바꿔 주문 상태를 따라가고 장부와 계좌의 차이 계산하기','주문(가격·수량)과 서버 사건 여섯 칸(접수·체결·취소 요청·취소 확인·거부·응답 없음)의 순서를 바꾸면 주문 상태 그림, 사건마다의 상태 표, 봇 장부와 계좌의 주식 수·현금 차이(✗와 원 단위)가 나옵니다. 봇이 장부에 적는 방식과 응답 없음 뒤 다시 보내는 방식을 바꿀 수 있습니다.','18,750원에 10주 매수를 냈고 4주가 체결된 뒤 취소를 요청해 남은 6주의 취소가 확인되었습니다. 봇이 “전부 취소, 0주”로 적었다면 계좌와 장부의 주식 수 차이와 현금 차이는?','봇이 장부에 적는 방식을 바꿔 차이가 0이 되는지 확인하고, 응답 없음 뒤 다시 보내는 네 방식 가운데 주문이 두 건 나가는 것을 찾아 적어 보세요.'],
+ 'stop-rules':['봇 멈춤 조건 시험 실험: 조건을 켜고 주문 기록을 차례로 넣어 처음 걸리는 요청 찾기','멈춤 조건(하루 손실 한도, 주문 수 한도, 같은 칸 중복 검사, 보유 한도, 장 시작 전 대사, 시세 지연)을 켜고 값을 바꾼 뒤 가상 주문 기록을 고르면 조건마다 처음 걸린 요청 번호와 그때 손익, 요청마다의 판정 표가 나옵니다. 거래소 장치와 견주는 표도 함께 나옵니다.','멈춤 조건이 셋입니다: 같은 칸 중복 주문 금지, 밤사이 주문 8건 한도, 하루 손실 60,000원. 밤사이 주문 기록이 “칸 2 매수 → 칸 3 매수 → 칸 4 매수 → … → 칸 10 매수”(서로 다른 칸 아홉 건, 아직 체결 없음)라면 어느 조건이 몇 번째 요청에서 처음 걸리나?','밤사이 같은 칸 세 번 기록에서 조건을 하나씩 꺼 보며 사고를 멈추는 조건이 몇 개 남는지 적고, 보유 한도만 켜 두면 어떻게 되는지 확인해 보세요. 어느 조건 값도 권하는 값이 아닙니다.'],
+ 'fill-match':['모의 서버·백테스트 체결 차이 기록 실험: 같은 날 두 체결 목록을 짝지어 체결률과 누적 차이 기록하기','모의 서버 운용 첫 며칠(20거래일까지)을 고르면 날마다 백테스트 체결과 모의 서버 체결을 짝지은 표(맞음·놓침·더 생김·가격 차이·누적 손익 차이·대사 차이)와 누적 차이 그림이 나옵니다. 경보 기준을 정하면 처음 울린 날이 나오고, 직접 입력 칸에서는 두 체결 목록을 짝짓습니다.','하루의 백테스트 체결이 넷입니다: 매수 19,250원, 매도 19,500원, 매수 19,000원, 매도 19,250원(각 8주). 모의 서버는 매수 19,250원, (매도 없음), 매수 18,950원(시가 갭), 매도 19,250원이었습니다. 체결률과 맞은 체결의 가격 차이 합계는?','날 수를 하루씩 늘리며 누적 차이가 처음 0에서 벗어난 날을 적고, 대사 경보를 끄면 경보가 언제 울리는지 확인해 보세요.'],
+ 'loss-audit':['격자 봇 손실 원인 조사 실험: 증거를 차례로 열어 손익을 원인별 금액으로 나누고 합 확인하기','계좌·장부 대사, 주문 기록, 같은 60일 백테스트 다시 돌리기, 60일 체결 짝짓기, 설정을 고른 과정을 단추로 엽니다. 단추를 누른 순서대로 조사표가 채워지고 단단한 증거부터 보았는지 표시됩니다. 원인별 금액 세 칸을 채우면 합을 실제 손익과 견주고 풀이가 열립니다. 비교 예제는 예측을 적은 뒤에 열립니다.','다른 가상 봇이 가람200을 사고팝니다. 어느 날 계좌에는 가람200 75주, 봇 장부에는 60주가 있고 그날 종가는 35,150원입니다. 주식 수 차이와 그 차이의 평가 금액은?','과제지 (가)~(바)를 먼저 손으로 채운 뒤 증거를 열어 견주고, 원인별 금액의 합이 실제 손익과 같아질 때까지 다시 계산해 보세요. 이 결과로 설정의 좋고 나쁨을 말할 수 없다는 문장도 함께 적으세요.']
+};
+const SAME='백테스트 가정 하나씩 바꾸기 실험';
+const ALIAS={'grid-run':'격자 규칙 백테스트 실행 실험','assume-data':SAME,'assume-code':SAME,'assume-fills':SAME,'sharpe-boot':'샤프·최대 낙폭·부트스트랩 구간 실험','is-oos':'표본 안 1등의 표본 밖 성적 실험','mock-api':'모의 주문 요청·응답 실험','order-recon':'주문 상태와 잔고 대사 실험','stop-rules':'봇 멈춤 조건 시험 실험','fill-match':'모의 서버·백테스트 체결 차이 기록 실험','loss-audit':'격자 봇 손실 원인 조사 실험'};
+const GUESS={'grid-run':'예: ○번, ○,○○○원','assume-data':'예: −○○.○○%, +○.○○%','assume-code':'예: ○○,○○○원','assume-fills':'예: ○번 ○○○원, +○○○원','sharpe-boot':'예: 0.○○○, ○.○○○, −○.○○%','is-oos':'예: ○위, ○○%p','mock-api':'예: ○초째','order-recon':'예: ○주, ○○,○○○원','stop-rules':'예: ○○ 한도, ○번째','fill-match':'예: ○○%, −○○○원','loss-audit':'예: ○○주, ○○○,○○○원'};
+const NEXT_WHY={
+ backtest:'연 12.25%는 규칙·자료·가정으로 만든 숫자였습니다. 그 가운데 자료부터, 실제 가격과 수정주가 가운데 어느 쪽이 격자에 맞는지 계산합니다.',
+ data:'자료는 실제 가격과 배당 현금으로 고쳤습니다. 이제 코드가 그날 알 수 없던 값을 쓰지 않았는지 줄마다 따집니다.',
+ lookahead:'코드를 고친 연 11.22%도 하루 막대 안의 순서, 체결 규칙, 비용을 가정해 계산한 값입니다. 셋을 하나씩 바꿔 봅니다.',
+ fills:'남은 연 5.62%는 3년 동안 고르게 쌓였을까요? 샤프 비율과 최대 낙폭, 부트스트랩 구간으로 흔들림을 잽니다.',
+ metrics:'하린이 2년째 끝에 고른 설정은 402개 가운데 표본 안 1등이었습니다. 그 1등이 고르는 데 쓰지 않은 3년째에 몇 위였는지 계산합니다.',
+ overfit:'고른 설정을 봇에 맡기려면 주문을 받는 서버와 무엇을 주고받을까요? 가상 모의 서버로 요청과 응답부터 읽습니다.',
+ api:'주문이 일부만 체결되고 취소와 엇갈리면 봇 장부와 계좌가 어긋날 수 있습니다. 주문 상태를 따라가며 대사합니다.',
+ orders:'다시 보낸 주문이 두 번 나가는 사고를 무엇이 멈출까요? 멈춤 조건마다 몇 번째 요청에서 걸리는지 계산합니다.',
+ limits:'멈춤 조건은 체결이 백테스트와 얼마나 다른지는 보지 않습니다. 같은 날의 모의 서버 체결과 백테스트 체결을 짝지어 날마다 기록합니다.',
+ monitor:'1~10장의 계산을 모의 서버 60일 전체에 함께 씁니다. 손익을 단단한 증거부터 원인별 금액으로 나누고 합을 맞춥니다.'
+};
+const PATHS=[
+ ['백테스트 숫자가 무엇을 계산한 값인지 다시 따지려면','숫자가 규칙·자료·가정 가운데 어디에서 나왔는지 나누고, 수정주가와 생존 편향, 그날 알 수 없던 값, 하루 막대의 체결 가정과 비용을 하나씩 고쳐 수익률이 줄어드는 폭을 계산합니다.',['backtest','data','lookahead','fills']],
+ ['고른 설정의 숫자가 얼마나 흔들리는지 재려면','샤프 비율과 최대 낙폭, 부트스트랩 구간으로 흔들림을 말하고, 설정 402개 가운데 고른 1등을 표본 밖과 걷기 전진으로 다시 잽니다.',['metrics','overfit']],
+ ['봇의 주문을 대사하고 멈출 조건을 시험하려면','모의 서버의 요청·응답을 읽고, 주문 상태를 따라 장부와 계좌를 대사하고, 멈춤 조건과 체결 차이 기록을 시험한 뒤 손실 원인을 금액으로 나눕니다.',['api','orders','limits','monitor','final']]
+];
+const SERIES='이 책은 시리즈 「금융과 투자 처음부터」의 13권이자 마지막 권입니다. 본문에 나오는 n권은 같은 시리즈의 다른 권이며, 12권 「격자 하나에서 손익이 갈리기까지」의 격자 규칙을 이어서 씁니다. 호가 눈금과 대기열·비용은 4권, 최대 낙폭은 8권, 샤프 비율은 9권, 결정 일지는 10권, 거래세는 11권에서 다시 볼 수 있습니다.';
+const GLOSSARY=[['백테스트','규칙을 과거 기록에 대입해 그때 사고팔았다면 어땠을지 계산하는 일. 규칙·자료·가정이 입력이다.'],['연 수익률','(끝 금액 ÷ 시작 금액)^(250 ÷ 거래일 수) − 1. 해마다 불어나는 비율.'],['수정주가','배당·분할이 있던 날보다 앞의 가격을 거꾸로 맞춘 가격. 수익률을 이어 보기는 편하지만 그날 거래된 가격이 아니다.'],['생존 편향','지금 남아 있는 것만 세어 사라진 것의 나쁜 결과가 빠지는 치우침.'],['미래 정보 누수','그 시각에는 알 수 없던 값(오늘 저가·종가 등)을 계산에 쓰는 것.'],['하루 막대','시가·고가·저가·종가 넷. 하루 안에서 가격이 지나간 순서는 없다.'],['한 칸 하루 한 번','하루 안 순서를 모르니 한 칸은 하루에 한 번만 체결된다고 보는 보수적 가정.'],['한 눈금 지나야 체결','가격이 칸 가격에 닿기만 해서는 체결되지 않을 수 있으니 한 호가 눈금을 넘어서야 체결된다고 보는 가정.'],['하루 안 경로','이 책이 하루 막대 뒤에 숨겨 둔 가상의 여덟 점 경로.'],['연 변동성','날마다 수익률의 표준편차 × √250.'],['샤프 비율','평균 수익률 ÷ 표준편차(이 책은 무위험 수익률 0). 연율화는 × √250.'],['최대 낙폭','평가 금액이 그때까지의 고점에서 가장 깊이 떨어진 비율.'],['부트스트랩','날마다 수익률을 복원 추출로 다시 뽑아 같은 길이의 기간을 많이 만들어 보는 방법.'],['95% 구간','다시 뽑은 연 수익률을 정렬해 2.5%와 97.5% 자리를 읽은 범위. 미래를 보장하지 않는다.'],['자기상관','오늘 수익률이 어제 수익률과 함께 움직이는 정도. 0이 아니면 날마다 독립이라는 가정이 깨진다.'],['표본 안·표본 밖','설정을 고르는 데 쓴 기간(1~2년째)과 쓰지 않은 기간(3년째).'],['과최적화','시험한 설정이 많을수록 우연히 좋게 나온 설정을 1등으로 고르게 되는 것.'],['기대 최대 샤프','실력이 0인 설정 N개 가운데 1등의 샤프 비율이 평균적으로 얼마나 높게 나오는지.'],['순위 상관','두 줄 세우기가 얼마나 같은지(스피어만, −1~1).'],['걷기 전진','앞 기간으로 고르고 바로 다음 기간에 시험하기를 이어 가는 방법.'],['모의 서버','이 책 안에서만 도는 가상 주문 서버. 실제 증권사에 연결하지 않는다.'],['접근 토큰','키로 받아 요청마다 붙이는 임시 출입증. 만료되면 다시 받는다.'],['호출 한도','서버가 일정 시간에 받는 요청 수의 상한(이 책은 초당 2건, 가상).'],['요청 ID','같은 요청을 다시 보내도 한 번만 처리되도록 붙이는 이름(멱등 키).'],['부분 체결','주문 수량 가운데 일부만 체결된 상태.'],['대사','봇 장부와 계좌(서버가 아는 사실)의 주식 수와 현금을 맞춰 보는 일.'],['멈춤 조건','손실·주문 수·같은 칸·대사·시세 지연을 보고 봇의 주문을 멈추는 조건.'],['체결률','백테스트 체결 가운데 모의 서버에서도 같은 날·같은 칸·같은 방향으로 체결된 비율.'],['경보 기준','차이가 얼마나 쌓이면 조사를 시작할지 미리 정한 기준.']];
+return {info,ALIAS,GUESS,NEXT_WHY,PATHS,SERIES,GLOSSARY,SAME};
+})();
+/* 화면 그리기: 표지, 참고 자료, 장 화면(일곱 블록), 이전·다음, 경로. 서가 공통 진도(book-study.js)는 index.html이 따로 불러온다. */
+(()=>{
+'use strict';
+const U=BUI,B=BBook,M=BMath,A=BApp,main=document.querySelector('main'),BOOK_TITLE='백테스트와 자동 매매 · 가정을 고쳐 수익률을 견주고 봇의 멈춤 조건 시험하기';let cleanup=()=>{};
+const pad=i=>String(i+1).padStart(2,'0');
+function sourceLinks(ids){if(!ids.length)return '<p class="caption">이 장의 출처와 확인일은 <a href="docs/research.html">조사 노트</a>에 모아 두었습니다.</p>';return `<ul class="source-list">${ids.map(i=>`<li><a href="${B.sources[i][1]}" target="_blank" rel="noreferrer">${B.sources[i][0]}</a><br><span class="caption">${B.sources[i][2]}</span></li>`).join('')}</ul>`;}
+function flow(items){return `<div class="flow">${items.map(x=>{const [a,b]=x.split('|');return `<div><b>${U.esc(a)}</b><span>${U.esc(b)}</span></div>`;}).join('')}</div>`;}
+function side(){document.querySelector('#sidebar').innerHTML='<div class="sidebar-title">CONTENTS / 전체 목차</div><a href="#home">백테스트와 자동 매매에서 처음으로</a>'+B.chapters.map((c,i)=>`<a href="#${c.id}" data-chapter="${c.id}"><span>${pad(i)}</span>${c.title}</a>`).join('');}
+function paths(){return `<div class="path-grid">${A.PATHS.map(([t,d,ids])=>`<div class="path"><h3>${t}</h3><p>${d}</p>${ids.map(id=>{const i=B.chapters.findIndex(c=>c.id===id);return `<a href="#${id}" aria-label="${pad(i)}장 ${U.esc(B.chapters[i].title)}">${pad(i)}</a>`;}).join('')}</div>`).join('')}</div>`;}
+function sourcesSection(){
+ const T=M.MARKET.tradeTax,Fe=M.MARKET.fee,Tk=M.MARKET.tick;
+ return `<section class="section" id="sources"><h2>참고 자료와 실험의 경계</h2><p class="lead">샤프 비율·자기상관·생존 편향·데이터 스누핑·기대 최대 샤프는 학술 원문·초록·서지로, 백테스트의 문제 목록은 2차 자료로, 주문 상태와 요청 ID는 공식 문서로, 거래소 장치는 보도로 확인한 수준을 적었습니다. 시점에 묶인 값(⏱)은 셋입니다: 증권거래세 ${U.sfmt(T.value*100,2)}%(${T.label}, ${T.checked} 확인 기준), 수수료 ${U.sfmt(Fe.value*100,3)}%(${Fe.label}, ${Fe.checked} 확인 기준), 호가단위 표(${Tk.label}, ${Tk.checked} 확인 기준). ${U.RECHECK}</p><div class="note"><b>이 책은 학습용이며 투자 권유가 아닙니다.</b><br>${U.DISCLAIMER} ${M.TEXT.noAuto}. ${M.TEXT.mockOnly}. 하린, 새벽전자의 750거래일 기록(하루 막대와 하루 안 여덟 점), 가상 종목 01~20, 6장의 다른 3년째, 모의 서버 운용 60일과 중복 매수 사건은 이 책이 정한 가상 시나리오입니다(${U.LABEL}). ${M.TEXT.year3Note}. 가람200은 앞선 권의 가상 이름입니다. 실험은 js/math.js의 식대로 브라우저에서 실제로 계산하고, 결과 끝의 꼬리표로 무엇을 바탕으로 계산했는지 밝힙니다. “실제 계산”은 브라우저가 식으로 계산한 값, “미리 정한 시나리오”는 이 책이 정한 기록과 모의 서버의 규칙, “학술 원문”·“학술 초록”·“학술 서지”는 연구를 확인한 수준, “공식 문서”는 표준·서비스 문서, “2차 자료”는 학습 노트, “서재 안 재인용”은 다른 권이 확인한 값, “보도 기준”은 원문을 확인하지 못하고 보도로만 확인한 값, “확인 못함”은 출처로 확인하지 못한 것, “시각적 비유”는 숫자 없이 위치만 보이는 그림입니다. ${M.TEXT.brokerDocs}. 그림의 색은 돕는 표시일 뿐이며, 같은 내용을 글자와 기호(✓ 맞음·접수, ✗ 다름·거절·오류, ▲ 지금 값·조건이 걸림, ● ■ ▲ ◆ ○ 점 모양, 선 무늬)로도 적었습니다. 출처와 단순화한 부분은 <a href="docs/research.html">조사 노트</a>에 있습니다.<br>${A.SERIES}</div>${sourceLinks(B.sources.map((_,i)=>i))}<h3>처음 보는 용어 빠르게 찾기</h3><div class="glossary">${A.GLOSSARY.map(([t,d])=>`<p><b>${t}</b> ${d}</p>`).join('')}</div></section>`;
+}
+function home(){
+ document.body.classList.remove('reading');document.title=BOOK_TITLE;
+ const names=new Set(B.chapters.flatMap(c=>c.labs).map(id=>A.ALIAS[id])).size;
+ main.innerHTML=`<section class="hero"><div><div class="eyebrow">ASSUMPTIONS, ORDERS, LIMITS</div><h1>백테스트와 자동 매매<br><em>가정을 고쳐 수익률을 견주고 봇의 멈춤 조건 시험하기</em></h1><p class="lead">가상 인물 하린은 12권에서 설계한 격자 규칙을 가상 회사 새벽전자의 3년(750거래일) 기록에 돌려 “연 12.25%”를 보았습니다. 이 책은 그 숫자를 계산할 때 쓴 가격 자료, 그날 알 수 없던 값을 쓴 코드 줄, 하루 막대 안의 체결 가정, 수수료·거래세를 하나씩 고쳐 수익률이 줄어드는 폭을 계산하고, 그 숫자가 얼마나 흔들리는지와 설정 402개 가운데 고른 1등이 고르는 데 쓰지 않은 기간에 몇 위였는지 잽니다. 이어서 가상 모의 서버에서 주문 상태와 잔고를 대사하고 멈춤 조건과 체결 차이를 시험한 뒤, 모의 서버 석 달 손실을 원인별 금액으로 나눕니다.</p><p class="caption rate-note">${U.DISCLAIMER} ${M.TEXT.noAuto}. ⏱ 값은 ${M.CHECKED} 확인 기준이며, ${U.RECHECK}</p><div class="hero-links"><a class="button primary" href="#backtest">01장부터 읽기</a><a class="button" href="#fills">${A.SAME}</a></div><div class="stats"><span><b>${B.chapters.length}</b>장</span><span><b>${names}</b>인터랙티브 실험</span><span>투자 권유 없음</span></div><p class="caption">자료·코드·체결 가정 → 구간과 표본 밖 → 모의 서버의 주문·대사·멈춤 조건 → 마지막 과제<br>모든 계산은 브라우저 안에서 하며, 인물과 기록, 모의 서버는 모두 가상입니다. 실제 증권사에 연결하지 않습니다.</p><p class="caption series-note">${A.SERIES}</p></div><div class="hero-lab" id="home-lab"></div></section>
+ <section class="section"><div class="section-heading"><h2>백테스트의 가정을 하나씩 고쳐 계산하고, 고른 설정을 표본 밖에서 다시 재며, 봇의 주문을 대사합니다</h2><p>1~4장에서 자료·코드·체결 가정·비용을 고치고, 5~6장에서 구간과 표본 밖을, 7~10장에서 모의 서버의 주문·대사·멈춤 조건·체결 차이를 계산합니다. 마지막 과제에서 손실 원인을 금액으로 나눕니다.</p></div>${flow(['1부 · 과거 기록으로 시험한 수익률을 다시 계산하기|가정 · 자료 · 코드 · 체결과 비용 (1~4장)','2부 · 수익률을 구간으로 말하고 고른 설정을 표본 밖에서 다시 재기|지표와 구간 · 표본 안과 밖 (5~6장)','3부 · 모의 서버에서 봇의 주문을 대사하고 멈춤 조건 시험하기|요청·응답 · 대사 · 멈춤 조건 · 체결 차이 (7~10장)','마지막 과제|증거 순서 · 원인별 금액 · 합 확인 (11장)'])}</section>
+ <section class="section" id="chapters"><div class="section-heading"><div class="eyebrow">EXPLORE THE BOOK</div><p>먼저 예측하고, 바꾸어 보고, 숫자와 그림으로 이유를 확인합니다.</p></div><h2>전체 장</h2><div class="chapter-grid">${B.chapters.map((c,i)=>`<a class="chapter-card" href="#${c.id}"><span class="num">CHAPTER ${pad(i)} / ${c.group}</span>${U.thumbnail(i)}<h3>${c.title}</h3><p>${c.desc}</p><span class="tag">실험 ${c.labs.length}개</span><span class="caption">약 ${c.time}</span></a>`).join('')}</div></section>
+ <section class="section"><div class="section-heading"><h2>나에게 맞는 학습 경로</h2><p>처음 읽을 때는 순서대로, 다시 읽을 때는 질문 중심으로 돌아보세요.</p></div>${paths()}</section>
+ ${sourcesSection()}`;
+ cleanup=BHome.mount(document.querySelector('#home-lab'));
+}
+function renderLab(id,index){const [title,desc,predict,task]=A.info[id];return `<article class="lab" id="lab-${id}"><div class="lab-heading"><span>EXPERIMENT ${pad(index)}</span><h3>${title}</h3><small class="lab-alias">본문의 “${A.ALIAS[id]}”</small></div><p class="lab-desc">${desc}</p><div class="predict"><b>먼저 예측하기</b>${predict}<label class="my-guess" for="guess-${id}"><span>내 예측 적어 두기</span><input id="guess-${id}" type="text" autocomplete="off" placeholder="${A.GUESS[id]||'짐작한 답을 짧게'}"></label></div><div class="lab-inner" data-lab="${id}"></div><div class="challenge"><b>직접 해 보기</b>${task}</div></article>`;}
+function cross(c){if(!c.cross||!c.cross.length)return '';return `<h3>다른 책으로 이어 읽기</h3><ul class="source-list">${c.cross.map(([name,url,why])=>`<li><a href="${url}">${name}</a><p>${why}</p></li>`).join('')}</ul>`;}
+function figure(c,index){
+ const art=window.BFigures?.render(c.id),caption=art?art.caption:`${c.subtitle}`;
+ return `<figure class="concept-diagram">${art?`<div class="figure-art" tabindex="0" role="group" aria-label="그림 ${index+1}-1. 좁은 화면에서는 방향키로 옆으로 밀어 볼 수 있습니다">${art.svg}</div>`:''}${flow(c.flow)}<figcaption class="caption">그림 ${index+1}-1. ${caption} 아래 상자는 같은 흐름을 글로 적은 것입니다.</figcaption></figure>`;
+}
+function detailTable(title,body){
+ if(!body.includes('<table'))return body;
+ return body.replace(/<table>([\s\S]*?)<\/table>/g,(all,inner)=>{const head=[...inner.matchAll(/<th scope="col">(.*?)<\/th>/g)].map(m=>m[1].replace(/<[^>]+>/g,'')),cards=head.length>=5;
+  const rows=inner.replace(/<tbody>([\s\S]*?)<\/tbody>/,(m,r)=>'<tbody>'+r.replace(/<tr>([\s\S]*?)<\/tr>/g,(x,cells)=>{let k=0;return '<tr>'+cells.replace(/<(td|th)([^>]*)>/g,(cc,tag,attr)=>`<${tag}${attr} data-label="${U.esc(head[k++]||'')}">`)+'</tr>';})+'</tbody>');
+  return `<div class="table-wrap${cards?' cards':' fit'}" tabindex="0" role="region" aria-label="${U.esc(title)}"><table>${rows}</table></div>`;});
+}
+/* 깊이 읽기 상자. “풀이”(마지막 과제)와 “접어 둔”(6장 기대 최대 샤프 식)으로 시작하는 상자는 접어 둔다. */
+function deep([title,body]){return /^(풀이|접어 둔)/.test(title)?`<details class="deep-reading${/^풀이/.test(title)?' solution':''}"><summary><h3>${title}</h3></summary>${detailTable(title,body)}</details>`:`<div class="deep-reading"><h3>${title}</h3>${detailTable(title,body)}</div>`;}
+function choices(q,target,attr){return U.choiceOrder(q[1].length,q[2],target).map((i,k)=>`<button type="button" data-${attr}="${i}">${k+1}. ${q[1][i]}</button>`).join('');}
+function transferQuiz(c,index){if(!c.transfer)return '';return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer,(index+1)%3,'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;}
+function navLinks(index){
+ const prev=index?`<a href="#${B.chapters[index-1].id}">이전 · ${B.chapters[index-1].title}</a>`:'<a href="#home">이전 · 표지</a>';
+ const next=index<B.chapters.length-1?`<a href="#${B.chapters[index+1].id}">다음 · ${B.chapters[index+1].title}<small>이동 이유: ${A.NEXT_WHY[B.chapters[index].id]}</small></a>`:'<a href="../../index.html#books">서가로 돌아가기 · 시리즈의 마지막 권<small>이동 이유: 「금융과 투자 처음부터」 13권을 모두 마쳤습니다. 세후 손익은 11권, 결정 일지는 10권, 격자 규칙의 칸과 장부는 12권에서 다시 볼 수 있습니다.</small></a>';
+ return `<nav class="chapter-nav" aria-label="이전·다음 장">${prev}${next}</nav>`;
+}
+const PART3=`<div class="note part-note"><strong>3부 머리말</strong><br>${M.TEXT.noAuto}. ${M.TEXT.mockOnly}. ${M.TEXT.brokerDocs}.</div>`;
+function chapter(c,index){
+ document.body.classList.add('reading');document.title=`${pad(index)}. ${c.title} · 백테스트와 자동 매매`;
+ main.innerHTML=`<div class="chapter-body"><div class="chapter-head"><div class="eyebrow">CHAPTER ${pad(index)} / ${c.group}</div><h1>${c.title}</h1><p class="lead subtitle">${c.subtitle}</p><span class="tag">${c.labs.length}개 실험</span><span class="caption">약 ${c.time} · 확인 문제 ${c.transfer?2:1}개</span></div>${c.id==='api'?PART3:''}<div class="recall"><b>${index?'앞 장 떠올리기':'먼저 떠올리기'}</b>${c.recall}</div><section><h2>먼저 개념 잡기</h2>${c.paragraphs.map(p=>`<p>${p}</p>`).join('')}${figure(c,index)}<div class="formula"><code>${c.formula}</code><p>${c.formulaNote}</p></div>${(c.details||[]).map(deep).join('')}</section>${c.labs.map(renderLab).join('')}<div class="note"><strong>혼동하지 마세요</strong><br>${c.warning}</div><section class="quiz"><div class="eyebrow">CHECK YOUR UNDERSTANDING</div><h2>${c.quiz[0]}</h2>${choices(c.quiz,index%3,'answer')}<div class="quiz-feedback" role="status" aria-live="polite"></div>${transferQuiz(c,index)}</section><section><h2>더 읽어 보기</h2>${sourceLinks(c.source||[])}${cross(c)}</section>${navLinks(index)}</div>`;
+ c.labs.forEach(id=>{const el=main.querySelector(`[data-lab="${id}"]`);BLabs[id](el);BGuides.mount(id,el);});
+ main.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{const ok=+b.dataset.answer===c.quiz[2];main.querySelector('.quiz-feedback').textContent=`${ok?'정답입니다.':'다시 생각해 보세요.'} ${c.quiz[3]}`;});
+ main.querySelectorAll('[data-transfer]').forEach(b=>b.onclick=()=>{const ok=+b.dataset.transfer===c.transfer[2];main.querySelector('.transfer-feedback').textContent=`${ok?'정답입니다.':'다시 생각해 보세요.'} ${c.transfer[3]}`;});
+}
+function route(){
+ cleanup();cleanup=()=>{};const hash=location.hash.slice(1)||'home',i=B.chapters.findIndex(c=>c.id===hash);
+ document.body.classList.remove('menu-open');document.querySelector('#menu').setAttribute('aria-expanded','false');
+ if(i>=0)chapter(B.chapters[i],i);else home();
+ document.querySelectorAll('[data-chapter]').forEach(a=>{const on=a.dataset.chapter===hash;a.classList.toggle('active',on);if(on)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+ if(['chapters','sources'].includes(hash))document.getElementById(hash).scrollIntoView();else window.scrollTo(0,0);
+}
+side();window.addEventListener('hashchange',route);
+document.querySelector('#theme').onclick=()=>{const dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';};document.querySelector('#menu').onclick=()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('#menu').setAttribute('aria-expanded',String(open));};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.remove('menu-open');document.querySelector('#menu').setAttribute('aria-expanded','false');}});
+route();
+})();
