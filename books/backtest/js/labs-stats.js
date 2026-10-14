@@ -57,7 +57,7 @@ function revealPart(o,pick,alt){
  const scatter=U.xy({series:[],dots:o.IS.map((x,i)=>[x*100,o.OOS[i]*100]),dotsName:`설정 ${o.N}개(점 하나가 설정 하나)`,points:[{name:'표본 안 1등(▲)',x:o.isBest*100,y:o.oosBest*100,shape:'▲',color:'var(--orange)'},{name:'내가 고른 설정(◆)',x:o.IS[me]*100,y:o.OOS[me]*100,shape:'◆',color:'var(--accent)'}],
   refs:[{y:0,text:'0%'}],xlabel:'표본 안(1~2년째) 연 수익률 %',ylabel:`표본 밖(3년째${alt?', 다른 기록':`, ${MADE}`}) 연 수익률 %`,xtick:v=>U.sfmt(v,0),ytick:v=>U.sfmt(v,0),h:330,label:`표본 안과 표본 밖 연 수익률, 설정 ${o.N}개`});
  const rows=top.map((i,k)=>[`${k+1}위${k===pick?' ◆':''}`,cfgName(M.combos()[o.idx[i]]),p2(o.IS[i]),`<b>${p2(o.OOS[i])}</b>`,`${o.OOS.filter(x=>x>o.OOS[i]).length+1}위`]);
- const wf=U.table(['학습한 해','그해 1등 설정','학습한 해 연 수익률','다음 해 연 수익률'],W.map(w=>[`${w.trainYear}년째`,cfgName(w.cfg),p2(w.trainBest),`<b>${p2(w.test)}</b>${w.trainYear===2?` (${MADE})`:''}`]),'걷기 전진(1년 학습 → 다음 1년 시험, 설정 402개)','cards');
+ const wf=U.table(['고른 해','그해 1등 설정','고른 해 연 수익률','다음 해 연 수익률'],W.map(w=>[`${w.trainYear}년째`,cfgName(w.cfg),p2(w.trainBest),`<b>${p2(w.test)}</b>${w.trainYear===2?` (${MADE})`:''}`]),'걷기 전진(1년으로 고르기 → 다음 1년 시험, 설정 402개)','cards');
  return {chart:scatter+U.table(['표본 안 순위','설정','표본 안','표본 밖','표본 밖 순위'],rows,'표본 안 다섯 설정의 표본 밖 성적','cards')+wf,
   text:`고른 설정(표본 안 ${pick+1}위): 표본 안 ${p2(o.IS[me])} → 표본 밖 <b>${p2(o.OOS[me])}</b>.<br>표본 안 1등 ${cfgName(o.cfg)}: 표본 안 <b>${p2(o.isBest)}</b> → 표본 밖 <b>${p2(o.oosBest)}</b>(${o.N}개 중 <b>${o.oosRank}위</b>). 표본 안 중앙값 ${p2(o.isMedian)}, 표본 밖 중앙값 ${p2(o.oosMedian)}, 순위 상관 <b>${U.sfmt(o.rho,3)}</b>.`
    +`<br>걷기 전진: ${W.map(w=>`${w.trainYear}년째 1등 ${p2(w.trainBest)} → ${w.trainYear+1}년째 ${p2(w.test)}`).join(', ')}.${alt?' 다른 3년째는 1·2년째와 같은 성질로 지은 가정의 기록입니다.':` ${M.TEXT.year3Note}.`}`};

@@ -38,7 +38,7 @@ BLabs['loss-audit']=el=>{
  U.bind(el,()=>{
   const A=opened.length?M.audit():null,hard=EVIDENCE.filter(e=>e[2]).map(e=>e[0]),firstSoft=opened.findIndex(k=>!hard.includes(k)),hardFirst=firstSoft<0||hard.every(k=>{const i=opened.indexOf(k);return i>=0&&i<firstSoft;});
   const rows=opened.map((k,i)=>[`${i+1}`,EVIDENCE.find(e=>e[0]===k)[1]+(hard.includes(k)?' (단단한 증거)':''),evidenceText(k,A,opened)]);
-  const table=rows.length?U.table(['순서','증거','찾은 것'],rows,'고른 순서대로 채운 조사표','cards'):'<p class="caption">아직 연 증거가 없습니다. 어느 것부터 열지 먼저 정해 보세요.</p>';
+  const table=rows.length?U.table(['순서','증거','찾은 것'],rows,'고른 순서대로 채운 조사표','cards'):'<p class="caption">아직 열어 본 증거가 없습니다. 어느 것부터 열지 먼저 정해 보세요.</p>';
   const v=amounts(el),filled=v.every(x=>x!==null&&Number.isFinite(x));let check='▲ 원인별 금액 세 칸을 모두 채우면 합을 확인하고 풀이가 열립니다.';
   if(filled){const t=v.reduce((s,x)=>s+x,0),goal=-89061;check=`넣은 금액의 합 ${W(t)} ${U.verdict(t===goal,`실제 손익 ${W(goal)}과 같음`,`실제 손익 ${W(goal)}과 다름(차이 ${W(t-goal)})`)}.`;}
   const order=opened.length?(hardFirst?'✓ 단단한 증거(대사·주문 기록)부터 보았습니다.':'▲ 해석에 기대는 증거를 먼저 열었습니다. 대사와 주문 기록은 해석 없이 확인되는 사실이라 먼저 봅니다.'):'';
