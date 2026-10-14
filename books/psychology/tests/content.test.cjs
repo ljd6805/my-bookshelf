@@ -94,9 +94,9 @@ test('no advice wording or banned words; the disclaimer, re-check sentence, mode
  assert.ok(byId.frame.paragraphs.join(' ').includes('새로고침하면 선택이 사라집니다'),'ch1 says choices are not kept');assert.match(byId.frame.formulaNote,/저장하지 않으며/);
  assert.ok(byId.rules.paragraphs[0].includes('권하는 규칙이 아닙니다'),'ch9 says the rules are examples');
 });
-test('replication: no ego depletion, money priming or power pose; the 1981 replication is stated as unchecked',()=>{
+test('replication: no ego depletion, money priming or power pose; the 1981 replication is stated with its smaller size',()=>{
  const all=read('js/content.js')+read('review.json');assert.doesNotMatch(all,/자아 고갈|의지력이 닳|돈 점화|파워 포즈|ego depletion|money priming|power pose/i);
- assert.match(byId.frame.paragraphs[3],/재현되었는지는 이 책이 확인하지 못했습니다/);assert.match(byId.prospect.paragraphs[3],/94%의 항목이 재현되었고 효과는 원래보다 약했습니다/);
+ assert.match(byId.frame.paragraphs[3],/효과의 크기는 원래의 절반쯤이었습니다/);assert.match(byId.prospect.paragraphs[3],/94%의 항목이 재현되었고 효과는 원래보다 약했습니다/);
  assert.match(byId.prospect.paragraphs[3],/1\.955/);assert.match(prose(byId.overconfidence),/관련이 없었고/);
 });
 test('⏱ values appear only with their labels and the check date, never as quiz, transfer or review answers',()=>{
@@ -154,7 +154,8 @@ test('review answers are the values PMath computes',()=>{
  assert.equal(ans('overconfidence',1),`${M.pct(M.costDrag(2),2).toFixed(2)}%p`);assert.equal(ans('herd',2),`약 ${p1(M.cascadeOdds(0.7).right)}%`);
  assert.ok(M.cascadeRun([true,true,true],()=>false).acts[2].buy,'herd 1: the third buys');assert.ok(M.thirdPerson(0.6)>0.5,'herd 1: buys even with a bad signal');
  assert.equal(ans('outcome',0),`+${M.round(M.outcomeDist(0.6,1).each,1)}`);assert.equal(ans('outcome',1),`약 ${p1(M.outcomeDist(0.55,4).neg)}%`);
- const P=M.pathRule();assert.equal(ans('rules',0),`${won(P.hold-P.rule)}원 손해`);assert.ok(P.rule<P.hold,'rules 1: following R1 loses on the rebound path');
+ const P=M.pathRule({name:'온결식품',qty:200,prices:[25000,22500,26000]});assert.notEqual(P.trigger,null,'rules 1: R1 triggers at 22,500원');assert.equal(ans('rules',0),`${won(P.hold-P.rule)}원 손해`);assert.ok(P.rule<P.hold,'rules 1: following R1 loses on the new path');
+ const RB=M.pathRule(),rv=JSON.stringify(R.chapters);for(const n of [RB.rule,RB.hold,RB.hold-RB.rule])assert.ok(!rv.includes(won(Math.abs(n))),'review shows a rebound-path number that the recall widget would put on the final task screen: '+n);
  assert.match(ans('rules',1),new RegExp(`${(M.pct(18100/20000-1,1)).toFixed(1).replace('-','−')}%`));
  assert.equal(ans('final',0),`${M.r3Count().noted}건`);assert.equal(M.audit().others,1);
 });

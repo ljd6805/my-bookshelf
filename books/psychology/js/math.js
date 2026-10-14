@@ -93,7 +93,8 @@ const MARKET={
 /* 연구 결과의 숫자(시점에 묶이지 않음). 등급을 화면에 함께 적는다. */
 const FACTS={
  framing:{sure:[0.72,0.22],people:[152,155],year:1981,grade:'학술 원문'},
- tk1992:{alpha:0.88,lambda:2.25,gamma:0.61,delta:0.69,year:1992,grade:'학술 원문'},
+ tk1992:{alpha:0.88,lambda:2.25,gamma:0.61,delta:0.69,participants:25,year:1992,grade:'학술 원문'},   // 식·모수는 research S25·S26으로 대조(은재 G3)
+ klein:{samples:36,people:6271,d:{original:1.13,replication:0.6},year:2014,grade:'학술 원문'},   // Many Labs 1의 1981년 틀 효과 재현(research 1-3, S24)
  brown:{mean:1.955,ci:[1.82,2.102],estimates:607,papers:150,years:[1992,2017],year:2024,grade:'학술 초록'},
  ruggeri:{countries:19,people:4098,share:0.94,year:2020,grade:'학술 초록'},
  odean:{accounts:10000,years:[1987,1993],pgr:0.148,plr:0.098,dec:{pgr:0.108,plr:0.128},nextYear:0.034,year:1998,grade:'학술 원문'},

@@ -32,11 +32,12 @@ put('outcome',{rows:M.ASSUME.outcome.ns.map(n=>M.outcomeDist(0.55,n)),L2:M.outco
 put('rules',{path:M.pathRule(),newPath:M.pathRule({name:'새벽전자',qty:200,prices:[30000,28500,27000,29000,31500]}),newPrices:[30000,28500,27000,29000,31500],L2:M.stopGap(300,18000,16500),r2end:400*19300/L.end,r2wrong:400*19300/J.start,r2amount:400*19300,
  cashShare:L.cash/L.end,avg8:L.weeks[7].hold['온결식품'].cost/250,newCost:[30000*200,M.fee(30000*200),27000*200,M.fee(27000*200),M.tax(27000*200,'새벽전자'),30000*200+M.fee(30000*200)],r15:M.ruleReplay({r1:0.15}),r5:M.ruleReplay({r1:0.05})});
 put('final',{audit:M.audit(),form:M.formCheck()});
-/* 복습 문항의 계산(새 사례와 오답 보기 포함) */
+/* 복습 문항의 계산(새 사례와 오답 보기 포함). 9장 1번은 반등 경로가 아닌 새 경로(가정)를 쓴다: 복습 위젯이 마지막 과제 화면에 9장 문항을 꺼내 보이므로, 반등 경로의 숫자를 그 화면에 미리 보이지 않게 한다(책 AGENTS.md). */
+const RV9_PATH={name:'온결식품',qty:200,prices:[25000,22500,26000]},RV9=M.pathRule(RV9_PATH);
 put('rv',{frame:[M.ev([[0.5,200],[0.5,0]]),700-100,700-200,500+100],prospect:[M.prospect(100,100),M.value(100)+M.value(-100),M.threshold(100,{lambda:1,alpha:1,beta:1})],
  disp:[M.pgrPlr({RG:4,PG:4,RL:1,PL:4}),4/5],base:[M.bayes(0.1,0.5,0.1),M.bayes(0.01,0.8,0.1),990*0.1,10*0.8],conf:[M.oddsUpdate(0.25,[3]),0.25*3,4*0.25,Math.pow(2,5)],
  over:[6/10,10*0.8,M.costDrag(2)],herd:[M.thirdPerson(0.6),M.cascadeOdds(0.7)],outcome:[M.outcomeDist(0.6,1).each,M.outcomeDist(0.55,4).neg,0.45*0.45*0.45*0.45],
- rules:[M.pathRule().hold-M.pathRule().rule,636018-361832,18100/20000-1,20000*0.9,20000-18100]});
+ rules:[RV9,RV9.hold-RV9.rule,-RV9.rule-RV9.hold,RV9_PATH,18100/20000-1,20000*0.9,20000-18100]});
 
 test('the journal, assumptions, the two time-sensitive values and research facts live in one table each, with labels',()=>{
  assert.equal(M.CHECKED,'2026-10-14');assert.equal(M.ASSUME.journal,J);assert.match(J.label,/미리 정한 가상 시나리오/);
