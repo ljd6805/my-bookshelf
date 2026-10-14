@@ -686,5 +686,10 @@
       "확인 못함: 행동재무학 교재·강의 계획서·한국 투자자 교육 자료, Shefrin·Statman·Fischhoff·Wason 본문, 온결식품·가람200·누리 해외100의 KRX 목록 직접 조회"
     ],
     "next": "G4 관문 행(글작성팀장 나래 2차 점검·시각·실험팀장·지안), 학습 리허설(채원), G5 서가 등록(catalog는 다른 스레드의 재구성 뒤)과 blue 화면 확인, 들어오는 링크 아홉 자리, G6 새 세션 검수(유진 wording·titles·Q1~Q4 포함)"
+    },
+  "finance_field_split": {
+    "date": "2026-10-14",
+    "summary": "금융 분류 하나를 경제(1~3권)·시장(4~7권)·투자(8~13권) 세 분류로 나눔. 사용자가 결정 카드에서 세 섬을 고름. 남은 10·13권은 투자로 등록.",
+    "evidence": "docs/03-verification.html#finance-field-split, docs/04-site-plan.html#field-split"
   }
 }
