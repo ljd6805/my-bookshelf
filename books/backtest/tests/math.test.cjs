@@ -24,7 +24,7 @@ put('final',{L2:M.reconValue(75,60,35150),check:M.residual(-52140,-38600,-4920),
 /* 복습 문항의 계산(새 사례와 오답 보기 포함). */
 put('rv',{ann:M.annualize(4e6,4.66e6,750),surv:M.survivorSimple(15,0.06,5,-0.6),div:M.divFactor(400,20000),stop:M.stopLines(50,18100,17200,17500,17500),rt:M.roundTrip(19000,19250,8),mon:M.monthly([1,3,-2,2].map(x=>x/100),[100,110,99,105]),
  rank:M.rankCheck([20,16,13,10],[2,6,-1,4]),sched:M.schedule(14,3),of:M.orderFlow(19250,12,[{type:'ack',id:1},{type:'fill',qty:5,id:2},{type:'cancelReq',id:3},{type:'cancelAck',id:4}]),loss:M.lossLimit(8e6,1.2),
- mf:M.matchFills(M.parseFills('B 19500 19500; B 19250 19200'),M.parseFills('B 19500 19500; S 19500 19750; B 19250 19250'),10),dup:10*19000-196000,res:M.residual(-70000,-50000,-6000)});
+ mf:M.matchFills(M.parseFills('B 19500 19500; B 19250 19200'),M.parseFills('B 19500 19500; S 19500 19750; B 19250 19250'),10),dup:10*19000-196000,res:M.residual(-70000,-50000,-6000),emaxLong:M.emax(402,1000)});
 
 test('the record is generated once in data.js and matches the reference path (V-0)',()=>{
  const R=D.records();assert.equal(R.path.length,750);assert.equal(R.path[0].length,8);assert.equal(R.path[0][0],20000);

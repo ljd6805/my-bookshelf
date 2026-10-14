@@ -144,7 +144,7 @@ test('review answers are the values BMath computes',()=>{
  assert.match(all('lookahead'),new RegExp(won(M.stopLines(50,18100,17200,17500,17500).diff)+'원'));
  const rt=M.roundTrip(19000,19250,8);assert.match(all('fills'),new RegExp(won(rt.net)+'원'));
  const mo=M.monthly([1,3,-2,2].map(x=>x/100),[100,110,99,105]);assert.match(all('metrics'),new RegExp(`${(mo.mdd*100).toFixed(2).replace('-','−')}%`));
- assert.match(all('overfit'),new RegExp(`${M.rankCheck([20,16,13,10],[2,6,-1,4]).oosRank}위`));
+ assert.match(all('overfit'),new RegExp(`${M.rankCheck([20,16,13,10],[2,6,-1,4]).oosRank}위`));assert.match(ans('overfit',1),new RegExp(M.emax(402,1000).sharpe.toFixed(3).replace('.','\\.')));
  const of=M.orderFlow(19250,12,[{type:'ack',id:1},{type:'fill',qty:5,id:2},{type:'cancelReq',id:3},{type:'cancelAck',id:4}]);assert.equal(ans('orders',0),`주식 ${of.diff.shares}주, 현금 ${won(of.diff.cash)}원`);
  assert.match(all('limits'),new RegExp(won(M.lossLimit(8e6,1.2))+'원'));
  const r=M.residual(-70000,-50000,-6000);assert.match(all('final'),new RegExp(won(r)+'원'));
