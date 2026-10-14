@@ -32,8 +32,14 @@ function rulePart(l1,l2){
  const text=`(바) R1 −${U.sfmt(l1*100,1)}%를 지켰다면 끝 금액 <b>${W(R.rule)}</b>, 일지대로 ${W(R.actual)}, 차이 <b>${SW(R.diff)}</b>${split.length?`(${split.map(([n,v])=>`${n} ${SW(v.diff)}`).join(', ')})`:''}. “지켰다면”은 R1이 처음 걸린 주의 종가에 그 보유를 모두 팔고 그 종목의 이후 일지 매매(다시 사기와 물타기)는 하지 않는다고 놓은 계산입니다. R2 ${U.sfmt(l2*100,0)}%를 넘은 주는 ${R.r2.length}번입니다.<br>${path} 한 경로의 결과로 규칙을 판정할 수 없습니다.`;
  return {tbl,text};
 }
+/* 과제지 옆 접힌 표: 거래 15건의 주·종목·사고팖·주식 수·그 주 종가만 적는다. 보유 기간((나)와 확인 문제의 답)·이유·반대 증거 칸((라)(마)의 답)은 적지 않는다. */
+function tradeList(){
+ const rows=J.trades.map(t=>[`${t.n} · ${t.week}주`,t.name,`${t.side==='B'?'● 삼':'○ 팖'} ${U.fmt(t.qty)}주`,`${U.fmt(J.prices[t.name][t.week-1])}원`]);
+ return `<details class="trade-list"><summary>선우의 거래 ${J.trades.length}건 표 펼치기</summary>${U.table(['거래 · 주','종목','사고팖 · 주식 수','가격 (그 주 종가)'],rows,`선우의 거래 ${J.trades.length}건 (보유 기간은 직접 셉니다)`,'compact')}</details>`;
+}
 PLabs['journal-audit']=el=>{
- U.setup(el,`<p class="assume-banner"><b>${U.DISCLAIMER}</b><br>${U.LABEL}. 독자 자신의 매매 기록은 이 화면에 올리지 않고 종이나 독자의 파일에 같은 양식으로 적습니다.</p>`+inputs(),true);
+ U.setup(el,`<p class="assume-banner"><b>${U.DISCLAIMER}</b><br>${U.LABEL}. 독자 자신의 매매 기록은 이 화면에 올리지 않고 종이나 독자의 파일에 같은 양식으로 적습니다.</p>`+tradeList()+inputs(),true);
+ el.querySelector('details.trade-list').addEventListener('toggle',e=>U.markWide(e.currentTarget));
  U.bind(el,()=>{
   const l1=U.num(el,'ar1'),l2=U.num(el,'ar2');
   if(l1===null)return U.result(el,'',U.problem('R1 한도','1%에서 50% 사이로 넣어 주세요.'));if(l2===null)return U.result(el,'',U.problem('R2 한도','5%에서 100% 사이로 넣어 주세요.'));

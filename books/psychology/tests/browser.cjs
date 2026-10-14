@@ -208,6 +208,13 @@ async function extras(page,url){
  /* 10장: 결과 칸과 풀이 상자는 접혀 있다. */
  await frame(page,url,390,'final');const f=page.locator('#lab-journal-audit');const ft0=await allText(f);for(const s of ['0.714','4.8주','44만 4,934','82만 9,846'])assert.ok(!ft0.includes(s),'final hides '+s);
  await f.locator('#ashow').focus();await page.keyboard.press('Space');has(await allText(f),['0.714','0.111','4.8주','19주','5/9건','−43만 284원'],'final ashow');await reset(f);
+ /* 10장: 과제지 옆 거래 15건 표는 접혀 있고, 주·종목·사고팖·주식 수·가격만 적는다(보유 기간·이유는 답이라 없음). */
+ const tl=f.locator('details.trade-list');assert.equal(await tl.evaluate(d=>d.open),false,'trade list starts folded');
+ await tl.locator('summary').focus();await page.keyboard.press('Enter');assert.equal(await tl.evaluate(d=>d.open),true,'trade list opens with the keyboard');
+ const tt=await tl.evaluate(d=>({rows:d.querySelectorAll('tbody tr').length,head:[...d.querySelectorAll('thead th')].map(x=>x.textContent),text:d.innerText,wide:d.querySelector('.table-wrap').scrollWidth>d.querySelector('.table-wrap').clientWidth+1,cue:d.querySelector('.table-wrap').classList.contains('is-wide')}));
+ assert.equal(tt.rows,15,'trade list has 15 rows');assert.deepEqual(tt.head,['거래 · 주','종목','사고팖 · 주식 수','가격 (그 주 종가)']);assert.equal(tt.cue,tt.wide,'trade list wide cue');
+ for(const s of ['4.8주','19주 ','보유 기간 4','다들 샀다','반대 증거'])assert.ok(!tt.text.includes(s),'trade list shows '+s);
+ has(tt.text,['8 · 10주','새벽전자','● 삼 250주','○ 팖','21,500원'],'trade list');
  const sol=page.locator('details.solution');assert.ok(await sol.count()>=1,'final has a folded solution');assert.equal(await sol.first().evaluate(d=>d.open),false,'solution starts folded');
  await sol.first().locator('summary').focus();await page.keyboard.press('Enter');assert.equal(await sol.first().evaluate(d=>d.open),true,'solution opens with the keyboard');
  /* 예측을 적고 결과 읽기를 펴면 내 예측이 되울린다. */

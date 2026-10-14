@@ -7,7 +7,7 @@ const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].spli
 const IDS=['frame','prospect','disposition','baserate','confirm','overconfidence','herd','outcome','rules','final'];
 const LABS=['two-frame-choice','value-function','disposition-count','base-rate-grid','likelihood-odds','interval-cost','info-cascade','loss-by-trials','rule-replay','journal-audit'];
 const NAMES=['같은 선택지 두 틀 실험','가치 함수 실험','처분 효과 측정 실험','추천 1,000종목 실험','증거별 우도비로 확신 계산 실험','적중률과 비용 실험','정보 폭포 실험','횟수별 손실 확률 실험','규칙 대입 실험','일지 점검 실험'];
-const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014bf5';
+const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014bf6';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(사세요|파세요|손절하세요|정답 규칙|이기는 습관|오를 것|내릴 것|추천합니다|추천해 드|권합니다|권해 드|사 두세요|팔아 두세요|매수하세요|매도하세요|반드시 오른|반드시 내린|저평가|고평가|최적의 규칙|좋은 규칙입니다)/;
 const esc=s=>s.replace(/[-]/g,'\\-');
@@ -80,7 +80,7 @@ test('the cover is a different scene from the shelf illustration, and both carry
  const words=s=>new Set([...s.replace(/<style[\s\S]*?<\/style>/,'').replace(/<title[\s\S]*?<\/title>/,'').matchAll(/>([^<>]+)</g)].map(m=>m[1].trim()).filter(Boolean));
  assert.deepEqual([...words(cover)].filter(w=>words(shelf).has(w)),[],'no shared captions');
  const d=M.disposition(1,13);for(const t of [d.pgr.toFixed(3),d.plr.toFixed(3),String(d.RG),String(d.PG),String(d.PL)])assert.ok(words(cover).has(t),'cover '+t);
- const h=M.holding();for(const w of [...h.gains.slice(0,3),h.losses[0]])assert.match(shelf,new RegExp(`${w}주`),'shelf '+w);
+ const h=M.holding();for(const w of [...h.gains,...h.losses])assert.doesNotMatch(shelf,new RegExp(`(?<![\\d.])${w}주`),'shelf must not show the 10장 holding-period answer '+w);   // 서가 삽화가 확인 문제의 답(보유 기간)을 미리 보이지 않게
  assert.doesNotMatch(cover,/bf-/);
 });
 /* 예측 질문(L2)은 docs/index.html #chapters 표의 L2 칸에서 괄호 속 답을 뺀 질문과 app.js info[lab][2]가 같아야 한다. */

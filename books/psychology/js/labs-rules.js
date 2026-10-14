@@ -10,7 +10,7 @@ const W=x=>U.won(x),SW=x=>(x>0?'+':'')+U.won(x),pc=x=>U.pct(x,2);
 function timeline(L,r1,r2){
  const cw=14,x0=96,rows=J.names;let s=`<text x="10" y="16" class="series">주마다의 보유와 규칙 표시</text>`;
  rows.forEach((n,k)=>{const y=30+k*30;s+=`<text x="${x0-8}" y="${y+15}" text-anchor="end" class="axis">${n}</text>`;
-  L.weeks.forEach(w=>{const x=x0+(w.week-1)*cw,held=!!w.hold[n];s+=`<rect x="${x}" y="${y}" width="${cw-2}" height="20" fill="${held?'var(--panel2)':'var(--chart)'}" stroke="var(--line)" stroke-width=".5"/>`;});
+  L.weeks.forEach(w=>{const x=x0+(w.week-1)*cw,held=!!w.hold[n];s+=`<rect x="${x}" y="${y}" width="${cw-2}" height="20" fill="${held?'var(--blue)':'var(--chart)'}"${held?' fill-opacity=".32"':''} stroke="var(--line)" stroke-width=".5"/>`;});
   (r2||[]).filter(h=>h.name===n).forEach(h=>{s+=`<rect x="${x0+(h.week-1)*cw+2}" y="${y+2}" width="${cw-6}" height="16" fill="none" stroke="var(--accent)" stroke-width="1.6"/>`;});
   (r1||[]).filter(h=>h.name===n).forEach(h=>{const cx=x0+(h.week-1)*cw+(cw-2)/2;s+=`<path d="M${cx} ${y+4}l5 10h-10z" fill="var(--orange)"/>`;});
   J.trades.filter(t=>t.name===n).forEach(t=>{const cx=x0+(t.week-1)*cw+(cw-2)/2;s+=t.side==='B'?`<circle cx="${cx}" cy="${y+25}" r="2.6" fill="var(--blue)"/>`:`<circle cx="${cx}" cy="${y+25}" r="2.6" fill="var(--chart)" stroke="var(--blue)" stroke-width="1.4"/>`;});});
@@ -48,7 +48,7 @@ PLabs['rule-replay']=el=>{
   if(l1===null)return U.result(el,'',U.problem('R1 한도','1%에서 50% 사이로 넣어 주세요.'));if(l2===null)return U.result(el,'',U.problem('R2 한도','5%에서 100% 사이로 넣어 주세요.'));
   for(const [v,n] of [[q,'주식 수'],[gr,'규칙 가격'],[gs,'실제로 판 가격']])if(v===null)return U.result(el,'',U.problem(n,'1 이상의 정수로 넣어 주세요.'));
   const o={l1:l1/100,l2:l2/100,r1:U.checked(el,'rr1'),r2:U.checked(el,'rr2')},part=U.value(el,'rpath')==='rebound'?reboundPart(o):journalPart(el,o),gap=M.stopGap(q,gr,gs);
-  const gapText=`규칙 가격 ${U.fmt(gr)}원 대신 ${U.fmt(gs)}원에 ${U.fmt(q)}주를 팔면 (${U.fmt(gr)} − ${U.fmt(gs)}) × ${U.fmt(q)} = <b>${W(Math.abs(gap))}</b>${gap>=0?'만큼 손실이 더 큽니다':'만큼 덜 잃습니다'}(비용 제외).`;
+  const gapText=`규칙 가격 ${U.fmt(gr)}원 대신 ${U.fmt(gs)}원에 ${U.fmt(q)}주를 팔면 `+(gap===0?'규칙대로 판 것과 손익이 같습니다(비용 제외).':gap>0?`(${U.fmt(gr)} − ${U.fmt(gs)}) × ${U.fmt(q)} = <b>${W(gap)}</b>만큼 손실이 더 큽니다(비용 제외).`:`(${U.fmt(gs)} − ${U.fmt(gr)}) × ${U.fmt(q)} = <b>${W(-gap)}</b>만큼 덜 잃습니다(비용 제외).`);
   U.result(el,part.chart,`${part.text}<br>${gapText}<br>${U.DISCLAIMER} 사전 계획(if-then)의 효과를 보고한 연구는 ${M.TEXT.ifThen}.${U.kind(part.kinds)}`);
  });
 };

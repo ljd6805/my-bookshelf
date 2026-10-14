@@ -44,7 +44,7 @@ PLabs['loss-by-trials']=el=>{
   const d=M.outcomeDist(p/100,n,w,l),pts=d.pmf.map((q,k)=>[k*w-(n-k)*l,q*100]).filter((_,k)=>n<=400||d.pmf[k]>1e-7);
   const chart=U.xy({series:[{name:`합계의 분포 (${n}번)`,pts,color:'var(--blue)',marks:n<=30?pts.map((_,i)=>i):[],shape:'●'}],refs:[{x:0,text:'합계 0',anchor:'start'}],xlabel:'합계',ylabel:'확률 (%)',xtick:v=>U.sfmt(v,0),ytick:v=>U.sfmt(v,1),h:300,label:`합계가 음수일 확률 ${p1(d.neg)}`})
    +U.columns({labels:['음수','정확히 0','양수'],values:[d.neg*100,d.zero*100,d.pos*100],fmt:v=>U.sfmt(v,1)+'%',tick:v=>U.sfmt(v,0)+'%',title:'합계의 세 칸 (%)',h:220,label:`음수 ${p1(d.neg)}, 0 ${p1(d.zero)}, 양수 ${p1(d.pos)}`,colors:['var(--orange)','var(--muted)','var(--blue)']});
-  U.result(el,chart,`한 번 기대값 = ${U.sfmt(p/100,2)} × ${U.sfmt(w,2)} − ${U.sfmt(1-p/100,2)} × ${U.sfmt(l,2)} = <b>${U.splus(d.each,2)}</b>. ${n}번 합계의 기대값은 ${U.splus(d.mean,2)}입니다.<br>합계가 음수일 확률 <b>${p1(d.neg)}</b>, 정확히 0일 확률 ${p1(d.zero)}, 양수일 확률 ${p1(d.pos)}(세 칸을 더하면 100%).<br>결과 하나만 보고는 이 규칙의 기대값이 양수인지 가리기 어렵습니다.${U.kind(['real','scenario'],'승률과 손익은 가정한 규칙이며 이항분포로 계산합니다.')}`);
+  U.result(el,chart,`한 번 기대값 = ${U.sfmt(p/100,2)} × ${U.sfmt(w,2)} − ${U.sfmt(1-p/100,2)} × ${U.sfmt(l,2)} = <b>${U.splus(d.each,2)}</b>. ${n}번 합계의 기대값은 ${U.splus(d.mean,2)}입니다.<br>합계가 음수일 확률 <b>${p1(d.neg)}</b>, 정확히 0일 확률 ${p1(d.zero)}, 양수일 확률 ${p1(d.pos)}(세 칸을 더하면 100%).<br>결과 하나만 보고는 이 규칙의 기대값이 양수인지 아닌지 가리기 어렵습니다.${U.kind(['real','scenario'],'승률과 손익은 가정한 규칙이며 이항분포로 계산합니다.')}`);
  });
 };
 })();

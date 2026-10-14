@@ -40,7 +40,7 @@ PLabs['likelihood-odds']=el=>{
   const prod=xs=>xs.length?xs.map(x=>U.sfmt(x,2)).join(' × '):'1(켜진 증거 없음)';
   const chart=U.columns({labels:['사전','켜진 지지 증거만','켜진 증거 모두'],values:[prior,sup.p*100,all.p*100],fmt:v=>U.sfmt(v,1)+'%',tick:v=>U.sfmt(v,0)+'%',title:'확신 (%)',h:250,label:`사전 ${U.sfmt(prior,1)}%, 지지만 ${p1(sup.p)}, 모두 ${p1(all.p)}`,colors:['var(--muted)','var(--orange)','var(--blue)']})
    +U.table(['증거','쪽','우도비','켜짐'],E.map((e,i)=>[e.name,e.side==='for'?'지지':'반대',U.sfmt(lrs[i],2),on[i]?'✓ 켬':'– 끔']),'증거와 우도비','fit');
-  U.result(el,chart,`사전 오즈 = ${U.sfmt(prior,1)} ÷ ${U.sfmt(100-prior,1)} = ${U.sfmt(all.priorOdds,2)}.<br>켜진 증거 모두: 오즈 ${U.sfmt(all.priorOdds,2)} × ${prod(used.map(x=>x.lr))} = ${U.sfmt(all.odds,2)} → 확신 <b>${p1(all.p)}</b>.<br>켜진 지지 증거만: 오즈 ${U.sfmt(sup.odds,2)} → 확신 <b>${p1(sup.p)}</b>. 두 확신의 차이는 ${U.ppt(sup.p-all.p,1)}입니다.<br>우도비 1인 증거는 켜도 꺼도 확신이 그대로입니다.${U.kind(['real','scenario'],'증거가 서로 독립이라고 놓아야 우도비를 곱할 수 있습니다.')}`);
+  U.result(el,chart,`사전 오즈 = ${U.sfmt(prior,1)} ÷ ${U.sfmt(100-prior,1)} = ${U.sfmt(all.priorOdds,2)}.<br>켜진 증거 모두: 오즈 ${U.sfmt(all.priorOdds,2)} × ${prod(used.map(x=>x.lr))} = ${U.sfmt(all.odds,2)} → 확신 <b>${p1(all.p)}</b>.<br>켜진 지지 증거만: 오즈 ${U.sfmt(sup.odds,2)} → 확신 <b>${p1(sup.p)}</b>. ${used.some(x=>x.e.side==='for')?'':' 켜진 지지 증거가 없어 사전 확신과 같습니다.'} 두 확신의 차이는 ${U.ppt(sup.p-all.p,1)}입니다.<br>우도비 1인 증거는 켜도 꺼도 확신이 그대로입니다.${U.kind(['real','scenario'],'증거가 서로 독립이라고 놓아야 우도비를 곱할 수 있습니다.')}`);
  });
 };
 /* ── 6장 ── */
@@ -56,7 +56,7 @@ PLabs['interval-cost']=el=>{
   for(const [v,name,why] of [[tv,'연 회전율','0%에서 5,000% 사이로 넣어 주세요.'],[g,'비용 전 연 수익률','−20%에서 30% 사이로 넣어 주세요.'],[y,'기간','1년에서 40년 사이의 정수로 넣어 주세요.'],[s,'시작 금액','100만 원에서 100,000만 원 사이로 넣어 주세요.']])if(v===null)return U.result(el,'',U.problem(name,why));
   const pk=M.binomCdf(k,n,M.ASSUME.interval),to=M.turnover(),rt=M.roundTrip(etf),drag=M.costDrag(tv/100,etf),free=M.growthAfter(s,g/100,0,y),net=M.growthAfter(s,g/100,drag,y),yearCost=Math.round(s*1e4*tv/100*rt);
   const chart=intervalTable(iv)+U.columns({labels:['비용 없을 때',`비용 ${U.sfmt(drag*100,2)}%p`],values:[free,net],fmt:v=>U.sfmt(v,1)+'만',tick:v=>U.sfmt(v,0),title:`${U.sfmt(s,0)}만 원이 ${y}년 뒤 (만 원)`,h:240,label:`비용 없을 때 ${U.sfmt(free,1)}만 원, 비용을 빼면 ${U.sfmt(net,1)}만 원`,colors:['var(--muted)','var(--blue)']});
-  const text=`적중률 = ${k} ÷ ${n} = <b>${p1(k/n)}</b>. 진짜 90% 범위라면 ${n}개 중 ${U.sfmt(n*0.9,1)}개쯤 맞아야 하고, ${k}개 이하만 맞을 확률 P(X ≤ ${k}) = <b>${pk<0.0005?'0.1% 미만':p1(pk)}</b>입니다.${n<30?(pk<0.05?` 진짜 90% 범위에서는 드문 결과이지만, 범위가 ${n}개뿐이라 이 결과만으로 확정하지 못합니다.`:' 범위 수가 적어 이 결과만으로 확정하지 못합니다.'):''}`
+  const text=`적중률 = ${k} ÷ ${n} = <b>${p1(k/n)}</b>. 진짜 90% 범위라면 ${n}개 중 ${U.sfmt(n*0.9,1)}개쯤 맞아야 하고, ${k}개 이하만 맞을 확률 P(X ≤ ${k}) = <b>${pk<0.0005?'0.1% 미만':p1(pk)}</b>입니다.${n<30?(pk<0.05?` 진짜 90% 범위에서는 드문 결과이지만, 범위가 ${n}개뿐이라 이 결과만으로 범위를 너무 좁게 잡았다고 확정하지 못합니다.`:` 범위가 ${n}개뿐이라 이 결과만으로 범위가 90%에 맞게 잡혔는지 확정하지 못합니다.`):''}`
    +`<br>선우의 실제 매매: 26주 매도 ${U.won(to.sells)} ÷ 평균 평가액 ${U.won(Math.round(to.avgEquity))} = ${U.sfmt(to.half*100,1)}%(연으로 ${U.sfmt(to.annual*100,1)}%), 실제 비용 ${U.won(to.cost)}(수수료 ${U.won(to.fees)}, 거래세 ${U.won(to.taxes)}).`
    +`<br>왕복 비용률 = 수수료 ${U.sfmt(M.MARKET.fee.value*100,3)}% × 2${etf?'(ETF는 거래세 없음)':` + 거래세 ${U.sfmt(M.MARKET.tradeTax.value*100,2)}%`} = ${U.sfmt(rt*100,2)}%. 연 비용 = ${U.sfmt(tv,0)}% × ${U.sfmt(rt*100,2)}% = <b>${U.sfmt(drag*100,2)}%p</b>(한 해 약 ${U.won(yearCost)}). ${U.sfmt(s,0)}만 원은 ${y}년 뒤 비용 없이 ${U.sfmt(free,1)}만 원, 비용을 빼면 <b>${U.sfmt(net,1)}만 원</b>입니다.`
    +`<br>${U.timed('tradeTax')} ${U.timed('fee')} ${U.RECHECK}`;

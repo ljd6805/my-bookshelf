@@ -81,7 +81,7 @@ function niceTicks(lo,hi,count=4){
 }
 /* 보기 순서: 데이터의 정답 번호는 그대로 두고 화면에서만 돌려 정답 자리가 장마다 1·2·3번에 고르게 오게 한다. */
 function choiceOrder(n,answer,target){const order=[...Array(n).keys()];const k=((answer-target)%n+n)%n;return order.slice(k).concat(order.slice(0,k));}
-return {M,flag,josa,esc,fmt,sfmt,splus,pct,spct,ppt,won,num,list,value,checked,problem,why,range,number,text,select,check,group,setup,bind,on,result,KINDS,kind,LABEL,RECHECK,DISCLAIMER,banner,timed,verdict,svg,table,niceTicks,choiceOrder};
+return {M,flag,josa,esc,fmt,sfmt,splus,pct,spct,ppt,won,num,list,value,checked,problem,why,range,number,text,select,check,group,setup,bind,on,result,markWide,KINDS,kind,LABEL,RECHECK,DISCLAIMER,banner,timed,verdict,svg,table,niceTicks,choiceOrder};
 })();
 /* 실험 그림: 세로 막대(0선 기준, 음수는 아래로), 가로 막대 묶음, 수치 축 그림(점·곡선·직선), 장 카드 썸네일.
    막대와 선은 값에 비례해 그리고(축은 0 또는 데이터 범위에서 시작), 색만으로 가리지 않도록 숫자·이름표·점 모양(● ■ ▲ ◆ ○)·선 무늬를 함께 둔다. */
@@ -129,7 +129,7 @@ function xy(o){
  if(o.xlabel)s+=`<text x="${R}" y="${B+36}" text-anchor="end" class="axis">${esc(o.xlabel)}</text>`;
  if(o.ylabel)s+=`<text x="${L}" y="${T-10}" class="axis">${esc(o.ylabel)}</text>`;
  (o.refs||[]).forEach(r=>{if(r.y!=null){const y=c(Y(r.y));s+=`<path d="M${L} ${y}H${R}" stroke="var(--orange)" stroke-dasharray="6 4"/>${r.text?`<text x="${R}" y="${c(Y(r.y)-5)}" text-anchor="end" class="mark-t">${esc(r.text)}</text>`:''}`;}
-  else{const x=c(X(r.x));s+=`<path d="M${x} ${T}V${B}" stroke="var(--orange)" stroke-dasharray="6 4"/>${r.text?`<text x="${c(X(r.x)+(r.anchor==='end'?-5:5))}" y="${T+12}" text-anchor="${r.anchor||'start'}" class="mark-t">${esc(r.text)}</text>`:''}`;}});
+  else{const x=c(X(r.x));s+=`<path d="M${x} ${T}V${B}" stroke="var(--orange)" stroke-dasharray="6 4"/>${r.text?`<text x="${x}" y="${T-8}" text-anchor="middle" class="mark-t">${esc(r.text)}</text>`:''}`;}});
  (o.dots||[]).forEach(p=>{s+=`<circle cx="${c(X(p[0]))}" cy="${c(Y(p[1]))}" r="1.8" fill="var(--muted)" opacity=".55"/>`;});
  o.series.forEach((se,k)=>{const col=se.color||['var(--blue)','var(--accent)','var(--orange)','var(--muted)'][k%4];
   s+=`<path d="M${se.pts.map(p=>`${c(X(p[0]))} ${c(Y(p[1]))}`).join('L')}" fill="none" stroke="${col}" stroke-width="${se.width||2.4}"${DASH[se.dash||'solid']?` stroke-dasharray="${DASH[se.dash]}"`:''}/>`;
