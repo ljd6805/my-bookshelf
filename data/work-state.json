@@ -710,22 +710,29 @@
     "plan": "제목 「백테스트와 자동 매매 · 가정을 고쳐 수익률을 견주고 봇의 멈춤 조건 시험하기」, aqua, backtest-automation, 책등 백테스트, 분류 투자(서가 끝), 공통 인물 하린(12권), 지어낸 새벽전자 750거래일·가람200, 마지막 과제는 모의 서버 석 달 −2.97%의 손실 원인 나누기",
     "docs": "books/backtest/docs/index.html",
     "research": "books/backtest/docs/research.html",
-    "status": "G0~G2 승인(한결·서윤·해원, 2차 판 a21b0a0), G3 조사·화면 작성 차례",
+    "status": "G0~G2 승인(커밋 7e2bc5a), G3 원고·실험·테스트 작성 끝(관문 행·서가 등록 전), G3 승인(은재·지안) 차례",
     "done": [
       "2026-10-14 G0~G2 초안(커밋 a9f649b)",
       "2026-10-14 1차 점검: 한결 G0 조건 6, 서윤 G1 조건 10, 해원 G2 조건 10 → 2차 판에 반영(#links-open)",
-      "2026-10-14 재점검: 한결 G0·서윤 G1·해원 G2 승인, 관문 행 기록"
+      "2026-10-14 재점검: 한결 G0·서윤 G1·해원 G2 승인, 관문 행 기록",
+      "2026-10-14 G3 원고: index.html·js(data·math·content·visual·figures·labs 5개·home-lab·lab-guides·app)·css·assets 3개·review.json(33문항)·tests(math·content·routes·browser·given)·package.json, 자산 버전 20261014bt1",
+      "2026-10-14 G3 편집장 조언 반영: 5장 보유 샤프 0.204를 변동성 끌림으로 한 문장 설명, 10장 40일째 −2,116원이 주어진 값임을 해설에 밝힘, 투자자 교육 자료 재시도(열지 못함, research #unverified)",
+      "2026-10-14 9장 설계표·조사 노트 V-9의 96+16=112주를 엔진 값(장부 56·64주, 계좌 80·72주)으로 고침, docs/index.html #rehearsal 작성"
     ],
-    "evidence": "research.html #calc의 calc13.py·l2.py(정수 원), 해원 g2check.py 독립 계산 20개 일치",
+    "evidence": "research.html #calc의 calc13.py·l2.py(정수 원), 해원 g2check.py 독립 계산 20개 일치; G3: npm test 57개(math 19·content 16·routes 22), tests/browser.cjs 1280·390·320px 성공(장 화면 54·실험 33·L2 33·오류 상태 7·SVG 글자 2,308), validate.py 오류 0(190개 HTML)",
     "verification": [
-      "validate.py 오류 0, build_catalog.py --check 통과(2차 판)"
+      "validate.py 오류 0(190개 HTML, G3)",
+      "cd books/backtest && npm test 57개 통과",
+      "tests/browser.cjs 1280·390·320px 성공, 최대 재계산 256ms(5장 부트스트랩 1만 번)",
+      "docs/03-verification.html#backtest-check"
     ],
     "remaining": [
-      "G3 비차단 권고: 5장 보유 전략 샤프 0.204 설명 또는 숨김, 10장 40일째 값이 주어진 값임을 밝힘, 한국 투자자 교육 자료 다시 찾기",
-      "은재 G3 전: 킬 스위치 KRX·금융위 문서 확인, Efron·Politis–Romano 인용 확인, ⏱ 거래세·수수료 재확인",
-      "교재 비교는 목차만 봄(대학 강의계획서·국내 투자자 교육 자료 못 엶)",
-      "공개 때 10권 마지막 장 '13권(준비 중)'을 링크로"
+      "G3 승인: 은재(킬 스위치 시행 여부, Bailey 기대 최대 샤프 식 원문 대조, Efron·Politis 인용, 걷기 전진 정의, ⏱ 거래세·수수료 재확인, 가상 이름 재조회, 투자자 교육 자료), 지안(9장 고친 숫자, 8장 3/8 이야기와 복습 문항 관계, 실험 기본값)",
+      "G4 문체 비평(다온·나래, 대조표 K1~K7·Q1~Q4, style-k-titles)과 쓰지 않은 세션의 학습 리허설",
+      "G5 서가 등록: cover_meta는 실험 이름 기준 9개(실험 ID 11개), 표지 막대는 6개, 10·11·12·9·8·4권 들어오는 링크",
+      "G6 팩트·출처 검수(새 세션)",
+      "공개 때 10권 마지막 장 13권(준비 중)을 링크로"
     ],
-    "next": "G3: 은재 조사 보강과 지안 학습 설계 점검, 작성 세션이 책 본문·실험·테스트 작성"
+    "next": "G3 승인 점검(은재·지안) 뒤 관문 행 기록, 이어서 G4"
   }
 }
