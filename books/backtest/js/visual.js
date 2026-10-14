@@ -64,7 +64,7 @@ const kind=(ks,more='')=>`<br>${[].concat(ks).map(k=>`<span class="kind-tag${['n
 const LABEL=BData.SCENARIO.label,RECHECK=M.MARKET.recheck+'.',DISCLAIMER=M.TEXT.disclaimer+'.';
 const banner=(more='')=>`<p class="assume-banner"><b>${DISCLAIMER}</b>${more?`<br>${more}`:''}</p>`;
 /* 시점에 묶인 값(⏱)은 값·꼬리표·확인일을 함께 적는다. key: tradeTax, fee, tick. */
-function timed(key){const v=M.MARKET[key],val=key==='tradeTax'?`증권거래세 ${sfmt(v.value*100,2)}%(ETF 매도는 면제)`:key==='fee'?`수수료 ${sfmt(v.value*100,3)}%(살 때·팔 때)`:'호가단위(2만 원 미만 10원, 2만~5만 원 50원)';
+function timed(key){const v=M.MARKET[key],val=key==='tradeTax'?`증권거래세 ${sfmt(v.value*100,2)}%(코스피는 농어촌특별세 포함, ETF 매도는 면제)`:key==='fee'?`수수료 ${sfmt(v.value*100,3)}%(살 때·팔 때)`:'호가단위(2만 원 미만 10원, 2만~5만 원 50원)';
  return `<span class="time-tag">⏱ ${val} · ${v.label} · ${v.checked} 확인 기준</span>`;}
 const verdict=(ok,yes='만족',no='만족하지 못함')=>ok?`<span class="verdict ok">✓ ${yes}</span>`:`<span class="verdict bad">✗ ${no}</span>`;
 const svg=(label,body,h=280,vw=480)=>`<svg viewBox="0 0 ${vw} ${h}"${vw>480?' class="cols-wide"':''} role="img" aria-label="${esc(label)}">${body}</svg>`;

@@ -9,7 +9,7 @@ const IDS=['backtest','data','lookahead','fills','metrics','overfit','api','orde
 const LABS=['grid-run','assume-data','assume-code','assume-fills','sharpe-boot','is-oos','mock-api','order-recon','stop-rules','fill-match','loss-audit'];
 const SAME='백테스트 가정 하나씩 바꾸기 실험';
 const NAMES=['격자 규칙 백테스트 실행 실험',SAME,SAME,SAME,'샤프·최대 낙폭·부트스트랩 구간 실험','표본 안 1등의 표본 밖 성적 실험','모의 주문 요청·응답 실험','주문 상태와 잔고 대사 실험','봇 멈춤 조건 시험 실험','모의 서버·백테스트 체결 차이 기록 실험','격자 봇 손실 원인 조사 실험'];
-const LAB_FILES=['labs-backtest','labs-stats','labs-orders','labs-ops','labs-final'],VERSION='20261014bt1';
+const LAB_FILES=['labs-backtest','labs-stats','labs-orders','labs-ops','labs-final'],VERSION='20261014bt2';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(사세요|파세요|수익 보장|이기는 전략|검증된 전략|최적 설정|오를 것|내릴 것|추천합니다|권합니다|권해 드|매수하세요|매도하세요|맡기세요)/;
 const BROKERS=/(키움|미래에셋|삼성증권|한국투자|NH투자|KB증권|신한투자|대신증권|토스증권|하나증권|kiwoom|koreainvestment|KIS Developers)/i;
