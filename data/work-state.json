@@ -658,7 +658,7 @@
     "plan": "/mnt/project-files/stock-books/proposal.md (### 10권)",
     "docs": "books/psychology/docs/index.html",
     "research": "books/psychology/docs/research.html",
-    "status": "draft: G0~G2 팀장 승인(6d9aa98), G3 은재·지안 승인(60521cf, 자산 버전 20261014bf3), G4 다온 문체 메모(2026-10-14, 미커밋, 자산 버전 20261014bf4)까지 작성. G4 관문 행(글작성팀장·시각·실험팀장·지안)·학습 리허설·G5 연결·G6 검수 전. 서가(data/catalog.json) 미등록",
+    "status": "draft: G0~G6 팀장 승인. G5 서가 등록(4c56329), 팩트·출처 검수 1회차 fixed(반영 da7e199, 자산 버전 20261014bf7), G6 정민 승인(2026-10-14, 미커밋). G7(한결) 공개 전",
     "done": [
       "1차 판(커밋 1821190): 기획·교과과정·장 설계 초안, research.html, AGENTS.md",
       "서윤 G1 결정 반영: 제목 「행동재무학 · 매매 기록에서 손실 회피와 과신의 흔적을 세고 규칙을 시험하기」(32자), 색 blue(plum은 320px에서 세 권이 세로 한 열로 쌓이고, violet은 768px 8권 아래, G5에서 되돌릴 수 있음), id behavioral-finance, 책등 행동재무학, cover_meta '10장 · 10개 실험', 시리즈 10권 '행동재무학'과 9·10권 next_why 새 문장, 개념(기저율과 문턱 #baserate, 멈춤과 한도 #rules, 평가 숫자의 불확실성 #overconfidence·#outcome), 새 노선 broken-rules 83분(12권 #exit 손실 한도 줄, 확률과 통계 #chance 10번→초기화→1,000번), 들어오는 링크 아홉 자리 대상과 확률과 통계 #bayes → #baserate",
@@ -667,14 +667,16 @@
       "data/work-state.json allocation 항목의 10권 링크 항목을 '10권 「행동재무학」'과 갚을 자리로 고침(서윤 G1)",
       "G3 데이터층과 원고(2026-10-14, 팀장 승인 6d9aa98 뒤): README.md, package.json, js/math.js(PMath: MODEL·ASSUME·MARKET ⏱ 둘·FACTS·TEXT, 선우의 일지 JOURNAL 한 곳, 정수 연산 수수료·거래세, 반등 경로 ASSUME.rebound), js/content.js(PBook: 출처 19, 10장 본문), review.json(장마다 3문항, 9장에 규칙을 지킨 쪽이 손해인 문항), tests/given.cjs·math.test.cjs(20)·content.test.cjs(17). docs #links에 #herd → 확률과 통계 #bayes를 더하고 AGENTS.md를 JOURNAL 위치·R1 대입 정의·1장 새로고침 문장·sessionStorage 검사·9장 경로 선택 칸에 맞춤",
       "G3 화면(2026-10-14): index.html(data-typeset=book, data-theme=light, 어두운 화면 단추, shelf-return, book-theme.js·book-study.js data-review=review.json, 자산 버전 20261014bf1 하나), js/visual.js(PUI)·figures.js·home-lab.js(λ 밀대)·lab-guides.js(비교 예제와 예측 잠금)·app.js, 실험 10개(labs-choice 1~3장, labs-belief 4~6장, labs-crowd 7~8장, labs-rules 9장, labs-final 마지막 과제), css/style.css(blue 토큰을 새로 정함), assets/cover-art.svg(1~13주 네 칸 집계와 PGR 0.600·PLR 0.000, 정지·cv-*), shelf-illustration.svg(종목별 보유 기간 막대, bf-ill-* 애니메이션, 동작 줄이기에서 멈춤), favicon.svg, tests/routes.test.cjs(20)·browser.cjs. 1장 선택은 어느 저장소에도 남기지 않고 결과는 같음/다름만, 결과 칸 접힘·152/155명 단서, 2장 가중은 켜기 칸 뒤, 3장 범위 1~13·14~26주, 9장 경로 칸 '선우의 일지/반등 경로(가정)', 마지막 과제 결과 두 접기. docs #links 이 책 노선 정거장 세 곳을 실제 칸 이름으로 다시 씀. .github/workflows/test.yml에 npm test --prefix books/psychology",
-      "G4 다온 문체 비평 1차(2026-10-14, 원고 60521cf): docs/index.html #style에 K1~K7·Q1~Q4 대조표, 제목 메모 style-k-titles 28행, 장별 메모 10개 57행(모두 85행, 반영함 36·그대로 둠 49). 2~9장 끝 '선우의 일지에 ○○이 더해졌습니다' 틀을 2·5·7·8장에만 남김, '그리고' 질문 셋 정리, 6장 끝 질문을 7장이 답하는 질문으로, 고정 문장 넷(frameNote '새로고침하면 선택이 사라집니다'·cascadeNote·paramNote·ifThen)을 합니다체로(AGENTS.md·tests 세 파일 함께), 1장·8장 이동 이유와 2장 부제·복습 8장 3번의 확신 정도(K3), 9장 규칙 인용과 '지켰다면', 은유('덮습니다'·'깊은 곳'·'흐릿하게'·'무엇 위에서'), 7장 그림 설명의 'S15', 그림 접근성 이름 둘, 책 설명·표지 소개 '그 주에', 5장 실험 '켜도 꺼도'. 장 제목·실험 이름·숫자·정답은 바꾸지 않음. docs #curriculum-compare의 1981 재현(Many Labs 1, d 1.13 → 0.60)과 BHW 원문, #links-open '남은 결정'을 G3 결과로 고침. 책 AGENTS.md 첫 줄과 표지 삽화 항목을 실제와 맞춤. ?v=20261014bf4"
+      "G4 다온 문체 비평 1차(2026-10-14, 원고 60521cf): docs/index.html #style에 K1~K7·Q1~Q4 대조표, 제목 메모 style-k-titles 28행, 장별 메모 10개 57행(모두 85행, 반영함 36·그대로 둠 49). 2~9장 끝 '선우의 일지에 ○○이 더해졌습니다' 틀을 2·5·7·8장에만 남김, '그리고' 질문 셋 정리, 6장 끝 질문을 7장이 답하는 질문으로, 고정 문장 넷(frameNote '새로고침하면 선택이 사라집니다'·cascadeNote·paramNote·ifThen)을 합니다체로(AGENTS.md·tests 세 파일 함께), 1장·8장 이동 이유와 2장 부제·복습 8장 3번의 확신 정도(K3), 9장 규칙 인용과 '지켰다면', 은유('덮습니다'·'깊은 곳'·'흐릿하게'·'무엇 위에서'), 7장 그림 설명의 'S15', 그림 접근성 이름 둘, 책 설명·표지 소개 '그 주에', 5장 실험 '켜도 꺼도'. 장 제목·실험 이름·숫자·정답은 바꾸지 않음. docs #curriculum-compare의 1981 재현(Many Labs 1, d 1.13 → 0.60)과 BHW 원문, #links-open '남은 결정'을 G3 결과로 고침. 책 AGENTS.md 첫 줄과 표지 삽화 항목을 실제와 맞춤. ?v=20261014bf4",
+      "G6 정민(2026-10-14, 집필하지 않은 새 세션): fact-review.html 1회차(유진, 검수 커밋 4c56329, 결과 fixed, 열한 항목 ok 10·fixed 1)의 검수자·집필자 구분과 열린 항목 없음을 확인하고, 두 수정(js/figures.js F.rules 접근성 이름 '10.35% 낮아', F.disposition '0.200으로')과 자산 버전 20261014bf7(index.html 16곳, tests/routes.test.cjs)이 코드에 있음을 확인함. 책 코드 없이 JOURNAL로 다시 계산해 끝 금액 19,569,716원, 비용 35,284원(9,624+25,660), 26주 PGR/PLR 0.714/0.111, R1 대입 +444,934원(20,014,650원), 7장 17/30(p 0.6은 8/15)이 같음. docs/index.html 관문 표에 G6 행(data-approved 정민), docs/03-verification.html #psychology-check를 G6 기준으로 다시 씀"
     ],
     "evidence": "세션 임시 폴더 scratchpad/psy/ledger.py·v1.py~v6.py·gen_v0.py·fix_research.py(v5.py 정수 연산 일지와 종목별 반사실, v6.py 바뀐 문항 값과 정보 폭포 모의실험 p 0.9 0.0602), Tversky·Kahneman 1974·1981·1992, Odean 1998, Barber·Odean 2000, Baron·Hershey 1988, Nickerson 1998 원문, Ruggeri 외 2020·Brown 외 2024·Hagger 외 2016·Gollwitzer·Sheeran 2006·Glaser·Weber 2007 초록, 정보 폭포 강의 노트(2차), proposal.md ### 10권(2026-10-14 다시 열어 인용), 서재 안 재인용(확률과 통계·4권·5권·9권·11권·12권) — research.html #sources",
     "verification": [
       "2026-10-14 작성 세션 1차: python3 scripts/validate.py 0 errors",
       "2026-10-14 작성 세션 2차: 바뀐 값(일지 정수 연산, 종목별 반사실, 7장 56.7%·6.0%, 8장 24.3%, 9장 39.4%·−612,510/+285,555원, 2장 가중 켠 확인 +4.87, 3장 14~26주)을 별도 스크립트로 다시 계산해 문서와 대조, L2·확인·전이와 같은 장 해결 결과의 겹침 대조, python3 scripts/validate.py 0 errors",
       "2026-10-14 G3 화면: npm test 57개 통과(math 20·content 17·routes 20), tests/browser.cjs 통과(views 56, labs 30, l2 30, 그림 글자 1,813개 겹침·넘침 없음, 1280·390·320px, 저장소: localStorage에는 bookshelf:psychology:v1:study만, 1장 선택 없음, sessionStorage 비어 있음, 새로고침 뒤 선택 사라짐), python3 scripts/validate.py 0 errors(186개 HTML)",
-      "2026-10-14 G4 다온: npm test 57개 통과, tests/browser.cjs 통과(views 56, labs 30, l2 30, 그림 글자 1,813개, success), python3 scripts/validate.py 0 errors(186개 HTML), team_gates.guideline_errors(new, 2026-10-14) 모의 실행 오류 없음"
+      "2026-10-14 G4 다온: npm test 57개 통과, tests/browser.cjs 통과(views 56, labs 30, l2 30, 그림 글자 1,813개, success), python3 scripts/validate.py 0 errors(186개 HTML), team_gates.guideline_errors(new, 2026-10-14) 모의 실행 오류 없음",
+      "2026-10-14 G6 정민: npm test 57개 통과, tests/browser.cjs 성공(BOOK_URL 로컬 8765, views 56, labs 30, l2 30, SVG 글자 1,813개), 별도 파이썬 정수·분수 계산 일치, build_catalog.py --check 통과, node --test tests/*.mjs 30개 통과, unittest 90개 중 1개 실패(test_reference_book_passes, G7 없음과 같은 원인)·1개 건너뜀, validate.py는 G6 행을 더한 뒤 'missing gate G7' 하나만 남음"
     ],
     "remaining": [
       "G3 남은 판단 정리: 6장 실험 이름(지안 G3에서 더함), 1장 '-다' 문장(다온 G4에서 '새로고침하면 선택이 사라집니다'로), R1 '다시 사지 않음' 정의(지안 G3에서 실험·마지막 과제에 더함). G6 유진이 다온의 반영함 36행을 60521cf와 대조(wording·titles·Q1~Q4), 'G6에서 대조해 주세요' 일곱 행 먼저",
@@ -685,7 +687,7 @@
       "G7: 시리즈 10권 status → book_id behavioral-finance, title '행동재무학', 9·10권 next_why 새 문장 → status·title·book_id는 2026-10-14 서가 등록에서 바꿈. 9·10권 next_why만 G7에 남음",
       "확인 못함: 행동재무학 교재·강의 계획서·한국 투자자 교육 자료, Shefrin·Statman·Fischhoff·Wason 본문, 온결식품·가람200·누리 해외100의 KRX 목록 직접 조회"
     ],
-    "next": "G4 관문 행(글작성팀장 나래 2차 점검·시각·실험팀장·지안), 학습 리허설(채원), G5 서가 등록(catalog는 다른 스레드의 재구성 뒤)과 blue 화면 확인, 들어오는 링크 아홉 자리, G6 새 세션 검수(유진 wording·titles·Q1~Q4 포함)",
+    "next": "G7(한결): 커밋 직전 ⏱ 증권거래세 0.20%·수수료 0.015% 재확인, 시리즈 9·10권 next_why 확인, 상태 published와 G7 관문 행, PR과 CI",
     "shelf_registration": {
       "date": "2026-10-14",
       "by": "도현(기획·연결팀, 서윤 G1 결정대로)",
