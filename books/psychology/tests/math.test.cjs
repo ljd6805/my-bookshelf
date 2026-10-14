@@ -52,7 +52,7 @@ test('the journal, assumptions, the two time-sensitive values and research facts
  assert.ok(!fs.existsSync(path.resolve(__dirname,'..','js/journal.js')),'no second copy of the journal');
  for(const v of Object.values(M.assumptions))assert.match(v,/가정|가상|반올림/);
  assert.deepEqual([M.FACTS.tk1992.lambda,M.FACTS.brown.mean,M.FACTS.odean.pgr,M.FACTS.odean.plr,M.FACTS.gollwitzer.d],[2.25,1.955,0.148,0.098,0.65]);
- assert.equal(M.TEXT.frameNote,'새로고침하면 선택이 사라진다');
+ assert.equal(M.TEXT.frameNote,'새로고침하면 선택이 사라집니다');
 });
 test('fees and tax use integer floor arithmetic: 600만 원 × 0.015% = 900원, not 899; ETF sells pay no tax',()=>{
  assert.equal(M.fee(6000000),900);assert.equal(6000000*0.00015<900,true,'the float product falls just below 900');assert.equal(M.fee(4500000),675);assert.equal(M.fee(1),0);

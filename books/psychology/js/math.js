@@ -111,10 +111,10 @@ const FACTS={
 /* 화면에 그대로 쓰는 고정 문장. */
 const TEXT={
  disclaimer:'가상의 인물과 기록으로 만든 계산 연습이며, 어떤 규칙도 권하지 않습니다. 규칙이 손실을 줄이는지는 한 경로로 알 수 없습니다',
- frameNote:'새로고침하면 선택이 사라진다',
- cascadeNote:'가정을 단순하게 둔 모형의 계산이며 실제 시장의 거품을 설명하거나 예측하지 않음',
- paramNote:'한 연구의 중앙값(Tversky·Kahneman 1992)이며 사람마다·연구마다 다름',
- ifThen:'목표 달성 일반에 관한 메타분석이며 투자 맥락에서 검증된 것이 아님'
+ frameNote:'새로고침하면 선택이 사라집니다',
+ cascadeNote:'가정을 단순하게 둔 모형의 계산이며 실제 시장의 거품을 설명하거나 예측하지 않습니다',
+ paramNote:'한 연구의 중앙값(Tversky·Kahneman 1992)이며 사람마다·연구마다 다릅니다',
+ ifThen:'목표 달성 일반에 관한 메타분석이며 투자 맥락에서 검증된 것이 아닙니다'
 };
 
 function need(cond,msg){if(!cond)throw new RangeError(msg);}

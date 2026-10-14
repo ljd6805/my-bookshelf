@@ -15,7 +15,7 @@ const BAD=/NaN|undefined|Infinity/;
 const SLOW_MS=300;
 /* 기본값에서 결과 문장(readout)에 꼭 나와야 하는 숫자: 본문(js/content.js)과 같은 값이다. */
 const DEFAULTS={
- 'two-frame-choice':['새로고침하면 선택이 사라진다','152명','155명','그대로 견줄 수 없습니다','펼치기'],
+ 'two-frame-choice':['새로고침하면 선택이 사라집니다','152명','155명','그대로 견줄 수 없습니다','펼치기'],
  'value-function':['105.90','−129.47','−11.79','251.31만 원','✗ 거절'],
  'disposition-count':['0.600','0.000','+0.600'],
  'base-rate-grid':['맞은 추천 12 + 틀린 추천 98 = 110','10.9%'],
@@ -181,7 +181,7 @@ async function contrast(page){
 /* 1장: 선택은 저장소 어디에도 남지 않는다. localStorage에는 서재 공통 키(진도·테마)만, sessionStorage에는 아무것도 남지 않는다. */
 async function storageCheck(page,url){
  await frame(page,url,390,'frame');const lab=page.locator('#lab-two-frame-choice');
- assert.match(await lab.innerText(),/새로고침하면 선택이 사라진다/);
+ assert.match(await lab.innerText(),/새로고침하면 선택이 사라집니다/);
  await page.selectOption('#fg','sure');await page.selectOption('#fl','risky');let t=await readout(lab);assert.match(t,/두 틀에서 고른 쪽: 다름/);assert.doesNotMatch(t.replace("점수나 판정은 붙이지 않습니다",""),/점수|정답|합리|비합리|맞았|틀렸/);
  await page.selectOption('#fl','sure');assert.match(await readout(lab),/두 틀에서 고른 쪽: 같음/);
  const st=await page.evaluate(()=>({local:Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)])),session:Object.fromEntries(Object.keys(sessionStorage).map(k=>[k,sessionStorage.getItem(k)]))}));

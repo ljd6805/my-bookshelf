@@ -7,7 +7,7 @@ const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].spli
 const IDS=['frame','prospect','disposition','baserate','confirm','overconfidence','herd','outcome','rules','final'];
 const LABS=['two-frame-choice','value-function','disposition-count','base-rate-grid','likelihood-odds','interval-cost','info-cascade','loss-by-trials','rule-replay','journal-audit'];
 const NAMES=['같은 선택지 두 틀 실험','가치 함수 실험','처분 효과 측정 실험','추천 1,000종목 실험','증거별 우도비로 확신 계산 실험','적중률과 비용 실험','정보 폭포 실험','횟수별 손실 확률 실험','규칙 대입 실험','일지 점검 실험'];
-const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014bf3';
+const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014bf4';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(사세요|파세요|손절하세요|정답 규칙|이기는 습관|오를 것|내릴 것|추천합니다|추천해 드|권합니다|권해 드|사 두세요|팔아 두세요|매수하세요|매도하세요|반드시 오른|반드시 내린|저평가|고평가|최적의 규칙|좋은 규칙입니다)/;
 const esc=s=>s.replace(/[-]/g,'\\-');
@@ -101,7 +101,7 @@ test('the UI never advises a rule or a trade, and carries the fixed sentences',(
  const lines=all.split('\n').filter(l=>ADVICE.test(l));assert.deepEqual(lines.map(l=>l.match(ADVICE)[0]),[]);
  const vis=read('js/visual.js'),choice=read('js/labs-choice.js'),crowd=read('js/labs-crowd.js'),rules=read('js/labs-rules.js'),belief=read('js/labs-belief.js'),fin=read('js/labs-final.js');
  assert.match(vis,/M\.TEXT\.disclaimer/);assert.match(vis,/M\.MARKET\.recheck/);assert.match(vis,/M\.JOURNAL\.label/);
- assert.match(choice,/M\.TEXT\.frameNote/);assert.equal(M.TEXT.frameNote,'새로고침하면 선택이 사라진다');assert.match(choice,/F\.framing\.people\[0\]/);
+ assert.match(choice,/M\.TEXT\.frameNote/);assert.equal(M.TEXT.frameNote,'새로고침하면 선택이 사라집니다');assert.match(choice,/F\.framing\.people\[0\]/);
  assert.match(crowd,/M\.TEXT\.cascadeNote/);assert.match(rules,/M\.TEXT\.ifThen/);assert.match(rules,/U\.DISCLAIMER/);assert.match(rules,/'rebound','반등 경로\(가정\)'/);assert.match(rules,/'journal','선우의 일지'/);
  for(const src of [belief,fin]){assert.match(src,/timed\('tradeTax'\)/);assert.match(src,/timed\('fee'\)/);assert.match(src,/U\.RECHECK/);}
  assert.match(choice,/U\.check\('pw','확률 가중 켜기',false/);assert.match(choice,/\['1-13','선우의 일지 1~13주'\],\['14-26','선우의 일지 14~26주'\],\['direct'/);

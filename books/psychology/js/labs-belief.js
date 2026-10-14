@@ -40,7 +40,7 @@ PLabs['likelihood-odds']=el=>{
   const prod=xs=>xs.length?xs.map(x=>U.sfmt(x,2)).join(' × '):'1(켜진 증거 없음)';
   const chart=U.columns({labels:['사전','켜진 지지 증거만','켜진 증거 모두'],values:[prior,sup.p*100,all.p*100],fmt:v=>U.sfmt(v,1)+'%',tick:v=>U.sfmt(v,0)+'%',title:'확신 (%)',h:250,label:`사전 ${U.sfmt(prior,1)}%, 지지만 ${p1(sup.p)}, 모두 ${p1(all.p)}`,colors:['var(--muted)','var(--orange)','var(--blue)']})
    +U.table(['증거','쪽','우도비','켜짐'],E.map((e,i)=>[e.name,e.side==='for'?'지지':'반대',U.sfmt(lrs[i],2),on[i]?'✓ 켬':'– 끔']),'증거와 우도비','fit');
-  U.result(el,chart,`사전 오즈 = ${U.sfmt(prior,1)} ÷ ${U.sfmt(100-prior,1)} = ${U.sfmt(all.priorOdds,2)}.<br>켜진 증거 모두: 오즈 ${U.sfmt(all.priorOdds,2)} × ${prod(used.map(x=>x.lr))} = ${U.sfmt(all.odds,2)} → 확신 <b>${p1(all.p)}</b>.<br>켜진 지지 증거만: 오즈 ${U.sfmt(sup.odds,2)} → 확신 <b>${p1(sup.p)}</b>. 두 확신의 차이는 ${U.ppt(sup.p-all.p,1)}입니다.<br>우도비 1인 증거는 켜도 끄도 확신이 그대로입니다.${U.kind(['real','scenario'],'증거가 서로 독립이라고 놓아야 우도비를 곱할 수 있습니다.')}`);
+  U.result(el,chart,`사전 오즈 = ${U.sfmt(prior,1)} ÷ ${U.sfmt(100-prior,1)} = ${U.sfmt(all.priorOdds,2)}.<br>켜진 증거 모두: 오즈 ${U.sfmt(all.priorOdds,2)} × ${prod(used.map(x=>x.lr))} = ${U.sfmt(all.odds,2)} → 확신 <b>${p1(all.p)}</b>.<br>켜진 지지 증거만: 오즈 ${U.sfmt(sup.odds,2)} → 확신 <b>${p1(sup.p)}</b>. 두 확신의 차이는 ${U.ppt(sup.p-all.p,1)}입니다.<br>우도비 1인 증거는 켜도 꺼도 확신이 그대로입니다.${U.kind(['real','scenario'],'증거가 서로 독립이라고 놓아야 우도비를 곱할 수 있습니다.')}`);
  });
 };
 /* ── 6장 ── */

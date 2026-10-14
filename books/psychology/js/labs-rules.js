@@ -23,10 +23,10 @@ function journalPart(el,o){
  const split=Object.entries(R.split).filter(([,v])=>v.diff!==0);
  let chart=timeline(L,r1&&r1.hits,r2);
  if(o.r1)chart+=U.table(['종목','일지대로','규칙대로','차이'],Object.entries(R.split).map(([n,v])=>[n,SW(v.actual),SW(v.rule),v.diff?`<b>${SW(v.diff)}</b>`:'0원']),'종목별 손익 (실현 + 평가)','fit');
- let text=o.r1?(r1.first.length?`R1(평균 단가보다 ${U.sfmt(o.l1*100,1)}% 낮으면 팔기)이 처음 걸린 보유: ${r1.first.map(x=>`${x.week}주 ${x.name} ${pc(x.drop)}`).join(', ')}. 주 종가로 확인하므로 한도보다 깊은 곳에서 팝니다. 걸린 주를 모두 세면 ${r1.hits.length}번입니다.`:`R1(−${U.sfmt(o.l1*100,1)}%)은 26주 동안 한 번도 걸리지 않았습니다.`)
-  +`<br>지켰다면 끝 금액 <b>${W(R.rule)}</b>, 일지대로 ${W(R.actual)}, 차이 <b>${SW(R.diff)}</b>${split.length?`(${split.map(([n,v])=>`${n} ${SW(v.diff)}`).join(', ')})`:''}. 지켰다면은 R1이 처음 걸린 주의 종가에 그 보유를 모두 팔고, 그 종목의 이후 일지 매매(다시 사기와 물타기)는 하지 않는다고 놓은 계산입니다.`:`R1을 끄면 일지대로의 끝 금액 ${W(R.actual)}만 나옵니다.`;
+ let text=o.r1?(r1.first.length?`R1(평균 단가보다 ${U.sfmt(o.l1*100,1)}% 낮으면 팔기)이 처음 걸린 보유: ${r1.first.map(x=>`${x.week}주 ${x.name} ${pc(x.drop)}`).join(', ')}. 주 종가로 확인하므로 한도보다 더 내린 가격에 팝니다. 걸린 주를 모두 세면 ${r1.hits.length}번입니다.`:`R1(−${U.sfmt(o.l1*100,1)}%)은 26주 동안 한 번도 걸리지 않았습니다.`)
+  +`<br>지켰다면 끝 금액 <b>${W(R.rule)}</b>, 일지대로 ${W(R.actual)}, 차이 <b>${SW(R.diff)}</b>${split.length?`(${split.map(([n,v])=>`${n} ${SW(v.diff)}`).join(', ')})`:''}. “지켰다면”은 R1이 처음 걸린 주의 종가에 그 보유를 모두 팔고, 그 종목의 이후 일지 매매(다시 사기와 물타기)는 하지 않는다고 놓은 계산입니다.`:`R1을 끄면 일지대로의 끝 금액 ${W(R.actual)}만 나옵니다.`;
  if(o.r2)text+=`<br>R2(한 종목 ${U.sfmt(o.l2*100,0)}% 이하)를 넘은 주: ${r2.length?`${r2.length}번(처음 ${r2[0].week}주 ${r2[0].name} ${U.pct(r2[0].share,1)})`:'없음'}. R2는 세기만 하고 매매를 바꾸지 않습니다.`;
- text+=`<br>R3(매수 기록에 반대 증거 적기): 매수 ${R.r3.buys}건 중 ${R.r3.missing}건이 지키지 않았습니다.`;
+ text+=`<br>R3(매수 기록에 반대 증거 적기): 매수 ${R.r3.buys}건 중 ${R.r3.missing}건에서 지키지 않았습니다.`;
  return {chart,text,kinds:['real','scenario']};
 }
 function reboundPart(o){
@@ -49,7 +49,7 @@ PLabs['rule-replay']=el=>{
   for(const [v,n] of [[q,'주식 수'],[gr,'규칙 가격'],[gs,'실제로 판 가격']])if(v===null)return U.result(el,'',U.problem(n,'1 이상의 정수로 넣어 주세요.'));
   const o={l1:l1/100,l2:l2/100,r1:U.checked(el,'rr1'),r2:U.checked(el,'rr2')},part=U.value(el,'rpath')==='rebound'?reboundPart(o):journalPart(el,o),gap=M.stopGap(q,gr,gs);
   const gapText=`규칙 가격 ${U.fmt(gr)}원 대신 ${U.fmt(gs)}원에 ${U.fmt(q)}주를 팔면 (${U.fmt(gr)} − ${U.fmt(gs)}) × ${U.fmt(q)} = <b>${W(Math.abs(gap))}</b>${gap>=0?'만큼 손실이 더 큽니다':'만큼 덜 잃습니다'}(비용 제외).`;
-  U.result(el,part.chart,`${part.text}<br>${gapText}<br>${U.DISCLAIMER} 사전 계획(if-then)의 연구 효과는 ${M.TEXT.ifThen}.${U.kind(part.kinds)}`);
+  U.result(el,part.chart,`${part.text}<br>${gapText}<br>${U.DISCLAIMER} 사전 계획(if-then)의 효과를 보고한 연구는 ${M.TEXT.ifThen}.${U.kind(part.kinds)}`);
  });
 };
 })();
