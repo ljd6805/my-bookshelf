@@ -651,5 +651,10 @@
       "incoming_links": "volatility #final→#diversify, valuation #wacc→#beta(본문·cross·math.js·labs-dcf 힌트), bonds #equity→#beta·#final→#mix, etf #final→#mix, statements #final→#diversify, tax #final→#final, grid #capital→#mix, macro #final→#crisis, linear-algebra #pca→#matrix; SERIES 문장 일반형(grid·volatility·tax·etf·statements·valuation·macro); valuation ERP 표지 'Damodaran 2026-01-05 판, 2026-10-13 확인'; 책 ?v=20261014-a9; valuation·macro·statements 테스트를 9권 공개에 맞춤",
       "pending": "해결됨: fact-review·G5·G6 행과 G4 style-r2 data-guideline. 남은 오류는 G7 행 없음 하나"
     }
+  },
+  "finance_field_split": {
+    "date": "2026-10-14",
+    "summary": "금융 분류 하나를 경제(1~3권)·시장(4~7권)·투자(8~13권) 세 분류로 나눔. 사용자가 결정 카드에서 세 섬을 고름. 남은 10·13권은 투자로 등록.",
+    "evidence": "docs/03-verification.html#finance-field-split, docs/04-site-plan.html#field-split"
   }
 }
