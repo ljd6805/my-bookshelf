@@ -7,7 +7,7 @@ const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].spli
 const IDS=['frame','prospect','disposition','baserate','confirm','overconfidence','herd','outcome','rules','final'];
 const LABS=['two-frame-choice','value-function','disposition-count','base-rate-grid','likelihood-odds','interval-cost','info-cascade','loss-by-trials','rule-replay','journal-audit'];
 const NAMES=['같은 선택지 두 틀 실험','가치 함수 실험','처분 효과 측정 실험','추천 1,000종목 실험','증거별 우도비로 확신 계산 실험','적중률과 비용 실험','정보 폭포 실험','횟수별 손실 확률 실험','규칙 대입 실험','일지 점검 실험'];
-const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014bf7';
+const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014-b13';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(사세요|파세요|손절하세요|정답 규칙|이기는 습관|오를 것|내릴 것|추천합니다|추천해 드|권합니다|권해 드|사 두세요|팔아 두세요|매수하세요|매도하세요|반드시 오른|반드시 내린|저평가|고평가|최적의 규칙|좋은 규칙입니다)/;
 const esc=s=>s.replace(/[-]/g,'\\-');
@@ -49,13 +49,13 @@ test('header has the shelf return, menu order, light theme, type and study scrip
  assert.match(html,/<title>행동재무학 · 매매 기록에서 손실 회피와 과신의 흔적을 세고 규칙을 시험하기<\/title>/);
 });
 test('script load order: math → content → visual → figures → labs → home → guides → app',()=>{const order=[...html.matchAll(/<script src="js\/([a-z-]+)\.js/g)].map(m=>m[1]);assert.deepEqual(order,['math','content','visual','figures',...LAB_FILES,'home-lab','lab-guides','app']);});
-test('links point to existing books and routes; no link to this book or an unpublished vol 13 folder',()=>{
+test('links point to existing books and routes; no link to this book or a folder without a book; vol 13 is named in app.js',()=>{
  for(const c of B.chapters)for(const [name,url,why] of c.cross){assert.match(url,/^\.\.\/[a-z0-9-]+\/(#[a-z0-9-]+)?$/);assert.ok(name&&why.length>10,c.id);}
  for(const f of UI_FILES){
   const src=read(f);assert.doesNotMatch(src,/\.\.\/psychology\b/,f);
   for(const [,dir,anchor] of src.matchAll(/href="\.\.\/([a-z0-9-]+)\/(?:#([a-z0-9-]+))?"/g)){const idx=path.join(base,'..',dir,'index.html');assert.ok(fs.existsSync(idx),f+': '+dir);if(anchor){const r=fs.readFileSync(idx,'utf8').match(/name="book-routes" content="([^"]+)"/);assert.ok(r&&r[1].split(',').includes(anchor),f+': '+dir+'#'+anchor);}}
  }
- assert.match(read('js/app.js'),/13권\(준비 중\)/);
+ assert.doesNotMatch(read('js/app.js'),/13권\(준비 중\)/);assert.match(read('js/app.js'),/13권 「백테스트와 자동 매매」/);
 });
 test('CSS defines the blue tokens once: --accent exactly once in :root and once in [data-theme=light], and uses only font tokens',()=>{
  const css=read('css/style.css').replace(/\/\*[\s\S]*?\*\//g,''),blocks=[...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter(m=>/--accent:/.test(m[2])).map(m=>m[1].trim());

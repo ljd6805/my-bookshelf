@@ -2890,6 +2890,90 @@
         }
       ],
       "short_title": "그리드 매매"
+    },
+    {
+      "id": "backtest-automation",
+      "title": "백테스트와 자동 매매 · 가정을 고쳐 수익률을 견주고 봇의 멈춤 조건 시험하기",
+      "spine_title": "백테스트",
+      "spine_category": "투자",
+      "color": "aqua",
+      "description": "가상 인물 하린의 격자 규칙을 가상 주식 3년 기록에 돌린 백테스트에서 가격 자료·미래 정보·체결 가정·비용을 하나씩 고쳐 연 수익률이 줄어드는 폭을 계산하고, 부트스트랩 구간과 설정 402개 중 표본 안 1등의 표본 밖 성적을 잽니다. 이어 가상 모의 서버에서 주문을 대사하고 봇의 멈춤 조건을 시험합니다. 학습용이며 투자 권유가 아닙니다.",
+      "illustration": "books/backtest/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 부분 체결 뒤 취소된 주문으로 계좌와 봇 장부가 어긋났다가 대사 뒤 맞춰집니다.",
+      "cover_art": "books/backtest/assets/cover-art.svg",
+      "cover_meta": "11장 · 11개 실험",
+      "status": "published",
+      "url": "books/backtest/",
+      "keywords": [
+        "백테스트",
+        "backtest",
+        "자동 매매",
+        "주문 봇",
+        "격자 매매",
+        "그리드 매매",
+        "수정주가",
+        "배당락",
+        "생존 편향",
+        "상장폐지",
+        "미래 정보 누수",
+        "look-ahead bias",
+        "체결 가정",
+        "하루 막대",
+        "수수료",
+        "거래세",
+        "연 수익률",
+        "샤프 비율",
+        "최대 낙폭",
+        "MDD",
+        "부트스트랩",
+        "신뢰구간",
+        "과최적화",
+        "과적합",
+        "표본 밖",
+        "out-of-sample",
+        "걷기 전진",
+        "walk-forward",
+        "데이터 스누핑",
+        "기대 최대 샤프",
+        "모의 서버",
+        "모의투자",
+        "API",
+        "요청 ID",
+        "멱등성",
+        "주문 상태",
+        "부분 체결",
+        "잔고 대사",
+        "멈춤 조건",
+        "킬 스위치",
+        "손실 한도",
+        "주문 수 한도",
+        "체결률",
+        "하린",
+        "새벽전자"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/backtest/#chapters"
+        },
+        {
+          "title": "04 · 체결 가정과 수수료·거래세를 하나씩 켜며 줄어드는 수익률 계산하기",
+          "url": "books/backtest/#fills"
+        },
+        {
+          "title": "06 · 설정 402개 중 표본 안 1등의 표본 밖 수익률과 걷기 전진 결과 계산하기",
+          "url": "books/backtest/#overfit"
+        },
+        {
+          "title": "09 · 손실 한도·주문 수 한도·같은 칸 중복 검사로 봇이 멈출 조건을 정하고 시험하기",
+          "url": "books/backtest/#limits"
+        },
+        {
+          "title": "마지막 과제 · 표본 안 연 23.23%, 모의 서버 석 달 −2.97%인 격자 봇의 손실 원인을 증거 순서로 찾고 금액으로 나누기",
+          "url": "books/backtest/#final"
+        }
+      ],
+      "short_title": "백테스트와 자동 매매"
     }
   ],
   "learning_paths": [
@@ -3724,6 +3808,22 @@
           "minutes": 15,
           "why": "자동 프로그램도 피해가 번지기 전에 스스로 멈출 문턱이 필요하다",
           "record": "분당 지출 6달러에서 10분 속도 제한이 반복을 멈춘 때(시작 후 몇 분)와 그때까지 쓴 금액"
+        },
+        {
+          "book_id": "backtest-automation",
+          "url": "books/backtest/#orders",
+          "task": "‘주문 상태와 잔고 대사 실험’에서 10주 매수 주문의 사건을 ‘사건 1’ 접수 → ‘사건 2’ 체결(‘체결 수량(주)’ 6) → ‘사건 3’ 취소 요청 → ‘사건 4’ 취소 확인으로 두고, ‘봇이 장부에 적는 방식’을 처음 값(‘취소를 요청하면 0주, 전량 체결 통보만 반영’)과 ‘체결 통보마다 반영하고 취소 확인의 취소 수량만 지움’으로 바꾸며 봇 장부와 계좌의 주식 수·현금 차이를 읽는다",
+          "minutes": 18,
+          "why": "취소와 체결이 엇갈리거나 같은 주문이 여러 번 나가면 봇이 아는 주식 수와 계좌의 주식 수가 달라지고, 장부에 적는 방식을 고쳐야 대사가 맞는다",
+          "record": "두 방식의 주식 수 차이와 현금 차이"
+        },
+        {
+          "book_id": "backtest-automation",
+          "url": "books/backtest/#limits",
+          "task": "‘봇 멈춤 조건 시험 실험’에서 ‘가상 주문 기록’을 ‘밤사이 같은 칸 세 번’으로 두고 조건마다 처음 걸린 요청 번호를 읽은 뒤, ‘같은 칸 미체결·보유 중복 검사 켜기’를 끄고 다시 읽는다",
+          "minutes": 16,
+          "why": "보유 한도만으로는 같은 칸이 밤사이 세 번 사지는 것을 막지 못하고, 주문 하나하나를 보는 조건이 먼저 걸린다",
+          "record": "가장 먼저 걸린 조건과 요청 번호, 같은 칸 검사를 껐을 때 처음 걸린 조건과 요청 번호"
         }
       ],
       "challenge": "밤새 격자 주문을 내는 프로그램을 설계한다고 하고, 거래소의 VI·서킷브레이커처럼 스스로 멈출 조건 세 가지와 멈춘 뒤 사람이 확인할 항목을 정한다.",
@@ -3900,13 +4000,22 @@
           "minutes": 16,
           "why": "내리기만 하면 칸이 사져 재고가 쌓이고 평가 손실이 커진다",
           "record": "마지막 날의 보유 칸 수와 평가 손익"
+        },
+        {
+          "book_id": "backtest-automation",
+          "url": "books/backtest/#overfit",
+          "task": "‘표본 안 1등의 표본 밖 성적 실험’에서 ‘시험할 설정 수’를 ‘402개(전체)’, ‘3년째 자료’를 ‘지어낸 3년째(하락·낮은 변동성)’로 두고 ‘표본 안 다섯 설정 가운데 3년째에 돌릴 설정’에서 ‘표본 안 1위’를 골라, 1~2년째(표본 안) 1등의 표본 안 연 수익률과 같은 설정의 3년째(표본 밖) 연 수익률·순위를 읽은 뒤, ‘3년째 자료’를 ‘1·2년째와 같은 성질의 3년째(가정)’로 바꿔 같은 세 값을 다시 읽는다",
+          "minutes": 18,
+          "why": "박스권에서 잘 맞던 간격과 범위가 시장이 바뀐 뒤에도 맞는지는, 그 설정을 고르는 데 쓰지 않은 기간으로 다시 재야 알 수 있다",
+          "record": "표본 안 1등의 표본 안·표본 밖 연 수익률과 표본 밖 순위를 두 3년째마다(이 책의 3년째는 작성 세션이 하락과 낮은 변동성으로 지어낸 구간이라는 꼬리표와 함께)"
         }
       ],
       "challenge": "박스권·오르는 길·내리는 길 세 장부를 나란히 놓고, 같은 격자의 결과가 왜 이렇게 갈리는지 흩어짐과 방향이라는 두 말로 설명한다.",
       "checks": [
         "칸의 매수가에 사고 끝에 주식이 남지 않으면 격자의 실현 손익이 왕복한 칸 몫의 합이라는 것을 말할 수 있는가",
         "오르는 장에서 보유보다 덜 버는 까닭을 칸이 비는 과정으로 설명할 수 있는가",
-        "내리는 장에서 평균 단가가 내려가도 손실이 남는 까닭을 말할 수 있는가"
+        "내리는 장에서 평균 단가가 내려가도 손실이 남는 까닭을 말할 수 있는가",
+        "박스권에서 고른 설정의 성적을 다른 기간으로 다시 재야 하는 이유를 말할 수 있는가"
       ]
     },
     {
@@ -4571,13 +4680,13 @@
         {
           "number": 12,
           "title": "격자 하나에서 손익이 갈리기까지",
-          "next_why": "격자를 설계했으니, 그 설계가 운이었는지 검증하고 프로그램에 맡기는 법을 배웁니다.",
+          "next_why": "격자 하나를 장부로 시험했으니, 그 규칙의 백테스트 수익률이 가정과 운에 따라 얼마나 달라지는지 계산하고 모의 서버에서 주문 봇의 멈춤 조건을 시험합니다.",
           "book_id": "grid-trading"
         },
         {
           "number": 13,
-          "title": "전략을 믿어도 될까",
-          "status": "planned"
+          "title": "백테스트와 자동 매매",
+          "book_id": "backtest-automation"
         }
       ]
     }
@@ -5068,7 +5177,18 @@
     "books/psychology/#herd": "07 · 앞사람의 선택을 따를 때 정보 폭포가 생기는 조건과 틀린 폭포의 확률 계산하기",
     "books/psychology/#outcome": "08 · 기대값이 양수인 규칙이 손실로 끝날 확률을 계산해 결정과 결과 구별하기",
     "books/psychology/#rules": "09 · 사전 규칙을 매매 기록에 대입해 지켰을 때와 어겼을 때의 손익 비교하기",
-    "books/psychology/#final": "마지막 과제 · 가상 인물 선우의 26주 매매 일지에서 PGR·적중률·비용·규칙 위반을 계산하고 규칙 하나 고치기"
+    "books/psychology/#final": "마지막 과제 · 가상 인물 선우의 26주 매매 일지에서 PGR·적중률·비용·규칙 위반을 계산하고 규칙 하나 고치기",
+    "books/backtest/#backtest": "01 · 격자 규칙의 3년 백테스트에서 계산한 숫자와 계산하지 않은 가정 나누기",
+    "books/backtest/#data": "02 · 수정주가·배당·상장폐지 종목을 바꿔 가며 백테스트 수익률의 차이 계산하기",
+    "books/backtest/#lookahead": "03 · 그날 알 수 없던 가격을 쓴 코드 줄을 찾아 미래 정보가 부풀린 수익률 계산하기",
+    "books/backtest/#fills": "04 · 체결 가정과 수수료·거래세를 하나씩 켜며 줄어드는 수익률 계산하기",
+    "books/backtest/#metrics": "05 · 샤프 비율과 최대 낙폭을 계산하고 부트스트랩으로 연 수익률을 구간으로 말하기",
+    "books/backtest/#overfit": "06 · 설정 402개 중 표본 안 1등의 표본 밖 수익률과 걷기 전진 결과 계산하기",
+    "books/backtest/#api": "07 · 주문 요청·응답의 공통 구조를 읽고 모의 서버에서 시험할 항목 정하기",
+    "books/backtest/#orders": "08 · 부분 체결과 취소가 엇갈린 주문의 상태를 따라가며 봇 장부와 계좌 잔고 대사하기",
+    "books/backtest/#limits": "09 · 손실 한도·주문 수 한도·같은 칸 중복 검사로 봇이 멈출 조건을 정하고 시험하기",
+    "books/backtest/#monitor": "10 · 모의 서버 체결과 백테스트 체결의 차이를 날마다 기록하고 경보 기준 정하기",
+    "books/backtest/#final": "마지막 과제 · 표본 안 연 23.23%, 모의 서버 석 달 −2.97%인 격자 봇의 손실 원인을 증거 순서로 찾고 금액으로 나누기"
   },
   "concepts": [
     {
@@ -5348,7 +5468,8 @@
         "books/aie-capstone/#verify",
         "books/aie-capstone/#evals",
         "books/psychology/#overconfidence",
-        "books/psychology/#outcome"
+        "books/psychology/#outcome",
+        "books/backtest/#metrics"
       ]
     },
     {
@@ -5417,7 +5538,8 @@
         "books/market/#queue",
         "books/algorithms/#sorting",
         "books/macro/#policy",
-        "books/macro/#final"
+        "books/macro/#final",
+        "books/backtest/#orders"
       ]
     },
     {
@@ -5652,7 +5774,8 @@
         "books/aie-autonomy/#durable",
         "books/grid/#exit",
         "books/grid/#gap",
-        "books/psychology/#rules"
+        "books/psychology/#rules",
+        "books/backtest/#limits"
       ]
     },
     {
@@ -5732,6 +5855,26 @@
       "chapters": [
         "books/probability/#correlation",
         "books/macro/#leading"
+      ]
+    },
+    {
+      "id": "overfitting-validation",
+      "name": "검증과 과적합",
+      "aliases": [
+        "overfitting",
+        "out-of-sample",
+        "walk-forward",
+        "data snooping",
+        "leakage"
+      ],
+      "summary": "여러 번 시험해 고른 설정이나 모델은 그 자료에만 맞기 쉬우니, 고르는 데 쓰지 않은 자료로 그때 알 수 있던 값만 써서 다시 잰다",
+      "chapters": [
+        "books/backtest/#overfit",
+        "books/backtest/#lookahead",
+        "books/aie-ml/#tradeoff",
+        "books/aie-ml/#pipeline",
+        "books/probability/#testing",
+        "books/ai/#generalization"
       ]
     }
   ]

@@ -684,7 +684,7 @@
       "⏱ 증권거래세 0.20%(보도 기준, 법령 원문 확인 못함)·수수료 0.015%(가정): G3 은재·G6 정민·G7 한결(2026-10-14) 재확인 끝, 고정 재확인일 2027-04-14 한결(담당)·은재(확인 작업)",
       "확인 못함: 행동재무학 교재·강의 계획서·한국 투자자 교육 자료, Shefrin·Statman·Fischhoff·Wason 본문, 온결식품·가람200·누리 해외100의 KRX 목록 직접 조회",
       "시리즈 9·10권 next_why: 2026-10-14 G7에서 확인함(9권은 자산배분 마지막 장 다음 권 이동 이유와 같은 뜻, 10권은 이 책 마지막 장 다음 권 링크와 같은 문장). 남은 일 없음",
-      "13권 공개 때 이 책 마지막 장 다음 권 이동 이유의 '13권(준비 중)'을 링크로 바꾸기"
+      "완료(2026-10-14, 13권 서가 등록): 10.4절 답 문장 → ../backtest/#fills(“이 질문의 한 부분인 체결 가정과 비용은 13권 「백테스트와 자동 매매」 4장에서 하나씩 바꾸며 계산합니다”, 서윤 G1), app.js 43행 SERIES와 79행 다음 권 이동 이유는 권 이름만(<a> 안이라 링크 없음), 테스트를 13권 공개에 맞춤, 자산 버전 20261014-b13"
     ],
     "next": "PR과 CI 확인 뒤 병합. 2027-04-14 ⏱ 재확인(한결·은재)과 증권거래세 법령 원문 재시도",
     "shelf_registration": {
@@ -705,19 +705,20 @@
     "evidence": "docs/03-verification.html#finance-field-split, docs/04-site-plan.html#field-split"
   },
   "backtest": {
-    "book": "books/backtest (금융 시리즈 13권, 서가 미등록)",
+    "book": "books/backtest (금융 시리즈 13권, 서가 등록 끝·G5 관문 대기)",
     "series": "finance-from-scratch 13권 「백테스트와 자동 매매」(마지막 권)",
     "plan": "제목 「백테스트와 자동 매매 · 가정을 고쳐 수익률을 견주고 봇의 멈춤 조건 시험하기」, aqua, backtest-automation, 책등 백테스트, 분류 투자(서가 끝), 공통 인물 하린(12권), 지어낸 새벽전자 750거래일·가람200, 마지막 과제는 모의 서버 석 달 −2.97%의 손실 원인 나누기",
     "docs": "books/backtest/docs/index.html",
     "research": "books/backtest/docs/research.html",
-    "status": "G0~G2 승인(커밋 7e2bc5a), G3 원고·실험·테스트 작성 끝(관문 행·서가 등록 전), G3 승인(은재·지안) 차례",
+    "status": "G0~G4 승인(마지막 커밋 cb10962), 2026-10-14 서가 등록(커밋 전), G5 화면 확인과 관문 행·G6 팩트·출처 검수·G7 차례",
     "done": [
       "2026-10-14 G0~G2 초안(커밋 a9f649b)",
       "2026-10-14 1차 점검: 한결 G0 조건 6, 서윤 G1 조건 10, 해원 G2 조건 10 → 2차 판에 반영(#links-open)",
       "2026-10-14 재점검: 한결 G0·서윤 G1·해원 G2 승인, 관문 행 기록",
       "2026-10-14 G3 원고: index.html·js(data·math·content·visual·figures·labs 5개·home-lab·lab-guides·app)·css·assets 3개·review.json(33문항)·tests(math·content·routes·browser·given)·package.json, 자산 버전 20261014bt1",
       "2026-10-14 G3 편집장 조언 반영: 5장 보유 샤프 0.204를 변동성 끌림으로 한 문장 설명, 10장 40일째 −2,116원이 주어진 값임을 해설에 밝힘, 투자자 교육 자료 재시도(열지 못함, research #unverified)",
-      "2026-10-14 9장 설계표·조사 노트 V-9의 96+16=112주를 엔진 값(장부 56·64주, 계좌 80·72주)으로 고침, docs/index.html #rehearsal 작성"
+      "2026-10-14 9장 설계표·조사 노트 V-9의 96+16=112주를 엔진 값(장부 56·64주, 계좌 80·72주)으로 고침, docs/index.html #rehearsal 작성",
+      "2026-10-14 서가 등록(서윤 G1 결정대로): catalog 책 항목·chapter_index 11장·개념·노선·시리즈 13권, 다른 여섯 권에서 오는 링크(아래 shelf_registration)"
     ],
     "evidence": "research.html #calc의 calc13.py·l2.py(정수 원), 해원 g2check.py 독립 계산 20개 일치; G3: npm test 57개(math 19·content 16·routes 22), tests/browser.cjs 1280·390·320px 성공(장 화면 54·실험 33·L2 33·오류 상태 7·SVG 글자 2,308), validate.py 오류 0(190개 HTML)",
     "verification": [
@@ -727,12 +728,21 @@
       "docs/03-verification.html#backtest-check"
     ],
     "remaining": [
-      "G3 승인: 은재(킬 스위치 시행 여부, Bailey 기대 최대 샤프 식 원문 대조, Efron·Politis 인용, 걷기 전진 정의, ⏱ 거래세·수수료 재확인, 가상 이름 재조회, 투자자 교육 자료), 지안(9장 고친 숫자, 8장 3/8 이야기와 복습 문항 관계, 실험 기본값)",
-      "G4 문체 비평(다온·나래, 대조표 K1~K7·Q1~Q4, style-k-titles)과 쓰지 않은 세션의 학습 리허설",
-      "G5 서가 등록: cover_meta는 실험 이름 기준 9개(실험 ID 11개), 표지 막대는 6개, 10·11·12·9·8·4권 들어오는 링크",
+      "G5: 1280·390·320px에서 aqua 책등(18px·잘림·분류 겹침), 표지, 펼친 책 삽화, when-systems-stop 노선 카드가 시장 섬에서 투자 섬으로 옮겨 갔는지, 들어오는 링크 여덟 줄을 눈으로 확인하고 G5 관문 행(서윤)",
       "G6 팩트·출처 검수(새 세션)",
-      "공개 때 10권 마지막 장 13권(준비 중)을 링크로"
+      "G7: 한결 승인과 관문 행(시리즈 13권은 이미 book_id로 바뀌었으니 G7에서는 확인만)"
     ],
-    "next": "G3 승인 점검(은재·지안) 뒤 관문 행 기록, 이어서 G4"
+    "next": "G5 화면 확인과 관문 행(서윤), 이어서 G6 새 세션 팩트·출처 검수(유진 wording·titles·Q1~Q4 포함)와 G7",
+    "shelf_registration": {
+      "date": "2026-10-14",
+      "by": "도현(기획·연결팀, 서윤 G1 결정대로)",
+      "state": "done, not committed",
+      "catalog": "투자 묶음 끝 grid-trading(rose) 다음, 서가 끝 backtest-automation aqua 책등 '백테스트'(서가 No. 44); 설명·그림 설명(시각적 비유, 퀴즈 답 없음)·표지·cover_meta '11장 · 11개 실험'(서재 공통 기준인 tests/test_book_content.mjs가 장마다의 서로 다른 실험 ID 수를 세므로 11개. 2·3·4장은 같은 이름 '백테스트 가정 하나씩 바꾸기 실험'이지만 실험 ID(assume-data·assume-code·assume-fills)마다 여는 칸·기본값·계산 칸이 다른 별도 패널이라 셋으로 셈. 이름 기준 9개로 적으면 이 공통 테스트가 실패함); 장 링크 #fills·#overfit·#limits·#final; chapter_index 11장; series 13권 status planned → book_id backtest-automation, title 백테스트와 자동 매매, 12권 next_why 서윤 문장, 13권 next_why 없음",
+      "concepts": "새 개념 검증과 과적합(overfitting-validation: backtest #overfit·#lookahead, aie-ml #tradeoff·#pipeline, probability #testing, ai #generalization), 멈춤과 한도 + #limits, 평가 숫자의 불확실성 + #metrics, 반복과 분기 + #orders",
+      "path": "grid-box-trend + #overfit(18분, 합 109분, checks 한 줄 더함), when-systems-stop + #orders(18분)·#limits(16분)(합 91분). #orders 정거장은 계획의 '8주 중 3주 체결'이 8장 확인 문제(부분 체결 3/8)와 같은 장면이라 답을 미리 보이지 않도록 실험 예제와 같은 '10주 중 6주 체결'로 바꿈",
+      "incoming_links": "grid #final 본문 → #metrics(5장)·cross → #overfit; psychology #final 10.4절 답 문장 → #fills(4장), app.js SERIES·79행은 이름만('실전과 백테스트의 차이' → '백테스트와 모의 서버 체결의 차이'); allocation #final 남은 질문 → #metrics, app.js SERIES 이름만; volatility #final 상자는 이름만(details에 <p>·<b>만 허용하는 책 테스트)·cross → #metrics; tax #final → #fills(세후 수익 약속을 수수료·거래세 계산으로 고침); market #limits cross → #limits. 책 ?v=20261014-b13(grid·psychology·allocation·volatility·tax·market), psychology·allocation 테스트와 AGENTS.md를 13권 공개에 맞춤, macro AGENTS.md의 13권 문장 고침",
+      "visual_check": "하지 않음(이 등록 세션은 화면을 열지 않음). G5에서 확인",
+      "pending": "validate.py 남은 오류는 등록 범위 밖: backtest fact-review 없음, G5·G6·G7 관문 행 없음"
+    }
   }
 }
