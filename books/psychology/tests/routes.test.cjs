@@ -7,7 +7,7 @@ const B=load(),routes=html.match(/name="book-routes" content="([^"]+)"/)[1].spli
 const IDS=['frame','prospect','disposition','baserate','confirm','overconfidence','herd','outcome','rules','final'];
 const LABS=['two-frame-choice','value-function','disposition-count','base-rate-grid','likelihood-odds','interval-cost','info-cascade','loss-by-trials','rule-replay','journal-audit'];
 const NAMES=['같은 선택지 두 틀 실험','가치 함수 실험','처분 효과 측정 실험','추천 1,000종목 실험','증거별 우도비로 확신 계산 실험','적중률과 비용 실험','정보 폭포 실험','횟수별 손실 확률 실험','규칙 대입 실험','일지 점검 실험'];
-const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014bf6';
+const LAB_FILES=['labs-choice','labs-belief','labs-crowd','labs-rules','labs-final'],VERSION='20261014bf7';
 const UI_FILES=['index.html','js/app.js','js/visual.js','js/figures.js','js/home-lab.js','js/lab-guides.js',...LAB_FILES.map(f=>`js/${f}.js`)];
 const ADVICE=/(사세요|파세요|손절하세요|정답 규칙|이기는 습관|오를 것|내릴 것|추천합니다|추천해 드|권합니다|권해 드|사 두세요|팔아 두세요|매수하세요|매도하세요|반드시 오른|반드시 내린|저평가|고평가|최적의 규칙|좋은 규칙입니다)/;
 const esc=s=>s.replace(/[-]/g,'\\-');

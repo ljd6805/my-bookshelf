@@ -50,7 +50,7 @@ const J=M.JOURNAL,U=M.ASSUME,F={},man=x=>fx(x,0)+'만',WT=x=>M.wonText(x);
 /* 3장: 두 범위의 PGR·PLR 막대. */F.disposition=()=>{const a=M.disposition(1,13),b=M.disposition(14,26),c3=v=>fx(v,3);
  const items=[['1~13주','PGR',a.pgr,'var(--blue)',c3(a.pgr)],['1~13주','PLR',a.plr,'var(--orange)',c3(a.plr)],['14~26주','PGR',b.pgr,'var(--blue)',c3(b.pgr)],['14~26주','PLR',b.plr,'var(--orange)',c3(b.plr)]];
  const s=t(70,24,'매도한 날에 센 비율 (선우의 일지)',{size:13,w:700,a:'start'})+bars(items,{L:70,R:620,T:50,zero:220,hi:1});
- return {svg:svg(`PGR과 PLR: 1~13주 ${c3(a.pgr)}·${c3(a.plr)}, 14~26주 ${c3(b.pgr)}·${c3(b.plr)}`,s,270),caption:`매도한 날마다 네 칸(RG·PG·RL·PL)을 세어 낸 두 비율입니다. 1~13주는 PGR ${c3(a.pgr)}·PLR ${c3(a.plr)}, 14~26주는 ${c3(b.pgr)}·${c3(b.plr)}로 두 범위 모두 이익 난 종목을 판 비율이 더 큽니다. 매도한 날이 세 번씩뿐이라 흔적일 뿐 확정하지 못합니다.`};
+ return {svg:svg(`PGR과 PLR: 1~13주 ${c3(a.pgr)}·${c3(a.plr)}, 14~26주 ${c3(b.pgr)}·${c3(b.plr)}`,s,270),caption:`매도한 날마다 네 칸(RG·PG·RL·PL)을 세어 낸 두 비율입니다. 1~13주는 PGR ${c3(a.pgr)}·PLR ${c3(a.plr)}, 14~26주는 ${c3(b.pgr)}·${c3(b.plr)}으로 두 범위 모두 이익 난 종목을 판 비율이 더 큽니다. 매도한 날이 세 번씩뿐이라 흔적일 뿐 확정하지 못합니다.`};
 };
 /* 4장: 1,000종목을 두 줄로 나눈 막대. */F.baserate=()=>{const b=U.baserate,r=M.bayes(b.base,b.hit,b.falseAlarm),gd=r.grid,X=v=>70+v/1000*540;let s=t(70,24,`1,000종목 · 기저율 ${fx(b.base*100,0)}%, 적중 ${fx(b.hit*100,0)}%, 오경보 ${fx(b.falseAlarm*100,0)}%`,{size:13,w:700,a:'start'});
  s+=`<rect class="fig-grow" x="70" y="50" width="${(X(gd.doubles)-70).toFixed(1)}" height="26" fill="var(--accent)"/><rect class="fig-grow" x="${X(gd.doubles).toFixed(1)}" y="50" width="${(X(1000)-X(gd.doubles)).toFixed(1)}" height="26" fill="var(--panel2)" stroke="var(--line)"/>`;
@@ -88,7 +88,7 @@ const J=M.JOURNAL,U=M.ASSUME,F={},man=x=>fx(x,0)+'만',WT=x=>M.wonText(x);
  const pts=px.map((p,i)=>[i+1,p]),aw=avg.map((a,i)=>a==null?null:[i+1,a]).filter(Boolean),lim=aw.map(([x,a])=>[x,a*0.9]);
  const o=plot({x:[0,26,5,v=>`${v}주`],y:[23000,31000,2000,v=>fx(v,0)],xl:'주',yl:'원',series:[['온결식품 종가',pts,'var(--blue)'],['평균 단가 (수수료 포함)',aw,'var(--muted)','dash'],['R1 선: 평균 단가 × 0.9',lim,'var(--orange)','dot']],
   points:[['R1이 처음 걸린 8주',hit.week,px[hit.week-1],'var(--orange)','▲',`8주 ${P(hit.drop,2).replace('-','−')}`,10,-12,'start']],box:[70,620,40,230]});
- return {svg:svg(`온결식품 종가가 8주에 평균 단가보다 ${P(hit.drop,2)} 낮아 R1이 처음 걸림`,o.s,o.h),caption:`R1은 매매하기 전 그 주 종가로 확인하므로, 온결식품은 −10%가 아니라 ${P(hit.drop,2).replace('-','−')}인 8주 종가에서 처음 걸립니다. 선우는 이 주에 오히려 100주를 더 샀고, 평균 단가가 내려가 R1 선도 따라 내려갔습니다. 일지는 미리 정한 시나리오입니다.`};
+ return {svg:svg(`온결식품 종가가 8주에 평균 단가보다 ${P(Math.abs(hit.drop),2)} 낮아 R1이 처음 걸림`,o.s,o.h),caption:`R1은 매매하기 전 그 주 종가로 확인하므로, 온결식품은 −10%가 아니라 ${P(hit.drop,2).replace('-','−')}인 8주 종가에서 처음 걸립니다. 선우는 이 주에 오히려 100주를 더 샀고, 평균 단가가 내려가 R1 선도 따라 내려갔습니다. 일지는 미리 정한 시나리오입니다.`};
 };
 /* 10장: 26주 계좌 평가액. 점검표의 답은 그리지 않는다. */F.final=()=>{const L=M.ledger(),pts=L.weeks.map(w=>[w.week,w.equity/1e4]),sells=J.trades.filter(t=>t.side==='S').map(t=>t.week-1),buys=J.trades.filter(t=>t.side==='B').map(t=>t.week-1);
  const o=plot({x:[0,26,5,v=>`${v}주`],y:[1850,2100,50,v=>fx(v,0)],xl:'주',yl:'계좌 평가액 (만 원)',refs:[[J.start/1e4,'시작 2,000만 원']],series:[['주말 계좌 평가액 (● 산 주)',pts,'var(--blue)',null,'●',[...new Set(buys)]]],points:[...new Set(sells)].map((i,k)=>[k?null:'판 주',pts[i][0],pts[i][1],'var(--orange)','■']),box:[70,620,40,230]});

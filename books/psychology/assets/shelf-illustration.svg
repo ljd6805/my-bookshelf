@@ -1,5 +1,5 @@
 <svg class="bf-ill" viewBox="0 0 340 180" role="img" aria-labelledby="bf-ill-title" xmlns="http://www.w3.org/2000/svg">
-<title id="bf-ill-title">선우의 일지에서 보유 기간 막대가 함께 자라다가, 이익 난 새벽전자·가람200·누리 해외100의 칸은 일찍 팔려 흐려지고, 손실 난 온결식품의 칸만 오래 남는 처분 효과 과정(미리 정한 가상 시나리오)</title>
+<title id="bf-ill-title">선우의 일지에서 보유 기간 막대가 함께 자라다가, 이익 난 새벽전자·가람200·누리 해외100의 막대는 일찍 팔려 흐려지고, 손실 난 온결식품의 막대만 오래 남는 처분 효과 과정(미리 정한 가상 시나리오)</title>
 <style>
 .bf-ill-bg{fill:#f6f8fc}
 .bf-ill-word{font:600 10px sans-serif;fill:#172235}
@@ -31,5 +31,5 @@ html[data-motion=reduce] .bf-ill-g4,html[data-motion=reduce] .bf-ill-g6,html[dat
 <g class="bf-ill-sold6"><text class="bf-ill-word" x="14" y="80">가람200</text><rect class="bf-ill-track" x="104" y="71" width="222" height="11" rx="2"/><rect class="bf-ill-bar bf-ill-gain bf-ill-g6" x="104" y="71" width="51" height="11" rx="2"/><text class="bf-ill-small" x="104" y="94">이익 · 일찍 팖</text></g>
 <g class="bf-ill-sold7"><text class="bf-ill-word" x="14" y="114">누리 해외100</text><rect class="bf-ill-track" x="104" y="105" width="222" height="11" rx="2"/><rect class="bf-ill-bar bf-ill-gain bf-ill-g7" x="104" y="105" width="60" height="11" rx="2"/><text class="bf-ill-small" x="104" y="128">이익 · 일찍 팖</text></g>
 <text class="bf-ill-word" x="14" y="148">온결식품</text><rect class="bf-ill-track" x="104" y="139" width="222" height="11" rx="2"/><rect class="bf-ill-bar bf-ill-loss bf-ill-l19" x="104" y="139" width="162" height="11" rx="2"/><text class="bf-ill-small" x="104" y="162">손실 · 오래 들고 있다 팖</text>
-<text class="bf-ill-small" x="326" y="175" text-anchor="end">막대 길이는 보유한 주 수</text>
+<text class="bf-ill-small" x="326" y="175" text-anchor="end">막대 길이는 보유 기간(주)</text>
 </svg>

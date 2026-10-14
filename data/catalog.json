@@ -2689,9 +2689,9 @@
       "spine_title": "행동재무학",
       "spine_category": "투자",
       "color": "blue",
-      "description": "가상 매매 일지에서 손실 회피의 크기를 계산하고, PGR·PLR로 처분 효과를, 예상 범위의 적중률과 회전율로 과신의 흔적을 센 뒤, 미리 적은 규칙을 기록에 대입해 손익을 비교합니다. 학습용이며 투자 권유가 아닙니다.",
+      "description": "가치 함수로 손실 회피의 크기를 계산하고, 가상 매매 일지에서 PGR·PLR로 처분 효과를 재고 예상 범위의 적중률과 회전율을 센 뒤, 미리 적은 규칙을 일지에 대입해 손익을 비교합니다. 학습용이며 투자 권유가 아닙니다.",
       "illustration": "books/psychology/assets/shelf-illustration.svg",
-      "illustration_caption": "가상 일지에서 이익 난 세 종목은 일찍 팔고, 손실 난 온결식품은 오래 들고 있다가 팝니다(미리 정한 시나리오).",
+      "illustration_caption": "가상 일지에서 선우는 이익 난 세 종목을 일찍 팔고, 손실 난 온결식품은 오래 들고 있다가 팝니다(미리 정한 시나리오).",
       "cover_art": "books/psychology/assets/cover-art.svg",
       "cover_meta": "10장 · 10개 실험",
       "status": "published",
@@ -4553,13 +4553,13 @@
         {
           "number": 9,
           "title": "자산배분",
-          "next_why": "조건에 맞는 비중과 되돌리는 규칙을 계산했으니, 그 규칙을 지키기 어렵게 만드는 마음의 함정을 들여다봅니다.",
+          "next_why": "조건에 맞는 비중과 되돌리는 규칙을 계산했으니, 그 규칙을 손실 앞에서 지키기 어렵게 만드는 손실 회피와 과신의 흔적을 매매 기록에서 셉니다.",
           "book_id": "asset-allocation"
         },
         {
           "number": 10,
           "title": "행동재무학",
-          "next_why": "판단의 함정을 알았으니, 같은 수익을 세후로 지키는 세금과 계좌를 정리합니다.",
+          "next_why": "매매 기록에서 처분 효과와 매매 비용을 계산했으니, 같은 수익을 세후로 지키는 세금과 계좌를 정리합니다.",
           "book_id": "behavioral-finance"
         },
         {
