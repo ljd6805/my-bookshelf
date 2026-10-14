@@ -658,13 +658,14 @@
     "plan": "/mnt/project-files/stock-books/proposal.md (### 10권)",
     "docs": "books/psychology/docs/index.html",
     "research": "books/psychology/docs/research.html",
-    "status": "draft 2차: G0~G2 입력 초안(2026-10-14)에 1차 점검(커밋 1821190: 한결 G0 조건부 승인 9, 서윤 G1 조건부 승인 10, 해원 G2 보류 14) 조건을 반영함. 팀장 재점검 전이며 관문 행 없음. 서가(data/catalog.json) 미등록, 책 본문·실험 없음",
+    "status": "draft 2차: G0~G2 입력 초안(2026-10-14)에 1차 점검(커밋 1821190: 한결 G0 조건부 승인 9, 서윤 G1 조건부 승인 10, 해원 G2 보류 14) 조건을 반영함. G0~G2 팀장 승인(6d9aa98) 뒤 G3 데이터층·원고 작성 중(js/math.js·js/content.js·review.json·테스트 37개 통과). 화면·실험 없음. 서가(data/catalog.json) 미등록",
     "done": [
       "1차 판(커밋 1821190): 기획·교과과정·장 설계 초안, research.html, AGENTS.md",
-      "서윤 G1 결정 반영: 제목 「행동재무학 · 매매 기록에서 손실 회피와 과신의 흔적을 세고 규칙을 시험하기」(32자), 색 blue(plum은 320px 세 권 한 줄, violet은 768px 8권 아래, G5에서 되돌릴 수 있음), id behavioral-finance, 책등 행동재무학, cover_meta '10장 · 10개 실험', 시리즈 10권 '행동재무학'과 9·10권 next_why 새 문장, 개념(기저율과 문턱 #baserate, 멈춤과 한도 #rules, 평가 숫자의 불확실성 #overconfidence·#outcome), 새 노선 broken-rules 83분(12권 #exit 손실 한도 줄, 확률과 통계 #chance 10번→초기화→1,000번), 들어오는 링크 아홉 자리 대상과 확률과 통계 #bayes → #baserate",
+      "서윤 G1 결정 반영: 제목 「행동재무학 · 매매 기록에서 손실 회피와 과신의 흔적을 세고 규칙을 시험하기」(32자), 색 blue(plum은 320px에서 세 권이 세로 한 열로 쌓이고, violet은 768px 8권 아래, G5에서 되돌릴 수 있음), id behavioral-finance, 책등 행동재무학, cover_meta '10장 · 10개 실험', 시리즈 10권 '행동재무학'과 9·10권 next_why 새 문장, 개념(기저율과 문턱 #baserate, 멈춤과 한도 #rules, 평가 숫자의 불확실성 #overconfidence·#outcome), 새 노선 broken-rules 83분(12권 #exit 손실 한도 줄, 확률과 통계 #chance 10번→초기화→1,000번), 들어오는 링크 아홉 자리 대상과 확률과 통계 #bayes → #baserate",
       "한결 G0 조건: 기획안 원문 인용과 기획안 목차 대응표, 끝의 행동 (6) 의사결정 일지 설계와 마지막 과제 (사), 9장 종목별 규칙 손익(온결식품 +679,735원, 새벽전자 −234,801원, 정수 연산판으로 다시 계산해 같음)과 반사실 정의, 오해 목록 문장 교체, 1장 선택 저장 안 함·같음/다름·1981 서로 다른 사람 단서, 1981 문항 재현 '확인하지 못했다', ⏱ 담당(G3 은재, G6 정민, G7 한결, 2027-04-14 한결·은재)과 등급, '2026년 4~9월' 삭제, 약속을 갚는 장 #prospect #disposition #confirm #rules #final",
       "해원 G2 조건: 정수 연산 일지(끝 19,569,716원, 비용 35,284원, R1 반사실 20,014,650원), 7장 S15 모형 하나·L2 56.7%·확인 p 0.9 6.0%(편집장 결정 (가)), 1·7·8·9장 확인·전이 교체(1장 L2 −600만 원, 8장 전이 24.3%, 9장 확인 39.4%, 9장 전이 −612,510원/+285,555원), 3장 범위 1~13·14~26주(14~26주 PGR 1.000·PLR 0.200), 선수 관계(#binomial), 7장 이전 결과, V-0 일지 앞면 메모, R1 세는 법, 2·4·5·6·7·10장 제목과 3부 이름, 2장 확률 가중 축소(확인은 가중 끔, 켜면 +4.87), 7장 14분·합계 171분, 실험 이름(증거별 우도비로 확신 계산 실험, 횟수별 손실 확률 실험), 첫 화면·마지막 과제 화면에 답을 보이지 않는 규칙",
-      "data/work-state.json allocation 항목의 10권 링크 항목을 '10권 「행동재무학」'과 갚을 자리로 고침(서윤 G1)"
+      "data/work-state.json allocation 항목의 10권 링크 항목을 '10권 「행동재무학」'과 갚을 자리로 고침(서윤 G1)",
+      "G3 데이터층과 원고(2026-10-14, 팀장 승인 6d9aa98 뒤): README.md, package.json, js/math.js(PMath: MODEL·ASSUME·MARKET ⏱ 둘·FACTS·TEXT, 선우의 일지 JOURNAL 한 곳, 정수 연산 수수료·거래세, 반등 경로 ASSUME.rebound), js/content.js(PBook: 출처 19, 10장 본문), review.json(장마다 3문항, 9장에 규칙을 지킨 쪽이 손해인 문항), tests/given.cjs·math.test.cjs(20)·content.test.cjs(17). docs #links에 #herd → 확률과 통계 #bayes를 더하고 AGENTS.md를 JOURNAL 위치·R1 대입 정의·1장 새로고침 문장·sessionStorage 검사·9장 경로 선택 칸에 맞춤"
     ],
     "evidence": "세션 임시 폴더 scratchpad/psy/ledger.py·v1.py~v6.py·gen_v0.py·fix_research.py(v5.py 정수 연산 일지와 종목별 반사실, v6.py 바뀐 문항 값과 정보 폭포 모의실험 p 0.9 0.0602), Tversky·Kahneman 1974·1981·1992, Odean 1998, Barber·Odean 2000, Baron·Hershey 1988, Nickerson 1998 원문, Ruggeri 외 2020·Brown 외 2024·Hagger 외 2016·Gollwitzer·Sheeran 2006·Glaser·Weber 2007 초록, 정보 폭포 강의 노트(2차), proposal.md ### 10권(2026-10-14 다시 열어 인용), 서재 안 재인용(확률과 통계·4권·5권·9권·11권·12권) — research.html #sources",
     "verification": [
@@ -680,6 +681,6 @@
       "G7: 시리즈 10권 status → book_id behavioral-finance, title '행동재무학', 9·10권 next_why 새 문장",
       "확인 못함: 행동재무학 교재·강의 계획서·한국 투자자 교육 자료, Shefrin·Statman·Fischhoff·Wason 본문, 온결식품·가람200·누리 해외100의 KRX 목록 직접 조회"
     ],
-    "next": "한결·서윤·해원 재점검 → 관문 행 G0~G2 → G3(은재·지안: 조사 보강, js/math.js·journal.js(정수 연산)·content.js·실험 10개·review.json)"
+    "next": "G3 화면: index.html·js/app.js·실험 10개·그림·CSS·tests/browser.cjs(localStorage와 sessionStorage 검사, 1장 결과 칸 접힘, 9장 경로 선택 칸), 이 책 노선 정거장 세 곳을 실제 필드 이름으로 다시 씀, 다온 G4 문체 메모"
   }
 }
