@@ -2974,6 +2974,95 @@
         }
       ],
       "short_title": "백테스트와 자동 매매"
+    },
+    {
+      "id": "chess-basics",
+      "title": "체스 입문 · 규칙을 익히고 기초 원칙으로 한 판 두기",
+      "spine_title": "체스 입문",
+      "spine_category": "게임",
+      "color": "sage",
+      "description": "체스판 좌표와 여섯 기물의 움직임, 앙파상·승진·캐슬링, 체크와 합법 수, 게임이 끝나는 조건을 판에서 직접 두어 확인하고, 기보를 적고 기물 점수·오프닝 원칙·전술로 수를 고른 뒤, 미니맥스와 알파베타가 수를 고르는 방법을 노드 수로 견줍니다. 규칙은 FIDE 규칙 2023년 시행판과 대조했습니다.",
+      "illustration": "books/chess/assets/shelf-illustration.svg",
+      "illustration_caption": "실제 수순: 흰 나이트가 c7로 뛰어 킹과 룩을 함께 공격하고, 킹이 피하자 룩을 잡습니다.",
+      "cover_art": "books/chess/assets/cover-art.svg",
+      "cover_meta": "12장 · 12개 실험",
+      "status": "published",
+      "url": "books/chess/",
+      "keywords": [
+        "체스",
+        "chess",
+        "체스 규칙",
+        "FIDE",
+        "체스판",
+        "좌표",
+        "기물",
+        "폰",
+        "나이트",
+        "비숍",
+        "룩",
+        "퀸",
+        "킹",
+        "앙파상",
+        "en passant",
+        "승진",
+        "프로모션",
+        "캐슬링",
+        "체크",
+        "체크메이트",
+        "외통",
+        "스테일메이트",
+        "무승부",
+        "50수 규칙",
+        "삼회 반복",
+        "합법 수",
+        "대수 기보",
+        "기보",
+        "FEN",
+        "기물 가치",
+        "교환",
+        "오프닝",
+        "중앙",
+        "전개",
+        "킹 안전",
+        "전술",
+        "포크",
+        "핀",
+        "꼬치 공격",
+        "스큐어",
+        "발견 공격",
+        "마지막 줄 체크메이트",
+        "미니맥스",
+        "minimax",
+        "알파베타",
+        "alpha-beta",
+        "게임 트리",
+        "perft",
+        "체스 엔진",
+        "하준"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/chess/#chapters"
+        },
+        {
+          "title": "04 · 체크와 합법 수: 킹이 공격받게 되는 수 걸러 내기",
+          "url": "books/chess/#check"
+        },
+        {
+          "title": "08 · 오프닝 원칙: 중앙 장악·기물 전개·킹 안전을 수로 세기",
+          "url": "books/chess/#opening"
+        },
+        {
+          "title": "11 · 컴퓨터가 수를 고르는 방법: 미니맥스와 알파베타 가지치기",
+          "url": "books/chess/#engine"
+        },
+        {
+          "title": "마지막 과제 · 하준의 첫 대국 기보에서 실수 세 개를 찾고 더 나은 수 고르기",
+          "url": "books/chess/#final"
+        }
+      ],
+      "short_title": "체스 입문"
     }
   ],
   "learning_paths": [
@@ -4477,6 +4566,73 @@
         "적은 횟수의 비율이 많은 횟수의 비율보다 크게 흔들린다는 것을 동전 실험의 숫자로 말할 수 있는가",
         "같은 규칙의 손익이 경로에 따라 달라져 한 경로의 결과로 규칙을 판정할 수 없는 까닭을 설명할 수 있는가"
       ]
+    },
+    {
+      "id": "how-engines-choose",
+      "title": "컴퓨터는 체스에서 다음 수를 어떻게 고를까",
+      "question": "체스 프로그램은 둘 수 있는 수를 어떻게 세고, 어떤 점수로 비교해, 몇 수 앞까지 읽어 한 수를 고를까?",
+      "audience": "체스 규칙은 대강 알고, 체스 프로그램이 사람보다 수를 잘 고르는 까닭이 궁금한 독자",
+      "prerequisites": "체스 기물의 이름, 덧셈과 뺄셈, 큐와 스택이라는 낱말",
+      "start": "가상 인물 하준은 동네 체스 모임의 첫 대국에서 진 뒤 휴대전화의 체스 앱으로 복기했다. 앱은 6수 Qg3 옆에 “−5점”이라고 적었다. 하준은 앱이 무엇을 세어 이 점수를 냈는지 묻는다.",
+      "steps": [
+        {
+          "book_id": "chess-basics",
+          "url": "books/chess/#check",
+          "task": "‘규칙상 움직임에서 합법 수 걸러 내기 실험’에서 ‘국면’을 ‘핀에 묶인 나이트’로 두고 규칙상 움직임과 합법 수의 개수를 읽은 뒤, c3의 흰 나이트를 눌러 ⊘로 표시된 칸 수를 센다",
+          "minutes": 12,
+          "why": "프로그램이 읽는 나무의 가지는 합법 수다. 규칙상 움직임에서 자기 킹이 공격받는 수를 빼는 단계를 먼저 보아야 나무의 크기를 셀 수 있다",
+          "record": "규칙상 움직임 수, 합법 수, 나이트의 ⊘ 칸 수"
+        },
+        {
+          "book_id": "algorithms-lab",
+          "url": "books/algorithms/#graph",
+          "task": "‘분관 지도를 큐와 스택으로 돌기’ 실험에서 ‘출발 분관’을 본관, ‘방문한 분관 수’를 4로 두고 ‘차례를 정하는 상자’를 큐(BFS)와 스택(DFS)으로 번갈아 바꿔 다섯 번째로 방문하는 분관을 적는다",
+          "minutes": 14,
+          "why": "체스 프로그램은 나무를 스택 순서(깊이 우선)로 방문한다. 같은 지도에서 상자만 바꿔 방문 순서가 달라지는 것을 보면 미니맥스의 방문 순서를 읽을 수 있다",
+          "record": "BFS와 DFS의 다섯 번째 방문 분관"
+        },
+        {
+          "book_id": "chess-basics",
+          "url": "books/chess/#value",
+          "task": "‘한 칸의 교환 득실 계산 실험’에서 ‘국면’을 ‘룩으로 폰 잡기’로 두고 흰색이 먼저 잡을 때의 점수를 읽은 뒤, ‘공격 둘, 수비 둘’로 바꿔 ‘손해가 나도 끝까지 잡는다고 보기’를 켰다 끄며 점수를 견준다",
+          "minutes": 14,
+          "why": "프로그램이 나무의 끝 국면에 매기는 점수가 이 장의 기물 점수다. 잡고 잡히는 순서를 끝까지 따라가야 점수가 맞는다는 것을 먼저 계산한다",
+          "record": "룩으로 폰 잡기의 점수, 공격 둘·수비 둘에서 멈출 때와 끝까지 잡을 때의 점수"
+        },
+        {
+          "book_id": "chess-basics",
+          "url": "books/chess/#engine",
+          "task": "‘미니맥스와 알파베타 노드 세기 실험’에서 ‘국면’을 ‘나이트 포크 퍼즐’, ‘탐색 깊이 (반수)’를 3으로 두고 두 방법의 방문한 노드 수와 고른 수를 읽은 뒤, ‘알파베타에서 잡는 수를 먼저 보기’를 켜 알파베타의 노드 수를 다시 읽는다",
+          "minutes": 18,
+          "why": "같은 점수 계산을 나무 전체에 적용하면 노드 수가 빠르게 늘어난다. 알파베타가 결과는 그대로 두고 방문만 줄이는 것을 숫자로 본다",
+          "record": "미니맥스와 알파베타의 노드 수, 고른 수, 잡는 수를 먼저 볼 때의 노드 수"
+        },
+        {
+          "book_id": "aie-10-rl",
+          "url": "books/aie-rl/#games",
+          "task": "‘PUCT 탐험 상수’ 실험에서 ‘탐험 상수 c’를 0, 1, 5로 바꾸며 40번의 탐색 방문이 수 A·B·C에 어떻게 나뉘는지 적는다",
+          "minutes": 15,
+          "why": "모든 가지를 같은 깊이로 펼치는 대신, 학습한 사전 확률과 가치로 방문을 유망한 수에 몰아 주는 방법을 본다. 알파베타와 달리 이 방법은 일부 수를 적게 읽는 대가로 더 깊이 읽는다",
+          "record": "c = 0, 1, 5에서 수 A·B·C의 방문 수"
+        },
+        {
+          "book_id": "chess-basics",
+          "url": "books/chess/#final",
+          "task": "‘하준의 대국 복기 실험’에서 ‘복기할 순간’을 ‘6수: c2를 지키지 않음’으로 두고 ‘둘 수’를 Qg3와 Nxd4로 바꿔 점수 변화와 검은색의 가장 좋은 대답을 읽는다",
+          "minutes": 16,
+          "why": "앞 정거장에서 본 탐색과 점수가 하준의 실제 대국에서 “−5점”을 어떻게 냈는지 되짚고, 그 점수가 말하지 않는 것(깊이 밖의 계획, 시간)을 나눈다",
+          "record": "Qg3와 Nxd4의 점수 변화와 검은색의 대답"
+        }
+      ],
+      "challenge": "「체스 입문」 마지막 과제에서 하준의 첫 대국 세 순간마다 실제로 둔 수와 다른 후보 두 개를 엔진 점수와 원칙 숫자(전개·가운데 공격)로 견주고, “둔 수 → 더 나은 후보 · 근거 · 이 계산으로 모르는 것”을 한 줄씩 적는다. 2수처럼 점수가 같은 순간에는 원칙 숫자로만 고를 수 있다는 것도 함께 적는다.",
+      "checks": [
+        "규칙상 움직임에서 자기 킹이 공격받는 수를 빼 합법 수를 셀 수 있는가",
+        "깊이 우선 방문과 너비 우선 방문의 순서를 같은 지도에서 구별할 수 있는가",
+        "잡고 잡히는 순서를 끝까지 따라가 한 칸의 교환 점수를 계산할 수 있는가",
+        "알파베타가 미니맥스와 같은 수를 고르면서 노드 수를 줄이는 까닭을 설명할 수 있는가",
+        "PUCT의 탐험 상수가 방문을 가치와 사전 확률 중 어느 쪽으로 기울이는지 말할 수 있는가",
+        "엔진 점수가 계산하지 않는 것을 복기 기록에 따로 적을 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -5188,7 +5344,19 @@
     "books/backtest/#orders": "08 · 부분 체결과 취소가 엇갈린 주문의 상태를 따라가며 봇 장부와 계좌 잔고 대사하기",
     "books/backtest/#limits": "09 · 손실 한도·주문 수 한도·같은 칸 중복 검사로 봇이 멈출 조건을 정하고 시험하기",
     "books/backtest/#monitor": "10 · 모의 서버 체결과 백테스트 체결의 차이를 날마다 기록하고 경보 기준 정하기",
-    "books/backtest/#final": "마지막 과제 · 표본 안 연 23.23%, 모의 서버 석 달 −2.97%인 격자 봇의 손실 원인을 증거 순서로 찾고 금액으로 나누기"
+    "books/backtest/#final": "마지막 과제 · 표본 안 연 23.23%, 모의 서버 석 달 −2.97%인 격자 봇의 손실 원인을 증거 순서로 찾고 금액으로 나누기",
+    "books/chess/#board": "01 · 체스판의 좌표와 처음 배치 읽기",
+    "books/chess/#moves": "02 · 여섯 기물이 움직이는 방향과 닿는 칸 수 세기",
+    "books/chess/#special": "03 · 앙파상·승진·캐슬링의 조건을 하나씩 확인하기",
+    "books/chess/#check": "04 · 체크와 합법 수: 킹이 공격받게 되는 수 걸러 내기",
+    "books/chess/#ending": "05 · 체크메이트·스테일메이트·무승부로 게임이 끝나는 조건 판정하기",
+    "books/chess/#notation": "06 · 대수 기보법으로 수를 적고 기보대로 다시 두기",
+    "books/chess/#value": "07 · 기물 가치 1·3·3·5·9로 교환의 이득과 손해 계산하기",
+    "books/chess/#opening": "08 · 오프닝 원칙: 중앙 장악·기물 전개·킹 안전을 수로 세기",
+    "books/chess/#tactics": "09 · 포크·핀·꼬치 공격·발견 공격으로 기물 얻기",
+    "books/chess/#mates": "10 · 퀸과 룩으로 기본 체크메이트 만들기",
+    "books/chess/#engine": "11 · 컴퓨터가 수를 고르는 방법: 미니맥스와 알파베타 가지치기",
+    "books/chess/#final": "마지막 과제 · 하준의 첫 대국 기보에서 실수 세 개를 찾고 더 나은 수 고르기"
   },
   "concepts": [
     {
@@ -5217,7 +5385,8 @@
         "books/aie-llm-build/#tokenizer",
         "books/aie-llm-build/#serving",
         "books/information/#surprise",
-        "books/information/#quantize"
+        "books/information/#quantize",
+        "books/chess/#notation"
       ]
     },
     {
@@ -5681,7 +5850,8 @@
         "books/aie-autonomy/#star",
         "books/aie-autonomy/#evolve",
         "books/aie-safety/#rlhf",
-        "books/aie-safety/#dpo"
+        "books/aie-safety/#dpo",
+        "books/chess/#value"
       ]
     },
     {
@@ -5734,7 +5904,9 @@
         "books/computer/#gates",
         "books/knowledge-graph/#ontology",
         "books/knowledge-graph/#reasoning",
-        "books/statements/#link"
+        "books/statements/#link",
+        "books/chess/#check",
+        "books/chess/#ending"
       ]
     },
     {
@@ -5875,6 +6047,24 @@
         "books/aie-ml/#pipeline",
         "books/probability/#testing",
         "books/ai/#generalization"
+      ]
+    },
+    {
+      "id": "game-tree-search",
+      "name": "게임 트리 탐색",
+      "aliases": [
+        "game tree",
+        "minimax",
+        "alpha-beta",
+        "search tree",
+        "MCTS"
+      ],
+      "summary": "둘 수 있는 수를 나무로 펼쳐 상대의 대답까지 읽고, 점수를 거꾸로 모아 지금 둘 한 수를 고른다",
+      "chapters": [
+        "books/chess/#engine",
+        "books/chess/#final",
+        "books/algorithms/#graph",
+        "books/aie-rl/#games"
       ]
     }
   ]
