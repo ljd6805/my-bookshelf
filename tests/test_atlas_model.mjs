@@ -123,3 +123,13 @@ test('a bridge between far ring islands sails around the hub instead of crossing
     });
   }
 });
+
+test('a tall phone layout with eight ring islands keeps every island apart without stretching past the cap', () => {
+  const fields = [['AI', 20], ['인공', 6], ['컴', 2], ['게임', 1], ['지식', 2], ['시장', 4], ['경제', 3], ['투자', 6], ['수학', 3]];
+  const books = fields.flatMap(([n, k]) => Array.from({ length: k }, (_, i) => `${n}${i}`));
+  const links = fields.slice(1).map(([n], i) => [`k${i}`, ['AI0', `${n}0`, `${fields[1 + ((i + 3) % 8)][0]}0`]]);
+  const layout = layoutIslands(buildGraph(payload(fields, links)), { portrait: true });
+  layout.islands.forEach((a, i) => layout.islands.slice(i + 1).forEach(b => assert.ok(Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r + 40, `${a.name}-${b.name}`)));
+  inside(layout);
+  assert.ok(layout.height < 2 * layout.width, `${layout.width}x${layout.height}`);
+});

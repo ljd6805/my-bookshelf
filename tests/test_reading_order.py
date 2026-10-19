@@ -80,5 +80,14 @@ class ReadingOrderTests(unittest.TestCase):
         self.assertIn('노선 3개 가운데 2개', first['reason'])
 
 
+    def test_reason_reaches_back_past_the_previous_book_to_the_path_that_leads_here(self):
+        catalog = {'books': [book('a', 'x'), book('b', 'x'), book('c', 'x')],
+                   'learning_paths': [path('p1', 'a', 'b'), path('p2', 'a', 'c')]}
+        steps = field_orders(catalog)['x']
+        self.assertEqual([s['book'] for s in steps], ['a', 'b', 'c'])
+        self.assertEqual(steps[2]['via']['kind'], 'path')
+        self.assertIn('p2', steps[2]['reason'])
+        self.assertIn('a 다음에', steps[2]['reason'])
+
 if __name__ == '__main__':
     unittest.main()
