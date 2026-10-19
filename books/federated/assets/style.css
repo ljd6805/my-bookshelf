@@ -66,3 +66,5 @@ html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-m
 .report{border:1px dashed var(--accent);border-radius:8px;padding:14px 16px;margin-top:12px;background:var(--panel)}.report h4{margin:0 0 8px;font-size:1rem}.report dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 14px;margin:0}.report dt{color:var(--muted)}.report dd{margin:0;font-family:var(--font-mono)}
 .readout[aria-busy=true]{opacity:.55}.readout[aria-busy=true]:before{content:'계산 중… ';color:var(--accent)}
 @media(max-width:520px){.report dl{grid-template-columns:1fr}.fl-table{font-size:12px}.fl-table th,.fl-table td{padding:4px 5px}}
+
+@media (max-width:420px){.chapter-head h1{font-size:1.75rem;overflow-wrap:break-word}}

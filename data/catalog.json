@@ -5476,7 +5476,8 @@
     "books/federated/#dp": "09 · 업데이트를 자르고 잡음을 더해 차등 프라이버시 ε 계산하기",
     "books/federated/#personal": "10 · 공용 모델과 기기에서 더 학습한 모델을 섞어 개인화하기",
     "books/federated/#fairness": "11 · 메타데이터 묶음별 연합 평가로 숨은 편향 찾기",
-    "books/federated/#deploy": "12 · Gboard 배포 기록과 LoRA 어댑터만 주고받는 LLM 연합학습"
+    "books/federated/#deploy": "12 · Gboard 배포 기록과 LoRA 어댑터만 주고받는 LLM 연합학습",
+    "books/federated/#final": "마지막 과제 · 하린의 설정으로 정확도·통신량·ε를 계산해 보고서 쓰기"
   },
   "concepts": [
     {
