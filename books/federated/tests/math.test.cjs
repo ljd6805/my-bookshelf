@@ -73,11 +73,11 @@ test('chapter 5: participation conditions',()=>{
 test('chapter 6: deadline modes',()=>{
  const h=(mode,dl)=>fed({hetero:{mode,deadline:dl}}),sum=(r,k)=>r.logs.reduce((a,l)=>a+l[k],0),low=r=>r.logs.reduce((a,l)=>a+l.tiers[2],0);
  assert.equal(sum(h('drop',10),'dropped'),1308);assert.equal(low(h('drop',10)),438);assert.equal(low(fed({})),1100);
- assert.equal(f3(h('drop',10).final.probByStyle[2]),'0.114');assert.equal(f3(h('partial',10).final.probByStyle[2]),'0.133');assert.equal(f3(h('small',10).final.probByStyle[2]),'0.146');assert.equal(f3(fed({}).final.probByStyle[2]),'0.164');
- assert.equal((h('drop',10).bytes/1e6).toFixed(2),'4.85');assert.equal((h('small',10).bytes/1e6).toFixed(2),'6.07');assert.equal(h('partial',10).bytes,7200000);
+ assert.equal(f3(h('drop',10).final.probByStyle[2]),'0.114');assert.equal(f3(h('partial',10).final.probByStyle[2]),'0.133');assert.equal(f3(h('small',10).final.probByStyle[2]),'0.140');assert.equal(f3(fed({}).final.probByStyle[2]),'0.164');
+ assert.equal((h('drop',10).bytes/1e6).toFixed(2),'6.02');assert.equal(h('drop',10).bytes,sum(h('drop',10),'used')*1800+1308*900);assert.equal((h('small',10).bytes/1e6).toFixed(2),'6.07');assert.equal(h('partial',10).bytes,7200000);
  assert.equal(sum(h('drop',20),'dropped'),405);assert.equal(f3(h('drop',20).final.probByStyle[2]),'0.133');
  assert.equal(f3(h('drop',20).final.byStyle[2]),f3(h('partial',20).final.byStyle[2]));
- has('hetero','1,308','438','0.114','0.164','0.133','0.146','4.85 MB','7.20 MB','6.07 MB','405');
+ has('hetero','1,308','438','0.114','0.164','0.133','0.140','6.02 MB','7.20 MB','6.07 MB','405');
 });
 
 test('chapter 7: FedSGD update gives back the exact pair counts; FedAvg still shows the used rows',()=>{
@@ -127,4 +127,10 @@ test('chapter 13: final report starting setting',()=>{
  const d=M.dpTrain(L,{q:.1,E:1,B:10,S:1,z:1,rounds:40}),p=M.personalize(d.w,L,{epochs:2,lambda:.5});
  assert.equal(f3(d.final.acc),'0.630');assert.equal(f3(p.mine),'0.653');assert.equal(40*.1*1800,7200);
  has('final','0.630','0.653','6.18','7.2 KB','2.01','0.617','1.02','3.6 KB','0.598');
+});
+test('chapter 6: a small-model device never sees the rows it does not receive',()=>{
+ const w0=M.zeros(),w1=M.zeros(),r=M.rng(5);for(let i=0;i<M.P*M.K;i++)if(!M.SMALL_ROWS[Math.floor(i/M.K)])w1[i]=r()*4-2;
+ const o={C:.1,E:5,B:10,hetero:{mode:'small',deadline:1}},a=M.fedRound(w0,L,o,0),b=M.fedRound(w1,L,o,0);
+ assert.equal(a.log.small,a.log.used);
+ for(let i=0;i<M.DIM;i++){const kept=i>=M.P*M.K||M.SMALL_ROWS[Math.floor(i/M.K)];if(kept)assert.ok(Math.abs(a.w[i]-b.w[i])<1e-12,'cell '+i);else assert.equal(b.w[i],w1[i]);}
 });

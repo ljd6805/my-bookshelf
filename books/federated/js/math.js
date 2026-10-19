@@ -111,7 +111,7 @@ function sample(r,list,m){return shuffle(r,list.slice()).slice(0,Math.min(m,list
 /* 작은 모델은 숫자가 225개 중 117개라 한 걸음의 계산이 약 절반이라고 둔다(가정: 계산량이 숫자 수에 비례). */
 const SMALL_SPEEDUP=2;
 /* opts: C(참여 비율: 한 라운드에 고를 기기 = C × 전체), E, B, lr, mu, select(조건), hetero({mode:'drop'|'partial'|'small', deadline}),
-   quantBits, seed. 서버는 학습 쌍 수 n_k로 가중 평균한다(McMahan 외 2017). 작은 모델 기기의 몫은 그 모델이 가진 칸에만 더한다(칸마다 그 칸을 가진 기기끼리 평균). */
+   quantBits, seed. 서버는 학습 쌍 수 n_k로 가중 평균한다(McMahan 외 2017). 작은 모델 기기는 그 모델이 가진 칸만 받아(나머지 줄은 0으로 두고) 학습하고, 그 몫은 가진 칸에만 더한다(칸마다 그 칸을 가진 기기끼리 평균). 마감을 넘겨 버린 기기도 모델은 이미 내려받았으므로 내려받은 바이트는 센다. */
 function fedRound(w,list,opts,t){
  const {C=.1,E=1,B=10,lr=.3,mu=0,select=null,hetero=null,quantBits=32,seed=1}=opts,r=rng(seed*1000003+t);
  const pool=select?eligible(list,select,r):list,cohort=sample(r,pool,Math.max(1,Math.round(C*list.length)));
@@ -119,8 +119,9 @@ function fedRound(w,list,opts,t){
  for(const u of cohort){
   const need=stepsNeeded(u.train.length,E,B);let steps=Infinity,mask;
   if(hetero){const can=Math.floor(hetero.deadline*SPEED[u.tier]);
-   if(can<need){if(hetero.mode==='drop'){log.dropped++;continue;}if(hetero.mode==='partial'){steps=Math.max(1,can);log.partial++;}if(hetero.mode==='small'){mask='small';log.small++;if(can*SMALL_SPEEDUP<need)steps=Math.max(1,can*SMALL_SPEEDUP);}}}
-  let d=sub(localTrain(w,u.train,{E,B,lr,mu,steps,mask,seed:seed*7919+t*131+u.id}).w,w);
+   if(can<need){if(hetero.mode==='drop'){log.dropped++;log.bytes+=DIM*4;continue;}if(hetero.mode==='partial'){steps=Math.max(1,can);log.partial++;}if(hetero.mode==='small'){mask='small';log.small++;if(can*SMALL_SPEEDUP<need)steps=Math.max(1,can*SMALL_SPEEDUP);}}}
+  const start=mask==='small'?Float64Array.from(w,(x,i)=>i<P*K&&!rowOn(mask,Math.floor(i/K))?0:x):w;
+  let d=sub(localTrain(start,u.train,{E,B,lr,mu,steps,mask,seed:seed*7919+t*131+u.id}).w,start);
   if(quantBits<32)d=quantize(d,quantBits,rng(seed+u.id*17+t*7));
   const n=u.train.length;for(let i=0;i<DIM;i++){if(i<P*K&&!rowOn(mask,Math.floor(i/K)))continue;sum[i]+=n*d[i];wsum[i]+=n;}
   log.used++;log.ids.push(u.id);log.styles[u.style]++;log.tiers[u.tier]++;const dim=mask==='small'?SMALL_DIM:DIM;log.bytes+=dim*4+updateBytes(dim,quantBits);
