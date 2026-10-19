@@ -235,6 +235,76 @@
       "short_title": "트랜스포머 속"
     },
     {
+      "id": "lora",
+      "title": "LoRA 미세조정 · 저랭크 행렬로 학습할 파라미터와 GPU 메모리 줄이기",
+      "spine_title": "LoRA 원리",
+      "spine_category": "인공지능",
+      "color": "violet",
+      "description": "7B·13B 언어 모델을 GPU 한 장에서 회사 문서 말투에 맞추려는 하린의 사례로, 전체 미세조정이 파라미터마다 16바이트를 쓰는 까닭부터 SVD와 내재 차원, LoRA의 식 W + (α/r)·B·A, 학습 파라미터 수, QLoRA의 4비트 메모리, 어댑터 합치기와 서빙, 연합학습의 통신량까지 13개 장과 13개 실험으로 계산합니다.",
+      "illustration": "books/lora/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 얼려 둔 큰 행렬 W 옆에서 0에서 시작한 B와 A가 채워지고, 13B 학습 메모리 띠가 24GB 선 안으로 줄어듭니다. 실제 메모리와 학습 파라미터 수는 책 안의 실험이 공개 모델 구조로 계산합니다.",
+      "cover_art": "books/lora/assets/cover-art.svg",
+      "cover_meta": "13장 · 13개 실험",
+      "status": "published",
+      "url": "books/lora/",
+      "keywords": [
+        "LoRA",
+        "Low-Rank Adaptation",
+        "저랭크",
+        "랭크",
+        "SVD",
+        "특잇값 분해",
+        "내재 차원",
+        "intrinsic dimension",
+        "미세조정",
+        "fine-tuning",
+        "파라미터 효율적 미세조정",
+        "PEFT",
+        "QLoRA",
+        "4비트",
+        "NF4",
+        "이중 양자화",
+        "rsLoRA",
+        "DoRA",
+        "어댑터",
+        "adapter",
+        "프리픽스 튜닝",
+        "prefix tuning",
+        "프롬프트 튜닝",
+        "prompt tuning",
+        "Adam",
+        "혼합 정밀도",
+        "GPU 메모리",
+        "어댑터 서빙",
+        "S-LoRA",
+        "연합학습",
+        "망각"
+      ],
+      "chapters": [
+        {
+          "title": "전체 13개 장",
+          "url": "books/lora/#chapters"
+        },
+        {
+          "title": "01 · 전체 미세조정에 드는 GPU 메모리 계산하기",
+          "url": "books/lora/#cost"
+        },
+        {
+          "title": "04 · W + (α/r)·B·A 식과 B를 0에서 시작하는 이유",
+          "url": "books/lora/#formula"
+        },
+        {
+          "title": "08 · 4비트 기본 모델에 LoRA 붙이는 QLoRA의 메모리 계산",
+          "url": "books/lora/#qlora"
+        },
+        {
+          "title": "마지막 과제 · 하린의 조건에서 전체 미세조정·LoRA·QLoRA 중 하나를 숫자로 고르기",
+          "url": "books/lora/#final"
+        }
+      ],
+      "short_title": "LoRA 원리"
+    },
+    {
       "id": "federated-learning",
       "title": "연합학습 · 데이터를 기기에 두고 업데이트만 모아 모델 학습하기",
       "spine_title": "연합학습",
@@ -3323,6 +3393,70 @@
       ]
     },
     {
+      "id": "fit-model-one-gpu",
+      "title": "GPU 한 장으로 모델을 내 일에 맞출 수 있을까",
+      "question": "GPU 메모리와 모델 크기만 보고 전체 미세조정·LoRA·QLoRA 가운데 무엇이 들어갈지 어떻게 판단할까?",
+      "audience": "공개 언어 모델을 회사나 개인 자료에 맞춰 보려는 개발자",
+      "prerequisites": "바이트·기가바이트 같은 저장 단위와 행렬 곱셈",
+      "start": "7B 모델을 GPU 24GB 한 장에서 회사 문서 말투로 미세조정하려다 메모리 부족 오류를 만났다.",
+      "steps": [
+        {
+          "book_id": "llm-systems",
+          "url": "books/llm-gpu/#weights",
+          "task": "모델 크기와 저장 bit를 바꾸며 가중치 용량을 GB와 GiB로 계산한다",
+          "minutes": 16,
+          "why": "학습 메모리를 세기 전에 실행만 할 때의 가중치 몫을 먼저 알아야 학습이 몇 배를 쓰는지 비교할 수 있다",
+          "record": "7B 모델의 16bit 가중치 용량"
+        },
+        {
+          "book_id": "lora",
+          "url": "books/lora/#cost",
+          "task": "전체 미세조정 메모리 계산기에서 7B를 추론만 할 때와 학습할 때로 바꾸며 메모리를 부분별로 적는다",
+          "minutes": 12,
+          "why": "가중치 말고 기울기·fp32 원본·Adam 상태가 파라미터마다 14바이트를 더해 24GB를 넘긴다는 것을 숫자로 본다",
+          "record": "7B 추론 13.48GB와 학습 111.81GB(활성값 4GB 가정), 가장 큰 부분"
+        },
+        {
+          "book_id": "lora",
+          "url": "books/lora/#params",
+          "task": "LoRA 학습 파라미터 계산기에서 대상 층과 r을 바꾸며 학습할 수와 어댑터 파일 크기를 센다",
+          "minutes": 14,
+          "why": "학습할 수를 줄이면 기울기와 Adam 상태가 함께 줄어드므로, 몇 개를 학습하는지가 메모리 절약의 출발점이다",
+          "record": "q·v r = 8과 일곱 층 r = 8의 학습 파라미터 수"
+        },
+        {
+          "book_id": "lora",
+          "url": "books/lora/#qlora",
+          "task": "QLoRA 메모리 계산기에서 13B를 전체 미세조정·fp16 LoRA·QLoRA로 바꾸며 24GB 선과 비교한다",
+          "minutes": 16,
+          "why": "LoRA만으로는 얼린 기본 가중치가 그대로 남아 13B가 넘치고, 기본 가중치를 4비트로 담아야 들어간다",
+          "record": "13B 세 방법의 메모리 합계와 들어가는 방법"
+        },
+        {
+          "book_id": "aie-12-llm-apps",
+          "url": "books/aie-llm-apps/#lora",
+          "task": "붙일 층, 랭크, 학습 방식을 바꾸어 학습 파라미터 수와 메모리 하한을 계산한다",
+          "minutes": 16,
+          "why": "LoRA 책에서 센 숫자를 실제 서비스의 말투 맞추기 과정 안에 놓고, 같은 결정을 LLM 엔지니어링의 흐름에서 다시 본다",
+          "record": "q·v 랭크 16에서 LoRA와 QLoRA의 메모리 하한"
+        },
+        {
+          "book_id": "lora",
+          "url": "books/lora/#final",
+          "task": "하린의 미세조정 계획 실험에서 13B·24GB·말투 목표로 방법·r·대상 층을 고르고 메모리와 학습 파라미터 수를 적는다",
+          "minutes": 20,
+          "why": "앞에서 따로 센 메모리와 학습 파라미터를 한 계획 안에서 함께 따지고, 목표에 따라 무엇을 더 확인할지 정한다",
+          "record": "고른 방법·r·층, 메모리 합계와 GPU 여유, 학습 파라미터 수와 어댑터 파일 크기"
+        }
+      ],
+      "challenge": "GPU 24GB 한 장에서 13B 모델을 회사 문서 말투에 맞출 때 전체 미세조정·LoRA·QLoRA 가운데 무엇을 고를지, r과 대상 층을 어떻게 정할지, 학습 뒤 무엇으로 좋아졌는지 확인할지 설명한다.",
+      "checks": [
+        "파라미터당 16바이트로 전체 미세조정의 메모리를 어림할 수 있는가",
+        "LoRA의 학습 파라미터 수를 층 수·r·입력과 출력 차원으로 셀 수 있는가",
+        "QLoRA가 메모리의 어느 부분을 줄이는지 말할 수 있는가"
+      ]
+    },
+    {
       "id": "why-answers-stream",
       "title": "답은 왜 한 글자씩 나올까",
       "question": "챗봇의 첫 글자는 왜 늦게 나오고, 그다음은 왜 일정한 속도로 이어질까?",
@@ -5159,18 +5293,6 @@
     "books/transformer/#training": "12 · 학습하는 동안 회로가 생기는 순간",
     "books/transformer/#limits": "13 · 뉴런 하나에 뜻 하나가 아니다: 중첩",
     "books/transformer/#final": "마지막 · 토리는 어떻게 세는가",
-    "books/federated/#why": "01 · 중앙 학습, 데이터센터 분산 학습, 연합학습을 데이터 위치로 구분하기",
-    "books/federated/#fedavg": "02 · FedSGD에서 FedAvg로: 기기에서 여러 번 학습하고 서버에서 평균하기",
-    "books/federated/#comm": "03 · 통신량을 라운드 수 × 기기 수 × 업데이트 크기로 계산하기",
-    "books/federated/#noniid": "04 · 사용자마다 다른 데이터가 만드는 기기 표류와 FedProx·SCAFFOLD의 보정",
-    "books/federated/#select": "05 · 충전·와이파이·유휴 조건으로 참여 기기를 고를 때 생기는 편향",
-    "books/federated/#hetero": "06 · 느린 기기의 업데이트를 버릴지, 부분 학습이나 작은 모델로 받을지 비교하기",
-    "books/federated/#leakage": "07 · 업데이트 하나에서 사용자가 입력한 단어 쌍을 복원하기",
-    "books/federated/#secagg": "08 · 보안 집계: 기기 쌍마다 서로 지워지는 마스크로 서버가 합만 알게 하기",
-    "books/federated/#dp": "09 · 업데이트를 자르고 잡음을 더해 차등 프라이버시 ε 계산하기",
-    "books/federated/#personal": "10 · 공용 모델과 기기에서 더 학습한 모델을 섞어 개인화하기",
-    "books/federated/#fairness": "11 · 메타데이터 묶음별 연합 평가로 숨은 편향 찾기",
-    "books/federated/#deploy": "12 · Gboard 배포 기록과 LoRA 어댑터만 주고받는 LLM 연합학습",
     "books/market/#map": "01 · 증권은 무엇에 대한 권리인가",
     "books/market/#route": "02 · 주문은 어디로 가는가",
     "books/market/#book": "03 · 호가창 읽기: 스프레드와 미끄러짐",
@@ -5329,7 +5451,32 @@
     "books/backtest/#orders": "08 · 부분 체결과 취소가 엇갈린 주문의 상태를 따라가며 봇 장부와 계좌 잔고 대사하기",
     "books/backtest/#limits": "09 · 손실 한도·주문 수 한도·같은 칸 중복 검사로 봇이 멈출 조건을 정하고 시험하기",
     "books/backtest/#monitor": "10 · 모의 서버 체결과 백테스트 체결의 차이를 날마다 기록하고 경보 기준 정하기",
-    "books/backtest/#final": "마지막 과제 · 표본 안 연 23.23%, 모의 서버 석 달 −2.97%인 격자 봇의 손실 원인을 증거 순서로 찾고 금액으로 나누기"
+    "books/backtest/#final": "마지막 과제 · 표본 안 연 23.23%, 모의 서버 석 달 −2.97%인 격자 봇의 손실 원인을 증거 순서로 찾고 금액으로 나누기",
+    "books/lora/#cost": "01 · 전체 미세조정에 드는 GPU 메모리 계산하기",
+    "books/lora/#rank": "02 · 행렬의 랭크와 SVD로 성분 몇 개만 남기기",
+    "books/lora/#intrinsic": "03 · 적은 수의 방향만 학습해도 되는지 내재 차원으로 재기",
+    "books/lora/#formula": "04 · W + (α/r)·B·A 식과 B를 0에서 시작하는 이유",
+    "books/lora/#params": "05 · 모델 구조·대상 층·랭크로 학습 파라미터 수 세기",
+    "books/lora/#scaling": "06 · 랭크 r과 배율 α 정하기: α/r과 α/√r 비교",
+    "books/lora/#merge": "07 · 어댑터를 W에 합쳐 추론 지연 없애기와 갈아 끼우기",
+    "books/lora/#qlora": "08 · 4비트 기본 모델에 LoRA 붙이는 QLoRA의 메모리 계산",
+    "books/lora/#variants": "09 · 어댑터·프리픽스·프롬프트 튜닝·DoRA가 학습하는 파라미터 수 비교",
+    "books/lora/#forgetting": "10 · LoRA가 덜 배우고 덜 잊는다는 결과를 교환 관계로 읽기",
+    "books/lora/#serving": "11 · 기본 모델 하나에 사용자별 어댑터를 올려 서빙하기",
+    "books/lora/#federated": "12 · 연합학습에서 어댑터만 주고받아 통신량 줄이기",
+    "books/lora/#final": "마지막 과제 · 하린의 조건에서 전체 미세조정·LoRA·QLoRA 중 하나를 숫자로 고르기",
+    "books/federated/#why": "01 · 중앙 학습, 데이터센터 분산 학습, 연합학습을 데이터 위치로 구분하기",
+    "books/federated/#fedavg": "02 · FedSGD에서 FedAvg로: 기기에서 여러 번 학습하고 서버에서 평균하기",
+    "books/federated/#comm": "03 · 통신량을 라운드 수 × 기기 수 × 업데이트 크기로 계산하기",
+    "books/federated/#noniid": "04 · 사용자마다 다른 데이터가 만드는 기기 표류와 FedProx·SCAFFOLD의 보정",
+    "books/federated/#select": "05 · 충전·와이파이·유휴 조건으로 참여 기기를 고를 때 생기는 편향",
+    "books/federated/#hetero": "06 · 느린 기기의 업데이트를 버릴지, 부분 학습이나 작은 모델로 받을지 비교하기",
+    "books/federated/#leakage": "07 · 업데이트 하나에서 사용자가 입력한 단어 쌍을 복원하기",
+    "books/federated/#secagg": "08 · 보안 집계: 기기 쌍마다 서로 지워지는 마스크로 서버가 합만 알게 하기",
+    "books/federated/#dp": "09 · 업데이트를 자르고 잡음을 더해 차등 프라이버시 ε 계산하기",
+    "books/federated/#personal": "10 · 공용 모델과 기기에서 더 학습한 모델을 섞어 개인화하기",
+    "books/federated/#fairness": "11 · 메타데이터 묶음별 연합 평가로 숨은 편향 찾기",
+    "books/federated/#deploy": "12 · Gboard 배포 기록과 LoRA 어댑터만 주고받는 LLM 연합학습"
   },
   "concepts": [
     {
@@ -5359,6 +5506,7 @@
         "books/aie-llm-build/#serving",
         "books/information/#surprise",
         "books/information/#quantize",
+        "books/lora/#qlora",
         "books/federated/#comm"
       ]
     },
@@ -5503,7 +5651,9 @@
         "books/aie-generative/#vae",
         "books/transformer/#embed",
         "books/transformer/#limits",
-        "books/allocation/#matrix"
+        "books/allocation/#matrix",
+        "books/lora/#rank",
+        "books/lora/#intrinsic"
       ]
     },
     {
@@ -5714,7 +5864,8 @@
         "books/aie-production/#locality",
         "books/aie-capstone/#scale",
         "books/ai/#final",
-        "books/algorithms/#lists"
+        "books/algorithms/#lists",
+        "books/lora/#cost"
       ]
     },
     {
@@ -5862,7 +6013,8 @@
         "books/aie-production/#platform",
         "books/aie-production/#cost",
         "books/llm-gpu/#design",
-        "books/aie-workbench/#gpu"
+        "books/aie-workbench/#gpu",
+        "books/lora/#serving"
       ]
     },
     {
