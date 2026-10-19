@@ -63,4 +63,5 @@ jobs:
       - run: npm test --prefix books/psychology
       - run: npm test --prefix books/lora
       - run: npm test --prefix books/federated
+      - run: npm test --prefix books/chess
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v

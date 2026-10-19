@@ -1,0 +1,47 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="체스판 위쪽 세 줄에서 a8의 흰 룩이 8번 가로줄을 따라 g8의 검은 킹을 체크하고, 킹 앞의 f7·g7·h7 폰이 길을 막아 피할 칸이 없는 마지막 줄 체크메이트 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-hair" x="56" y="24" width="26" height="26"/>
+<rect class="cv-tint" x="82" y="24" width="26" height="26"/>
+<rect class="cv-hair" x="108" y="24" width="26" height="26"/>
+<rect class="cv-tint" x="134" y="24" width="26" height="26"/>
+<rect class="cv-hair" x="160" y="24" width="26" height="26"/>
+<rect class="cv-tint" x="186" y="24" width="26" height="26"/>
+<rect class="cv-hair" x="212" y="24" width="26" height="26"/>
+<rect class="cv-tint" x="238" y="24" width="26" height="26"/>
+<rect class="cv-tint" x="56" y="50" width="26" height="26"/>
+<rect class="cv-hair" x="82" y="50" width="26" height="26"/>
+<rect class="cv-tint" x="108" y="50" width="26" height="26"/>
+<rect class="cv-hair" x="134" y="50" width="26" height="26"/>
+<rect class="cv-tint" x="160" y="50" width="26" height="26"/>
+<rect class="cv-hair" x="186" y="50" width="26" height="26"/>
+<rect class="cv-tint" x="212" y="50" width="26" height="26"/>
+<rect class="cv-hair" x="238" y="50" width="26" height="26"/>
+<rect class="cv-hair" x="56" y="76" width="26" height="26"/>
+<rect class="cv-tint" x="82" y="76" width="26" height="26"/>
+<rect class="cv-hair" x="108" y="76" width="26" height="26"/>
+<rect class="cv-tint" x="134" y="76" width="26" height="26"/>
+<rect class="cv-hair" x="160" y="76" width="26" height="26"/>
+<rect class="cv-tint" x="186" y="76" width="26" height="26"/>
+<rect class="cv-hair" x="212" y="76" width="26" height="26"/>
+<rect class="cv-tint" x="238" y="76" width="26" height="26"/>
+<rect class="cv-stroke" x="56" y="24" width="208" height="78"/>
+<circle class="cv-fill" cx="199" cy="58" r="3.6"/><path class="cv-fill" d="M193 71H205L202 62H196Z"/>
+<circle class="cv-fill" cx="225" cy="58" r="3.6"/><path class="cv-fill" d="M219 71H231L228 62H222Z"/>
+<circle class="cv-fill" cx="251" cy="58" r="3.6"/><path class="cv-fill" d="M245 71H257L254 62H248Z"/>
+<path class="cv-stroke cv-bold" d="M225 26V32M222 29H228"/><path class="cv-fill" d="M217 34Q225 30 233 34L230 43H220Z"/><rect class="cv-fill" x="218" y="44" width="14" height="4"/>
+<path class="cv-node" d="M62 28H65V31H68V28H71V31H74V28H76V34L74 36V43H64V36L62 34Z"/><rect class="cv-node" x="61" y="44" width="16" height="4"/>
+<path class="cv-line cv-dash" d="M81 37H261"/>
+<path class="cv-stroke" d="M194 32L204 42M204 32L194 42"/>
+<path class="cv-stroke" d="M246 32L256 42M256 32L246 42"/>
+<text class="cv-text cv-muted" x="66" y="113">a</text>
+<text class="cv-text cv-muted" x="92" y="113">b</text>
+<text class="cv-text cv-muted" x="118" y="113">c</text>
+<text class="cv-text cv-muted" x="144" y="113">d</text>
+<text class="cv-text cv-muted" x="170" y="113">e</text>
+<text class="cv-text cv-muted" x="196" y="113">f</text>
+<text class="cv-text cv-muted" x="222" y="113">g</text>
+<text class="cv-text cv-muted" x="248" y="113">h</text>
+<text class="cv-text cv-muted" x="46" y="40">8</text>
+<text class="cv-text cv-muted" x="46" y="66">7</text>
+<text class="cv-text cv-muted" x="46" y="92">6</text>
+<text class="cv-text" x="56" y="130">Ra8#  체크 + 합법 수 0 = 체크메이트</text>
+</svg>
