@@ -64,12 +64,14 @@ L.ending=el=>{
 };
 
 /* 6장: 둔 수가 대수 기보로 어떻게 적히는지 본다. 판을 누르거나 기보를 입력해 둔다. */
+/* 기보 글자 뒤 조사 은/는: 기물 글자는 읽는 소리(케이·큐·알·비·엔), 숫자는 visual.js josa가 읽는 소리로 받침을 본다. */
+const pj=t=>U.josa({K:'케이',Q:'큐',R:'알',B:'비',N:'엔'}[t]||t,'은','는');
 function explain(t){
  if(!t)return '';
  if(t.startsWith('0-0-0'))return '0-0-0은 퀸 쪽(a 룩) 캐슬링입니다.';if(t.startsWith('0-0'))return '0-0은 킹 쪽(h 룩) 캐슬링입니다.';
- const parts=[];const piece=/^[KQRBN]/.test(t)?t[0]:'';parts.push(piece?`${piece}는 ${R.NAME[piece.toLowerCase()]}`:'기물 글자가 없으면 폰');
- const body=t.replace(/[+#]$/,''),m=body.match(/^([KQRBN])([a-h1-8]{1,2})?x?([a-h][1-8])/);if(m&&m[2])parts.push(`${m[2]}는 같은 칸으로 갈 수 있는 같은 기물 가운데 출발 칸을 가려 주는 표시`);
- if(t.includes('x'))parts.push('x는 잡기');const promo=body.match(/[a-h][18]([QRBN])$/);if(promo)parts.push(`끝의 ${promo[1]}는 승진한 기물`);
+ const parts=[];const piece=/^[KQRBN]/.test(t)?t[0]:'';parts.push(piece?`${piece}${pj(piece)} ${R.NAME[piece.toLowerCase()]}`:'기물 글자가 없으면 폰');
+ const body=t.replace(/[+#]$/,''),m=body.match(/^([KQRBN])([a-h1-8]{1,2})?x?([a-h][1-8])/);if(m&&m[2])parts.push(`${m[2]}${pj(m[2].at(-1))} 같은 칸으로 갈 수 있는 같은 기물 가운데 출발 칸을 가려 주는 표시`);
+ if(t.includes('x'))parts.push('x는 잡기');const promo=body.match(/[a-h][18]([QRBN])$/);if(promo)parts.push(`끝의 ${promo[1]}${pj(promo[1])} 승진한 기물`);
  if(t.endsWith('#'))parts.push('#는 체크메이트');else if(t.endsWith('+'))parts.push('+는 체크');
  return parts.join(', ')+'.';
 }

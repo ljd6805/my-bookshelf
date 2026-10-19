@@ -37,7 +37,7 @@ L.tactics=el=>{
  const render=()=>{const [name,,,theme]=pos();el.querySelector('.readout').innerHTML=`<b>${name}</b>${hint?` · 힌트: ${theme}`:''}<br>${msg}${U.kind('preset','국면은 미리 정했고, 점수는 검은색의 대답과 이어지는 잡기를 끝까지 계산한 값입니다.')}`;};
  const onChange=(s,info={})=>{if(!api)return;
   if(info.move&&s.turn==='b'&&!api.done){const [,fen,sol]=pos(),start=R.parseFEN(fen),base=R.evaluate(start),need=R.search(start,2).score,got=solveScore(s),reply=R.search(s,1).best;api.done=true;
-   msg=`${got>=need?'<b>✓ 맞았습니다.</b>':'<b>✗ 더 많이 얻는 수가 있습니다.</b>'} ${info.san}${sj(info.san,'을','를')} 두면 검은색이 가장 좋게 대답해도 흰색의 기물 점수 차가 ${pts(got-base)} 바뀝니다. 이 퍼즐에서 얻을 수 있는 최대는 ${pts(need-base)}입니다.${got>=need?'':` 정답 예: ${sol}`}${reply?` 검은색은 ${R.san(s,reply)}로 대답합니다.`:''}`;
+   msg=`${got>=need?'<b>✓ 맞았습니다.</b>':'<b>✗ 더 많이 얻는 수가 있습니다.</b>'} ${info.san}${sj(info.san,'을','를')} 두면 검은색이 가장 좋게 대답해도 흰색의 기물 점수 차가 ${pts(got-base)} 바뀝니다. 이 퍼즐에서 얻을 수 있는 최대는 ${pts(need-base)}입니다.${got>=need?'':` 정답 예: ${sol}`}${reply?` 검은색은 ${R.san(s,reply)}${sj(R.san(s,reply),'으로','로')} 대답합니다.`:''}`;
    if(reply)setTimeout(()=>api.apply(reply),0);}
   else if(info.reset)msg='흰색 차례입니다. 기물 하나를 움직여 상대 기물을 얻는 수를 찾아보세요.';
   render();};

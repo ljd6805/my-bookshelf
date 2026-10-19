@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14",
+  "updated_at": "2026-10-19",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -755,5 +755,18 @@
       "visual_check": "G5 서윤이 1280×900·1280×720·390·320px에서 확인(제작 기록 G5 행)",
       "pending": "없음(G7 행 기록, validate.py 0 errors)"
     }
+  },
+  "chess": {
+    "book": "books/chess (chess-basics) 「체스 입문 · 규칙을 익히고 기초 원칙으로 한 판 두기」, 12장 · 12개 실험, 새 분야 게임(sage)",
+    "request": "서재 주인 2026-10-19: 기본 룰·소개·기초 전략이 나온 체스 기본서",
+    "docs": "books/chess/docs/index.html(기획·교과과정·장 설계·문체 메모·리허설·관문 G0~G7), research.html, fact-review.html(1회차 fixed)",
+    "verification": "npm test --prefix books/chess(규칙 엔진 perft 공개값 대조 포함), books/chess/tests/browser.cjs(1280·390·320px), validate.py",
+    "links": "새 개념 game-tree-search, 기존 개념 logic-rules·reward-feedback·number-representation에 장 추가, 새 노선 how-engines-choose, 들어오는 링크 algorithms#graph·aie-rl#games → chess#engine",
+    "remaining": [
+      "Knuth·Moore(1975) 서지는 초록만 확인, Crossref 접근 차단으로 DOI 재확인 필요",
+      "FIDE handbook.fide.com은 네트워크 정책으로 막혀 rcc.fide.com 전문으로 대조함",
+      "5장 “흔합니다”, 9장 “대부분”은 출처 없는 빈도 표현으로 남음"
+    ],
+    "next_action": "병합 뒤 GitHub Pages에서 서가의 체스 입문 책등·표지·펼침 삽화와 책 12개 장을 다시 열어 확인"
   }
 }
