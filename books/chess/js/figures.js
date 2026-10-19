@@ -50,7 +50,7 @@ F.ending=()=>{const n=[[320,40,'합법 수가 0개인가?'],[160,120,'킹이 체
  return {svg:svg('게임이 끝나는 조건의 판정 순서. 합법 수가 없을 때 체크를 받고 있으면 체크메이트, 아니면 스테일메이트이고, 합법 수가 있어도 기물 부족·국면 반복·50수 규칙으로 무승부가 될 수 있습니다.',
   n.map(([x,y,s],k)=>box(x-78,y-18,156,36,k===3?'var(--orange)':k===4?'var(--accent)':'var(--line)')+t(x,y+5,s,{size:13,w:k>2?700:400})).join('')
   +arrow(290,58,190,102)+arrow(350,58,450,102)+arrow(140,138,90,182)+arrow(180,138,230,182)+arrow(480,138,480,182)+t(220,82,'예',{size:12,fill:'var(--muted)'})+t(420,82,'아니요',{size:12,fill:'var(--muted)'})+t(100,164,'예',{size:12,fill:'var(--muted)'})+t(222,164,'아니요',{size:12,fill:'var(--muted)'})
-  +dot(320,58,-130,124,'var(--orange)')+dot(320,58,-80,124,'var(--accent)',1.2)+note('같은 국면 세 번과 50수는 청구할 수 있고, 다섯 번과 75수는 저절로 무승부입니다(FIDE 9.2·9.3·9.6).',248),262),caption:'합법 수와 체크 여부로 결과를 판정하는 순서. 같은 국면 반복과 50수 규칙은 무승부를 요구할 수 있는 조건과 저절로 무승부가 되는 조건으로 나뉩니다.'};};
+  +dot(320,58,-130,124,'var(--orange)')+dot(320,58,-80,124,'var(--accent)',1.2)+note('같은 국면 세 번과 50수는 무승부를 요구할 수 있고, 다섯 번과 75수는 저절로 무승부입니다(FIDE 9.2·9.3·9.6).',248),262),caption:'합법 수와 체크 여부로 결과를 판정하는 순서. 같은 국면 반복과 50수 규칙은 무승부를 요구할 수 있는 조건과 저절로 무승부가 되는 조건으로 나뉩니다.'};};
 F.notation=()=>{const parts=[['N','기물: 나이트','(폰은 글자를 쓰지 않음)'],['b','출발 세로줄','두 나이트가 같은 칸에 갈 때만'],['d2','도착 칸','칸 이름 그대로']];
  return {svg:svg('기보 Nbd2를 기물 글자 N, 출발 세로줄 b, 도착 칸 d2로 나눈 그림.',t(320,60,'N b d2',{size:40,w:700,mono:1})+parts.map(([a,b,c],k)=>{const x=110+k*210;return seq(box(x-90,120,180,82,'var(--accent)')+t(x,150,`${a} = ${b}`,{w:700})+t(x,178,c,{size:12,fill:'var(--muted)'}),k*.6)+arrow([280,312,352][k],72,x,116,'var(--accent)');}).join('')
   +note('잡기는 x, 체크는 +, 체크메이트는 #, 승진은 b8Q처럼 바뀐 기물 글자를 붙입니다.',236),250),caption:'기보 한 수를 기물·출발 세로줄·도착 칸으로 나눠 읽기.'};};
@@ -83,8 +83,8 @@ F.final=()=>{const G=P.game,run=R.playLine(G.moves),vals=run.states.map(s=>{cons
  const pts=vals.map((v,i)=>`${i?'L':'M'}${X(i)} ${Y(v)}`).join('');
  let body=line(`M40 ${Y(0)}H${X(vals.length-1)}`,'var(--line)','')+`<path class="fig-draw" pathLength="1200" d="${pts}" fill="none" stroke="var(--accent)" stroke-width="3"/>`+t(30,Y(0)+4,'0',{a:'end',size:11,fill:'var(--muted)',mono:1});
  G.moments.forEach(([ply,,label],k)=>{const x=X(ply);body+=`<line x1="${x}" y1="20" x2="${x}" y2="226" stroke="var(--orange)" stroke-dasharray="4 4"/>`+pulse(x,Y(vals[ply]),8,'var(--orange)')+t(x,16+(k%2)*0,label.split(':')[0],{size:12,fill:'var(--orange)',w:700});});
- body+=t(X(vals.length-1),Y(vals[vals.length-1])+22,`${vals[vals.length-1]}점`,{size:12,mono:1,fill:'var(--accent)',w:700})+t(320,248,'가로: 반수 0~20 · 세로: 흰색 기물 점수 − 검은색 기물 점수',{size:12,fill:'var(--muted)'});
- return {svg:svg(`하준의 첫 대국에서 반수마다 흰색과 검은색의 기물 점수 차. 2수·6수·10수의 세 순간 뒤 점수가 떨어져 마지막에 ${vals[vals.length-1]}점이 됩니다.`,body,262),caption:'하준의 대국을 반수마다 기물 점수 차로 그린 선. 주황 세로선이 복기할 세 순간입니다(대국은 이 책이 지어낸 기록).'};};
+ body+=t(X(vals.length-1),Y(vals[vals.length-1])+22,`${U.sign(vals[vals.length-1])}점`,{size:12,mono:1,fill:'var(--accent)',w:700})+t(320,248,'가로: 반수 0~20 · 세로: 흰색 기물 점수 − 검은색 기물 점수',{size:12,fill:'var(--muted)'});
+ return {svg:svg(`하준의 첫 대국에서 반수마다 흰색과 검은색의 기물 점수 차. 2수 뒤에는 점수가 그대로이고, 6수 뒤 검은 나이트가 c2 폰과 a1 룩을 잡아 크게 떨어지며, 10수 Bxf7+ Kxf7 뒤 마지막에 ${U.sign(vals[vals.length-1])}점이 됩니다.`,body,262),caption:'하준의 대국을 반수마다 기물 점수 차로 그린 선. 주황 세로선이 복기할 세 순간입니다(대국은 이 책이 지어낸 기록).'};};
 function render(id){return F[id]?F[id]():null;}
 root.CFigures={render};
 })(this);

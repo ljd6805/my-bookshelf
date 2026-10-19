@@ -15,7 +15,7 @@ L.search=el=>{
   const marks={};if(ab.best){marks[ab.best.from]='from';marks[ab.best.to]='to';}
   el.querySelector('.chart').innerHTML=U.board(s,{marks,label:`${label}. 알파베타가 고른 수 ${ab.best?R.san(s,ab.best):'없음'}`,buttons:false});
   const rows=[['미니맥스',mm?mm.nodes.toLocaleString('en-US'):'세지 않음',mm?R.san(s,mm.best):'—',mm?score(mm.score):'—',mm?`${Math.round(t2-t1)}ms`:'—'],[`알파베타${sorted?' + 잡는 수 먼저':''}`,ab.nodes.toLocaleString('en-US'),ab.best?R.san(s,ab.best):'—',score(ab.score),`${Math.round(t1-t0)}ms`]];
-  const ratio=mm?` 알파베타는 미니맥스가 본 노드의 ${(ab.nodes/mm.nodes*100).toFixed(1)}%만 보고 같은 점수에 닿았습니다.`:` 이 깊이에서 미니맥스는 노드가 너무 많아 세지 않았습니다(시작 국면 깊이 4의 끝 국면만 197,281개).`;
+  const ratio=mm?` 알파베타는 미니맥스가 본 노드의 ${(ab.nodes/mm.nodes*100).toFixed(1)}%만 보고 같은 점수에 닿았습니다.`:` 이 깊이에서 미니맥스는 노드가 너무 많아 세지 않았습니다(시작 국면 깊이 4의 끝 노드만 197,281개).`;
   el.querySelector('.readout').innerHTML=`<b>${label}, 깊이 ${d}</b>${U.table(['방법','방문한 노드','고른 수','점수(흰색 기준)','걸린 시간'],rows,'같은 평가 함수(기물 점수)로 읽은 결과')}${mm?U.bars(['미니맥스','알파베타'],[mm.nodes,ab.nodes],{unit:'개'}):''}${ratio} 점수는 깊이 끝 국면의 기물 점수 차이고, 외통은 따로 셉니다.${U.kind('real','걸린 시간은 이 브라우저와 기기에 따라 달라집니다.')}`;});
 };
 
