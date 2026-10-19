@@ -155,7 +155,7 @@ function variants(m,{r=8,targets=['q','v'],bottleneck=64,prefix=10}){
   {id:'lora',name:'LoRA',params:lora,extra:0,note:'합치면 추가 곱셈 0'},
   {id:'dora',name:'DoRA',params:lora+targets.reduce((a,k)=>a+s[k][1],0)*m.layers,extra:0,note:'크기 벡터까지 합치면 추가 곱셈 0'},
   {id:'adapter',name:'어댑터',params:m.layers*2*(2*d*bottleneck+bottleneck+d),extra:m.layers*2*2*d*bottleneck,note:'층마다 두 번 더 지나감'},
-  {id:'prefix',name:'프리픽스 튜닝',params:m.layers*2*prefix*d,extra:0,note:`층마다 키·값 ${prefix}개가 늘어남`},
+  {id:'prefix',name:'프리픽스 튜닝',params:m.layers*2*prefix*(d/m.heads*m.kv),extra:0,note:`층마다 키·값 ${prefix}개가 늘어남`},
   {id:'prompt',name:'프롬프트 튜닝',params:prefix*d,extra:0,note:`입력 앞 토큰 ${prefix}개`}
  ];
 }
