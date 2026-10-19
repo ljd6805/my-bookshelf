@@ -1,0 +1,23 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="왼쪽에서 큰 변화량 행렬 ΔW가 세로로 긴 B와 가로로 긴 A의 곱으로 바뀌고, 오른쪽 GPU 24GB 칸 안에서 13B 모델의 전체 미세조정 막대는 칸을 넘치고 QLoRA 막대는 칸 안에 들어가는 그림" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="8" y="16">변화량 ΔW ≈ B · A</text>
+<rect class="cv-tint" x="8" y="26" width="64" height="64" rx="4"/>
+<path class="cv-hair" d="M24 26V90M40 26V90M56 26V90M8 42H72M8 58H72M8 74H72"/>
+<text class="cv-text cv-bold" x="31" y="104">ΔW</text>
+<text class="cv-text cv-bold" x="78" y="62">≈</text>
+<rect class="cv-fill" x="94" y="26" width="12" height="64" rx="2"/>
+<text class="cv-text cv-bold" x="96" y="104">B</text>
+<rect class="cv-fill" x="112" y="52" width="40" height="12" rx="2"/>
+<text class="cv-text cv-bold" x="128" y="80">A</text>
+<text class="cv-text cv-muted" x="8" y="126">256칸 → r·(16 + 16)칸</text>
+<text class="cv-text cv-muted" x="8" y="142">r = 3이면 96칸</text>
+<path class="cv-hair" d="M164 12V142"/>
+<text class="cv-text cv-muted" x="176" y="22">GPU 24GB · 13B</text>
+<rect class="cv-node" x="176" y="30" width="96" height="104" rx="5"/>
+<text class="cv-text cv-muted" x="182" y="48">전체</text>
+<rect class="cv-tint" x="182" y="54" width="132" height="14" rx="3"/>
+<path class="cv-line cv-dash" d="M272 50V72"/>
+<text class="cv-text cv-muted" x="276" y="84">212GB</text>
+<text class="cv-text cv-muted" x="182" y="98">QLoRA</text>
+<rect class="cv-fill" x="182" y="104" width="49" height="14" rx="3"/>
+<text class="cv-text cv-bold" x="236" y="116">12GB</text>
+</svg>
