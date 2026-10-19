@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14",
+  "updated_at": "2026-10-19",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -755,5 +755,24 @@
       "visual_check": "G5 서윤이 1280×900·1280×720·390·320px에서 확인(제작 기록 G5 행)",
       "pending": "없음(G7 행 기록, validate.py 0 errors)"
     }
+  },
+  "lora": {
+    "book": "「LoRA 미세조정 · 저랭크 행렬로 학습할 파라미터와 GPU 메모리 줄이기」 books/lora/, id lora, 인공지능 묶음 끝(트랜스포머 속 다음), violet, 책등 LoRA 원리, 13장 · 13개 실험",
+    "plan": "사용자 요청(2026-10-19). 예시 제목은 K7 위반이라 문자 그대로의 제목으로 바꿈. 요청의 분류 'AI'는 서가에 없어 '인공지능'으로 둠. 공통 사례 하린(7B·24GB에서 메모리 부족 → 마지막 과제 13B QLoRA)",
+    "docs": "books/lora/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published, G0~G7 팀장 승인, 팩트·출처 검수 2회차 fixed(유진, 새 세션)",
+    "done": [
+      "13장 원고·실험 13개(공개 설정 파일 기반 메모리·파라미터 계산, 고정 씨앗 장난감 행렬), 장 그림 13개, 움직이는 서가 삽화, 정지 표지, review.json 13장×2문항",
+      "서가 등록: chapter_index 13장, 개념 넷(dimension-reduction·number-representation·memory-hierarchy·inference-cost)에 장 추가, 새 노선 fit-model-one-gpu",
+      "들어오는 링크 다섯: aie-llm-apps #lora→#formula·#qlora, aie-math #svd→#rank, aie-generative #control→#merge, llm-gpu #design→#cost",
+      "CI에 npm test --prefix books/lora 추가"
+    ],
+    "verification": "npm test 33개, 브라우저 검사(1280·390·320px, 실험 13개 프리셋·초기화·퀴즈) 통과, validate 0 errors, unittest·node 테스트 통과, G5 서가 화면 확인(docs/03-verification.html#lora-check)",
+    "remaining": [
+      "12장 「연합학습」 책(books/federated/, 다른 스레드)이 main에 오르면 ../federated/#장ID로 양방향 링크를 잇고 '준비 중' 문장을 지움(나중에 병합하는 쪽이 처리)",
+      "논문은 HF Papers 사본으로, Llama 2 설정은 NousResearch 미러로 확인함(arXiv·meta-llama 접근 불가)",
+      "G4 후속: 다음 장 이동 이유가 다음 장 질문을 그대로 씀(템플릿 공통), 화면 문구 세 곳(2장 k=8, 6장 '거의 같습니다', 5장 '1024')"
+    ],
+    "next": "연합학습 책 병합 시 12장 링크 연결"
   }
 }
