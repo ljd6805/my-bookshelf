@@ -32,6 +32,6 @@ L.review=el=>{
   el.querySelector('.chart').innerHTML=U.board(s,{marks,label:`${m[2]}. 후보 ${e.t}`,buttons:false});
   const bestV=Math.max(...evals.map(x=>x.v));
   const rows=evals.map((x,i)=>[`${x.t}${i===0?' (실제)':''}${i===pick?' ◀':''}`,`${U.sign(x.v-base)}점${x.v===bestV?' ✓':''}`,x.reply,x.pr.developed,x.pr.hits]);
-  el.querySelector('.readout').innerHTML=`<b>${m[2]}</b> · 지금 기물 점수 차(흰색 기준) ${U.sign(base)}점${U.table(['후보','검은색 대답·흰색 대답·이어지는 잡기까지 본 뒤 점수 변화','검은색의 가장 좋은 대답','나온 나이트·비숍','중앙 공격 수'],rows,'세 후보 비교')}고른 후보 <b>${e.t}</b>: 기물 점수 ${U.sign(e.v-base)}점, 전개 ${e.pr.developed}개, 중앙 공격 ${e.pr.hits}.<br>${m[3]}${U.kind('story','대국은 이 책이 지어냈고, 점수와 원칙 숫자는 규칙대로 계산합니다.')}`;});
+  el.querySelector('.readout').innerHTML=`<b>${m[2]}</b> · 지금 기물 점수 차(흰색 기준) ${U.sign(base)}점${U.table(['후보','점수 변화(두 반수와 이어지는 잡기까지 읽음)','검은색의 가장 좋은 대답','나온 나이트·비숍','중앙 공격 수'],rows,'세 후보 비교')}고른 후보 <b>${e.t}</b>: 기물 점수 ${U.sign(e.v-base)}점, 전개 ${e.pr.developed}개, 중앙 공격 ${e.pr.hits}.<br>${m[3]}${U.kind('story','대국은 이 책이 지어냈고, 점수와 원칙 숫자는 규칙대로 계산합니다.')}`;});
 };
 })();

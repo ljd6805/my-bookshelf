@@ -40,7 +40,7 @@ L.special=el=>{
  U.bind(el,()=>api.reset(pos()[1]));
 };
 
-/* 4장: 의사 합법 수와 합법 수의 차이. 기물을 고르면 킹이 공격받게 되는 칸을 ⊘로 표시한다. */
+/* 4장: 규칙상 움직임과 합법 수의 차이. 기물을 고르면 킹이 공격받게 되는 칸을 ⊘로 표시한다. */
 L.legal=el=>{
  U.setup(el,U.select('lg-pos','국면',opts(P.legal),'pin'));
  let api;const pos=()=>P.legal[el.querySelector('#lg-pos').value];

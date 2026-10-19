@@ -41,16 +41,16 @@ F.special=()=>{
   ep.body+arrow(e5x,e5y,d6x+6,d6y+6)+`<g class="fig-seq"><line x1="${d5x-8}" y1="${d5y-8}" x2="${d5x+8}" y2="${d5y+8}" stroke="#b3361f" stroke-width="3"/><line x1="${d5x+8}" y1="${d5y-8}" x2="${d5x-8}" y2="${d5y+8}" stroke="#b3361f" stroke-width="3"/></g>`+t(80,24,'앙파상 exd6',{w:700})+t(80,180,'d5 폰을 d6에서 잡음',{size:12,fill:'var(--muted)'})
   +pr.body+arrow(b7x,b7y,b8x,b8y+10)+seq(piece('Q',b8x-11,b8y-11,22),.4)+t(284,24,'승진 b8Q',{w:700})+t(284,180,'퀸·룩·비숍·나이트 중 고름',{size:12,fill:'var(--muted)'})
   +ca.body+arrow(kx,ky-14,gx,gy-14)+arrow(hx,hy+16,fx,fy+16,'var(--accent)')+t(490,24,'캐슬링 0-0',{w:700})+t(490,116,'킹 e1→g1, 룩 h1→f1',{size:12,fill:'var(--muted)'})+t(490,140,'조건 다섯 개를 모두 만족할 때',{size:12,fill:'var(--muted)'})
-  +note('세 수 모두 FIDE 규칙 3.7과 3.8.2에 조건이 적혀 있습니다.',230),250),caption:'앙파상·승진·캐슬링을 한 번에 본 그림. 각 수가 언제만 가능한지는 실험의 조건 표로 확인합니다.'};};
+  +note('세 수 모두 FIDE 규칙 3.7과 3.8.2에 조건이 적혀 있습니다.',230),250),caption:'앙파상·승진·캐슬링을 판 조각 세 개에 나란히 그린 그림. 캐슬링 다섯 조건은 실험의 조건 표에서 하나씩 확인합니다.'};};
 F.check=()=>{const s=R.parseFEN(P.legal.pin[1]),pseudo=R.pseudoMoves(s).length,legal=R.legalMoves(s).length;
  const st=[['규칙상 움직임',`${pseudo}개`,'기물마다 움직이는 방식대로'],['수를 두어 본 국면','킹이 공격받나?','상대 기물 공격 확인'],['합법 수',`${legal}개`,'킹이 안전한 수만']];
- return {svg:svg(`핀 국면에서 규칙상 움직임 ${pseudo}개 가운데 두고 나면 흰 킹이 공격받는 수를 빼면 합법 수 ${legal}개가 남습니다.`,st.map(([a,b,c],k)=>box(30+k*205,60,170,110,k===2?'var(--accent)':'var(--line)')+t(115+k*205,92,a,{w:700})+t(115+k*205,124,b,{size:18,fill:k===2?'var(--accent)':'var(--orange)',w:700})+t(115+k*205,152,c,{size:12,fill:'var(--muted)'})).join('')
+ return {svg:svg(`핀 국면의 규칙상 움직임 ${pseudo}개에서 둔 뒤 흰 킹이 공격받는 수를 빼면 합법 수 ${legal}개가 남습니다.`,st.map(([a,b,c],k)=>box(30+k*205,60,170,110,k===2?'var(--accent)':'var(--line)')+t(115+k*205,92,a,{w:700})+t(115+k*205,124,b,{size:18,fill:k===2?'var(--accent)':'var(--orange)',w:700})+t(115+k*205,152,c,{size:12,fill:'var(--muted)'})).join('')
   +arrow(202,115,233,115)+arrow(407,115,438,115)+dot(205,115,26,0,'var(--orange)')+dot(410,115,26,0,'var(--orange)',.8)+t(320,210,`빠진 ${pseudo-legal}개: c3 나이트가 비키면 b4 비숍이 e1 킹을 공격하는 수`,{fill:'var(--orange)'})+note('핀 국면(흰색 차례)을 규칙 엔진으로 센 값입니다.',240),260),caption:`규칙상 움직임 ${pseudo}개에서 킹이 공격받게 되는 수를 걸러 합법 수 ${legal}개를 얻는 과정.`};};
 F.ending=()=>{const n=[[320,40,'합법 수가 0개인가?'],[160,120,'킹이 체크받는가?'],[480,120,'다른 무승부 조건'],[80,200,'체크메이트'],[240,200,'스테일메이트(무승부)'],[480,200,'기물 부족·반복·50수']];
  return {svg:svg('게임이 끝나는 조건의 판정 순서. 합법 수가 없을 때 체크를 받고 있으면 체크메이트, 아니면 스테일메이트이고, 합법 수가 있어도 기물 부족·국면 반복·50수 규칙으로 무승부가 될 수 있습니다.',
   n.map(([x,y,s],k)=>box(x-78,y-18,156,36,k===3?'var(--orange)':k===4?'var(--accent)':'var(--line)')+t(x,y+5,s,{size:13,w:k>2?700:400})).join('')
   +arrow(290,58,190,102)+arrow(350,58,450,102)+arrow(140,138,90,182)+arrow(180,138,230,182)+arrow(480,138,480,182)+t(220,82,'예',{size:12,fill:'var(--muted)'})+t(420,82,'아니요',{size:12,fill:'var(--muted)'})+t(100,164,'예',{size:12,fill:'var(--muted)'})+t(222,164,'아니요',{size:12,fill:'var(--muted)'})
-  +dot(320,58,-130,124,'var(--orange)')+dot(320,58,-80,124,'var(--accent)',1.2)+note('같은 국면 세 번과 50수는 청구할 수 있고, 다섯 번과 75수는 저절로 무승부입니다(FIDE 9.2·9.3·9.6).',248),262),caption:'합법 수와 체크 여부로 결과를 판정하는 순서. 반복과 50수는 청구 조건과 자동 조건을 나눕니다.'};};
+  +dot(320,58,-130,124,'var(--orange)')+dot(320,58,-80,124,'var(--accent)',1.2)+note('같은 국면 세 번과 50수는 청구할 수 있고, 다섯 번과 75수는 저절로 무승부입니다(FIDE 9.2·9.3·9.6).',248),262),caption:'합법 수와 체크 여부로 결과를 판정하는 순서. 같은 국면 반복과 50수 규칙은 무승부를 요구할 수 있는 조건과 저절로 무승부가 되는 조건으로 나뉩니다.'};};
 F.notation=()=>{const parts=[['N','기물: 나이트','(폰은 글자를 쓰지 않음)'],['b','출발 세로줄','두 나이트가 같은 칸에 갈 때만'],['d2','도착 칸','칸 이름 그대로']];
  return {svg:svg('기보 Nbd2를 기물 글자 N, 출발 세로줄 b, 도착 칸 d2로 나눈 그림.',t(320,60,'N b d2',{size:40,w:700,mono:1})+parts.map(([a,b,c],k)=>{const x=110+k*210;return seq(box(x-90,120,180,82,'var(--accent)')+t(x,150,`${a} = ${b}`,{w:700})+t(x,178,c,{size:12,fill:'var(--muted)'}),k*.6)+arrow([280,312,352][k],72,x,116,'var(--accent)');}).join('')
   +note('잡기는 x, 체크는 +, 체크메이트는 #, 승진은 b8Q처럼 바뀐 기물 글자를 붙입니다.',236),250),caption:'기보 한 수를 기물·출발 세로줄·도착 칸으로 나눠 읽기.'};};
@@ -78,7 +78,7 @@ F.engine=()=>{
    body+=`<g${isCut?' opacity=".35"':''}>`+line(`M${x} ${y+18}L${lx} ${ly-16}`,'var(--muted)',isCut?'':'fig-dash')+`<circle cx="${lx}" cy="${ly}" r="16" fill="var(--panel2)" stroke="var(--line)" stroke-width="2"/>`+t(lx,ly+5,v,{mono:1,w:700})+'</g>';
    if(isCut)body+=t(lx,ly+34,'가지치기',{size:11,fill:'var(--orange)',w:700});});});
  body+=note(`B의 첫 대답 1점이 이미 A의 3점보다 낮아 B의 둘째 대답은 보지 않아도 됩니다. C도 첫 대답 −4에서 멈춥니다.`,250);
- return {svg:svg(`깊이 2 게임 트리. 흰색은 검은색의 최소값 가운데 가장 큰 수 A(${best}점)를 고르고, 알파베타는 B와 C의 둘째 대답을 보지 않습니다.`,body+dot(320,58,-180,62,'var(--accent)'),262),caption:'미니맥스로 점수를 올려 보내고 알파베타로 볼 필요가 없는 가지를 자르는 그림. 잎의 점수는 설명용 예시입니다.'};};
+ return {svg:svg(`깊이 2 게임 트리. 흰색은 검은색의 최소값 가운데 가장 큰 수 A(${best}점)를 고르고, 알파베타는 B와 C의 둘째 대답을 보지 않습니다.`,body+dot(320,58,-180,62,'var(--accent)'),262),caption:'미니맥스로 끝 국면의 점수를 거꾸로 모으고, 알파베타로 볼 필요가 없는 가지를 자르는 그림. 끝 국면의 점수는 설명용 예시입니다.'};};
 F.final=()=>{const G=P.game,run=R.playLine(G.moves),vals=run.states.map(s=>{const m=R.material(s);return m.w-m.b;}),X=i=>40+i*28,Y=v=>130-v*12;
  const pts=vals.map((v,i)=>`${i?'L':'M'}${X(i)} ${Y(v)}`).join('');
  let body=line(`M40 ${Y(0)}H${X(vals.length-1)}`,'var(--line)','')+`<path class="fig-draw" pathLength="1200" d="${pts}" fill="none" stroke="var(--accent)" stroke-width="3"/>`+t(30,Y(0)+4,'0',{a:'end',size:11,fill:'var(--muted)',mono:1});

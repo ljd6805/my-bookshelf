@@ -2,6 +2,8 @@
 (()=>{
 'use strict';
 const U=CUI,R=CRules,P=CPos,L=CLabs;
+/* 기보 뒤 조사: +·#는 빼고, 끝 글자가 기물 글자면 읽는 소리(큐·알·비·엔·케이)로 받침을 본다. */
+const sj=(t,a,b)=>{const x=t.replace(/[+#]/g,''),say={Q:'큐',R:'알',B:'비',N:'엔',K:'케이'}[x.at(-1)];return U.josa(say||x,a,b);};
 const opts=o=>Object.entries(o).map(([k,v])=>[k,v[0]]);
 const pts=n=>`${U.sign(n)}점`;
 
@@ -35,7 +37,7 @@ L.tactics=el=>{
  const render=()=>{const [name,,,theme]=pos();el.querySelector('.readout').innerHTML=`<b>${name}</b>${hint?` · 힌트: ${theme}`:''}<br>${msg}${U.kind('preset','국면은 미리 정했고, 점수는 검은색의 대답과 이어지는 잡기를 끝까지 계산한 값입니다.')}`;};
  const onChange=(s,info={})=>{if(!api)return;
   if(info.move&&s.turn==='b'&&!api.done){const [,fen,sol]=pos(),start=R.parseFEN(fen),base=R.evaluate(start),need=R.search(start,2).score,got=solveScore(s),reply=R.search(s,1).best;api.done=true;
-   msg=`${got>=need?'<b>✓ 맞았습니다.</b>':'<b>✗ 더 많이 얻는 수가 있습니다.</b>'} ${info.san}을 두면 검은색이 가장 좋게 대답해도 흰색의 기물 점수 차가 ${pts(got-base)} 바뀝니다. 이 퍼즐에서 얻을 수 있는 최대는 ${pts(need-base)}입니다.${got>=need?'':` 정답 예: ${sol}`}${reply?` 검은색은 ${R.san(s,reply)}로 대답합니다.`:''}`;
+   msg=`${got>=need?'<b>✓ 맞았습니다.</b>':'<b>✗ 더 많이 얻는 수가 있습니다.</b>'} ${info.san}${sj(info.san,'을','를')} 두면 검은색이 가장 좋게 대답해도 흰색의 기물 점수 차가 ${pts(got-base)} 바뀝니다. 이 퍼즐에서 얻을 수 있는 최대는 ${pts(need-base)}입니다.${got>=need?'':` 정답 예: ${sol}`}${reply?` 검은색은 ${R.san(s,reply)}로 대답합니다.`:''}`;
    if(reply)setTimeout(()=>api.apply(reply),0);}
   else if(info.reset)msg='흰색 차례입니다. 기물 하나를 움직여 상대 기물을 얻는 수를 찾아보세요.';
   render();};
@@ -52,7 +54,7 @@ L.mates=el=>{
   if(info.reset)msg=`흰색 차례입니다. ${n}수 안에 체크메이트를 만드세요.`;
   else if(st.result==='checkmate'){msg='<b>✓ 체크메이트입니다.</b> 검은 킹이 체크를 받았고, 킹이 갈 칸도, 막거나 잡을 기물도 없습니다(합법 수 0개).';api.over=true;}
   else if(st.result==='stalemate'){msg='<b>✗ 스테일메이트가 되었습니다.</b> 검은색이 체크가 아닌데 둘 수가 없어 무승부입니다. 실험 초기화를 눌러 다시 해 보세요.';api.over=true;}
-  else if(info.move&&s.turn==='b'){left--;if(left<=0){msg=`<b>✗ ${n}수 안에 외통이 되지 않았습니다.</b> 실험 초기화를 눌러 다시 해 보세요. 정답 예: ${sol}`;api.over=true;}else{const r=R.search(s,2).best;msg=`${info.san} 뒤 검은색은 ${R.san(s,r)}로 버팁니다. 이제 한 수 안에 외통을 만드세요.`;setTimeout(()=>api.apply(r),0);}}
+  else if(info.move&&s.turn==='b'){left--;if(left<=0){msg=`<b>✗ ${n}수 안에 외통이 되지 않았습니다.</b> 실험 초기화를 눌러 다시 해 보세요. 정답 예: ${sol}`;api.over=true;}else{const r=R.search(s,2).best;msg=`${info.san} 뒤 검은색은 ${R.san(s,r)}${sj(R.san(s,r),'으로','로')} 버팁니다. 이제 한 수 안에 외통을 만드세요.`;setTimeout(()=>api.apply(r),0);}}
   el.querySelector('.readout').innerHTML=`<b>${name}</b><br>${msg}${U.kind('preset','국면은 미리 정했고, 외통 판정은 규칙대로 계산합니다.')}`;};
  api=U.play(el.querySelector('.chart'),{fen:pos()[1],onChange,canMove:s=>s.turn==='w'&&!api.over,label:'체크메이트 퍼즐 판'});
  U.bind(el,()=>{left=pos()[2];api.over=false;api.reset(pos()[1]);});
