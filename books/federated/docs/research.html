@@ -1,0 +1,419 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="연합학습 책의 조사 노트: 1차 출처 17건에서 확인한 사실, 책에 써도 되는 수치와 쓰지 말 수치, 프라이버시 예산의 독립 계산."><title>연합학습 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"><style>table{border-collapse:collapse;width:100%;margin:12px 0 24px}th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}.wrap{overflow-x:auto}</style></head><body><header class="top"><a class="brand" href="index.html">연합학습 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1050px;margin:auto;padding:32px 16px">
+<h1>조사 노트 (G3 · 지식조사팀 은재·지호·수아·태오)</h1>
+<p>작성일 2026-10-19. 이 노트는 글작성팀과 시각·실험팀이 믿고 쓸 사실과, 검수팀이 검수를 시작할 출발점입니다. 원 논문과 공식 문서를 먼저 열었고, 등급을 항목마다 [1차]·[공식]·[2차]로 적었습니다. 맨 끝의 두 표(<a href="#safe">책에 써도 되는 수치</a>, <a href="#unsafe">책에 쓰지 말 것</a>)가 원고와 실험이 따를 기준입니다. 프라이버시 예산은 수아가 책 코드와 따로 계산했고, 계산 스크립트와 출력은 <a href="evidence/rdp_accountant.py">evidence/rdp_accountant.py</a>, <a href="evidence/rdp_output.txt">evidence/rdp_output.txt</a>, <a href="evidence/rdp_orders_cap.py">evidence/rdp_orders_cap.py</a>, <a href="evidence/rdp_orders_cap_output.txt">evidence/rdp_orders_cap_output.txt</a>에 그대로 두었습니다.</p>
+<section id="sources"><h2>출처별 확인 기록 (지호·수아·은재)</h2>
+<ul>
+<li>작성: 지식조사팀 (은재: 정리, 지호: 1차 출처, 수아: 계산 검산)</li>
+<li>확인일: 2026-10-19 (모든 항목 공통)</li>
+<li>방법: 원문을 WebFetch로 열어 PDF 텍스트를 추출했다. Bash curl은 프록시가 arxiv.org를 막아 쓰지 못했다.</li>
+</ul>
+<p>WebFetch는 작은 모델이 요약해 주는 방식이라, 아래 인용은 그 도구가 "원문 그대로"라고 돌려준 문장이다.</p>
+<p>PDF 추출 중 그리스 문자·첨자가 깨진 곳은 표시해 두었다. 책에 직접 인용할 문장은 G6 검수(유진)가 원문 PDF를 눈으로 한 번 더 확인할 것.</p>
+<ul>
+<li>출처 등급: [1차] 원 논문·공식 문서, [공식] 저자 소속 기관 블로그·문서, [2차] 그 밖.</li>
+<li>인용은 내용 확인용이며, 본문은 새로 쓴다(구조만 참고하고 문장을 옮기지 않는다).</li>
+</ul>
+<h2 id="s1">S1. McMahan et al. 2017 — FedAvg</h2>
+<ul>
+<li>인용: H. B. McMahan, E. Moore, D. Ramage, S. Hampson, B. Agüera y Arcas. "Communication-Efficient Learning of Deep Networks from Decentralized Data." AISTATS 2017. arXiv:1602.05629.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/1602.05629">https://arxiv.org/pdf/1602.05629</a> (최신 판, 본문 전체) [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Sec. 2: C = "the fraction of clients that perform computation on each round"; E = "the number of training passes each client makes over its local dataset on each round"; B = "the local minibatch size used for the client updates"; Algorithm 1 캡션에 "η is the learning rate".</li>
+<li>Algorithm 1: 서버는 m ← max(C·K, 1)개 클라이언트 S_t를 뽑는다. 클라이언트는 E번의 epoch 동안 배치 b마다 "w ← w − η∇ℓ(w; b)". 서버 갱신은 w_{t+1} ← Σ_{k∈S_t} (n_k/m_t) w^k_{t+1}, m_t = Σ_{k∈S_t} n_k (추출 텍스트가 깨져 재구성한 식).</li>
+<li>주의(Erratum, footnote 4): "Earlier versions of this paper incorrectly indicated summation over all K clients here." → 책에서는 n_k/n(전체 K)이 아니라 <b>이번 라운드에 뽑힌 클라이언트의 데이터 합 m_t</b>로 나눈다고 써야 한다.</li>
+<li>Sec. 2: FedSGD는 특수한 경우다. "we can take B = ∞ and E = 1 which corresponds exactly to FedSGD."</li>
+<li>Sec. 1: "We term our approach Federated Learning."</li>
+<li>Sec. 1 (p.2) 연합 최적화의 성질 네 가지: Non-IID ("will not be representative of the population distribution"), Unbalanced ("some users will make much heavier use of the service or app than others"), Massively distributed ("the number of clients participating in an optimization to be much larger" — 클라이언트 수가 클라이언트당 평균 예시 수보다 많다는 문맥), Limited communication ("Mobile devices are frequently offline").</li>
+<li>Sec. 3 병리적 non-IID MNIST: "we first sort the data by digit label, divide it into 200 shards of size 300, and assign each of 100 clients 2 shards."</li>
+<li>Sec. 3: 라운드당 클라이언트별 기대 갱신 횟수 u = nE/(KB) (n: 전체 학습 예시 수, K: 클라이언트 수). 즉 클라이언트 데이터 n_k = n/K이면 u = E·n_k/B.</li>
+<li>Abstract: "a reduction in required communication rounds by 10–100× as compared to synchronized stochastic gradient descent."</li>
+<li>Table 2 (MNIST CNN, 목표 정확도 99%, C=0.1로 보이는 설정; 라운드 수 (FedSGD 대비 배속)):</li>
+<ul>
+<li>FedSGD (E=1, B=∞, u=1): IID 626, non-IID 483</li>
+<li>E=5, B=10 (u=300): IID 20 (31.3×), non-IID 229 (2.1×)</li>
+<li>E=20, B=10 (u=1200): IID 18 (34.8×), non-IID 173 (2.8×)</li>
+<li>E=5, B=∞ (u=5): IID 179 (3.5×), non-IID 1000 (0.5×)</li>
+</ul>
+<li>Table 2 (Shakespeare LSTM, 목표 54%): FedSGD IID 2488 / non-IID 3906; E=5, B=10 (u=37.1): IID 192 (13.0×), non-IID 41 (95.3×).</li>
+<li>본문: "a 95× speedup vs 13× for the balanced IID data" (Shakespeare, 자연 분할 non-IID가 오히려 쉬웠다는 문맥).</li>
+<li>Shakespeare 데이터: "This produced a dataset with 1146 clients."</li>
+</ul>
+<li>확인하지 못한 것</li>
+<ul>
+<li>Table 2의 C 값(0.1)은 표 캡션에서 직접 인용하지 못했다. 쓰기 전 원문 확인.</li>
+<li>"715 roles"라는 수는 원문에서 찾지 못했다(1146 clients만 확인).</li>
+</ul>
+<li>조심할 점 (태오에게 넘김): "FedAvg는 언제나 10–100배 빠르다"는 오해. MNIST 병리적 non-IID에서는 최고 2.8×였고 일부 설정은 0.5×로 더 느렸다(Table 2).</li>
+</ul>
+<h2 id="s2">S2. Konečný et al. 2016 — 통신 효율 전략</h2>
+<ul>
+<li>인용: J. Konečný, H. B. McMahan, F. X. Yu, P. Richtárik, A. T. Suresh, D. Bacon. "Federated Learning: Strategies for Improving Communication Efficiency." arXiv:1610.05492 (2016).</li>
+<li>연 URL: <a href="https://arxiv.org/abs/1610.05492">https://arxiv.org/abs/1610.05492</a> , <a href="https://arxiv.org/pdf/1610.05492">https://arxiv.org/pdf/1610.05492</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Abstract: "structured updates, where we directly learn an update from a restricted space"; "sketched updates, where we learn a full model update and then compress it".</li>
+<li>Sec. 2 구조적 갱신: "Low rank.", "Random mask."</li>
+<li>Sec. 3 스케치 갱신: "Subsampling.", "Probabilistic quantization.", "Improving the quantization by structured random rotations."</li>
+<li>Abstract: "Experiments on both convolutional and recurrent networks show that ... the proposed methods can reduce the communication cost by two orders of magnitude."</li>
+<li id="s2-uplink">Sec. 1 (3장 “올리기는 내려받기보다 대개 느리다”의 근거): "the uplink is typically much slower than downlink." 같은 문단에 2016년 미국 평균 55.0 Mbps 내려받기 vs 18.9 Mbps 올리기(speedtest.net 인용). 확인일 2026-10-19. (인용은 WebFetch 요약 도구가 원문 PDF에서 뽑아 준 것. arXiv PDF 직접 내려받기는 프록시가 막음, 지호 2026-10-19)</li>
+</ul>
+<li>확인하지 못한 것: 특정 실험(모델·압축률)별 수치는 뽑지 않았다. 책에는 "약 두 자릿수(100배 수준)"만 쓴다.</li>
+</ul>
+<h2 id="s3">S3. Bonawitz et al. 2017 — Secure Aggregation</h2>
+<ul>
+<li>인용: K. Bonawitz, V. Ivanov, B. Kreuter, A. Marcedone, H. B. McMahan, S. Patel, D. Ramage, A. Segal, K. Seth. "Practical Secure Aggregation for Privacy-Preserving Machine Learning." ACM CCS 2017. IACR ePrint 2017/281.</li>
+<li>연 URL: <a href="https://eprint.iacr.org/2017/281">https://eprint.iacr.org/2017/281</a> (초록), <a href="https://eprint.iacr.org/2017/281.pdf">https://eprint.iacr.org/2017/281.pdf</a> (본문, 103,180자 중 100,000자까지 읽음) [1차]; <a href="https://arxiv.org/abs/1611.04482">https://arxiv.org/abs/1611.04482</a> (초록) [1차, 별개 판]</li>
+<li>접근: 본문 거의 전체 (끝 3,180자 미독)</li>
+<li>확인된 사실</li>
+<ul>
+<li>ePrint 초록: "For 16-bit input values, our protocol offers 1.73× communication expansion for 2^10 users and 2^20-dimensional vectors, and 1.98× expansion for 2^14 users and 2^24-dimensional vectors over sending data in the clear."</li>
+<li>ePrint 초록: "security is maintained even if an arbitrarily chosen subset of users drop out at any time."; "We prove the security of our protocol in the honest-but-curious and malicious settings".</li>
+<li>Sec. III.1 쌍 마스크: "If u adds this to xu and v subtracts it from xv" → 합에서 상쇄. Sec. V Round 2에서 부호 Δ_{u,v} = 1 (u &gt; v), −1 (u &lt; v).</li>
+<li>Sec. III.2: 느린 사용자 문제 "a user u is too slow in sending its yu to the server" → Sec. III.3: "a double-masking structure that protects xu even when the server can reconstruct u's masks." (자기 마스크 b_u)</li>
+<li>Sec. III.2: "a threshold secret sharing scheme and having each user send shares of their Diffie-Hellman secret"; Sec. V Round 1에서 키와 b_u 씨앗을 t-out-of-|U1| Shamir 조각으로 나눈다.</li>
+<li>Sec. VI.B Theorem 4 조건: "2t &gt; n + n_C" (n_C: 공모 클라이언트 수). 서버만 상대할 때는 대략 과반, 서버+클라이언트 공모 시 대략 2/3 수준이 필요하다는 해설.</li>
+<li>Sec. VI.A: 정직하지만 호기심 많은(honest-but-curious) 서버(+공모 클라이언트 t 미만) 안전성. Sec. VI.B: "even when the server and a subset of users act maliciously."</li>
+</ul>
+<li>별개 판 주의: arXiv:1611.04482는 같은 그룹의 2016년 판(제목이 다름: "Practical Secure Aggregation for Federated Learning on User-Held Data"로 알려짐, 제목은 이번에 열어 확인하지 못함)으로, 초록에 같은 1.73×/1.98× 문장과 "tolerates up to 1/3 users failing to complete the protocol"이 있다. CCS 판(ePrint)은 "arbitrarily chosen subset ... drop out"으로 서술이 다르다. 책은 CCS 판(ePrint 2017/281)을 인용한다.</li>
+<li>확인하지 못한 것</li>
+<ul>
+<li>라운드 수: 본문은 "consists of four rounds"라고 하지만 그림 4는 Round 0–4로 번호가 다섯 개다. 책에는 "몇 라운드의 짧은 프로토콜" 정도로만 쓰거나 원문 그림을 직접 확인한다.</li>
+<li>계산 시간(초) 등 Sec. VII 성능 수치는 뽑지 않았다.</li>
+</ul>
+</ul>
+<h2 id="s4">S4. Bonawitz et al. 2019 — 대규모 시스템 설계</h2>
+<ul>
+<li>인용: K. Bonawitz et al. "Towards Federated Learning at Scale: System Design." SysML (MLSys) 2019. arXiv:1902.01046.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/1902.01046">https://arxiv.org/pdf/1902.01046</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Sec. 3: 작업 스케줄러는 "only invoke the job when the phone is idle, charging, and connected to an unmetered network."</li>
+<li>Sec. 2.2 라운드 단계: Selection(체크인한 기기 중 일부 선택) → Configuration(FL plan과 전역 모델 전송) → Reporting("The server waits for the participating devices to report updates.", Federated Averaging으로 집계, 늦은 기기는 무시).</li>
+<li>Sec. 2.2/9: "typically a few hundred devices participate in each round"; "the server typically selects 130% of the target number of devices".</li>
+<li>Sec. 2.3: "Pace steering is a flow control mechanism regulating the pattern of device connections."</li>
+<li>Sec. 9: 중도 이탈률 "varies between 6% and 10%".</li>
+<li>Sec. 9: "the number of participating devices depends on the (local) time of day"; "We have observed a 4× difference between low and high numbers of participating devices over a 24 hours period for a US-centric population."</li>
+<li>Sec. 11 (Bias): "our system potentially introduces bias by the fact that devices only train when they are on an unmetered network and charging."</li>
+<li>Sec. 9: "approximately 10M daily active devices"; "up to 10k devices are participating simultaneously".</li>
+<li>Sec. 6: Secure Aggregation은 선택 사항인 4라운드 프로토콜; "Several costs for Secure Aggregation grow quadratically with the number of users." → "hundreds of users"로 묶어 Aggregator별로 실행.</li>
+<li>Sec. 8 (Gboard 다음 단어 예측): "This model, which has about 1.4 million parameters, converges in 3000 FL rounds after processing 6e8 sentences from 1.5e6 users over 5 days of training."; "each round takes about 2–3 minutes".</li>
+</ul>
+<li>시점 민감: 10M·10k는 2019년 논문 시점 수치다. "2019년 논문 기준"을 붙인다.</li>
+</ul>
+<h2 id="s5">S5. Hard et al. 2018 — Gboard 다음 단어 예측</h2>
+<ul>
+<li>인용: A. Hard, K. Rao, R. Mathews, S. Ramaswamy, F. Beaufays, S. Augenstein, H. Eichner, C. Kiddon, D. Ramage. "Federated Learning for Mobile Keyboard Prediction." arXiv:1811.03604 (2018).</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/1811.03604">https://arxiv.org/pdf/1811.03604</a> [1차]</li>
+<li>접근: 본문 전체 (저자 목록은 이번에 확인하지 않음 — 위 저자는 기억에 의존, 검수 시 확인)</li>
+<li>확인된 사실</li>
+<ul>
+<li>Sec. 3: CIFG ("Coupled Input and Forget Gate") LSTM; "1.4 million parameters comprise the network."; "A dictionary of V=10,000 words"; 임베딩 D = 96.</li>
+<li>Sec. 5.2: "Between 100 and 500 client updates are required to close each round."; "The federated CIFG converges after 3000 training rounds."; "Training typically takes 4-5 days."; 참여 조건 "charging, connected to an un-metered network, and idle" (+2GB 메모리, 북미, Gboard 7.3 이상). 서버 최적화: Nesterov 모멘텀 0.9, 서버 학습률 1.0.</li>
+<li>Table 3 (서버 로그, 오프라인) top-1 / top-3 recall: N-gram 13.0% / 22.1%; Server CIFG 16.5% / 27.1%; Federated CIFG 16.4% / 27.0%.</li>
+<li>Table 4 (클라이언트 캐시) top-1 recall: N-gram 12.5%, Server CIFG 15.0%, Federated CIFG 15.8%.</li>
+<li>Table 5 (실사용, impression recall top-1 / top-3): N-gram 5.24% / 11.05%; Server CIFG 5.76% / 13.63%; Federated CIFG 5.82% / 13.75%.</li>
+<li>본문: CIFG 예측이 n-gram보다 "10% more likely to be clicked".</li>
+</ul>
+<li>확인하지 못한 것: Table 6 (prediction CTR)의 Federated CIFG 값 — 추출이 깨져 2.30%/2.35% 중 판별 불가. N-gram 2.13%, Server CIFG 2.36%만 확인. 연합 CTR 값은 쓰지 않는다.</li>
+<li>해석 주의: "연합 모델이 더 낫다"는 Table 4(+0.8%p)와 실사용 Table 5에서만 성립하고, Table 3(서버 로그)에서는 16.4% vs 16.5%로 사실상 같다.</li>
+</ul>
+<h2 id="s6">S6. McMahan, Ramage, Talwar, Zhang 2018 — DP-FedAvg</h2>
+<ul>
+<li>인용: H. B. McMahan, D. Ramage, K. Talwar, L. Zhang. "Learning Differentially Private Recurrent Language Models." ICLR 2018. arXiv:1710.06963.</li>
+<li>연 URL: <a href="https://arxiv.org/abs/1710.06963">https://arxiv.org/abs/1710.06963</a> , <a href="https://arxiv.org/pdf/1710.06963">https://arxiv.org/pdf/1710.06963</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Definition 2 (사용자 수준 이웃): "d' can be formed by adding or removing all of the examples associated with a single user from d."</li>
+<li>Algorithm 1: 사용자마다 확률 q로 독립 선택(기대 인원 C̃ = qW); 평탄 클리핑 "we clip the concatenation of all the layers" (노름 S); 고정 분모 추정기의 잡음 표준편차 σ = zS/(qW); 실험에서는 사용자 가중치 1 → W = K.</li>
+<li>Sec. 2: "The moments accountant makes strong use of amplification via sampling, which means increasing dataset size makes achieving high levels of privacy significantly easier."</li>
+<li>Sec. 3: "We use a large public dataset of Reddit posts"; "K=763,430 users each with 1600 tokens."</li>
+<li>Abstract: "with only a negligible cost in predictive accuracy"; "given a dataset with a sufficiently large number of users". 초록에는 수치가 없다.</li>
+<li>Sec. 1: 비공개 기준 17.5% 정확도를 4120 라운드(라운드당 100명)에; DP 모델은 (ε = 4.6, δ = 10^-9)로 같은 정확도를 4980 라운드(라운드당 약 5000명)에 → 계산량 약 60배. 사용자 10^8명이면 같은 계산으로 (ε = 1.2, δ = 10^-9).</li>
+<li>Table 2 (5000 라운드 후, δ = 10^-9): σ=0.003, S=15, K=763430, C̃=5000 → ε=4.634, AccT1 17.49%; σ=0 (비공개, C̃=100) → 17.62%; σ=0.006, S=10, C̃=1667 → ε=2.314, 17.04%; σ=0.012, S=15, C̃=1250 → ε=2.038, 16.33%; K=10^8에서 같은 세 설정 → ε=1.152 / 0.991 / 0.987.</li>
+<li>Table 1 (δ = 1/K^1.1, 라운드 수별 ε 상한): K=10^5, C̃=10^2, z=1.0 → 10^0..10^6 라운드에서 0.97, 0.98, 1.00, 1.07, 1.18, 2.21, 7.50. K=10^6, C̃=10^3, z=1.0 → 1.17, 1.17, 1.20, 1.28, 1.39, 2.44, 8.13. K=10^6, C̃=10^3, z=3.0 → 0.47, 0.47, 0.48, 0.48, 0.49, 0.67, 1.95. K=10^9, C̃=10^3, z=1.0 → 0.84 … 0.88.</li>
+<li>Table 1 캡션: "For large datasets, additional rounds of training incur only a minimal additional privacy loss."</li>
+</ul>
+<li>수아 검산: Table 1·2를 독립 RDP 계산으로 재현했다(S17 계산 절 참고). z = σ·qW/S = 0.003·5000/15 = 1.0으로 환산된다.</li>
+</ul>
+<h2 id="s7">S7. Zhu, Liu, Han 2019 — Deep Leakage from Gradients (+ Geiping et al. 2020)</h2>
+<ul>
+<li>인용: L. Zhu, Z. Liu, S. Han. "Deep Leakage from Gradients." NeurIPS 2019. arXiv:1906.08935.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/1906.08935">https://arxiv.org/pdf/1906.08935</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Abstract: "the recovery is pixelwise accurate for images and token-wise matching for texts".</li>
+<li>Sec. 1: "obtain both the training inputs and the labels in just few iterations"; "we optimize the dummy inputs and labels to minimize the distance between dummy gradients and real gradients." (Eq. 4: 가짜 기울기와 실제 기울기의 제곱 L2 거리)</li>
+<li>Sec. 4: "We use L-BFGS [25] with learning rate 1, history size 100 and max iterations 20."; 이미지 1200회, 텍스트 100회 반복.</li>
+<li>Table 1 (ResNet-20, CIFAR) 수렴 반복 수: BS=1 270, BS=2 602, BS=4 1173, BS=8 2711. Sec. 5.3: "DLG currently only works for batch size up to 8 and image resolution up to 64×64."</li>
+<li>방어: Sec. 1 "both Gaussian and Laplacian noise with a scale higher than 10^-2 would be a good defense."; Sec. 5.1 "both half precision formats fail to protect the training data."; Sec. 1 "gradient compression successfully defends the attack with the pruned gradient is more than 20%."; Sec. 5.2 "When sparsity is 1% to 10%, it has almost no effects against DLG."; Sec. 5.3 "Among all defenses, cryptology is the most secured one."</li>
+</ul>
+<li>확인하지 못한 것: Table 3의 방어별 정확도(가우시안 10^-2에서 45.3%, INT-8 53.7% 등)는 추출 표가 정렬이 흐트러졌을 가능성이 있어 원문 확인 전에는 쓰지 않는다.</li>
+<li>완전연결층 입력 복원 (닫힌 형태)</li>
+<ul>
+<li>인용: J. Geiping, H. Bauermeister, H. Dröge, M. Moeller. "Inverting Gradients — How easy is it to break privacy in federated learning?" NeurIPS 2020. arXiv:2003.14053. 연 URL: <a href="https://arxiv.org/pdf/2003.14053">https://arxiv.org/pdf/2003.14053</a> [1차], 본문 전체.</li>
+<li>Proposition 3.1 (Sec. 3): "Consider a neural network containing a biased fully-connected layer preceded solely by (possibly unbiased) fully-connected layers." ... "Then the input to the network can be reconstructed uniquely from the network's gradients." (기울기가 0이 아니라는 기술 조건 포함)</li>
+<li>부록 Proposition D.1 (Eq. 8–9): 출력 단위 i의 가중치 기울기 행 = (편향 기울기 i) × 입력ᵀ → 편향 기울기가 0이 아니면 x = ∂L/∂W_i ÷ ∂L/∂b_i. (이 나눗셈 식 자체는 원문에 그대로 있지 않고 D.1 유도에서 나온다.)</li>
+<li>Abstract: "faithfully reconstruct images at high resolution from the knowledge of their parameter gradients"; "even averaging gradients over several iterations or several images does not protect the user's privacy".</li>
+<li>Phong et al. 2017/2018(동형암호 논문)은 이번에 열지 않았다.</li>
+</ul>
+</ul>
+<h2 id="s8">S8. Li et al. 2020 — FedProx</h2>
+<ul>
+<li>인용: T. Li, A. K. Sahu, M. Zaheer, M. Sanjabi, A. Talwalkar, V. Smith. "Federated Optimization in Heterogeneous Networks." MLSys 2020. arXiv:1812.06127.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/1812.06127">https://arxiv.org/pdf/1812.06127</a> [1차]</li>
+<li>접근: 본문 전체 (그리스 문자 일부 깨짐)</li>
+<li>확인된 사실</li>
+<ul>
+<li>Sec. 3.2, Eq. 2: min_w h_k(w; w^t) = F_k(w) + (μ/2)‖w − w^t‖².</li>
+<li>Definition 2: ‖∇h_k(w*; w^t)‖ ≤ γ_k^t ‖∇h_k(w^t; w^t)‖; "a smaller γ_k^t corresponds to higher accuracy"; FedProx "implicitly accommodates variable γ's for different devices and at different iterations."</li>
+<li>Sec. 3.2 (Tolerating partial work): "aggregate the partial solutions sent from the stragglers (as compared to dropping these devices)".</li>
+<li>Sec. 3.2: "FedAvg is a special case of FedProx with (1) µ = 0, (2) the local solver specifically chosen to be SGD", (3) 장치·라운드 전체에 걸친 일정한 γ.</li>
+<li>Abstract: "improving absolute test accuracy by 22% on average" (매우 이질적인 환경에서, FedAvg 대비). Sec. 5.2: 0%, 50%, 90% 지연 기기에 [1, E] 사이 무작위 epoch 배정, FedAvg는 지연 기기를 버림 (Figure 1, E = 20).</li>
+</ul>
+<li>주의: "22%"는 절대 정확도 포인트 평균이며, 90% 지연 기기 같은 매우 이질적인 설정 기준이다.</li>
+</ul>
+<h2 id="s9">S9. Karimireddy et al. 2020 — SCAFFOLD</h2>
+<ul>
+<li>인용: S. P. Karimireddy, S. Kale, M. Mohri, S. J. Reddi, S. U. Stich, A. T. Suresh. "SCAFFOLD: Stochastic Controlled Averaging for Federated Learning." ICML 2020. arXiv:1910.06378.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/1910.06378">https://arxiv.org/pdf/1910.06378</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Abstract: FedAvg "suffers from 'client-drift' when the data is heterogeneous (non-iid)"; "SCAFFOLD requires significantly fewer communication rounds".</li>
+<li>Sec. 1: "it introduces a drift in the updates of each client resulting in slow and unstable convergence."</li>
+<li>Sec. 4: "client control variate c_i", "server control variate c"; Algorithm 1 지역 갱신 y_i ← y_i − η_l (g_i(y_i) − c_i + c) (Eq. 3).</li>
+<li>Eq. 4: Option I c_i⁺ ← g_i(x) ("making an additional pass over the local data to compute the gradient at the server model x"); Option II c_i⁺ ← c_i − c + (1/(K η_l))(x − y_i). (여기서 K는 지역 단계 수)</li>
+<li>서버: x ← x + η_g Δx, c ← c + (|S|/N) Δc (Δ는 참여 클라이언트 평균).</li>
+</ul>
+</ul>
+<h2 id="s10">S10. Kairouz et al. 2021 — Advances and Open Problems</h2>
+<ul>
+<li>인용: P. Kairouz, H. B. McMahan, et al. "Advances and Open Problems in Federated Learning." Foundations and Trends in Machine Learning 14(1–2), 2021. arXiv:1912.04977.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/1912.04977">https://arxiv.org/pdf/1912.04977</a> [1차]</li>
+<li>접근: 부분 (도구가 PDF 앞 약 118,769자, 3.5절까지만 추출. 6장 공정성 본문은 읽지 못함)</li>
+<li>확인된 사실</li>
+<ul>
+<li>Sec. 1 정의: "Federated learning is a machine learning setting where multiple entities (clients) collaborate in solving a machine learning problem, under the coordination of a central server or service provider." (뒤에 원자료는 로컬에 두고 교환·전송하지 않는다는 문장이 이어짐)</li>
+<li>Table 1 (cross-silo vs cross-device): 규모 "Typically 2 - 100 clients" vs "Massively parallel, up to 10^10 clients"; cross-device 가용성 "Only a fraction of clients are available at any one time, often with diurnal or other variations."; 상태 "Stateless — each client will likely participate only once in a task."; 병목 "Communication is often the primary bottleneck, though it depends on the task."; 오케스트레이션 "A central orchestration server/service organizes the training, but never sees raw data."</li>
+<li>Table 2 (전형적 cross-device 규모): 라운드당 선택 기기 50–5000; 한 모델 학습 참여 기기 10^5–10^7; 전체 모집단 10^6–10^10; 수렴 라운드 500–10,000; 학습 기간 1–10일.</li>
+<li>Sec. 1.1.1 단계 5: "federated evaluation wherein the models are pushed to held-out clients for evaluation on local client data."</li>
+<li id="s10-personal">Sec. 3.3 (10장 “개인화를 따로 연구하는 주제로 다룬다”의 근거): 절 제목 "Multi-Task Learning, Personalization, and Meta-Learning"(목차 p.28). 3.3.1에서 특징화를 통한 개인화가 "remains an important open problem with the potential to greatly increase the utility of FL-trained models." 확인일 2026-10-19. (인용은 WebFetch 요약 도구가 원문 PDF에서 뽑아 준 것. arXiv PDF 직접 내려받기는 프록시가 막음, 지호 2026-10-19)</li>
+</ul>
+<li>확인하지 못한 것</li>
+<ul>
+<li>6장(공정성)·6.1 "Bias in Training Data"(목차상 p.75)의 본문 문장. 목차 제목만 확인. 책에서 이 장을 인용하려면 원문을 따로 연다.</li>
+<li>Table 1 "Addressability" 행의 열 배치(추출로는 cross-device 열로 추정).</li>
+</ul>
+</ul>
+<h2 id="s11">S11. Dean et al. 2012 — DistBelief</h2>
+<ul>
+<li>인용: J. Dean, G. S. Corrado, R. Monga, K. Chen, M. Devin, Q. V. Le, M. Z. Mao, M. Ranzato, A. Senior, P. Tucker, K. Yang, A. Y. Ng. "Large Scale Distributed Deep Networks." NIPS 2012. (저자 전체 목록은 이번에 확인하지 않음)</li>
+<li>연 URL: <a href="https://papers.nips.cc/paper/2012/hash/6aca97005c68f1206823815f66102863-Abstract.html">https://papers.nips.cc/paper/2012/hash/6aca97005c68f1206823815f66102863-Abstract.html</a> (초록), <a href="https://proceedings.neurips.cc/paper_files/paper/2012/file/6aca97005c68f1206823815f66102863-Paper.pdf">https://proceedings.neurips.cc/paper_files/paper/2012/file/6aca97005c68f1206823815f66102863-Paper.pdf</a> (본문) [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Abstract: "training a deep network with billions of parameters using tens of thousands of CPU cores"; Downpour SGD = "an asynchronous stochastic gradient descent procedure supporting a large number of model replicas"; Sandblaster = "a framework that supports for a variety of distributed batch optimization procedures"; ImageNet "16 million images and 21k categories".</li>
+<li>Sec. 3 (모델 병렬): "the user may partition the model across several machines".</li>
+<li>Sec. 4 (데이터 병렬): "we employ a set of DistBelief model instances, or replicas, to simultaneously solve a single optimization problem."</li>
+<li>Sec. 4.1: "We divide the training data into a number of subsets and run a copy of the model on each of these subsets."; "a centralized parameter server, which keeps the current state of all parameters"; "the model replicas run independently of each other"; "parameters that are slightly out of date".</li>
+<li>Sec. 4.2: "The core of the optimization algorithm (e.g L-BFGS) resides in a coordinator process".</li>
+</ul>
+<li>책에서의 대비: 데이터는 운영자가 나눈다(데이터센터 안, 균등·IID 분할 가능) ↔ 연합학습은 데이터가 기기에 생기고 옮기지 않는다. "데이터센터"라는 낱말은 원문 인용으로 확인하지 않았으므로 해석으로 쓴다.</li>
+</ul>
+<h2 id="s12">S12. Diao, Ding, Tarokh 2021 — HeteroFL</h2>
+<ul>
+<li>인용: E. Diao, J. Ding, V. Tarokh. "HeteroFL: Computation and Communication Efficient Federated Learning for Heterogeneous Clients." ICLR 2021. arXiv:2010.01264.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/2010.01264">https://arxiv.org/pdf/2010.01264</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Sec. 3.1: "Let r be the hidden channel shrinkage ratio such that" ...; 지역 모델은 전역 가중치의 "the upper left submatrix with a size of" d_m × k_m (Algorithm 1: W_m ← W_g[:d_m, :k_m]).</li>
+<li>Sec. 4: "five different computation complexity levels {a,b,c,d,e} with the hidden channel shrinkage ratio r=0.5." (도구 요약: a=1, b–e = 0.5, 0.25, 0.125, 0.0625)</li>
+<li>Sec. 3.1 (Eq. 1–3): "each parameter will be averaged from those clients whose allocated parameter matrix contains that parameter."</li>
+<li>Sec. 3.2 sBN: "During the training phase, sBN does not track running estimates and simply normalize batch data."</li>
+<li>Sec. 3.3 Scaler: "After the global aggregation, the global model can be directly used for inference without scaling."</li>
+<li>Abstract: 서로 다른 복잡도의 지역 모델로 "produce a single global inference model".</li>
+</ul>
+<li>주의: 0.5, 0.25 … 는 은닉 채널 <b>폭</b>의 비율이다. 매개변수 수는 대략 제곱으로 줄어든다는 해석은 원문 인용으로 확인하지 않았다(수아: 행렬 d×k의 두 변이 모두 r배면 r² 배 — 계산상 성립하지만 첫·끝 층 예외가 있으니 책에서는 "대략"이라고 쓴다).</li>
+</ul>
+<h2 id="s13">S13. Lin, Kong, Stich, Jaggi 2020 — FedDF</h2>
+<ul>
+<li>인용: T. Lin, L. Kong, S. U. Stich, M. Jaggi. "Ensemble Distillation for Robust Model Fusion in Federated Learning." NeurIPS 2020. arXiv:2006.07242.</li>
+<li>연 URL: <a href="https://arxiv.org/abs/2006.07242">https://arxiv.org/abs/2006.07242</a> [1차]</li>
+<li>접근: 초록만</li>
+<li>확인된 사실 (Abstract)</li>
+<ul>
+<li>"we propose ensemble distillation for model fusion"</li>
+<li>"training the central classifier through unlabeled data on the outputs of the models from the clients"</li>
+<li>"flexible aggregation over heterogeneous client models that can differ e.g. in size, numerical precision or structure"</li>
+<li>"requiring fewer communication rounds than any existing FL technique so far"</li>
+</ul>
+<li>확인하지 못한 것: 본문(생성 데이터 사용 여부, 실험 수치). 초록의 "fewer communication rounds than any existing FL technique" 같은 최상급 주장은 저자 주장으로만 쓴다.</li>
+</ul>
+<h2 id="s14">S14. Hu et al. 2021 — LoRA</h2>
+<ul>
+<li>인용: E. J. Hu, Y. Shen, P. Wallis, Z. Allen-Zhu, Y. Li, S. Wang, L. Wang, W. Chen. "LoRA: Low-Rank Adaptation of Large Language Models." arXiv:2106.09685 (ICLR 2022).</li>
+<li>연 URL: <a href="https://arxiv.org/abs/2106.09685">https://arxiv.org/abs/2106.09685</a> , <a href="https://arxiv.org/pdf/2106.09685">https://arxiv.org/pdf/2106.09685</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Abstract: "freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer"; GPT-3 175B를 Adam으로 미세조정한 것과 비교해 "LoRA can reduce the number of trainable parameters by 10,000 times" and "the GPU memory requirement by 3 times"; "unlike adapters, no additional inference latency".</li>
+<li>Sec. 4.1: W0 + ΔW = W0 + BA, B ∈ R^{d×r}, A ∈ R^{r×k}, r ≪ min(d, k) (≪ 기호는 추출에서 빠짐); Eq. (3) h = W0x + ΔWx = W0x + BAx; "We use a random Gaussian initialization for A and zero for B, so ΔW = BA is zero at the beginning of training."; ΔWx를 α/r로 스케일.</li>
+<li id="s14-wqwv">Sec. 5.1 (12장 “W_q와 W_v 두 행렬에 붙인다”의 근거): "we only apply LoRA to Wq and Wv in most experiments for simplicity." Sec. 7.1(Table 5): "Adapting both Wq and Wv gives the best performance overall." 곧 “대부분의 실험”에서의 선택이고 LoRA의 정의가 아니다. 확인일 2026-10-19. (인용은 WebFetch 요약 도구가 원문 PDF에서 뽑아 준 것. arXiv PDF 직접 내려받기는 프록시가 막음, 지호 2026-10-19)</li>
+</ul>
+<li>수아 메모: d×k 행렬을 LoRA로 바꾸면 학습 매개변수가 dk → r(d+k). 예: d=k=4096, r=8이면 16,777,216 → 65,536 (1/256). "10,000배"는 GPT-3 175B 전체 기준이므로 행렬 하나의 비율과 섞지 않는다.</li>
+</ul>
+<h2 id="s15">S15. 연합 + 매개변수 효율 미세조정 / Gboard DP</h2>
+<h3 id="s15a">S15a. Xu et al. 2023 — Gboard LM with DP</h3>
+<ul>
+<li>인용: Z. Xu, Y. Zhang, G. Andrew, C. A. Choquette-Choo, P. Kairouz, H. B. McMahan, J. Rosenstock, Y. Zhang. "Federated Learning of Gboard Language Models with Differential Privacy." arXiv:2305.18465 (2023). (PDF 저자 표기: Zheng Xu*, Yanxiang Zhang* 공동 1저자; arXiv 초록 페이지 추출에서 "Yanxiato"로 나왔으나 PDF가 "Yanxiang")</li>
+<li>연 URL: <a href="https://arxiv.org/abs/2305.18465">https://arxiv.org/abs/2305.18465</a> , <a href="https://arxiv.org/pdf/2305.18465">https://arxiv.org/pdf/2305.18465</a> [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Abstract: "We apply the DP-Follow-the-Regularized-Leader (DP-FTRL)"; "without requiring uniform sampling of client devices"; "We train and deploy more than twenty Gboard LMs" ... "with ρ ∈ (0.2, 2)" (ρ-zCDP); "with two models additionally trained with secure aggregation"; "all the next word prediction neural network LMs in Gboard now have DP guarantees."</li>
+<li>초록에는 ε 값이 없다. 부록 A item 3(c): "given δ = 10^-10, the smallest zCDP ρ = 0.25 corresponds to DP ϵ = 4.49"; "the largest zCDP ρ = 1.86 corresponds to DP ϵ = 13.69". Table 2: ρ = 0.89 → ε = 9.01 (δ = 10^-10).</li>
+<li>Table 1 캡션: "all models are trained by DP-FTRL with report goal of 6500 and noise multiplier of 7"; NWP 모델 530–3600 라운드.</li>
+<li>부록 A item 2(c): "Device-level DP is considered." (기기 하나인 사용자에겐 사용자 수준 DP와 같다는 설명)</li>
+<li>Sec. 3: es-ES 모델 "improves the zCDP bound from 0.81 to 0.35".</li>
+<li>LoRA·PEFT 언급 없음.</li>
+</ul>
+<li>수아 검산: ρ → ε 변환을 두 가지 공식으로 계산했으나 논문 값을 정확히 재현하지 못했다(아래 계산 절). 논문 값은 더 촘촘한 변환을 쓴 것으로 보이며, 어떤 변환인지 원문에서 확인하지 못했다. 책에서는 논문 값을 "논문이 보고한 값"으로만 인용한다.</li>
+</ul>
+<h3 id="s15b">S15b. Zhang et al. 2023 — FedPETuning</h3>
+<ul>
+<li>인용: Z. Zhang, Y. Yang, Y. Dai, Q. Wang, Y. Yu, L. Qu, Z. Xu. "FedPETuning: When Federated Learning Meets the Parameter-Efficient Tuning Methods of Pre-trained Language Models." Findings of ACL 2023, pp. 9963–9977. arXiv:2212.10025.</li>
+<li>연 URL: <a href="https://arxiv.org/pdf/2212.10025">https://arxiv.org/pdf/2212.10025</a> (본문), <a href="https://preview.aclanthology.org/credits/2023.findings-acl.632">https://preview.aclanthology.org/credits/2023.findings-acl.632</a> (서지) [1차]</li>
+<li>접근: 본문 전체</li>
+<li>확인된 사실</li>
+<ul>
+<li>Sec. 4.1: "adapter tuning (FedAP), prefix tuning (FedPF), LoRA (FedLR), and BitFit (FedBF)" + 전체 미세조정 FedFT 기준.</li>
+<li>Sec. 4.3: "FedAP reduces 60 times the communication overhead by only 0.7% performance degradation compared with FedFT." 서론: "FedAP reduces 97.4% of communication with only 0.7% performance degradation."</li>
+<li>Table 2 (GLUE 평균, 연합): FedFT 83.1; FedAP 82.4 (통신 60×↓); FedLR 81.0 (141×↓); FedPF 78.4 (12×↓); FedBF 77.8 (190×↓).</li>
+</ul>
+<li>주의: 60배 감소는 98.3% 감소에 해당해 서론의 97.4%와 맞지 않는다(논문 내부 불일치). 책은 표 값(60×, 141×)만 쓰거나 "수십~백여 배"로 쓴다.</li>
+</ul>
+<h2 id="s16">S16. Google AI Blog 2017-04-06</h2>
+<ul>
+<li>인용: B. McMahan, D. Ramage. "Federated Learning: Collaborative Machine Learning without Centralized Training Data." Google Research Blog, 2017-04-06.</li>
+<li>연 URL: <a href="https://research.google/blog/federated-learning-collaborative-machine-learning-without-centralized-training-data/">https://research.google/blog/federated-learning-collaborative-machine-learning-without-centralized-training-data/</a> [공식]</li>
+<li>접근: 전체</li>
+<li>확인된 사실 (도구가 돌려준 인용; 일부는 근사 인용일 수 있음)</li>
+<ul>
+<li>"your device downloads the current model, improves it by learning from data on your phone"</li>
+<li>"Only this update to the model is sent to the cloud, using encrypted communication"</li>
+<li>"We're currently testing Federated Learning in Gboard on Android" (쿼리 제안 개선)</li>
+<li>"Training happens only when the device is idle, plugged in, and on a free wireless connection" (도구가 원문 문장인지 단언하지 않음 → 뜻은 확인, 문장 그대로 인용은 재확인 필요)</li>
+<li>Secure Aggregation: "a coordinating server can only decrypt the average update if 100s or 1000s of users have participated"</li>
+<li>업로드 비용을 "up to another 100x by compressing updates" ("random rotations and quantization")</li>
+</ul>
+</ul>
+<h2 id="s17">S17. 프라이버시 회계 공식과 공개 수치</h2>
+<ul>
+<li>공식 출처 [1차]</li>
+<ul>
+<li>Mironov, Talwar, Zhang 2019. "Rényi Differential Privacy of the Sampled Gaussian Mechanism." arXiv:1908.10530. 연 URL: <a href="https://arxiv.org/pdf/1908.10530">https://arxiv.org/pdf/1908.10530</a> (본문). Sec. 3.3 Case I (정수 α): 이항 전개 Σ_{k=0}^{α} C(α,k)(1−q)^{α−k} q^k E[(μ1/μ0)^k], 그 기댓값이 exp((k²−k)/(2σ²)). Sec. 3: "ε ≤ 1/(α−1) log max(Aα, Bα)", Corollary 7로 A_α ≥ B_α. 민감도 1 가정 (Theorem 4, Table 1 캡션 "ℓ2-sensitivity 1"). <b>A_α 한 줄 식은 원문에 한 식으로 있지 않고 두 단계를 합친 것이다.</b> 수치 예시 표는 없다.</li>
+<li>Mironov 2017. "Rényi Differential Privacy." arXiv:1702.07476. 연 URL: <a href="https://arxiv.org/pdf/1702.07476">https://arxiv.org/pdf/1702.07476</a>. Proposition 3 (Sec. IV): (α, ε)-RDP이면 (ε + log(1/δ)/(α−1), δ)-DP, "for any 0 &lt; δ &lt; 1". Proposition 1: 같은 α에서 ε가 더해진다. Corollary 3 (Sec. VI-C): 민감도 1 가우시안은 (α, α/(2σ²))-RDP.</li>
+</ul>
+<li>공개 수치 [1차]</li>
+<ul>
+<li>Abadi et al. 2016 "Deep Learning with Differential Privacy" (CCS 2016, arXiv:1607.00133), 연 URL: <a href="https://arxiv.org/pdf/1607.00133">https://arxiv.org/pdf/1607.00133</a>. Sec. 3.1: "with L = 0.01N, σ = 4, δ = 10^-5, and T = 10000, we have ε ≈ 1.26 using the moments accountant." (strong composition으로는 9.34). Sec. 5.2: MNIST "90%, 95%, and 97% test set accuracy for (0.5, 10^-5), (2, 10^-5), and (8, 10^-5)"; lot 600, 클리핑 4.</li>
+<li>TensorFlow Privacy tutorials README, 연 URL: <a href="https://github.com/tensorflow/privacy/blob/master/tutorials/README.md">https://github.com/tensorflow/privacy/blob/master/tutorials/README.md</a> [공식]. "privacy epsilon is reported at delta=1e-5"; 예시 명령 "--N=60000 --batch_size=256 --noise_multiplier=1.1 --epochs=60 --delta=1e-5"; 표: noise 1.1, clip 1.0, 256 microbatches, 60 epochs → eps 3.01, 정확도 96.6%; noise 1.3, 15 epochs → 1.19 (95.0%); noise 0.7, 45 epochs → 7.10 (97.0%).</li>
+<li>TF Privacy API 문서 <a href="https://www.tensorflow.org/responsible_ai/privacy/api_docs/python/tf_privacy/compute_dp_sgd_privacy">https://www.tensorflow.org/responsible_ai/privacy/api_docs/python/tf_privacy/compute_dp_sgd_privacy</a>: 이 함수는 deprecated이며 "assumes Poisson subsampling, which is rarely used in practice" 그리고 마이크로배치의 민감도 두 배를 반영하지 않는다고 적혀 있다. → 책에서 "포아송 표본추출 가정"을 꼭 밝힌다.</li>
+<li>TF Privacy 분류 튜토리얼(<a href="https://tensorflow.org/responsible_ai/privacy/tutorials">https://tensorflow.org/responsible_ai/privacy/tutorials</a>)은 noise 1.3, batch 250, epochs 3, N=60000을 쓰지만 도구가 가져온 텍스트에 ε 출력 부분이 없어 확인하지 못했다.</li>
+</ul>
+</ul>
+<h3 id="calc">수아의 독립 계산 (책 코드와 무관)</h3>
+<ul>
+<li>스크립트: <a href="evidence/rdp_accountant.py">docs/evidence/rdp_accountant.py</a> (출력: <a href="evidence/rdp_output.txt">rdp_output.txt</a>), 차수 상한 검사: <a href="evidence/rdp_orders_cap.py">docs/evidence/rdp_orders_cap.py</a> (출력: <a href="evidence/rdp_orders_cap_output.txt">rdp_orders_cap_output.txt</a>). 실행: <code>docs/evidence</code>에서 <code>python3 -I rdp_accountant.py</code>, <code>python3 -I rdp_orders_cap.py "$PWD"</code>(둘째 스크립트는 첫째를 불러오므로 그 폴더 경로를 인자로 받습니다). 2026-10-19 은재가 G3에서 두 스크립트를 다시 돌려 출력 파일과 글자 하나까지 같음을 확인했습니다.</li>
+<li>가정·단위: 포아송 표본추출률 q, 잡음 배수 σ(= 잡음 표준편차 ÷ 클리핑 노름, 민감도 1), 정수 차수 α = 2..256, T 단계 합성, ε·δ 무차원. "classic" = Mironov 2017 Prop. 3, "improved" = Balle et al. 2020 / Canonne–Kamath–Steinke 2020 변환 (이 변환식은 이번에 원문을 열어 확인하지 않음 — 비교용).</li>
+<li>경계값: q=1 → α/(2σ²)와 일치 (σ=2, α=5에서 0.625 = 0.625). q=0 → 0.</li>
+<li>결과 (classic 변환)</li>
+</ul>
+<p>| 경우 | q | σ | T | δ | 계산 ε (α) | 공개 값 |</p>
+<p>|---|---|---|---|---|---|---|</p>
+<p>| (a) 과제 | 0.01 | 1.1 | 1000 | 1e-5 | 2.087 (α=10); improved 1.725 | 없음 |</p>
+<p>| (b) TF README 기본 | 256/60000 | 1.1 | 14063 (=ceil(60·60000/256)) | 1e-5 | 3.009 (α=9); improved 2.597 | 3.01 |</p>
+<p>| TF README 행 | 256/60000 | 1.3 | 3516 | 1e-5 | 1.192 | 1.19 |</p>
+<p>| TF README 행 | 256/60000 | 0.7 | 10547 | 1e-5 | 7.123 | 7.10 |</p>
+<p>| Abadi 2016 Sec 3.1 | 0.01 | 4 | 10000 | 1e-5 | 1.259 (α=20) | ≈1.26 |</p>
+<p>| McMahan 2018 Table 2 | 5000/763430 | 1.0 | 5000 | 1e-9 | 4.634 (α=9) | 4.634 |</p>
+<p>| McMahan 2018 Table 2 | 5000/1e8 | 1.0 | 5000 | 1e-9 | 1.152 (α=19) | 1.152 |</p>
+<p>| McMahan 2018 Table 1, K=1e5, z=1 | 0.001 | 1.0 | 1…1e6 | 3.16e-6 | 0.974, 0.977, 1.002, 1.068, 1.177, 2.212, 7.497 | 0.97, 0.98, 1.00, 1.07, 1.18, 2.21, 7.50 |</p>
+<p>| McMahan 2018 Table 1, K=1e6, z=1 | 0.001 | 1.0 | 1…1e6 | 2.51e-7 | 1.169 … 8.130 | 1.17 … 8.13 |</p>
+<p>| McMahan 2018 Table 1, K=1e6, z=3 | 0.001 | 3.0 | 1 | 2.51e-7 | 0.123 (α≤256) / 0.475 (α≤33) | 0.47 |</p>
+<ul>
+<li>해석</li>
+<ul>
+<li>TF README 3행, Abadi 1.26, McMahan 2018 Table 1·2는 정수 차수 + classic 변환으로 소수 둘째·셋째 자리까지 재현된다.</li>
+<li>McMahan 2018 Table 1의 z=3 행은 차수를 33 이하로 제한하면 재현된다(0.475/0.477/0.670/1.951 vs 0.47/0.48/0.67/1.95). 당시 moments accountant가 차수(λ ≤ 32)를 제한했기 때문으로 보인다(추론, 원문 확인 안 함). 차수를 넓히면 ε가 더 작게 나온다 → 실험 화면이 차수 범위에 따라 다른 값을 낼 수 있음을 시우에게 알린다.</li>
+<li>improved 변환은 같은 입력에서 ε를 10–20% 정도 낮춘다. 책 실험은 어떤 변환을 쓰는지 화면에 밝혀야 한다.</li>
+<li>Xu 2023 ρ-zCDP → ε (δ=1e-10): ρ=0.25 classic 5.05 / improved 4.70 vs 논문 4.49; ρ=0.89 9.94 / 9.40 vs 9.01; ρ=1.86 14.95 / 14.26 vs 13.69. <b>재현 못 함</b> — 논문이 더 촘촘한 변환을 쓴 것으로 보인다.</li>
+</ul>
+</ul>
+<h2 id="chapter-claims">장별 사실 주장 표 (은재, G3)</h2>
+<p>위 기록은 출처별로 정리되어 있어, 원고의 장마다 어떤 출처에 기대는지 한눈에 보이지 않았습니다. G3에서 은재가 js/content.js의 장 본문을 읽고 장마다 논문에 기대는 주장을 출처 번호와 맞대어 이 표로 묶었습니다. 하린과 사용자 1,000명에서 나온 숫자는 논문 주장이 아니라 책 코드의 계산이므로 이 표에 넣지 않았고, tests/math.test.cjs가 본문과 대조합니다. 처음 G3에서 굵게 적었던 셋(3장 올리기 속도, 10장 Kairouz 개인화, 12장 W_q·W_v)은 2026-10-19 지호가 원문에서 근거 줄을 찾아 S2·S10·S14에 더했습니다. 9장의 ε 다섯 값(6.18, 2.01, 0.85, 사용자 763,430명의 0.68, 10만 명의 0.90)은 은재가 evidence/rdp_accountant.py로 따로 계산해 본문과 같음을 확인했습니다.</p>
+<div class="wrap"><table>
+<tr><th>장</th><th>핵심 사실 주장</th><th>출처(이 노트의 번호와 위치)</th><th>확인일</th><th>시점에 민감한가</th></tr>
+<tr><td>01 why</td><td>데이터 병렬은 운영자가 나눈 자료로 복제본을 돌리고 매개변수 서버에 모은다. 연합 최적화의 네 성질. 기기 간과 기관 간 구분</td><td>S11 Sec. 4·4.1, S1 Sec. 1, S10 Table 1</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>02 fedavg</td><td>라운드의 선택·구성·보고. FedSGD = E 1·B ∞. 분모 m_t와 정오표(각주 4). u = E·n_k ÷ B</td><td>S4 Sec. 2.2, S1 Sec. 2·3·Alg. 1</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>03 comm</td><td>구조적 갱신과 스케치 갱신, 통신 두 자릿수 배 감소. “올리기는 내려받기보다 대개 느리다”는 근거 확인(S2 Sec. 1: "the uplink is typically much slower than downlink", <a href="#s2-uplink">근거 줄</a>, 요약 도구로 얻은 인용)</td><td>S2 Abstract·Sec. 1·2·3</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>04 noniid</td><td>client drift라는 이름, FedProx 근접 항과 μ = 0이면 FedAvg, SCAFFOLD 제어 변수와 Option I</td><td>S9 Abstract·Sec. 4, S8 Eq. 2·Sec. 3.2</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>05 select</td><td>유휴·충전·요금 없는 네트워크 조건, 몇백 대, 130% 선택, 이탈 6~10%, 하루 4배 차이, 시스템이 만드는 편향</td><td>S4 Sec. 3·2.2·9·11</td><td>2026-10-19</td><td>예(2019년 논문 기준)</td></tr><tr><td>06 hetero</td><td>보고 단계는 늦은 기기를 기다리지 않음, FedProx 부분 학습, HeteroFL 부분 행렬과 칸별 평균, FedDF(초록만)</td><td>S4 Sec. 2.2, S8 Sec. 3.2, S12 Sec. 3.1, S13</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>07 leakage</td><td>업데이트만 보낸다는 블로그 문장, Geiping 명제 3.1과 평균한 기울기도 지키지 못함, DLG 묶음 8·64×64</td><td>S16, S7(Geiping Prop. 3.1·Abstract, Zhu Sec. 5.3)</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>08 secagg</td><td>Diffie–Hellman 쌍 마스크, Shamir t-of-n 조각, 이중 마스크, 1.73배, 2t &gt; n + n_C(악의적 서버 설정의 조건), 몇백 명 단위로 묶어 실행</td><td>S3 Sec. III·V·VI.B·초록, S4 Sec. 6</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>09 dp</td><td>사용자 수준 이웃, σ = zS ÷ (qW), 표집 가우스 RDP(정수 차수), 명제 3 변환, 763,430명 ε 4.634와 17.49%·17.62%</td><td>S6 Def. 2·Alg. 1·Table 2, S17</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>10 personal</td><td>개인화를 연합학습의 연구 주제로 다룬다는 Kairouz 외 언급. 근거 확인(S10 Sec. 3.3 "Multi-Task Learning, Personalization, and Meta-Learning", <a href="#s10-personal">근거 줄</a>, 요약 도구로 얻은 인용)</td><td>S10 Sec. 3.3</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>11 fairness</td><td>연합 평가(평가용 기기에 모델을 보내 채점), 충전·무제한 네트워크 조건이 만드는 편향, 윌슨 구간</td><td>S10 Sec. 1.1.1, S4 Sec. 11, Wilson(1927)</td><td>2026-10-19</td><td>아니요</td></tr><tr><td>12 deploy</td><td>Gboard CIFG 140만 개·어휘 1만·조건·100~500 갱신·3,000라운드·4~5일, recall 16.4%·16.5%·5.82%·5.76%, 1천만·1만 대, DP-FTRL 20개 이상·ρ 0.2~2·ρ 0.25 → ε 4.49, 보안 집계 두 모델, LoRA BA, FedLR 141배·81.0·83.1. “W_q와 W_v 두 행렬에 붙인다”는 근거 확인(S14 Sec. 5.1: "we only apply LoRA to Wq and Wv in most experiments for simplicity", <a href="#s14-wqwv">근거 줄</a>, 요약 도구로 얻은 인용)</td><td>S5, S4 Sec. 9, S15a, S14 Sec. 5.1·7.1, S15b</td><td>2026-10-19</td><td>예(2018·2019·2023년 논문 기준)</td></tr><tr><td>13 final</td><td>새 사실 주장 없음. 9장의 회계와 3장의 통신량 식을 다시 씀</td><td>S6, S17</td><td>2026-10-19</td><td>아니요</td></tr>
+</table></div>
+<h2>요약 표</h2>
+<h3 id="safe">책에 써도 되는 수치 (출처 위치 포함)</h3>
+<div class="wrap"><table>
+<tr><th>수치</th><th>출처</th></tr>
+<tr><td>FedSGD = FedAvg with B = ∞, E = 1</td><td>S1 Sec. 2</td></tr>
+<tr><td>서버 평균 가중치 n_k / m_t (m_t = 이번 라운드 참여 클라이언트 데이터 합)</td><td>S1 Alg. 1 + Erratum</td></tr>
+<tr><td>u = nE/(KB)</td><td>S1 Sec. 3</td></tr>
+<tr><td>병리적 MNIST: 숫자별 정렬, 300개짜리 200조각, 100명에게 2조각씩</td><td>S1 Sec. 3</td></tr>
+<tr><td>통신 라운드 "10–100×" 감소 (초록 주장; 과제별 차이 큼)</td><td>S1 Abstract</td></tr>
+<tr><td>MNIST CNN 99%: FedSGD IID 626 / non-IID 483 라운드; E=20,B=10 → 18 (34.8×) / 173 (2.8×)</td><td>S1 Table 2</td></tr>
+<tr><td>Shakespeare LSTM: non-IID 95.3×, IID 13.0×</td><td>S1 Table 2</td></tr>
+<tr><td>통신 비용 "two orders of magnitude" 감소</td><td>S2 Abstract</td></tr>
+<tr><td>SecAgg 1.73× (2^10명, 2^20차원, 16비트), 1.98× (2^14명, 2^24차원)</td><td>S3 ePrint Abstract</td></tr>
+<tr><td>2t &gt; n + n_C</td><td>S3 Theorem 4</td></tr>
+<tr><td>기기 조건: idle, charging, unmetered</td><td>S4 Sec. 3; S5 Sec. 5.2</td></tr>
+<tr><td>라운드당 "a few hundred" 기기, 목표의 130% 선택, 이탈 6–10%</td><td>S4 Sec. 2.2, 9</td></tr>
+<tr><td>하루 참여 기기 수 4× 차이 (미국 중심 모집단)</td><td>S4 Sec. 9</td></tr>
+<tr><td>약 10M 일일 활성 기기, 동시 최대 10k (2019년 기준)</td><td>S4 Sec. 9</td></tr>
+<tr><td>Gboard CIFG: 약 1.4M 매개변수, V=10,000, 3000 라운드, 4–5일, 라운드당 100–500 갱신</td><td>S5 Sec. 3, 5.2; S4 Sec. 8</td></tr>
+<tr><td>top-1 recall 16.4% (연합) vs 16.5% (서버) vs 13.0% (n-gram) — 서버 로그</td><td>S5 Table 3</td></tr>
+<tr><td>실사용 top-1 5.82% (연합) / 5.76% (서버) / 5.24% (n-gram)</td><td>S5 Table 5</td></tr>
+<tr><td>DP-FedAvg: σ = zS/(qW); K = 763,430; (ε=4.6, δ=10^-9), 정확도 17.49% vs 17.62%</td><td>S6 Alg. 1, Table 2</td></tr>
+<tr><td>10^8 사용자면 같은 설정에서 ε = 1.152</td><td>S6 Table 2</td></tr>
+<tr><td>DLG: 배치 크기 8까지, 64×64까지; 잡음 10^-2 이상, 가지치기 20% 이상이면 방어</td><td>S7 Sec. 1, 5</td></tr>
+<tr><td>FedProx 항 (μ/2)‖w − w^t‖², μ=0이면 FedAvg; 절대 정확도 평균 22% 향상(매우 이질적 설정)</td><td>S8</td></tr>
+<tr><td>SCAFFOLD 지역 갱신 y ← y − η_l(g_i(y) − c_i + c)</td><td>S9 Alg. 1</td></tr>
+<tr><td>cross-silo 2–100 vs cross-device 최대 10^10; 라운드당 50–5000</td><td>S10 Table 1, 2</td></tr>
+<tr><td>HeteroFL r = 0.5, 다섯 단계 a–e</td><td>S12 Sec. 4</td></tr>
+<tr><td>LoRA: 학습 매개변수 10,000배↓, GPU 메모리 3배↓ (GPT-3 175B, Adam 대비)</td><td>S14 Abstract</td></tr>
+<tr><td>Gboard LM 20개 이상 DP 학습, ρ ∈ (0.2, 2) zCDP</td><td>S15a Abstract</td></tr>
+<tr><td>FedPETuning: FedLR 통신 141×↓, GLUE 81.0 vs 83.1</td><td>S15b Table 2</td></tr>
+<tr><td>Abadi: q=0.01, σ=4, T=10000, δ=1e-5 → ε ≈ 1.26 (독립 재현 1.259)</td><td>S17</td></tr>
+<tr><td>TF Privacy: N=60000, batch 256, σ=1.1, 60 epochs, δ=1e-5 → ε 3.01 (독립 재현 3.009)</td><td>S17</td></tr>
+</table></div>
+<h3 id="unsafe">책에 쓰지 말 것 (또는 조건을 붙여야 할 것)</h3>
+<div class="wrap"><table>
+<tr><th>수치·주장</th><th>이유</th></tr>
+<tr><td>서버 평균을 n_k/n (전체 K 합)으로 쓰는 식</td><td>원 논문 Erratum이 고친 식</td></tr>
+<tr><td>"FedAvg는 항상 10–100배 빠르다"</td><td>MNIST 병리적 non-IID에서 0.5×~2.8×</td></tr>
+<tr><td>"1/3 사용자 이탈까지 견딘다"</td><td>2016 arXiv 판 문구. CCS 판은 다르게 서술</td></tr>
+<tr><td>SecAgg "4라운드" 단정</td><td>본문 "four rounds"와 Round 0–4 번호가 어긋남</td></tr>
+<tr><td>Hard 2018 Table 6 연합 CTR 값</td><td>추출이 깨져 확인 못 함</td></tr>
+<tr><td>"연합 모델이 서버 모델보다 정확하다" (단정)</td><td>Table 3에서는 0.1%p 낮음. 표마다 다름</td></tr>
+<tr><td>DLG Table 3 방어별 정확도 (45.3%, 53.7%)</td><td>추출 표 정렬 확인 필요</td></tr>
+<tr><td>Kairouz 6장 공정성 문장</td><td>본문을 읽지 못함</td></tr>
+<tr><td>FedDF 실험 수치</td><td>초록만 읽음</td></tr>
+<tr><td>Xu 2023 ρ→ε 값을 우리 실험 공식으로 다시 계산해 보여 주기</td><td>재현 불가(다른 변환). 논문 값만 인용</td></tr>
+<tr><td>"715 roles" (Shakespeare)</td><td>원문에서 찾지 못함</td></tr>
+<tr><td>TF Privacy ε를 "실제 학습의 보장"이라 쓰기</td><td>문서가 포아송 표본추출 가정·마이크로배치 문제를 경고</td></tr>
+<tr><td>차수 범위·변환식을 밝히지 않은 ε 값</td><td>같은 입력에서 0.12~0.47처럼 크게 달라질 수 있음</td></tr>
+</table></div>
+
+</section>
+</main></body></html>

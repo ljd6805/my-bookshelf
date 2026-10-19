@@ -787,5 +787,28 @@
       "5장 “흔합니다”, 9장 “대부분”은 출처 없는 빈도 표현으로 남음"
     ],
     "next_action": "병합 뒤 GitHub Pages에서 서가의 체스 입문 책등·표지·펼침 삽화와 책 12개 장을 다시 열어 확인"
+  },
+  "federated_learning": {
+    "book": "books/federated/",
+    "id": "federated-learning",
+    "request": "구글이 제안한 연합학습을 다루는 새 학습 책(스레드 「연합학습 책」, 2026-10-19)",
+    "plan": "제목 「연합학습 · 데이터를 기기에 두고 업데이트만 모아 모델 학습하기」, 책등 연합학습, 분류 인공지능, plum, 13장 14개 실험, 공통 인물 하린(지어낸 키보드 앱 엔지니어)과 합성 사용자 1,000명",
+    "docs": "books/federated/docs/index.html",
+    "research": "books/federated/docs/research.html",
+    "status": "published: G0~G7 팀장 승인(G7 한결, 2026-10-19), 팩트·출처 검수 1회차 fixed(유진, 새 세션)",
+    "next": "G7 승인 후 PR 병합. 후속: 처음 보는 독자 세션으로 리허설 다시 하기(G6 권고), 예측을 적는 상자·결과 읽기 접기를 모든 책에 둘지 사용자 확인(G4 리안)",
+    "limits": [
+      "모든 결과는 합성 사용자 1,000명과 가중치 225개 모델에서만 성립",
+      "arXiv 직접 접속이 막혀 일부 인용은 요약 도구·HF Papers 사본으로 확인",
+      "Wilson 1927 DOI 페이지와 Xu 2023의 ε 4.49 재계산은 확인하지 못함"
+    ],
+    "fact_review": "books/federated/docs/fact-review.html (1회차 fixed)",
+    "done": [
+      "13장 원고·실험 14개(합성 사용자 1,000명, 가중치 225개 소프트맥스 모델, 고정 씨앗), 장 그림 13개, 움직이는 서가 삽화, 정지 표지, review.json 13장×3문항",
+      "서가 등록: chapter_index 13장, 새 개념 데이터 프라이버시·분산 학습, 기존 개념 넷에 장 추가, 새 노선 learn-without-raw-text",
+      "들어오는 링크 넷: aie-safety #privacy→#dp, aie-llm-build #parallel→#why, aie-llm-apps #lora→#deploy, lora #federated→#deploy(LoRA 책의 준비 중 문장 지움)",
+      "CI에 npm test --prefix books/federated 추가"
+    ],
+    "verification": "npm test 32개(본문·안내 숫자를 계산과 대조), 브라우저 검사 1280·390·320px 실험 42회, validate·unittest·node 테스트, G5 서가 화면 확인(docs/03-verification.html#federated-check)"
   }
 }

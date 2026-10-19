@@ -1,0 +1,8 @@
+orders<= 32: z=3 T=1: eps=0.490 (alpha=32) published=0.47
+orders<= 32: z=3 T=1000: eps=0.492 (alpha=32) published=0.48
+orders<= 32: z=3 T=100000: eps=0.679 (alpha=32) published=0.67
+orders<= 32: z=3 T=1000000: eps=1.951 (alpha=17) published=1.95
+orders<= 33: z=3 T=1: eps=0.475 (alpha=33) published=0.47
+orders<= 33: z=3 T=1000: eps=0.477 (alpha=33) published=0.48
+orders<= 33: z=3 T=100000: eps=0.670 (alpha=33) published=0.67
+orders<= 33: z=3 T=1000000: eps=1.951 (alpha=17) published=1.95

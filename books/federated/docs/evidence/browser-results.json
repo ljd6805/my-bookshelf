@@ -1,0 +1,598 @@
+{
+  "url": "http://127.0.0.1:8793/books/federated/",
+  "date": "2026-10-19",
+  "views": [
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "why",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "fedavg",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "comm",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "noniid",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "select",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "hetero",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "leakage",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "secagg",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "dp",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "personal",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "fairness",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "deploy",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "home",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "why",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "fedavg",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "comm",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "noniid",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "select",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "hetero",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "leakage",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "secagg",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "dp",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "personal",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "fairness",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "deploy",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "why",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "fedavg",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "comm",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "noniid",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "select",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "hetero",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "leakage",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "secagg",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "dp",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "personal",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "fairness",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "deploy",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "fedavg",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "secagg",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "noniid",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "dp",
+      "scroll": 320,
+      "returnVisible": true
+    }
+  ],
+  "labs": [
+    {
+      "width": 1280,
+      "id": "where",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "fedavg",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "comm",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "noniid",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "drift",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "select",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "hetero",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "leak",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "secagg",
+      "controls": 7,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "dp",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "personal",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "groups",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "lora",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "where",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "fedavg",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "comm",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "noniid",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "drift",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "select",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "hetero",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "leak",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "secagg",
+      "controls": 7,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "dp",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "personal",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "groups",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "lora",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "where",
+      "controls": 3,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "fedavg",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "comm",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "noniid",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "drift",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "select",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "hetero",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "leak",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "secagg",
+      "controls": 7,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "dp",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "personal",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "groups",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "lora",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}
