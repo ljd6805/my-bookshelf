@@ -91,16 +91,20 @@ export function ringOrder(ring, bridges) {
 }
 
 /* 세로 화면(portrait)에서는 가로를 좁히고, 섬끼리 다리 틈이 남을 때까지 세로를 늘립니다. */
+/* 세로 화면에서는 섬 하나가 맨 위와 맨 아래에 서도록 고리를 반 칸 돌리고, 섬끼리 띄울 수 있는
+   가장 좁은 가로 비율(sx)과 그때 가장 낮은 세로 비율(sy)을 고릅니다. 가로가 좁을수록 휴대폰에서 글자가 큽니다. */
 function ringPlaces(hub, ring, R, radius, portrait, stretch) {
-  const turn = portrait && ring.length <= 2 ? Math.PI / 2 : 0;
-  const angles = ringAngles(ring.length).map(a => a + turn);
+  const k = ring.length;
+  const turn = !portrait ? 0 : k <= 2 ? Math.PI / 2 : k % 2 === 0 ? -Math.PI / k : 0;
+  const angles = ringAngles(k).map(a => a + turn);
   const place = (sx, sy) => [{ field: hub, x: 0, y: 0, r: radius(hub), hub: true, slot: -1 },
     ...ring.map((f, i) => ({ field: f, x: R * Math.cos(angles[i]) * sx, y: R * Math.sin(angles[i]) * sy, r: radius(f), hub: false, slot: i }))];
   if (!portrait) return place(stretch, 1);
   const clear = ps => ps.every((a, i) => ps.slice(i + 1).every(b => Math.hypot(a.x - b.x, a.y - b.y) >= a.r + b.r + 44));
-  let sy = 1;
-  while (!clear(place(0.72, sy)) && sy < 3) sy += 0.05;
-  return place(0.72, sy);
+  for (let sx = 0.72; sx <= 1.3; sx += 0.04) {
+    for (let sy = 1; sy <= 2.4; sy += 0.05) if (clear(place(sx, sy))) return place(sx, sy);
+  }
+  return place(1.3, 2.4);
 }
 
 export function layoutIslands(graph, { stretch = 1.3, portrait = false } = {}) {
@@ -128,13 +132,15 @@ function connect(placed, graph, k) {
     const p = byName.get(b.a), q = byName.get(b.b);
     const gap = Math.abs(p.slot - q.slot);
     const shown = p.hub || q.hub || gap === 1 || gap === k - 1;
-    return shown ? { ...bridgeCurve(b, p, q, placed[0]), shown } : { ...seaRoute(b, p, q, placed), shown };
+    if (shown) return { ...bridgeCurve(b, p, q, placed[0]), shown };
+    return { ...seaRoute(b, p, q, placed, lane(Math.min(gap, k - gap), k)), shown };
   });
   separateBadges(bridges.filter(b => b.shown));
-  const near = bridges.filter(b => b.shown).map(b => b.badge);
+  // 건너편 다리의 이름표는 함께 보이는 다리(같은 섬에 닿는 다리)의 이름표와 가장 먼 자리에 둡니다.
+  const together = (x, y) => x !== y && (x.a === y.a || x.a === y.b || x.b === y.a || x.b === y.b);
   bridges.filter(b => !b.shown).forEach(b => {
+    const near = bridges.filter(o => together(o, b) && !o.stops).map(o => o.badge);
     b.badge = b.stops.reduce((best, pt) => (room(pt, near) > room(best, near) ? pt : best), b.stops[0]);
-    near.push(b.badge);
     delete b.stops;
   });
   return bridges;
@@ -142,10 +148,17 @@ function connect(placed, graph, k) {
 
 const room = (pt, others) => Math.min(Infinity, ...others.map(o => Math.hypot((pt.x - o.x) / 1.6, pt.y - o.y)));
 
+/* 바닷길 차선. 고리에서 두 칸 떨어진 섬끼리는 가운데 섬 가까이, 더 먼 섬끼리는 바깥 차선을 써서
+   한 섬에서 여러 방향으로 나가는 점선이 겹치지 않게 합니다. 0과 1 사이 비율입니다. */
+export function lane(steps, k) {
+  const lanes = Math.max(1, Math.floor(k / 2) - 1);
+  return (Math.min(lanes, Math.max(1, steps - 1))) / (lanes + 1);
+}
+
 /* 고리 건너편 두 섬을 잇는 바닷길. 곧게 그으면 가운데 섬과 다른 다리를 가로지르므로, 가운데 섬과
    고리 섬 사이 바다를 따라 짧은 쪽으로 돌아갑니다. 섬을 떠날 때는 가운데 섬으로 가는 다리와 겹치지
-   않게 진행 방향으로 비스듬히 나갑니다. stops는 이름표를 둘 수 있는 바닷길 위 후보 자리입니다. */
-export function seaRoute(bridge, p, q, placed) {
+   않게 진행 방향으로 비스듬히 나갑니다. share는 lane()이 준 차선이고, stops는 이름표를 둘 수 있는 바닷길 위 후보 자리입니다. */
+export function seaRoute(bridge, p, q, placed, share = 0.5) {
   const hub = placed[0];
   const angle = o => Math.atan2(o.y - hub.y, o.x - hub.x);
   const a0 = angle(p);
@@ -154,14 +167,22 @@ export function seaRoute(bridge, p, q, placed) {
   while (sweep > Math.PI) sweep -= 2 * Math.PI;
   if (Math.abs(Math.abs(sweep) - Math.PI) < 1e-6) sweep = p.slot < q.slot ? Math.PI : -Math.PI;
   const dir = Math.sign(sweep), lead = Math.min(0.42, Math.abs(sweep) / 4);
-  const edge = o => Math.hypot(o.x - hub.x, o.y - hub.y) - o.r;
-  const inner = Math.min(...placed.slice(1).map(edge)) - 12;
-  const seaAt = f => Math.min(inner, (hub.r + edge(p) + f * (edge(q) - edge(p))) / 2);
+  // 각도 a로 가운데에서 바깥으로 나갈 때 처음 닿는 고리 섬까지의 거리. 섬 테두리 흔들림만큼 여유를 둡니다.
+  const ring = placed.slice(1);
+  const reach = a => Math.min(hub.r + 220, ...ring.map(o => {
+    const ox = o.x - hub.x, oy = o.y - hub.y, along = ox * Math.cos(a) + oy * Math.sin(a);
+    const across = Math.abs(-ox * Math.sin(a) + oy * Math.cos(a)), r = o.r * 1.08 + 8;
+    return along > 0 && across < r ? along - Math.sqrt(r * r - across * across) : Infinity;
+  }));
+  const shore = hub.r * 1.08 + 8;
+  // 섬 사이 틈으로 불룩하게 빠지지 않도록 앞뒤 각도까지 보고 가장 좁은 바다를 씁니다.
+  const narrow = a => Math.min(...[-0.4, -0.2, 0, 0.2, 0.4].map(d => reach(a + d)));
+  const seaAt = a => shore + Math.max(0, narrow(a) - shore) * share;
   const pts = [];
   const steps = Math.max(6, Math.ceil(Math.abs(sweep) / 0.1));
   for (let i = 0; i <= steps; i += 1) {
     const a = a0 + dir * lead + (sweep - 2 * dir * lead) * (i / steps);
-    const m = seaAt(i / steps);
+    const m = seaAt(a);
     pts.push({ x: hub.x + m * Math.cos(a), y: hub.y + m * Math.sin(a) });
   }
   const all = [p, ...pts, q];
@@ -171,7 +192,7 @@ export function seaRoute(bridge, p, q, placed) {
     d += ` Q${r1(all[i].x)} ${r1(all[i].y)} ${r1(end.x)} ${r1(end.y)}`;
   }
   const stops = pts.slice(Math.floor(steps * 0.2), Math.ceil(steps * 0.8) + 1).map(t => ({ x: r1(t.x), y: r1(t.y) }));
-  return { ...bridge, d, stops, badge: stops[Math.floor(stops.length / 2)], width: Math.min(16, 2 + 3 * Math.sqrt(bridge.concepts.length)) };
+  return { ...bridge, d, stops, badge: stops[Math.floor(stops.length / 2)], width: Math.min(6, 2 + Math.sqrt(bridge.concepts.length)) };
 }
 
 function islandShape(p, graph) {

@@ -128,8 +128,13 @@ def path_reason(prev, book, members, catalog):
     return None
 
 
-def reason_for(prev, book, members, catalog):
+def reason_for(earlier, book, members, catalog):
+    """earlier: books already placed in this field, in reading order."""
+    prev = earlier[-1] if earlier else None
     found = series_reason(prev, book, catalog) or path_reason(prev, book, members, catalog)
+    # 바로 앞 책과 잇는 근거가 없으면, 더 앞에 놓인 책에서 이 책으로 건너가는 노선을 찾습니다.
+    for back in reversed(earlier[:-1]):
+        found = found or path_reason(back, book, members, catalog)
     if found:
         return found
     text = ('이 분야에서 서가에 먼저 꽂힌 책입니다. 이 책부터 이어지는 노선은 아직 없습니다.' if prev is None
@@ -145,6 +150,6 @@ def field_orders(catalog):
     for field in fields:
         members = [b['id'] for b in books if field_of(b) == field]
         order = order_books(members, votes_for(members, catalog))
-        result[field] = [{'book': book, **reason_for(order[i - 1] if i else None, book, members, catalog)}
+        result[field] = [{'book': book, **reason_for(order[:i], book, members, catalog)}
                          for i, book in enumerate(order)]
     return result
