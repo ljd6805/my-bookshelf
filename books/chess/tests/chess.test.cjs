@@ -42,6 +42,12 @@ test('notation (chapter 6)',()=>{
  assert.ok(sans(F(P.notation.promo[1])).includes('axb8Q+'));
  assert.equal(R.playLine(P.notation.open[3]).moves.map(m=>m.san).join(' '),'e4 e5 Nf3 Nc6 Bb5');
  assert.equal(R.parseSan(F(R.START),'O-O'),null);
+ /* 잡지 않는 수에 x를 붙이면 받지 않는다. 잡는 수에서 x를 빼는 것은 부록 C.13이 허용하는 생략이라 받는다. */
+ assert.equal(R.parseSan(F(R.START),'Nxf3'),null);assert.equal(R.parseSan(F(P.special.ep[1]),'exd6').flag,'ep');assert.equal(R.parseSan(F(P.special.ep[1]),'ed6').flag,'ep');
+});
+test('quiescence searches every check evasion instead of standing pat',()=>{
+ /* 나이트 포크: 체크를 받은 검은 킹이 피하면 흰 나이트가 a8의 퀸을 잡는다. 가만히 있는 값 +6이 아니라 −3이어야 한다. */
+ assert.equal(R.quiesce(F('q3k3/2N5/8/8/8/8/8/4K3 b - - 0 1'),-Infinity,Infinity,0,{nodes:0}),-3);
 });
 test('exchange on d5 (chapter 7)',()=>{
  const g=k=>R.exchange(F(P.exchange[k][1]),R.sq('d5')).gain;

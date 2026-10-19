@@ -115,11 +115,11 @@ function san(s,m){
  const next=makeMove(s,m);if(inCheck(next))text+=legalMoves(next).length?'+':'#';
  return text;
 }
-/* 기보 한 수를 합법 수로 바꾼다. O-O·0-0, =Q와 Q, 붙임표·체크 기호 유무를 모두 받는다. 못 찾으면 null. */
+/* 기보 한 수를 합법 수로 바꾼다. O-O·0-0, =Q와 Q, 붙임표·체크 기호 유무를 모두 받는다. 잡는 표시 x는 FIDE 부록 C.13처럼 빼도 되지만, 잡지 않는 수에 붙이면 받지 않는다. 못 찾으면 null. */
 function parseSan(s,text){
  const clean=t=>t.replace(/[+#!?]/g,'').replace(/O/g,'0').replace(/=/,'').trim();
  const want=clean(text);if(!want)return null;
- return legalMoves(s).find(m=>clean(san(s,m))===want||clean(san(s,m)).replace('x','')===want.replace('x',''))||null;
+ return legalMoves(s).find(m=>{const t=clean(san(s,m));return t===want||(!want.includes('x')&&t.replace('x','')===want);})||null;
 }
 /* 기보 문자열(예: "1. e4 e5 2. Nf3")을 차례로 두어 국면 목록과 수 목록을 만든다. 틀린 수에서 멈추고 그 위치를 알린다. */
 function playLine(text,fen=START){
@@ -153,12 +153,14 @@ function alphabeta(s,d,alpha=-Infinity,beta=Infinity,ply=0,counter={nodes:0},sor
  for(const m of ms){const v=-alphabeta(makeMove(s,m),d-1,-beta,-alpha,ply+1,counter,sorted).score;if(v>score){score=v;best=m;}if(v>alpha)alpha=v;if(alpha>=beta)break;}
  return {score,best,nodes:counter.nodes};
 }
-/* 잡는 수만 끝까지 이어 보는 정지 탐색. 깊이 끝에서 "막 잡고 끝난" 국면을 그대로 평가하는 수평선 문제를 줄인다. 가만히 있는 값(stand pat)보다 나빠지는 잡기는 하지 않는다고 본다. */
+/* 잡는 수만 끝까지 이어 보는 정지 탐색. 깊이 끝에서 "막 잡고 끝난" 국면을 그대로 평가하는 수평선 문제를 줄인다. 가만히 있는 값(stand pat)보다 나빠지는 잡기는 하지 않는다고 본다.
+   체크를 받은 쪽은 가만히 있을 수 없으므로 stand pat 없이 모든 합법 수(체크 피하기)를 본다. */
 function quiesce(s,alpha,beta,ply,counter){
  counter.nodes++;const ms=legalMoves(s);
  if(!ms.length)return inCheck(s)?-(MATE-ply):0;
- const stand=evaluate(s);if(stand>=beta)return stand;if(stand>alpha)alpha=stand;
- for(const m of order(s,ms.filter(m=>s.board[m.to]||m.flag==='ep'||m.promo))){const v=-quiesce(makeMove(s,m),-beta,-alpha,ply+1,counter);if(v>=beta)return v;if(v>alpha)alpha=v;}
+ const checked=inCheck(s);
+ if(!checked){const stand=evaluate(s);if(stand>=beta)return stand;if(stand>alpha)alpha=stand;}
+ for(const m of order(s,checked?ms:ms.filter(m=>s.board[m.to]||m.flag==='ep'||m.promo))){const v=-quiesce(makeMove(s,m),-beta,-alpha,ply+1,counter);if(v>=beta)return v;if(v>alpha)alpha=v;}
  return alpha;
 }
 /* 복기용 탐색: 알파베타 + 잡는 수 먼저 + 끝에서 정지 탐색. 돌려주는 점수는 둘 차례 쪽에서 본 기물 점수 차다. */
