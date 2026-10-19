@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14",
+  "updated_at": "2026-10-19",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -755,5 +755,19 @@
       "visual_check": "G5 서윤이 1280×900·1280×720·390·320px에서 확인(제작 기록 G5 행)",
       "pending": "없음(G7 행 기록, validate.py 0 errors)"
     }
+  },
+  "federated_learning": {
+    "book": "books/federated/",
+    "id": "federated-learning",
+    "request": "구글이 제안한 연합학습을 다루는 새 학습 책(스레드 「연합학습 책」, 2026-10-19)",
+    "plan": "제목 「연합학습 · 데이터를 기기에 두고 업데이트만 모아 모델 학습하기」, 책등 연합학습, 분류 인공지능, plum, 13장 14개 실험, 공통 인물 하린(지어낸 키보드 앱 엔지니어)과 합성 사용자 1,000명",
+    "docs": "books/federated/docs/index.html",
+    "research": "books/federated/docs/research.html",
+    "status": "in_progress: G0~G2 승인, G3 설계표 작성",
+    "next": "G3~G7 관문, 서가 등록과 지식 연결, 새 세션 팩트 검수, PR 병합",
+    "limits": [
+      "모든 결과는 합성 사용자 1,000명과 가중치 225개 모델에서만 성립",
+      "LoRA 책(books/lora/)이 아직 없어 12장 링크는 '준비 중' 글로만 둠"
+    ]
   }
 }

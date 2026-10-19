@@ -235,6 +235,71 @@
       "short_title": "트랜스포머 속"
     },
     {
+      "id": "federated-learning",
+      "title": "연합학습 · 데이터를 기기에 두고 업데이트만 모아 모델 학습하기",
+      "spine_title": "연합학습",
+      "spine_category": "인공지능",
+      "color": "plum",
+      "description": "키보드 앱을 만드는 하린(이 책을 위해 지어낸 인물)이 합성 사용자 1,000명의 원문을 서버로 모으지 않고 다음 단어 추천 모델을 학습합니다. FedAvg와 통신량, 사용자마다 다른 데이터, 업데이트에서 드러나는 단어와 보안 집계·차등 프라이버시, 개인화와 묶음별 평가를 13장 14개 실험으로 계산합니다.",
+      "illustration": "books/federated/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 서버가 모델을 휴대폰 세 대로 내려보내면 휴대폰은 원문을 자기 안에 둔 채 학습하고 업데이트만 올립니다. 서버는 셋을 평균해 다음 모델을 만들고 같은 라운드를 되풀이합니다.",
+      "cover_art": "books/federated/assets/cover-art.svg",
+      "cover_meta": "13장 · 14개 실험",
+      "status": "published",
+      "url": "books/federated/",
+      "keywords": [
+        "연합학습",
+        "federated learning",
+        "FedAvg",
+        "FedSGD",
+        "non-IID",
+        "FedProx",
+        "SCAFFOLD",
+        "보안 집계",
+        "secure aggregation",
+        "차등 프라이버시",
+        "DP-FedAvg",
+        "differential privacy",
+        "개인화",
+        "연합 평가",
+        "Gboard",
+        "LoRA",
+        "기울기 유출",
+        "통신량"
+      ],
+      "chapters": [
+        {
+          "title": "전체 13개 장",
+          "url": "books/federated/#chapters"
+        },
+        {
+          "title": "02 · FedSGD에서 FedAvg로: 기기에서 여러 번 학습하고 서버에서 평균하기",
+          "url": "books/federated/#fedavg"
+        },
+        {
+          "title": "04 · 사용자마다 다른 데이터가 만드는 기기 표류와 FedProx·SCAFFOLD의 보정",
+          "url": "books/federated/#noniid"
+        },
+        {
+          "title": "07 · 업데이트 하나에서 사용자가 입력한 단어 쌍을 복원하기",
+          "url": "books/federated/#leakage"
+        },
+        {
+          "title": "09 · 업데이트를 자르고 잡음을 더해 차등 프라이버시 ε 계산하기",
+          "url": "books/federated/#dp"
+        },
+        {
+          "title": "11 · 메타데이터 묶음별 연합 평가로 숨은 편향 찾기",
+          "url": "books/federated/#fairness"
+        },
+        {
+          "title": "마지막 과제 · 하린의 설정으로 정확도·통신량·ε를 계산해 보고서 쓰기",
+          "url": "books/federated/#final"
+        }
+      ],
+      "short_title": "연합학습"
+    },
+    {
       "id": "how-computers-work",
       "title": "컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지",
       "spine_title": "컴퓨터 원리",
@@ -4477,6 +4542,70 @@
         "적은 횟수의 비율이 많은 횟수의 비율보다 크게 흔들린다는 것을 동전 실험의 숫자로 말할 수 있는가",
         "같은 규칙의 손익이 경로에 따라 달라져 한 경로의 결과로 규칙을 판정할 수 없는 까닭을 설명할 수 있는가"
       ]
+    },
+    {
+      "id": "learn-without-raw-text",
+      "title": "원문을 모으지 않는 학습",
+      "question": "내 입력을 서버에 보내지 않고도 추천이 좋아질 수 있을까?",
+      "audience": "경사하강법을 한 번 배웠고, 사용자 데이터를 다루는 서비스를 만들거나 검토하는 독자",
+      "prerequisites": "평균과 비율, 손실을 줄이는 방향으로 가중치를 고친다는 생각",
+      "start": "키보드 앱의 다음 단어 추천을 좋게 하고 싶지만, 사용자가 친 문장을 서버로 모으지 않기로 했다.",
+      "steps": [
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#learning",
+          "task": "경사하강법 실험에서 학습률을 바꾸며 오차가 줄어드는 걸음을 확인한다",
+          "minutes": 15,
+          "why": "연합학습에서 기기가 하는 일은 이 장의 경사하강을 자기 데이터로 몇 걸음 하는 것이다",
+          "record": "학습률 두 개에서 오차가 줄어드는 모양 한 줄"
+        },
+        {
+          "book_id": "federated-learning",
+          "url": "books/federated/#fedavg",
+          "task": "FedSGD·FedAvg 실험에서 기기 안에서 훑는 횟수 E와 묶음 크기 B를 바꾸며 40라운드 적중률 곡선을 중앙 학습과 비교한다",
+          "minutes": 20,
+          "why": "원문을 모으지 않아도 서버가 업데이트를 학습 쌍 수로 평균하면 중앙 학습(0.654)에 가까운 0.649에 닿는다는 것을 숫자로 확인한다",
+          "record": "FedSGD와 E 5·B 10의 40라운드 적중률, 0.60에 닿은 라운드"
+        },
+        {
+          "book_id": "federated-learning",
+          "url": "books/federated/#leakage",
+          "task": "업데이트 복원 실험에서 사용자(합성)와 기기 안 학습(FedSGD·FedAvg)을 바꾸며 서버가 되찾는 단어 쌍을 센다",
+          "minutes": 16,
+          "why": "원문을 보내지 않아도 업데이트에는 사용자가 쓴 단어 쌍이 계산할 수 있는 꼴로 남는다. 그래서 다음 정거장의 방어가 필요하다",
+          "record": "FedSGD에서 되찾은 쌍 수와 FedAvg에서 드러난 앞 단어 수"
+        },
+        {
+          "book_id": "federated-learning",
+          "url": "books/federated/#dp",
+          "task": "DP-FedAvg 실험에서 잡음 배수 z와 참여 확률 q를 바꾸며 ε와 적중률을 적는다",
+          "minutes": 18,
+          "why": "업데이트를 자르고 잡음을 더하면 한 사람이 결과에 남기는 흔적에 상한(ε)을 둘 수 있지만, 그 대가로 정확도가 얼마나 내려가는지 같이 봐야 한다",
+          "record": "z 1과 z 2의 ε와 적중률"
+        },
+        {
+          "book_id": "federated-learning",
+          "url": "books/federated/#fairness",
+          "task": "연합 평가 실험에서 평가할 모델과 묶는 열쇠, 공개할 최소 기기 수를 바꾸며 가장 낮은 묶음을 찾는다",
+          "minutes": 15,
+          "why": "원문 없이 평균만 보면 드문 사용자 묶음이 뒤처진 것을 놓친다. 기기 안 채점을 묶음별로 모아야 보인다",
+          "record": "기기 등급별 적중률과, 최소 기기 수 150에서 감춰진 묶음"
+        },
+        {
+          "book_id": "aie-19-safety",
+          "url": "books/aie-safety/#privacy",
+          "task": "차등 프라이버시 실험에서 ε를 바꾸며 한 사람의 기록이 결과를 얼마나 바꾸는지 다시 확인한다",
+          "minutes": 15,
+          "why": "연합학습의 ε는 기기 단위로 센 값이다. 서버가 모은 기록을 지키는 중앙 DP와 무엇이 같고 다른지 견주며 노선을 마친다",
+          "record": "연합학습 9장의 ε와 이 장의 ε가 각각 무엇을 한 단위로 보는지 한 문장"
+        }
+      ],
+      "challenge": "동료가 “원문을 안 모으니 개인정보 걱정은 끝났다”고 말한다. 업데이트에서 단어 쌍이 되살아나는 경우와 ε로 막을 수 있는 범위, 평균 적중에 드러나지 않는 사용자 묶음을 근거로 이 말에서 맞는 부분과 틀린 부분을 나눠 설명한다.",
+      "checks": [
+        "FedAvg가 원문 대신 무엇을 서버로 보내는지, 서버가 그것을 어떻게 평균하는지 말할 수 있는가",
+        "원문을 보내지 않아도 업데이트에서 무엇이 드러나는지 예를 들어 설명할 수 있는가",
+        "잡음 배수 z를 올리면 ε와 정확도가 각각 어느 쪽으로 움직이는지 숫자로 말할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -5030,6 +5159,18 @@
     "books/transformer/#training": "12 · 학습하는 동안 회로가 생기는 순간",
     "books/transformer/#limits": "13 · 뉴런 하나에 뜻 하나가 아니다: 중첩",
     "books/transformer/#final": "마지막 · 토리는 어떻게 세는가",
+    "books/federated/#why": "01 · 중앙 학습, 데이터센터 분산 학습, 연합학습을 데이터 위치로 구분하기",
+    "books/federated/#fedavg": "02 · FedSGD에서 FedAvg로: 기기에서 여러 번 학습하고 서버에서 평균하기",
+    "books/federated/#comm": "03 · 통신량을 라운드 수 × 기기 수 × 업데이트 크기로 계산하기",
+    "books/federated/#noniid": "04 · 사용자마다 다른 데이터가 만드는 기기 표류와 FedProx·SCAFFOLD의 보정",
+    "books/federated/#select": "05 · 충전·와이파이·유휴 조건으로 참여 기기를 고를 때 생기는 편향",
+    "books/federated/#hetero": "06 · 느린 기기의 업데이트를 버릴지, 부분 학습이나 작은 모델로 받을지 비교하기",
+    "books/federated/#leakage": "07 · 업데이트 하나에서 사용자가 입력한 단어 쌍을 복원하기",
+    "books/federated/#secagg": "08 · 보안 집계: 기기 쌍마다 서로 지워지는 마스크로 서버가 합만 알게 하기",
+    "books/federated/#dp": "09 · 업데이트를 자르고 잡음을 더해 차등 프라이버시 ε 계산하기",
+    "books/federated/#personal": "10 · 공용 모델과 기기에서 더 학습한 모델을 섞어 개인화하기",
+    "books/federated/#fairness": "11 · 메타데이터 묶음별 연합 평가로 숨은 편향 찾기",
+    "books/federated/#deploy": "12 · Gboard 배포 기록과 LoRA 어댑터만 주고받는 LLM 연합학습",
     "books/market/#map": "01 · 증권은 무엇에 대한 권리인가",
     "books/market/#route": "02 · 주문은 어디로 가는가",
     "books/market/#book": "03 · 호가창 읽기: 스프레드와 미끄러짐",
@@ -5217,7 +5358,8 @@
         "books/aie-llm-build/#tokenizer",
         "books/aie-llm-build/#serving",
         "books/information/#surprise",
-        "books/information/#quantize"
+        "books/information/#quantize",
+        "books/federated/#comm"
       ]
     },
     {
@@ -5388,7 +5530,8 @@
         "books/transformer/#predict",
         "books/information/#entropy",
         "books/volatility/#walk",
-        "books/volatility/#tails"
+        "books/volatility/#tails",
+        "books/federated/#select"
       ]
     },
     {
@@ -5469,7 +5612,8 @@
         "books/aie-capstone/#evals",
         "books/psychology/#overconfidence",
         "books/psychology/#outcome",
-        "books/backtest/#metrics"
+        "books/backtest/#metrics",
+        "books/federated/#fairness"
       ]
     },
     {
@@ -5657,7 +5801,9 @@
         "books/aie-deep/#debug",
         "books/aie-rl/#pg",
         "books/transformer/#training",
-        "books/valuation/#sensitivity"
+        "books/valuation/#sensitivity",
+        "books/federated/#fedavg",
+        "books/federated/#leakage"
       ]
     },
     {
@@ -5875,6 +6021,42 @@
         "books/aie-ml/#pipeline",
         "books/probability/#testing",
         "books/ai/#generalization"
+      ]
+    },
+    {
+      "id": "data-privacy",
+      "name": "데이터 프라이버시",
+      "aliases": [
+        "privacy",
+        "differential privacy",
+        "차등 프라이버시",
+        "secure aggregation",
+        "보안 집계"
+      ],
+      "summary": "학습에 쓴 한 사람의 기록이 결과에서 얼마나 드러나는지 재고 줄이는 방법",
+      "chapters": [
+        "books/aie-safety/#privacy",
+        "books/federated/#leakage",
+        "books/federated/#secagg",
+        "books/federated/#dp"
+      ]
+    },
+    {
+      "id": "distributed-training",
+      "name": "분산 학습",
+      "aliases": [
+        "distributed training",
+        "data parallel",
+        "데이터 병렬",
+        "federated learning",
+        "연합학습"
+      ],
+      "summary": "여러 계산 장치나 기기에 학습을 나누고 결과를 모아 모델 하나를 만드는 방법",
+      "chapters": [
+        "books/aie-llm-build/#parallel",
+        "books/federated/#why",
+        "books/federated/#fedavg",
+        "books/federated/#comm"
       ]
     }
   ]
