@@ -1,0 +1,100 @@
+{
+  "reviewer": "/root/review",
+  "date": "2026-10-21",
+  "stage": "technical pre-review complete; final review and formal G6 owned by /root/final_review",
+  "independent_runs": [
+    {
+      "command": "npm run typecheck && npm test (examples)",
+      "result": "typecheck exit 0; integration tests 10 pass, 0 fail"
+    },
+    {
+      "command": "inline independent expected-value assertions against math.js",
+      "result": "filter 9 combinations, relation 2, transaction 24 combinations, cost 4, input/authorization 8 passed"
+    },
+    {
+      "command": "npm test (book, while only chapters1-6 exist)",
+      "result": "12 pass2 fail: 11 math tests and 1 structural test pass; route/review tests fail because chapters7-10 and review.json not yet written."
+    },
+    {
+      "command": "independent temporary SQLite fixture A(success+failure), B(success), C(empty)",
+      "result": "5 assertions passed: every => B,C; some+every => B; some failure=>A; none failure=>B,C; child-only failed include=>A1,B0,C0."
+    },
+    {
+      "command": "first attempt at independent SQLite relation run during dependency relocation",
+      "result": "Did not run assertions; get-tsconfig resolution failed. Parent repaired external node_modules path; exact rerun then passed."
+    },
+    {
+      "command": "Prisma validate of actual corrected chapter2.2 code extracted into temporary complete schema",
+      "result": "exit0 valid schema; R2 fixed verified."
+    }
+  ],
+  "findings": [
+    {
+      "id": "R1",
+      "location": "js/math.js cost and labs-safety.js performance",
+      "status": "fixed",
+      "issue": "Pagination always returns 10 rows independent of parent n; separate 100-row dataset assumption not explicit. Also offset input upper bound/integervalidity should match UI.",
+      "resolution": "UI control, readout and guide explicitly state separate fixed 100-row dataset with page size10; cost validates offset integer0..90; math test passed."
+    },
+    {
+      "id": "R2",
+      "location": "js/content.js chapter schema detail2.2",
+      "status": "fixed",
+      "issue": "Multiline @relation attribute is invalid Prisma schema syntax.",
+      "evidence": "Prisma7.10.1 validate on temporary copy with only this attribute replaced produced P1012 with5 validation errors.",
+      "requested_fix": "Put @relation arguments on the same line as relation field.",
+      "resolution": "Author changed chapter2.2 relation attribute to one line. Reviewer extracted corrected snippet from content.js into independent temporary schema and Prisma7.10.1 validate exited0 (valid schema)."
+    }
+  ],
+  "source_pages_opened": [
+    "https://www.prisma.io/docs/orm/v7",
+    "https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/relations",
+    "https://www.prisma.io/docs/v7/prisma-orm/quickstart/sqlite",
+    "https://www.prisma.io/docs/orm/v7/reference/system-requirements",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/crud",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/relation-queries",
+    "https://www.prisma.io/docs/orm/v7/prisma-migrate/workflows/development-and-production",
+    "https://www.prisma.io/docs/orm/v7/prisma-migrate/workflows/prototyping-your-schema",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/transactions",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/pagination",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/testing/integration-testing",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/using-raw-sql/raw-queries",
+    "https://www.prisma.io/docs/orm/release-status",
+    "https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/models",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/setup-and-configuration/databases-connections/connection-management",
+    "https://www.prisma.io/docs/orm/v7/reference/prisma-client-reference",
+    "https://www.prisma.io/docs/orm/v7/prisma-migrate/workflows/customizing-migrations"
+  ],
+  "reviewed_scope": [
+    "examples source and independent typecheck/integration run",
+    "math.js numerical expectations separate from book tests",
+    "research source pages",
+    "chapters1-10 text, code examples, quiz and transfer questions; text/code reading only, not final rendered UI"
+  ],
+  "not_yet_verified": [
+    "review.json",
+    "final style-review and docs integration",
+    "browser visual/layout/accessibility at320/390/1280",
+    "final repository checks",
+    "formal G6 signoff"
+  ],
+  "reader_checks": {
+    "facts": "Sources and actual example code checked; R2 invalid multiline attribute corrected and verified by CLI.",
+    "numbers": "Separate expectations and SQLite fixture checked. R1 model assumption clarified.",
+    "experiments": "Pure numerical models and actual SQLite verification performed; browser UI not verified.",
+    "terms": "Relation/scalar fields, generate/migrate, atomicity/idempotency, model vs actual experiment distinguished.",
+    "sources": "17 cited Prisma source pages directly opened in this session.",
+    "wording": "Chapter1-10 reading preserved input ranges, assumptions and untested boundaries. Formal style-review not yet available.",
+    "titles": "Chapter titles/topics consistent on text reading.",
+    "Q1": "Chapter titles match their question and lesson scope.",
+    "Q2": "Method, worked examples and limits are present in text; final browser pedagogical inspection remains.",
+    "Q3": "No measured learning efficacy or performance benchmark claimed; numerical models and actual SQLite tests are separated.",
+    "Q4": "This is a distinct reviewer session and no manuscript/code edits were made; fresh-context final reviewer owns signoff."
+  },
+  "source_notes": [
+    "v7 development-and-production documentation mentions generation while v7 SQLite quickstart explicitly calls generate; textbook uses explicit generate step.",
+    "Release-status directly opened shows Prisma8 RC at review time; textbook pins7.10.1.",
+    "RelationLoadStrategy preview/database limits are not generalized to SQLite."
+  ],
+  "final_review_owner": "/root/final_review"
+}

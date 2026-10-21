@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-19",
+  "updated_at": "2026-10-21",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -812,5 +812,29 @@
       "CI에 npm test --prefix books/federated 추가"
     ],
     "verification": "npm test 32개(본문·안내 숫자를 계산과 대조), 브라우저 검사 1280·390·320px 실험 42회, validate·unittest·node 테스트, G5 서가 화면 확인(docs/03-verification.html#federated-check)"
+  },
+  "prisma": {
+    "book": "books/prisma/ · Prisma · 데이터 모델에서 안전한 변경까지",
+    "request": "Prisma를 학습할 수 있는 교과서 제작 (2026-10-21)",
+    "status": "G0~G7 승인·G6 fixed. published 카탈로그 준비, 원격 PR의 CI 통과 후 병합",
+    "done": [
+      "10장·40심화절·10개 교육실험·확인/전이20문항·복습20문항",
+      "Prisma7.10.1·Node24·SQLite 실행 예제와 통합테스트10개",
+      "장색인10개·기존개념2개·읽기노선1개·기존책2권 양방향 연결",
+      "공식출처17개·독립검수·문체검수·제작관문 기록"
+    ],
+    "verification": [
+      "모형/경로14개·실제SQLite10개·타입 검사 통과",
+      "1280·390·320px 30개 장/폭 실험·서가3폭 조작 통과",
+      "공통Python91개(1skip)·Node31개·변경한 기존두책29개씩 통과",
+      "공개 상태 validate209 HTML / 0 errors, 서가 표지·삽화 공통글꼴 수정 후 최종3폭 확인"
+    ],
+    "limits": [
+      "브라우저 실험은 JavaScript 교육 모형이며 Prisma/SQL을 직접 실행하지 않음",
+      "실제 예제는 SQLite·순차 재시도 범위. 동시성 재시도·인증·PostgreSQL 운영 검증 미구현",
+      "학습자 성취도·보조기술 실사용·모든 브라우저 엔진은 미검증"
+    ],
+    "docs": "books/prisma/docs/index.html, research.html, fact-review.html, local-lab.html",
+    "next": "공개 상태 전체검사 → PR CI → 병합·Pages 주소 확인"
   }
 }

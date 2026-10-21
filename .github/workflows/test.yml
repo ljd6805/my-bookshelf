@@ -64,4 +64,16 @@ jobs:
       - run: npm test --prefix books/lora
       - run: npm test --prefix books/federated
       - run: npm test --prefix books/chess
+      - run: npm test --prefix books/prisma
+      - name: Install Prisma textbook example
+        run: npm ci --no-audit --no-fund
+        working-directory: books/prisma/examples
+      - name: Generate and verify Prisma textbook example
+        run: |
+          npm run generate
+          npm run typecheck
+          npm test
+        working-directory: books/prisma/examples
+        env:
+          DATABASE_URL: file:./ci.db
       - run: python3 -m unittest discover -s books/llm-performance/tests -p "test_*.py" -v
