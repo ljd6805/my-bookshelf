@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-21",
+  "results": [
+    {
+      "width": 1280,
+      "spine": true,
+      "animatedIllustration": true,
+      "route": true,
+      "atlas": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "spine": true,
+      "animatedIllustration": true,
+      "route": true,
+      "atlas": true,
+      "overflow": false
+    },
+    {
+      "width": 320,
+      "spine": true,
+      "animatedIllustration": true,
+      "route": true,
+      "atlas": true,
+      "overflow": false
+    }
+  ]
+}

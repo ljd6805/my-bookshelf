@@ -1,0 +1,18 @@
+(()=>{
+'use strict';const M=PMath,U=PUI,L=PLabs;
+const select=U.select,check=U.check;const get=(el,id)=>el.querySelector('#'+id).value;
+function show(el,art,text){el.querySelector('.chart').innerHTML=art;el.querySelector('.readout').innerHTML=text;}
+L.why=el=>{U.setup(el,select('why-case','저장 요청',['normal|정상 입력','type|정수 대신 문자열','unique|고유 키 중복','foreign|없는 부모 참조'].map(x=>x.split('|')),'normal'));U.bind(el,()=>{const r=M.constraint(get(el,'why-case'));show(el,U.stages([['TypeScript 타입',r.type],['DB 제약',r.db],['저장',r.db===true]]),r.message+'<br>타입을 통과한 요청도 현재 DB 상태에 따라 실패할 수 있습니다.');});};
+L.schema=el=>{U.setup(el,select('schema-parent','새 Task의 projectId',[[1,'1 · 존재하는 Project'],[2,'2 · 존재하는 Project'],[99,'99 · 없는 Project']],1)+check('schema-duplicate','이미 있는 Task.id=1을 다시 사용',false));U.bind(el,()=>{const r=M.relationSchema(get(el,'schema-parent'),el.querySelector('#schema-duplicate').checked);show(el,U.table(['구분','내용'],[['DB 열',r.columns.join(', ')],['관계 필드',r.relation],['저장 판정',r.valid?'✓ 가능':'✕ 거절']]),r.reason+'<br>project는 관계를 탐색하는 필드이고 projectId는 실제 저장되는 참조 열입니다.');});};
+L.setup=el=>{
+ U.setup(el,'<p>스키마에 새 필드를 추가한 뒤 필요한 명령을 눌러 보세요.</p><div class="buttons"><button data-command="edit">필드 추가</button><button data-command="generate">generate</button><button data-command="migrate">migrate</button><button data-command="pull">db pull</button></div>');
+ let state={schema:1,client:1,db:1};
+ const draw=()=>show(el,U.bars([['schema 버전',state.schema],['Client 버전',state.client],['DB 버전',state.db]]),`schema ${state.schema} · Client ${state.client} · DB ${state.db}<br>${new Set(Object.values(state)).size===1?'✓ 세 상태가 일치합니다.':'△ 상태가 다릅니다. generate는 Client를, migrate는 DB를 바꿉니다.'}<br>교육용 버전 숫자입니다. 실제 마이그레이션 이력·충돌은 생략합니다.`);
+ el.addEventListener('click',e=>{const a=e.target.dataset.command;if(a){state=M.command(state,a);draw();}});
+ el.addEventListener('lab-reset',()=>{state={schema:1,client:1,db:1};draw();});
+ el.addEventListener('lab-preset',e=>{state={...e.detail};draw();});draw();
+};
+L.crud=el=>{U.setup(el,select('crud-project','프로젝트 조건',[['all','전체'],[1,'Project 1'],[2,'Project 2']],'all')+select('crud-status','상태 조건',[['all','전체'],['TODO','TODO'],['DONE','DONE']],'all')+select('crud-fields','선택할 열',[['all','모든 열'],['title','title만']],'all')+select('crud-order','ID 정렬',[['asc','오름차순'],['desc','내림차순']],'asc'));U.bind(el,()=>{const rows=M.query({project:get(el,'crud-project'),status:get(el,'crud-status'),fields:get(el,'crud-fields'),order:get(el,'crud-order')});const cols=get(el,'crud-fields')==='title'?['title']:['id','title','status','projectId'];show(el,U.table(cols,rows.map(r=>cols.map(c=>r[c]))),`반환 <b>${rows.length}행 × ${cols.length}열</b>입니다. where는 행을, select는 열을 고릅니다. 입력 데이터는 Project 1의 작업 두 개와 Project 2의 작업 한 개입니다.`);});};
+L.relations=el=>{U.setup(el,select('relations-parent','부모 Task의 where',[['all','조건 없음'],['failed','실패 Run이 some 존재']],'all')+select('relations-child','include 안의 Run 필터',[['all','전체 Run'],['failed','실패한 Run만']],'failed'));U.bind(el,()=>{const rows=M.relations(get(el,'relations-parent'),get(el,'relations-child'));show(el,U.table(['Task','projectId','반환 Run'],rows.map(t=>[t.title,t.projectId,t.runs.map(r=>`${r.id}:${r.success?'성공':'실패'}`).join(', ')||'빈 배열 []'])),`Task <b>${rows.length}개</b>, 안쪽 Run <b>${rows.reduce((s,t)=>s+t.runs.length,0)}개</b>입니다. 자식 배열만 거르면 부모는 남습니다. 부모를 제외하려면 바깥 where의 관계 조건이 필요합니다.`);});};
+L.migrations=el=>{U.setup(el,select('migrations-plan','변경 계획',[['direct','새 필수 열 바로 추가'],['expand','확장 → 백필 → 검증 → 축소'],['drop','옛 열부터 삭제']],'direct'));U.bind(el,()=>{const r=M.migration(get(el,'migrations-plan'));show(el,U.stages(r.steps.map(x=>[x,r.ok])),r.message+'<br>가정: 기존 행 두 개가 있고 구 버전 앱이 옛 열을 아직 사용합니다. 미리 정한 변경 시나리오이며 실제 SQL 판정기가 아닙니다.');});};
+})();

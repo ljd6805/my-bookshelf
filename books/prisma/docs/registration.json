@@ -1,0 +1,229 @@
+{
+  "prepared_at": "2026-10-21",
+  "prepared_by": "/root/curriculum · 기획·연결팀 서윤·도현 관점",
+  "status": "G5 통합 완료. 1280·390·320px의 책등·삽화 애니메이션·노선·지식 지도 조작 확인, 상세 결과 evidence/shelf-results.json. 원고·연결 검수 후 G7에서 공개한다.",
+  "book": {
+    "id": "prisma",
+    "title": "Prisma · 데이터 모델에서 안전한 변경까지",
+    "short_title": "Prisma",
+    "spine_title": "Prisma",
+    "spine_category": "컴퓨터",
+    "color": "sage",
+    "description": "가상의 AX 작업 이력 저장소를 만들며 Project·Task·Run의 관계를 설계하고, 필요한 행과 관계를 조회하고, 기존 데이터를 지키며 구조를 변경합니다. Prisma ORM 7을 기준으로 트랜잭션·중복 요청·프로젝트 권한을 구분하고, 10개 교육 모형 실험과 별도 로컬 Prisma 실습으로 확인합니다. 10장 · 10개 실험.",
+    "illustration": "books/prisma/assets/shelf-illustration.svg",
+    "illustration_caption": "Project·Task·Run의 관계와 요청이 저장 결과로 이어지는 과정을 보여 주는 시각적 비유입니다. 실제 Prisma 실행은 별도 로컬 실습에서 확인합니다.",
+    "cover_art": "books/prisma/assets/cover-art.svg",
+    "cover_meta": "10장 · 10개 실험",
+    "status": "writing",
+    "url": "books/prisma/",
+    "keywords": [
+      "Prisma",
+      "ORM",
+      "TypeScript",
+      "Node.js",
+      "SQLite",
+      "PostgreSQL",
+      "데이터 모델",
+      "스키마",
+      "관계",
+      "CRUD",
+      "마이그레이션",
+      "트랜잭션",
+      "멱등성",
+      "권한",
+      "N+1",
+      "통합 테스트"
+    ],
+    "chapters": [
+      {
+        "title": "전체 10개 장",
+        "url": "books/prisma/#chapters"
+      },
+      {
+        "title": "01 · Prisma가 맡는 일과 DB가 맡는 일",
+        "url": "books/prisma/#why"
+      },
+      {
+        "title": "02 · Project·Task·Run의 관계 설계",
+        "url": "books/prisma/#schema"
+      },
+      {
+        "title": "04 · 필요한 작업만 읽고 쓰기",
+        "url": "books/prisma/#crud"
+      },
+      {
+        "title": "06 · 기존 데이터를 지키며 스키마 변경하기",
+        "url": "books/prisma/#migrations"
+      },
+      {
+        "title": "07 · 실패와 재시도에도 일관성 유지하기",
+        "url": "books/prisma/#transactions"
+      },
+      {
+        "title": "09 · 테스트와 권한 검사로 데이터 경계 지키기",
+        "url": "books/prisma/#testing"
+      }
+    ]
+  },
+  "insert_after_book_id": "algorithms-lab",
+  "placement_check": {
+    "previous": "algorithms-lab / 컴퓨터 / blue",
+    "next": "linear-algebra-world / 수학 / violet",
+    "color_ok": true,
+    "category_group_ok": true,
+    "spine_characters": 6
+  },
+  "chapter_index": {
+    "books/prisma/#why": "01 · Prisma가 맡는 일과 DB가 맡는 일",
+    "books/prisma/#schema": "02 · Project·Task·Run의 관계 설계",
+    "books/prisma/#setup": "03 · 스키마에서 첫 Prisma Client 만들기",
+    "books/prisma/#crud": "04 · 필요한 작업만 읽고 쓰기",
+    "books/prisma/#relations": "05 · 관계가 있는 데이터를 함께 조회하기",
+    "books/prisma/#migrations": "06 · 기존 데이터를 지키며 스키마 변경하기",
+    "books/prisma/#transactions": "07 · 실패와 재시도에도 일관성 유지하기",
+    "books/prisma/#performance": "08 · 조회 비용을 관찰하고 줄이기",
+    "books/prisma/#testing": "09 · 테스트와 권한 검사로 데이터 경계 지키기",
+    "books/prisma/#final": "10 · AX 작업 이력 저장소 완성하기"
+  },
+  "concept_additions": [
+    {
+      "concept_id": "control-loop",
+      "append_chapters": [
+        "books/prisma/#transactions"
+      ],
+      "reason": "요청 재시도 횟수를 바꾸고 이미 처리한 요청을 분기하여 중복 저장을 막는 실험과 연결한다."
+    },
+    {
+      "concept_id": "logic-rules",
+      "append_chapters": [
+        "books/prisma/#relations",
+        "books/prisma/#testing"
+      ],
+      "reason": "관계 조건의 존재 여부·부모와 자식의 필터, 신뢰한 프로젝트와 소유 프로젝트의 일치 조건을 참·거짓 규칙으로 판단한다."
+    }
+  ],
+  "learning_path": {
+    "id": "retry-without-wrong-records",
+    "title": "재시도해도 작업 기록을 올바르게 남기려면",
+    "question": "재시도로 성공률을 높이는 것과 중복·부분 실패·다른 프로젝트의 변경을 막는 것은 어떻게 다를까?",
+    "audience": "API와 비동기 작업을 사용하며 실행 이력을 DB에 저장하려는 개발자",
+    "prerequisites": "함수 호출과 재시도의 의미, Prisma 2장의 Project·Task·Run 관계",
+    "start": "작업 실행 응답을 받지 못한 앱이 같은 요청을 다시 전송했다. 운영자는 실행 기록이 두 번 생겼는지, 상태만 바뀌고 기록이 빠졌는지, 요청자가 해당 프로젝트를 수정할 수 있는지 각각 확인해야 한다.",
+    "steps": [
+      {
+        "book_id": "aie-18-production",
+        "url": "books/aie-production/#gateway",
+        "task": "재시도 실험에서 “실패율 30% · 재시도 2번” 예제를 선택한 뒤 “장애형 100% · 재시도 5번”과 비교하여 실패율과 첫 공급자 호출 수를 적는다",
+        "minutes": 16,
+        "why": "재시도는 성공률과 호출 횟수를 바꾸지만 저장 결과의 중복이나 업무 정합성을 검사하지 않는다. 먼저 같은 호출을 여러 번 할 이유와 그 한계를 확인한다",
+        "record": "두 예제의 실패율·호출 수와 재시도가 해결하지 못하는 조건 한 가지"
+      },
+      {
+        "book_id": "prisma",
+        "url": "books/prisma/#transactions",
+        "task": "“중복 방지” 예제에서 “같은 요청 키 재사용 감지”를 켰다 끄며 Run 수를 비교한다. 이어 “부분 저장” 예제를 선택하고 “트랜잭션 적용”을 켰다 끄며 Task 상태와 Run 수를 적는다",
+        "minutes": 18,
+        "why": "호출을 반복해도 같은 실행을 중복 저장하지 않는 조건과, 여러 쓰기 중 일부만 남지 않는 조건을 따로 확인한다",
+        "record": "동일 키 감지 여부별 Run 수, 중간 실패에서 트랜잭션 적용 여부별 Task 상태·Run 수"
+      },
+      {
+        "book_id": "prisma",
+        "url": "books/prisma/#testing",
+        "task": "“다른 프로젝트” 예제(서버가 신뢰한 프로젝트 2, 수정할 작업의 소유 프로젝트 1, 요청의 작업 ID 1)를 선택하고 “프로젝트 범위 검사 적용”을 켰다 끄며 변경 건수와 허용·거절 결과를 비교한다",
+        "minutes": 14,
+        "why": "중복과 부분 실패를 막아도 다른 프로젝트의 데이터를 바꿀 수 있다면 올바른 저장이 아니다. 서버가 신뢰하는 사용자 문맥으로 변경 범위를 제한하는 마지막 조건을 확인한다",
+        "record": "범위검사 적용 여부별 변경 건수와 서버에서 확보해야 하는 권한 문맥"
+      }
+    ],
+    "challenge": "같은 요청이 두 번 도착하고 두 번째 DB 쓰기에서 오류가 나며 요청자가 다른 프로젝트에 속한 경우를 나누어, 필요한 제약·트랜잭션 범위·권한 조건과 각각의 실패 테스트를 적는다. 외부 API의 이미 실행된 부작용은 DB 롤백과 구분한다.",
+    "checks": [
+      "재시도 횟수와 저장된 실행 기록 수를 구분해 설명할 수 있는가",
+      "원자성과 멱등성을 서로 다른 실패 사례로 시험할 수 있는가",
+      "타입이 올바른 작업 ID라도 권한 조건에 따라 거절해야 하는 이유를 설명할 수 있는가",
+      "브라우저 교육 모형과 실제 DB·동시성 검증의 범위를 구분할 수 있는가"
+    ]
+  },
+  "cross_link_edits": [
+    {
+      "direction": "incoming",
+      "file": "books/algorithms/js/content.js",
+      "chapter_id": "index",
+      "location": "id:index 객체의 cross 배열(현재 118행)에 항목 하나 추가. 기존 RAG 링크 세 개는 유지.",
+      "append": [
+        "Prisma · 조회 비용을 관찰하고 줄이기",
+        "../prisma/#performance",
+        "색인이 후보를 줄이는 원리를 본 뒤, DB 조회에서는 호출 횟수와 반환량도 함께 확인해 보세요. 관계형 DB 인덱스는 이 장의 역색인·근사 검색과 구조가 다르며 실제 실행 계획은 따로 관찰합니다."
+      ],
+      "route_verified": true
+    },
+    {
+      "direction": "incoming",
+      "file": "books/aie-production/js/content.js",
+      "chapter_id": "gateway",
+      "location": "id:gateway 객체의 cross 배열(현재 252행)에 항목 하나 추가. 기존 작업대·안전 링크 두 개는 유지.",
+      "append": [
+        "Prisma · 실패와 재시도에도 일관성 유지하기",
+        "../prisma/#transactions",
+        "재시도가 호출 실패를 줄여도 같은 실행을 중복 저장하거나 상태만 남길 수 있습니다. 요청 키와 트랜잭션을 각각 바꿔 저장 결과를 확인하고 게이트웨이의 재시도 정책으로 돌아오세요."
+      ],
+      "route_verified": true
+    },
+    {
+      "direction": "outgoing",
+      "file": "books/prisma/js/content.js",
+      "chapter_id": "performance",
+      "append": [
+        "알고리즘 · 색인: 역색인과 근사 최근접 이웃 (심화)",
+        "../algorithms/#index",
+        "모든 후보를 훑는 대신 미리 정리한 구조를 쓰는 원리를 실험합니다. 이 장의 관계형 DB 인덱스와 같은 구현은 아니며, 검색 비용과 갱신 비용을 나눠 생각한 뒤 돌아오세요."
+      ],
+      "route_verified": true
+    },
+    {
+      "direction": "outgoing",
+      "file": "books/prisma/js/content.js",
+      "chapter_id": "transactions",
+      "append": [
+        "AI 인프라와 운영 · AI 게이트웨이에 재시도·대체·보안 모으기",
+        "../aie-production/#gateway",
+        "저장 결과의 중복과 부분 실패를 막은 뒤, 호출 재시도와 대체 공급자가 실패율·호출 수에 미치는 영향을 확인합니다. DB 롤백이 외부 호출을 되돌리지는 않는다는 경계를 기억하고 돌아오세요."
+      ],
+      "route_verified": true
+    },
+    {
+      "direction": "outgoing",
+      "file": "books/prisma/js/content.js",
+      "chapter_id": "final",
+      "append": [
+        "AI 인프라와 운영 · 관측·카오스 실험·AI SRE로 장애에 대비하고 대응하기",
+        "../aie-production/#incident",
+        "저장소의 실패 테스트를 마친 뒤 서비스 전체의 장애 관측과 대응을 이어서 살펴봅니다. DB 정합성 검증과 서비스 운영 지표의 차이를 구분하고 돌아오세요."
+      ],
+      "route_verified": true,
+      "note": "author가 추가 예정으로 알림. incident 장의 실제 제목 및 book-routes에서 목적지 확인."
+    }
+  ],
+  "integration_checks": [
+    "본문 content.js 확정 제목을 chapter_index·book.chapters·cross 링크 이름에 그대로 반영",
+    "실험 라벨 및 비교 예제를 learning_path.steps.task와 대조",
+    "실제 shelf-illustration.svg와 illustration_caption 설명 대조",
+    "등록 시 writing 유지, G6 통과 후 G7에서만 published 전환",
+    "build_catalog.py로 index.html 및 preview 생성 결과 함께 갱신",
+    "books/algorithms와 books/aie-production 내용 파일 캐시 버전과 관련 경로 테스트 함께 점검",
+    "1280·390·320px에서 서가 표지·책등·노선·지식 지도 확인"
+  ],
+  "verified_ui_files": [
+    "books/prisma/js/labs-safety.js",
+    "books/prisma/js/lab-guides.js",
+    "books/aie-production/js/lab-guides.js"
+  ],
+  "author_confirmation": {
+    "session": "/root/author",
+    "titles": "10장 모두 chapter_index와 동일함을 메시지로 확인",
+    "outgoing_routes": [
+      "../algorithms/#index",
+      "../aie-production/#gateway",
+      "../aie-production/#incident"
+    ]
+  }
+}

@@ -1,0 +1,67 @@
+[
+  [
+    "Prisma ORM 7 개요",
+    "https://www.prisma.io/docs/orm/v7",
+    "Client는 타입을 제공하는 데이터 접근 API, Migrate는 스키마 변경 이력, Studio는 데이터 편집 도구다. ORM은 데이터베이스 자체가 아니며 서버의 업무 권한 검사를 대신하지 않는다."
+  ],
+  [
+    "관계와 외래 키",
+    "https://www.prisma.io/docs/orm/v7/prisma-schema/data-model/relations",
+    "relation field와 DB 열인 relation scalar field를 구분한다. Project 1:N Task, Task 1:N Run으로 예제를 작성한다. 목록 필드는 DB에 배열 열을 생성한다는 뜻이 아니다."
+  ],
+  [
+    "SQLite 시작하기",
+    "https://www.prisma.io/docs/v7/prisma-orm/quickstart/sqlite",
+    "prisma-client generator, output, SQLite adapter, ESM, dotenv를 사용한다. migrate dev 뒤 generate를 명시적으로 실행한다. 7.10 이후 prisma7.config.ts 이름을 사용하고 기존 prisma.config.ts도 v7 CLI가 지원한다고 안내한다."
+  ],
+  [
+    "시스템 요구 사항",
+    "https://www.prisma.io/docs/orm/v7/reference/system-requirements",
+    "v7 문서의 Node.js 요구는 ^20.19.0, ^22.12.0, ^24.0.0. 교재 실습은 Node 24 계열을 선택한다. 실제 설치 버전은 실습 lockfile 및 검증 기록이 기준이다."
+  ],
+  [
+    "CRUD",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/crud",
+    "create, findUnique, findMany, update, updateMany, delete, upsert를 구분한다. select는 필요한 필드, include는 관계 데이터를 요청한다. SQLite에서 skipDuplicates 옵션을 지원한다고 쓰지 않는다."
+  ],
+  [
+    "관계 조회",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/relation-queries",
+    "nested select와 include, some/none/every 필터, nested write를 다룬다. include 한 번을 항상 SQL 한 번과 같다고 설명하지 않는다. relationLoadStrategy는 DB 및 preview 조건이 있으므로 SQLite 공통 예제에 넣지 않는다."
+  ],
+  [
+    "개발과 운영 마이그레이션",
+    "https://www.prisma.io/docs/orm/v7/prisma-migrate/workflows/development-and-production",
+    "migrate dev는 개발 전용이고 migrate deploy는 준비된 마이그레이션의 적용에 사용한다. 운영 데이터에서 reset을 실습하지 않는다. 버전 문서에 generator 자동 실행 설명이 섞여 있어 교재는 generate를 별도 실행한다."
+  ],
+  [
+    "db push와 변경 이력",
+    "https://www.prisma.io/docs/orm/v7/prisma-migrate/workflows/prototyping-your-schema",
+    "db push는 스키마 상태를 맞추지만 migration 파일과 이력을 생성하지 않는다. 열 이름 변경과 기존 데이터 보존은 SQL 검토 및 단계적 변경이 필요하다."
+  ],
+  [
+    "트랜잭션과 멱등성",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/transactions",
+    "nested write, 배열 transaction, callback transaction을 구별한다. 오류 시 DB 쓰기는 원자적으로 취소할 수 있으나 이미 전송한 외부 API 호출은 되돌리지 못한다. 짧은 transaction, 고유 requestKey와 재시도 처리, DB별 격리수준을 설명한다."
+  ],
+  [
+    "페이지네이션",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/queries/pagination",
+    "offset의 skip/take와 고유 id 기반 cursor/skip:1/take/orderBy를 비교한다. 브라우저 실험은 고정 데이터에서 방문 행 수를 계산하는 교육 모형이며 실제 DB 시간 측정이 아니다."
+  ],
+  [
+    "실제 DB 통합 검사",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/testing/integration-testing",
+    "mock 단위검사는 DB 제약과 마이그레이션을 검증하지 못한다. 격리된 DB에서 실제 query, unique/FK, rollback을 확인한다. 본문 운영 확장 PostgreSQL은 SQLite 결과와 구분한다."
+  ],
+  [
+    "Raw SQL과 파라미터",
+    "https://www.prisma.io/docs/orm/v7/prisma-client/using-raw-sql/raw-queries",
+    "tagged template 값 파라미터를 사용하고 사용자 입력을 SQL 문자열에 이어 붙이지 않는다. table/column 식별자는 값 파라미터와 다르다. DB 쿼리의 타입 안정성이 입력 검증·권한·주입 안전 전부를 뜻하지 않는다."
+  ],
+  [
+    "버전별 상태",
+    "https://www.prisma.io/docs/orm/release-status",
+    "2026-10-21 직접 연 release-status 문서는 Prisma ORM 8을 release candidate로 표시한다. 검색 요약의 current-release 표현과 구분한다. 이 교재는 v7 기준이며 v8 패키지/API를 혼합하지 않는다."
+  ]
+]
