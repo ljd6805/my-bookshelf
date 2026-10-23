@@ -64,7 +64,7 @@ L.expressivity=el=>{
   const fam=el.querySelector('#fam').value,r=U.value(el,'r'),w=world(fam),ft=tuned(fam),dec=memo('xd-'+fam,()=>M.svd(ft.dW)),full=M.gain(ft.W,w);
   const best=Array.from({length:16},(_,k)=>[k+1,M.gain(M.add(w.W0,M.truncate(ft.dW,k+1,dec)),w)]),lo=memo(`x-${fam}-${r}`,()=>M.trainLora(w,{r}));
   const chart=U.lines([{name:'전체 미세조정 ΔW를 랭크 r로 자른 값',pts:best,color:'var(--blue)',dots:3},{name:`LoRA r = ${r} 학습`,pts:[[r,lo.gain]],color:'var(--accent)',dots:7,only:true}],{xLabel:'랭크 r',yLabel:'필요한 변화를 메운 비율',yMax:1.08,hline:full,hlineLabel:`전체 미세조정 ${U.pct(full,1)}`});
-  U.result(el,chart,`r = ${r}인 LoRA를 600걸음 학습하면 <b>${U.pct(lo.gain,1)}</b>를 메웁니다. 학습하는 수는 ${r*32}개, 전체 미세조정은 256개로 ${U.pct(full,1)}입니다.<br>r = 16이면 B·A가 모든 16×16 행렬을 나타낼 수 있어 전체 미세조정과 같은 해에 닿습니다. ${fam==='skill'?'새 능력 계열은 다른 방향이 많아, r이 작으면 전체 미세조정과의 차이가 큽니다.':'이 계열은 앞 몇 성분이 변화를 거의 다 담아, 작은 r에서 이미 전체 미세조정과 비슷합니다.'}`);
+  U.result(el,chart,`r = ${r}인 LoRA를 600걸음 학습하면 <b>${U.pct(lo.gain,1)}</b>를 메웁니다. 학습하는 수는 ${r*32}개, 전체 미세조정은 256개로 ${U.pct(full,1)}입니다.<br>r = 16이면 B·A가 모든 16×16 행렬을 나타낼 수 있어 전체 미세조정과 같은 해에 닿습니다. ${lo.gain<full-0.03?`r = ${r}에서는 전체 미세조정보다 ${U.fmt((full-lo.gain)*100,1)}%p 낮습니다. 이 계열은 다른 방향이 ${{tone:3,format:5,skill:12}[fam]}개라 r이 그보다 작으면 모자랍니다.`:`r = ${r}에서 이미 전체 미세조정과 3%p 안쪽입니다. 이 계열에서는 앞 ${r}개 성분이 필요한 변화를 거의 다 담습니다.`}`);
  });
 };
 L.subspace=el=>{
@@ -74,7 +74,7 @@ L.subspace=el=>{
   const a=memo(`sa-${r1}`,()=>M.trainLora(w,{r:r1,seed:21}).A),b=memo(`sb-${r2}`,()=>M.trainLora(w,{r:r2,seed:22}).A),phi=M.subspaceSimilarity(a,b);
   const rand=M.subspaceSimilarity(M.randn(r1,16,M.rng(41)),M.randn(r2,16,M.rng(42)));
   const head=['i \\ j',...phi[0].map((_,j)=>String(j+1))];
-  U.result(el,U.table(head,phi.map((row,i)=>[String(i+1),...row.map(x=>U.fmt(x,2))]))+U.table(['비교 기준: 무작위 행렬끼리',...rand[0].map((_,j)=>String(j+1))],rand.map((row,i)=>[String(i+1),...row.map(x=>U.fmt(x,2))])),`φ(1, 1) = <b>${U.fmt(phi[0][0],2)}</b>: 첫째(r = ${r1})와 둘째(r = ${r2}) LoRA가 각각 가장 크게 쓰는 입력 방향이 거의 같습니다. 무작위 행렬끼리는 φ(1, 1) = ${U.fmt(rand[0][0],2)}입니다.<br>표의 칸 (i, j)는 첫째 A의 앞 i개 방향과 둘째 A의 앞 j개 방향이 겹치는 정도(0~1)입니다. 특잇값이 비슷한 둘째·셋째 성분(0.53과 0.50)은 실행마다 다르게 섞이고, A의 나머지 행에는 무작위 시작값이 많이 남아 있어, 아래쪽 칸으로 갈수록 값이 1에서 멀어집니다. 그래도 무작위 기준보다는 큽니다.`);
+  U.result(el,U.table(head,phi.map((row,i)=>[String(i+1),...row.map(x=>U.fmt(x,2))]))+U.table(['비교 기준: 무작위 행렬끼리',...rand[0].map((_,j)=>String(j+1))],rand.map((row,i)=>[String(i+1),...row.map(x=>U.fmt(x,2))])),`φ(1, 1) = <b>${U.fmt(phi[0][0],2)}</b>: 첫째(r = ${r1})와 둘째(r = ${r2}) LoRA가 각각 가장 크게 쓰는 입력 방향이 거의 같습니다. 무작위 행렬끼리는 φ(1, 1) = ${U.fmt(rand[0][0],2)}입니다.<br>표의 칸 (i, j)는 첫째 A의 앞 i개 방향과 둘째 A의 앞 j개 방향이 겹치는 정도(0~1)입니다. 특잇값이 비슷한 둘째·셋째 성분(0.53과 0.50)은 실행마다 다르게 섞이고, A의 나머지 행에는 무작위 시작값이 많이 남아 있어, 아래쪽 칸으로 갈수록 값이 1에서 멀어집니다. 그래도 대부분의 칸은 무작위 기준보다 큽니다.`);
  });
 };
 L.energy=el=>{
