@@ -1,0 +1,43 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="왼쪽은 미세조정 변화량 ΔW의 특잇값 막대로 앞의 세 개만 높고 나머지는 바닥에 붙어 있으며, 오른쪽은 사전학습 가중치 W₀의 특잇값 막대로 열여섯 개가 천천히 낮아지며 고르게 퍼진 그림" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="8" y="16">미세조정 변화량 ΔW</text>
+<rect class="cv-fill" x="8.0" y="29.4" width="6" height="70.6" rx="1"/>
+<rect class="cv-fill" x="16.5" y="85.6" width="6" height="14.4" rx="1"/>
+<rect class="cv-fill" x="25.0" y="86.7" width="6" height="13.3" rx="1"/>
+<rect class="cv-tint" x="33.5" y="98.5" width="6" height="1.5" rx="1"/>
+<rect class="cv-tint" x="42.0" y="98.9" width="6" height="1.1" rx="1"/>
+<rect class="cv-tint" x="50.5" y="98.9" width="6" height="1.1" rx="1"/>
+<rect class="cv-tint" x="59.0" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="67.5" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="76.0" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="84.5" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="93.0" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="101.5" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="110.0" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="118.5" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="127.0" y="99.0" width="6" height="1" rx="1"/>
+<rect class="cv-tint" x="135.5" y="99.0" width="6" height="1" rx="1"/>
+<path class="cv-hair" d="M6 100H146"/>
+<text class="cv-text cv-bold" x="8" y="118">성분 3개가 99.9%</text>
+<text class="cv-text cv-muted" x="8" y="134">특잇값 σ₁ … σ₁₆</text>
+<path class="cv-hair" d="M160 12V142"/>
+<text class="cv-text cv-muted" x="172" y="16">사전학습 가중치 W₀</text>
+<rect class="cv-tint" x="172.0" y="30.0" width="6" height="70.0" rx="1"/>
+<rect class="cv-tint" x="180.5" y="30.6" width="6" height="69.4" rx="1"/>
+<rect class="cv-tint" x="189.0" y="39.2" width="6" height="60.8" rx="1"/>
+<rect class="cv-tint" x="197.5" y="46.7" width="6" height="53.3" rx="1"/>
+<rect class="cv-tint" x="206.0" y="53.4" width="6" height="46.6" rx="1"/>
+<rect class="cv-tint" x="214.5" y="56.0" width="6" height="44.0" rx="1"/>
+<rect class="cv-tint" x="223.0" y="58.8" width="6" height="41.2" rx="1"/>
+<rect class="cv-tint" x="231.5" y="68.4" width="6" height="31.6" rx="1"/>
+<rect class="cv-tint" x="240.0" y="69.5" width="6" height="30.5" rx="1"/>
+<rect class="cv-tint" x="248.5" y="75.9" width="6" height="24.1" rx="1"/>
+<rect class="cv-tint" x="257.0" y="80.6" width="6" height="19.4" rx="1"/>
+<rect class="cv-tint" x="265.5" y="85.6" width="6" height="14.4" rx="1"/>
+<rect class="cv-tint" x="274.0" y="90.5" width="6" height="9.5" rx="1"/>
+<rect class="cv-tint" x="282.5" y="93.0" width="6" height="7.0" rx="1"/>
+<rect class="cv-tint" x="291.0" y="93.5" width="6" height="6.5" rx="1"/>
+<rect class="cv-tint" x="299.5" y="99.0" width="6" height="1" rx="1"/>
+<path class="cv-hair" d="M170 100H312"/>
+<text class="cv-text cv-bold" x="172" y="118">90%에 8개</text>
+<text class="cv-text cv-muted" x="172" y="134">같은 16×16 장난감 층</text>
+</svg>

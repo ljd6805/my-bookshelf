@@ -1,0 +1,77 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="LoRA의 원리 책의 조사 노트: 1차 출처 목록, 논문 원문과 대조한 사실 표, 조건을 붙여야 하는 주장, 확인하지 못한 것."><title>LoRA의 원리 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"><style>table{border-collapse:collapse;width:100%;margin:12px 0 24px}th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}code{font-family:var(--font-mono,monospace)}</style></head><body><header class="top"><a class="brand" href="index.html">LoRA의 원리 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1100px;margin:auto;padding:32px 16px">
+<h1>조사 노트 (G3 · 지식조사팀 은재·지호·수아)</h1>
+
+<section id="intro"><h2>0. 이 노트를 읽는 법 (은재)</h2>
+<p>확인일은 모두 2026-10-23입니다. 이 노트는 글작성팀과 시각·실험팀이 본문과 실험에 옮겨 써도 되는 사실과, 옮길 때 붙여야 할 조건을 모은 것입니다. 검수팀 유진은 여기서 검수를 시작합니다.</p>
+<p>이 작업 환경에서는 arxiv.org가 막혀 있어서, 지호가 Hugging Face Papers가 보관한 같은 논문의 본문(<code>hf://papers/&lt;arXiv ID&gt;/paper.md</code>, arXiv HTML이나 PDF를 옮긴 것)을 읽었습니다. Gunasekar 등(2017)은 그 보관본이 없어 ar5iv에서 읽었고, Eckart &amp; Young(1936)은 DOI가 가리키는 Cambridge Core 서지 정보로 확인했습니다. 출처 표의 링크는 독자가 열 원문 주소(arXiv 초록, DOI)로 적었습니다.</p>
+<p>규칙: 확인하지 못한 주장은 본문에 쓰지 않습니다. 저자가 조건을 붙인 주장(추측, 특정 모델·층·판에서만 본 결과)은 그 조건을 함께 씁니다. 학회 이름은 원문에 적힌 것만 “확인함”으로 두고, 기억이나 검색 요약에서 온 것은 “확인 못함”으로 표시합니다. 이 책의 장난감 세계(16×16 선형층, 작업 계열, 세 시험 작업)는 논문을 재현하지 않으며, 본문은 논문의 수치와 장난감의 수치를 섞어 쓰지 않습니다.</p>
+</section>
+
+<section id="sources"><h2>1. 출처 (지호)</h2>
+<table><tr><th>#</th><th>출처</th><th>읽은 판과 위치</th><th>학회 표기</th></tr>
+<tr><td>0</td><td><a href="https://arxiv.org/abs/2106.09685">Hu et al. (2021), LoRA: Low-Rank Adaptation of Large Language Models</a></td><td>arXiv v2. 1절, 4.1절, 7.2절(식 4, 그림 3·4, 표 6, 각주 6·7), 7.3절(표 7), 부록 H.1·H.4</td><td>ICLR 2022 (원문에 없음, 확인 못함)</td></tr>
+<tr><td>1</td><td><a href="https://arxiv.org/abs/2012.13255">Aghajanyan, Zettlemoyer &amp; Gupta (2020), Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning</a></td><td>초록, 3절, 표 1, 5.2절, 정리 1</td><td>ACL 2021 (확인 못함)</td></tr>
+<tr><td>2</td><td><a href="https://arxiv.org/abs/1804.08838">Li, Farkhoor, Liu &amp; Yosinski (2018), Measuring the Intrinsic Dimension of Objective Landscapes</a></td><td>식 2, 3.1절, 그림 2</td><td>ICLR 2018 (확인 못함)</td></tr>
+<tr><td>3</td><td><a href="https://arxiv.org/abs/2405.09673">Biderman et al. (2024), LoRA Learns Less and Forgets Less</a></td><td>arXiv v2. 초록, 1절</td><td>TMLR 2024 (확인 못함)</td></tr>
+<tr><td>4</td><td><a href="https://doi.org/10.1007/BF02288367">Eckart &amp; Young (1936), The approximation of one matrix by another of lower rank</a></td><td>Psychometrika 1(3), 211–218, 1936년 9월. DOI는 현재 Cambridge Core로 연결됨</td><td>학술지(확인함)</td></tr>
+<tr><td>5</td><td><a href="https://arxiv.org/abs/1812.04754">Gur-Ari, Roberts &amp; Dyer (2018), Gradient Descent Happens in a Tiny Subspace</a></td><td>초록</td><td>arXiv 원고</td></tr>
+<tr><td>6</td><td><a href="https://arxiv.org/abs/1705.09280">Gunasekar et al. (2017), Implicit Regularization in Matrix Factorization</a></td><td>초록, 본문(ar5iv)</td><td>NeurIPS 2017 (학회 목록 검색 결과로 확인)</td></tr>
+<tr><td>7</td><td><a href="https://arxiv.org/abs/2310.17513">Zeng &amp; Lee (2023), The Expressive Power of Low-Rank Adaptation</a></td><td>arXiv v3. 초록, 범위 문장</td><td>ICLR 2024 (확인 못함)</td></tr>
+<tr><td>8</td><td><a href="https://arxiv.org/abs/2410.21228">Shuttleworth et al. (2024), LoRA vs Full Fine-tuning: An Illusion of Equivalence</a></td><td>arXiv v3(2025-10). 초록, 정의 3.1, 3절, 4절. 이전 판 초록은 HF 메타데이터로 확인</td><td>확인 못함</td></tr>
+<tr><td>9</td><td><a href="https://arxiv.org/abs/2402.09353">Liu et al. (2024), DoRA: Weight-Decomposed Low-Rank Adaptation</a></td><td>arXiv v6. 3.2절, 부록 A.1</td><td>ICML 2024 (원문 양식으로 추정)</td></tr>
+<tr><td>10</td><td><a href="https://arxiv.org/abs/2303.10512">Zhang et al. (2023), AdaLoRA</a></td><td>초록, 1절</td><td>ICLR 2023 (확인 못함)</td></tr>
+<tr><td>11</td><td><a href="https://arxiv.org/abs/2402.12354">Hayou, Ghosh &amp; Yu (2024), LoRA+</a></td><td>arXiv v2. 초록, 그림 1</td><td>ICML 2024 (원문 양식으로 추정)</td></tr>
+<tr><td>12</td><td><a href="https://arxiv.org/abs/2312.03732">Kalajdzievski (2023), A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA</a></td><td>초록, 1절</td><td>arXiv 원고</td></tr>
+</table>
+<p>번호는 <code>js/content.js</code>의 <code>sources</code> 배열 순서와 같습니다. 본문은 학회 이름을 출처 0(ICLR 2022)과 6(NeurIPS 2017)에만 적습니다. 출처 0의 학회 표기는 원문에 없어 검수 때 다시 보도록 남깁니다.</p>
+</section>
+
+<section id="facts"><h2>2. 사실 주장 표 (은재 정리, 지호 위치 확인)</h2>
+<table><tr><th>쓰는 장</th><th>주장</th><th>원문 근거</th><th>상태와 조건</th></tr>
+<tr><td>1·4장, 출처 0</td><td>LoRA는 적응하는 동안 가중치 변화가 낮은 “내재 랭크”를 가진다는 가설에서 출발했다.</td><td>1절 “We hypothesize that the change in weights during model adaptation also has a low ‘intrinsic rank’”, 4.1절에 같은 문장</td><td>확인함. 가설임을 밝혀 씀.</td></tr>
+<tr><td>6장</td><td>A는 가우스 무작위, B는 0으로 시작해 학습 시작 때 ΔW = BA = 0이고, ΔWx에 α/r을 곱한다. α는 r에 대한 상수로 처음 시도한 r로 두고 조정하지 않았다.</td><td>4.1절</td><td>확인함.</td></tr>
+<tr><td>7장, 출처 0</td><td>모든 가중치 행렬에 LoRA를 붙이고 편향을 모두 학습하며 r을 사전학습 가중치의 랭크로 두면 전체 미세조정의 표현력을 대략 되찾는다.</td><td>4.1절 “we roughly recover the expressiveness of full fine-tuning”</td><td>확인함. “모든 가중치·편향 학습” 조건과 “대략”을 함께 씀.</td></tr>
+<tr><td>8장</td><td>정규화 부분공간 유사도 φ(A₁, A₂, i, j) = ‖U^{i⊤}U^{j}‖²_F / min(i, j), A의 오른쪽 특이벡터를 쓴다. GPT-3 175B 96층 가운데 48층의 ΔW_q·ΔW_v에서 r = 8과 r = 64가 1차원을 정규화 유사도 0.5 넘게 공유한다.</td><td>7.2절 식 4, 그림 3, 각주 7, 부록 H.1(“다른 층에서도 결론이 성립”)</td><td>확인함. 절 번호는 7.3이 아니라 7.2. 모델과 층을 함께 씀.</td></tr>
+<tr><td>8장</td><td>GPT-3에서 r = 1도 충분했으나, 저자들은 작은 r이 모든 작업·자료에 통하리라 기대하지 않는다고 적었다.</td><td>7.2절 표 6 설명(WikiSQL·MultiNLI, W_q와 W_v를 함께 적응할 때), 각주 6</td><td>확인함. 각주의 경고를 같은 문단에 씀.</td></tr>
+<tr><td>11장, 출처 0</td><td>r = 4에서 ΔW는 W가 약하게 쓰던 방향을 약 21.5배(6.91/0.32) 키운다. r = 64에서는 약 2배다.</td><td>7.3절 표 7(48층 W_q), 부록 H.4 “only around 2”. 표로 계산하면 3.57/1.90 ≈ 1.88</td><td>확인함. 두 값 모두 GPT-3 48층의 W_q 한 행렬에서 잰 것.</td></tr>
+<tr><td>5장, 출처 1</td><td>RoBERTa-Large가 MRPC에서 전체 성능의 90%에 닿는 d90은 SAID 방법으로 207, DID 방법으로 322이다.</td><td>표 1. 초록은 “약 200개”로 반올림</td><td>확인함. 207은 SAID 값임을 밝혀 씀.</td></tr>
+<tr><td>4장, 출처 1</td><td>사전학습이 내재 차원을 암묵적으로 줄이고, 같은 횟수 사전학습한 뒤에는 큰 모델일수록 내재 차원이 낮은 경향이 있다.</td><td>초록</td><td>확인함. 모델 크기 비교는 사전학습 방식이 서로 다른 기존 모델들로 한 것이라(5.2절) “경향”으로 씀.</td></tr>
+<tr><td>10장, 출처 1</td><td>내재 차원으로 일반화 한계를 세울 수 있다.</td><td>정리 1, L₀(f) ≤ L̂₀(f) + O(√(d/m))</td><td>확인함. 저자들은 이 한계가 부분공간 방법으로 학습한 모델에만 적용된다고 적었으므로, LoRA에 바로 적용된다고 쓰지 않음.</td></tr>
+<tr><td>5장, 출처 2</td><td>θ = θ₀ + Pθ_d로 무작위 부분공간에서만 학습해 내재 차원을 잰다. MNIST 784-200-200-10 완전연결 신경망(D = 199,210)의 d_int90은 약 750이다.</td><td>식 2, 3.1절</td><td>확인함.</td></tr>
+<tr><td>9·11장, 출처 3</td><td>Llama-2-7B로 코드·수학을 계속 사전학습(약 200억 토큰)하거나 지시 학습(약 10만 쌍)했을 때 흔한 저랭크 설정의 LoRA는 대상 분야에서 상당히 덜 배우고, 분야 밖 성능은 더 잘 지킨다. 전체 미세조정의 변화는 흔한 LoRA 설정보다 랭크가 10~100배 높다.</td><td>초록, 1절</td><td>확인함. 계속 사전학습에서는 높은 랭크로도 차이가 남고, 지시 학습에서는 높은 랭크가 전체 미세조정에 닿을 수 있다는 단서를 함께 씀. 이 논문은 A·B 이름을 Hu 등과 반대로 쓴다(Δ = γ_r AB, A ∈ ℝ^{d×r}).</td></tr>
+<tr><td>2장, 출처 4</td><td>랭크 k 이하 행렬 가운데 원래 행렬에 가장 가까운 것은 큰 특잇값 k개만 남긴 것이다.</td><td>Psychometrika 1(3), 211–218</td><td>확인함(서지). 정리 내용은 표준 교재 서술과 같음.</td></tr>
+<tr><td>3장, 출처 5</td><td>짧은 학습 뒤 기울기는 헤시안의 큰 고유벡터 몇 개(데이터의 분류 개수와 같음)가 펼치는 작은 공간으로 모이고, 경사하강이 대부분 그 공간에서 일어날 수 있다.</td><td>초록 “may happen mostly in this subspace”</td><td>확인함. “일어난다”가 아니라 “일어날 수 있다”로 씀.</td></tr>
+<tr><td>6·10장, 출처 6</td><td>행렬을 인수 두 개의 곱으로 두고 원점 가까이에서 작은 걸음으로 경사하강하면 핵노름이 가장 작은 해로 간다.</td><td>초록</td><td>추측으로 확인함. 측정 행렬이 서로 교환될 때만 증명됨. 설정은 대칭 양의 준정부호 X = UUᵀ. 본문은 “추측”으로 씀.</td></tr>
+<tr><td>7장, 출처 7</td><td>완전연결 신경망에서 LoRA 랭크가 (모델 폭) × (목표 모델 깊이) ÷ (모델 깊이) 이상이면 가벼운 가정 아래 더 작은 목표 모델을 정확히 나타낼 수 있다. 트랜스포머에서는 임베딩 크기의 절반이다.</td><td>초록</td><td>확인함. 표현력만 다루고 최적화·일반화는 다루지 않는다는 범위 문장을 함께 씀.</td></tr>
+<tr><td>11장, 출처 8</td><td>LoRA로 학습한 가중치에는 사전학습 특이벡터 모두와 코사인 유사도가 작은 큰 특이벡터(침입 차원)가 생기고, 전체 미세조정에는 거의 없다(위 10개 특이벡터에서). 침입 차원에 개입하면 망각이 줄어 그것이 망각을 일으킨다고 보였다. 랭크가 어느 문턱을 넘으면 침입 차원이 줄어든다.</td><td>v3 초록, 정의 3.1, 3절</td><td>판에 따라 문장이 다름. “랭크를 안정화한 높은 랭크 LoRA가 전체 미세조정과 비슷하다”는 이전 판 초록에만 있어 쓰지 않음. 덜 잊는 것은 “대체로 그렇지만 언제나 그렇지는 않다”는 단서와 판(v3)을 함께 씀.</td></tr>
+<tr><td>11장, 출처 9</td><td>VL-BART의 쿼리 행렬에서 LoRA는 방향 변화와 크기 변화 사이에 일관된 양의 기울기를, 전체 미세조정은 비교적 음의 기울기를 보였다.</td><td>3.2절(값 행렬은 부록 A.1)</td><td>확인함. “상관”이 아니라 “기울기”로 씀.</td></tr>
+<tr><td>11·12장, 출처 10</td><td>AdaLoRA는 변화를 SVD 꼴 PΛQ로 두고, 중요도 점수에 따라 가중치 행렬마다 파라미터 예산(랭크)을 다르게 나눈다.</td><td>초록, 1절</td><td>확인함.</td></tr>
+<tr><td>6장, 출처 11</td><td>폭이 큰 모델에서 A와 B를 같은 학습률로 갱신하면 효율이 떨어진다. B의 학습률을 A의 λ배(λ ≫ 1)로 두어 1~2% 성능 향상과 최대 약 2배 빠른 학습을 보고했다.</td><td>초록, 그림 1</td><td>확인함.</td></tr>
+<tr><td>6장, 출처 12</td><td>배율 α/r은 랭크가 커질수록 학습을 느리게 하고, α/√r로 나누어야 한다고 증명했다(rsLoRA).</td><td>초록</td><td>확인함.</td></tr>
+</table>
+</section>
+
+<section id="unverified"><h2>3. 확인하지 못한 것과 쓰지 않을 것 (은재)</h2>
+<ul>
+<li>학회 표기 가운데 원문에 없는 것(출처 1·2·3·7·8·10)은 본문에 쓰지 않습니다. 출처 0의 “ICLR 2022”는 널리 알려진 표기라 출처 설명에만 남기고, 검수에서 다시 확인하도록 표시합니다.</li>
+<li>“LoRA가 전체 미세조정과 같은 성능을 낸다”는 일반 명제는 어느 출처도 조건 없이 말하지 않아 쓰지 않습니다.</li>
+<li>Shuttleworth 등의 이전 판에만 있는 rsLoRA 관련 문장은 쓰지 않습니다.</li>
+<li>실제 언어 모델에서 ΔW의 특잇값 분포를 직접 잰 수치(예: 특정 모델의 ΔW 에너지 90% 랭크)는 확인한 출처가 없어 쓰지 않습니다. 이 책의 특잇값은 모두 장난감 계산입니다.</li>
+</ul>
+</section>
+
+<section id="checks"><h2>4. 수아의 검산 (책 코드와 따로 계산)</h2>
+<p>책의 <code>js/math.js</code>를 쓰지 않고 손이나 별도 식으로 확인한 값입니다. 장난감 실험의 대표값은 <code>tests/math.test.cjs</code>가 안내 상자의 숫자와 대조합니다.</p>
+<ul>
+<li>표 7: 6.91 / 0.32 = 21.59 → 논문 표기 “21.5≈6.91/0.32”와 같은 자리에서 맞음. 3.57 / 1.90 = 1.88 → “around 2”.</li>
+<li>에너지 비율: 특잇값 4, 2, 1, 0에서 큰 성분 두 개는 (16 + 4) / 21 = 95.2%. 특잇값 합으로 계산하면 6/7 = 85.7%로 다르다는 점을 복습 문항 오답으로 씀.</li>
+<li>LoRA 학습하는 수: d × k 층에서 r·(d + k). 16×16, r = 16이면 512개로 전체 256개의 두 배.</li>
+<li>잊은 양 = ‖ΔW‖²/16: 손실을 ‖W − W_t‖²_F/16(입력 x ~ N(0, I))로 두면 작업 평균의 교차항이 W₀ = 평균 W_t에서 사라짐. 무작위 ΔW로 수치 확인(테스트 “forgetting equals”).</li>
+<li>무작위 부분공간: d = 256이면 전체 최소제곱과 같아 메운 비율 1, d = 0이면 0(테스트 “random subspace”).</li>
+</ul>
+</section>
+
+<section id="handoff"><h2>5. 다음 팀에 넘기는 메모 (은재)</h2>
+<p>논문의 수치(207, 21.5, 0.5, 10~100배, 1~2%, 약 2배)는 표의 조건과 함께만 씁니다. 장난감의 수치는 “장난감에서”라고 밝히고, 두 종류를 한 문장에서 비교하지 않습니다. 시점에 민감한 것은 Shuttleworth 등의 판 차이뿐이며, 본문은 v3(2025-10) 기준이라고 적습니다.</p>
+</section>
+</main></body></html>
