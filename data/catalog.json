@@ -237,7 +237,7 @@
     {
       "id": "lora",
       "title": "LoRA 미세조정 · 저랭크 행렬로 학습할 파라미터와 GPU 메모리 줄이기",
-      "spine_title": "LoRA 원리",
+      "spine_title": "LoRA 실전",
       "spine_category": "인공지능",
       "color": "violet",
       "description": "7B·13B 언어 모델을 GPU 한 장에서 회사 문서 말투에 맞추려는 하린의 사례로, 전체 미세조정이 파라미터마다 16바이트를 쓰는 까닭부터 SVD와 내재 차원, LoRA의 식 W + (α/r)·B·A, 학습 파라미터 수, QLoRA의 4비트 메모리, 어댑터 합치기와 서빙, 연합학습의 통신량까지 13개 장과 13개 실험으로 계산합니다.",
@@ -302,7 +302,7 @@
           "url": "books/lora/#final"
         }
       ],
-      "short_title": "LoRA 원리"
+      "short_title": "LoRA 실전"
     },
     {
       "id": "federated-learning",
@@ -368,6 +368,73 @@
         }
       ],
       "short_title": "연합학습"
+    },
+    {
+      "id": "lora-principles",
+      "title": "LoRA의 원리 · 저랭크 변화만으로 미세조정이 되는 이유 확인하기",
+      "spine_title": "LoRA 원리",
+      "spine_category": "인공지능",
+      "color": "blue",
+      "description": "하린이 13B 모델의 0.5%도 안 되는 수만 학습해 말투를 맞출 수 있었던 이유를 16×16 장난감 모델로 따집니다. 미세조정 변화량 ΔW를 SVD로 나누고, 기울기와 사전학습이 변화를 몇 방향에 모으는 이유, B·A가 학습되는 과정과 표현력, 에너지로 센 랭크와 성능에 필요한 랭크, 덜 배우고 덜 잊는 교환을 12개 장과 12개 실험으로 계산합니다.",
+      "illustration": "books/lora-why/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 예제마다 생긴 줄무늬 기울기가 쌓여 ΔW가 되고, SVD 막대 가운데 앞의 세 개만 솟은 뒤 r = 3으로 충분하다는 표시가 켜집니다. 실제 특잇값과 성능은 책 안의 실험이 장난감 모델로 계산합니다.",
+      "cover_art": "books/lora-why/assets/cover-art.svg",
+      "cover_meta": "12장 · 12개 실험",
+      "status": "published",
+      "url": "books/lora-why/",
+      "keywords": [
+        "LoRA",
+        "Low-Rank Adaptation",
+        "저랭크",
+        "랭크",
+        "SVD",
+        "특잇값 분해",
+        "에커트-영",
+        "내재 차원",
+        "intrinsic dimension",
+        "미세조정",
+        "fine-tuning",
+        "변화량",
+        "ΔW",
+        "기울기",
+        "바깥곱",
+        "사전학습",
+        "부분공간 유사도",
+        "표현력",
+        "에너지 랭크",
+        "규제",
+        "편향-분산",
+        "망각",
+        "LoRA learns less and forgets less",
+        "rsLoRA",
+        "LoRA+",
+        "DoRA",
+        "AdaLoRA",
+        "침입 차원"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/lora-why/#chapters"
+        },
+        {
+          "title": "02 · ΔW를 SVD로 나눠 몇 개의 성분이 변화를 담는지 재기",
+          "url": "books/lora-why/#svd"
+        },
+        {
+          "title": "04 · 사전학습이 공통 부분을 배우면 남는 변화가 몇 방향으로 줄어드는 이유",
+          "url": "books/lora-why/#pretrain"
+        },
+        {
+          "title": "06 · B·A를 경사하강할 때 한 걸음이 전체 기울기의 어느 부분인지 보기",
+          "url": "books/lora-why/#dynamics"
+        },
+        {
+          "title": "마지막 과제 · 새 작업의 시험 미세조정 결과로 랭크가 충분한지 판단하기",
+          "url": "books/lora-why/#final"
+        }
+      ],
+      "short_title": "LoRA 원리"
     },
     {
       "id": "how-computers-work",
@@ -5000,6 +5067,86 @@
         "타입이 올바른 작업 ID라도 권한 조건에 따라 거절해야 하는 이유를 설명할 수 있는가",
         "브라우저 교육 모형과 실제 DB·동시성 검증의 범위를 구분할 수 있는가"
       ]
+    },
+    {
+      "id": "why-lora-learns-little",
+      "title": "LoRA는 왜 적은 수로 학습되나",
+      "question": "큰 모델의 0.5%도 안 되는 수만 학습해도 미세조정이 되는 이유는 무엇이고, 그 설정을 언제 믿으면 안 될까?",
+      "audience": "LoRA를 써 봤지만 왜 되는지 설명하지 못하는 개발자",
+      "prerequisites": "행렬 곱과 경사하강의 뜻",
+      "start": "13B 모델에 r = 16 LoRA를 붙여 말투를 맞췄더니 잘 됐다. 팀장이 새 코드 언어를 가르치는 일에도 같은 설정을 써도 되는지 묻는다.",
+      "steps": [
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#pca",
+          "task": "‘가장 많이 퍼지는 방향 찾기’ 실험에서 방향 θ를 0°에서 179°까지 밀며 분산 곡선의 꼭대기를 찾는다",
+          "minutes": 15,
+          "why": "자료가 몇 방향에 몰려 있다는 말이 무엇인지, 방향 하나로 얼마를 설명하는지 먼저 손으로 확인한다",
+          "record": "꼭대기 방향의 각도와 그 방향이 설명하는 분산 비율"
+        },
+        {
+          "book_id": "aie-02-math",
+          "url": "books/aie-math/#svd",
+          "task": "SVD 압축 실험에서 남길 층 수 k를 1·2·6으로 바꾸며 상대 오차와 저장량을 적는다",
+          "minutes": 18,
+          "why": "큰 특잇값 몇 개만 남기는 근사가 가장 좋은 저랭크 근사라는 것과 저장량의 맞교환을 익힌다",
+          "record": "k별 상대 오차와 저장량, 저장량이 원래보다 커지는 k"
+        },
+        {
+          "book_id": "lora-principles",
+          "url": "books/lora-why/#svd",
+          "task": "ΔW와 W₀을 SVD로 나눠 큰 성분 k개만 남기는 실험에서 ΔW·성분 3개와 W₀·성분 3개를 비교한다",
+          "minutes": 14,
+          "why": "SVD를 미세조정 변화량에 쓰면, 저랭크인 것이 가중치가 아니라 변화량이라는 것이 보인다",
+          "record": "두 행렬의 성분 3개 에너지와 상대 오차"
+        },
+        {
+          "book_id": "lora-principles",
+          "url": "books/lora-why/#pretrain",
+          "task": "사전학습한 출발점과 0 출발점의 변화량 비교 실험에서 출발점을 바꾸고 m을 1·3·12로 옮기며 에너지 99%에 필요한 성분 수를 적는다",
+          "minutes": 15,
+          "why": "변화가 몇 방향에 모이는 이유가 사전학습이 공통 부분을 먼저 배웠기 때문이라는 가정을 계산으로 확인한다",
+          "record": "출발점과 m별 성분 수 표"
+        },
+        {
+          "book_id": "lora-principles",
+          "url": "books/lora-why/#dynamics",
+          "task": "LoRA 학습 중 A·B가 정답 방향을 덮는 과정 실험에서 r = 3과 r = 1의 덮는 비율을 100걸음에서 비교한다",
+          "minutes": 16,
+          "why": "B·A가 그 몇 방향을 학습으로 어떻게 찾는지, r이 작으면 무엇을 못 찾는지 본다",
+          "record": "0걸음과 100걸음의 덮는 비율, r = 1이 머무는 값"
+        },
+        {
+          "book_id": "lora-principles",
+          "url": "books/lora-why/#limits",
+          "task": "랭크별로 배운 양과 잊은 양의 교환 실험에서 말투 계열과 새 능력 계열의 r = 3을 비교한다",
+          "minutes": 16,
+          "why": "같은 r이 어떤 작업에는 충분하고 어떤 작업에는 덜 배우게 만든다는 것이 팀장 질문의 답이다",
+          "record": "두 계열의 r = 3 배운 양과 잊은 양"
+        },
+        {
+          "book_id": "lora-principles",
+          "url": "books/lora-why/#final",
+          "task": "새 작업의 시험 미세조정으로 r 판정하기 실험에서 세 작업마다 판정을 넘는 가장 작은 r을 찾는다",
+          "minutes": 22,
+          "why": "재 보기 전에는 r을 권할 수 없다는 결론을 실제 판정 절차로 바꾼다",
+          "record": "작업별 r, 에너지·성능 랭크, 잊은 양"
+        },
+        {
+          "book_id": "lora",
+          "url": "books/lora/#final",
+          "task": "하린의 미세조정 계획 실험에서 앞에서 고른 r을 13B·24GB 조건에 넣어 메모리와 학습 파라미터 수를 적는다",
+          "minutes": 15,
+          "why": "원리로 고른 r이 실제 GPU 한 장에 들어가는지 숫자로 닫는다",
+          "record": "고른 r의 메모리 합계와 학습 파라미터 수"
+        }
+      ],
+      "challenge": "사내 스크립트 언어로 코드를 쓰게 하려는 개발팀에 r을 권하는 메모를 쓴다. 왜 말투 작업의 r = 16을 그대로 권하지 않는지, 무엇을 재서 r을 정할지, 원래 능력이 얼마나 줄지 어떻게 확인할지를 포함한다.",
+      "checks": [
+        "미세조정 변화량이 저랭크가 되는 이유를 사전학습과 기울기로 설명할 수 있는가",
+        "에너지로 센 랭크와 성능에 필요한 랭크가 왜 다를 수 있는지 말할 수 있는가",
+        "LoRA가 덜 배우고 덜 잊는다는 말을 ‖ΔW‖와 작업이 바꾸는 방향 수로 설명할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -5759,7 +5906,19 @@
     "books/prisma/#transactions": "07 · 실패와 재시도에도 일관성 유지하기",
     "books/prisma/#performance": "08 · 조회 비용을 관찰하고 줄이기",
     "books/prisma/#testing": "09 · 테스트와 권한 검사로 데이터 경계 지키기",
-    "books/prisma/#final": "10 · AX 작업 이력 저장소 완성하기"
+    "books/prisma/#final": "10 · AX 작업 이력 저장소 완성하기",
+    "books/lora-why/#delta": "01 · 미세조정으로 바뀐 가중치 ΔW를 원래 가중치와 견주기",
+    "books/lora-why/#svd": "02 · ΔW를 SVD로 나눠 몇 개의 성분이 변화를 담는지 재기",
+    "books/lora-why/#gradient": "03 · 선형층의 기울기가 입력이 있는 방향에만 생기는 이유",
+    "books/lora-why/#pretrain": "04 · 사전학습이 공통 부분을 배우면 남는 변화가 몇 방향으로 줄어드는 이유",
+    "books/lora-why/#intrinsic": "05 · 무작위 방향으로 잰 내재 차원과 LoRA가 학습으로 고른 방향 비교하기",
+    "books/lora-why/#dynamics": "06 · B·A를 경사하강할 때 한 걸음이 전체 기울기의 어느 부분인지 보기",
+    "books/lora-why/#expressivity": "07 · r을 키우면 LoRA가 전체 미세조정과 같아지는 지점 찾기",
+    "books/lora-why/#subspace": "08 · r = 2와 r = 8이 찾은 방향이 겹치는지 부분공간 유사도로 재기",
+    "books/lora-why/#energy": "09 · 에너지로 센 랭크와 성능에 필요한 랭크가 다른 이유",
+    "books/lora-why/#regularize": "10 · 자료가 적을 때 랭크를 묶으면 잡음을 덜 배우는 이유",
+    "books/lora-why/#limits": "11 · 많은 방향을 새로 배워야 하는 작업에서 LoRA가 덜 배우고 덜 잊는 이유",
+    "books/lora-why/#final": "마지막 과제 · 새 작업의 시험 미세조정 결과로 랭크가 충분한지 판단하기"
   },
   "concepts": [
     {
@@ -5937,7 +6096,10 @@
         "books/transformer/#limits",
         "books/allocation/#matrix",
         "books/lora/#rank",
-        "books/lora/#intrinsic"
+        "books/lora/#intrinsic",
+        "books/lora-why/#svd",
+        "books/lora-why/#intrinsic",
+        "books/lora-why/#energy"
       ]
     },
     {
@@ -6239,7 +6401,9 @@
         "books/transformer/#training",
         "books/valuation/#sensitivity",
         "books/federated/#fedavg",
-        "books/federated/#leakage"
+        "books/federated/#leakage",
+        "books/lora-why/#gradient",
+        "books/lora-why/#dynamics"
       ]
     },
     {
@@ -6342,7 +6506,8 @@
         "books/transformer/#patch",
         "books/transformer/#limits",
         "books/aie-deep/#debug",
-        "books/aie-safety/#deception"
+        "books/aie-safety/#deception",
+        "books/lora-why/#subspace"
       ]
     },
     {
@@ -6462,7 +6627,8 @@
         "books/aie-ml/#tradeoff",
         "books/aie-ml/#pipeline",
         "books/probability/#testing",
-        "books/ai/#generalization"
+        "books/ai/#generalization",
+        "books/lora-why/#regularize"
       ]
     },
     {

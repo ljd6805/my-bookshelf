@@ -1,0 +1,52 @@
+<svg class="lw-ill" viewBox="0 0 340 180" role="img" aria-label="예제마다 생기는 줄무늬 기울기가 하나씩 쌓여 변화량 ΔW가 되고, ΔW를 특잇값 분해한 막대 가운데 앞의 세 개만 높게 솟은 뒤, 랭크 3만 남겨도 필요한 변화의 99.9%를 메운다는 표시가 켜지는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.lw-ill-frame{fill:#f9fbfe;stroke:#1d4fa3;stroke-width:1.4}
+.lw-ill-strip{fill:#1d4fa3;opacity:0;animation:lw-ill-strip 7s ease-in-out infinite}
+.lw-ill-strip2{fill:#0c6f63;opacity:0;animation:lw-ill-strip 7s ease-in-out infinite;animation-delay:.5s}
+.lw-ill-strip3{fill:#a8431c;opacity:0;animation:lw-ill-strip 7s ease-in-out infinite;animation-delay:1s}
+.lw-ill-word{font:700 13px sans-serif;fill:#18212e}
+.lw-ill-small{font:500 9px sans-serif;fill:#4f5d70}
+.lw-ill-flow{fill:none;stroke:#1d4fa3;stroke-width:2;stroke-dasharray:5 5;animation:lw-ill-dash 1.2s linear infinite}
+.lw-ill-bar{fill:#1d4fa3;transform-box:fill-box;transform-origin:50% 100%;animation:lw-ill-rise 7s ease-in-out infinite}
+.lw-ill-low{fill:#cdd7e4;transform-box:fill-box;transform-origin:50% 100%;animation:lw-ill-rise 7s ease-in-out infinite}
+.lw-ill-base{stroke:#4f5d70;stroke-width:1}
+.lw-ill-ok{opacity:0;animation:lw-ill-ok 7s ease-in-out infinite}
+.lw-ill-okbox{fill:#e6edf6;stroke:#0c6f63;stroke-width:1.4}
+.lw-ill-oktext{font:700 12px sans-serif;fill:#0c6f63}
+@keyframes lw-ill-strip{0%,5%{opacity:0}15%,85%{opacity:.75}100%{opacity:0}}
+@keyframes lw-ill-dash{to{stroke-dashoffset:-20}}
+@keyframes lw-ill-rise{0%,30%{transform:scaleY(0)}55%,90%{transform:scaleY(1)}100%{transform:scaleY(0)}}
+@keyframes lw-ill-ok{0%,60%{opacity:0}70%,90%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.lw-ill-strip,.lw-ill-strip2,.lw-ill-strip3,.lw-ill-flow,.lw-ill-bar,.lw-ill-low,.lw-ill-ok{animation:none}.lw-ill-strip,.lw-ill-strip2,.lw-ill-strip3{opacity:.75}.lw-ill-ok{opacity:1}}
+html[data-motion=reduce] .lw-ill-strip,html[data-motion=reduce] .lw-ill-strip2,html[data-motion=reduce] .lw-ill-strip3,html[data-motion=reduce] .lw-ill-flow,html[data-motion=reduce] .lw-ill-bar,html[data-motion=reduce] .lw-ill-low,html[data-motion=reduce] .lw-ill-ok{animation:none}
+html[data-motion=reduce] .lw-ill-strip,html[data-motion=reduce] .lw-ill-strip2,html[data-motion=reduce] .lw-ill-strip3{opacity:.75}
+html[data-motion=reduce] .lw-ill-ok{opacity:1}
+</style>
+<rect class="lw-ill-frame" x="14" y="20" width="96" height="96" rx="6"/>
+<rect class="lw-ill-strip" x="20" y="38" width="84" height="10" rx="2"/>
+<rect class="lw-ill-strip" x="38" y="26" width="10" height="84" rx="2"/>
+<rect class="lw-ill-strip2" x="20" y="70" width="84" height="8" rx="2"/>
+<rect class="lw-ill-strip2" x="76" y="26" width="8" height="84" rx="2"/>
+<rect class="lw-ill-strip3" x="20" y="92" width="84" height="6" rx="2"/>
+<rect class="lw-ill-strip3" x="58" y="26" width="6" height="84" rx="2"/>
+<text class="lw-ill-word" x="62" y="14" text-anchor="middle">ΔW = W₁ − W₀</text>
+<text class="lw-ill-small" x="62" y="130" text-anchor="middle">기울기 δxᵀ가 쌓인 변화</text>
+<path class="lw-ill-flow" d="M116 68H140"/>
+<path class="lw-ill-base" d="M146 112H246"/>
+<rect class="lw-ill-bar" x="150" y="34" width="9" height="78" rx="2"/>
+<rect class="lw-ill-bar" x="162" y="96" width="9" height="16" rx="2"/>
+<rect class="lw-ill-bar" x="174" y="97" width="9" height="15" rx="2"/>
+<rect class="lw-ill-low" x="186" y="110" width="9" height="2" rx="1"/>
+<rect class="lw-ill-low" x="198" y="110" width="9" height="2" rx="1"/>
+<rect class="lw-ill-low" x="210" y="111" width="9" height="1" rx="1"/>
+<rect class="lw-ill-low" x="222" y="111" width="9" height="1" rx="1"/>
+<rect class="lw-ill-low" x="234" y="111" width="9" height="1" rx="1"/>
+<text class="lw-ill-small" x="196" y="128" text-anchor="middle">특잇값 σ₁ σ₂ σ₃ …</text>
+<text class="lw-ill-word" x="196" y="24" text-anchor="middle">SVD</text>
+<g class="lw-ill-ok">
+<rect class="lw-ill-okbox" x="256" y="44" width="76" height="52" rx="6"/>
+<text class="lw-ill-oktext" x="294" y="64" text-anchor="middle">r = 3</text>
+<text class="lw-ill-oktext" x="294" y="84" text-anchor="middle">99.9% ✓</text>
+</g>
+<text class="lw-ill-small" x="170" y="160" text-anchor="middle">16×16 장난감 층 · 말투 작업을 미세조정한 변화량</text>
+</svg>
