@@ -14,10 +14,12 @@ if __package__:
     from .shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url, check_shelf_harmony
     from .curation_renderer import render_curation, concept_terms
     from .team_renderer import render_team_page, render_team_section
+    from .reading_order import check_shelf_follows_reading_order
 else:
     from shelf_renderer import esc, safe_url, render_resources, shelf, safe_book_url, check_shelf_harmony
     from curation_renderer import render_curation, concept_terms
     from team_renderer import render_team_page, render_team_section
+    from reading_order import check_shelf_follows_reading_order
 
 
 def render_books(books):
@@ -52,6 +54,7 @@ def build(source, catalog):
     ids = [item['id'] for item in catalog.get('resources', []) + catalog.get('books', [])]
     if len(ids) != len(set(ids)):
         raise ValueError('IDs must be unique across resources and books')
+    check_shelf_follows_reading_order(catalog)
     source = replace_section(source, 'RESOURCES', render_resources(catalog.get('resources', [])) if catalog.get('resources') or not catalog.get('books') else '')
     terms = concept_terms(catalog)
     books = [{**b, 'keywords': b.get('keywords', []) + [t for t in terms.get(b['id'], [])

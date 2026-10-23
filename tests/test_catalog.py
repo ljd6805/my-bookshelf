@@ -11,7 +11,7 @@ class CatalogRenderingTests(unittest.TestCase):
         catalog = json.loads((root / 'data/catalog.json').read_text())
         for item in catalog['resources'] + catalog['books']:
             self.assertFalse(item.get('url', '').startswith(('docs/', 'templates/', 'reports/', 'evidence/')))
-        self.assertEqual(catalog['books'][0]['id'], 'ai-book-interactive')
+        self.assertIn('ai-book-interactive', [b['id'] for b in catalog['books']])
         home = (root / 'index.html').read_text()
         count = len(catalog['resources']) + len(catalog['books'])
         self.assertEqual(home.count('data-resource='), count)

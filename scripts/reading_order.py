@@ -153,3 +153,14 @@ def field_orders(catalog):
         result[field] = [{'book': book, **reason_for(order[:i], book, members, catalog)}
                          for i, book in enumerate(order)]
     return result
+
+
+def check_shelf_follows_reading_order(catalog):
+    """Inside each field the shelf stands books in the recommended reading order (docs/04-site-plan.html#shelf-order)."""
+    books = catalog.get('books', [])
+    for field, steps in field_orders(catalog).items():
+        shelf = [b['id'] for b in books if field_of(b) == field]
+        reading = [step['book'] for step in steps]
+        if shelf != reading:
+            raise ValueError(f"{field}: books must stand in reading order {' → '.join(reading)}; "
+                             f"the shelf has {' → '.join(shelf)}")
