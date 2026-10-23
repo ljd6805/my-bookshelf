@@ -858,5 +858,14 @@
       "기존 LoRA 실전 책의 '13B 모델의 일곱 층' 표현을 '블록마다 일곱 종류의 행렬'로 맞출지 다음 개정 때 판단"
     ],
     "next": "좁은 화면 그림 배치 손질. 쉬운 말 칸이 독자에게 도움이 되는지 사용자 반응 확인"
+  },
+  "shelf_order": {
+    "date": "2026-10-23",
+    "summary": "서가 책 순서를 정렬: 분류는 기초에서 응용으로(수학 → 컴퓨터 → 인공지능 → AI공학 → 지식관리 → 경제 → 시장 → 투자 → 게임), 묶음 안은 지식 지도 추천 읽기 순서. build_catalog.py가 묶음 안 순서를 검사.",
+    "evidence": "docs/03-verification.html#shelf-order-check, docs/04-site-plan.html#shelf-order",
+    "verification": "validate.py 0 errors, build_catalog --check, unittest 92, node 31, Chromium 1280·390·320px",
+    "approved": "서윤·리안·한결 (조건 해소)",
+    "remaining": "Safari·Firefox 미확인",
+    "next_action": "새 책은 노선·시리즈에 먼저 넣고 생성기가 알려 주는 자리에 둔다"
   }
 }
