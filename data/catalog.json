@@ -6056,7 +6056,8 @@
         "books/aie-transformer/#block",
         "books/aie-transformer/#position",
         "books/transformer/#qkov",
-        "books/transformer/#mlp"
+        "books/transformer/#mlp",
+        "books/lora-why/#overview"
       ]
     },
     {

@@ -28,6 +28,7 @@
 
 <section id="facts"><h2>2. 사실 주장 표 (은재 정리, 지호 위치 확인)</h2>
 <table><tr><th>쓰는 장</th><th>주장</th><th>원문 근거</th><th>상태와 조건</th></tr>
+<tr><td>0장, 출처 0 (2026-10-23 개정에서 추가)</td><td>LoRA는 학습하는 동안 사전학습 가중치 W₀을 바꾸지 않고, 변화를 ΔW = BA(B ∈ ℝ^{d×r}, A ∈ ℝ^{r×k})로 두어 A와 B만 학습한다. 그래서 d×k 층에서 학습하는 수는 r(d + k)이다.</td><td>4.1절 식 (3) 앞뒤 “W0+ΔW=W0+BA, where B∈ℝ^{d×r}, A∈ℝ^{r×k} … During training, W0 is frozen”</td><td>확인함(2026-10-23, 은재). 원문 문장은 「LoRA 미세조정」 조사 노트(<code>books/lora/docs/research.html</code> L1-a)에서 대조된 인용이며, 이 개정 점검 세션은 arxiv.org가 막혀 원문을 다시 열지 못함. r(d + k)는 행렬 크기에서 나오는 계산이라 출처가 따로 필요 없음(16×16 층 32r, 4096×4096 층 r = 16에서 131,072개). 쉬운 말 칸(<code>js/easy.js</code>)은 같은 장 본문의 주장·수치만 옮기므로 새 행을 두지 않음(4회차 검수 facts에서 대조).</td></tr>
 <tr><td>1·4장, 출처 0</td><td>LoRA는 적응하는 동안 가중치 변화가 낮은 “내재 랭크”를 가진다는 가설에서 출발했다.</td><td>1절 “We hypothesize that the change in weights during model adaptation also has a low ‘intrinsic rank’”, 4.1절에 같은 문장</td><td>확인함. 가설임을 밝혀 씀.</td></tr>
 <tr><td>6장</td><td>A는 가우스 무작위, B는 0으로 시작해 학습 시작 때 ΔW = BA = 0이고, ΔWx에 α/r을 곱한다. α는 r에 대한 상수로 처음 시도한 r로 두고 조정하지 않았다.</td><td>4.1절</td><td>확인함.</td></tr>
 <tr><td>7장, 출처 0</td><td>모든 가중치 행렬에 LoRA를 붙이고 편향을 모두 학습하며 r을 사전학습 가중치의 랭크로 두면 전체 미세조정의 표현력을 대략 되찾는다.</td><td>4.1절 “we roughly recover the expressiveness of full fine-tuning”</td><td>확인함. “모든 가중치·편향 학습” 조건과 “대략”을 함께 씀.</td></tr>
