@@ -687,11 +687,11 @@
       "spine_title": "LoRA 원리",
       "spine_category": "인공지능",
       "color": "blue",
-      "description": "13B 모델의 0.5%도 안 되는 수만 학습한 하린의 LoRA가 말투를 맞춘 이유를 16×16 장난감 모델로 따집니다. 미세조정 변화량 ΔW를 SVD로 나누고, 기울기와 사전학습이 변화를 몇 방향에 모으는 이유와 B·A가 학습되는 과정·표현력을 따라간 뒤, 에너지로 센 랭크와 성능에 필요한 랭크, 덜 배우고 덜 잊는 교환을 12개 장과 12개 실험에서 직접 계산합니다.",
+      "description": "13B 모델의 0.5%도 안 되는 수만 학습한 하린의 LoRA가 말투를 맞춘 이유를 16×16 장난감 모델로 따집니다. 수식 없는 0장에서 W₀은 그대로 두고 B·A만 학습하는 모습을 칸 그림으로 먼저 보고, 장마다 맨 앞의 쉬운 설명으로 같은 내용을 먼저 읽습니다. 미세조정 변화량 ΔW를 SVD로 나누고, 기울기와 사전학습이 변화를 몇 방향에 모으는 이유와 B·A가 학습되는 과정·표현력을 따라간 뒤, 에너지로 센 랭크와 성능에 필요한 랭크, 덜 배우고 덜 잊는 교환을 13개 장과 13개 실험에서 직접 계산합니다.",
       "illustration": "books/lora-why/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 예제마다 생긴 줄무늬 기울기가 쌓여 ΔW가 되고, SVD 막대 가운데 앞의 세 개만 솟은 뒤 r = 3으로 충분하다는 표시가 켜집니다. 실제 특잇값과 성능은 책 안의 실험이 장난감 모델로 계산합니다.",
       "cover_art": "books/lora-why/assets/cover-art.svg",
-      "cover_meta": "12장 · 12개 실험",
+      "cover_meta": "13장 · 13개 실험",
       "status": "published",
       "url": "books/lora-why/",
       "keywords": [
@@ -726,8 +726,12 @@
       ],
       "chapters": [
         {
-          "title": "전체 12개 장",
+          "title": "전체 13개 장",
           "url": "books/lora-why/#chapters"
+        },
+        {
+          "title": "00 · LoRA가 그대로 두는 원래 가중치와 새로 학습하는 B·A를 칸 그림으로 보기",
+          "url": "books/lora-why/#overview"
         },
         {
           "title": "02 · ΔW를 SVD로 나눠 몇 개의 성분이 변화를 담는지 재기",
@@ -5077,6 +5081,14 @@
       "start": "13B 모델에 r = 16 LoRA를 붙여 말투를 맞췄더니 잘 됐다. 팀장이 새 코드 언어를 가르치는 일에도 같은 설정을 써도 되는지 묻는다.",
       "steps": [
         {
+          "book_id": "lora-principles",
+          "url": "books/lora-why/#overview",
+          "task": "‘r을 바꾸며 B·A의 칸 그림과 학습하는 수, 메운 비율 보기’ 실험에서 말투 계열의 r을 1·2·3으로 바꾸며 학습하는 수와 메운 비율을 적는다",
+          "minutes": 12,
+          "why": "행렬 도구를 꺼내기 전에 LoRA가 무엇을 그대로 두고 무엇만 학습하는지 칸 그림으로 먼저 잡아 둔다",
+          "record": "r별 학습하는 수와 메운 비율"
+        },
+        {
           "book_id": "linear-algebra-world",
           "url": "books/linear-algebra/#pca",
           "task": "‘가장 많이 퍼지는 방향 찾기’ 실험에서 방향 θ를 0°에서 179°까지 밀며 분산 곡선의 꼭대기를 찾는다",
@@ -5907,6 +5919,7 @@
     "books/prisma/#performance": "08 · 조회 비용을 관찰하고 줄이기",
     "books/prisma/#testing": "09 · 테스트와 권한 검사로 데이터 경계 지키기",
     "books/prisma/#final": "10 · AX 작업 이력 저장소 완성하기",
+    "books/lora-why/#overview": "00 · LoRA가 그대로 두는 원래 가중치와 새로 학습하는 B·A를 칸 그림으로 보기",
     "books/lora-why/#delta": "01 · 미세조정이 바꾼 부분 ΔW를 원래 가중치와 견주기",
     "books/lora-why/#svd": "02 · ΔW를 SVD로 나눠 몇 개의 성분이 변화를 담는지 재기",
     "books/lora-why/#gradient": "03 · 선형층의 기울기가 입력이 있는 방향에만 생기는 이유",
@@ -6043,7 +6056,8 @@
         "books/aie-transformer/#block",
         "books/aie-transformer/#position",
         "books/transformer/#qkov",
-        "books/transformer/#mlp"
+        "books/transformer/#mlp",
+        "books/lora-why/#overview"
       ]
     },
     {

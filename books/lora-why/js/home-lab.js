@@ -9,7 +9,7 @@ function mount(el){
   const f=fam.value,r=Number(rIn.value),d=data(f),cut=M.gain(M.add(d.w.W0,M.truncate(d.ft.dW,r,d.dec)),d.w);
   el.querySelector('#home-r-value').textContent=String(r);
   box.innerHTML=U.bars(d.dec.s.slice(0,8).map((_,i)=>`σ${i+1}`),d.dec.s.slice(0,8),{digits:2,mark:i=>i<r});
-  el.querySelector('.home-result').innerHTML=`${NAMES[f]} 계열: 성분 ${r}개(저장할 수 ${r*32}개)로 필요한 변화의 <b>${U.pct(cut,1)}</b>를 메웁니다. 256칸을 모두 고친 전체 미세조정은 ${U.pct(d.full,1)}입니다. <b>${cut>=0.95*d.full?'r = '+r+'로 충분 ✓':'r = '+r+'로는 부족 ✗'}</b>`;
+  el.querySelector('.home-result').innerHTML=`${NAMES[f]} 계열: 성분 ${r}개(저장할 수 ${r*32}개)로 필요한 변화의 <b>${U.pct(cut,1)}</b>를 메웁니다. 256칸을 모두 고친 전체 미세조정은 ${U.pct(d.full,1)}입니다. <b>${cut>=0.95*d.full?'r = '+r+'에서 충분 ✓':'r = '+r+'에서는 부족 ✗'}</b>`;
  }
  const click=e=>{const b=e.target.closest('[data-r]');if(b){rIn.value=b.dataset.r;update();}};
  fam.addEventListener('input',update);rIn.addEventListener('input',update);el.addEventListener('click',click);update();

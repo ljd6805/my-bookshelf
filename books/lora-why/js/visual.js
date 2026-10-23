@@ -40,7 +40,7 @@ function grid(M,{cell=12,label='행렬'}={}){
  return `<svg viewBox="0 0 ${m*cell} ${n*cell}" width="${m*cell}" height="${n*cell}" role="img" aria-label="${esc(label)}">${cells}</svg>`;
 }
 function thumbnail(i){
- const sets=[['W₀','W₁','ΔW'],['σ₁','σ₂','σ₃'],['δ','xᵀ','합'],['계열','평균','남은 변화'],['d','90%','r'],['B=0','A','방향'],['r','=16','같음'],['φ','r=2','r=8'],['에너지','성능','꼬리'],['자료','잡음','r'],['말투','새 능력','r'],['시험','σ','r 결정']][i]||['?','?','?'];
+ const sets=[['W₀','B','A'],['W₀','W₁','ΔW'],['σ₁','σ₂','σ₃'],['δ','xᵀ','합'],['계열','평균','남은 변화'],['d','90%','r'],['B=0','A','방향'],['r','=16','같음'],['φ','r=2','r=8'],['에너지','성능','꼬리'],['자료','잡음','r'],['말투','새 능력','r'],['시험','σ','r 결정']][i]||['?','?','?'];
  const colors=['var(--accent)','var(--blue)','var(--orange)'],bars=[70,45,25];
  return `<svg viewBox="0 0 300 100" aria-hidden="true">${sets.map((s,k)=>`<rect x="${8+k*99}" y="18" width="86" height="62" rx="6" fill="var(--panel2)" stroke="${colors[k]}"/><rect x="${16+k*99}" y="67" width="${bars[(k+i)%3]}" height="3" fill="${colors[k]}"/><text x="${51+k*99}" y="51" text-anchor="middle" fill="var(--text)" font-size="${s.length>3?13:16}">${esc(s)}</text>`).join('')}</svg>`;
 }

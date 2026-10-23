@@ -24,6 +24,9 @@ function curve(pts,color,{L=70,R=600,T=50,B=230,dash=false}={}){
 let toneCache=null;
 const tone=()=>toneCache||(toneCache=(()=>{const w=M.makeWorld({family:'tone'}),ft=M.fullFinetune(w);return {w,ft,dec:M.svd(ft.dW)};})());
 const draw={
+ overview(){const {w}=tone(),lo=M.trainLora(w,{r:3}),BA=M.scale(M.matmul(lo.B,lo.A),lo.gamma);
+  const body=t(320,26,'새 가중치 = W₀(그대로) + B·A(학습), 말투 작업 r = 3',{w:700})+cells(w.W0,30,56,8)+t(94,206,'W₀ · 그대로 둠',{size:13})+t(178,124,'+',{size:26})+cells(lo.B,200,56,8,'fig-seq')+t(212,206,'B 16×3',{size:13,fill:'var(--accent)'})+t(246,124,'×',{size:22})+cells(lo.A,266,108,8,'fig-seq')+t(330,148,'A 3×16',{size:13,fill:'var(--accent)'})+t(410,124,'→',{size:24})+cells(BA,434,56,8,'fig-seq')+t(498,206,'B·A · 변화량',{size:13,fill:'var(--accent)'})+t(320,246,`학습하는 수 ${lo.params}개 (층 전체 256개의 ${pc(lo.params/256)}) · 필요한 변화의 ${pc(lo.gain)}를 메움`,{size:14});
+  return {svg:svg('사전학습 가중치 W₀은 그대로 두고, 세로로 긴 B와 가로로 긴 A를 곱해 만든 변화량을 더하는 LoRA의 칸 그림',body,265),caption:`W₀은 그대로 두고 B(16×3)와 A(3×16)의 숫자 ${lo.params}개만 학습합니다. 둘을 곱한 변화량은 줄무늬가 많아야 3개 겹친 모양이고, 말투 작업에 필요한 변화의 ${pc(lo.gain)}를 메웁니다.`};},
  delta(){const {w,ft}=tone(),r=M.frob(ft.dW)/M.frob(w.W0);
   const body=t(320,26,'W₁ − W₀ = ΔW (말투 작업, 300걸음)',{w:700})+cells(w.W0,40,50,8)+t(104,198,`W₀ · 크기 ${f(M.frob(w.W0))}`,{size:13})+t(190,118,'→',{size:26})+cells(ft.W,220,50,8)+t(284,198,'W₁ (미세조정 뒤)',{size:13})+t(372,118,'−  W₀  =',{size:18})+cells(ft.dW,440,50,8,'fig-seq')+t(504,198,`ΔW · 크기 ${f(M.frob(ft.dW))}`,{size:13,fill:'var(--accent)'})+grow(220,224,400*r,14,'var(--accent)')+grow(220,244,400,14,'var(--blue)',.2)+t(212,236,'‖ΔW‖',{size:12,a:'end'})+t(212,256,'‖W₀‖',{size:12,a:'end'})+t(226+400*r,236,pc(r),{size:12,w:700,a:'start'});
   return {svg:svg('사전학습 가중치, 미세조정 뒤 가중치, 그 차이 ΔW의 칸 그림과 크기 막대',body,270),caption:`W₀와 W₁은 눈으로 구별하기 어렵지만, 둘을 빼면 줄무늬가 있는 ΔW가 남습니다. 크기는 W₀의 ${pc(r)}입니다.`};},

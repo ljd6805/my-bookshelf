@@ -838,7 +838,7 @@
     "next": "공개 상태 전체검사 → PR CI → 병합·Pages 주소 확인"
   },
   "lora_principles": {
-    "book": "「LoRA의 원리 · 저랭크 변화만으로 미세조정이 되는 이유 확인하기」 books/lora-why/, id lora-principles, 인공지능 묶음 끝(연합학습 다음), blue, 책등 LoRA 원리, 12장 · 12개 실험",
+    "book": "「LoRA의 원리 · 저랭크 변화만으로 미세조정이 되는 이유 확인하기」 books/lora-why/, id lora-principles, 인공지능 묶음 끝(연합학습 다음), blue, 책등 LoRA 원리, 13장 · 13개 실험(0장 포함)",
     "plan": "사용자 요청(2026-10-23): 기존 LoRA 책은 설정·실전에 가까워, LoRA가 무엇이고 왜 저랭크 변화만으로 학습되는지를 설명하는 새 책을 원함. 기존 책의 책등을 'LoRA 원리'에서 'LoRA 실전'으로 바꿈. 공통 사례: 하린이 13B QLoRA 결과를 두고 팀장의 두 질문(왜 0.5%만 학습해도 됐나, 같은 설정을 권할까)에 답함. 장난감 세계: 16×16 선형층, 말투·형식·새 능력 계열.",
     "docs": "books/lora-why/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
     "status": "published (팀장 관문 승인과 팩트 검수 fixed 뒤 병합)",
@@ -847,16 +847,17 @@
       "서가 등록: chapter_index 12장, 개념 넷(dimension-reduction·gradient-backprop·overfitting-validation·model-internals)에 장 추가, 새 노선 why-lora-learns-little(선형대수 PCA → AI 수학 SVD → 이 책 5개 장 → LoRA 실전 마지막 과제)",
       "LoRA 실전 책과 양방향 링크(rank→#svd, intrinsic→#intrinsic, forgetting→#limits; 이 책 마지막 장 → ../lora/#final)",
       "예측 질문은 본문이 답하지 않는 설정을 묻고, 결과 읽기는 비교 예제를 누르면 펼쳐짐(첫 독자 리허설 R1)",
-      "CI에 npm test --prefix books/lora-why 추가"
+      "CI에 npm test --prefix books/lora-why 추가",
+      "개정(2026-10-23, 사용자 '이 책이 좀 어렵네'에 '둘 다 하기' 선택): 수식 없는 0장 overview(W₀은 그대로 두고 B·A만 학습, 실험 L.overview)와 13장 모두의 '쉬운 말로 먼저' 칸(js/easy.js, 개념 잡기 블록 안). 장 번호는 0부터 세어 기존 1~12장 번호와 다른 책 링크 이름을 그대로 둠. 다온 문체 비평 2차, 채원 재리허설, 유진 4회차 검수, 개정 관문 표(G2·G3·G4·G6·G7)"
     ],
-    "verification": "npm test 27개, 브라우저 검사(47개 화면, 실험 36회 조작, 오류 0), 첫 독자 리허설과 재확인(채원), 팩트·출처 검수(유진, 새 세션) 회차별 기록",
+    "verification": "npm test 27개, 브라우저 검사(47개 화면, 실험 36회 조작, 오류 0), 첫 독자 리허설과 재확인(채원), 팩트·출처 검수(유진, 새 세션) 회차별 기록. 개정(2026-10-23): npm test 29개, tests/browser.cjs 50개 화면·실험 39회 조작·오류 0, 서가 표지 '13장 · 13개 실험'과 #overview·#delta·#limits를 1280·390·320px에서 확인(쉬운 말 칸 가로 넘침 0, 0장 그림 '→'), 유진 4회차 fixed, 개정 관문 표 G2·G3·G4·G6·G7(docs/03-verification.html#lora-principles-revision)",
     "remaining": [
       "좁은 화면(390·320px)에서 개념 그림이 520px 폭으로 옆으로 밀림: 다음 그림 손질 때",
       "8장 표가 좁은 화면에서 오른쪽 칸이 옆으로 밀림(가로 스크롤로 볼 수 있음)",
       "Gunasekar 등(2017) 원문은 열지 못함(요약 정보로 대조)",
       "기존 LoRA 실전 책의 '13B 모델의 일곱 층' 표현을 '블록마다 일곱 종류의 행렬'로 맞출지 다음 개정 때 판단"
     ],
-    "next": "좁은 화면 그림 배치 손질"
+    "next": "좁은 화면 그림 배치 손질. 쉬운 말 칸이 독자에게 도움이 되는지 사용자 반응 확인"
   },
   "shelf_order": {
     "date": "2026-10-23",
