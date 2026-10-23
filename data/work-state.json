@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-21",
+  "updated_at": "2026-10-23",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -836,5 +836,26 @@
     ],
     "docs": "books/prisma/docs/index.html, research.html, fact-review.html, local-lab.html",
     "next": "공개 상태 전체검사 → PR CI → 병합·Pages 주소 확인"
+  },
+  "lora_principles": {
+    "book": "「LoRA의 원리 · 저랭크 변화만으로 미세조정이 되는 이유 확인하기」 books/lora-why/, id lora-principles, 인공지능 묶음 끝(연합학습 다음), blue, 책등 LoRA 원리, 12장 · 12개 실험",
+    "plan": "사용자 요청(2026-10-23): 기존 LoRA 책은 설정·실전에 가까워, LoRA가 무엇이고 왜 저랭크 변화만으로 학습되는지를 설명하는 새 책을 원함. 기존 책의 책등을 'LoRA 원리'에서 'LoRA 실전'으로 바꿈. 공통 사례: 하린이 13B QLoRA 결과를 두고 팀장의 두 질문(왜 0.5%만 학습해도 됐나, 같은 설정을 권할까)에 답함. 장난감 세계: 16×16 선형층, 말투·형식·새 능력 계열.",
+    "docs": "books/lora-why/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published (팀장 관문 승인과 팩트 검수 fixed 뒤 병합)",
+    "done": [
+      "12장 원고·실험 12개(브라우저에서 SVD·경사하강을 실제 계산), 장 그림 12개, 움직이는 서가 삽화, 정지 표지, review.json 12장×2문항",
+      "서가 등록: chapter_index 12장, 개념 넷(dimension-reduction·gradient-backprop·overfitting-validation·model-internals)에 장 추가, 새 노선 why-lora-learns-little(선형대수 PCA → AI 수학 SVD → 이 책 5개 장 → LoRA 실전 마지막 과제)",
+      "LoRA 실전 책과 양방향 링크(rank→#svd, intrinsic→#intrinsic, forgetting→#limits; 이 책 마지막 장 → ../lora/#final)",
+      "예측 질문은 본문이 답하지 않는 설정을 묻고, 결과 읽기는 비교 예제를 누르면 펼쳐짐(첫 독자 리허설 R1)",
+      "CI에 npm test --prefix books/lora-why 추가"
+    ],
+    "verification": "npm test 27개, 브라우저 검사(47개 화면, 실험 36회 조작, 오류 0), 첫 독자 리허설과 재확인(채원), 팩트·출처 검수(유진, 새 세션) 회차별 기록",
+    "remaining": [
+      "좁은 화면(390·320px)에서 개념 그림이 520px 폭으로 옆으로 밀림: 다음 그림 손질 때",
+      "8장 표가 좁은 화면에서 오른쪽 칸이 옆으로 밀림(가로 스크롤로 볼 수 있음)",
+      "Gunasekar 등(2017) 원문은 열지 못함(요약 정보로 대조)",
+      "기존 LoRA 실전 책의 '13B 모델의 일곱 층' 표현을 '블록마다 일곱 종류의 행렬'로 맞출지 다음 개정 때 판단"
+    ],
+    "next": "좁은 화면 그림 배치 손질"
   }
 }

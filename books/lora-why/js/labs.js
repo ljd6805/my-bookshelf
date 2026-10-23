@@ -62,9 +62,9 @@ L.expressivity=el=>{
  U.setup(el,U.select('fam','작업 계열',FAMILY,'tone')+U.range('r','LoRA 랭크 r',1,16,1,3));
  U.bind(el,()=>{
   const fam=el.querySelector('#fam').value,r=U.value(el,'r'),w=world(fam),ft=tuned(fam),dec=memo('xd-'+fam,()=>M.svd(ft.dW)),full=M.gain(ft.W,w);
-  const best=Array.from({length:16},(_,k)=>[k+1,M.gain(M.add(w.W0,M.truncate(ft.dW,k+1,dec)),w)]),lo=memo(`x-${fam}-${r}`,()=>M.trainLora(w,{r}));
+  const best=Array.from({length:16},(_,k)=>[k+1,M.gain(M.add(w.W0,M.truncate(ft.dW,k+1,dec)),w)]),lo=memo(`x-${fam}-${r}`,()=>M.trainLora(w,{r})),kBest=best.find(p=>p[1]>=full-0.03)[0];
   const chart=U.lines([{name:'전체 미세조정 ΔW를 랭크 r로 자른 값',pts:best,color:'var(--blue)',dots:3},{name:`LoRA r = ${r} 학습`,pts:[[r,lo.gain]],color:'var(--accent)',dots:7,only:true}],{xLabel:'랭크 r',yLabel:'필요한 변화를 메운 비율',yMax:1.08,hline:full,hlineLabel:`전체 미세조정 ${U.pct(full,1)}`});
-  U.result(el,chart,`r = ${r}인 LoRA를 600걸음 학습하면 <b>${U.pct(lo.gain,1)}</b>를 메웁니다. 학습하는 수는 ${r*32}개, 전체 미세조정은 256개로 ${U.pct(full,1)}입니다.<br>r = 16이면 B·A가 모든 16×16 행렬을 나타낼 수 있어 전체 미세조정과 같은 해에 닿습니다. ${lo.gain<full-0.03?`r = ${r}에서는 전체 미세조정보다 ${U.fmt((full-lo.gain)*100,1)}%p 낮습니다. 이 계열은 다른 방향이 ${{tone:3,format:5,skill:12}[fam]}개라 r이 그보다 작으면 모자랍니다.`:`r = ${r}에서 이미 전체 미세조정과 3%p 안쪽입니다. 이 계열에서는 앞 ${r}개 성분이 필요한 변화를 거의 다 담습니다.`}`);
+  U.result(el,chart,`r = ${r}인 LoRA를 600걸음 학습하면 <b>${U.pct(lo.gain,1)}</b>를 메웁니다. 학습하는 수는 ${r*32}개, 전체 미세조정은 256개로 ${U.pct(full,1)}입니다.<br>r = 16이면 B·A가 모든 16×16 행렬을 나타낼 수 있어 전체 미세조정과 같은 해에 닿습니다. ${lo.gain>=full-0.03?`r = ${r}에서 이미 전체 미세조정과 3%p 안쪽입니다. 자른 최선값으로 보면 이 계열은 r = ${kBest}부터 3%p 안쪽입니다.`:r<kBest?`r = ${r}에서는 전체 미세조정보다 ${U.fmt((full-lo.gain)*100,1)}%p 낮습니다. 자른 최선값으로 보아도 이 계열은 r = ${kBest}부터 3%p 안쪽이라, 그보다 작은 r에서는 랭크가 모자랍니다.`:`r = ${r}에서는 전체 미세조정보다 ${U.fmt((full-lo.gain)*100,1)}%p 낮지만 자른 최선값은 3%p 안쪽이라, 모자란 것은 랭크가 아니라 학습입니다.`}`);
  });
 };
 L.subspace=el=>{
