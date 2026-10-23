@@ -2,7 +2,7 @@ import json
 import unittest
 from pathlib import Path
 
-from scripts.reading_order import field_orders, order_books, votes_for
+from scripts.reading_order import check_shelf_follows_reading_order, field_orders, order_books, votes_for
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -31,6 +31,14 @@ class ReadingOrderTests(unittest.TestCase):
         self.assertEqual(aie, series)
         self.assertEqual([s['book'] for s in orders['인공지능']][:3], ['ai-book-interactive', 'llm-systems', 'llm-performance'])
         self.assertEqual(orders['지식관리'][0]['book'], 'search-rag')
+
+    def test_shelf_must_stand_books_in_reading_order(self):
+        catalog = {'books': [book('b', '수학'), book('a', '수학'), book('c', '컴퓨터')], 'learning_paths': [path('p', 'a', 'b')]}
+        with self.assertRaisesRegex(ValueError, '수학: books must stand in reading order a → b'):
+            check_shelf_follows_reading_order(catalog)
+        catalog['books'][:2] = catalog['books'][1::-1]
+        check_shelf_follows_reading_order(catalog)
+        check_shelf_follows_reading_order(json.loads((ROOT / 'data/catalog.json').read_text()))
 
     def test_reason_links_point_at_rendered_anchors(self):
         catalog = json.loads((ROOT / 'data/catalog.json').read_text())
