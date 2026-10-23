@@ -14,7 +14,7 @@ L.overview=el=>{
   const fam=el.querySelector('#fam').value,r=U.value(el,'r'),w=world(fam),lo=memo(`ov-${fam}-${r}`,()=>M.trainLora(w,{r})),BA=M.scale(M.matmul(lo.B,lo.A),lo.gamma);
   const fig=(m,label,cap)=>`<figure>${U.grid(m,{label})}<figcaption class="caption">${cap}</figcaption></figure>`;
   const pics=`<div class="lw-grids">${fig(lo.B,`B의 칸 그림, 16줄 ${r}칸`,`B (16×${r})`)}${fig(lo.A,`A의 칸 그림, ${r}줄 16칸`,`A (${r}×16)`)}${fig(BA,'B와 A를 곱한 변화량의 칸 그림','B·A = LoRA의 변화량')}</div>`;
-  U.result(el,pics+U.bars(['LoRA가 학습하는 수','층 전체를 고칠 때'],[r*32,256],{digits:0,mark:i=>i===0}),`r = ${r}인 LoRA는 B의 숫자 ${r*16}개와 A의 숫자 ${r*16}개, 모두 <b>${r*32}개</b>를 학습합니다. 층 전체 256개의 ${U.pct(r*32/256,1)}입니다. 600걸음 학습한 뒤 이 곱으로 새 작업에 필요한 변화의 <b>${U.pct(lo.gain,1)}</b>를 메웠습니다.<br>오른쪽 칸 그림은 B의 세로줄과 A의 가로줄을 곱한 것이라, 줄무늬가 많아야 ${r}개 겹친 모양입니다. W₀은 학습하는 동안 그대로입니다.`);
+  U.result(el,pics+U.bars(['LoRA가 학습하는 수','층 전체를 고칠 때'],[r*32,256],{digits:0,mark:i=>i===0}),`r = ${r}인 LoRA는 B의 숫자 ${r*16}개와 A의 숫자 ${r*16}개, 모두 <b>${r*32}개</b>를 학습합니다. 층 전체 256개의 ${U.pct(r*32/256,1)}입니다. 600걸음 학습한 뒤 이 곱으로 새 작업에 필요한 변화의 <b>${U.pct(lo.gain,1)}</b>를 메웠습니다.<br>B·A의 칸 그림은 B의 세로줄과 A의 가로줄을 곱한 것이라, 줄무늬가 많아야 ${r}개 겹친 모양입니다. W₀은 학습하는 동안 그대로입니다.`);
  });
 };
 L.delta=el=>{
