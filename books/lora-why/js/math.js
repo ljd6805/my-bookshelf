@@ -83,8 +83,8 @@ function sampleData(W,{count=128,noise=0.1,seed=101,inputDims=N}={}){
 }
 /* 평균 제곱 오차의 기울기 ∂L/∂W = (2/(n·16))·Σᵢ (Wxᵢ − yᵢ)xᵢᵀ. 행 하나가 출력, 열 하나가 입력이다. */
 function gradient(W,X,Y){
- let G=zeros(N,N);const c=2/(X.length*N);
- X.forEach((x,i)=>{const e=matvec(W,x).map((v,k)=>v-Y[i][k]);G=add(G,outer(e,x,c));});
+ const G=zeros(N,N),c=2/(X.length*N);
+ X.forEach((x,i)=>{const e=matvec(W,x);for(let k=0;k<N;k++){const s=c*(e[k]-Y[i][k]),row=G[k];for(let j=0;j<N;j++)row[j]+=s*x[j];}});
  return G;
 }
 /* 새 입력에서의 손실: 입력이 N(0, I)이면 E‖(W − W_new)x‖²/16 = ‖W − W_new‖²_F/16(잡음 몫 σ²는 빼고 센다). */
@@ -135,11 +135,18 @@ function inputSpanCheck(world,{inputDims=6,count=64,steps=300}={}){
 }
 /* 5장: 무작위 d차원 부분공간(256차원 파라미터 공간 안)에서 고칠 수 있는 최선. 입력이 고르게 퍼져 있으면
    손실이 ‖W − W_new‖²에 비례하므로 최선은 필요한 변화 vec(W_new − W₀)를 그 부분공간에 정사영한 것이다. */
+/* 같은 씨앗의 무작위 행렬은 앞 d행이 늘 같으므로, 정규직교 기저를 한 번(256개) 만들고 앞 d개가 담는 몫을 누적해 둔다. */
+const profiles=new WeakMap();
+function subspaceProfile(world,seed){
+ const byWorld=profiles.get(world)||new Map();profiles.set(world,byWorld);
+ if(byWorld.has(seed))return byWorld.get(seed);
+ const need=world.need.flat(),all=need.reduce((a,v)=>a+v*v,0),cum=[0];
+ gramSchmidt(randn(N*N,N*N,rng(seed))).forEach(q=>cum.push(cum[cum.length-1]+q.reduce((b,v,i)=>b+v*need[i],0)**2));
+ const out=cum.map(k=>k/all);byWorld.set(seed,out);return out;
+}
 function randomSubspace(world,d,seed=5){
  if(d<=0)return 0;
- const rand=rng(seed),need=world.need.flat(),basis=gramSchmidt(randn(d,N*N,rand));
- const kept=basis.reduce((a,q)=>a+q.reduce((b,v,i)=>b+v*need[i],0)**2,0);
- return kept/need.reduce((a,v)=>a+v*v,0);
+ return subspaceProfile(world,seed)[Math.min(d,N*N)];
 }
 function intrinsicCurve(world,dims=[0,8,16,32,48,64,96,128,160,192,224,240,256],seed=5){
  const pts=dims.map(d=>[d,randomSubspace(world,d,seed)]),hit=pts.find(([,p])=>p>=0.9);
