@@ -71,3 +71,8 @@ test('guide numbers · energy, regularize, limits, final',()=>{
  assert.deepEqual([a2.rep.k90,a2.rep.kPerf,b2.rep.k90,b2.rep.kPerf,c3.rep.k90,c3.rep.kPerf],[2,2,3,4,6,10]);
  has('final',P(a2.lora.gain),P(a2.rep.full),P(a1.lora.gain),P(b2.lora.gain),P(b4.lora.gain),P(c3.lora.gain),P(c8.lora.gain),F(c8.forgot,3),F(c8.fullForgot,3));
 });
+test('0장 guide: B·A parameter counts and LoRA gains match the computation',()=>{
+ const skill=M.makeWorld({family:'skill'}),g=(w,r)=>P(M.trainLora(w,{r}).gain);
+ has('overview',g(tone,1),g(tone,3),g(skill,3),g(skill,8),'12.5%','37.5%','256개');
+ const lo=M.trainLora(tone,{r:3});assert.equal(lo.params,96);assert.equal(lo.B.length,16);assert.equal(lo.B[0].length,3);assert.equal(lo.A.length,3);assert.equal(lo.A[0].length,16);
+});
