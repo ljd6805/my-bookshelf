@@ -15,7 +15,7 @@ MIN_QUESTIONS = 2
 
 # Published before review quizzes existed (2026-10-12). Each entry is a books/<folder> name.
 PENDING = {
-    'ai', 'llm-gpu', 'llm-performance', 'transformer', 'knowledge-graph',
+    'ai', 'llm-gpu', 'llm-performance', 'transformer',
     'aie-workbench', 'aie-math', 'aie-ml', 'aie-deep', 'aie-vision', 'aie-nlp', 'aie-audio',
     'aie-transformer', 'aie-generative', 'aie-rl', 'aie-llm-build', 'aie-llm-apps',
     'aie-multimodal', 'aie-tools', 'aie-agents', 'aie-autonomy', 'aie-multiagent',

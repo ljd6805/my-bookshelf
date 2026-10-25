@@ -98,3 +98,32 @@ test('choiceOrder puts the answer at the target position and keeps every option 
   assert.equal(order[target],answer);assert.deepEqual([...order].sort(),[0,1,2]);
  }
 });
+
+test('adjacency matrix powers count walks: first nonzero power equals the BFS distance',()=>{
+ const at=(k,a,b)=>{const w=G.walks(G.triples,k);return w.P[w.at[a]][w.at[b]];};
+ assert.deepEqual([1,2,3,4].map(k=>at(k,'polonium','nobel1935')),[0,0,2,6]);
+ assert.equal([1,2,3,4].find(k=>at(k,'polonium','nobel1935')>0),G.path(G.triples,'polonium','nobel1935').length);
+ // A²의 대각선은 차수와 같다(보행은 같은 간선으로 되돌아올 수 있다).
+ const deg=G.stats(G.triples).degree,w2=G.walks(G.triples,2);
+ for(const id of w2.ids)assert.equal(w2.P[w2.at[id]][w2.at[id]],deg[id],id);
+ assert.equal(at(2,'marie','marie'),8);
+ // 보행 합계는 불어나지만 닿는 점은 13개에서 멈춘다.
+ assert.deepEqual([1,2,3,4].map(k=>{const w=G.walks(G.triples,k);return w.P[w.at.polonium].reduce((a,b)=>a+b,0);}),[3,16,56,269]);
+ assert.deepEqual(G.walks(G.triples,0).P[0].filter(v=>v).length,1);
+});
+
+test('whole-graph shape check: 21 facts pass; wrong facts and an untyped node differ by mode',()=>{
+ const base=G.shapeReport(G.triples);assert.equal(base.violations.length,0);assert.deepEqual(base.inferred,[]);
+ const award=G.shapeReport(G.triples.concat([['marie','awarded','paris']]));assert.equal(award.violations.length,1);assert.deepEqual(award.inferred,['paris a Award']);
+ const fresh=G.shapeReport(G.triples.concat([['bronislawa','bornIn','warsaw']]));assert.equal(fresh.violations.length,1);assert.deepEqual(fresh.inferred,['bronislawa a Person']);assert.deepEqual(fresh.untyped,['bronislawa']);
+ const all=G.shapeReport(G.triples.concat([['marie','awarded','paris'],['polonium','spouse','pierre'],['bronislawa','bornIn','warsaw']]));
+ assert.equal(all.rows.length,24);assert.equal(all.violations.length,3);assert.equal(all.inferred.length,3);
+});
+
+test('the evidence chain the book follows is answered by the three-line pattern',()=>{
+ const rows=G.match(G.triples,[['?x','discovered','polonium'],['?y','childOf','?x'],['?y','awarded','?z']]);
+ assert.equal(rows.length,2);assert.deepEqual([...new Set(rows.map(r=>r['?z']))],['nobel1935']);
+ // 7장 추출 후보 가운데 관계 규칙에 걸리는 틀린 후보는 하나뿐이다(본문 7장).
+ const wrong=[['becquerel','spouse','marie'],['polonium','discovered','marie'],['pierre','awarded','nobel1911'],['irene','childOf','frederic']];
+ assert.equal(wrong.filter(t=>!G.check(...t).ok).length,1);
+});

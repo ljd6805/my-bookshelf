@@ -96,6 +96,26 @@ function infer(list,ruleIds,rounds){
  if(!ruleIds.length)fixed=true;
  return {all,log,added:all.length-list.length,fixed};
 }
+// 인접 행렬: 방향을 무시하고 두 점 사이의 사실 수를 적는다. A^k의 (i, j) 칸은 i에서 j로 가는 길이 k인 보행의 수다.
+// 보행은 같은 점과 같은 간선을 다시 지나도 되므로, 0이 아닌 칸이 처음 나오는 k가 최단거리다.
+function adjacency(list){
+ const ids=[...new Set(list.flatMap(([s,,o])=>[s,o]))],at=Object.fromEntries(ids.map((id,i)=>[id,i])),A=ids.map(()=>ids.map(()=>0));
+ for(const [s,,o] of list){A[at[s]][at[o]]++;if(s!==o)A[at[o]][at[s]]++;}
+ return {ids,at,A};
+}
+const matmul=(X,Y)=>X.map(row=>Y[0].map((_,j)=>row.reduce((sum,v,k)=>sum+v*Y[k][j],0)));
+function walks(list,k){
+ const {ids,at,A}=adjacency(list);let P=ids.map((_,i)=>ids.map((_,j)=>i===j?1:0));
+ for(let i=0;i<k;i++)P=matmul(P,A);
+ return {ids,at,P};
+}
+// 그래프 전체를 관계 규칙으로 훑는다. violations는 검사 방식의 위반, inferred는 RDFS 방식으로 새로 얻는 타입 결론(중복 없음)이다.
+// 타입이 적히지 않은 점(entities에 없는 점)은 검사에서는 위반, RDFS에서는 타입을 얻는 점이 된다.
+function shapeReport(list){
+ const rows=list.map(t=>({t,...check(t[0],t[1],t[2],'validate')})),inferred=[];
+ for(const [s,p,o] of list)for(const x of check(s,p,o,'rdfs').inferred)if(!inferred.includes(x))inferred.push(x);
+ return {rows,violations:rows.filter(r=>!r.ok),inferred,untyped:[...new Set(list.flat().filter((x,i)=>i%3!==1&&!entities[x]))]};
+}
 const isVar=x=>typeof x==='string'&&x.startsWith('?');
 // 패턴 매칭: 트리플 패턴을 차례로 맞추며 변수 바인딩을 이어 붙인다(SPARQL의 기본 그래프 패턴과 같은 원리).
 function match(list,patterns){
@@ -137,6 +157,6 @@ function keywordRank(chunks,words){return chunks.map((c,i)=>({...c,i,score:words
 function chainComplete(list){return match(list,[['?x','discovered','polonium'],['?y','childOf','?x'],['?y','awarded','?z']]);}
 // 보기 순서를 돌려 정답이 target 자리에 오게 한다. 반환값은 화면 순서대로 놓을 원래 보기 번호다.
 function choiceOrder(n,answer,target){const s=((answer-target)%n+n)%n;return Array.from({length:n},(_,k)=>(k+s)%n);}
-const api={choiceOrder,entities,predicates,triples,extra,classes,schema,key,stats,reach,path,norm,jaccard,resolve,ancestors,typesOf,check,ruleBook,infer,match,prf,transe,transeScore,embedding,meanOffset,keywordRank,chainComplete};
+const api={choiceOrder,entities,predicates,triples,extra,classes,schema,key,stats,reach,path,norm,jaccard,resolve,ancestors,typesOf,check,ruleBook,infer,match,prf,transe,transeScore,embedding,meanOffset,keywordRank,chainComplete,adjacency,walks,shapeReport};
 if(typeof module!=='undefined')module.exports=api;else root.KGGraph=api;
 })(typeof window!=='undefined'?window:globalThis);
