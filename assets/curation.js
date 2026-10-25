@@ -1,4 +1,4 @@
-import { setupAtlas, filterAtlas } from './atlas.js?v=20261019-map9';
+import { setupAtlas, filterAtlas } from './atlas.js?v=20261025-flap1';
 
 export { setupAtlas };
 
