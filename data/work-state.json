@@ -884,6 +884,19 @@
       "ai (흐름 그림 움직임)",
       "computer (흐름 그림 움직임)"
     ],
-    "remaining": "서재 주인이 시범을 보고 넓힐지 결정; 넓힌다면 움직이지 않는 장 그림 3권(backtest·prisma·llm-performance)부터, 실험 값에 따라 바뀌는 개념 그림은 AI Book부터"
+    "remaining": "흐름 움직임이 있는 책 5권(ai·computer·backtest·prisma·llm-performance). 다른 책은 이미 움직이는 장 그림이 있어 덧붙이지 않음. 실험 값에 따라 바뀌는 개념 그림은 아직 없음",
+    "flow_live_wider": {
+      "books": [
+        "backtest",
+        "prisma",
+        "llm-performance"
+      ],
+      "record": "docs/03-verification.html#flow-live-wider-check",
+      "chapters": {
+        "backtest": 8,
+        "prisma": 7,
+        "llm-performance": 9
+      }
+    }
   }
 }
