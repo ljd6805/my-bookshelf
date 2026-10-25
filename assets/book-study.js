@@ -182,7 +182,7 @@ function answer(section, chapter, item, button) {
   if (correct) feedback.textContent = tries === 1 ? `✓ 정답입니다. ${q.why}` : `✓ 맞습니다. 다시 고른 답이라 복습 도장에는 세지 않습니다. ${q.why}`;
   else if (tries >= 2) feedback.textContent = `✗ 이번에도 아닙니다. 답은 ${q.answer + 1}번입니다. ${q.why}`;
   else feedback.textContent = `✗ ${pick + 1}번은 아닙니다. 한 번 더 골라 보세요.`;
-  // 맞혔거나 답을 보여 준 문항은 잠근다. 복습 완료와 앞 장 기록은 첫 번째 고른 답만 센다.
+  // 맞혔거나 답을 보여 준 문항은 잠근다. 복습 도장과 앞 장 기록은 첫 번째 고른 답만 센다.
   if (correct || tries >= 2) item.querySelectorAll('[data-choice]').forEach(b => { b.disabled = true; });
   const now = Date.now();
   const before = Boolean((state.chapters[chapter.id] || {}).reviewed);
@@ -291,7 +291,7 @@ function mountPrediction(box, chapter, n) {
   prove.innerHTML = proveHtml(chapter, n, host);
   host.place(prove);
   const saved = ((state.chapters[chapter.id] || {}).predictions || {})[n] || {};
-  const echo = echoer(prove, input, { text: saved.verdict ? (saved.text || '') : null });
+  const echo = echoer(prove, input, { text: saved.verdict ? (saved.first ?? saved.text ?? '') : null });
   echo.show();
   input.addEventListener('input', echo.show);
   if (host.reading) host.reading.addEventListener('toggle', () => { if (host.reading.open) echo.freeze(); });

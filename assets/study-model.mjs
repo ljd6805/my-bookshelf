@@ -94,7 +94,9 @@ export function judgePrediction(state, id, n, verdict, now) {
   if (!Object.hasOwn(VERDICTS, verdict)) return state;
   const e = entry(state, id);
   e.predictions = e.predictions || {};
-  e.predictions[n] = { text: '', ...e.predictions[n], verdict, judged: now };
+  const old = e.predictions[n] || {};
+  // first: 처음 판정할 때의 예측 글. 그 뒤에 글을 고쳐도 남아, 새로고침 뒤에도 "결과를 본 뒤 고친 예측"을 가려낸다.
+  e.predictions[n] = { text: '', ...old, first: old.first ?? (old.text || ''), verdict, judged: now };
   return state;
 }
 

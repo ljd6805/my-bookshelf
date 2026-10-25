@@ -97,5 +97,12 @@ test('예측을 적고 실험 뒤 판정하면 요약이 확인한 예측을 센
   recordPrediction(s, 'b', 0, 'x', 40);
   recordPrediction(s, 'b', 0, ' ', 41);
   assert.equal(s.chapters.b.predictions[0], undefined, '판정 없는 빈 글은 지운다');
+  const t = emptyState();
+  recordPrediction(t, 'd', 0, 'XOR', 1);
+  judgePrediction(t, 'd', 0, 'hit', 2);
+  recordPrediction(t, 'd', 0, 'AND', 3);
+  judgePrediction(t, 'd', 0, 'miss', 4);
+  assert.equal(t.chapters.d.predictions[0].first, 'XOR', '처음 판정할 때의 글은 고쳐 써도 남는다');
+  assert.equal(t.chapters.d.predictions[0].text, 'AND');
   assert.equal(recordPrediction(emptyState(), 'c', 0, 'x'.repeat(300), 1).chapters.c.predictions[0].text.length, 200);
 });
