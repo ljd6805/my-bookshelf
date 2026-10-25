@@ -1,4 +1,4 @@
-/* 1~5장 실험: 트리플 쌓기, 걸음, 개체 해소, 온톨로지 검사, 추론. 계산은 graph.js가 맡는다. */
+/* 1~5장 실험: 트리플 쌓기, 걸음, 인접 행렬 걷기, 개체 해소, 온톨로지 검사, 그래프 전체 검사, 추론. 계산은 graph.js가 맡는다. */
 (()=>{
 const U=KGUI,G=KGGraph,L=KGLabs;
 const entityOptions=Object.keys(G.entities).map(id=>[id,G.entities[id].label]);
@@ -21,6 +21,17 @@ L.walk=el=>{
   el.querySelector('.chart').innerHTML=U.graph(G.triples,{on,edges:reached?route:r.used,names:reached,title:`${U.label(start)}에서 ${hops}걸음 안에 닿는 점`});
   const steps=route?route.map(U.fact).join('<br>'):'';
   el.querySelector('.readout').innerHTML=`${U.label(start)}에서 ${hops}걸음 안에 닿는 점 <b>${r.count}</b>개 (전체 ${walkNodes.size-1}개 중) · 함께 따라온 사실 <b>${r.used.length}</b>개<br>${start===target?'출발점과 찾을 점이 같습니다.':route?`${U.label(target)}까지 가장 짧은 길은 <b>${route.length}걸음</b>입니다. ${reached?'지금 걸음 수로 닿습니다.':`지금 걸음 수로는 ${route.length-hops}걸음이 모자랍니다.`}<br>${reached?steps:''}`:'두 점 사이에 길이 없습니다.'}`;
+ });
+};
+// 인접 행렬 걷기: Aᵏ의 출발점 행을 막대로 그리고, 찾을 점까지의 보행 수를 BFS 최단거리와 견준다.
+L.matrix=el=>{
+ U.setup(el,U.select('start','출발점',walkOptions,'polonium')+U.select('target','찾을 점',walkOptions,'nobel1935')+U.range('k','곱한 횟수 k (걸음 수)',1,4,1,2));
+ U.bind(el,()=>{
+  const start=U.pick(el,'start'),target=U.pick(el,'target'),k=U.value(el,'k'),w=G.walks(G.triples,k),row=w.P[w.at[start]],max=Math.max(1,...row);
+  const firstK=[1,2,3,4].find(j=>G.walks(G.triples,j).P[w.at[start]][w.at[target]]>0),route=G.path(G.triples,start,target),here=row[w.at[target]];
+  el.querySelector('.chart').innerHTML=`<p class="caption">A${k===1?'':'<sup>'+k+'</sup>'}의 ${U.esc(U.label(start))} 행: 칸마다 길이 ${k}인 보행 수</p>${U.bars(w.ids.map(id=>[(id===target?'▶ ':'')+U.label(id),row[w.at[id]]/max,`<b>${row[w.at[id]]}</b>`]))}`;
+  const total=row.reduce((a,b)=>a+b,0),dist=route?route.length:null;
+  el.querySelector('.readout').innerHTML=`${U.label(start)}에서 ${U.label(target)}까지 길이 ${k}인 보행 <b>${here}</b>개 · ${U.label(start)}에서 나가는 길이 ${k}인 보행 합계 <b>${total}</b>개<br>${start===target?`같은 점으로 돌아오는 보행입니다. 2걸음이면 이 값은 ${U.label(start)}에 붙은 간선 수 ${G.stats(G.triples).degree[start]}개와 같습니다.`:`BFS 최단거리 <b>${dist}걸음</b> · 보행 수가 처음 0보다 커지는 걸음 수 <b>${firstK?firstK+'걸음':'4걸음 안에 없음'}</b>${firstK===dist?' → 두 값이 같습니다.':''}`}`;
  });
 };
 const names=[{name:'마리 퀴리',id:'marie'},{name:'Marie Curie',id:'marie'},{name:'M. Curie',id:'marie'},{name:'마리 스크워도프스카 퀴리',id:'marie'},{name:'피에르 퀴리',id:'pierre'},{name:'Pierre Curie',id:'pierre'},{name:'P. Curie',id:'pierre'},{name:'이렌 졸리오퀴리',id:'irene'},{name:'Irène Joliot-Curie',id:'irene'}];
@@ -46,6 +57,22 @@ L.schema=el=>{
   const wrong=[!r.okS?`주어 ${U.jo(U.label(s),'은','는')} ${typeName[r.domain]}의 하위 종류가 아닙니다.`:'',!r.okO?`목적어 ${U.jo(U.label(o),'은','는')} ${typeName[r.range]}의 하위 종류가 아닙니다.`:''].join(' ');
   const concl=r.inferred.map(x=>{const [id,,c]=x.split(' ');return `${U.jo(U.label(id),'은','는')} ‘${U.jo(typeName[c],'’이라고','’라고')}`;}).join(', ');
   el.querySelector('.readout').innerHTML=`관계 “${G.predicates[p]}”의 규칙: 주어는 <b>${typeName[r.domain]}</b>, 목적어는 <b>${typeName[r.range]}</b>.<br>${ok?'<b>통과</b>: 주어와 목적어 모두 규칙에 맞습니다.':mode==='validate'?`<b>위반</b>: ${wrong}`:`<b>결론</b>: RDFS는 거부하지 않고 ${concl} 결론을 냅니다.`}`;
+ });
+};
+// 그래프 전체 검사: 책의 사실 21개에 고른 트리플을 더하고, 검사 방식의 위반과 RDFS 방식의 결론을 함께 센다.
+// 브로니스와바(마리의 언니)는 entities에 없는 점이라 종류가 적히지 않은 새 점 역할을 한다.
+const shapeExtra={none:[],award:[['marie','awarded','paris']],spouse:[['polonium','spouse','pierre']],newcomer:[['bronislawa','bornIn','warsaw']]};
+shapeExtra.all=[...shapeExtra.award,...shapeExtra.spouse,...shapeExtra.newcomer];
+const shapeName=id=>id==='bronislawa'?'브로니스와바':U.label(id),shapeFact=([s,p,o])=>`${shapeName(s)} —${G.predicates[p]}→ ${shapeName(o)}`;
+const shapeWhy=(id,need)=>G.entities[id]?`${shapeName(id)}: ${typeName[need]}의 하위 종류가 아님`:`${shapeName(id)}: 종류가 적혀 있지 않음`;
+L.shape=el=>{
+ U.setup(el,U.select('extra','책의 사실 21개에 더할 트리플',[['none','더하지 않음'],['award','마리 퀴리 —수상→ 파리'],['spouse','폴로늄 —배우자→ 피에르 퀴리'],['newcomer','브로니스와바 —태어난 곳→ 바르샤바 (종류 없음)'],['all','위의 세 개 모두']],'award'));
+ U.bind(el,()=>{
+  const added=shapeExtra[U.pick(el,'extra')],r=G.shapeReport(G.triples.concat(added));
+  const why=v=>[!v.okS?'주어 '+shapeWhy(v.t[0],v.domain):'',!v.okO?'목적어 '+shapeWhy(v.t[2],v.range):''].filter(Boolean).join(', ');
+  const concl=x=>{const [id,,c]=x.split(' ');return `${U.jo(shapeName(id),'은','는')} ${typeName[c]}`;};
+  el.querySelector('.chart').innerHTML=`<div class="compare"><section><h4>검사 방식 · 위반 ${r.violations.length}개</h4><ul class="context">${r.violations.map(v=>`<li><b>✗ ${shapeFact(v.t)}</b><br><small>${why(v)}</small></li>`).join('')||'<li>✓ 모든 사실이 규칙을 지킵니다.</li>'}</ul></section><section><h4>RDFS 방식 · 새 결론 ${r.inferred.length}개</h4><ul class="context">${r.inferred.map(x=>`<li><b>+ ${concl(x)}</b></li>`).join('')||'<li>새로 생기는 타입이 없습니다.</li>'}</ul></section></div>`;
+  el.querySelector('.readout').innerHTML=`사실 <b>${r.rows.length}</b>개를 관계 규칙에 대어 봄 · 통과 <b>${r.rows.length-r.violations.length}</b>개 · 검사 위반 <b>${r.violations.length}</b>개 · RDFS 새 결론 <b>${r.inferred.length}</b>개${r.untyped.length?`<br>종류가 적히지 않은 점: ${r.untyped.map(shapeName).join(', ')}. 검사는 이 점을 위반으로 알리고, RDFS는 관계 규칙에서 종류를 얻어 붙입니다.`:''}`;
  });
 };
 const ruleSets={none:[],spouse:['spouse'],parent:['parent'],located:['located'],all:['spouse','parent','located']};

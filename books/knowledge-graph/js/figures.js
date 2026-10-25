@@ -14,6 +14,34 @@ extraction:{nodes:[],edges:[],extra:'<line class="kg-fig-cut" x1="20" x2="470" y
 embedding:{nodes:[[60,130,'바르샤바'],[200,60,'폴란드','id'],[220,140,'파리'],[360,70,'프랑스','id'],[330,160,'마드리드'],[460,95,'스페인?','var']],edges:[[0,1,'r',0],[2,3,'r',.8],[4,5,'h + r',1.8,'fresh']],caption:'바르샤바→폴란드와 파리→프랑스가 거의 같은 화살표 r입니다. 같은 r을 마드리드에 더해 닿는 자리 근처의 나라를 답으로 짐작합니다.'},
 graphrag:{nodes:[[50,90,'질문','var'],[150,90,'폴로늄','id'],[240,40,'마리 퀴리'],[330,90,'이렌'],[430,40,'1935 화학상','id'],[430,145,'언어 모델','class']],edges:[[0,1,'개체 찾기',0],[1,2,'발견',.7],[2,3,'자녀',1.4],[3,4,'수상',2.1],[4,5,'근거 사슬',2.9,'fresh']],caption:'질문에서 폴로늄을 찾고, 그래프를 세 걸음 걸어 발견→자녀→수상 사슬을 모은 뒤, 그 사슬을 근거로 언어 모델에 건넵니다.'}
 };
+// 책 전체에서 따라가는 양 하나: 9장 질문의 근거 사슬(폴로늄 ←발견— 마리 퀴리 ←자녀— 이렌 —수상→ 1935 화학상).
+// 모든 장의 같은 자리에 같은 표시(주황 고리와 굵은 선)로 그리고, 장마다 사슬에 무엇이 일어나는지 한 문장으로 적는다.
+// state는 세 간선(발견·자녀·수상)이 이어졌는지(1) 끊겼는지(0)이며, 끊긴 간선은 점선과 글(off)로도 표시한다.
+const CHAIN={
+triples:{state:'111',note:'사슬의 세 사실이 트리플 세 개로 적힙니다. (마리 퀴리, 발견, 폴로늄), (이렌, 자녀, 마리 퀴리), (이렌, 수상, 1935 화학상)입니다.'},
+walk:{state:'111',note:'폴로늄에서 마리 퀴리까지 1걸음, 이렌까지 2걸음, 1935 화학상까지 3걸음입니다. 사슬의 길이가 곧 최단거리입니다.'},
+identity:{state:'100',off:'이름이 달라 끊김',note:'세 사실이 서로 다른 문서에서 왔다고 해 봅시다. 한 문서는 “마리 퀴리”, 다른 문서는 “M. Curie”라고 쓰면 마리가 두 점으로 갈라져 사슬이 끊깁니다(점선). 두 이름을 식별자 marie 하나로 묶어야 다시 이어집니다.'},
+ontology:{state:'111',note:'사슬의 점마다 종류가 붙습니다(원소 · 과학자 · 과학자 · 노벨상). 세 사실 모두 관계 규칙(발견: 사람 → 물질, 자녀: 사람 → 사람, 수상: 사람 → 상)을 통과합니다.'},
+reasoning:{state:'111',parent:true,note:'부모 규칙이 “마리 퀴리 —부모→ 이렌”을 더해(아래 점선), 사슬을 마리에서 이렌 쪽으로도 읽을 수 있게 됩니다. 이렌이 딸이라는 성별 정보는 그래프에 없습니다.'},
+query:{state:'111',note:'사슬은 패턴 세 줄 (?x 발견 폴로늄) (?y 자녀 ?x) (?y 수상 ?z)에 맞는 답입니다. ?x 자리에 피에르 퀴리도 들어가 답은 두 줄이지만, ?z는 같은 1935 화학상입니다.'},
+extraction:{state:'110',off:'후보에 없음',note:'실험의 추출기는 “이렌과 프레데리크는 1935년 화학상을 함께 받았다”에서 프레데리크의 수상(0.66)만 후보로 내고 이렌의 수상은 내지 않았습니다. 이 추출 결과만으로 그래프를 만들면 사슬의 마지막 사실이 빠집니다(점선).'},
+embedding:{state:'110',off:'짐작 · 근거 아님',note:'TransE는 빠진 “이렌 —수상→ ?” 자리에 거리가 가까운 후보를 짐작할 수 있지만, 그 짐작은 근거가 아닙니다. 8장 실험은 도시와 나라만 다루므로 이 그림은 개념 설명입니다.'},
+graphrag:{state:'111',note:'폴로늄에서 세 걸음을 걸어 사슬의 세 사실을 모두 모으고, 그 사실들을 근거로 답 “1935 화학상”을 씁니다.'}
+};
+function chain(id){
+ const c=CHAIN[id];if(!c)return '';
+ const X=[48,176,304,432],N=['폴로늄','마리 퀴리','이렌','1935 화학상'],E=[[1,0,'발견'],[2,1,'자녀'],[2,3,'수상']];
+ let out='<defs><marker id="kg-chain-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1L9 5L0 9z" fill="context-stroke"/></marker></defs>';
+ E.forEach(([a,b,name],i)=>{
+  const on=c.state[i]==='1',dir=a<b?1:-1,mid=(X[a]+X[b])/2;
+  out+=`<line class="kg-chain-edge${on?'':' off'}" x1="${X[a]+dir*14}" y1="40" x2="${X[b]-dir*14}" y2="40" marker-end="url(#kg-chain-arrow)"/><text class="kg-chain-label" x="${mid}" y="30" text-anchor="middle">${name}</text>`;
+  if(!on)out+=`<text class="kg-chain-off" x="${mid}" y="58" text-anchor="middle">✗ ${U.esc(c.off)}</text>`;
+ });
+ if(c.parent)out+=`<path class="kg-chain-edge fresh" d="M${X[1]+8} 52Q${(X[1]+X[2])/2} 84 ${X[2]-8} 52" marker-end="url(#kg-chain-arrow)"/><text class="kg-chain-off" x="${(X[1]+X[2])/2}" y="86" text-anchor="middle">부모 (추론)</text>`;
+ N.forEach((name,i)=>{out+=`<g class="kg-chain-node"><circle cx="${X[i]}" cy="40" r="10"/><text x="${X[i]}" y="${c.parent&&(i===1||i===2)?20:74}" text-anchor="middle">${name}</text></g>`;});
+ const label=`따라가는 근거 사슬: 마리 퀴리 —발견→ 폴로늄, 이렌 —자녀→ 마리 퀴리, 이렌 —수상→ 1935 화학상. ${c.note}`;
+ return `<figure class="kg-chain"><svg viewBox="0 0 480 ${c.parent?96:84}" role="img" aria-label="${U.esc(label)}">${out}</svg><figcaption class="caption"><b>따라가는 근거 사슬</b> ${c.note}</figcaption></figure>`;
+}
 function render(id,index){
  const f=figs[id];if(!f)return '';const n=f.nodes;let out='';
  f.edges.forEach(([a,b,name,delay,kind],i)=>{
@@ -27,5 +55,5 @@ function render(id,index){
  out+=f.extra||'';
  return `<svg class="kg-fig" viewBox="-12 -16 504 ${f.curve?200:214}" role="img" aria-label="${U.esc(f.caption)}">${out}</svg><figcaption class="caption">그림 ${index+1}-1. ${f.caption}</figcaption>`;
 }
-return {render,figs};
+return {render,figs,chain,CHAIN};
 })();

@@ -14,7 +14,7 @@
       "illustration": "books/probability/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 센서 20대가 각각 10% 확률로 경보를 울릴 때 하루 경보 개수를 모으면 2번 근처가 가장 높고, 5번 이상은 약 4%입니다.",
       "cover_art": "books/probability/assets/cover-art.svg",
-      "cover_meta": "9장 · 9개 실험",
+      "cover_meta": "9장 · 11개 실험",
       "status": "published",
       "url": "books/probability/",
       "keywords": [
@@ -2207,7 +2207,7 @@
       "spine_title": "지식 그래프",
       "spine_category": "지식관리",
       "color": "plum",
-      "description": "퀴리 가족에 관한 문장 스물한 개를 트리플로 바꾸고, 이름을 식별자로 정리하고, 온톨로지와 추론 규칙을 붙여 질문을 던집니다. 9개 장과 9개 실험으로 글에서 그래프를 뽑고 빈칸을 짐작한 뒤, 마지막에 GraphRAG로 세 단계 질문에 근거를 갖춰 답합니다.",
+      "description": "퀴리 가족에 관한 문장 스물한 개를 트리플로 바꾸고, 이름을 식별자로 정리하고, 온톨로지와 추론 규칙을 붙여 질문을 던집니다. 9개 장과 11개 실험으로 글에서 그래프를 뽑고 빈칸을 짐작한 뒤, 마지막에 GraphRAG로 세 단계 질문에 근거를 갖춰 답합니다.",
       "illustration": "books/knowledge-graph/assets/shelf-illustration.svg",
       "illustration_caption": "개념도: 문장 조각이 트리플이 되어 점과 화살표로 이어지고, 질문에서 출발한 탐색이 폴로늄 → 마리 → 이렌 → 1935 화학상으로 근거 사슬을 밝힙니다.",
       "cover_art": "books/knowledge-graph/assets/cover-art.svg",
@@ -2238,39 +2238,39 @@
           "url": "books/knowledge-graph/#chapters"
         },
         {
-          "title": "01 · 문장을 세 조각으로",
+          "title": "01 · 문장을 트리플로 적어 그래프로 잇기",
           "url": "books/knowledge-graph/#triples"
         },
         {
-          "title": "02 · 연결을 따라 걷기",
+          "title": "02 · 간선을 따라 걸으며 닿는 점 세기",
           "url": "books/knowledge-graph/#walk"
         },
         {
-          "title": "03 · 같은 대상, 다른 이름",
+          "title": "03 · 이름이 다른 같은 대상을 식별자로 묶기",
           "url": "books/knowledge-graph/#identity"
         },
         {
-          "title": "04 · 점에 종류를 붙이기",
+          "title": "04 · 클래스와 관계 규칙으로 점의 종류 정하기",
           "url": "books/knowledge-graph/#ontology"
         },
         {
-          "title": "05 · 규칙으로 새 사실 얻기",
+          "title": "05 · 추론 규칙을 반복해 새 사실 얻기",
           "url": "books/knowledge-graph/#reasoning"
         },
         {
-          "title": "06 · 그래프에 질문하기",
+          "title": "06 · 트리플 패턴으로 그래프에 질문하기",
           "url": "books/knowledge-graph/#query"
         },
         {
-          "title": "07 · 글에서 트리플 뽑기",
+          "title": "07 · 글에서 트리플을 뽑고 확신도 문턱 정하기",
           "url": "books/knowledge-graph/#extraction"
         },
         {
-          "title": "08 · 관계를 벡터로 옮기기",
+          "title": "08 · 개체와 관계를 벡터로 놓고 빠진 사실 짐작하기",
           "url": "books/knowledge-graph/#embedding"
         },
         {
-          "title": "09 · 그래프에서 모은 근거로 답하기",
+          "title": "09 · 그래프에서 모은 근거 사슬로 세 단계 질문에 답하기",
           "url": "books/knowledge-graph/#graphrag"
         }
       ]
@@ -5689,15 +5689,15 @@
     "books/aie-capstone/#final": "마지막 · 출시 사양표의 다섯 줄을 동시에 맞추기",
     "books/ai/#final": "13 · 현장 점검 도우미 설계하기",
     "books/probability/#correlation": "09 · 진동과 온도는 함께 움직일까: 상관과 인과",
-    "books/knowledge-graph/#triples": "01 · 문장을 세 조각으로",
-    "books/knowledge-graph/#walk": "02 · 연결을 따라 걷기",
-    "books/knowledge-graph/#identity": "03 · 같은 대상, 다른 이름",
-    "books/knowledge-graph/#ontology": "04 · 점에 종류를 붙이기",
-    "books/knowledge-graph/#reasoning": "05 · 규칙으로 새 사실 얻기",
-    "books/knowledge-graph/#query": "06 · 그래프에 질문하기",
-    "books/knowledge-graph/#extraction": "07 · 글에서 트리플 뽑기",
-    "books/knowledge-graph/#embedding": "08 · 관계를 벡터로 옮기기",
-    "books/knowledge-graph/#graphrag": "09 · 그래프에서 모은 근거로 답하기",
+    "books/knowledge-graph/#triples": "01 · 문장을 트리플로 적어 그래프로 잇기",
+    "books/knowledge-graph/#walk": "02 · 간선을 따라 걸으며 닿는 점 세기",
+    "books/knowledge-graph/#identity": "03 · 이름이 다른 같은 대상을 식별자로 묶기",
+    "books/knowledge-graph/#ontology": "04 · 클래스와 관계 규칙으로 점의 종류 정하기",
+    "books/knowledge-graph/#reasoning": "05 · 추론 규칙을 반복해 새 사실 얻기",
+    "books/knowledge-graph/#query": "06 · 트리플 패턴으로 그래프에 질문하기",
+    "books/knowledge-graph/#extraction": "07 · 글에서 트리플을 뽑고 확신도 문턱 정하기",
+    "books/knowledge-graph/#embedding": "08 · 개체와 관계를 벡터로 놓고 빠진 사실 짐작하기",
+    "books/knowledge-graph/#graphrag": "09 · 그래프에서 모은 근거 사슬로 세 단계 질문에 답하기",
     "books/transformer/#predict": "01 · 다음 낱말 하나를 고르는 기계",
     "books/transformer/#embed": "02 · 낱말이 벡터가 될 때",
     "books/transformer/#lookup": "03 · 부드럽게 찾는 사전: 어텐션의 출발",

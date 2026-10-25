@@ -15,13 +15,15 @@ const {chromium}=require('playwright'),fs=require('fs'),assert=require('node:ass
  for(const c of chapters){
   await page.goto(target+'/#'+c.id);await page.locator('[data-lab]').first().waitFor();
   assert.equal(await page.locator('.chapter-body > section, .chapter-body > article, .chapter-body > div.note, .chapter-body > nav').count()>=6,true);
-  assert.equal(await page.locator('.kg-fig').count(),1,c.id+' figure');
+  assert.equal(await page.locator('.kg-fig').count(),1,c.id+' figure');assert.equal(await page.locator('.kg-chain').count(),1,c.id+' chain');assert.equal(await page.locator('.predict').count(),c.labs.length,c.id+' predict');assert.equal(await page.locator('details.guide-reading').count(),c.labs.length,c.id+' reading flap');
   for(const id of c.labs){
    const lab=page.locator('#lab-'+id),inner=lab.locator('.lab-inner'),r=()=>read(inner);let detail='';
    for(const b of await lab.locator('[data-preset]').all()){await b.click();assert.ok((await r()).length>10);assert.equal(await b.getAttribute('aria-pressed'),'true');}
    await lab.getByRole('button',{name:'실험 초기화',exact:true}).click();
    if(id==='triples'){await set(inner,'facts',4);assert.match(await r(),/덩어리 4개/);await set(inner,'facts',6);assert.match(await r(),/덩어리 3개/);assert.match(await r(),/이었습니다/);await set(inner,'facts',0);assert.match(await r(),/점 0개/);detail='islands merge';}
    if(id==='walk'){await set(inner,'hops',2);assert.match(await r(),/1걸음이 모자랍니다/);await set(inner,'hops',3);assert.match(await r(),/3걸음<\/b>|3걸음/);assert.match(await r(),/지금 걸음 수로 닿습니다/);detail='shortest path 3';}
+   if(id==='matrix'){await set(inner,'k',2);assert.match(await r(),/보행 0개/);await set(inner,'k',3);assert.match(await r(),/보행 2개/);assert.match(await r(),/두 값이 같습니다/);await set(inner,'start','marie');await set(inner,'target','marie');await set(inner,'k',2);assert.match(await r(),/간선 수 8개/);detail='A^3 walks 2, diag = degree';}
+   if(id==='shape'){await set(inner,'extra','none');assert.match(await r(),/검사 위반 0개/);await set(inner,'extra','newcomer');assert.match(await r(),/종류가 적히지 않은 점/);assert.match(await inner.locator('.chart').innerText(),/브로니스와바는 사람/);await set(inner,'extra','all');assert.match(await r(),/RDFS 새 결론 3개/);detail='validate vs rdfs over whole graph';}
    if(id==='resolve'){await set(inner,'threshold',.7);assert.match(await r(),/섞인 묶음 0개/);assert.match(await r(),/묶음 9개/);await set(inner,'method','id');assert.match(await r(),/묶음 3개/);assert.ok(await inner.locator('#threshold').isDisabled());detail='no threshold perfect, ids exact';}
    if(id==='schema'){await set(inner,'object','paris');assert.match(await r(),/위반/);await set(inner,'mode','rdfs');assert.match(await r(),/파리는 ‘상’이라고/);detail='validate vs rdfs';}
    if(id==='infer'){await set(inner,'rules','all');await set(inner,'rounds',4);assert.match(await r(),/새 사실 <b>12<\/b>|새 사실 12/);assert.match(await r(),/고정점/);await set(inner,'rules','none');assert.match(await r(),/그대로/);detail='fixed point after 12';}

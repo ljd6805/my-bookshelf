@@ -1,10 +1,12 @@
-/* 비교 조건과 해석을 실험 바로 위에 둔다. 예제 선택은 실제 입력 이벤트를 사용한다(AI Book과 같은 방식). */
+/* 비교 조건과 해석을 실험 바로 위에 둔다. 결과 읽기는 덮개(details) 아래에 두어 예측을 먼저 적게 한다. 예제 선택은 실제 입력 이벤트를 사용한다(AI Book과 같은 방식). */
 window.KGGuides=(()=>{
 const guides={
 triples:['문장을 하나씩 더할 때 점·간선·떨어진 덩어리의 수가 어떻게 바뀌는지 확인합니다.',[['문장 4개',{facts:4}],['문장 6개',{facts:6}],['문장 9개',{facts:9}]],'문장 4개까지는 서로 다른 개체라서 덩어리가 네 개입니다. 6번째 문장 “이렌은 마리의 딸”이 두 덩어리를 잇고, 9번째에서 하나가 됩니다. 이미 있는 이름을 다시 쓰는 문장은 점을 늘리지 않고 간선만 더합니다.'],
 walk:['걸음 수를 늘리며 폴로늄에서 닿는 점과 1935 화학상까지의 최단 경로를 확인합니다.',[['1걸음',{start:'polonium',hops:1,target:'nobel1935'}],['2걸음',{start:'polonium',hops:2,target:'nobel1935'}],['3걸음',{start:'polonium',hops:3,target:'nobel1935'}]],'폴로늄에서 1걸음에 3개, 2걸음에 9개, 3걸음에 13개의 점에 닿습니다. 1935 화학상은 3걸음에서 처음 닿고, 그때 모인 사실은 21개 전부입니다. 필요한 사실보다 훨씬 많은 사실이 함께 따라온다는 점을 눈여겨보세요.'],
+matrix:['인접 행렬 A를 k번 곱한 Aᵏ에서 출발점의 행을 읽어, 보행 수와 최단거리의 관계를 확인합니다.',[['폴로늄 → 1935 · 2걸음',{start:'polonium',target:'nobel1935',k:2}],['폴로늄 → 1935 · 3걸음',{start:'polonium',target:'nobel1935',k:3}],['폴로늄 → 1935 · 4걸음',{start:'polonium',target:'nobel1935',k:4}],['마리 → 마리 · 2걸음',{start:'marie',target:'marie',k:2}]],'폴로늄에서 1935 화학상으로 가는 보행은 2걸음까지 0개이고, 3걸음에서 처음 2개(마리를 거치는 길, 피에르를 거치는 길)가 나옵니다. 0이 아닌 값이 처음 나오는 3이 BFS의 최단거리와 같습니다. 4걸음이면 6개로 늘어나는데, 2개는 이렌에서 프레데리크를 거치고 4개는 배우자 간선이나 파리를 거쳐 이렌에 닿습니다. 폴로늄에서 나가는 보행의 합은 1~4걸음에 3, 16, 56, 269개로 불어나지만 닿는 점은 13개에서 멈춥니다. 마리에서 마리로 돌아오는 2걸음 보행은 8개로 마리에 붙은 간선 수와 같습니다.'],
 resolve:['이름의 글자 조각만으로 같은 사람을 묶을 때 문턱에 따라 어떤 오류가 생기는지 비교합니다.',[['낮은 문턱 0.15',{threshold:.15,method:'name'}],['높은 문턱 0.7',{threshold:.7,method:'name'}],['식별자 사용',{threshold:.5,method:'id'}]],'문턱 0.15에서는 “curie”와 “퀴리” 조각 때문에 마리·피에르(그리고 영문 이렌)가 두 묶음에 섞이고, 한글 이렌은 따로 남습니다. 슬라이더를 0.5로 옮겨도 “M. Curie”와 “P. Curie”(J 0.67)가 붙어 마리와 피에르가 섞입니다. 0.7에서는 섞임이 없지만 아홉 이름이 모두 따로 떨어집니다. 어떤 문턱에서도 정답(세 사람, 섞임 0)이 나오지 않고, 식별자 표만 정확히 묶습니다.'],
 schema:['관계의 정의역·치역 규칙이 어떤 트리플을 잡아내고, RDFS에서는 같은 규칙이 무엇을 결론으로 내는지 비교합니다.',[['맞는 트리플',{subject:'marie',predicate:'awarded',object:'nobel1911',mode:'validate'}],['목적어 위반',{subject:'marie',predicate:'awarded',object:'paris',mode:'validate'}],['RDFS로 보기',{subject:'marie',predicate:'awarded',object:'paris',mode:'rdfs'}]],'과학자는 사람의 하위 클래스이므로 마리는 “수상”의 주어 규칙을 통과합니다. 목적어가 파리이면 검사 모드는 위반을 보고하지만, RDFS 모드는 “파리는 상이다”라는 결론을 냅니다. 같은 규칙이라도 어떤 방식으로 쓰느냐에 따라 결과가 다릅니다.'],
+shape:['관계 규칙을 그래프의 모든 사실에 한꺼번에 대고, 검사 방식의 위반 수와 RDFS 방식의 타입 결론을 나란히 셉니다.',[['책의 사실 21개만',{extra:'none'}],['수상 → 파리',{extra:'award'}],['종류 없는 새 사람',{extra:'newcomer'}],['세 개 모두',{extra:'all'}]],'책의 사실 21개는 위반 0개, RDFS 결론 0개입니다. “마리 퀴리 —수상→ 파리”를 더하면 검사는 위반 1개를, RDFS는 “파리는 상”이라는 틀린 결론 1개를 냅니다. 종류가 적히지 않은 브로니스와바를 넣으면 검사는 종류가 없다는 이유로 위반을 알리고, RDFS는 “브로니스와바는 사람”이라는 맞는 결론을 냅니다. 세 개를 모두 넣으면 위반 3개, 결론 3개이고 그중 맞는 결론은 1개뿐입니다. 결론의 개수만으로는 무엇이 맞는지 알 수 없습니다.'],
 infer:['규칙과 라운드 수를 바꾸며 새 사실이 몇 개 생기고 언제 고정점에 도달하는지 확인합니다.',[['위치 1라운드',{rules:'located',rounds:1}],['위치 2라운드',{rules:'located',rounds:2}],['세 규칙 고정점',{rules:'all',rounds:3}]],'위치 규칙은 1라운드에 5개(마리·피에르·이렌이 태어난 나라, 바르샤바·파리가 속한 유럽)를, 2라운드에 3개(세 사람이 유럽에서 태어남)를 만들고 멈춥니다. 세 규칙을 모두 켜면 9개, 3개가 생긴 뒤 3라운드에는 새 사실이 없습니다. 점선이 추론으로 생긴 사실입니다.'],
 query:['패턴을 한 줄에서 두 줄로 늘리고 추론을 포함할 때 답이 어떻게 달라지는지 확인합니다.',[['발견한 사람',{p1:'discovered',o1:'polonium',p2:'none',reason:'no'}],['그 사람의 배우자',{p1:'discovered',o1:'polonium',p2:'spouse',reason:'no'}],['추론 포함',{p1:'discovered',o1:'polonium',p2:'spouse',reason:'yes'}]],'패턴 한 줄이면 마리와 피에르 두 명입니다. 배우자 패턴을 더하면 적힌 사실만으로는 “마리 배우자 피에르” 하나만 맞습니다. 추론을 포함하면 대칭 규칙이 “피에르 배우자 마리”를 더해 답이 두 개가 됩니다.'],
 extract:['확신도 문턱을 움직이며 정밀도와 재현율이 어떻게 맞바뀌는지 확인합니다.',[['느슨한 문턱 0.30',{cut:.3}],['중간 문턱 0.50',{cut:.5}],['엄격한 문턱 0.85',{cut:.85}]],'문턱 0.30이면 맞는 사실 9개를 모두 넣지만 틀린 후보 3개도 들어옵니다(정밀도 75.0%). 0.50에서는 정밀도와 재현율이 모두 88.9%입니다. 0.85에서는 넣은 3개가 모두 맞지만 재현율은 33.3%로 떨어집니다. 점수가 0.62인 틀린 후보 때문에 어떤 문턱도 완벽하지 않습니다.'],
@@ -14,12 +16,13 @@ graphrag:['같은 질문을 문장 검색과 그래프 걷기로 풀 때 근거 
 function mount(id,el){
  const [purpose,presets,interpretation]=guides[id],host=el.parentElement;
  const box=document.createElement('div');box.className='lab-guide';
- box.innerHTML=`<p><b>무엇을 확인하나요?</b> ${purpose}</p><div class="buttons" aria-label="비교 예제">${presets.map((p,i)=>`<button type="button" data-preset="${i}">${p[0]}</button>`).join('')}<button type="button" data-initialize>실험 초기화</button></div><p class="guide-reading"><b>결과 읽기</b> ${interpretation}</p>`;
+ box.innerHTML=`<p><b>무엇을 확인하나요?</b> ${purpose}</p><div class="buttons" aria-label="비교 예제">${presets.map((p,i)=>`<button type="button" data-preset="${i}">${p[0]}</button>`).join('')}<button type="button" data-initialize>실험 초기화</button></div><details class="guide-reading"><summary><b>결과 읽기</b> (예측을 적고 비교 예제를 눌러 본 뒤 펼치세요)</summary><p>${interpretation}</p></details>`;
  host.insertBefore(box,el);
  box.onclick=e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-initialize')){KGLabs[id](el);box.querySelectorAll('[aria-pressed]').forEach(x=>x.removeAttribute('aria-pressed'));return;}
  const [,values,action]=presets[+b.dataset.preset];for(const [key,value] of Object.entries(values))el.querySelector('#'+key).value=value;
  el.querySelector('#'+Object.keys(values)[0]).dispatchEvent(new Event('input',{bubbles:true}));if(action)el.querySelector('#'+action).click();
  box.querySelectorAll('[data-preset]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+ box.querySelector('details').open=true;
  };
  el.addEventListener('input',e=>{if(e.isTrusted)box.querySelectorAll('[aria-pressed]').forEach(x=>x.removeAttribute('aria-pressed'));});
 }

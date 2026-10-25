@@ -60,3 +60,15 @@ html[data-motion=reduce] .kg-fig-edge,html[data-motion=reduce] .kg-fig-fade,html
 
 .chart .kg-plot-label{fill:var(--text);paint-order:stroke;stroke:var(--chart);stroke-width:4px}
 @media(max-width:520px){.chart .kg-node text,.home-graph .kg-node text{font-size:19px}.chart .kg-node.dim text,.home-graph .kg-node.dim text{display:none}.chart .kg-edge-label,.home-graph .kg-edge-label{font-size:16px}.chart .kg-plot-label{font-size:15px}.kg-fig text{font-size:19px}.kg-fig-label{font-size:16px!important}.kg-fig .kg-fig-small{font-size:12px}}
+/* 예측·앞 장 떠올리기·남은 질문·결과 읽기 덮개(2026-10-25 개정) */
+.recall{margin:0 0 30px;padding:14px 18px;border-left:4px solid var(--blue);background:var(--panel);border-radius:0 8px 8px 0;font-size:.98rem}.recall b,.remaining b{display:block;font:600 .78rem var(--font-mono);letter-spacing:.08em;color:var(--blue);margin-bottom:4px}
+.remaining{margin:28px 0;padding:14px 18px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:0 8px 8px 0;background:var(--panel);font-size:.98rem}.remaining b{color:var(--accent)}
+.predict{margin:0;padding:12px 22px;border-top:1px dashed var(--orange);background:var(--chart);font-size:.95rem}.predict b{display:block;font:600 .78rem var(--font-mono);letter-spacing:.08em;color:var(--orange);margin-bottom:4px}
+.lab-kind{display:block;width:100%;font-size:.8rem;color:var(--muted);margin-top:2px}.lab-kind:before{content:'계산 방식 · ';color:var(--accent)}
+.lab-guide .guide-reading summary{cursor:pointer;min-height:32px}.lab-guide .guide-reading p{margin:8px 0 0}
+/* 따라가는 근거 사슬: 모든 장에서 같은 주황 고리와 굵은 선. 끊긴 간선은 점선과 ✗ 글로도 보인다. */
+.kg-chain{margin:0 0 22px;padding:10px 12px 6px;border:1px solid var(--line);border-radius:8px;background:var(--chart)}.kg-chain svg{display:block;width:100%;height:auto;max-width:620px;margin:0 auto}
+.kg-chain text{font:14px var(--font-sans);fill:var(--text)}.kg-chain .kg-chain-label{fill:var(--orange);font-weight:600}.kg-chain .kg-chain-off{fill:var(--muted);font-size:12px}
+.kg-chain-edge{fill:none;stroke:var(--orange);stroke-width:3}.kg-chain-edge.off{stroke:var(--muted);stroke-width:1.6;stroke-dasharray:4 4}.kg-chain-edge.fresh{stroke-width:2;stroke-dasharray:2 4}
+.kg-chain-node circle{fill:var(--panel2);stroke:var(--orange);stroke-width:3}.kg-chain figcaption{margin-top:4px}.kg-chain figcaption b{color:var(--orange);margin-right:4px}
+@media(max-width:760px){.kg-chain text{font-size:17px}.kg-chain .kg-chain-off{font-size:14px}}

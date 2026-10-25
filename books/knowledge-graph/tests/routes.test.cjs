@@ -17,7 +17,7 @@ test('declared hash routes match all chapter IDs and entry routes',()=>{
 test('every chapter fills the standard fields from docs/08',()=>{
  for(const c of book.chapters){
   for(const key of ['id','title','subtitle','desc','time','group','labs','source','paragraphs','formula','formulaNote','flow','warning','quiz'])assert.ok(c[key],`${c.id}.${key}`);
-  assert.equal(c.paragraphs.length,2,c.id);assert.equal(c.quiz[1].length,3,c.id);assert.ok(c.quiz[2]>=0&&c.quiz[2]<3,c.id);
+  assert.ok(c.paragraphs.length>=3&&c.paragraphs.length<=5,c.id);assert.ok(c.remaining,c.id+' remaining');assert.equal(c.quiz[1].length,3,c.id);assert.ok(c.quiz[2]>=0&&c.quiz[2]<3,c.id);
   assert.ok(c.labs.length>=1&&c.labs.length<=2,c.id);for(const i of c.source)assert.ok(book.sources[i],`${c.id} source ${i}`);
  }
 });
