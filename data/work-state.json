@@ -875,5 +875,15 @@
     "decision": "따라갈 양: 새 책 + 기존 책은 큰 개정 때 (서재 주인, 2026-10-25)",
     "remaining": "예측 상자가 없는 25권(aie 20·llm-gpu·llm-performance·knowledge-graph·rag·probability)에 예측 문장·결과 읽기; 복습 퀴즈 PENDING 25권; 움직이지 않는 장 그림 5권(ai·computer·backtest·prisma·llm-performance); 실험 연동 그림·흐름 표시·3D 시범(벡터와 행렬)",
     "improvement_plan": "https://claude.ai/artifact/MC7qgsp1eNTKVLiUPZUqrE"
+  },
+  "visual_pilot": {
+    "status": "local_tests_and_browser_verified",
+    "record": "docs/03-verification.html#visual-pilot-check",
+    "books": [
+      "linear-algebra (11장 3D 특징 공간)",
+      "ai (흐름 그림 움직임)",
+      "computer (흐름 그림 움직임)"
+    ],
+    "remaining": "서재 주인이 시범을 보고 넓힐지 결정; 넓힌다면 움직이지 않는 장 그림 3권(backtest·prisma·llm-performance)부터, 실험 값에 따라 바뀌는 개념 그림은 AI Book부터"
   }
 }

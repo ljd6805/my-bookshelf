@@ -166,9 +166,41 @@
     UI.ranges(root, draw).update();
   });
 
+  // 11장의 3차원 그림. 그림을 그릴 수 없는 환경이면 null을 돌려주고 표만 씁니다.
+  function make3D(root) {
+    const svg = root.querySelector('.space3d svg');
+    if (!svg || !window.Space3D) return null;
+    const read = root.querySelector('.space3d-read');
+    const space = new Space3D(svg, { labels: ['빠르기', '에너지', '가사'],
+      onView: (s) => {
+        const view = s.pitch >= 89 ? '위에서 본 2차원 지도' : s.pitch <= 1 ? '옆에서 본 가사 축' : `돌린 각도 ${fmt(Math.round(s.yaw), 0)}°, 기울기 ${fmt(Math.round(s.pitch), 0)}°`;
+        read.textContent = `${read.dataset.base || ''} 지금 보는 방향: ${view}.`;
+      } });
+    space.controls(root);
+    // 그림이 처음 화면에 들어올 때 2차원 지도에서 셋째 축이 일어서는 장면을 한 번 보여 줍니다.
+    if ('IntersectionObserver' in window) {
+      const seen = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { seen.disconnect(); space.rise(); }
+      }, { threshold: 0.4 });
+      seen.observe(svg);
+    } else space.set(Space3D.START.yaw, Space3D.START.pitch);
+    return space;
+  }
+
+  const deg = (c) => (c === null ? '—' : `${Math.round(Math.acos(Math.max(-1, Math.min(1, c))) / Math.PI * 180)}°`);
+  function drawSpace(space, root, user, rows) {
+    const rock = rows.find((r) => r.s.id === 'rock'), top = rows[0];
+    const read = root.querySelector('.space3d-read');
+    read.dataset.base = top.c3 === null ? '취향 화살표의 길이가 0이라 방향을 그릴 수 없습니다.'
+      : `취향 화살표와 1위 ${top.s.name} 사이의 각도는 ${deg(top.c3)}${top === rock ? '' : `, 옥상 록 공연과는 ${deg(rock.c3)}`}입니다. 가사를 지운 바닥 위에서는 옥상 록 공연과 ${deg(rock.c2)}입니다.`;
+    space.draw({ user, songs: rows.map((r, i) => ({ name: r.s.name, v: r.s3, top: i === 0 && r.c3 !== null, mark: r.s.id === 'rock' && i !== 0,
+      label: `(${r.s3.map((n) => fmt(n, 1)).join(', ')})` })) });
+  }
+
   // 11장: 셋째 특징(가사 비중)이 생긴 뒤의 추천. 3차원 코사인과 2차원 코사인을 비교합니다.
   UI.lab('challenge', (root) => {
     const tbl = root.querySelector('.ranking'), out = root.querySelector('.readout');
+    const space = make3D(root);
     const draw = (v) => {
       const user = [v.u1, v.u2, v.u3];
       const rows = SONGS.songs.map((s) => {
@@ -179,6 +211,7 @@
       KIT.table(tbl, ['노래', '(빠르기, 에너지, 가사)', '3D 코사인', '2D 코사인 순위', '3D 내적'],
         rows.map((r, i) => ({ top: i === 0, cells: [r.s.name, vec(r.s3), fmt(r.c3), `${rank2.indexOf(r.s.id) + 1}위`, fmt(r.d3)] })), [2, 3, 4]);
       const top = rows[0];
+      if (space) drawSpace(space, root, user, rows);
       out.innerHTML = rows[0].c3 === null ? '<p class="status-bad">취향 벡터의 길이가 0입니다. 방향이 없으니 코사인 유사도를 계산할 수 없습니다.</p>'
         : `<p>새 취향 ${vec(user)}의 1위는 <strong>${top.s.name}</strong>(3D 코사인 ${fmt(top.c3)})입니다. ` +
           `가사를 무시한 2D 기준에서는 ${KIT.nameOf(rank2[0])}가 1위입니다.</p>`;

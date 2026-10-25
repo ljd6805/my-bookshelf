@@ -105,3 +105,24 @@ details p:last-child{margin-bottom:0}
 .plane line.third{stroke:var(--a);stroke-width:2;stroke-dasharray:2 5;stroke-linecap:round}
 .plane .pt.pair{fill:none;stroke:var(--muted);stroke-width:1.6}
 .power-trace th,.power-trace td{white-space:nowrap}
+/* 11장 3차원 그림: 바닥면(책장 면) 위로 가사 축이 솟는 정사영 그림. 색은 2차원 그림과 같은 뜻으로 쓴다(주황 = 노래, 붉은색 = 취향). */
+.space3d{margin:18px 0 0;border:1px solid var(--line);border-radius:8px;background:var(--chart);padding:8px 8px 12px}
+.space3d svg{display:block;width:100%;max-width:520px;height:auto;margin:auto;touch-action:pan-y;cursor:grab;border-radius:6px}
+.space3d svg:active{cursor:grabbing}
+.space3d svg:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.space3d .floor{stroke:var(--grid);stroke-width:1}
+.space3d .axis{stroke:var(--axis);stroke-width:1.4}.space3d .axis.lift{stroke:var(--a);stroke-width:2}
+.space3d text{font:13px var(--font-sans);fill:var(--text);paint-order:stroke;stroke:var(--chart);stroke-width:3px}
+.space3d .axis-label{fill:var(--muted);font-size:12px}.space3d .axis-label.lift{fill:var(--a);font-weight:700}
+.space3d .drop{stroke:var(--muted);stroke-dasharray:2 4;stroke-width:1}
+.space3d .shadow{fill:var(--muted);opacity:.6}
+.space3d .pt{fill:var(--song);stroke:var(--chart);stroke-width:1.5}.space3d .pt.hi{fill:var(--me)}.space3d .pt.res{fill:var(--res)}
+.space3d .pt-label{font-size:12px;fill:var(--muted)}.space3d .pt-label.hi{fill:var(--me);font-weight:700}
+.space3d line.guide{stroke:var(--me);stroke-width:1.4;stroke-dasharray:6 4}
+.space3d .arrow.me line{stroke:var(--me);stroke-width:3}.space3d .arrow.me polygon{fill:var(--me)}
+.space3d .arrow.shadow-arrow line{stroke:var(--me);stroke-width:2;stroke-dasharray:5 4;opacity:.45}.space3d .arrow.shadow-arrow polygon{fill:var(--me);opacity:.45}
+.space3d .label.me{fill:var(--me);font-weight:700}
+.space3d-tools{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}
+.space3d-tools button{font-size:.82rem;padding:6px 10px;min-height:36px}
+.space3d figcaption{text-align:center;margin:4px 8px 0}
+@media(max-width:560px){.space3d{margin-inline:-14px;padding:4px 2px 10px}.space3d text{font-size:21px;stroke-width:4px}.space3d .axis-label,.space3d .pt-label{font-size:19px}.space3d-tools button{flex:1 1 42%;font-size:.8rem;padding:6px 6px}}
