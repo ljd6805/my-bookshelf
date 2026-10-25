@@ -173,7 +173,7 @@
     const read = root.querySelector('.space3d-read');
     const space = new Space3D(svg, { labels: ['빠르기', '에너지', '가사'],
       onView: (s) => {
-        const view = s.pitch >= 89 ? '위에서 본 2차원 지도' : s.pitch <= 1 ? '옆에서 본 가사 축' : `돌린 각도 ${Math.round(s.yaw)}°, 기울기 ${Math.round(s.pitch)}°`;
+        const view = s.pitch >= 89 ? '위에서 본 2차원 지도' : s.pitch <= 1 ? '옆에서 본 가사 축' : `돌린 각도 ${fmt(Math.round(s.yaw), 0)}°, 기울기 ${fmt(Math.round(s.pitch), 0)}°`;
         read.textContent = `${read.dataset.base || ''} 지금 보는 방향: ${view}.`;
       } });
     space.controls(root);
@@ -192,7 +192,7 @@
     const rock = rows.find((r) => r.s.id === 'rock'), top = rows[0];
     const read = root.querySelector('.space3d-read');
     read.dataset.base = top.c3 === null ? '취향 화살표의 길이가 0이라 방향을 그릴 수 없습니다.'
-      : `취향 화살표와 1위 ${top.s.name} 사이의 각도는 ${deg(top.c3)}, 옥상 록 공연과는 ${deg(rock.c3)}입니다. 가사를 지운 바닥 위에서는 옥상 록 공연과 ${deg(rock.c2)}입니다.`;
+      : `취향 화살표와 1위 ${top.s.name} 사이의 각도는 ${deg(top.c3)}${top === rock ? '' : `, 옥상 록 공연과는 ${deg(rock.c3)}`}입니다. 가사를 지운 바닥 위에서는 옥상 록 공연과 ${deg(rock.c2)}입니다.`;
     space.draw({ user, songs: rows.map((r, i) => ({ name: r.s.name, v: r.s3, top: i === 0 && r.c3 !== null, mark: r.s.id === 'rock' && i !== 0,
       label: `(${r.s3.map((n) => fmt(n, 1)).join(', ')})` })) });
   }
