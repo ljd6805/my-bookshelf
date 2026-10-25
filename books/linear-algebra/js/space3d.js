@@ -10,7 +10,8 @@
   function Space3D(svg, opts) {
     this.svg = svg;
     this.size = 400;
-    this.unit = this.size / 9.5;
+    // 세 칸이 모두 ±3인 점(대각선 길이 √27 ≈ 5.2)이 어느 각도에서도 그림 안에 들어오도록 축척을 정합니다.
+    this.unit = this.size / 12;
     this.yaw = START.yaw;
     this.pitch = 90;
     this.labels = (opts && opts.labels) || ['x', 'y', 'z'];
@@ -25,7 +26,7 @@
     const a = this.yaw * DEG, b = this.pitch * DEG;
     const x1 = p[0] * Math.cos(a) - p[1] * Math.sin(a), y1 = p[0] * Math.sin(a) + p[1] * Math.cos(a);
     const sy = y1 * Math.sin(b) + p[2] * Math.cos(b);
-    return { x: this.size / 2 + x1 * this.unit, y: this.size / 2 + 20 - sy * this.unit, d: p[2] * Math.sin(b) - y1 * Math.cos(b) };
+    return { x: this.size / 2 + x1 * this.unit, y: this.size / 2 - sy * this.unit, d: p[2] * Math.sin(b) - y1 * Math.cos(b) };
   };
 
   Space3D.prototype.line = function (a, b, cls) {
