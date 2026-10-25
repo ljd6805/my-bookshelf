@@ -25,9 +25,9 @@ L.walk=el=>{
 };
 // 인접 행렬 걷기: Aᵏ의 출발점 행을 막대로 그리고, 찾을 점까지의 보행 수를 BFS 최단거리와 견준다.
 L.matrix=el=>{
- U.setup(el,U.select('start','출발점',walkOptions,'polonium')+U.select('target','찾을 점',walkOptions,'nobel1935')+U.range('k','곱한 횟수 k (걸음 수)',1,4,1,2));
+ U.setup(el,U.select('mstart','출발점',walkOptions,'polonium')+U.select('mtarget','찾을 점',walkOptions,'nobel1935')+U.range('k','곱한 횟수 k (걸음 수)',1,4,1,2));
  U.bind(el,()=>{
-  const start=U.pick(el,'start'),target=U.pick(el,'target'),k=U.value(el,'k'),w=G.walks(G.triples,k),row=w.P[w.at[start]],max=Math.max(1,...row);
+  const start=U.pick(el,'mstart'),target=U.pick(el,'mtarget'),k=U.value(el,'k'),w=G.walks(G.triples,k),row=w.P[w.at[start]],max=Math.max(1,...row);
   const firstK=[1,2,3,4].find(j=>G.walks(G.triples,j).P[w.at[start]][w.at[target]]>0),route=G.path(G.triples,start,target),here=row[w.at[target]];
   el.querySelector('.chart').innerHTML=`<p class="caption">A${k===1?'':'<sup>'+k+'</sup>'}의 ${U.esc(U.label(start))} 행: 칸마다 길이 ${k}인 보행 수</p>${U.bars(w.ids.map(id=>[(id===target?'▶ ':'')+U.label(id),row[w.at[id]]/max,`<b>${row[w.at[id]]}</b>`]))}`;
   const total=row.reduce((a,b)=>a+b,0),dist=route?route.length:null;
