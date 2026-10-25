@@ -75,6 +75,29 @@ export function recordRecall(state, id, correct, now) {
   return state;
 }
 
+/** 예측 확인: 실험 전에 예측을 적고(예측), 실험을 해 본 뒤(실험) 덮개를 들춰 맞았는지 고른다(확인). */
+export const VERDICTS = { hit: '맞았다', partly: '일부 맞았다', miss: '빗나갔다' };
+
+/** 실험 전 예측 칸의 글. n은 장 안에서 몇 번째 예측 칸인지(0부터). 판정이 없는 빈 글은 지운다. */
+export function recordPrediction(state, id, n, text, now) {
+  const e = entry(state, id);
+  e.predictions = e.predictions || {};
+  const clean = String(text || '').trim().slice(0, 200);
+  const old = e.predictions[n] || {};
+  if (!clean && !old.verdict) delete e.predictions[n];
+  else e.predictions[n] = { ...old, text: clean, at: now };
+  return state;
+}
+
+/** 실험을 해 본 뒤 덮개를 들추고 예측이 맞았는지 스스로 고른 결과. 알 수 없는 값은 무시한다. */
+export function judgePrediction(state, id, n, verdict, now) {
+  if (!Object.hasOwn(VERDICTS, verdict)) return state;
+  const e = entry(state, id);
+  e.predictions = e.predictions || {};
+  e.predictions[n] = { text: '', ...e.predictions[n], verdict, judged: now };
+  return state;
+}
+
 export function resetChapterReview(state, id) {
   const e = entry(state, id);
   e.answers = {};
@@ -100,6 +123,7 @@ export function summary(state, total = state.total) {
     opened: count('opened'),
     read,
     reviewed: count('reviewed'),
+    judged: chapters.reduce((sum, c) => sum + Object.values(c.predictions || {}).filter(p => p.verdict).length, 0),
     percent: total ? Math.round((read / total) * 100) : 0,
     last: state.last || null,
   };

@@ -1,11 +1,12 @@
-/* 모든 책의 공통 학습 기능: 장별 진도와 복습 퀴즈.
+/* 모든 책의 공통 학습 기능: 장별 진도, 예측 확인(예측 → 실험 → 덮개 들추기), 복습 퀴즈와 복습 도장.
    책 <head>에서 <script type="module" src="../../assets/book-study.js?v=..." data-book-study data-review="review.json">로 불러온다.
    책 코드는 건드리지 않고, 책이 그린 화면(#sidebar [data-chapter], main의 .quiz·.chapter-nav)에 덧붙인다.
    진도는 이 브라우저에만 남는다(localStorage, 키는 study-model.mjs). 기준: docs/08-book-template.html#study */
 import {
   LEVEL_LABEL, LEVEL_MARK, studyKey, folderFromPath, parseState, markOpened, markRead,
   recordAnswer, recordRecall, resetChapterReview, level, summary, pickRecall,
-} from './study-model.mjs?v=20261019-map9';
+  VERDICTS, recordPrediction, judgePrediction,
+} from './study-model.mjs?v=20261025-flap1';
 
 const folder = folderFromPath(location.pathname);
 const tag = document.querySelector('script[data-book-study]');
@@ -61,13 +62,27 @@ function decorateSidebar(list) {
     const title = sidebar.querySelector('.sidebar-title');
     if (title) title.after(box); else sidebar.prepend(box);
   }
-  box.innerHTML = summaryHtml(summary(state, list.length));
+  box.innerHTML = summaryHtml(summary(state, list.length), list);
 }
 
-function summaryHtml(s) {
-  return `<p><b>${s.total}장 중 ${s.read}장 읽음</b> · 복습 ${s.reviewed}장</p>`
+/** 복습 도장 판: 복습 문항이 있는 장마다 칸 하나. 이 장 문항을 모두 처음 고른 답으로 맞히면 도장이 찍힌다. */
+function stampCard(list) {
+  const slots = list.filter(c => (review[c.id] || []).length);
+  if (!slots.length) return '';
+  const got = slots.filter(c => level(state.chapters[c.id]) === 'reviewed');
+  return `<p class="study-stamps-title">복습 도장 ${got.length}/${slots.length}</p>`
+    + `<ol class="study-stamps" aria-label="복습 도장 판">${slots.map(c => {
+      const on = got.includes(c);
+      return `<li data-on="${on}" title="${c.num}장 ${esc(c.title)}">${pad(c.num)}`
+        + `<span class="study-sr">${c.num}장 ${on ? '도장 받음' : '아직 도장 없음'}</span></li>`;
+    }).join('')}</ol>`;
+}
+
+function summaryHtml(s, list) {
+  return `<p><b>${s.total}장 중 ${s.read}장 읽음</b> · 복습 도장 ${s.reviewed}개${s.judged ? ` · 예측 확인 ${s.judged}번` : ''}</p>`
     + `<progress max="${s.total}" value="${s.read}" aria-label="읽은 장 ${s.read}/${s.total}"></progress>`
-    + `<p class="study-legend" aria-hidden="true">◔ 펼쳐 봄 · ✓ 끝까지 읽음 · ★ 복습 완료</p>`
+    + stampCard(list)
+    + `<p class="study-legend" aria-hidden="true">◔ 펼쳐 봄 · ✓ 끝까지 읽음 · ★ 복습 도장</p>`
     + `<button type="button" class="study-clear">이 책 진도 지우기</button>`;
 }
 
@@ -89,9 +104,10 @@ function resumeBanner(list) {
 function questionHtml(q, meta) {
   return `<li class="study-q" data-chapter="${esc(meta.id)}" data-q="${meta.index}" data-kind="${meta.kind}">`
     + `<p class="study-q-label">${esc(meta.label)}</p><p class="study-q-text">${esc(q.q)}</p>`
+    + `<details class="study-cover"><summary>덮개 들추기 <small>답을 먼저 떠올린 뒤 보기를 펼치세요</small></summary>`
     + `<div class="study-choices" role="group" aria-label="보기">`
     + q.choices.map((c, i) => `<button type="button" data-choice="${i}">${i + 1}. ${esc(c)}</button>`).join('')
-    + `</div><p class="study-feedback" role="status" aria-live="polite"></p></li>`;
+    + `</div></details><p class="study-feedback" role="status" aria-live="polite"></p></li>`;
 }
 
 function recallNote(recall) {
@@ -113,7 +129,7 @@ function reviewHtml(chapter, list) {
   }
   return `<section class="study-review" aria-labelledby="study-review-title"><div class="eyebrow">REVIEW · 복습 퀴즈</div>`
     + `<h2 id="study-review-title">덮기 전에 다시 꺼내 보기</h2>`
-    + `<p class="study-intro">책을 보지 않고 답을 떠올려 보세요. 이 장 문제를 모두 처음 고른 답으로 맞히면 목차에 ★ 복습 완료가 표시됩니다.`
+    + `<p class="study-intro">책을 보지 않고 답을 먼저 떠올린 다음, 덮개를 들춰 보기에서 고르세요. 이 장 문제를 모두 처음 고른 답으로 맞히면 복습 도장을 받고 목차에 ★이 표시됩니다.`
     + `${recallNote(recall)}</p>`
     + `<ol class="study-questions">${items.join('')}</ol><p class="study-status"></p>`
     + `<button type="button" class="study-again">이 장 복습 처음부터 다시 하기</button></section>`;
@@ -129,13 +145,29 @@ function placeReview(section) {
   else (main.querySelector('.chapter-body') || main).append(section);
 }
 
-function updateReviewStatus(section, chapter) {
+function updateReviewStatus(section, chapter, fresh = false) {
   const count = (review[chapter.id] || []).length;
   const e = state.chapters[chapter.id] || {};
   const solved = Object.keys(e.answers || {}).filter(k => Number(k) < count).length;
   section.querySelector('.study-status').textContent = e.reviewed
-    ? `★ 복습 완료. 이 장 문제 ${count}개를 모두 맞혔습니다.`
+    ? `★ 복습 도장을 받았습니다. 이 장 문제 ${count}개를 모두 맞혔습니다.`
     : `이 장 문제 ${count}개 중 ${solved}개를 맞혔습니다.`;
+  showStamp(section, chapter, e.reviewed, fresh);
+}
+
+/** 장 복습 도장. 방금 받았으면(fresh) 찍히는 움직임을 한 번 보여 준다. 동작 줄이기에서는 움직이지 않는다(CSS). */
+function showStamp(section, chapter, reviewed, fresh) {
+  let stamp = section.querySelector('.study-stamp');
+  if (!reviewed) { stamp?.remove(); return; }
+  if (!stamp) {
+    stamp = document.createElement('p');
+    stamp.className = 'study-stamp';
+    stamp.setAttribute('role', 'img');
+    stamp.setAttribute('aria-label', `${chapter.num}장 복습 도장`);
+    stamp.innerHTML = `<span aria-hidden="true"><b>${pad(chapter.num)}</b>복습 완료</span>`;
+    section.querySelector('.study-status').before(stamp);
+  }
+  if (fresh) stamp.classList.add('is-fresh');
 }
 
 function answer(section, chapter, item, button) {
@@ -152,10 +184,11 @@ function answer(section, chapter, item, button) {
   // 맞혔거나 답을 보여 준 문항은 잠근다. 복습 완료와 앞 장 기록은 첫 번째 고른 답만 센다.
   if (correct || tries >= 2) item.querySelectorAll('[data-choice]').forEach(b => { b.disabled = true; });
   const now = Date.now();
+  const before = Boolean((state.chapters[chapter.id] || {}).reviewed);
   if (kind === 'own') recordAnswer(state, id, index, correct && tries === 1, review[id].length, now);
   else if (correct && tries === 1) recordRecall(state, id, true, now);
   save();
-  updateReviewStatus(section, chapter);
+  updateReviewStatus(section, chapter, !before && Boolean(state.chapters[chapter.id].reviewed));
   decorateSidebar(chapters());
 }
 
@@ -179,6 +212,93 @@ function mountReview(chapter, list) {
       return;
     }
     if (button.dataset.choice !== undefined) answer(section, chapter, button.closest('.study-q'), button);
+  });
+}
+
+/* 예측 확인: 책의 "먼저 예측하기" 상자(.predict)마다 예측을 적는 칸과, 실험 뒤에 들추는 덮개를 붙인다.
+   책이 이미 예측 칸(input)이나 결과 읽기 덮개(details.guide-reading)를 그렸으면 그것을 그대로 쓴다. */
+const VERDICT_NOTE = {
+  hit: '예측이 맞았습니다. 왜 맞았는지 이 장의 식이나 그림을 들어 한 문장으로 설명해 보세요.',
+  partly: '일부만 맞았습니다. 어느 부분이 달랐는지 실험의 입력 하나만 바꿔 다시 확인해 보세요.',
+  miss: '예측이 빗나갔습니다. 본문에서 이 결과를 설명하는 문장을 찾아, 처음 생각과 어디가 달랐는지 적어 보세요.',
+};
+
+function guessInput(box, chapter, n) {
+  let input = box.querySelector('input[type=text], input:not([type]), textarea');
+  if (!input) {
+    const id = `study-guess-${chapter.id}-${n}`;
+    const label = document.createElement('label');
+    label.className = 'study-guess';
+    label.htmlFor = id;
+    label.innerHTML = `<span>내 예측 적어 두기</span><input id="${esc(id)}" type="text" maxlength="200" autocomplete="off" placeholder="실험하기 전에 짐작한 결과를 한 줄로">`;
+    box.append(label);
+    input = label.querySelector('input');
+  }
+  const saved = ((state.chapters[chapter.id] || {}).predictions || {})[n];
+  if (saved && saved.text && !input.value) input.value = saved.text;
+  input.addEventListener('change', () => { recordPrediction(state, chapter.id, n, input.value, Date.now()); save(); });
+  return input;
+}
+
+/** 덮개를 둘 곳: 예측 상자가 든 실험의 결과 읽기 덮개, 없으면 그 실험의 끝, 실험 밖이면 뒤따르는 첫 실험의 끝. */
+function proveHost(box) {
+  const lab = box.closest('.lab') || (() => {
+    for (let el = box.nextElementSibling; el; el = el.nextElementSibling) if (el.matches('.lab')) return el;
+    return null;
+  })();
+  const reading = lab && lab.querySelector('details.guide-reading');
+  if (reading) return { place: el => reading.append(el), own: false };
+  if (lab) return { place: el => lab.append(el), own: true };
+  return { place: el => box.after(el), own: true };
+}
+
+function proveHtml(chapter, n, own) {
+  const name = `study-verdict-${chapter.id}-${n}`;
+  return `${own ? '<p class="study-echo"></p>' : ''}<fieldset class="study-verdicts"><legend>실험 결과와 견주면 내 예측은</legend>`
+    + Object.entries(VERDICTS).map(([key, text]) => `<label><input type="radio" name="${esc(name)}" value="${key}"> ${text}</label>`).join('')
+    + `</fieldset><p class="study-verdict-note" role="status" aria-live="polite"></p>`;
+}
+
+function mountPrediction(box, chapter, n) {
+  box.dataset.studyPredict = String(n);
+  const input = guessInput(box, chapter, n);
+  const host = proveHost(box);
+  const prove = document.createElement('div');
+  prove.className = 'study-prove';
+  prove.innerHTML = proveHtml(chapter, n, host.own);
+  let holder = prove;
+  if (host.own) {
+    holder = document.createElement('details');
+    holder.className = 'study-flap';
+    holder.innerHTML = '<summary>덮개 들추기 <small>실험을 해 본 뒤에 내 예측과 견주어 보세요</small></summary>';
+    holder.append(prove);
+    const echo = () => {
+      const text = input.value.trim();
+      prove.querySelector('.study-echo').textContent = text
+        ? `실험 전에 적은 예측: “${text}”` : '적어 둔 예측이 없습니다. 실험 전에 떠올린 생각과 결과를 견주어 골라 보세요.';
+    };
+    echo();
+    input.addEventListener('input', echo);
+  }
+  host.place(holder);
+  const note = prove.querySelector('.study-verdict-note');
+  const saved = (((state.chapters[chapter.id] || {}).predictions || {})[n] || {}).verdict;
+  if (saved) { prove.querySelector(`input[value=${saved}]`).checked = true; note.textContent = VERDICT_NOTE[saved]; }
+  prove.addEventListener('change', event => {
+    const verdict = event.target.value;
+    if (!VERDICT_NOTE[verdict]) return;
+    if (input.value.trim()) recordPrediction(state, chapter.id, n, input.value, Date.now());
+    judgePrediction(state, chapter.id, n, verdict, Date.now());
+    save();
+    note.textContent = VERDICT_NOTE[verdict];
+    decorateSidebar(chapters());
+  });
+}
+
+function mountPredictions(chapter) {
+  const main = document.querySelector('main');
+  [...main.querySelectorAll('.predict:not(.quiz)')].forEach((box, n) => {
+    if (box.dataset.studyPredict === undefined) mountPrediction(box, chapter, n);
   });
 }
 
@@ -217,6 +337,7 @@ function refresh() {
       watchRead(chapter);
     }
     mountReview(chapter, list);
+    mountPredictions(chapter);
   } else {
     lastRoute = null;
     if (['', 'home'].includes(location.hash.slice(1))) resumeBanner(list);
@@ -230,7 +351,8 @@ function clearAll(event) {
   try { localStorage.removeItem(KEY); } catch { /* 저장 불가 */ }
   state = load();
   lastRoute = null;
-  document.querySelectorAll('.study-review, .study-resume').forEach(el => el.remove());
+  document.querySelectorAll('.study-review, .study-resume, .study-flap, .study-prove, .study-guess').forEach(el => el.remove());
+  document.querySelectorAll('[data-study-predict]').forEach(el => { delete el.dataset.studyPredict; });
   refresh();
 }
 

@@ -29,3 +29,37 @@
 .study-status{margin:18px 0 8px;font-weight:600}
 .study-again{font-size:.85rem}
 @media (max-width:560px){.study-review{padding:18px 16px}.study-resume{padding:14px 16px}}
+/* 덮개: 답(복습 보기·예측 확인)은 독자가 먼저 떠올린 뒤 직접 들춰야 보인다. 접힌 상태는 점선 종이로, 펼친 상태는 글로도 알린다. */
+.study-cover,.study-flap{margin:8px 0 0;border:1px dashed var(--line);border-radius:6px;background:var(--bg)}
+.study-cover>summary,.study-flap>summary{cursor:pointer;padding:10px 14px;font-weight:600;list-style:none;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.study-cover>summary::-webkit-details-marker,.study-flap>summary::-webkit-details-marker{display:none}
+.study-cover>summary::before,.study-flap>summary::before{content:"▸";font-family:var(--font-mono);color:var(--accent)}
+.study-cover[open]>summary::before,.study-flap[open]>summary::before{content:"▾"}
+.study-cover>summary small,.study-flap>summary small{font-weight:400;color:var(--muted);font-size:.85rem}
+.study-cover[open],.study-flap[open]{border-style:solid}
+.study-cover[open]>summary small::after,.study-flap[open]>summary small::after{content:" · 펼침"}
+.study-cover>summary:focus-visible,.study-flap>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.study-cover .study-choices,.study-flap .study-prove{padding:0 14px 12px;transform-origin:top;animation:study-lift .28s ease-out}
+.study-flap{margin:16px 0 0}
+.lab>.study-flap{margin:16px}
+@keyframes study-lift{from{opacity:0;transform:perspective(600px) rotateX(-35deg)}to{opacity:1;transform:none}}
+.study-guess{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:8px;font-size:.88rem}
+.study-guess input{flex:1 1 220px;min-width:0;padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--text);font:inherit}
+.study-prove{font-size:.93rem}
+.study-echo{margin:0 0 8px;font-weight:600}
+.study-verdicts{margin:0;padding:0;border:0;display:flex;flex-wrap:wrap;gap:6px 14px}
+.study-verdicts legend{padding:0;margin-bottom:6px;color:var(--muted);font-size:.85rem}
+.study-verdicts label{display:inline-flex;gap:6px;align-items:center;min-height:32px;cursor:pointer}
+.study-verdict-note{margin:6px 0 0;min-height:1.2em}
+/* 복습 도장: 장 문항을 모두 처음 고른 답으로 맞히면 받는다. 방금 받았을 때만 한 번 찍히는 움직임. */
+.study-stamp{margin:20px 0 0;display:flex}
+.study-stamp span{display:grid;place-items:center;width:92px;height:92px;border:3px double var(--accent);border-radius:50%;color:var(--accent);font:700 .78rem/1.2 var(--font-sans);text-align:center;transform:rotate(-12deg)}
+.study-stamp b{display:block;font:700 1.5rem/1 var(--font-mono)}
+.study-stamp.is-fresh span{animation:study-stamp .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes study-stamp{from{opacity:0;transform:rotate(-12deg) scale(1.8)}to{opacity:1;transform:rotate(-12deg) scale(1)}}
+.study-stamps-title{margin:8px 0 4px!important;font-weight:600}
+.study-stamps{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:4px}
+.study-stamps li{width:26px;height:26px;display:grid;place-items:center;border:1px dashed var(--line);border-radius:50%;font:600 .66rem/1 var(--font-mono);color:var(--muted)}
+.study-stamps li[data-on=true]{border:2px solid var(--accent);color:var(--accent)}
+@media (prefers-reduced-motion:reduce){.study-cover .study-choices,.study-flap .study-prove,.study-stamp.is-fresh span{animation:none}}
+html[data-motion=reduce] .study-cover .study-choices,html[data-motion=reduce] .study-flap .study-prove,html[data-motion=reduce] .study-stamp.is-fresh span{animation:none}

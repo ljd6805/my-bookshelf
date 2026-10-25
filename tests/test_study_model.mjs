@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   studyKey, folderFromPath, parseState, emptyState, markOpened, markRead,
-  recordAnswer, recordRecall, resetChapterReview, level, summary, pickRecall,
+  recordAnswer, recordRecall, resetChapterReview, recordPrediction, judgePrediction, level, summary, pickRecall,
 } from '../assets/study-model.mjs';
 
 const ch = (id, num) => ({ id, title: `${id} 장`, num });
@@ -34,7 +34,7 @@ test('펼침 → 끝까지 읽음 → 복습 완료로 단계가 오르고, 요�
   assert.equal(level(s.chapters.a), 'reviewed');
   assert.equal(s.chapters.a.reviewed, 32);
   markOpened(s, ch('b', 2), 4, 40);
-  assert.deepEqual(summary(s), { total: 4, opened: 2, read: 1, reviewed: 1, percent: 25, last: { id: 'b', title: 'b 장', num: 2, at: 40 } });
+  assert.deepEqual(summary(s), { total: 4, opened: 2, read: 1, reviewed: 1, judged: 0, percent: 25, last: { id: 'b', title: 'b 장', num: 2, at: 40 } });
   resetChapterReview(s, 'a');
   assert.equal(level(s.chapters.a), 'read');
 });
@@ -80,4 +80,22 @@ test('앞 장 다시 꺼내기: 복습 문항이 없는 장은 건너뛴다', ()
   markRead(s, 'a', 1);
   assert.deepEqual(pickRecall(['a', 'b', 'c'], 'c', s, { a: [{}], c: [{}] }), { id: 'a', index: 0 });
   assert.equal(pickRecall(['a', 'b'], 'b', s, { b: [{}] }), null);
+});
+
+test('예측을 적고 실험 뒤 판정하면 요약이 확인한 예측을 센다', () => {
+  const s = emptyState();
+  recordPrediction(s, 'a', 0, '  두 배쯤 늘어난다  ', 10);
+  assert.equal(s.chapters.a.predictions[0].text, '두 배쯤 늘어난다');
+  judgePrediction(s, 'a', 0, 'partly', 20);
+  judgePrediction(s, 'a', 1, 'hit', 21);
+  judgePrediction(s, 'a', 2, 'maybe', 22);
+  assert.deepEqual(Object.keys(s.chapters.a.predictions), ['0', '1'], '알 수 없는 판정은 남기지 않는다');
+  assert.equal(s.chapters.a.predictions[1].text, '', '적지 않고 판정만 해도 된다');
+  assert.equal(summary(s, 3).judged, 2);
+  recordPrediction(s, 'a', 0, '', 30);
+  assert.equal(s.chapters.a.predictions[0].verdict, 'partly', '판정이 있으면 글을 지워도 기록은 남는다');
+  recordPrediction(s, 'b', 0, 'x', 40);
+  recordPrediction(s, 'b', 0, ' ', 41);
+  assert.equal(s.chapters.b.predictions[0], undefined, '판정 없는 빈 글은 지운다');
+  assert.equal(recordPrediction(emptyState(), 'c', 0, 'x'.repeat(300), 1).chapters.c.predictions[0].text.length, 200);
 });
