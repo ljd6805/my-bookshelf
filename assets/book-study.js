@@ -73,15 +73,16 @@ function stampCard(list) {
   return `<p class="study-stamps-title">복습 도장 ${got.length}/${slots.length}</p>`
     + `<ol class="study-stamps" aria-label="복습 도장 판">${slots.map(c => {
       const on = got.includes(c);
-      return `<li data-on="${on}" title="${c.num}장 ${esc(c.title)}">${pad(c.num)}`
+      return `<li data-on="${on}" title="${c.num}장 ${esc(c.title)}"><span aria-hidden="true">${pad(c.num)}</span>`
         + `<span class="study-sr">${c.num}장 ${on ? '도장 받음' : '아직 도장 없음'}</span></li>`;
     }).join('')}</ol>`;
 }
 
 function summaryHtml(s, list) {
-  return `<p><b>${s.total}장 중 ${s.read}장 읽음</b> · 복습 도장 ${s.reviewed}개${s.judged ? ` · 예측 확인 ${s.judged}번` : ''}</p>`
+  const card = stampCard(list);
+  return `<p><b>${s.total}장 중 ${s.read}장 읽음</b>${card ? '' : ` · 복습 도장 ${s.reviewed}개`}${s.judged ? ` · 판정한 예측 ${s.judged}개` : ''}</p>`
     + `<progress max="${s.total}" value="${s.read}" aria-label="읽은 장 ${s.read}/${s.total}"></progress>`
-    + stampCard(list)
+    + card
     + `<p class="study-legend" aria-hidden="true">◔ 펼쳐 봄 · ✓ 끝까지 읽음 · ★ 복습 도장</p>`
     + `<button type="button" class="study-clear">이 책 진도 지우기</button>`;
 }
@@ -104,7 +105,7 @@ function resumeBanner(list) {
 function questionHtml(q, meta) {
   return `<li class="study-q" data-chapter="${esc(meta.id)}" data-q="${meta.index}" data-kind="${meta.kind}">`
     + `<p class="study-q-label">${esc(meta.label)}</p><p class="study-q-text">${esc(q.q)}</p>`
-    + `<details class="study-cover"><summary>덮개 들추기 <small>답을 먼저 떠올린 뒤 보기를 펼치세요</small></summary>`
+    + `<details class="study-cover"><summary>보기 펼치기 <small>답을 먼저 떠올린 뒤 여세요</small></summary>`
     + `<div class="study-choices" role="group" aria-label="보기">`
     + q.choices.map((c, i) => `<button type="button" data-choice="${i}">${i + 1}. ${esc(c)}</button>`).join('')
     + `</div></details><p class="study-feedback" role="status" aria-live="polite"></p></li>`;
@@ -129,7 +130,7 @@ function reviewHtml(chapter, list) {
   }
   return `<section class="study-review" aria-labelledby="study-review-title"><div class="eyebrow">REVIEW · 복습 퀴즈</div>`
     + `<h2 id="study-review-title">덮기 전에 다시 꺼내 보기</h2>`
-    + `<p class="study-intro">책을 보지 않고 답을 먼저 떠올린 다음, 덮개를 들춰 보기에서 고르세요. 이 장 문제를 모두 처음 고른 답으로 맞히면 복습 도장을 받고 목차에 ★이 표시됩니다.`
+    + `<p class="study-intro">책을 보지 않고 답을 먼저 떠올린 다음, 보기를 펼쳐 그중에서 고르세요. 이 장 문제를 모두 처음 고른 답으로 맞히면 복습 도장을 받고 목차에 ★이 표시됩니다.`
     + `${recallNote(recall)}</p>`
     + `<ol class="study-questions">${items.join('')}</ol><p class="study-status"></p>`
     + `<button type="button" class="study-again">이 장 복습 처음부터 다시 하기</button></section>`;
@@ -178,7 +179,7 @@ function answer(section, chapter, item, button) {
   button.dataset.result = correct ? 'right' : 'wrong';
   button.setAttribute('aria-pressed', 'true');
   const feedback = item.querySelector('.study-feedback');
-  if (correct) feedback.textContent = tries === 1 ? `✓ 정답입니다. ${q.why}` : `✓ 맞습니다. 다시 고른 답이라 복습 완료에는 세지 않습니다. ${q.why}`;
+  if (correct) feedback.textContent = tries === 1 ? `✓ 정답입니다. ${q.why}` : `✓ 맞습니다. 다시 고른 답이라 복습 도장에는 세지 않습니다. ${q.why}`;
   else if (tries >= 2) feedback.textContent = `✗ 이번에도 아닙니다. 답은 ${q.answer + 1}번입니다. ${q.why}`;
   else feedback.textContent = `✗ ${pick + 1}번은 아닙니다. 한 번 더 골라 보세요.`;
   // 맞혔거나 답을 보여 준 문항은 잠근다. 복습 완료와 앞 장 기록은 첫 번째 고른 답만 센다.
@@ -215,12 +216,14 @@ function mountReview(chapter, list) {
   });
 }
 
-/* 예측 확인: 책의 "먼저 예측하기" 상자(.predict)마다 예측을 적는 칸과, 실험 뒤에 들추는 덮개를 붙인다.
-   책이 이미 예측 칸(input)이나 결과 읽기 덮개(details.guide-reading)를 그렸으면 그것을 그대로 쓴다. */
+/* 예측 확인: 책의 "먼저 예측하기" 상자(.predict)마다 예측을 적는 칸과, 실험 뒤에 예측과 결과를 견주는 판정 칸을 붙인다.
+   책이 이미 예측 칸(input)이나 결과 읽기 덮개(details.guide-reading)를 그렸으면 그것을 그대로 쓰고, 판정 칸은 그 덮개 안에 둔다.
+   덮개가 없는 책은 실험 결과 자체가 답이므로 따로 숨기지 않고, 실험 끝에 판정 칸을 펼친 채로 둔다.
+   저장은 장 안에서 몇 번째 예측 상자인지(n)로 한다. 책이 예측 상자의 순서를 바꾸면 예전 판정이 다른 상자에 붙을 수 있다. */
 const VERDICT_NOTE = {
   hit: '예측이 맞았습니다. 왜 맞았는지 이 장의 식이나 그림을 들어 한 문장으로 설명해 보세요.',
-  partly: '일부만 맞았습니다. 어느 부분이 달랐는지 실험의 입력 하나만 바꿔 다시 확인해 보세요.',
-  miss: '예측이 빗나갔습니다. 본문에서 이 결과를 설명하는 문장을 찾아, 처음 생각과 어디가 달랐는지 적어 보세요.',
+  partly: '일부만 맞았습니다. 예측과 결과가 갈린 부분을 짚고, 그 부분에 걸린 입력 하나만 바꿔 다시 실험해 보세요.',
+  miss: '예측이 빗나갔습니다. 본문에서 이 결과를 설명하는 문장을 찾아, 처음 생각과 어디가 달랐는지 짚어 보세요.',
 };
 
 function guessInput(box, chapter, n) {
@@ -236,27 +239,47 @@ function guessInput(box, chapter, n) {
   }
   const saved = ((state.chapters[chapter.id] || {}).predictions || {})[n];
   if (saved && saved.text && !input.value) input.value = saved.text;
-  input.addEventListener('change', () => { recordPrediction(state, chapter.id, n, input.value, Date.now()); save(); });
+  if (!input.dataset.studyBound) {
+    input.dataset.studyBound = '1';
+    input.addEventListener('change', () => { recordPrediction(state, chapter.id, n, input.value, Date.now()); save(); });
+  }
   return input;
 }
 
-/** 덮개를 둘 곳: 예측 상자가 든 실험의 결과 읽기 덮개, 없으면 그 실험의 끝, 실험 밖이면 뒤따르는 첫 실험의 끝. */
+/** 판정 칸을 둘 곳: 예측 상자가 든 실험의 결과 읽기 덮개, 없으면 그 실험의 끝, 실험 밖이면 뒤따르는 첫 실험의 끝. */
 function proveHost(box) {
   const lab = box.closest('.lab') || (() => {
     for (let el = box.nextElementSibling; el; el = el.nextElementSibling) if (el.matches('.lab')) return el;
     return null;
   })();
   const reading = lab && lab.querySelector('details.guide-reading');
-  if (reading) return { place: el => reading.append(el), own: false };
-  if (lab) return { place: el => lab.append(el), own: true };
-  return { place: el => box.after(el), own: true };
+  if (reading) return { place: el => reading.append(el), reading, echo: !reading.querySelector('.guess-echo') };
+  if (lab) return { place: el => lab.append(el), reading: null, echo: true };
+  return { place: el => box.after(el), reading: null, echo: true };
 }
 
-function proveHtml(chapter, n, own) {
+function proveHtml(chapter, n, host) {
   const name = `study-verdict-${chapter.id}-${n}`;
-  return `${own ? '<p class="study-echo"></p>' : ''}<fieldset class="study-verdicts"><legend>실험 결과와 견주면 내 예측은</legend>`
+  return (host.reading ? '' : '<p class="study-prove-title">내 예측과 실험 결과 견주기 <small>실험을 해 본 뒤 고르세요</small></p>')
+    + (host.echo ? '<p class="study-echo"></p>' : '')
+    + `<fieldset class="study-verdicts"><legend>실험 결과와 견주어 보니 내 예측은 어땠나요?</legend>`
     + Object.entries(VERDICTS).map(([key, text]) => `<label><input type="radio" name="${esc(name)}" value="${key}"> ${text}</label>`).join('')
     + `</fieldset><p class="study-verdict-note" role="status" aria-live="polite"></p>`;
+}
+
+/** 예측 되비추기. 결과를 보기 시작한 때(덮개를 처음 열거나 처음 판정한 때)의 글을 기준으로,
+    그 뒤에 고친 글은 "실험 전에 적은 예측"이라고 부르지 않는다. */
+function echoer(prove, input, frozen) {
+  const line = prove.querySelector('.study-echo');
+  const show = () => {
+    if (!line) return;
+    const text = input.value.trim();
+    if (!text) line.textContent = '적어 둔 예측이 없습니다. 실험 전에 떠올린 생각과 결과를 견주어 골라 보세요.';
+    else if (frozen.text === null || frozen.text === text) line.textContent = `실험 전에 적은 예측: “${text}”`;
+    else line.textContent = `결과를 본 뒤 고친 예측: “${text}” (처음 적은 것: “${frozen.text || '없음'}”)`;
+  };
+  const freeze = () => { if (frozen.text === null) frozen.text = input.value.trim(); show(); };
+  return { show, freeze };
 }
 
 function mountPrediction(box, chapter, n) {
@@ -264,29 +287,20 @@ function mountPrediction(box, chapter, n) {
   const input = guessInput(box, chapter, n);
   const host = proveHost(box);
   const prove = document.createElement('div');
-  prove.className = 'study-prove';
-  prove.innerHTML = proveHtml(chapter, n, host.own);
-  let holder = prove;
-  if (host.own) {
-    holder = document.createElement('details');
-    holder.className = 'study-flap';
-    holder.innerHTML = '<summary>덮개 들추기 <small>실험을 해 본 뒤에 내 예측과 견주어 보세요</small></summary>';
-    holder.append(prove);
-    const echo = () => {
-      const text = input.value.trim();
-      prove.querySelector('.study-echo').textContent = text
-        ? `실험 전에 적은 예측: “${text}”` : '적어 둔 예측이 없습니다. 실험 전에 떠올린 생각과 결과를 견주어 골라 보세요.';
-    };
-    echo();
-    input.addEventListener('input', echo);
-  }
-  host.place(holder);
+  prove.className = host.reading ? 'study-prove' : 'study-prove study-prove-box';
+  prove.innerHTML = proveHtml(chapter, n, host);
+  host.place(prove);
+  const saved = ((state.chapters[chapter.id] || {}).predictions || {})[n] || {};
+  const echo = echoer(prove, input, { text: saved.verdict ? (saved.text || '') : null });
+  echo.show();
+  input.addEventListener('input', echo.show);
+  if (host.reading) host.reading.addEventListener('toggle', () => { if (host.reading.open) echo.freeze(); });
   const note = prove.querySelector('.study-verdict-note');
-  const saved = (((state.chapters[chapter.id] || {}).predictions || {})[n] || {}).verdict;
-  if (saved) { prove.querySelector(`input[value=${saved}]`).checked = true; note.textContent = VERDICT_NOTE[saved]; }
+  if (saved.verdict) { prove.querySelector(`input[value=${saved.verdict}]`).checked = true; note.textContent = VERDICT_NOTE[saved.verdict]; }
   prove.addEventListener('change', event => {
     const verdict = event.target.value;
     if (!VERDICT_NOTE[verdict]) return;
+    echo.freeze();
     if (input.value.trim()) recordPrediction(state, chapter.id, n, input.value, Date.now());
     judgePrediction(state, chapter.id, n, verdict, Date.now());
     save();
@@ -351,7 +365,9 @@ function clearAll(event) {
   try { localStorage.removeItem(KEY); } catch { /* 저장 불가 */ }
   state = load();
   lastRoute = null;
-  document.querySelectorAll('.study-review, .study-resume, .study-flap, .study-prove, .study-guess').forEach(el => el.remove());
+  // 책이 그린 예측 칸은 남기되 글은 비운다. 공통 스크립트가 붙인 칸과 판정은 지우고 다시 붙인다.
+  document.querySelectorAll('[data-study-predict] input, [data-study-predict] textarea').forEach(el => { el.value = ''; });
+  document.querySelectorAll('.study-review, .study-resume, .study-prove, .study-guess').forEach(el => el.remove());
   document.querySelectorAll('[data-study-predict]').forEach(el => { delete el.dataset.studyPredict; });
   refresh();
 }

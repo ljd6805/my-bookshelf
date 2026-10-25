@@ -29,19 +29,19 @@
 .study-status{margin:18px 0 8px;font-weight:600}
 .study-again{font-size:.85rem}
 @media (max-width:560px){.study-review{padding:18px 16px}.study-resume{padding:14px 16px}}
-/* 덮개: 답(복습 보기·예측 확인)은 독자가 먼저 떠올린 뒤 직접 들춰야 보인다. 접힌 상태는 점선 종이로, 펼친 상태는 글로도 알린다. */
-.study-cover,.study-flap{margin:8px 0 0;border:1px dashed var(--line);border-radius:6px;background:var(--bg)}
-.study-cover>summary,.study-flap>summary{cursor:pointer;padding:10px 14px;font-weight:600;list-style:none;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
-.study-cover>summary::-webkit-details-marker,.study-flap>summary::-webkit-details-marker{display:none}
-.study-cover>summary::before,.study-flap>summary::before{content:"▸";font-family:var(--font-mono);color:var(--accent)}
-.study-cover[open]>summary::before,.study-flap[open]>summary::before{content:"▾"}
-.study-cover>summary small,.study-flap>summary small{font-weight:400;color:var(--muted);font-size:.85rem}
-.study-cover[open],.study-flap[open]{border-style:solid}
-.study-cover[open]>summary small::after,.study-flap[open]>summary small::after{content:" · 펼침"}
-.study-cover>summary:focus-visible,.study-flap>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.study-cover .study-choices,.study-flap .study-prove{padding:0 14px 12px;transform-origin:top;animation:study-lift .28s ease-out}
-.study-flap{margin:16px 0 0}
-.lab>.study-flap{margin:16px}
+/* 덮개: 복습 보기는 독자가 답을 먼저 떠올린 뒤 직접 펼쳐야 보인다. 접힘·펼침은 점선·실선 테두리와 ▸·▾ 기호로도 보인다(낭독기는 details의 펼침 상태를 읽는다). */
+.study-cover{margin:8px 0 0;border:1px dashed var(--line);border-radius:6px;background:var(--bg)}
+.study-cover>summary{cursor:pointer;padding:10px 14px;font-weight:600;list-style:none;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.study-cover>summary::-webkit-details-marker{display:none}
+.study-cover>summary::before{content:"▸" / "";font-family:var(--font-mono);color:var(--accent)}
+.study-cover[open]>summary::before{content:"▾" / ""}
+.study-cover>summary small,.study-prove-title small{font-weight:400;color:var(--muted);font-size:.85rem}
+.study-cover[open]{border-style:solid}
+.study-cover>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.study-cover .study-choices{padding:0 14px 12px;transform-origin:top;animation:study-lift .28s ease-out}
+.study-prove-box{margin:16px 0 0;padding:12px 14px;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:6px;background:var(--bg)}
+.lab>.study-prove-box{margin:16px}
+.study-prove-title{margin:0 0 8px;font-weight:600;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
 @keyframes study-lift{from{opacity:0;transform:perspective(600px) rotateX(-35deg)}to{opacity:1;transform:none}}
 .study-guess{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:8px;font-size:.88rem}
 .study-guess input{flex:1 1 220px;min-width:0;padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--text);font:inherit}
@@ -61,5 +61,5 @@
 .study-stamps{list-style:none;margin:0 0 8px;padding:0;display:flex;flex-wrap:wrap;gap:4px}
 .study-stamps li{width:26px;height:26px;display:grid;place-items:center;border:1px dashed var(--line);border-radius:50%;font:600 .66rem/1 var(--font-mono);color:var(--muted)}
 .study-stamps li[data-on=true]{border:2px solid var(--accent);color:var(--accent)}
-@media (prefers-reduced-motion:reduce){.study-cover .study-choices,.study-flap .study-prove,.study-stamp.is-fresh span{animation:none}}
-html[data-motion=reduce] .study-cover .study-choices,html[data-motion=reduce] .study-flap .study-prove,html[data-motion=reduce] .study-stamp.is-fresh span{animation:none}
+@media (prefers-reduced-motion:reduce){.study-cover .study-choices,.study-stamp.is-fresh span{animation:none}}
+html[data-motion=reduce] .study-cover .study-choices,html[data-motion=reduce] .study-stamp.is-fresh span{animation:none}

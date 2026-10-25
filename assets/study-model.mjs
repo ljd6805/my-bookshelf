@@ -4,7 +4,7 @@
    시각은 Date.now() 밀리초, 장 번호는 1부터 센다. 기준: docs/08-book-template.html#study */
 
 export const LEVELS = ['none', 'opened', 'read', 'reviewed'];
-export const LEVEL_LABEL = { none: '아직 펼치지 않음', opened: '펼쳐 봄', read: '끝까지 읽음', reviewed: '복습 완료' };
+export const LEVEL_LABEL = { none: '아직 펼치지 않음', opened: '펼쳐 봄', read: '끝까지 읽음', reviewed: '복습 도장 받음' };
 export const LEVEL_MARK = { none: '○', opened: '◔', read: '✓', reviewed: '★' };
 
 export function studyKey(folder) {
