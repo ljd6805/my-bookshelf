@@ -72,7 +72,7 @@ test('header has the shelf return, menu order, light theme, type and study scrip
  assert.match(html,/<head>[\s\S]*book-theme\.js[\s\S]*book-study\.js\?v=[^"]+" data-book-study data-review="review\.json"[\s\S]*<\/head>/);
  assert.match(html,/<title>백테스트와 자동 매매 · [^<]+<\/title>/);
 });
-test('script load order: data → math → content → visual → figures → labs → home → guides → app',()=>{const order=[...html.matchAll(/<script src="js\/([a-z-]+)\.js/g)].map(m=>m[1]);assert.deepEqual(order,['data','math','content','visual','figures',...LAB_FILES,'home-lab','lab-guides','app']);});
+test('script load order: data → math → content → visual → figures → labs → home → guides → app → flow-live',()=>{const order=[...html.matchAll(/<script src="js\/([a-z-]+)\.js/g)].map(m=>m[1]);assert.deepEqual(order,['data','math','content','visual','figures',...LAB_FILES,'home-lab','lab-guides','app','flow-live']);});
 test('links point to existing books and routes; no link to this book',()=>{
  for(const c of B.chapters)for(const [name,url,why] of c.cross){assert.match(url,/^\.\.\/[a-z0-9-]+\/(#[a-z0-9-]+)?$/);assert.ok(name&&why.length>10,c.id);}
  for(const f of UI_FILES){
