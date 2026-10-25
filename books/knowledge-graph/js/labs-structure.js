@@ -10,7 +10,7 @@ L.triples=el=>{
   const n=U.value(el,'facts'),list=G.triples.slice(0,n),s=G.stats(list),last=list[n-1],prev=G.stats(G.triples.slice(0,Math.max(0,n-1)));
   el.querySelector('.chart').innerHTML=list.length?U.graph(list,{edges:last?[last]:[],names:true,title:`문장 ${n}개로 만든 그래프`}):U.svg('<text x="240" y="140" text-anchor="middle">아직 문장이 없습니다. 슬라이더를 오른쪽으로 옮겨 보세요.</text>','빈 그래프');
   const change=!last?'':s.components<prev.components?' 이번 문장이 떨어져 있던 두 덩어리를 이었습니다.':s.nodes===prev.nodes?' 이번 문장은 새 점 없이 간선만 더했습니다.':'';
-  el.querySelector('.readout').innerHTML=`점 <b>${s.nodes}</b>개 · 사실(간선) <b>${s.edges}</b>개 · 떨어진 덩어리 <b>${s.components}</b>개<br>${last?`마지막 문장: <b>${U.fact(last)}</b>.${change}`:'문장을 더하면 점과 간선이 생깁니다.'}${s.top?`<br>가장 많이 연결된 점: ${U.label(s.top)} (${s.degree[s.top]}개)`:''}`;
+  el.querySelector('.readout').innerHTML=`점 <b>${s.nodes}</b>개 · 사실(간선) <b>${s.edges}</b>개 · 떨어진 덩어리 <b>${s.components}</b>개<br>${last?`마지막 문장: <b>${U.fact(last)}</b>.${change}`:'문장을 더하면 점과 간선이 생깁니다.'}${s.top&&s.degree[s.top]>1?`<br>가장 많이 연결된 점: ${U.label(s.top)} (${s.degree[s.top]}개)`:''}`;
  });
 };
 L.walk=el=>{
@@ -41,7 +41,7 @@ L.resolve=el=>{
   const t=U.value(el,'threshold'),useId=U.pick(el,'method')==='id',r=G.resolve(names,t,useId);
   el.querySelector('#threshold').disabled=useId;
   el.querySelector('.chart').innerHTML=`<div class="clusters">${r.clusters.map((c,i)=>{const mixed=new Set(c.map(n=>n.id)).size>1;return `<div class="cluster${mixed?' bad':''}"><b>${mixed?'⚠ 섞임':'묶음'} ${i+1}</b>${c.map(n=>`<span class="chip" data-id="${n.id}">${U.esc(n.name)}<small>${n.id}</small></span>`).join('')}</div>`;}).join('')}</div>`;
-  const pairs=[['마리 퀴리','피에르 퀴리'],['Marie Curie','Pierre Curie'],['Marie Curie','M. Curie'],['마리 퀴리','Marie Curie']];
+  const pairs=[['마리 퀴리','피에르 퀴리'],['Marie Curie','Pierre Curie'],['Marie Curie','M. Curie'],['M. Curie','P. Curie'],['마리 퀴리','Marie Curie']];
   el.querySelector('.readout').innerHTML=`묶음 <b>${r.clusters.length}</b>개 (실제 인물 ${r.ideal}명) · 다른 사람이 섞인 묶음 <b>${r.wrong}</b>개 · 여러 묶음으로 갈라진 인물 <b>${r.missed}</b>명<br>${useId?'식별자 표로 묶으면 글자 체계와 상관없이 정확히 세 사람이 됩니다.':'글자 조각 겹침 J: '+pairs.map(([a,b])=>`${a}–${b} ${U.fmt(G.jaccard(a,b))}`).join(' · ')}`;
  });
 };

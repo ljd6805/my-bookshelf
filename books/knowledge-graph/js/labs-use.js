@@ -12,7 +12,7 @@ L.query=el=>{
   const rows=G.match(list,patterns),vars=[...new Set(patterns.flat().filter(v=>v.startsWith('?')))];
   const term=v=>v.startsWith('?')?v:':'+v;
   el.querySelector('.chart').innerHTML=`<pre class="sparql">SELECT ${vars.join(' ')} WHERE {\n${patterns.map(p=>'  '+p.map(term).join(' ')).join(' .\n')}\n}</pre><table class="bindings"><thead><tr>${vars.map(v=>`<th>${v}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${vars.map(v=>`<td>${U.label(r[v])}</td>`).join('')}</tr>`).join('')||`<tr><td colspan="${vars.length}">맞는 값이 없습니다</td></tr>`}</tbody></table>`;
-  el.querySelector('.readout').innerHTML=`그래프 사실 ${list.length}개에서 패턴 ${patterns.length}줄에 맞는 답 <b>${rows.length}</b>줄${rows.length?': '+rows.map(r=>'('+vars.map(v=>`${v}=${U.label(r[v])}`).join(', ')+')').join(', '):''}<br>${rows.length?'같은 변수(?x)는 모든 줄에서 같은 값이어야 하므로 줄을 더할수록 답은 줄거나 그대로입니다.':'답이 없다고 거짓은 아닙니다. 방향을 바꾸거나 추론을 포함해 보세요.'}`;
+  el.querySelector('.readout').innerHTML=`그래프 사실 ${list.length}개에서 패턴 ${patterns.length}줄에 맞는 답 <b>${rows.length}</b>줄${rows.length?': '+rows.map(r=>'('+vars.map(v=>`${v}=${U.label(r[v])}`).join(', ')+')').join(', '):''}<br>${rows.length?'같은 변수(?x)는 모든 줄에서 같은 값이어야 하므로, 같은 그래프에서 패턴 줄을 더하면 답은 줄거나 그대로입니다. 추론을 포함하면 그래프의 사실이 늘어 답이 늘 수 있습니다.':'답이 없다고 거짓은 아닙니다. 방향을 바꾸거나 추론을 포함해 보세요.'}`;
  });
 };
 const candidates=[

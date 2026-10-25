@@ -898,5 +898,21 @@
         "llm-performance": 9
       }
     }
+  },
+  "kg_revision": {
+    "book": "「지식 그래프와 온톨로지 · 의미를 구조로」 books/knowledge-graph/, id knowledge-graph-ontology",
+    "request": "2026-10-25 사용자: 책 한 권을 정해 전반적으로 바꾸기 → 지식 그래프 선택",
+    "done": [
+      "장 제목 9개 K7로 바꿈(장 색인·장 목록·rag·algorithms·statements 링크 이름 동기화)",
+      "장마다 본문 4문단·앞 장 떠올리기·남은 질문, 실험 11개(새 matrix·shape)마다 예측과 결과 읽기 덮개",
+      "근거 사슬 그림을 모든 장에(따라가는 양)",
+      "review.json 18문항, study_rules PENDING에서 제외",
+      "research.html, 교과과정·문체·리허설·관문 기록"
+    ],
+    "verification": "책 테스트 22개, 브라우저 11개 실험·3개 폭, validate 0 오류, 팩트 검수 review-2026-10-25-revision fixed(유진), 리허설 채원",
+    "next": [
+      "9장 마지막 과제에 사실 빼기 조작(다음 개정 후보)",
+      "나머지 24권 예측 상자"
+    ]
   }
 }

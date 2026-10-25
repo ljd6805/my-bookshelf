@@ -34,7 +34,8 @@
 <tr><td>S4</td><td><a href="https://www.w3.org/TR/rdf11-mt/">W3C · RDF 1.1 Semantics</a> rdfs2·rdfs3</td><td>domain·range에서 타입을 이끌어 냄</td><td>shape 실험의 RDFS 결론</td></tr>
 <tr><td>S5</td><td><a href="https://www.w3.org/TR/owl2-primer/">W3C · OWL 2 Primer</a> sameAs</td><td>두 개체 이름이 같은 개체를 가리킨다고 적는 관계</td><td>3장 넷째 문단</td></tr>
 <tr><td>S6</td><td><a href="https://arxiv.org/abs/2003.02320">Hogan 외 (2021) Knowledge Graphs</a></td><td>규칙 추론의 미리 적용(materialisation)과 질의 때 적용(query rewriting)</td><td>5장 셋째 문단(전방·후방 연쇄)</td></tr>
-<tr><td>S7</td><td><a href="https://papers.nips.cc/paper/2013/hash/1cecc7a77928ca8133fa24680a88d2f9-Abstract.html">Bordes 외 (2013) TransE</a></td><td>일대다·다대일 관계에서의 성능 저하 논의</td><td>8장 넷째 문단, 복습 퀴즈 8장 2번</td></tr>
+<tr><td>S7</td><td><a href="https://papers.nips.cc/paper/2013/hash/1cecc7a77928ca8133fa24680a88d2f9-Abstract.html">Bordes 외 (2013) TransE</a></td><td>관계 종류(일대일·일대다·다대일·다대다)별 성능 표(Table 4). 원 논문은 이를 TransE의 약점으로 서술하지 않음(G6 유진 정정)</td><td>참고 자료 설명</td></tr>
+<tr><td>S7b</td><td><a href="https://ojs.aaai.org/index.php/AAAI/article/view/8870">Wang 외 (2014) TransH</a></td><td>초록: TransE가 재귀·일대다·다대일·다대다 관계를 잘 다루지 못함(G6 유진 추가)</td><td>8장 넷째 문단, 복습 퀴즈 8장 2번</td></tr>
 <tr><td>S8</td><td><a href="https://www.wikidata.org/wiki/Wikidata:Introduction">Wikidata · Introduction</a>, query.wikidata.org</td><td>개체마다 Q 번호, 언어별 레이블, 공개 SPARQL 질의 창구</td><td>3장·6장 넷째 문단</td></tr>
 </table></div>
 </section>
@@ -45,7 +46,7 @@
 <tr><td>종류가 적히지 않은 점은 SHACL 검사에서 위반, RDFS에서는 사람 타입을 얻는다</td><td>S3, S4, <code>shapeReport</code></td><td>확인함</td><td>실험의 검사 방식은 SHACL을 흉내 낸 것이며 SHACL 엔진을 실행하지 않음</td></tr>
 <tr><td>A²의 대각선은 차수와 같다. 마리 퀴리 8</td><td>그래프 이론 정의, 단위 검사</td><td>계산함</td><td>방향을 무시한 다중 간선 수(이 그래프에는 같은 두 점 사이 사실이 두 개인 쌍이 없음)</td></tr>
 <tr><td>폴로늄 → 1935 화학상 보행 수 0·0·2·6(k = 1~4), 폴로늄 행 합계 3·16·56·269</td><td>단위 검사</td><td>계산함</td><td>사실 21개 그래프</td></tr>
-<tr><td>틀린 추출 후보 4개 가운데 관계 규칙에 걸리는 것은 1개(폴로늄 —발견→ 마리 퀴리)</td><td>단위 검사</td><td>계산함</td><td>schema는 9장 그래프의 관계 규칙</td></tr>
+<tr><td>틀린 추출 후보 4개 가운데 관계 규칙에 걸리는 것은 1개(폴로늄 —발견→ 마리 퀴리)</td><td>단위 검사</td><td>계산함</td><td>schema는 4장의 관계 규칙</td></tr>
 <tr><td>문턱 0.60: 넣음 8, 맞음 7, 정밀도 87.5%, 재현율 77.8%</td><td><code>prf</code></td><td>계산함</td><td>점수는 미리 정한 시나리오</td></tr>
 <tr><td>바르샤바 + (1.5, 1.2) = (2.5, 1.8), 폴란드까지 ≈ 0.07, 독일 ≈ 0.82</td><td>손 계산과 <code>transe</code></td><td>계산함</td><td>손으로 정한 2차원 좌표</td></tr>
 <tr><td>패턴 세 줄의 답은 두 줄이고 ?z는 1935 화학상 하나</td><td><code>match</code>, 단위 검사</td><td>계산함</td><td>적힌 사실 21개만</td></tr>

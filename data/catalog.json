@@ -14,7 +14,7 @@
       "illustration": "books/probability/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 센서 20대가 각각 10% 확률로 경보를 울릴 때 하루 경보 개수를 모으면 2번 근처가 가장 높고, 5번 이상은 약 4%입니다.",
       "cover_art": "books/probability/assets/cover-art.svg",
-      "cover_meta": "9장 · 11개 실험",
+      "cover_meta": "9장 · 9개 실험",
       "status": "published",
       "url": "books/probability/",
       "keywords": [
@@ -2211,7 +2211,7 @@
       "illustration": "books/knowledge-graph/assets/shelf-illustration.svg",
       "illustration_caption": "개념도: 문장 조각이 트리플이 되어 점과 화살표로 이어지고, 질문에서 출발한 탐색이 폴로늄 → 마리 → 이렌 → 1935 화학상으로 근거 사슬을 밝힙니다.",
       "cover_art": "books/knowledge-graph/assets/cover-art.svg",
-      "cover_meta": "9장 · 9개 실험",
+      "cover_meta": "9장 · 11개 실험",
       "status": "published",
       "url": "books/knowledge-graph/",
       "keywords": [
