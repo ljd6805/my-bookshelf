@@ -891,7 +891,12 @@
         "prisma",
         "llm-performance"
       ],
-      "record": "docs/03-verification.html#flow-live-wider-check"
+      "record": "docs/03-verification.html#flow-live-wider-check",
+      "chapters": {
+        "backtest": 8,
+        "prisma": 7,
+        "llm-performance": 9
+      }
     }
   }
 }
