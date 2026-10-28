@@ -64,6 +64,7 @@ jobs:
       - run: npm test --prefix books/lora
       - run: npm test --prefix books/federated
       - run: npm test --prefix books/chess
+      - run: npm test --prefix books/opic
       - run: npm test --prefix books/prisma
       - run: npm test --prefix books/lora-why
       - name: Install Prisma textbook example

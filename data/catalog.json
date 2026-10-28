@@ -3245,6 +3245,79 @@
       "short_title": "백테스트와 자동 매매"
     },
     {
+      "id": "opic-prep",
+      "title": "오픽 대비 · 질문 유형별로 답을 짜고 시간 안에 말하기",
+      "spine_title": "오픽 대비",
+      "spine_category": "영어",
+      "color": "rose",
+      "description": "오픽 시험의 진행 순서와 등급 기준을 ACTFL 공개 문서와 국내 안내로 확인하고, 배경 설문을 이야기 묶음으로 고른 뒤, 묘사·습관·경험·비교·롤플레이 질문마다 답의 짜임을 세웁니다. 준비한 이야기를 콤보·돌발 질문에 바꿔 쓰고, 자기 녹음으로 말하기 속도와 멈춤을 재며, 마지막에는 답 네 개를 낱말·연결어·시간틀·질문 수로 진단합니다.",
+      "illustration": "books/opic/assets/shelf-illustration.svg",
+      "illustration_caption": "질문 하나를 들은 뒤 답이 도입·세부·예·마무리 네 덩어리로 채워지고, 문항당 평균 2분 20초의 시간 막대가 차오릅니다.",
+      "cover_art": "books/opic/assets/cover-art.svg",
+      "cover_meta": "11장 · 11개 실험",
+      "status": "published",
+      "url": "books/opic/",
+      "keywords": [
+        "오픽",
+        "OPIc",
+        "오픽 대비",
+        "영어 말하기",
+        "말하기 시험",
+        "ACTFL",
+        "멀티캠퍼스",
+        "IM",
+        "IH",
+        "AL",
+        "등급",
+        "배경 설문",
+        "자기 평가",
+        "난이도 재조정",
+        "콤보",
+        "돌발",
+        "롤플레이",
+        "묘사",
+        "습관",
+        "경험",
+        "비교",
+        "시제",
+        "과거형",
+        "시간틀",
+        "연결어",
+        "텍스트 유형",
+        "글의 형태",
+        "말하기 속도",
+        "분당 낱말",
+        "wpm",
+        "멈춤",
+        "시간 배분",
+        "녹음 진단",
+        "민서"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/opic/#chapters"
+        },
+        {
+          "title": "02 · 등급 기준 네 가지로 IM·IH·AL 답의 차이 읽기",
+          "url": "books/opic/#levels"
+        },
+        {
+          "title": "04 · 장소와 사람을 묘사하는 답을 네 덩어리로 짜기",
+          "url": "books/opic/#describe"
+        },
+        {
+          "title": "09 · 콤보 문항과 돌발 주제에 준비한 이야기를 바꿔 쓰기",
+          "url": "books/opic/#combo"
+        },
+        {
+          "title": "마지막 과제 · 민서의 첫 주 답 네 개를 진단하고 고친 답과 비교하기",
+          "url": "books/opic/#final"
+        }
+      ],
+      "short_title": "오픽 대비"
+    },
+    {
       "id": "chess-basics",
       "title": "체스 입문 · 규칙을 익히고 기초 원칙으로 한 판 두기",
       "spine_title": "체스 입문",
@@ -5159,6 +5232,64 @@
         "에너지로 센 랭크와 성능에 필요한 랭크가 왜 다를 수 있는지 말할 수 있는가",
         "LoRA가 덜 배우고 덜 잊는다는 말을 ‖ΔW‖와 작업이 바꾸는 방향 수로 설명할 수 있는가"
       ]
+    },
+    {
+      "id": "opic-answer-in-time",
+      "title": "오픽 한 문항에 2분 동안 막히지 않고 답하려면",
+      "question": "말하기 시험의 한 문항에서 답이 30초 만에 끝나는 까닭은 무엇이고, 답의 짜임·속도·녹음 진단을 어떤 순서로 익혀야 2분을 채울 수 있을까?",
+      "audience": "영어로 짧은 문장은 만들지만 질문 하나에 길게 답하면 말이 끊기는 성인",
+      "prerequisites": "영어 기초 문장(현재·과거형), 초시계",
+      "start": "가상 인물 민서는 5주 뒤 오픽 IH가 필요하다. 첫 녹음에서 “Describe your home.”에 45초 만에 “That’s all.”로 답을 끝냈다.",
+      "steps": [
+        {
+          "book_id": "opic-prep",
+          "url": "books/opic/#test",
+          "task": "‘문항 수와 문항당 말할 시간 계산 실험’에서 ‘자기 평가 단계’를 4, ‘질문 하나를 듣는 시간(초)’을 20으로 두고 문항당 평균 말할 시간을 읽은 뒤, ‘매번 다시 듣기를 한 번 쓴다’를 켜 다시 읽는다",
+          "minutes": 14,
+          "why": "2분 동안 이어 말하는 연습을 시험 한 문항의 길이로 옮긴다. 40분을 15문항이 나누면 한 문항에 쓸 수 있는 시간이 얼마인지 먼저 계산해 목표 길이를 정한다",
+          "record": "다시 듣기를 끄고 켰을 때의 문항당 평균 말할 시간"
+        },
+        {
+          "book_id": "opic-prep",
+          "url": "books/opic/#describe",
+          "task": "‘묘사 답을 네 덩어리로 짜기 실험’에서 비교 예제 ‘처음 녹음과 비슷한 답’과 ‘네 덩어리를 모두 채운 답’을 차례로 누르고, ‘말하기 속도(낱말/분)’를 60에 둔 채 두 답의 낱말 수와 초를 적는다",
+          "minutes": 16,
+          "why": "짧은 대답 뒤에 말을 잇는 문장 틀을 묘사 질문 하나의 짜임으로 넓힌다. 도입·세부·예·마무리가 각각 몇 초를 맡는지 보면 답이 왜 짧았는지 보인다",
+          "record": "두 답의 낱말 수와 초, 빠진 덩어리 이름"
+        },
+        {
+          "book_id": "opic-prep",
+          "url": "books/opic/#timing",
+          "task": "‘말하기 속도와 멈춘 시간 재기 실험’에서 초시계를 켜고 “Tell me about your home.”에 1분 동안 답한 뒤, 받아 적은 대본을 ‘대본 (선택)’ 칸에 붙여 ‘대본 낱말 세기’를 누르고, 2초 넘게 멈춘 시간을 넣어 1분당 낱말과 멈춤의 몫을 읽는다",
+          "minutes": 15,
+          "why": "앞 정거장에서 정한 목표 시간을 내 속도로 채우려면 낱말이 몇 개 필요한지 계산한다. 멈춤이 많다면 속도보다 말할 내용이 모자란 것인지 확인한다",
+          "record": "녹음 길이, 1분당 낱말, 멈춤의 몫, 1분 30초에 필요한 낱말 수"
+        },
+        {
+          "book_id": "aie-07-audio",
+          "url": "books/aie-audio/#asr",
+          "task": "‘WER과 CER 직접 세기’ 실험에서 비교 예제 ‘첫 단어 잘림’과 ‘침묵 환각’을 차례로 눌러 오류 종류(삭제·삽입)와 WER을 읽는다",
+          "minutes": 15,
+          "why": "자기 녹음을 자동 받아쓰기로 옮기면 낱말 수를 빨리 셀 수 있다. 음성 인식이 소리를 글자로 옮기는 방식과 틀리는 곳을 알면 받아 적은 글에서 무엇을 다시 들어야 하는지 정할 수 있다",
+          "record": "두 예제의 오류 종류와 WER"
+        },
+        {
+          "book_id": "opic-prep",
+          "url": "books/opic/#final",
+          "task": "‘민서의 답 네 개 진단하기 실험’에서 ‘민서의 답’을 하나씩 바꾸며 ‘녹음’을 ‘첫 주 녹음’으로 두고 걸린 점검을 적은 뒤, ‘책을 마친 뒤 다시 녹음’으로 바꿔 그 점검의 숫자가 얼마로 바뀌었는지 옆에 적는다",
+          "minutes": 20,
+          "why": "내 녹음을 진단하기 전에 남의 답 넷에서 점검 순서대로 고칠 곳 하나를 고르는 연습을 한다. 하나씩 고쳐야 무엇 때문에 나아졌는지 알 수 있다",
+          "record": "답마다 걸린 점검과 고친 답의 숫자"
+        }
+      ],
+      "challenge": "「오픽 대비」 마지막 과제처럼 내 녹음 네 개(묘사·경험·비교·롤플레이)를 받아 적어 점검 다섯 가지로 고칠 곳 하나씩을 고르고, 하나만 고쳐 다시 녹음한 뒤 그 점검의 숫자를 견준다.",
+      "checks": [
+        "40분과 문항 수로 문항당 평균 말할 시간을 계산할 수 있는가",
+        "묘사 답을 네 덩어리로 짜고 덩어리마다 몇 초를 맡는지 말할 수 있는가",
+        "자기 녹음으로 1분당 낱말과 멈춤의 몫을 잴 수 있는가",
+        "받아 적은 글에서 자동 받아쓰기가 틀리기 쉬운 곳을 다시 들을 수 있는가",
+        "점검 순서대로 고칠 곳 하나를 고르고 고친 뒤의 숫자와 견줄 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -5931,7 +6062,18 @@
     "books/lora-why/#energy": "09 · 에너지로 센 랭크와 성능에 필요한 랭크가 다를 수 있는 이유",
     "books/lora-why/#regularize": "10 · 자료가 적을 때 랭크를 묶으면 잡음을 덜 배우는 이유",
     "books/lora-why/#limits": "11 · 많은 방향을 새로 배워야 하는 작업에서 LoRA가 덜 배우고 덜 잊는 이유",
-    "books/lora-why/#final": "마지막 과제 · 새 작업의 시험 미세조정 결과로 랭크가 충분한지 판단하기"
+    "books/lora-why/#final": "마지막 과제 · 새 작업의 시험 미세조정 결과로 랭크가 충분한지 판단하기",
+    "books/opic/#test": "01 · 오픽 시험의 진행 순서와 문항 구성 확인하기",
+    "books/opic/#levels": "02 · 등급 기준 네 가지로 IM·IH·AL 답의 차이 읽기",
+    "books/opic/#survey": "03 · 배경 설문으로 준비할 이야기 수를 줄이고 자기 평가 단계 고르기",
+    "books/opic/#describe": "04 · 장소와 사람을 묘사하는 답을 네 덩어리로 짜기",
+    "books/opic/#routine": "05 · 습관 질문에 현재 시제와 빈도·순서 표현으로 답하기",
+    "books/opic/#past": "06 · 경험 질문에 과거 시제로 사건 하나를 이야기하기",
+    "books/opic/#compare": "07 · 과거와 지금을 비교하고 앞으로의 변화까지 말하기",
+    "books/opic/#roleplay": "08 · 롤플레이에서 질문 세 개를 하고 대안을 내어 문제 풀기",
+    "books/opic/#combo": "09 · 콤보 문항과 돌발 주제에 준비한 이야기를 바꿔 쓰기",
+    "books/opic/#timing": "10 · 말하기 속도와 멈춤을 재고 40분을 문항마다 나눠 쓰기",
+    "books/opic/#final": "마지막 과제 · 민서의 첫 주 답 네 개를 진단하고 고친 답과 비교하기"
   },
   "concepts": [
     {
@@ -6223,7 +6365,8 @@
         "books/psychology/#overconfidence",
         "books/psychology/#outcome",
         "books/backtest/#metrics",
-        "books/federated/#fairness"
+        "books/federated/#fairness",
+        "books/opic/#levels"
       ]
     },
     {
@@ -6442,7 +6585,8 @@
         "books/aie-autonomy/#evolve",
         "books/aie-safety/#rlhf",
         "books/aie-safety/#dpo",
-        "books/chess/#value"
+        "books/chess/#value",
+        "books/opic/#final"
       ]
     },
     {
@@ -6642,7 +6786,8 @@
         "books/aie-ml/#pipeline",
         "books/probability/#testing",
         "books/ai/#generalization",
-        "books/lora-why/#regularize"
+        "books/lora-why/#regularize",
+        "books/opic/#combo"
       ]
     },
     {
