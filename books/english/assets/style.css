@@ -107,3 +107,6 @@ html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-m
 textarea.ew-input{min-height:120px;font:1rem/1.6 var(--font-sans)}
 .ew-beats{display:flex;gap:4px;align-items:flex-end;height:60px;margin:8px 0}.ew-beats i{display:block;width:18px;background:var(--accent);border-radius:3px 3px 0 0}.ew-beats i.ew-weak{background:var(--line)}
 .home-lab-body{padding:12px 18px 16px}
+/* 마지막 과제: 대화 기록(17줄)이 길어 결과 문장이 조작부에서 멀어지지 않게, 넓은 화면에서도 결과 문장을 조작부 바로 아래에 둔다(760px 이하는 위의 공통 순서). */
+@media(min-width:761px){.lab-inner[data-lab=review]{display:grid;grid-template-columns:1fr;gap:15px;align-items:start}.lab-inner[data-lab=review]>.lab-columns{display:contents}.lab-inner[data-lab=review]>.readout{margin-top:0}.lab-inner[data-lab=review] .controls{grid-row:1}.lab-inner[data-lab=review]>.readout{grid-row:2}.lab-inner[data-lab=review] .chart{grid-row:3}}
+@media(min-width:1101px){.lab-inner[data-lab=review]{grid-template-columns:minmax(200px,.8fr) minmax(280px,1.2fr);grid-template-rows:auto 1fr;gap:16px 28px}.lab-inner[data-lab=review] .controls{grid-column:1;grid-row:1}.lab-inner[data-lab=review]>.readout{grid-column:1;grid-row:2}.lab-inner[data-lab=review] .chart{grid-column:2;grid-row:1/span 2}}

@@ -3,7 +3,8 @@
    음절 수와 강세 위치는 사전 표기를 옮긴 미리 정한 값이고, 한국어 음절 수는 한글 글자 수를 실제로 센다. */
 (function(root){
 'use strict';
-/* 1장: 외래어 표기(국립국어원 외래어 표기법 기준 표기)와 영어 사전의 음절 수·강세 음절(0부터). */
+/* 1장: 외래어 표기(국립국어원 외래어 표기법 기준 표기)와 영어 사전의 음절 수·강세 음절(0부터).
+   맥도날드는 회사의 상호 표기이고 규범 표기는 맥도널드라 note에 적는다(음절 수는 같다). */
 const WORDS=[
  {en:'street',ko:'스트리트',parts:['street'],stress:0},
  {en:'desk',ko:'데스크',parts:['desk'],stress:0},
@@ -16,7 +17,7 @@ const WORDS=[
  {en:'hotel',ko:'호텔',parts:['ho','tel'],stress:1},
  {en:'banana',ko:'바나나',parts:['ba','na','na'],stress:1},
  {en:'computer',ko:'컴퓨터',parts:['com','pu','ter'],stress:1},
- {en:"McDonald's",ko:'맥도날드',parts:['Mc','Don',"ald's"],stress:1}
+ {en:"McDonald's",ko:'맥도날드',parts:['Mc','Don',"ald's"],stress:1,note:'맥도날드는 회사가 쓰는 상호 표기입니다. 외래어 표기법대로 적으면 맥도널드이고, 음절 수는 같은 4입니다.'}
 ];
 const hangulSyllables=s=>[...String(s)].filter(c=>c>='가'&&c<='힣').length;
 function syllables(en){
@@ -95,7 +96,7 @@ const MARKERS={
 };
 const OBJ={go:'to the gym',eat:'kimchi stew',have:'lunch with Sam',meet:'my team',watch:'a movie',play:'tennis',visit:'my parents',work:'from home'};
 function timed(subj,verb,marker){
- const M=MARKERS[marker],S=SUBJECTS[subj],o=OBJ[verb];let v;
+ const M=MARKERS[marker],S=SUBJECTS[subj],o=subj==='Sam'?OBJ[verb].replace('with Sam','with Jiwoo'):OBJ[verb];let v;
  if(M.tense==='present')v=present(subj,verb);
  else if(M.tense==='past')v=VERBS[verb].past;
  else if(M.tense==='progressive')v=`${S.be} ${VERBS[verb].ing}`;
