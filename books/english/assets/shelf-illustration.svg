@@ -1,0 +1,39 @@
+<svg class="en-ill" viewBox="0 0 340 180" role="img" aria-labelledby="en-ill-title" xmlns="http://www.w3.org/2000/svg">
+<title id="en-ill-title">Sam이 주말을 잘 보냈는지 묻자 지우의 대답이 Yes 한 마디에서 한 일을 말하는 문장, 그리고 How about you 되묻기로 차례로 늘어나며 대화가 이어지는 과정</title>
+<style>
+.en-ill-bg{fill:#f9f6ef}
+.en-ill-face{fill:#efe2c6;stroke:#5a3a10;stroke-width:2}
+.en-ill-me{fill:#8a5208;stroke:#5a3a10;stroke-width:2}
+.en-ill-name{font:600 9px sans-serif;fill:#5a4a32}
+.en-ill-bub{fill:#fffdf8;stroke:#5a3a10;stroke-width:1.8}
+.en-ill-ans{fill:#fbecd0;stroke:#8a5208;stroke-width:1.8}
+.en-ill-txt{font:600 10.5px sans-serif;fill:#2b2114}
+.en-ill-note{font:600 9px sans-serif;fill:#8a5208}
+.en-ill-cap{font:600 8.5px monospace;fill:#6b5a40}
+.en-ill-dot{fill:#8a5208}
+.en-ill-a1{animation:en-ill-a1 9s ease-in-out infinite}
+.en-ill-a2{opacity:0;animation:en-ill-a2 9s ease-in-out infinite}
+.en-ill-a3{opacity:0;animation:en-ill-a3 9s ease-in-out infinite}
+.en-ill-r1{opacity:0;animation:en-ill-r1 9s ease-in-out infinite}
+.en-ill-meter{transform-origin:24px 166px;animation:en-ill-meter 9s ease-in-out infinite}
+@keyframes en-ill-a1{0%,8%{opacity:0}14%,30%{opacity:1}36%,100%{opacity:.25}}
+@keyframes en-ill-a2{0%,36%{opacity:0;transform:translateY(6px)}44%,94%{opacity:1;transform:translateY(0)}100%{opacity:0}}
+@keyframes en-ill-a3{0%,58%{opacity:0;transform:translateY(6px)}66%,94%{opacity:1;transform:translateY(0)}100%{opacity:0}}
+@keyframes en-ill-r1{0%,74%{opacity:0}80%,94%{opacity:1}100%{opacity:0}}
+@keyframes en-ill-meter{0%,30%{transform:scaleX(.2)}44%,58%{transform:scaleX(.55)}66%,94%{transform:scaleX(1)}100%{transform:scaleX(.2)}}
+@media(prefers-reduced-motion:reduce){.en-ill-a1,.en-ill-a2,.en-ill-a3,.en-ill-r1,.en-ill-meter{animation:none;opacity:1;transform:none}.en-ill-a1{opacity:.25}}
+html[data-motion=reduce] .en-ill-a1,html[data-motion=reduce] .en-ill-a2,html[data-motion=reduce] .en-ill-a3,html[data-motion=reduce] .en-ill-r1,html[data-motion=reduce] .en-ill-meter{animation:none;opacity:1;transform:none}html[data-motion=reduce] .en-ill-a1{opacity:.25}
+</style>
+<rect class="en-ill-bg" width="340" height="180"/>
+<circle class="en-ill-face" cx="30" cy="34" r="14"/><text class="en-ill-name" x="30" y="60" text-anchor="middle">Sam</text>
+<circle class="en-ill-me" cx="310" cy="90" r="14"/><text class="en-ill-name" x="310" y="116" text-anchor="middle">지우</text>
+<path class="en-ill-bub" d="M56 18H236Q244 18 244 26V42Q244 50 236 50H66L54 58V26Q54 18 62 18Z"/>
+<text class="en-ill-txt" x="66" y="38">Did you have a good weekend?</text>
+<g class="en-ill-a1"><path class="en-ill-ans" d="M226 68H282L290 76L282 84H226Q220 84 220 78V74Q220 68 226 68Z"/><text class="en-ill-txt" x="230" y="80">Yes.</text><text class="en-ill-note" x="120" y="80">말이 끊김</text></g>
+<g class="en-ill-a2"><path class="en-ill-ans" d="M110 92H282L290 100L282 108H110Q104 108 104 102V98Q104 92 110 92Z"/><text class="en-ill-txt" x="116" y="104">I went hiking on Bukhansan.</text></g>
+<g class="en-ill-a3"><path class="en-ill-ans" d="M178 114H282L290 122L282 130H178Q172 130 172 124V120Q172 114 178 114Z"/><text class="en-ill-txt" x="182" y="126">How about you?</text><text class="en-ill-note" x="104" y="126">되묻기</text></g>
+<g class="en-ill-r1"><path class="en-ill-bub" d="M56 134H196Q202 134 202 140V146Q202 152 196 152H62L54 156V140Q54 134 60 134Z"/><text class="en-ill-txt" x="64" y="147">Oh, I stayed home...</text></g>
+<rect x="24" y="162" width="120" height="8" rx="4" fill="#efe2c6"/>
+<rect class="en-ill-meter en-ill-dot" x="24" y="162" width="120" height="8" rx="4"/>
+<text class="en-ill-cap" x="152" y="170">대답 + 정보 1문장 + 질문 1개</text>
+</svg>
