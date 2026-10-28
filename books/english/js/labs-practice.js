@@ -28,7 +28,7 @@ L.review=el=>{
   const at=M.LUNCH.findIndex(l=>l[2]===m),lines=M.LUNCH.map(l=>[l[0],l[1]]);
   el.querySelector('.rv-cands').innerHTML=`<ol class="caption">${mo.cands.map((c,k)=>`<li${k===i?' aria-current="true"':''}>${U.esc(c)}${k===i?' ◀':''}</li>`).join('')}</ol>`;
   chart.innerHTML=`<p class="caption">말차례 ${st.turns} · 지우 ${st.jiwooTurns}번 ${st.jiwooWords}낱말 · 지우의 질문 ${st.jiwooQuestions} · 멈춤 ${st.gaps}번</p>${U.talk(lines,{mark:at})}`;
-  out.innerHTML=`${r.ok?'<span class="ew-ok">✓ 대화를 잇는 말</span>':'<span class="ew-no">✗ 대화가 멈추는 말</span>'} <b>${U.esc(r.text)}</b><br>쓴 도구: ${TOOL[r.tool]} · 판정: ${U.esc(r.detail)}${U.kind(r.tool==='repair'?'preset':'real',r.tool==='repair'?'되묻기 판정은 미리 정했습니다.':'js/english.js의 규칙으로 판정합니다.')}<br><b>복기 한 줄</b>: ${m} · ${U.esc(mo.cands[0])} → ${U.esc(r.text)} · ${TOOL[r.tool]} · ${UNKNOWN[m]}${U.kind('story','대화 기록은 이 책이 지어낸 것입니다.')}`;
+  out.innerHTML=`${r.ok?'<span class="ew-ok">✓ 고친 말로 알맞음</span>':'<span class="ew-no">✗ 고친 말로 알맞지 않음</span>'} <b>${U.esc(r.text)}</b><br>쓴 도구: ${TOOL[r.tool]} · 판정: ${U.esc(r.detail)}${U.kind(r.tool==='repair'?'preset':'real',r.tool==='repair'?'되묻기 판정은 미리 정했습니다.':'js/english.js의 규칙으로 판정합니다.')}<br><b>복기 한 줄</b>: ${m} · ${U.esc(mo.cands[0])} → ${U.esc(r.text)} · ${TOOL[r.tool]} · ${UNKNOWN[m]}${U.kind('story','대화 기록은 이 책이 지어낸 것입니다.')}`;
  });
 };
 })(window.ELabs,window.EUI,window.EModel);

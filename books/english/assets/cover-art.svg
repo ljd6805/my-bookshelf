@@ -1,4 +1,4 @@
-<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="점심 자리에서 Sam이 주말을 잘 보냈는지 묻자, 지우가 Yes 한 마디로 끝내지 않고 한 일을 한 문장 더해 How about you로 되묻는 말풍선 세 개" xmlns="http://www.w3.org/2000/svg">
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="점심 자리에서 Sam이 주말을 잘 보냈는지 묻는 말풍선, 가위표를 친 지우의 Yes 한 마디, 한 일을 한 문장 더하고 How about you로 되묻는 지우의 말풍선을 그린 그림" xmlns="http://www.w3.org/2000/svg">
 <circle class="cv-node" cx="34" cy="40" r="13"/>
 <text class="cv-text cv-muted" x="34" y="66" text-anchor="middle">Sam</text>
 <circle class="cv-fill" cx="290" cy="100" r="13"/>

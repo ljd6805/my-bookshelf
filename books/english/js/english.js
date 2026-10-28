@@ -206,10 +206,11 @@ const MOMENTS={
  C:{tool:'repair',cands:['Yes.','Sorry, could you say that again?','Do you mean the palace near Gwanghwamun?'],
   notes:['알아듣지 못했는데 “Yes”라고 답해, 이어진 질문(어느 곳이 가장 좋았는지)에 답할 수 없게 됩니다.','문장 전체를 다시 듣게 됩니다. Sam이 같은 말을 천천히 되풀이할 기회가 생깁니다.','들은 낱말(Gyeongbokgung)로 이해한 내용을 확인합니다. Sam이 맞다고 하면 lately(최근에)를 놓쳤어도 대화를 이어 갈 수 있습니다.']}
 };
+const TENSE_KO={present:'현재',past:'과거',progressive:'현재진행',going:'be going to'};
 function review(moment,index){
  const M=MOMENTS[moment],text=M.cands[index];
  if(M.tool==='followup'){const h=HOOKS[M.kinds[index]];return {text,tool:M.tool,score:h,ok:h>0,detail:`이어 갈 거리 ${h}개`};}
- if(M.tool==='time'){const c=checkTense(text,M.marker);return {text,tool:M.tool,score:c.ok?1:0,ok:c.ok,detail:`${M.marker} → 필요한 시제 ${c.need}, 쓴 시제 ${c.tense}`};}
+ if(M.tool==='time'){const c=checkTense(text,M.marker);return {text,tool:M.tool,score:c.ok?1:0,ok:c.ok,detail:`${M.marker} → 필요한 시제: ${TENSE_KO[c.need]}, 쓴 시제: ${TENSE_KO[c.tense]||'판정 못 함'}`};}
  return {text,tool:M.tool,score:index?1:0,ok:index>0,detail:M.notes[index]};
 }
 function lunchStats(lines=LUNCH){

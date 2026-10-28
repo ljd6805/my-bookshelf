@@ -7,7 +7,7 @@ function mount(el){
  function update(){
   const r=M.syllables(word);
   chart.innerHTML=`<div class="ew-chips">${[...r.ko].map(c=>`<span class="ew-chip">${U.esc(c)}</span>`).join('')}</div><div class="ew-chips">${r.parts.map((p,i)=>`<span class="ew-chip"${i===r.stress?' aria-pressed="true"':''}>${U.esc(p)}${i===r.stress?' ●':''}</span>`).join('')}</div>`;
-  out.innerHTML=`한글 표기(${U.esc(r.ko)}) <b>${r.ko_count}음절</b>, 영어 <b>${r.en_count}음절</b>. ${r.extra>0?`한글대로 말하면 <b>${r.extra}박자</b>가 늘어납니다.`:'박자 수는 같고, 강세 음절이 다릅니다.'}`;
+  out.innerHTML=`한글 표기(${U.esc(r.ko)}) <b>${r.ko_count}음절</b>, 영어 <b>${r.en_count}음절</b>. ${r.extra>0?`한글대로 말하면 <b>${r.extra}박자</b>가 늘어납니다.`:'박자 수는 같습니다. 영어에서는 ●표 음절을 세게 말합니다.'}`;
   el.querySelectorAll('[data-word]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.word===word)));
  }
  const click=e=>{const b=e.target.closest('[data-word]');if(b){word=b.dataset.word;update();}if(e.target.closest('#home-play'))S.say(word,0.9);};

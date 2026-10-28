@@ -6,7 +6,7 @@ L.syllable=el=>{
  const chart=el.querySelector('.chart'),out=el.querySelector('.readout');
  const draw=()=>{
   const r=M.syllables(el.querySelector('#sy-word').value),ko=[...r.ko];
-  chart.innerHTML=`<p class="caption">한글 표기 ${r.ko_count}박자</p><div class="ew-chips">${ko.map(c=>`<span class="ew-chip">${U.esc(c)}</span>`).join('')}</div><p class="caption">영어 ${r.en_count}음절 (굵은 칸이 강세 음절)</p><div class="ew-chips">${r.parts.map((p,i)=>`<span class="ew-chip"${i===r.stress?' aria-pressed="true"':''}>${U.esc(p)}${i===r.stress?' ●':''}</span>`).join('')}</div>${U.bars(['한글 표기 음절 수','영어 음절 수'],[r.ko_count,r.en_count])}`;
+  chart.innerHTML=`<p class="caption">한글 표기 ${r.ko_count}음절</p><div class="ew-chips">${ko.map(c=>`<span class="ew-chip">${U.esc(c)}</span>`).join('')}</div><p class="caption">영어 ${r.en_count}음절 (굵은 칸이 강세 음절)</p><div class="ew-chips">${r.parts.map((p,i)=>`<span class="ew-chip"${i===r.stress?' aria-pressed="true"':''}>${U.esc(p)}${i===r.stress?' ●':''}</span>`).join('')}</div>${U.bars(['한글 표기 음절 수','영어 음절 수'],[r.ko_count,r.en_count])}`;
   out.innerHTML=`<b>${U.esc(r.en)}</b>: 한글 표기(${U.esc(r.ko)})는 <b>${r.ko_count}음절</b>, 영어 사전 표기는 <b>${r.en_count}음절</b>입니다. ${r.extra>0?`한글대로 말하면 <strong>${r.extra}박자</strong>가 늘어납니다.`:'음절 수는 같습니다.'} 강세는 ${r.stress+1}번째 음절 <b>${U.esc(r.parts[r.stress])}</b>에 옵니다(●).${U.kind('real','한글 음절 수는 화면이 셉니다.')} <span class="kind-tag">${U.KINDS.preset}</span> 영어 음절 수와 강세 자리는 사전 표기를 옮긴 값입니다.`;
  };
  U.bind(el,draw);
