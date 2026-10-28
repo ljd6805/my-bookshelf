@@ -55,6 +55,7 @@ test('fluency removes fillers before counting words per minute',()=>{
  assert.deepEqual([a.words,a.fillers,a.total,a.wpm,a.fillerPerMin],[16,6,22,32,12]);
  assert.deepEqual([b.words,b.fillers,b.wpm],[32,0,77]);
  assert.equal(M.fluency('I like so much, you know, well',10).fillers,1);assert.equal(M.fluency('',0).wpm,0);
+ const nl=M.fluency('Um\nI work in Seoul.\tuh',60);assert.deepEqual([nl.words,nl.fillers],[4,2]);
 });
 test('lunch transcript and the three review moments',()=>{
  assert.deepEqual(M.lunchStats(),{turns:15,jiwooTurns:7,jiwooWords:20,jiwooQuestions:0,gaps:2});

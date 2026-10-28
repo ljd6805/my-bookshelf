@@ -169,7 +169,7 @@ const LINKED=[
 /* 10장: 말하기 속도와 군말. 군말 목록(um·uh·er·you know)은 이 책이 정한 것이다. like·so·well은 뜻으로 쓰일 때가 많아 세지 않는다. 속도는 군말을 뺀 낱말 수를 분으로 나눈다. */
 const FILLERS=['um','uh','er','you know'];
 function fluency(transcript,seconds){
- let t=` ${String(transcript).toLowerCase().replace(/[.,!?]/g,' ')} `,fill=0;
+ let t=` ${String(transcript).toLowerCase().replace(/[.,!?]/g,' ').replace(/\s+/g,' ')} `,fill=0;
  for(const f of FILLERS){const re=new RegExp(` ${f} `,'g');let m;while((m=t.match(re))){fill+=m.length;t=t.replace(re,' ');}}
  const ws=norm(t),total=ws.length+fill,min=seconds/60;
  return {words:ws.length,fillers:fill,total,wpm:min>0?Math.round(ws.length/min):0,fillerPerMin:min>0?+(fill/min).toFixed(1):0};

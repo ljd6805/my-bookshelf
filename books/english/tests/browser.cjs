@@ -38,6 +38,11 @@ async function interact(page,url){
  await page.goto(url+'#linking');lab=page.locator('.lab').first();await lab.locator('#li-typed').fill('What do you want to do?');await lab.locator('#li-typed').dispatchEvent('input');assert.match(await readout(lab),/0%/);
  /* 마지막 과제: 순간 B에서 2번 후보(went)는 맞는 시제로 판정한다. */
  await page.goto(url+'#final');lab=page.locator('.lab').first();await lab.locator('#rv-moment').selectOption('B');await lab.locator('#rv-cand').selectOption('1');assert.match(await readout(lab),/went/);assert.match(await readout(lab),/✓|맞/);
+ /* 본문 건너뛰기 링크는 지금 장을 그대로 두고 본문으로 초점만 옮긴다. */
+ await page.goto(url+'#repair');await page.locator('.chapter-head').waitFor();await page.locator('.skip').focus();await page.keyboard.press('Enter');
+ assert.equal(new URL(page.url()).hash,'#repair');assert.ok(await page.locator('.chapter-head').count(),'skip link left the chapter');assert.equal(await page.evaluate(()=>document.activeElement.id),'main');
+ /* 영어 목소리가 없는 브라우저에서는 2초 뒤 듣기 단추가 꺼지고 이유가 보인다. */
+ await page.waitForTimeout(2200);const sp=page.locator('button.ew-speak').first();if(!(await page.evaluate(()=>ESpeak.hasVoice())))assert.ok(await sp.isDisabled(),'speak button should be disabled without a voice');
  /* 표지 실험: 낱말을 누르면 음절 수가 바뀐다. */
  await page.goto(url+'#home');const home=page.locator('#home-lab');await home.locator('[data-word="banana"]').click();assert.match(await home.locator('.home-result').innerText(),/3음절/);
 }

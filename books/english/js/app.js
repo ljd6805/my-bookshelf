@@ -68,6 +68,8 @@ function route(){
  if(['chapters','sources'].includes(hash))document.getElementById(hash).scrollIntoView();else window.scrollTo(0,0);
 }
 side();window.addEventListener('hashchange',route);
+/* 본문 건너뛰기 링크는 주소를 바꾸지 않고 지금 화면의 본문으로 초점만 옮긴다. */
+document.querySelector('.skip').onclick=e=>{e.preventDefault();const m=document.getElementById('main');m.setAttribute('tabindex','-1');m.focus();};
 document.querySelector('#theme').onclick=()=>{const dark=document.documentElement.dataset.theme==='dark';document.documentElement.dataset.theme=dark?'light':'dark';};
 document.querySelector('#menu').onclick=()=>{const open=document.body.classList.toggle('menu-open');document.querySelector('#menu').setAttribute('aria-expanded',String(open));};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.remove('menu-open');document.querySelector('#menu').setAttribute('aria-expanded','false');}});

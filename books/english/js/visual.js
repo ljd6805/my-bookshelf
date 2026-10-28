@@ -35,15 +35,22 @@ window.ESpeak=(()=>{
 'use strict';
 const available=()=>typeof window.speechSynthesis!=='undefined'&&typeof window.SpeechSynthesisUtterance!=='undefined';
 function voice(){const vs=window.speechSynthesis.getVoices();return vs.find(v=>/^en[-_]US/i.test(v.lang))||vs.find(v=>/^en/i.test(v.lang))||null;}
+const hasVoice=()=>available()&&!!voice();
 function say(text,rate=1,onend=()=>{}){
- if(!available()){onend(null);return false;}
+ if(!hasVoice()){onend(null);return false;}
  window.speechSynthesis.cancel();
  const u=new SpeechSynthesisUtterance(text),v=voice();u.lang='en-US';u.rate=rate;if(v)u.voice=v;
  let t0=0;u.onstart=()=>{t0=performance.now();};u.onend=()=>onend(t0?(performance.now()-t0)/1000:null);u.onerror=()=>onend(null);
  window.speechSynthesis.speak(u);return true;
 }
 const stop=()=>{if(available())window.speechSynthesis.cancel();};
-/* 듣기 단추 html. 음성 합성이 없으면 단추를 끄고 이유를 적는다. */
-function button(id,label='영어로 듣기'){const ok=available();return `<button type="button" class="ew-speak" id="${id}" ${ok?'':'disabled'} aria-describedby="${id}-note">▶ ${label}</button><small class="hint" id="${id}-note">${ok?'브라우저 목소리로 읽습니다. 소리가 나지 않으면 기기 음량과 영어 목소리 설치를 확인하세요.':'이 브라우저에는 음성 합성이 없어 읽기를 할 수 없습니다. 문장은 글로 보입니다.'}</small>`;}
-return {available,say,stop,button};
+/* 듣기 단추 상태: ok(영어 목소리 있음), wait(목소리 목록을 아직 받는 중), none(음성 합성이나 영어 목소리가 없음). */
+const NOTES={ok:'브라우저 목소리로 읽습니다. 소리가 나지 않으면 기기 음량을 확인하세요.',wait:'이 기기의 영어 목소리를 찾는 중입니다.',none:'이 브라우저나 기기에는 영어 목소리가 없어 읽기를 할 수 없습니다. 문장은 글로 보입니다.'};
+let waited=false;
+const state=()=>hasVoice()?'ok':(available()&&!waited?'wait':'none');
+function button(id,label='영어로 듣기'){const s=state();return `<button type="button" class="ew-speak" id="${id}" ${s==='ok'?'':'disabled'} aria-describedby="${id}-note">▶ ${label}</button><small class="hint" id="${id}-note">${NOTES[s]}</small>`;}
+/* 목소리 목록은 늦게 도착하기도 하므로, 도착하면(또는 2초 뒤) 화면의 듣기 단추를 다시 맞춘다. */
+function refresh(){const s=state();document.querySelectorAll('button.ew-speak').forEach(b=>{b.disabled=s!=='ok';const n=document.getElementById(`${b.id}-note`);if(n)n.textContent=NOTES[s];});}
+if(available()){window.speechSynthesis.addEventListener?.('voiceschanged',refresh);setTimeout(()=>{waited=true;refresh();},2000);}
+return {available,hasVoice,say,stop,button,refresh};
 })();
