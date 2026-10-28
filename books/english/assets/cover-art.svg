@@ -1,0 +1,15 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="점심 자리에서 Sam이 주말을 잘 보냈는지 묻는 말풍선, 가위표를 친 지우의 Yes 한 마디, 한 일을 한 문장 더하고 How about you로 되묻는 지우의 말풍선을 그린 그림" xmlns="http://www.w3.org/2000/svg">
+<circle class="cv-node" cx="34" cy="40" r="13"/>
+<text class="cv-text cv-muted" x="34" y="66" text-anchor="middle">Sam</text>
+<circle class="cv-fill" cx="290" cy="100" r="13"/>
+<text class="cv-text cv-muted" x="290" y="126" text-anchor="middle">지우</text>
+<path class="cv-stroke" d="M62 22H262Q270 22 270 30V48Q270 56 262 56H74L60 64V30Q60 22 68 22Z"/>
+<text class="cv-text" x="72" y="43">Did you have a good weekend?</text>
+<path class="cv-hair cv-dash" d="M176 70H262Q268 70 268 76V84Q268 90 262 90H176Q170 90 170 84V76Q170 70 176 70Z"/>
+<text class="cv-text cv-muted" x="182" y="84">Yes.</text>
+<path class="cv-stroke cv-bold" d="M150 74L162 86M150 86L162 74"/>
+<path class="cv-tint" d="M22 98H262L272 108L262 118V132Q262 140 254 140H30Q22 140 22 132Z"/>
+<path class="cv-stroke" d="M22 98H262L272 108L262 118V132Q262 140 254 140H30Q22 140 22 132Z"/>
+<text class="cv-text" x="30" y="114">Yes, I went hiking. How about you?</text>
+<text class="cv-text cv-muted" x="30" y="132">한 일 한 문장 + 되묻기</text>
+</svg>

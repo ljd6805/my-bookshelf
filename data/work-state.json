@@ -917,6 +917,19 @@
       "나머지 24권 예측 상자"
     ]
   },
+  "english_conversation": {
+    "book": "books/english (english-conversation) 「영어 회화 기초 · 기본 문장 틀로 묻고 답하며 3분 대화 이어 가기」, 11장 · 11개 실험, 새 분야 영어(amber), 시리즈 english-speaking 1권",
+    "request": "서재 주인 2026-10-28: 영어 회화 기초와 오픽 두 권을 먼저 준비(오픽은 다른 스레드)",
+    "docs": "books/english/docs/index.html(기획·교과과정·장 설계·문체 메모·리허설·관문 G0~G7), research.html, fact-review.html",
+    "verification": "npm test --prefix books/english(계산 모델 대표값·경계값, 구조), books/english/tests/browser.cjs(1280·390·320px), validate.py",
+    "links": "새 개념 speech-sound·turn-taking, 새 노선 speak-english-first, 시리즈 english-speaking(2권 오픽 대비 writing), 들어오는 링크 aie-audio#turn → english#followup, aie-nlp#dialog → english#repair, 분류 순서 투자 → 영어 → 게임",
+    "remaining": [
+      "영어 음절 수·강세 자리 열두 개는 사전 페이지로 직접 대조하지 못함(검수 기록 참조)",
+      "Brown·Levinson·Sacks 외·Schegloff 외는 서지만 확인",
+      "오픽 대비(opic-prep)와 시리즈·양방향 링크 연결 완료(english#final ↔ opic#test)"
+    ],
+    "next_action": "병합 뒤 GitHub Pages에서 영어 책등·표지·펼침 삽화와 책 11개 장을 다시 열어 확인"
+  },
   "opic": {
     "book": "「오픽 대비 · 질문 유형별로 답을 짜고 시간 안에 말하기」 books/opic/, id opic-prep, 분류 영어(투자 → 영어 → 게임), rose, 책등 오픽 대비, 11장 · 11개 실험, 시리즈 「영어 말하기」 2권(1권 영어 회화 기초 books/english)",
     "request": "서재 주인 2026-10-28: 영어 회화 기초와 오픽 두 권 준비",
