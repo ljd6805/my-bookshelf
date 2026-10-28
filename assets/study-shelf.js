@@ -1,7 +1,7 @@
 /* 서가 쪽 진도 표시. 책이 남긴 기록(bookshelf:<책 폴더>:v1:study)을 읽어
    펼친 책 면에 "몇 장 읽음 · 이어 읽기"를, 서가 아래에 "이어서 공부하기" 목록을 그린다.
    기록은 이 브라우저에만 있으므로 서버나 생성기는 관여하지 않는다. 기준: docs/08-book-template.html#study */
-import { studyKey, folderFromPath, parseState, summary } from './study-model.mjs?v=20261028-divider1';
+import { studyKey, folderFromPath, parseState, summary } from './study-model.mjs?v=20261028-divider2';
 
 const esc = s => String(s).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 const pad = n => String(n).padStart(2, '0');

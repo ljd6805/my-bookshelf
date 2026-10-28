@@ -1,4 +1,4 @@
-import { packDividedShelves } from './shelf-model.mjs?v=20261028-divider1';
+import { packDividedShelves } from './shelf-model.mjs?v=20261028-divider2';
 
 /**
  * Stack the learning-book shelf like real furniture: as many spines as the width holds
@@ -21,12 +21,21 @@ export function setupShelves(list) {
   const shelves = [first];
   let lastKey = '';
 
+  // On the shelf the card is decoration (each spine already names its field); in the list it is the field's heading.
   function divider(category) {
     const card = document.createElement('span');
     card.className = 'shelf-divider';
-    card.setAttribute('aria-hidden', 'true');
-    card.innerHTML = '<span class="shelf-divider-name"></span>';
-    card.firstChild.textContent = category;
+    if (list.classList.contains('is-list')) card.setAttribute('role', 'heading'), card.setAttribute('aria-level', '3');
+    else card.setAttribute('aria-hidden', 'true');
+    const name = card.appendChild(document.createElement('span'));
+    name.className = 'shelf-divider-name';
+    // A short Latin run such as "AI" sits sideways-free in one cell instead of one letter per line.
+    category.split(/([A-Za-z0-9]{1,2})/).filter(Boolean).forEach(part => {
+      if (!/^[A-Za-z0-9]+$/.test(part)) return name.append(part);
+      const cell = name.appendChild(document.createElement('span'));
+      cell.className = 'shelf-divider-tcy';
+      cell.textContent = part;
+    });
     return card;
   }
 
