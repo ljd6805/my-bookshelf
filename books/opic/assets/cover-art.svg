@@ -1,0 +1,18 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="질문 말풍선 “Describe your home.” 아래로 답 하나가 도입·세부·예·마무리 네 덩어리 막대로 이어지고, 그 아래 40분 띠가 15문항으로 나뉜 장면" xmlns="http://www.w3.org/2000/svg">
+<rect class="cv-stroke" x="40" y="12" width="150" height="30" rx="12"/>
+<path class="cv-stroke" d="M64 42L58 52L76 42"/>
+<text class="cv-text" x="52" y="32">Describe your home.</text>
+<rect class="cv-stroke" x="212" y="14" width="68" height="26" rx="10"/>
+<text class="cv-text cv-muted" x="222" y="31">2분 20초</text>
+<rect class="cv-tint" x="40" y="60" width="34" height="28" rx="4"/>
+<rect class="cv-fill" x="78" y="60" width="96" height="28" rx="4"/>
+<rect class="cv-tint" x="178" y="60" width="70" height="28" rx="4"/>
+<rect class="cv-stroke" x="252" y="60" width="28" height="28" rx="4"/>
+<text class="cv-text" x="44" y="100">도입</text>
+<text class="cv-text" x="112" y="100">세부</text>
+<text class="cv-text" x="200" y="100">예</text>
+<text class="cv-text" x="250" y="100">마무리</text>
+<rect class="cv-hair" x="40" y="114" width="240" height="12"/>
+<path class="cv-line" d="M56 114V126M72 114V126M88 114V126M104 114V126M120 114V126M136 114V126M152 114V126M168 114V126M184 114V126M200 114V126M216 114V126M232 114V126M248 114V126M264 114V126"/>
+<text class="cv-text cv-muted" x="40" y="142">40분 · 15문항</text>
+</svg>
