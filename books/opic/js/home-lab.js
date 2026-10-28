@@ -10,7 +10,8 @@ function mount(el){
   el.querySelectorAll('input[type=range]').forEach(x=>{el.querySelector('#'+x.id+'-value').textContent=x.value;});
   const rate=+el.querySelector('#ho-rate').value,sec=+el.querySelector('#ho-sec').value,w=Math.round(rate*sec/60);
   const rows=SHARE.map(([key,name,s])=>({key,name,seconds:sec*s,present:true}));
-  bar.innerHTML=U.blocksBar(rows,{scale:150,label:`${sec}초 답의 네 덩어리`});
+  /* 좁은 화면에서는 그림 폭을 줄여 글자가 작아지지 않게 한다. */
+  bar.innerHTML=U.blocksBar(rows,{scale:150,width:bar.clientWidth&&bar.clientWidth<500?360:600,label:`${sec}초 답의 네 덩어리`});
   out.innerHTML=`1분에 ${rate}낱말로 ${sec}초 말하면 약 <b>${w}낱말</b>, 한 문장을 12낱말로 잡으면 약 ${Math.max(1,Math.round(w/12))}문장입니다. 세부 덩어리에는 약 ${Math.round(w*.4)}낱말이 들어갑니다. ${U.KINDS.real}`;
  };
  el.addEventListener('input',update);update();

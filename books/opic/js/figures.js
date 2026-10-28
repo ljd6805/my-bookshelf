@@ -22,13 +22,13 @@ F.test=()=>{const p=T.plan(4),L=T.layout(4),x0=20,w=600,unit=w/T.TEST_SECONDS;le
  body+=t(20,100,'■ 듣기 20초',{a:'start',size:12,fill:'var(--blue)'})+t(110,100,`■ 말하기 평균 ${p.speakEach}초`,{a:'start',size:12,fill:'var(--accent)'});
  L.forEach((g,k)=>{const xa=x0+(g.from-1)*p.perQuestion*unit,xb=x0+g.to*p.perQuestion*unit,y=128+(k%2)*40;body+=line(`M${xa+2} ${y}H${xb-2}`,'var(--line)','',2)+t((xa+xb)/2,y+18,`${g.name} ${g.from}~${g.to}`,{size:11.5});});
  const r=x0+7*p.perQuestion*unit;body+=line(`M${r} 38V214`,'var(--orange)')+t(r+6,230,'7번 뒤 난이도 재조정(보조 출처)',{a:'start',size:12,fill:'var(--orange)'});
- return {svg:svg(`40분을 15문항이 고르게 나눈 띠. 문항마다 듣기 20초와 말하기 140초. 아래 줄은 흔히 보고되는 문항 배치(자기소개 1, 설문 주제 2~4, 설문·돌발 5~10, 롤플레이 11~13, 비교·사회 이슈 14~15)이고, 7번 뒤에 난이도를 다시 고릅니다.`,body,240),caption:'40분을 15문항이 고르게 쓰면 문항마다 듣기 20초와 말하기 140초입니다. 아래 줄의 배치는 응시 정리들이 전하는 순서이며 공식 문서가 밝힌 것이 아닙니다.'};};
+ return {svg:svg(`40분을 15문항이 고르게 나눈 띠. 문항마다 듣기 20초와 말하기 140초. 아래 줄은 흔히 보고되는 문항 배치(자기소개 1, 설문 주제 2~4, 설문·돌발 5~10, 롤플레이 11~13, 비교·사회 이슈 14~15)이고, 보조 출처에 따르면 7번 뒤에 난이도를 다시 고릅니다.`,body,240),caption:'40분을 15문항이 고르게 쓰면 문항마다 듣기 20초와 말하기 140초입니다. 아래 줄의 배치는 응시 정리들이 전하는 순서이며 공식 문서가 밝힌 것이 아닙니다.'};};
 
 /* 2장: 글의 형태 네 계단과 공원 표본 넷의 글 모양 어림. */
 F.levels=()=>{const steps=[['낱말·구','Novice'],['문장','Intermediate'],['문단','Advanced'],['확장 담화','Superior']];let body='';
  steps.forEach(([k,e],i)=>{const x=24+i*150,y=180-i*40;body+=seq(box(x,y,140,40+i*40,'var(--line)','var(--panel2)',6)+t(x+70,y+22,k,{w:700})+t(x+70,y+40,e,{size:12,fill:'var(--muted)',en:1}),i*.5);});
  S.PARK.forEach((p,i)=>{const s=T.shape(p.text),lv=s.level?1:0,x=s.level===3?300:24+lv*150+24+(s.level===2?56:0),y=180-lv*40-14;body+=pulse(x+8,y,9,i===3?'var(--orange)':'var(--accent)')+t(x+8,y+4,i+1,{size:11,w:700,mono:1});});
- body+=t(24,28,'ACTFL 글의 형태(Text Type) 네 계단과 공원 표본 1~4의 자리',{a:'start',w:700})+t(24,50,'고급(IH·AL 쪽)은 시간틀을 바꾸는 문단, 중급(IM 쪽)은 이어 만든 문장',{a:'start',size:12.5,fill:'var(--muted)'})+t(624,244,'표본 번호는 이 책의 글 모양 어림이며 등급이 아닙니다',{a:'end',size:12,fill:'var(--muted)'});
+ body+=t(24,28,'ACTFL 글의 형태(Text Type) 네 계단과 공원 표본 1~4의 자리',{a:'start',w:700})+t(24,50,'중급(IM)은 이어 만든 문장, 고급(AL)은 시간틀을 바꾸는 문단, IH는 그 사이',{a:'start',size:12.5,fill:'var(--muted)'})+t(624,244,'표본 번호는 이 책의 글 모양 어림이며 등급이 아닙니다',{a:'end',size:12,fill:'var(--muted)'});
  return {svg:svg('글의 형태 네 계단(낱말·구, 문장, 문단, 확장 담화)과 공원 표본 넷의 자리. 표본 1은 낱말·구, 표본 2와 3은 문장 계단, 표본 4는 문장과 문단 사이에 놓입니다.',body,256),caption:'ACTFL 글의 형태 네 계단 위에 공원 표본 넷을 놓았습니다. 표본 4만 시간틀을 바꿔 문장과 문단 사이에 놓입니다.'};};
 
 /* 3장: 묶어 고른 12개 항목이 이야기 묶음 4개로 모이는 그림. */
@@ -69,7 +69,7 @@ F.roleplay=()=>{const ask=[1,2,3].map(i=>S.ROLEPLAY.ask.lines[i]),solve=[1,2,3].
  ask.forEach((l,i)=>{body+=seq(box(20,40+i*58,290,46,'var(--accent)','var(--chart)',16)+t(34,68+i*58,l.length>38?l.slice(0,37)+'…':l,{a:'start',size:12,en:1}),i*.6);});
  solve.forEach((l,i)=>{body+=seq(box(340,40+i*58,280,46,i?'var(--orange)':'var(--line)','var(--panel2)',16)+t(354,68+i*58,l.length>38?l.slice(0,37)+'…':l,{a:'start',size:12,en:1}),2+i*.6);});
  body+=note(`왼쪽: 질문 ${q.questions}개(종류 ${q.kinds.length}가지) · 오른쪽: 대안 문장 ${alt}개`,232);
- return {svg:svg(`롤플레이 두 상황. 헬스장에 묻는 의문문 ${q.questions}개(how, what, 예·아니오)와, 수업에 못 가는 사정 한 문장과 대안 ${alt}개.`,body,246),caption:`정보를 묻는 문항에서는 서로 다른 종류의 의문문 셋을, 문제를 푸는 문항에서는 사정 한 문장과 대안 둘을 냅니다.`};};
+ return {svg:svg(`롤플레이 두 상황. 헬스장에 묻는 의문문 ${q.questions}개(how, what, 예·아니요)와, 수업에 못 가는 사정 한 문장과 대안 ${alt}개.`,body,246),caption:`정보를 묻는 문항에서는 서로 다른 종류의 의문문 셋을, 문제를 푸는 문항에서는 사정 한 문장과 대안 둘을 냅니다.`};};
 
 /* 9장: 이야기 세 개로 질문 여덟 개를 덮는 판. */
 F.combo=()=>{const prep=S.REUSE_PRESETS.three,r=T.reuse(S.STORIES,S.QUESTIONS,prep),mark={fit:['✓','var(--accent)'],adapt:['△','var(--orange)'],none:['✕','var(--muted)']};let body=t(20,24,`준비한 이야기 ${prep.length}개(공원·집·제주)로 질문 8개 덮기`,{a:'start',w:700});

@@ -4,7 +4,7 @@
 (function(root){
 'use strict';
 const TEST_SECONDS=40*60;
-/* 자기 평가 단계별 문항 수. 국내 시험 안내와 응시 후기 정리가 1~2단계 12문항, 3~6단계 15문항으로 같게 적는다(research.html F4). */
+/* 자기 평가 단계별 문항 수. 국내 안내(S3)는 12~15문항만 밝히고, 1~2단계 12문항·3~6단계 15문항은 보조 출처(S4·S5)가 같게 적는다(research.html). */
 const questionsFor=level=>level<=2?12:15;
 /* 시험 시간 나누기: 40분 안에 질문 듣기도 들어간다고 보고, 듣는 시간을 뺀 나머지를 문항 수로 나눈다(보수적 가정). */
 function plan(level,listen=20,replay=false){

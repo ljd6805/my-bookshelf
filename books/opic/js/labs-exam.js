@@ -5,16 +5,16 @@ const L=OLabs,U=OUI,T=OText,S=OSamples;
 
 /* 1장: 자기 평가 단계·질문 듣는 시간·다시 듣기에 따라 문항 수와 문항당 말할 시간을 계산한다. */
 L.plan=el=>{
- U.setup(el,U.range('pl-level','자기 평가 단계',1,6,1,4,'1~2단계는 12문항, 3~6단계는 15문항(국내 시험 안내 기준)')+U.range('pl-listen','질문 하나를 듣는 시간(초)',10,40,5,20,'이 책의 가정값입니다. 실제 질문 길이는 문항마다 다릅니다.')+U.check('pl-replay','매번 다시 듣기를 한 번 쓴다'));
+ U.setup(el,U.range('pl-level','자기 평가 단계',1,6,1,4,'1~2단계는 12문항, 3~6단계는 15문항(응시 정리 등 보조 출처 기준)')+U.range('pl-listen','질문 하나를 듣는 시간(초)',10,40,5,20,'이 책의 가정값입니다. 실제 질문 길이는 문항마다 다릅니다.')+U.check('pl-replay','매번 다시 듣기를 한 번 쓴다'));
  const chart=el.querySelector('.chart'),out=el.querySelector('.readout');
  U.bind(el,()=>{
   const level=+el.querySelector('#pl-level').value,listen=+el.querySelector('#pl-listen').value,replay=el.querySelector('#pl-replay').checked;
   const p=T.plan(level,listen,replay),groups=T.layout(level),w=600/15;
   const boxes=groups.flatMap((g,k)=>Array.from({length:g.count},(_,j)=>{const n=g.from+j,x=10+(n-1)*w;return `<rect x="${x.toFixed(1)}" y="40" width="${(w-4).toFixed(1)}" height="46" rx="4" class="pl-g${k}"/><text x="${(x+w/2-2).toFixed(1)}" y="68" text-anchor="middle">${n}</text>`;})).join('');
-  const names=groups.map((g,k)=>{const x=10+(g.from-1)*w;return `<text x="${(x+2).toFixed(1)}" y="${k%2?130:106}" class="pl-name">${g.name}</text>`;}).join('');
+  const names=groups.map((g,k)=>{const x=10+(g.from-1)*w;const span=g.count>1?`${g.from}~${g.from+g.count-1}`:`${g.from}`;return `${k?`<line x1="${(x-2).toFixed(1)}" y1="34" x2="${(x-2).toFixed(1)}" y2="92" class="pl-sep"/>`:''}<text x="${k===groups.length-1&&k?610:(x+2).toFixed(1)}" y="${k%2?130:106}"${k===groups.length-1&&k?' text-anchor="end"':''} class="pl-name">${span} ${g.name}</text>`;}).join('');
   const speakW=p.speakTotal/T.TEST_SECONDS*600;
   chart.innerHTML=`<svg viewBox="0 0 620 190" role="img" aria-label="${p.questions}문항의 묶음과 40분 가운데 듣는 시간 ${U.clock(p.listenTotal)}, 말할 시간 ${U.clock(p.speakTotal)}">${boxes}${names}<text x="10" y="26">문항 ${p.questions}개 · 흔한 묶음(시험마다 다를 수 있음)</text><rect x="10" y="140" width="600" height="26" rx="4" class="pl-listen"/><rect x="10" y="140" width="${speakW.toFixed(1)}" height="26" rx="4" class="pl-speak"/><text x="16" y="158" class="pl-in">말할 시간 ${U.clock(p.speakTotal)}</text><text x="604" y="182" text-anchor="end">듣는 시간 ${U.clock(p.listenTotal)} · 모두 40분</text></svg>`;
-  out.innerHTML=`자기 평가 ${level}단계 → <b>${p.questions}문항</b>. 질문 하나를 듣는 데 ${p.listenEach}초${replay?'(다시 듣기 포함)':''}가 들면, 40분에서 듣는 시간 ${U.clock(p.listenTotal)}을 빼고 남는 말할 시간은 ${U.clock(p.speakTotal)}입니다. 문항당 평균 <b>${Math.round(p.speakEach)}초</b>(${U.clock(p.speakEach)})를 말할 수 있습니다. 듣는 시간을 빼지 않으면 문항당 ${Math.round(p.perQuestion)}초입니다.${U.kind('real','source')}`;
+  out.innerHTML=`자기 평가 ${level}단계 → <b>${p.questions}문항</b>. 질문 하나를 듣는 데 ${p.listenEach}초${replay?'(다시 듣기 포함)':''}가 들면, 40분에서 듣는 시간 ${U.clock(p.listenTotal)}를 빼고 남는 말할 시간은 ${U.clock(p.speakTotal)}입니다. 문항당 평균 <b>${Math.round(p.speakEach)}초</b>(${U.clock(p.speakEach)})를 말할 수 있습니다. 듣는 시간을 빼지 않으면 문항당 ${Math.round(p.perQuestion)}초입니다.${U.kind('real','source')}`;
  });
 };
 

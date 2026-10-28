@@ -73,7 +73,7 @@ html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-m
 .hero-lab{border:1px solid var(--line);border-radius:10px;background:var(--panel);overflow:hidden}.hero-lab .lab-top{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:.78rem;color:var(--muted)}
 .home-book{padding:10px 14px 0}.home-book svg{display:block;width:100%;height:auto}.home-book text{font-size:13px;fill:var(--muted)}.home-book text.price{fill:var(--text);font-family:var(--font-mono);font-weight:600}
 .home-result{font-size:.92rem;line-height:1.75;margin-bottom:12px}
-@media(max-width:760px){.lab .chart{overflow-x:auto}.lab .chart svg{min-width:380px}.lab .chart svg text{font-size:14px}.lab .chart:has(svg):before{content:'그림이 넓으면 옆으로 밀어 볼 수 있습니다. 숫자는 아래 결과 문장에도 있습니다.';display:block;position:sticky;left:0;font-size:12px;color:var(--muted);padding:6px 10px 0}.lab .chart:has(.responsive-bars):before{content:none}.lab .chart .responsive-bars{min-width:0}.home-book text{font-size:15px}.lab .chart .table-wrap table{min-width:400px}}
+@media(max-width:760px){.lab .chart{overflow-x:auto}.lab .chart svg{min-width:560px}.lab .chart svg text{font-size:14px}.lab .chart:has(svg):before{content:'그림이 넓으면 옆으로 밀어 볼 수 있습니다. 숫자는 아래 결과 문장에도 있습니다.';display:block;position:sticky;left:0;font-size:12px;color:var(--muted);padding:6px 10px 0}.lab .chart:has(.responsive-bars):before{content:none}.lab .chart .responsive-bars{min-width:0}.home-book text{font-size:15px}.lab .chart .table-wrap table{min-width:400px}}
 
 .my-guess{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:10px}.my-guess span{font-size:.88rem;color:var(--muted)}.my-guess input{flex:1 1 180px;min-height:40px;padding:6px 10px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:var(--text);font:inherit}.guide-reading summary{cursor:pointer;min-height:40px;display:flex;align-items:center;gap:6px}.guide-reading summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}.guess-echo{padding:8px 12px;border-left:3px solid var(--orange);background:var(--chart)}
 
@@ -103,14 +103,19 @@ html[data-motion=reduce] .fig-dash,html[data-motion=reduce] .fig-pkt,html[data-m
 /* 실험 그림 부품: 문항 배치(pl-), 글 모양 칸(sh-), 설문(sv-), 일과(rt-), 이야기(st-), 비교(cp-), 롤플레이(rp-) */
 .chart svg text{fill:var(--text);font-size:13px}
 .pl-g0{fill:color-mix(in srgb,var(--muted) 35%,var(--panel2))}.pl-g1,.pl-g2,.pl-g3{fill:color-mix(in srgb,var(--accent) 40%,var(--panel2))}.pl-g2{fill:color-mix(in srgb,var(--accent) 25%,var(--panel2))}.pl-g4{fill:color-mix(in srgb,var(--orange) 40%,var(--panel2))}.pl-g5{fill:color-mix(in srgb,var(--blue) 40%,var(--panel2))}
-[class^=pl-g]{stroke:var(--line)}.lab .chart svg text.pl-name{font-size:11.5px;fill:var(--muted)}
+[class^=pl-g]{stroke:var(--line)}.lab .chart svg text.pl-name{font-size:14px;fill:var(--muted)}
 .pl-listen{fill:color-mix(in srgb,var(--blue) 45%,var(--panel2))}.pl-speak{fill:var(--accent)}.lab .chart svg text.pl-in{fill:var(--bg);font-weight:700}
 .sh-on{fill:var(--accent);stroke:var(--accent)}.sh-off{fill:var(--panel2);stroke:var(--line)}.lab .chart svg text.sh-on-t{fill:var(--bg);font-weight:700}
 .sv-set{border:1px solid var(--line);border-radius:8px;padding:6px 12px 2px;margin:0 0 12px}.sv-set legend{font-size:.85rem;color:var(--muted);padding:0 4px}.sv-set .control{margin:0 0 6px}.sv-set small{color:var(--muted)}
 .sv-box{fill:var(--panel2);stroke:var(--accent);stroke-width:1.5}.lab .chart svg text.sv-head{font-weight:700;fill:var(--accent)}.lab .chart svg text.sv-item{font-size:12px}
-.rt-dot{fill:var(--accent)}.rt-line{stroke:var(--line);stroke-width:2}.lab .chart svg text.rt-seq{fill:var(--orange);font-weight:700}.lab .chart svg text.rt-t{font-size:12.5px}
+.rt-dot{fill:var(--accent)}.rt-line{stroke:var(--line);stroke-width:2}.lab .chart svg text.rt-seq{fill:var(--orange);font-weight:700}.lab .chart svg text.rt-t{font-size:18px}
 .st-ok{fill:color-mix(in srgb,var(--accent) 30%,var(--panel2));stroke:var(--accent)}.st-off{fill:color-mix(in srgb,var(--orange) 25%,var(--panel2));stroke:var(--orange);stroke-dasharray:5 3}.lab .chart svg text.st-mark{font-weight:700}
 .cp-on{fill:color-mix(in srgb,var(--accent) 30%,var(--panel2));stroke:var(--accent)}.cp-off{fill:none;stroke:var(--line);stroke-dasharray:4 3}.lab .chart svg text.cp-t{font-size:12px}
 .rp-q{fill:color-mix(in srgb,var(--accent) 22%,var(--panel2));stroke:var(--accent)}.rp-s{fill:var(--panel2);stroke:var(--line)}.lab .chart svg text.rp-t{font-size:12px}
 .chart svg text.sv-head{font-size:16px}.chart svg text.sv-item{font-size:15px}
 .chart svg text.ob-t,.figure-art svg text.ob-t,.home-bar svg text.ob-t{fill:var(--text);font-size:14px;font-weight:700}.chart svg text.ob-s,.figure-art svg text.ob-s,.home-bar svg text.ob-s{fill:var(--muted);font-size:13px}
+.check-row[hidden]{display:none}
+.timer-note{margin:6px 0 0;font-size:.9rem;color:var(--muted)}.timer-note:empty{display:none}
+.lab .chart svg text.rt-n{fill:#fff;font-size:12px;font-weight:700}
+.chapter-head h1:focus{outline:none}
+.pl-sep{stroke:var(--text);stroke-width:2}

@@ -20,14 +20,15 @@ L.builder=el=>{
 
 /* 5장: 주말 아침 일과를 골라 빈도 표현과 순서 표현으로 잇는다. */
 L.routine=el=>{
- U.setup(el,S.ROUTINE.map(([k,v],i)=>U.check('rt-'+k,`<span lang="en">${v}</span>`,i<3)).join('')+U.select('rt-adv','빈도 표현',[['','(넣지 않음)'],['usually','usually'],['often','often'],['sometimes','sometimes'],['always','always']],'')+U.check('rt-seq','순서 표현(Then, After that, Finally) 넣기'));
+ U.setup(el,S.ROUTINE.map(([k,v],i)=>U.check('rt-'+k,`<span lang="en">${v}</span>`,i<3)).join('')+U.select('rt-adv','빈도 표현',[['','(넣지 않음)'],['usually','usually'],['often','often'],['sometimes','sometimes'],['always','always']],'')+U.check('rt-seq','순서 표현(Then, After that, Next, Finally) 넣기'));
  const chart=el.querySelector('.chart'),out=el.querySelector('.readout');
  U.bind(el,()=>{
   const keys=S.ROUTINE.map(([k])=>k).filter(k=>el.querySelector('#rt-'+k).checked),adv=el.querySelector('#rt-adv').value,seq=el.querySelector('#rt-seq').checked;
   const text=T.routineText(S.ROUTINE,keys,adv,seq),s=T.shape(text),c=T.connectorsIn(text),f=T.timeFrames(text);
   const steps=S.ROUTINE.filter(([k])=>keys.includes(k));
-  chart.innerHTML=`<svg viewBox="0 0 620 120" role="img" aria-label="고른 일과 ${steps.length}개를 차례로 놓은 시간 줄">${steps.map(([,v],i)=>{const x=14+i*(592/Math.max(steps.length,1));return `<circle cx="${x+10}" cy="50" r="8" class="rt-dot"/><text x="${x}" y="${80+(i%2)*24}" class="rt-t" lang="en">${i+1}. ${U.esc(v)}</text>${i?`<text x="${x}" y="30" class="rt-seq">${seq?U.esc(T.SEQ[i===steps.length-1?4:(i-1)%3+1].replace(',','')):''}</text>`:''}`;}).join('')}<line x1="20" y1="50" x2="604" y2="50" class="rt-line"/></svg>`+quote(text);
-  out.innerHTML=`일과 ${steps.length}개, 낱말 ${s.words}개, 문장 ${s.sentences}개. 연결어 <b>${c.length}개</b>${c.length?`(${c.join(', ')})`:''}, 현재 시간틀 표시 ${f.present}개${adv?`(빈도 표현 ${adv} 포함)`:''}. 글 모양 어림: <b>${s.name}</b>. 1분에 60낱말로 말하면 ${Math.round(T.secondsFor(s.words,60))}초입니다.${U.kind('real','rule')}`;
+  /* 시간 줄에는 번호만 두고, 일과 이름은 아래에 한 줄씩 적어 긴 이름도 잘리지 않게 한다. */
+  chart.innerHTML=`<svg viewBox="0 0 620 ${88+steps.length*28}" role="img" aria-label="고른 일과 ${steps.length}개를 차례로 놓은 시간 줄"><line x1="20" y1="50" x2="604" y2="50" class="rt-line"/>${steps.map(([,v],i)=>{const x=14+i*(592/Math.max(steps.length,1));return `<circle cx="${x+10}" cy="50" r="11" class="rt-dot"/><text x="${x+10}" y="55" text-anchor="middle" class="rt-n">${i+1}</text><text x="14" y="${96+i*28}" class="rt-t" lang="en">${i+1}. ${U.esc(v)}</text>${i?`<text x="${x}" y="28" class="rt-seq">${seq?U.esc(T.SEQ[i===steps.length-1?4:(i-1)%3+1].replace(',','')):''}</text>`:''}`;}).join('')}</svg>`+quote(text);
+  out.innerHTML=`일과 ${steps.length}개, 낱말 ${s.words}개, 문장 ${s.sentences}개. 연결어 <b>${c.length}개</b>${c.length?`(${c.join(', ')})`:''}, 현재 시간틀 표시 낱말 ${f.present}개(이 책은 am·is·do 같은 동사와 usually·every 같은 말만 세고, wake up 같은 일반 동사의 현재형은 세지 않습니다)${adv?`(빈도 표현 ${adv} 포함)`:''}. 글 모양 어림: <b>${s.name}</b>. 1분에 60낱말로 말하면 ${Math.round(T.secondsFor(s.words,60))}초입니다.${U.kind('real','rule')}`;
  });
 };
 

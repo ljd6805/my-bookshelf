@@ -11,22 +11,25 @@ L.reuse=el=>{
  const chart=el.querySelector('.chart'),out=el.querySelector('.readout');
  U.bind(el,()=>{
   const prepared=S.STORIES.filter(s=>el.querySelector('#ru-'+s.id).checked).map(s=>s.id),r=T.reuse(S.STORIES,S.QUESTIONS,prepared);
-  chart.innerHTML=U.table(['질문','종류','쓰임','판정'],r.rows.map(x=>[`<span lang="en">${U.esc(x.q.text)}</span>`,x.q.kind,USE_KO[x.q.use],`${STATUS[x.status][0]} ${STATUS[x.status][1]}${x.fit.length?` · ${x.fit[0].name}`:x.near.length?` · ${x.near[0].name}에서`:''}`]),'질문 여덟 개와 준비한 이야기');
+  chart.innerHTML=U.table(['질문','판정','종류','쓰임'],r.rows.map(x=>[`<span lang="en">${U.esc(x.q.text)}</span>`,`${STATUS[x.status][0]} ${STATUS[x.status][1]}${x.fit.length?` · ${x.fit[0].name}`:x.near.length?` · ${x.near[0].name}에서`:''}`,x.q.kind,USE_KO[x.q.use]]),'질문 여덟 개와 준비한 이야기');
   out.innerHTML=`준비한 이야기 ${prepared.length}개로 질문 8개 가운데 <b>그대로 씀 ${r.fit}개</b>, <b>쓰임만 바꿈 ${r.adapt}개</b>, <b>덮지 못함 ${r.none}개</b>. “쓰임만 바꿈”은 같은 쓰임(장소·습관·경험·비교)의 이야기를 질문 주제에 맞게 고쳐 말한다는 뜻이고, 고쳐 말할 문장은 시험장에서 새로 만들어야 합니다.${U.kind('real','story')}`;
  });
 };
 
 /* 10장: 녹음 길이·낱말 수·멈춘 시간으로 말하기 속도를 계산한다. 초시계 단추는 실제로 시간을 재어 길이 칸에 넣는다. */
 L.pace=el=>{
- U.setup(el,`<div class="timer" role="group" aria-label="초시계"><button type="button" data-manual data-timer="start">초시계 시작</button><button type="button" data-manual data-timer="stop" disabled>멈추고 길이에 넣기</button><output class="timer-out" aria-live="off">0분 00초</output></div>`+U.range('pc-sec','녹음 길이(초)',20,180,1,80)+U.range('pc-words','말한 낱말 수',10,250,1,58,'대본이 있으면 아래 칸에 붙이고 “대본 낱말 세기”를 누릅니다.')+U.range('pc-pause','2초 넘게 멈춘 시간의 합(초)',0,60,1,18)+U.select('pc-target','문항당 목표 시간',[[60,'1분'],[90,'1분 30초'],[120,'2분']],90)+`<label class="control" for="pc-text"><span>대본 (선택)</span><textarea id="pc-text" rows="3" data-manual lang="en" spellcheck="false"></textarea></label><button type="button" data-manual data-count>대본 낱말 세기</button>`);
+ U.setup(el,`<div class="timer" role="group" aria-label="초시계"><button type="button" data-manual data-timer="start">초시계 시작</button><button type="button" data-manual data-timer="stop" disabled>멈추고 길이에 넣기</button><output class="timer-out" aria-live="off">0분 00초</output></div>`+U.range('pc-sec','녹음 길이(초)',20,180,1,80)+U.range('pc-words','말한 낱말 수',10,250,1,58,'대본이 있으면 아래 칸에 붙이고 “대본 낱말 세기”를 누릅니다.')+U.range('pc-pause','2초 넘게 멈춘 시간의 합(초)',0,60,1,18)+U.select('pc-target','문항당 목표 시간',[[60,'1분'],[90,'1분 30초'],[120,'2분']],90)+`<label class="control" for="pc-text"><span>대본 (선택)</span><textarea id="pc-text" rows="3" data-manual lang="en" spellcheck="false"></textarea></label><button type="button" data-manual data-count>대본 낱말 세기</button><p class="timer-note" role="status" aria-live="polite"></p>`);
  const chart=el.querySelector('.chart'),out=el.querySelector('.readout'),sec=el.querySelector('#pc-sec'),wordsIn=el.querySelector('#pc-words');
  let t0=0,tick=0;const tOut=el.querySelector('.timer-out'),bStart=el.querySelector('[data-timer=start]'),bStop=el.querySelector('[data-timer=stop]');
- const setVal=(x,v)=>{x.value=Math.max(+x.min,Math.min(+x.max,Math.round(v)));x.dispatchEvent(new Event('input',{bubbles:true}));};
+ const note=el.querySelector('.timer-note');
+ /* 칸의 범위를 벗어난 값은 끝값으로 넣고, 그렇게 했다는 사실을 안내 줄에 남긴다. */
+ const setVal=(x,v)=>{const r=Math.round(v),c=Math.max(+x.min,Math.min(+x.max,r));x.value=c;x.dispatchEvent(new Event('input',{bubbles:true}));return c===r?'':`${r}은 칸의 범위(${x.min}~${x.max}) 밖이라 ${c}로 넣었습니다. `;};
  bStart.onclick=()=>{t0=performance.now();bStart.disabled=true;bStop.disabled=false;clearInterval(tick);tick=setInterval(()=>{tOut.textContent=U.clock((performance.now()-t0)/1000);},250);};
- bStop.onclick=()=>{clearInterval(tick);const s=(performance.now()-t0)/1000;tOut.textContent=U.clock(s);bStart.disabled=false;bStop.disabled=true;setVal(sec,s);};
- el.querySelector('[data-count]').onclick=()=>{const n=T.words(el.querySelector('#pc-text').value);if(n)setVal(wordsIn,n);};
+ bStop.onclick=()=>{clearInterval(tick);const s=(performance.now()-t0)/1000;tOut.textContent=U.clock(s);bStart.disabled=false;bStop.disabled=true;const msg=setVal(sec,s);note.textContent=`잰 시간 ${s.toFixed(1)}초를 녹음 길이 칸에 넣었습니다. ${msg?'다만 '+msg:''}낱말 수와 멈춘 시간도 이 녹음에 맞게 바꾸세요.`;};
+ el.querySelector('[data-count]').onclick=()=>{const n=T.words(el.querySelector('#pc-text').value);if(!n){note.textContent='대본 칸이 비어 있어 셀 낱말이 없습니다.';return;}const msg=setVal(wordsIn,n);note.textContent=`대본에서 ${n}낱말을 셌습니다. ${msg}`;};
  U.bind(el,()=>{
-  const s=+sec.value,w=+wordsIn.value,p=Math.min(+el.querySelector('#pc-pause').value,s-1),target=+el.querySelector('#pc-target').value;
+  const s=+sec.value,w=+wordsIn.value,p=+el.querySelector('#pc-pause').value,target=+el.querySelector('#pc-target').value;
+  if(p>=s){chart.innerHTML='';out.innerHTML=`<b>계산할 수 없음:</b> 멈춘 시간(${p}초)이 녹음 길이(${s}초)와 같거나 깁니다. 멈춘 시간을 녹음 길이보다 짧게 줄이세요.`;return;}
   const rate=T.wpm(w,s),flow=T.wpm(w,s-p),share=T.pauseShare(p,s),need=Math.round(rate*target/60),fifteen=15*target+15*20;
   chart.innerHTML=`<svg viewBox="0 0 620 150" role="img" aria-label="녹음 ${s}초 가운데 말한 시간 ${s-p}초, 멈춘 시간 ${p}초"><text x="10" y="24">녹음 ${U.clock(s)} 가운데 말한 시간과 멈춘 시간</text><rect x="10" y="40" width="600" height="34" rx="5" class="pc-pause"/><rect x="10" y="40" width="${(600*(s-p)/s).toFixed(1)}" height="34" rx="5" class="pc-talk"/><text x="18" y="62" class="pc-in">말함 ${s-p}초</text><text x="604" y="96" text-anchor="end">멈춤 ${p}초 (${Math.round(share*100)}%)</text><text x="10" y="132">1분당 낱말: 녹음 전체 ${rate.toFixed(1)} · 말한 구간만 ${flow.toFixed(1)}</text></svg>`;
   out.innerHTML=`${w}낱말을 ${s}초에 말했으니 <b>1분에 ${rate.toFixed(1)}낱말</b>입니다. 멈춘 ${p}초를 빼면 말한 구간의 속도는 1분에 ${flow.toFixed(1)}낱말이고, 녹음의 ${Math.round(share*100)}%가 멈춘 시간입니다. 같은 속도로 목표 ${U.clock(target)}를 채우려면 약 <b>${need}낱말</b>이 필요합니다. 15문항을 모두 ${U.clock(target)}씩 답하고 질문마다 20초를 듣는다고 하면 ${U.clock(fifteen)}로, 40분의 ${Math.round(fifteen/T.TEST_SECONDS*100)}%입니다.${U.kind('real')}`;
