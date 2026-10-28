@@ -29,7 +29,7 @@ F.levels=()=>{const steps=[['낱말·구','Novice'],['문장','Intermediate'],['
  steps.forEach(([k,e],i)=>{const x=24+i*150,y=180-i*40;body+=seq(box(x,y,140,40+i*40,'var(--line)','var(--panel2)',6)+t(x+70,y+22,k,{w:700})+t(x+70,y+40,e,{size:12,fill:'var(--muted)',en:1}),i*.5);});
  S.PARK.forEach((p,i)=>{const s=T.shape(p.text),lv=s.level?1:0,x=s.level===3?300:24+lv*150+24+(s.level===2?56:0),y=180-lv*40-14;body+=pulse(x+8,y,9,i===3?'var(--orange)':'var(--accent)')+t(x+8,y+4,i+1,{size:11,w:700,mono:1});});
  body+=t(24,28,'ACTFL 글의 형태(Text Type) 네 계단과 공원 표본 1~4의 자리',{a:'start',w:700})+t(24,50,'고급(IH·AL 쪽)은 시간틀을 바꾸는 문단, 중급(IM 쪽)은 이어 만든 문장',{a:'start',size:12.5,fill:'var(--muted)'})+t(624,244,'표본 번호는 이 책의 글 모양 어림이며 등급이 아닙니다',{a:'end',size:12,fill:'var(--muted)'});
- return {svg:svg('글의 형태 네 계단(낱말·구, 문장, 문단, 확장 담화)과 공원 표본 넷의 자리. 표본 1은 낱말·구, 표본 2와 3은 문장 계단, 표본 4는 문장과 문단 사이에 놓입니다.',body,256),caption:'ACTFL 글의 형태 네 계단 위에 공원 표본 넷을 놓았습니다. 표본 4만 시간틀을 바꾸며 문단 쪽으로 다가갑니다.'};};
+ return {svg:svg('글의 형태 네 계단(낱말·구, 문장, 문단, 확장 담화)과 공원 표본 넷의 자리. 표본 1은 낱말·구, 표본 2와 3은 문장 계단, 표본 4는 문장과 문단 사이에 놓입니다.',body,256),caption:'ACTFL 글의 형태 네 계단 위에 공원 표본 넷을 놓았습니다. 표본 4만 시간틀을 바꿔 문장과 문단 사이에 놓입니다.'};};
 
 /* 3장: 묶어 고른 12개 항목이 이야기 묶음 4개로 모이는 그림. */
 F.survey=()=>{const picked=S.SURVEY.filter(i=>S.SURVEY_PRESETS.tight.includes(i.id)),r=T.survey(S.SURVEY,S.SURVEY_PRESETS.tight),cy={};let body='';
@@ -41,7 +41,7 @@ F.survey=()=>{const picked=S.SURVEY.filter(i=>S.SURVEY_PRESETS.tight.includes(i.
 /* 4장: 첫 답과 네 덩어리 답의 막대(1분에 60낱말). */
 F.describe=()=>{const bar=(pick,y,label)=>{const parts=T.bankParts(S.BANK,pick),rows=T.BLOCKS.map(k=>({key:k,name:T.BLOCK_NAMES[k],seconds:T.secondsFor(T.words((parts[k]||[]).join(' ')),60),present:(parts[k]||[]).length>0}));return U.blocksBar(rows,{scale:100,width:640,y,h:38,label}).replace(/^<svg[^>]*>|<\/svg>$/g,'').replace('y="20"',`y="${y-12}"`);};
  const body=seq(bar(S.BANK_PRESETS.start,34,'민서의 첫 답'),0)+seq(bar(S.BANK_PRESETS.full,146,'네 덩어리를 채운 답'),1.2);
- return {svg:svg('민서의 첫 답(도입 5초, 세부 12초, 예 없음, 마무리 2초, 모두 19초)과 네 덩어리를 채운 답(모두 73초)을 1분에 60낱말로 계산한 막대.',body,240),caption:'첫 답은 세부만 나열하고 예 덩어리가 없습니다. 네 덩어리를 채우면 1분에 60낱말로 73초가 됩니다.'};};
+ return {svg:svg('민서의 첫 답(도입 5초, 세부 12초, 예 없음, 마무리 2초, 모두 19초)과 네 덩어리를 채운 답(모두 73초)을 1분에 60낱말로 계산한 막대.',body,240),caption:'첫 답은 세부에서 방을 늘어놓기만 하고 예 덩어리가 없습니다. 네 덩어리를 채우면 1분에 60낱말로 73초가 됩니다.'};};
 
 /* 5장: 일과 여섯 단계를 잇는 순서 표현. */
 F.routine=()=>{const keys=S.ROUTINE.map(r=>r[0]),text=T.routineText(S.ROUTINE,keys,'usually',true),lines=T.sentenceLines(text);let body=t(20,24,'On Saturday mornings, I usually …',{a:'start',w:700,en:1});

@@ -8,7 +8,7 @@ const quote=t=>`<p class="answer-text" lang="en">${U.esc(t)||'(아직 문장이 
 /* 4장: 문장 은행에서 네 덩어리를 골라 답을 짜고, 말하기 속도로 답 길이를 계산한다. */
 L.builder=el=>{
  const B=S.BANK,p=S.BANK_PRESETS.start,opt=k=>B[k].map(([,n],i)=>[i,n]);
- U.setup(el,U.select('bd-open','도입',opt('open'),p[0])+U.select('bd-d1','세부 1',opt('detail'),p[1])+U.select('bd-d2','세부 2',opt('detail'),p[2])+U.select('bd-ex','예·이야기',opt('example'),p[3])+U.select('bd-close','마무리',opt('close'),p[4])+U.range('bd-rate','말하기 속도(낱말/분)',40,140,5,60,'민서가 첫 주 녹음에서 잰 속도는 1분에 50낱말 안팎입니다(10장).'));
+ U.setup(el,U.select('bd-open','도입',opt('open'),p[0])+U.select('bd-d1','세부 1',opt('detail'),p[1])+U.select('bd-d2','세부 2',opt('detail'),p[2])+U.select('bd-ex','예·이야기',opt('example'),p[3])+U.select('bd-close','마무리',opt('close'),p[4])+U.range('bd-rate','말하기 속도(낱말/분)',40,140,5,60,'민서의 첫 주 녹음은 녹음 전체로 1분에 43.5낱말, 멈춘 시간을 빼면 56.1낱말입니다(10장).'));
  const chart=el.querySelector('.chart'),out=el.querySelector('.readout');
  U.bind(el,()=>{
   const pick=['bd-open','bd-d1','bd-d2','bd-ex','bd-close'].map(id=>+el.querySelector('#'+id).value),rate=+el.querySelector('#bd-rate').value;

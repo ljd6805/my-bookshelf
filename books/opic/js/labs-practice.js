@@ -35,7 +35,7 @@ L.pace=el=>{
 };
 
 /* 11장: 민서의 첫 주 답과 고친 답을 2·4·6·7·8·10장의 계산으로 진단하고, 이 책의 규칙으로 고칠 곳 하나를 고른다. */
-const FIX={length:'답이 1분보다 짧습니다. 4장의 네 덩어리 가운데 빠진 덩어리를 채워 길이를 늘립니다.',link:'연결어가 3개보다 적습니다. because·so·when·after that으로 문장을 이어 문단으로 만듭니다(2·4장).',past:'경험 질문인데 과거 시간틀 표시가 3개보다 적습니다. 동사를 과거형으로 맞춥니다(6장).',frames:'비교 질문인데 시간틀이 하나뿐입니다. used to·back then으로 과거를, will로 앞으로를 더합니다(7장).',ask:'롤플레이에서 물어야 할 것을 “I want to know”로만 말했습니다. 의문문 세 개로 바꿉니다(8장).',keep:'이 책의 다섯 점검을 모두 넘었습니다. 다음 녹음에서는 정확성(관사, 동사 형태)과 발음을 녹음으로 다시 들어 봅니다.'};
+const FIX={length:'답이 1분보다 짧습니다. 4장의 네 덩어리 가운데 빠진 덩어리를 채워 길이를 늘립니다.',link:'연결어가 3개보다 적습니다. because·so·when·after that으로 문장을 이어 문단에 가깝게 만듭니다(2·4장).',past:'경험 질문인데 과거 시간틀 표시가 3개보다 적습니다. 동사를 과거형으로 맞춥니다(6장).',frames:'비교 질문인데 시간틀이 하나뿐입니다. used to·back then으로 과거를, will로 앞으로를 더합니다(7장).',ask:'롤플레이인데 의문문이 3개보다 적습니다. “I want to know …” 같은 평서문을 의문문으로 바꿔 세 개를 채웁니다(8장).',keep:'이 책의 다섯 점검을 모두 넘었습니다. 다음 녹음에서는 정확성(관사, 동사 형태)과 발음을 녹음으로 다시 들어 봅니다.'};
 L.diagnose=el=>{
  U.setup(el,U.select('dg-answer','민서의 답',S.ANSWERS.map(a=>[a.id,a.q]),'home')+U.select('dg-version','녹음',[['before','첫 주 녹음'],['after','책을 마친 뒤 다시 녹음']],'before'));
  const chart=el.querySelector('.chart'),out=el.querySelector('.readout');

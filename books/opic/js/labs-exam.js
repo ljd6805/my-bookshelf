@@ -49,7 +49,7 @@ L.survey=el=>{
   chart.innerHTML=`<svg viewBox="0 0 620 ${Math.max(height,80)}" role="img" aria-label="고른 항목 ${r.count}개가 이야기 묶음 ${r.stories}개로 모였습니다: ${r.clusters.join(', ')}"><text x="10" y="24">고른 항목 ${r.count}개 → 준비할 이야기 ${r.stories}개</text>${cols}</svg>`;
   const shortNames=r.short.map(k=>S.SECTION_NAMES[k]);
   const rule=r.valid?'✓ 최소 선택 조건을 채웠습니다.':`✗ 아직 제출할 수 없습니다${r.need?`: ${r.need}개를 더 골라야 합니다`:''}${shortNames.length?`${r.need?', ':': '}${shortNames.join('·')}에서 더 골라야 합니다`:''}.`;
-  out.innerHTML=`고른 항목 <b>${r.count}개</b>(여가 ${r.bySection.leisure} · 취미 ${r.bySection.hobby} · 운동 ${r.bySection.sport} · 여행 ${r.bySection.travel}), 준비할 이야기 <b>${r.stories}개</b>: ${r.clusters.join(', ')||'없음'}. ${rule} 항목 목록과 묶음은 이 책이 실제 설문을 본떠 만든 것이고, 최소 선택 조건(여가 2·취미 1·운동 1·여행 1 이상, 모두 12개 이상)은 응시 후기 정리 기준입니다.${U.kind('real','story','source')}`;
+  out.innerHTML=`고른 항목 <b>${r.count}개</b>(여가 ${r.bySection.leisure} · 취미 ${r.bySection.hobby} · 운동 ${r.bySection.sport} · 휴가·여행 ${r.bySection.travel}), 준비할 이야기 <b>${r.stories}개</b>: ${r.clusters.join(', ')||'없음'}. ${rule} 항목 목록과 묶음은 이 책이 실제 설문을 본떠 만든 것이고, 최소 선택 조건(여가 2·취미 1·운동 1·휴가·여행 1 이상, 모두 12개 이상)은 응시 후기 정리 기준입니다.${U.kind('real','story','source')}`;
  });
 };
 })();
