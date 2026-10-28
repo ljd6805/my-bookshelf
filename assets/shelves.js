@@ -1,8 +1,9 @@
-import { shelfCapacity, packShelves } from './shelf-model.mjs?v=20261025-flap1';
+import { packDividedShelves } from './shelf-model.mjs?v=20261028-divider2';
 
 /**
  * Stack the learning-book shelf like real furniture: as many spines as the width holds
  * stand on one board, and the rest continue on new boards below (docs/04-site-plan.html#shelf-display-rule).
+ * Each field's run of books opens with a divider card naming the field (#shelf-divider).
  * The generated HTML keeps a scrolling fallback; this only rearranges the same spines.
  */
 export function setupShelves(list) {
@@ -20,13 +21,40 @@ export function setupShelves(list) {
   const shelves = [first];
   let lastKey = '';
 
-  function capacity() {
-    if (list.classList.contains('is-list')) return Infinity;
+  // On the shelf the card is decoration (each spine already names its field); in the list it is the field's heading.
+  function divider(category) {
+    const card = document.createElement('span');
+    card.className = 'shelf-divider';
+    if (list.classList.contains('is-list')) card.setAttribute('role', 'heading'), card.setAttribute('aria-level', '3');
+    else card.setAttribute('aria-hidden', 'true');
+    const name = card.appendChild(document.createElement('span'));
+    name.className = 'shelf-divider-name';
+    // A short Latin run such as "AI" sits sideways-free in one cell instead of one letter per line.
+    category.split(/([A-Za-z0-9]{1,2})/).filter(Boolean).forEach(part => {
+      if (!/^[A-Za-z0-9]+$/.test(part)) return name.append(part);
+      const cell = name.appendChild(document.createElement('span'));
+      cell.className = 'shelf-divider-tcy';
+      cell.textContent = part;
+    });
+    return card;
+  }
+
+  function geometry() {
+    if (list.classList.contains('is-list')) return { width: Infinity, book: 1 };
     const track = first.querySelector('.book-track');
     const style = getComputedStyle(track);
-    const width = track.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    const probe = track.appendChild(divider(''));
+    const card = getComputedStyle(probe);
     const spine = getComputedStyle(books[0].spine);
-    return shelfCapacity(width, parseFloat(spine.flexBasis) || parseFloat(spine.width), parseFloat(style.columnGap) || 0);
+    const sizes = {
+      width: track.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),
+      book: parseFloat(spine.flexBasis) || parseFloat(spine.width),
+      gap: parseFloat(style.columnGap) || 0,
+      divider: parseFloat(card.flexBasis) || parseFloat(card.width) || 0,
+      lead: parseFloat(card.getPropertyValue('--divider-lead')) || 0
+    };
+    probe.remove();
+    return sizes;
   }
 
   function shelfAt(index) {
@@ -41,22 +69,22 @@ export function setupShelves(list) {
 
   function layout(force = false) {
     const visible = books.filter(book => !book.spine.hidden);
-    const size = capacity();
-    const key = `${size}:${visible.map(book => book.spine.dataset.resource).join(',')}`;
+    const sizes = geometry();
+    const key = `${JSON.stringify(sizes)}:${visible.map(book => book.spine.dataset.resource).join(',')}`;
     if (!force && key === lastKey) return;
     lastKey = key;
     const focused = document.activeElement;
-    const packed = packShelves(visible.map(book => book.category), size);
+    const packed = packDividedShelves(visible.map(book => book.category), sizes.width, sizes);
     const hidden = books.filter(book => book.spine.hidden);
-    packed.forEach((indexes, i) => {
-      const nodes = indexes.flatMap(n => [visible[n].spine, visible[n].preview].filter(Boolean));
-      if (i === 0) nodes.push(...hidden.flatMap(book => [book.spine, book.preview].filter(Boolean)));
+    const nodesOf = book => [book.spine, book.preview].filter(Boolean);
+    packed.forEach((runs, i) => {
+      const nodes = runs.flatMap(run => [divider(run.category), ...run.books.flatMap(n => nodesOf(visible[n]))]);
+      if (i === 0) nodes.push(...hidden.flatMap(nodesOf));
       const track = shelfAt(i).querySelector('.book-track');
       track.replaceChildren(...nodes);
       track.setAttribute('aria-label', packed.length > 1 ? `학습 책 서가 ${i + 1}단` : '학습 책 서가');
     });
-    if (packed.length === 0) shelfAt(0).querySelector('.book-track')
-      .replaceChildren(...hidden.flatMap(book => [book.spine, book.preview].filter(Boolean)));
+    if (packed.length === 0) shelfAt(0).querySelector('.book-track').replaceChildren(...hidden.flatMap(nodesOf));
     const used = Math.max(packed.length, 1);
     shelves.forEach((shelf, i) => {
       shelf.hidden = i >= used || (packed.length === 0);
