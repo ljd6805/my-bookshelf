@@ -26,9 +26,13 @@ function bars(labels,values,{unit='',mark=()=>false,max}={}){
    rows: [{name, seconds, present}], scale: 막대 전체 폭에 해당하는 초. 빠진 덩어리는 점선 빈칸과 ✕로 표시한다. */
 const BLOCK_STYLE={open:'ob-open',detail:'ob-detail',example:'ob-example',close:'ob-close'};
 function blocksBar(rows,{scale=120,width=600,y=34,h=40,label='답의 네 덩어리'}={}){
- let x=20;const unit=(width-40)/scale,out=[];
- for(const r of rows){
-  const w=r.present?Math.max(r.seconds*unit,56):96;
+ let x=20;const unit=(width-40)/scale,out=[],avail=width-40-4*(rows.length-1);
+ /* 빠진 덩어리(96)와 최소 폭(56)을 먼저 확보하고, 남은 폭이 모자라면 비례 부분만 줄여 막대가 그림 밖으로 나가지 않게 한다. */
+ let ws=rows.map(r=>r.present?Math.max(r.seconds*unit,56):96);
+ const sum=ws.reduce((a,w)=>a+w,0),fixed=rows.reduce((a,r)=>a+(r.present?56:96),0);
+ if(sum>avail&&sum>fixed){const k=Math.max(0,(avail-fixed)/(sum-fixed));ws=ws.map((w,i)=>rows[i].present?56+(w-56)*k:w);}
+ for(const [i,r] of rows.entries()){
+  const w=ws[i];
   out.push(r.present?`<rect class="ob ${BLOCK_STYLE[r.key]}" x="${x.toFixed(1)}" y="${y}" width="${w.toFixed(1)}" height="${h}" rx="5"/><text x="${(x+w/2).toFixed(1)}" y="${y+h/2+5}" text-anchor="middle" class="ob-t">${esc(r.name)}</text><text x="${(x+w/2).toFixed(1)}" y="${y+h+18}" text-anchor="middle" class="ob-s">${Math.round(r.seconds)}초</text>`
    :`<rect class="ob ob-missing" x="${x.toFixed(1)}" y="${y}" width="${w}" height="${h}" rx="5"/><text x="${(x+w/2).toFixed(1)}" y="${y+h/2+5}" text-anchor="middle" class="ob-s">✕</text><text x="${(x+w/2).toFixed(1)}" y="${y+h+18}" text-anchor="middle" class="ob-s">${esc(r.name)} 없음</text>`);
   x+=w+4;

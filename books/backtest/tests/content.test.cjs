@@ -71,7 +71,7 @@ test('cross links use catalog chapter labels, existing anchors and folders, and 
   assert.equal(name,`${titles['books/'+m[1]+'/']} ${label}`,c.id+' link name');assert.ok(why.length>15,c.id);assert.doesNotMatch(why,/깊이 보기 \(뒤 권\)/,c.id+': this is the last volume');
  }
  const plan={backtest:['../grid/#box'],data:['../market/#events'],lookahead:['../aie-ml/#pipeline'],fills:['../market/#queue','../market/#cost','../grid/#cell'],
-  metrics:['../volatility/#drawdown','../allocation/#frontier','../probability/#interval','../grid/#compare'],overfit:['../aie-ml/#tradeoff','../probability/#testing','../probability/#clt'],
+  metrics:['../volatility/#drawdown','../allocation/#frontier','../probability/#interval','../grid/#compare'],overfit:['../aie-ml/#tradeoff','../probability/#testing','../probability/#clt','../opic/#combo'],
   api:['../aie-workbench/#keys'],orders:['../aie-autonomy/#durable','../computer/#programs'],limits:['../market/#limits','../aie-autonomy/#budget','../grid/#exit'],
   monitor:['../aie-rl/#simreal','../aie-workbench/#data'],final:['../psychology/#final','../tax/#trade']};
  for(const c of B.chapters)assert.deepEqual(c.cross.map(x=>x[1]),plan[c.id],c.id+' links follow plan #links');
