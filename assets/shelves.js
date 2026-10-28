@@ -1,8 +1,9 @@
-import { shelfCapacity, packShelves } from './shelf-model.mjs?v=20261025-flap1';
+import { packDividedShelves } from './shelf-model.mjs?v=20261028-divider1';
 
 /**
  * Stack the learning-book shelf like real furniture: as many spines as the width holds
  * stand on one board, and the rest continue on new boards below (docs/04-site-plan.html#shelf-display-rule).
+ * Each field's run of books opens with a divider card naming the field (#shelf-divider).
  * The generated HTML keeps a scrolling fallback; this only rearranges the same spines.
  */
 export function setupShelves(list) {
@@ -20,13 +21,31 @@ export function setupShelves(list) {
   const shelves = [first];
   let lastKey = '';
 
-  function capacity() {
-    if (list.classList.contains('is-list')) return Infinity;
+  function divider(category) {
+    const card = document.createElement('span');
+    card.className = 'shelf-divider';
+    card.setAttribute('aria-hidden', 'true');
+    card.innerHTML = '<span class="shelf-divider-name"></span>';
+    card.firstChild.textContent = category;
+    return card;
+  }
+
+  function geometry() {
+    if (list.classList.contains('is-list')) return { width: Infinity, book: 1 };
     const track = first.querySelector('.book-track');
     const style = getComputedStyle(track);
-    const width = track.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    const probe = track.appendChild(divider(''));
+    const card = getComputedStyle(probe);
     const spine = getComputedStyle(books[0].spine);
-    return shelfCapacity(width, parseFloat(spine.flexBasis) || parseFloat(spine.width), parseFloat(style.columnGap) || 0);
+    const sizes = {
+      width: track.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),
+      book: parseFloat(spine.flexBasis) || parseFloat(spine.width),
+      gap: parseFloat(style.columnGap) || 0,
+      divider: parseFloat(card.flexBasis) || parseFloat(card.width) || 0,
+      lead: parseFloat(card.getPropertyValue('--divider-lead')) || 0
+    };
+    probe.remove();
+    return sizes;
   }
 
   function shelfAt(index) {
@@ -41,22 +60,22 @@ export function setupShelves(list) {
 
   function layout(force = false) {
     const visible = books.filter(book => !book.spine.hidden);
-    const size = capacity();
-    const key = `${size}:${visible.map(book => book.spine.dataset.resource).join(',')}`;
+    const sizes = geometry();
+    const key = `${JSON.stringify(sizes)}:${visible.map(book => book.spine.dataset.resource).join(',')}`;
     if (!force && key === lastKey) return;
     lastKey = key;
     const focused = document.activeElement;
-    const packed = packShelves(visible.map(book => book.category), size);
+    const packed = packDividedShelves(visible.map(book => book.category), sizes.width, sizes);
     const hidden = books.filter(book => book.spine.hidden);
-    packed.forEach((indexes, i) => {
-      const nodes = indexes.flatMap(n => [visible[n].spine, visible[n].preview].filter(Boolean));
-      if (i === 0) nodes.push(...hidden.flatMap(book => [book.spine, book.preview].filter(Boolean)));
+    const nodesOf = book => [book.spine, book.preview].filter(Boolean);
+    packed.forEach((runs, i) => {
+      const nodes = runs.flatMap(run => [divider(run.category), ...run.books.flatMap(n => nodesOf(visible[n]))]);
+      if (i === 0) nodes.push(...hidden.flatMap(nodesOf));
       const track = shelfAt(i).querySelector('.book-track');
       track.replaceChildren(...nodes);
       track.setAttribute('aria-label', packed.length > 1 ? `학습 책 서가 ${i + 1}단` : '학습 책 서가');
     });
-    if (packed.length === 0) shelfAt(0).querySelector('.book-track')
-      .replaceChildren(...hidden.flatMap(book => [book.spine, book.preview].filter(Boolean)));
+    if (packed.length === 0) shelfAt(0).querySelector('.book-track').replaceChildren(...hidden.flatMap(nodesOf));
     const used = Math.max(packed.length, 1);
     shelves.forEach((shelf, i) => {
       shelf.hidden = i >= used || (packed.length === 0);

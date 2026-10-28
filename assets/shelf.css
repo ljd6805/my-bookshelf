@@ -13,3 +13,14 @@
 .shelf-row.is-stacked:not(.is-last){margin-bottom:14px}
 .shelf-row.is-stacked:not(.is-last) .shelf-caption{display:none}
 .resource-shelves.is-list .shelf-row.is-stacked:not(.is-last){margin-bottom:0}
+
+/* Field dividers (assets/shelves.js): an ivory card opens each field's run of books on a board (docs/04-site-plan.html#shelf-divider). */
+.shelf-divider{--divider-lead:18px;position:relative;display:flex;align-items:flex-start;justify-content:center;flex:0 0 28px;width:28px;height:184px;padding-top:12px;border:1px solid #fffffff0;border-top:3px solid #8d9f96;border-bottom:0;border-radius:9px 9px 3px 3px;background:linear-gradient(90deg,#e6dcc7,#fbf4e4 36%,#f2e9d8 82%,#ddd2bd);box-shadow:inset -2px 0 3px #9187781f,2px 4px 6px #233c3326;transform-origin:50% 100%;transform:perspective(1100px) rotateY(-5deg);pointer-events:none}
+.shelf-divider:not(:first-child){margin-left:var(--divider-lead)}
+.shelf-divider::before{content:'';position:absolute;top:6px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#b8ab95;box-shadow:inset 0 1px 1px #6d655a66}
+.shelf-divider-name{margin-top:8px;writing-mode:vertical-rl;text-orientation:upright;font:700 13px/1.05 var(--sans);letter-spacing:.04em;color:#34443e;white-space:nowrap}
+@media(max-width:640px){.shelf-divider{--divider-lead:10px;flex-basis:24px;width:24px;height:168px}.shelf-divider-name{font-size:12px}}
+.resource-shelves.is-list .shelf-divider{grid-column:1/-1;flex:none;width:auto;height:auto;margin:6px 0 0;padding:0 0 4px;border:0;border-bottom:1px solid #91877866;border-radius:0;background:none;box-shadow:none;transform:none;justify-content:flex-start}
+.resource-shelves.is-list .shelf-divider:first-child{margin-top:0}
+.resource-shelves.is-list .shelf-divider::before{display:none}
+.resource-shelves.is-list .shelf-divider-name{margin:0;writing-mode:horizontal-tb;font-size:12px}

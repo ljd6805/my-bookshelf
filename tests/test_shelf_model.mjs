@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeQuery, matchesItem, usesReducedMotion, shouldPreview, shelfCapacity, packShelves } from '../assets/shelf-model.mjs';
+import { normalizeQuery, matchesItem, usesReducedMotion, shouldPreview, packDividedShelves } from '../assets/shelf-model.mjs';
 
 test('search normalizes Korean, Latin case and full-width characters', () => {
   assert.equal(normalizeQuery(' ＡＩ  '), 'ai');
@@ -25,30 +25,25 @@ test('modified and middle clicks preserve native link navigation', () => {
   }
   assert.ok(!shouldPreview({ button: 1 }));
 });
-test('shelf capacity counts whole spines and never drops below one', () => {
-  assert.equal(shelfCapacity(1114, 72, 1), 15);
-  assert.equal(shelfCapacity(72, 72, 1), 1);
-  assert.equal(shelfCapacity(145, 72, 1), 2);
-  assert.equal(shelfCapacity(144, 72, 1), 1);
-  assert.equal(shelfCapacity(30, 72, 1), 1);
-  assert.equal(shelfCapacity(500, 0, 1), 1);
-});
-test('a category group that fits one shelf moves down instead of breaking', () => {
+// Toy geometry: a spine plus its gap takes 10, a divider 4, and 6 more (gap + lead) when it follows a run.
+const toy = { book: 9, gap: 1, divider: 4, lead: 5 };
+const runs = shelves => shelves.map(shelf => shelf.map(run => `${run.category}:${run.books.join(',')}`));
+const widthOf = shelf => shelf.reduce((sum, run, i) => sum + (i ? 6 : 0) + 4 + run.books.length * 10, 0);
+
+test('each field run on a board opens with a divider, and a group that fits a fresh board moves down', () => {
   const books = ['ai', 'ai', 'ai', 'cs', 'math', 'math', 'kb'];
-  assert.deepEqual(packShelves(books, 4), [[0, 1, 2, 3], [4, 5, 6]]);
-  assert.deepEqual(packShelves(books, 5), [[0, 1, 2, 3], [4, 5, 6]]);
-  assert.deepEqual(packShelves(books, 15), [[0, 1, 2, 3, 4, 5, 6]]);
-  assert.deepEqual(packShelves(books, Infinity), [[0, 1, 2, 3, 4, 5, 6]]);
+  assert.deepEqual(runs(packDividedShelves(books, 50, toy)), [['ai:0,1,2'], ['cs:3', 'math:4,5'], ['kb:6']]);
+  assert.deepEqual(runs(packDividedShelves(books, Infinity, toy)), [['ai:0,1,2', 'cs:3', 'math:4,5', 'kb:6']]);
 });
-test('a group longer than a shelf fills the current shelf and continues below', () => {
+test('a group longer than a board fills it and continues below behind a divider with the same name', () => {
   const books = ['ai', 'ai', ...Array(20).fill('series'), 'math'];
-  const shelves = packShelves(books, 8);
-  assert.deepEqual(shelves.map(s => s.length), [8, 8, 7]);
-  assert.deepEqual(shelves.flat(), books.map((_, i) => i));
-  assert.ok(shelves.every(s => s.length <= 8));
+  const shelves = packDividedShelves(books, 84, toy);
+  assert.deepEqual(runs(shelves), [['ai:0,1', 'series:2,3,4,5,6'], ['series:7,8,9,10,11,12,13,14'],
+    ['series:15,16,17,18,19,20,21'], ['math:22']]);
+  assert.deepEqual(shelves.flat().flatMap(run => run.books), books.map((_, i) => i));
+  assert.ok(shelves.every(shelf => widthOf(shelf) <= 84));
 });
-test('every book keeps its order and one spine per slot, even at capacity one', () => {
-  const books = ['a', 'b', 'b', 'c'];
-  assert.deepEqual(packShelves(books, 1), [[0], [1], [2], [3]]);
-  assert.deepEqual(packShelves([], 6), []);
+test('every book keeps its order and gets a board even when one spine barely fits', () => {
+  assert.deepEqual(runs(packDividedShelves(['a', 'b', 'b', 'c'], 5, toy)), [['a:0'], ['b:1'], ['b:2'], ['c:3']]);
+  assert.deepEqual(packDividedShelves([], 60, toy), []);
 });
