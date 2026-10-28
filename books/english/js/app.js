@@ -49,7 +49,7 @@ function choices(q,target,attr){return U.choiceOrder(q[1].length,q[2],target).ma
 function transferQuiz(c,index){if(!c.transfer)return '';return `<div class="transfer-quiz"><div class="eyebrow">TRY IT ELSEWHERE</div><h3>다른 상황에 써 보기</h3><p>${c.transfer[0]}</p>${choices(c.transfer,(index+1)%3,'transfer')}<div class="transfer-feedback" role="status" aria-live="polite"></div></div>`;}
 function navLinks(index){
  const prev=index?`<a href="#${B.chapters[index-1].id}">이전 · ${B.chapters[index-1].title}</a>`:'<a href="#home">이전 · 표지</a>';
- const next=index<B.chapters.length-1?`<a href="#${B.chapters[index+1].id}">다음 · ${B.chapters[index+1].title}<small>이동 이유: ${B.chapters[index+1].desc}</small></a>`:'<a href="../aie-audio/#turn">다른 책 · AI공학 07 · VAD와 침묵 대기로 말차례 판정하기<small>이동 이유: 지우의 대화는 대답 뒤 멈춤에서 끊겼습니다. 음성 비서가 침묵의 길이로 “말이 끝났다”고 판정하는 방법을 보며, 사람의 대화에서 말차례가 넘어가는 신호를 기계는 어떻게 다루는지 이어 배웁니다.</small></a>';
+ const next=index<B.chapters.length-1?`<a href="#${B.chapters[index+1].id}">다음 · ${B.chapters[index+1].title}<small>이동 이유: ${B.chapters[index+1].desc}</small></a>`:'<a href="../opic/#test">다음 권 · 오픽 대비 · 오픽 시험의 진행 순서와 문항 구성 확인하기<small>이동 이유: 짧은 대화를 이어 갈 수 있게 되었으니, 질문 하나에 1~2분 동안 내 이야기를 이어 말하는 말하기 시험 형식으로 넘어갑니다. 이 책의 문장 틀·시제·분당 낱말 수를 답변 시간 안에서 다시 씁니다.</small></a>';
  return `<nav class="chapter-nav" aria-label="이전·다음 장">${prev}${next}</nav>`;
 }
 function chapter(c,index){
