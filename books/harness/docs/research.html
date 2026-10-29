@@ -1,0 +1,97 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="에이전트 지침 파일 책의 조사 노트: 공식 문서와 연구의 출처 목록, 원문과 대조한 사실 표, 조건을 붙여야 하는 주장, 확인하지 못한 것, 다시 확인할 것."><title>에이전트 지침 파일 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"><style>table{border-collapse:collapse;width:100%;margin:12px 0 24px}th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}code{font-family:var(--font-mono,monospace)}</style></head><body><header class="top"><a class="brand" href="index.html">에이전트 지침 파일 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1100px;margin:auto;padding:32px 16px">
+<h1>조사 노트 (G3 · 지식조사팀 은재·지호·수아·태오)</h1>
+
+<section id="intro"><h2>0. 이 노트를 읽는 법 (은재)</h2>
+<p>확인일은 모두 2026-10-29입니다. 이 노트는 글작성팀과 시각·실험팀이 본문과 실험에 옮겨 써도 되는 사실과, 옮길 때 붙여야 할 조건을 모은 것입니다. 검수팀 유진은 여기서 검수를 시작합니다.</p>
+<p>이 작업 환경에서는 developers.openai.com과 arxiv.org를 셸(curl)로 열면 프록시가 403을 돌려주어, 지호가 웹 가져오기 도구로 같은 주소를 읽었습니다. Codex 문서는 developers.openai.com/codex/guides/agents-md가 learn.chatgpt.com/docs/agent-configuration/agents-md로 넘어가 그 주소로 적었습니다. Claude Code 문서 다섯 쪽은 code.claude.com에서 마크다운으로 받아 대조했습니다.</p>
+<p>규칙: 확인하지 못한 주장은 본문에 쓰지 않습니다. 버전이 붙은 동작(v2.1.277의 AGENTS.md 직접 읽기, v2.1.283의 /doctor prompt-audit)은 버전을 함께 씁니다. 연구의 수치는 그 연구의 과제와 모델에서 나온 것이라 윤서의 저장소에 옮기지 않고, 이 책의 작업 시나리오 수치와 한 문장에서 비교하지 않습니다. 모델이 지침을 실제로 따르는 정도는 이 책이 재지 않습니다.</p>
+</section>
+
+<section id="sources"><h2>1. 출처 (지호)</h2>
+<table><tr><th>#</th><th>출처</th><th>읽은 위치</th><th>쓰는 장</th></tr>
+<tr><td>0</td><td><a href="https://code.claude.com/docs/en/memory">Claude Code 문서 · How Claude remembers your project</a></td><td>CLAUDE.md 위치 표, How CLAUDE.md files load, Import additional files(최대 네 홉, 저장소 밖 가져오기 승인), Organize rules with .claude/rules/(paths), AGENTS.md 절(읽는 조건, Project instructions 네 값, v2.1.277, CLAUDE.local.md 주의, 심볼릭 링크와 Windows), Write effective instructions(200줄, 구체성, 일관성), Troubleshooting(4 MiB, 40,000자·150,000자·200,000자, 사용자 메시지로 전달, /doctor prompt-audit), auto memory(MEMORY.md 200줄 또는 25KB)</td><td>1~5장, 9~12장</td></tr>
+<tr><td>1</td><td><a href="https://code.claude.com/docs/en/best-practices">Claude Code 문서 · Best practices</a></td><td>Deterministic and non-deterministic instructions, Write an effective CLAUDE.md(남길 네 가지), IMPORTANT를 붙여도 고쳐지지 않는다는 주의, What you can stop doing 표, 줄이 늘수록 주의를 쓴다는 설명</td><td>6·7·9·11장</td></tr>
+<tr><td>2</td><td><a href="https://code.claude.com/docs/en/context-window">Claude Code 문서 · Explore the context window</a></td><td>What survives compaction 표(루트 CLAUDE.md와 조건 없는 규칙은 다시 넣음, 하위 폴더 CLAUDE.md와 경로 규칙은 다시 열 때)</td><td>4·10·12장</td></tr>
+<tr><td>3</td><td><a href="https://code.claude.com/docs/en/hooks-guide">Claude Code 문서 · Hooks guide</a></td><td>PreToolUse로 보호 파일 수정을 막는 예(종료 코드 2), 편집 뒤 포매터 훅, 압축 뒤 SessionStart로 맥락 넣기</td><td>6장</td></tr>
+<tr><td>4</td><td><a href="https://code.claude.com/docs/en/skills">Claude Code 문서 · Skills</a></td><td>스킬 본문은 쓸 때만 읽힘, CLAUDE.md의 절이 사실이 아니라 절차가 되면 스킬로 옮기라는 안내</td><td>10장</td></tr>
+<tr><td>5</td><td><a href="https://learn.chatgpt.com/docs/agent-configuration/agents-md">OpenAI Codex 문서 · Custom instructions with AGENTS.md</a></td><td>How Codex discovers guidance(전역 → 프로젝트, 폴더마다 AGENTS.override.md → AGENTS.md → 대체 이름 중 하나, 루트 쪽부터 빈 줄로 이어 붙임, project_doc_max_bytes 기본 32 KiB에서 멈춤, 실행마다 한 번), 코드 리뷰 지침과 CI, “지금 지침을 요약해 줘” 확인법</td><td>2~4장, 6장, 10~12장</td></tr>
+<tr><td>6</td><td><a href="https://agents.md/">AGENTS.md 공개 형식</a></td><td>“에이전트를 위한 README”, 필수 항목 없음, 가장 가까운 파일이 이김, 사용자의 직접 지시가 모든 것을 덮음</td><td>1·3장</td></tr>
+<tr><td>7</td><td><a href="https://geminicli.com/docs/cli/gemini-md/">Gemini CLI 문서 · GEMINI.md</a></td><td>기본 이름 GEMINI.md, ~/.gemini/GEMINI.md, 작업 폴더와 위 폴더, 도구가 파일에 접근할 때 더 찾음, context.fileName, /memory show·reload</td><td>2·12장</td></tr>
+<tr><td>8</td><td><a href="https://code.visualstudio.com/docs/agent-customization/custom-instructions">VS Code 문서 · Use custom instructions</a></td><td>.github/copilot-instructions.md, *.instructions.md의 applyTo, 루트 AGENTS.md, chat.useNestedAgentsMdFiles(기본 꺼짐), 지침 출처는 더해지고 일반적인 우선순위 없음, 짧고 이유가 있는 지침 권고</td><td>2·3·9장</td></tr>
+<tr><td>9</td><td><a href="https://arxiv.org/abs/2602.11988">Gloaguen et al. (2026), Evaluating AGENTS.md</a></td><td>초록, 실험 설정(SWE-bench Lite 300개, AGENTbench 138개·저장소 12곳, Claude Code·Codex·Qwen Code), 결과(LLM 생성 파일 −0.5%·−2%, 비용 +20%·+23%, 개발자 파일 비용 최대 +19%), 저장소 개요가 단계를 줄이지 못함, 권고</td><td>7·11장</td></tr>
+<tr><td>10</td><td><a href="https://arxiv.org/abs/2507.11538">Jaroslawicz et al. (2025), How Many Instructions Can LLMs Follow at Once?</a></td><td>IFScale 설계(키워드 지시 최대 500개, 20개 모델), 최고 모델 500개에서 68%, 앞쪽 지시 편향</td><td>7장</td></tr>
+<tr><td>11</td><td><a href="https://arxiv.org/abs/2307.03172">Liu et al. (2023), Lost in the Middle</a></td><td>초록: 관련 정보가 입력의 처음·끝일 때 성능이 높고 가운데일 때 떨어짐(TACL 게재)</td><td>7장</td></tr>
+<tr><td>12</td><td><a href="https://pillar.security/blog/new-vulnerability-in-github-copilot-and-cursor-how-hackers-can-weaponize-code-agents">Pillar Security (2025-03-18), Rules File Backdoor</a></td><td>폭 없는 결합 문자·방향 제어 문자로 숨긴 지시, 시연에서 외부 스크립트 태그 삽입, PR 리뷰 화면에서 보이지 않음, GitHub의 2025-05-01 경고 기능, 설정 파일을 코드처럼 리뷰하라는 권고</td><td>8장</td></tr>
+<tr><td>13</td><td><a href="https://github.com/ljd6805/my-bookshelf/blob/main/AGENTS.md">이 서재 저장소의 AGENTS.md</a></td><td>커밋 de2fda7(2026-10-28)의 파일을 <code>wc</code>와 파이썬으로 셈: 133줄, 12,512자, 23,972바이트, “- ”로 시작하는 줄 99개 중 validate.py 또는 build_catalog.py가 든 줄 19개. CLAUDE.md 첫 줄 @AGENTS.md</td><td>4·5·11장</td></tr>
+</table>
+</section>
+
+<section id="facts"><h2>2. 사실 주장 표 (은재 정리, 지호 위치 확인)</h2>
+<table><tr><th>장</th><th>주장 (본문에 쓰는 형태)</th><th>출처</th><th>조건·주의</th></tr>
+<tr><td>1</td><td>Claude Code는 세션마다 새 컨텍스트 창에서 시작하고, CLAUDE.md와 자동 메모리가 세션을 넘어 지식을 옮긴다</td><td>0</td><td>확인함</td></tr>
+<tr><td>1</td><td>CLAUDE.md는 시스템 프롬프트 뒤의 사용자 메시지로 전달된다</td><td>0 Troubleshooting</td><td>확인함. “엄격한 준수를 보장하지 않는다”가 같은 문단에 있음(6장에서 씀)</td></tr>
+<tr><td>1</td><td>MEMORY.md는 앞 200줄 또는 25KB가 세션마다 읽힌다</td><td>0 auto memory</td><td>확인함. 이 한도는 MEMORY.md에만 적용</td></tr>
+<tr><td>2</td><td>작업 폴더와 위 폴더의 CLAUDE.md·CLAUDE.local.md는 시작할 때, 하위 폴더 파일은 그 폴더의 파일을 읽거나 쓰거나 고칠 때 읽힌다</td><td>0</td><td>하위 폴더 AGENTS.md는 “Read 도구로 파일을 열 때, 그 폴더에 CLAUDE 파일 셋이 없을 때”로 조건이 조금 다름. 실험 모델은 두 경우를 “파일을 열 때”로 묶음(가정으로 표시)</td></tr>
+<tr><td>2·5</td><td>기본 설정에서 AGENTS.md는 작업 폴더나 그 위에 CLAUDE.md·.claude/CLAUDE.md·CLAUDE.local.md가 없을 때만 읽힌다. ~/.claude/CLAUDE.md, 관리 정책 파일, .claude/rules/는 세지 않는다</td><td>0 AGENTS.md</td><td>v2.1.277 이상. 일부 세션(플러그인을 끈 경우 등)에서는 직접 읽지 못함</td></tr>
+<tr><td>2</td><td>Codex는 실행할 때 한 번 지침 목록을 만들고, 폴더마다 AGENTS.override.md → AGENTS.md → 대체 이름 중 하나만 넣는다</td><td>5</td><td>확인함. 프로젝트 루트는 보통 Git 루트</td></tr>
+<tr><td>2</td><td>Gemini CLI 기본 이름은 GEMINI.md이고 context.fileName으로 다른 이름을 더한다</td><td>7</td><td>확인함. 실험에는 넣지 않음(본문과 마지막 전이 문항에만)</td></tr>
+<tr><td>3</td><td>파일은 루트 쪽부터 이어 붙고 서로 지우지 않는다. Codex 문서: 가까운 파일이 뒤에 와서 앞의 지침을 덮어쓴다</td><td>0, 5</td><td>확인함</td></tr>
+<tr><td>3</td><td>Claude Code 문서: 부딪히는 두 지시 가운데 하나를 임의로 고를 수 있고, 사용자 규칙과 프로젝트 규칙은 서로를 덮어쓰지 않는다</td><td>0</td><td>확인함(“may pick one arbitrarily”, “Neither set overrides the other”)</td></tr>
+<tr><td>3</td><td>VS Code: 지침 출처는 더해질 뿐 일반적인 우선순위가 없다</td><td>8</td><td>확인함</td></tr>
+<tr><td>4</td><td>Codex project_doc_max_bytes 기본 32 KiB, 닿으면 더 넣지 않음, config.toml에서 바꿈</td><td>5</td><td>한도를 넘기는 파일을 일부만 넣는지 통째로 빼는지는 문서에 없음 → 실험은 “한도에 걸림”으로만 표시</td></tr>
+<tr><td>4</td><td>Claude Code는 시작할 때 읽는 파일을 4 MiB까지 통째로, 넘으면 넣지 않음. 200줄 권고. 하위 폴더 CLAUDE.md·경로 규칙은 20만 창 40,000자, 100만 창 150,000자(Opus 4.6·Sonnet 4.6은 200,000자)</td><td>0</td><td>확인함. 실험은 100만 창을 150,000자로 계산하고 화면에 밝힘</td></tr>
+<tr><td>4</td><td>압축 뒤 루트 CLAUDE.md와 조건 없는 규칙은 디스크에서 다시 넣고, 하위 폴더 파일과 경로 규칙은 다시 열 때 읽는다</td><td>2</td><td>확인함</td></tr>
+<tr><td>5</td><td>@가져오기: 상대 경로는 가져오는 파일 기준, 최대 네 홉, 백틱·코드 블록 안은 가져오지 않음, 저장소 밖 가져오기는 처음에 승인</td><td>0</td><td>확인함</td></tr>
+<tr><td>5</td><td>심볼릭 링크는 Windows에서 Git이 한 줄짜리 글 파일로 받을 수 있다(core.symlinks가 꺼져 있을 때)</td><td>0</td><td>확인함</td></tr>
+<tr><td>6</td><td>결정적(훅·거부 규칙·관리 설정)과 비결정적(프롬프트·CLAUDE.md·스킬) 지시의 구분, IMPORTANT를 붙여도 고쳐지지 않는다는 주의, 강조를 쌓으면 지나치게 적용한다는 설명</td><td>1</td><td>확인함</td></tr>
+<tr><td>6</td><td>Codex: 코드 리뷰 지침은 짧게, 서식·린트 검사는 CI로</td><td>5</td><td>코드 리뷰 지침 맥락에서만. 일반 규칙으로 넓히지 않음</td></tr>
+<tr><td>7</td><td>Gloaguen 등의 수치와 권고</td><td>9</td><td>그 연구의 과제·모델에서 나온 값. 개발자 파일이 해결률을 “조금 올렸다”는 저자 표현을 그대로 씀</td></tr>
+<tr><td>7</td><td>IFScale 500개에서 최고 68%, 앞쪽 편향</td><td>10</td><td>지시의 종류가 보고서 키워드 포함이라는 조건</td></tr>
+<tr><td>8</td><td>규칙 파일 백도어와 GitHub 경고(2025-05-01)</td><td>12</td><td>경고 기능 날짜는 Pillar 글의 공개 일정 표에서 옮김(GitHub 공지 원문은 보지 못함)</td></tr>
+<tr><td>8</td><td>Claude Code는 프로젝트 파일의 저장소 밖 가져오기를 처음 만나면 승인을 받고, 거절하면 꺼 둔다</td><td>0</td><td>확인함</td></tr>
+<tr><td>9</td><td>“들여쓰기는 공백 2칸”, “커밋 전에 npm test”, “API 처리기는 src/api/handlers/” 예</td><td>0</td><td>문서의 예를 우리말로 옮김</td></tr>
+<tr><td>10</td><td>지침 자리: 관리 정책·사용자·프로젝트·로컬, .claude/rules/ paths, 스킬</td><td>0, 4</td><td>관리 정책 파일은 claudeMdExcludes로 뺄 수 없음</td></tr>
+<tr><td>11</td><td>더할 때 네 가지, /init 뒤에는 대부분 지우는 일, /doctor prompt-audit(v2.1.283 이상), /doctor가 코드에서 알 수 있는 내용을 덜어 낼 안을 냄</td><td>0, 1</td><td>버전을 함께 씀</td></tr>
+<tr><td>4·11</td><td>이 저장소 AGENTS.md 133줄·12,512자·23,972바이트(73%)</td><td>13</td><td>커밋 de2fda7 기준. 파일이 바뀌면 다시 셈</td></tr>
+</table>
+</section>
+
+<section id="unverified"><h2>3. 확인하지 못한 것과 쓰지 않을 것 (은재·태오)</h2>
+<ul>
+<li>Codex가 32 KiB를 넘기는 파일을 잘라서 일부 넣는지, 통째로 빼는지: 문서에 없음. 본문과 실험은 “한도에 닿으면 더 넣지 않는다”까지만 씀.</li>
+<li>모델이 지침을 따르는 비율: 도구별 공식 수치가 없음. 6장의 “마흔 번 중 한 번”은 이 책의 시나리오라고 밝힘.</li>
+<li>GitHub가 숨은 유니코드 경고를 시작한 날의 1차 공지: 보지 못함. Pillar 글의 기록으로만 씀.</li>
+<li>Cursor·Windsurf 등 다른 도구의 규칙 파일 동작: 이번에 확인하지 않아 다루지 않음.</li>
+<li>태오가 모은 오해: “AGENTS.md는 어디에 두어도 모든 에이전트가 읽는다”, “가까운 파일이 언제나 이긴다”, “@가져오기로 나누면 컨텍스트가 준다”, “IMPORTANT를 더 붙이면 지킨다”, “자세한 저장소 개요가 도움이 된다”, “모델이 무시했다”. 각각 2·3·4·6·7·12장의 혼동 상자로 넘김.</li>
+</ul>
+</section>
+
+<section id="checks"><h2>4. 수아의 검산 (책 코드와 따로 계산)</h2>
+<table><tr><th>값</th><th>손 계산</th><th>책 코드</th></tr>
+<tr><td>한국어 견본 줄</td><td>한글 음절 23자 × 3 + ASCII 40자 + 줄바꿈 1 = 110바이트, 64자 (파이썬 <code>len(s.encode())</code>)</td><td>110, 64</td></tr>
+<tr><td>영어 견본 줄</td><td>ASCII 80자 + 줄바꿈 = 81바이트</td><td>81</td></tr>
+<tr><td>한국어 150줄 + 150줄 + 개인 파일</td><td>110 × 300 + 80 = 33,080 &gt; 32,768</td><td>33,080, apps/api 파일 “한도에 걸림”</td></tr>
+<tr><td>영어 같은 조건</td><td>81 × 300 + 80 = 24,380</td><td>24,380</td></tr>
+<tr><td>경계: 영어 200줄 + 200줄</td><td>81 × 400 + 80 = 32,480 (들어감), 225줄씩이면 36,530 (걸림)</td><td>같음</td></tr>
+<tr><td>하위 폴더 글자 수 한도</td><td>영어 600줄 = 48,600자, 40,000자 뒤 8,600자 ≈ 106.2줄 → 올림 107줄</td><td>107</td></tr>
+<tr><td>서재 AGENTS.md</td><td>23,972 / 32,768 = 73.2%, 남는 몫 8,796바이트</td><td>본문 73%, 8,796</td></tr>
+<tr><td>숨긴 지시</td><td>영어 지시 102자 → 태그 문자 102개 + 폭 없는 글자 2개 = 104</td><td>104, 102</td></tr>
+<tr><td>작업 시나리오</td><td>다섯 묶음 줄 수 6+5+40+30+4 = 85, 바이트 420+520+3,600+2,100+380 = 7,020</td><td>85, 7,020</td></tr>
+</table>
+</section>
+
+<section id="recheck"><h2>5. 다시 확인할 것 (은재)</h2>
+<p>도구 문서는 몇 주 단위로 바뀝니다. 다음 개정 때 이 순서로 공식 문서와 대조합니다.</p>
+<ul>
+<li>Claude Code의 AGENTS.md 읽기 조건과 Project instructions 값(현재 네 가지, v2.1.277 이상), 플러그인 ID(v2.1.285에서 바뀜).</li>
+<li>하위 폴더 파일의 글자 수 한도(40,000자·150,000자·200,000자)와 모델 이름.</li>
+<li>Codex의 project_doc_max_bytes 기본값과 Codex 문서 주소.</li>
+<li>/doctor prompt-audit의 버전과 하는 일.</li>
+<li>이 저장소 AGENTS.md의 줄·바이트 수(파일이 바뀔 때마다).</li>
+</ul>
+</section>
+
+<section id="handoff"><h2>6. 다음 팀에 넘기는 메모 (은재)</h2>
+<p>글작성팀: 도구 이름 뒤 동작에는 확인일이나 버전을 붙여 주세요. “가까운 파일이 이긴다”는 Codex와 AGENTS.md 공개 형식의 설명이지 Claude Code의 설명이 아닙니다. 시각·실험팀: 문서가 정하지 않은 동작(한도를 넘기는 파일)은 화면에 가정으로 밝혀 주세요. 검수팀: 1절 출처 0·1·5를 가장 먼저 대조해 주세요. 책의 실험 대부분이 이 세 쪽에 기댑니다.</p>
+</section>
+</main></body></html>

@@ -1,0 +1,40 @@
+<svg class="hn-ill" viewBox="0 0 340 180" role="img" aria-label="세션이 시작되면 개인 파일, 루트 AGENTS.md, 작업 폴더의 AGENTS.md 세 장이 차례로 내려와 컨텍스트 상자에 루트 쪽부터 쌓이고, 옆의 바이트 막대가 32 KiB 한도선 쪽으로 차오른 뒤, 세션이 끝나면 비워지고 다음 세션에 같은 파일이 다시 읽히는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.hn-ill-frame{fill:#fbf8f1;stroke:#8a5a00;stroke-width:1.4}
+.hn-ill-file{fill:#fffdf8;stroke:#8a5a00;stroke-width:1.2}
+.hn-ill-word{font:700 11px sans-serif;fill:#2a2416}
+.hn-ill-small{font:500 9px sans-serif;fill:#6b5d45}
+.hn-ill-card{opacity:0;animation:hn-ill-drop 8s ease-in-out infinite}
+.hn-ill-card2{animation-delay:.7s}.hn-ill-card3{animation-delay:1.4s}
+.hn-ill-meter{fill:#d99a2b;transform-box:fill-box;transform-origin:0 50%;animation:hn-ill-fill 8s ease-in-out infinite}
+.hn-ill-track{fill:#efe6d3}
+.hn-ill-limit{stroke:#b4472a;stroke-width:1.6;stroke-dasharray:4 3}
+.hn-ill-flow{fill:none;stroke:#8a5a00;stroke-width:1.6;stroke-dasharray:4 4;animation:hn-ill-dash 1.2s linear infinite}
+.hn-ill-tag{opacity:0;animation:hn-ill-tag 8s ease-in-out infinite}
+@keyframes hn-ill-drop{0%,4%{opacity:0;transform:translateY(-34px)}14%,80%{opacity:1;transform:translateY(0)}92%,100%{opacity:0;transform:translateY(0)}}
+@keyframes hn-ill-fill{0%,8%{transform:scaleX(0)}40%,80%{transform:scaleX(1)}92%,100%{transform:scaleX(0)}}
+@keyframes hn-ill-dash{to{stroke-dashoffset:-16}}
+@keyframes hn-ill-tag{0%,82%{opacity:0}88%,98%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.hn-ill-card,.hn-ill-meter,.hn-ill-flow,.hn-ill-tag{animation:none}.hn-ill-card{opacity:1}.hn-ill-tag{opacity:1}}
+html[data-motion=reduce] .hn-ill-card,html[data-motion=reduce] .hn-ill-meter,html[data-motion=reduce] .hn-ill-flow,html[data-motion=reduce] .hn-ill-tag{animation:none}
+html[data-motion=reduce] .hn-ill-card,html[data-motion=reduce] .hn-ill-tag{opacity:1}
+</style>
+<rect class="hn-ill-file" x="14" y="18" width="104" height="30" rx="4"/>
+<text class="hn-ill-small" x="22" y="31">디스크</text>
+<text class="hn-ill-word" x="22" y="43">지침 파일 3개</text>
+<path class="hn-ill-flow" d="M118 33H150V60"/>
+<rect class="hn-ill-frame" x="140" y="58" width="130" height="104" rx="6"/>
+<text class="hn-ill-small" x="148" y="74">세션의 컨텍스트</text>
+<g class="hn-ill-card"><rect class="hn-ill-file" x="150" y="82" width="110" height="20" rx="3"/><text class="hn-ill-word" x="158" y="96">① 개인 파일</text></g>
+<g class="hn-ill-card hn-ill-card2"><rect class="hn-ill-file" x="150" y="106" width="110" height="20" rx="3"/><text class="hn-ill-word" x="158" y="120">② 루트 AGENTS.md</text></g>
+<g class="hn-ill-card hn-ill-card3"><rect class="hn-ill-file" x="150" y="130" width="110" height="20" rx="3"/><text class="hn-ill-word" x="158" y="144">③ apps/api 파일</text></g>
+<text class="hn-ill-small" x="14" y="80">합친 바이트</text>
+<rect class="hn-ill-track" x="14" y="86" width="110" height="12" rx="2"/>
+<rect class="hn-ill-meter" x="14" y="86" width="96" height="12" rx="2"/>
+<path class="hn-ill-limit" d="M114 80V104"/>
+<text class="hn-ill-small" x="14" y="116">점선: 32 KiB 한도</text>
+<g class="hn-ill-tag"><rect class="hn-ill-file" x="14" y="128" width="112" height="22" rx="3"/><text class="hn-ill-small" x="20" y="143">세션 끝 → 다음 세션에 다시 읽음</text></g>
+<text class="hn-ill-small" x="280" y="96">루트 쪽</text>
+<text class="hn-ill-small" x="280" y="108">부터</text>
+<text class="hn-ill-small" x="280" y="120">이어 붙음</text>
+</svg>
