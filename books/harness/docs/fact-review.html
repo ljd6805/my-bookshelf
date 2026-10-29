@@ -4,7 +4,43 @@
 <h1>팩트·출처 검수 · 에이전트 지침 파일</h1>
 <p>「에이전트 지침 파일 · AGENTS.md·CLAUDE.md가 읽히는 방식과 쓰고 고치는 법」(books/harness/, 카탈로그 id agent-instruction-files)을 집필 세션과 다른 세션이 검수한 기록입니다. 기준은 <a href="../../../docs/03-verification.html#fact-review">검증 문서의 팩트·출처 검수</a>와 <a href="../../../docs/11-korean-writing.html">한국어 문장 지침</a>이고, 형식은 templates/fact-review.html을 따릅니다. 제작 기록은 <a href="index.html">제작 문서</a>, 값과 출처의 원본은 <a href="research.html">조사 노트</a>입니다.</p>
 <p>커밋 ebc74a2에 들어 있던 이 파일은 「LoRA의 원리」(books/lora-why/docs/fact-review.html)의 검수 기록을 그대로 복사한 것이어서 이 책의 기록이 아니었습니다. 이 회차가 이 책의 첫 검수 기록이며, 복사본의 내용은 남기지 않았습니다.</p>
-<p>회차는 새것이 위에 옵니다. 2회차는 1회차의 고칠 것 열한 건이 커밋 a1ede02에서 어떻게 고쳐졌는지와, 같은 커밋에서 첫 독자 리허설 뒤 새로 바뀐 곳을 봅니다. 3회차는 2회차의 고칠 것 두 건이 커밋 92b42b7에서 어떻게 고쳐졌는지와 그 커밋에서 함께 바뀐 곳을 봅니다.</p>
+<p>회차는 새것이 위에 옵니다. 2회차는 1회차의 고칠 것 열한 건이 커밋 a1ede02에서 어떻게 고쳐졌는지와, 같은 커밋에서 첫 독자 리허설 뒤 새로 바뀐 곳을 봅니다. 3회차는 2회차의 고칠 것 두 건이 커밋 92b42b7에서 어떻게 고쳐졌는지와 그 커밋에서 함께 바뀐 곳을 봅니다. 4회차는 3회차의 고칠 것 한 건(R3-1)이 커밋 3386ad5에서 어떻게 고쳐졌는지와 그 커밋에서 함께 바뀐 곳을 봅니다.</p>
+
+<section class="fact-review" id="review-2026-10-29-r4" data-reviewer="검수팀 새 세션(Claude) · 팩트 체커 유진, 4회차" data-author="Claude 집필 세션(이 책을 쓴 세션) · 다온(문체) · 채원(리허설 수정)" data-date="2026-10-29" data-scope="3회차 고칠 것 1건(R3-1)의 반영과 diff 92b42b7→3386ad5 전체: js/labs.js L.final 결과 문장, js/content.js 7장 혼동 상자 “Gloaguen 등(2026, v1)”, docs/index.html 리허설 표 아래 덧붙인 문단, books/harness/index.html 자산 버전(hn4→hn5), 이 파일의 3회차 기록. 사고 4를 단정하는 문장이 남았는지 js/·review.json·docs/에서 “아예”, “없었”, “넷은”을 찾아 함께 대조" data-result="fixed" data-commit="3386ad5">
+<h2>2026-10-29 검수 (4회차)</h2>
+<p>검수자: 검수팀 새 세션(Claude) · 팩트 체커 유진, 4회차. 이 세션은 이 책을 쓰지 않았고 1~3회차 기록도 남기지 않았습니다. 집필자: Claude 집필 세션 · 다온(문체) · 채원(리허설 수정). 범위: R3-1과 커밋 3386ad5에서 바뀐 곳 전체(<code>git diff 92b42b7 3386ad5</code>, 5개 파일). 바뀐 문장은 모두 저장소 안의 다른 문장·계산과 대조할 수 있어 외부 문서를 새로 열지 않았습니다. 책의 테스트 <code>npm test --prefix books/harness</code>는 35개 모두 통과했고, 그와 따로 node로 js/math.js를 불러 사고 다섯 건의 정답(codex-web 1, local 0, migrations 2, bytes 0, compact 1)을 diagnose에 넣어 다섯 건 모두 맞음(ok 5), 곧 R3-1의 문장이 나오는 조건을 확인했습니다.</p>
+<table><thead><tr><th>항목</th><th>상태</th><th>확인한 방법</th></tr></thead><tbody>
+<tr data-check="facts" data-status="ok"><td>사실 주장</td><td>문제 없음</td><td>이번 diff에서 바뀐 사실 문장은 7장 혼동 상자의 “Gloaguen 등(2026, v1)” 하나입니다. 같은 장 본문(“2월 공개된 첫 판 v1 기준”), 11장의 “(2026, v1)”, 출처 9의 주소 …/2602.11988v1과 판이 같습니다. 이제 책 안의 Gloaguen 인용 세 곳이 모두 v1을 밝힙니다.</td></tr>
+<tr data-check="numbers" data-status="ok"><td>수식·수치</td><td>문제 없음</td><td>바뀐 숫자가 없습니다. 자산 버전 hn5는 books/harness/index.html의 스타일 한 곳과 스크립트 여덟 곳에 똑같이 붙었습니다.</td></tr>
+<tr data-check="experiments" data-status="fixed"><td>실험 계산</td><td>1건 고쳐짐 (R3-1)</td><td>js/labs.js 130행 결과 문장이 “다섯 건 가운데 넷은 지침이 컨텍스트에 없었거나 온전히 들어가지 않았고, 하나는 지침으로 막을 수 없는 규칙이었습니다”로 바뀌었습니다. 12장 혼동 상자(js/content.js 194행)의 기준과 낱말이 같고, 예측 질문 “들어갔는데도 어긴 사고는 몇 건”(답 1건, 사고 3)과도 맞습니다. 이 문장은 d.ok===5일 때만 나오며, 정답 다섯 개를 넣으면 ok 5가 나와 실제로 보이는 문장입니다. 사고 4를 단정하는 문장이 더 남았는지 js/·review.json·docs/에서 “아예”, “없었”, “넷은”을 찾았습니다. js/ 안의 “아예”는 4장 실험의 “아예 빠집니다”(js/labs.js 51행) 하나인데, 이것은 Codex가 한도에 닿은 뒤 더 붙이지 않은 파일에만 붙고 한도에 걸린 파일은 “한도에 걸립니다”로 따로 적습니다. Codex 문서의 “stops adding files once the combined size reaches the limit”(2회차 인용)와 맞고 사고 4 이야기도 아닙니다. js/math.js 사고 4 보기 0 “빠졌거나 온전히 들어가지 않았다”, 사고 5 보기 1 “남지 않을 수 있다”, js/lab-guides.js final 결과 읽기, js/figures.js 12장 그림, review.json final 두 문항에는 단정이 없습니다. docs/에는 “아예 없었”이 세 곳 남았습니다. 리허설 표 12 final 행(리허설 당시 질문의 인용)과 그 아래 새 덧붙임은 기록이고 덧붙임이 지금 문장으로 바뀌었다고 밝힙니다. 셋째는 docs/index.html 3절 장 학습 설계표의 마지막 행 “혼동하지 마세요” 칸으로, E1 이전의 혼동 상자 “넷은 그 지침이 컨텍스트에 아예 없었고”를 옮겨 둔 것입니다. 독자가 보는 원고가 아니라 제작 문서의 설계 기록이므로 판정에는 넣지 않고 아래 고치면 좋은 것에 적었습니다.</td></tr>
+<tr data-check="terms" data-status="ok"><td>용어</td><td>문제 없음</td><td>결과 문장의 “컨텍스트”, “온전히 들어가지 않았고”는 혼동 상자와 사고 4 보기의 표기와 같습니다.</td></tr>
+<tr data-check="sources" data-status="ok"><td>출처 링크·인용</td><td>문제 없음</td><td>출처 주소와 설명은 바뀌지 않았습니다. 7장 혼동 상자의 판 표기가 출처 9의 v1 주소와 맞습니다.</td></tr>
+<tr data-check="wording" data-status="ok"><td>문체 편집 뒤 뜻 보존</td><td>문제 없음</td><td>이번 커밋에 문체 비평 메모의 새 “반영함” 행은 없습니다. 바뀐 문장을 원래 문장과 대조했습니다. (1) 결과 문장 “아예 없었고” → “없었거나 온전히 들어가지 않았고”: 단정을 문서가 정한 만큼으로 낮춘 사실 수정이며, 넷과 하나라는 수와 “지침으로 막을 수 없는 규칙”이라는 판정은 그대로입니다. (2) 7장 “(2026)” → “(2026, v1)”: 판을 밝혔을 뿐 “단계를 줄이지 못했고”의 정도는 그대로입니다. (3) docs/index.html 리허설 표 아래 문단은 리허설 기록을 바꾸지 않고 그 뒤에 무엇이 바뀌었는지(R2-1, R3-1)만 적으며, 인용한 지금 문장 두 개가 원고와 같습니다.</td></tr>
+<tr data-check="titles" data-status="ok"><td>제목·그림 설명 대조</td><td>문제 없음</td><td>이번 diff에는 장 제목·부제·목차·그림 설명·대체 텍스트의 변경이 없습니다. 12장 실험 제목 “사고 다섯 건의 원인을 고르고 고칠 곳 확인하기”와 12장 그림 대체 텍스트의 진단 다섯 단계는 고친 결과 문장과 맞습니다.</td></tr>
+<tr data-check="Q1" data-status="ok"><td>Q1 제목만으로 주제를 아는가</td><td>문제 없음</td><td>바뀐 제목이 없어 2·3회차 판정과 같습니다.</td></tr>
+<tr data-check="Q2" data-status="ok"><td>Q2 방법·한계·예시의 연결</td><td>문제 없음</td><td>12장의 혼동 상자, 예측 질문, 실험 결과 문장이 이제 같은 갈림(들어갔는가 → 들어갔다면 강제할 규칙인가)을 같은 순서로 말합니다.</td></tr>
+<tr data-check="Q3" data-status="fixed"><td>Q3 제안과 검증할 효과의 구별</td><td>1건 고쳐짐 (R3-1)</td><td>다섯 건을 다 맞힌 독자가 마지막에 읽는 문장도 확인된 것(사고 3은 들어간 채로 어김)과 문서로 알 수 없는 것(사고 4가 빠졌는지 일부만 들어갔는지, 사고 5가 요약에 남았는지)을 섞지 않습니다.</td></tr>
+<tr data-check="Q4" data-status="ok"><td>Q4 편집과 검증 기록의 분리</td><td>문제 없음</td><td>리허설 표 아래 덧붙임은 제작 문서(docs/index.html)에, 이 회차는 이 파일에 따로 있습니다. 3회차 기록은 3386ad5에서 바뀌지 않았습니다. 검수자는 이 파일 말고는 원고와 다른 문서를 고치지 않았습니다.</td></tr>
+</tbody></table>
+
+<h3>3회차 고칠 것의 반영</h3>
+<table><thead><tr><th>번호</th><th>지금 원고</th><th>판정</th></tr></thead><tbody>
+<tr><td>R3-1</td><td>js/labs.js L.final 결과 문장(130행) “다섯 건 가운데 넷은 지침이 컨텍스트에 없었거나 온전히 들어가지 않았고, 하나는 지침으로 막을 수 없는 규칙이었습니다.” 12장 혼동 상자·예측 질문·INCIDENTS 정답과 맞음</td><td>고쳐짐</td></tr>
+</tbody></table>
+<p>3회차가 권한 고치면 좋은 것 두 건(7장 혼동 상자의 판 표기, 리허설 표 아래 설명)도 들어갔습니다. 새로 찾은 고칠 것은 없습니다. 이 회차로 팩트·출처 검수의 열린 항목이 모두 닫혔습니다.</p>
+
+<h3>고치면 좋은 것 (판정에 넣지 않음)</h3>
+<ul>
+<li>docs/index.html 3절 장 학습 설계표의 “혼동하지 마세요” 칸 세 곳이 지금 원고(js/content.js)와 다릅니다. 06 enforce 칸에는 F4로 더한 “대개”가 없고, 07 length 칸은 “Gloaguen 등(2026)”으로 판이 없으며, 마지막 final 칸은 E1 이전 문장 “넷은 그 지침이 컨텍스트에 아예 없었고”입니다. 이 표는 제작 문서 생성에 쓴 장 데이터 사본에서 나오므로, 사본을 지금 content.js에서 다시 뽑아 생성하면 세 칸이 원고와 같아집니다. 그대로 둘 거라면 표 위에 “설계 당시 문장, 이후 팩트 검수로 고친 곳은 원고가 기준”이라고 적어 둡니다.</li>
+</ul>
+
+<h3>확인하지 못한 것</h3>
+<ul>
+<li>외부 문서(Codex 문서, arXiv 2602.11988)는 다시 열지 않았습니다. 이번 diff가 외부 사실을 새로 들이지 않아 2회차 원문 확인 기록과 대조했습니다.</li>
+<li>Codex가 32 KiB를 넘기는 파일을 잘라 앞부분을 넣는지 통째로 빼는지는 여전히 문서에 없습니다. 책은 이 부분을 단정하지 않습니다.</li>
+<li>고친 결과 문장을 이 회차에서는 브라우저로 보지 않고 node로 조건만 확인했습니다. 서가에서의 표시는 G7 관문에서 따로 봅니다.</li>
+</ul>
+</section>
 
 <section class="fact-review" id="review-2026-10-29-r3" data-reviewer="검수팀 새 세션(Claude) · 팩트 체커 유진, 3회차" data-author="Claude 집필 세션(이 책을 쓴 세션) · 다온(문체) · 채원(리허설 수정)" data-date="2026-10-29" data-scope="2회차 고칠 것 2건(R2-1, R2-2)의 반영과 diff 72d1540→92b42b7 전체: js/app.js 12장 예측 질문과 leftQuestion 조사, js/content.js 4장 실제 예 “한글 음절(3바이트)”와 11장 “Gloaguen 등(2026, v1)”, docs/research.html 출처 9 설명과 5절 두 항목, docs/index.html#style-budget 둘째 행의 덧붙임, books/harness/index.html 스타일 버전, 이 파일의 2회차 기록 수정. 12장 예측의 새 답을 확인하려고 js/math.js INCIDENTS, js/content.js final 혼동 상자, js/labs.js L.final 결과 문장, js/lab-guides.js final 결과 읽기, js/figures.js 12장 그림을 함께 대조" data-result="open" data-commit="92b42b7">
 <h2>2026-10-29 검수 (3회차)</h2>
