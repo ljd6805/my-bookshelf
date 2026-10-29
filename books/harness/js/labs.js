@@ -127,7 +127,7 @@ L.final=el=>{
  U.bind(el,()=>{
   const choices=Object.fromEntries(M.INCIDENTS.map(x=>[x.id,el.querySelector('#i-'+x.id).value])),d=M.diagnose(choices),picked=d.rows.filter(r=>r.choice!=='-1').length;
   U.result(el,U.table(['사고','고른 원인','판정','고칠 곳'],d.rows.map((r,i)=>[`사고 ${i+1}`,r.choice==='-1'?'—':r.options[+r.choice],r.choice==='-1'?'아직':r.ok?'맞음':'다시',r.ok?r.fix:'—']),i=>d.rows[i].ok),
-   (picked?`다섯 건 가운데 ${picked}건을 골랐고 <b>${d.ok}건</b>이 맞았습니다.`:'아직 고른 원인이 없습니다. 사고마다 원인을 하나씩 골라 보세요.')+`${d.ok===5?' 다섯 건 가운데 넷은 지침이 컨텍스트에 아예 없었고, 하나는 지침으로 막을 수 없는 규칙이었습니다. 이제 건마다 결정문 네 칸을 써 보세요.':picked>d.ok?' 틀린 건은 진단 순서(도구와 작업 폴더 → 읽힌 파일 → 크기와 부딪힘 → 강제할 규칙인가 → 대화와 압축)를 따라 다시 보세요.':''}`);
+   (picked?`다섯 건 가운데 ${picked}건을 골랐고 <b>${d.ok}건</b>이 맞았습니다.`:'아직 고른 원인이 없습니다. 사고마다 원인을 하나씩 골라 보세요.')+`${d.ok===5?' 다섯 건 가운데 넷은 지침이 컨텍스트에 없었거나 온전히 들어가지 않았고, 하나는 지침으로 막을 수 없는 규칙이었습니다. 이제 건마다 결정문 네 칸을 써 보세요.':picked>d.ok?' 틀린 건은 진단 순서(도구와 작업 폴더 → 읽힌 파일 → 크기와 부딪힘 → 강제할 규칙인가 → 대화와 압축)를 따라 다시 보세요.':''}`);
  });
 };
 })();
