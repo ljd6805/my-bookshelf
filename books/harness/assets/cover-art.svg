@@ -1,0 +1,32 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="왼쪽은 저장소 booking-app의 폴더 나무로 개인 파일, 루트 AGENTS.md, apps/api/AGENTS.md가 강조되어 있고, 오른쪽은 그 세 파일이 루트 쪽부터 차례로 이어 붙어 한 묶음의 지침이 되고 그 아래 바이트 막대가 32 KiB 한도선 가까이 찬 그림" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="8" y="16">작업 폴더까지 내려오며 찾기</text>
+<rect class="cv-fill" x="8" y="26" width="7" height="7" rx="1"/>
+<text class="cv-text cv-bold" x="20" y="33">~/.codex/AGENTS.md</text>
+<path class="cv-hair" d="M11 42V112"/>
+<rect class="cv-fill" x="8" y="42" width="7" height="7" rx="1"/>
+<text class="cv-text cv-bold" x="20" y="49">booking-app/AGENTS.md</text>
+<path class="cv-hair" d="M11 58H18"/>
+<rect class="cv-tint" x="20" y="54" width="7" height="7" rx="1"/>
+<text class="cv-text cv-muted" x="32" y="61">apps/web/AGENTS.md</text>
+<path class="cv-hair" d="M11 74H18"/>
+<rect class="cv-tint" x="20" y="70" width="7" height="7" rx="1"/>
+<text class="cv-text cv-muted" x="32" y="77">apps/api/ ← 작업 폴더</text>
+<path class="cv-hair" d="M23 86V96H30"/>
+<rect class="cv-fill" x="32" y="92" width="7" height="7" rx="1"/>
+<text class="cv-text cv-bold" x="44" y="99">AGENTS.md</text>
+<path class="cv-hair" d="M11 112H18"/>
+<rect class="cv-tint" x="20" y="108" width="7" height="7" rx="1"/>
+<text class="cv-text cv-muted" x="32" y="115">packages/ui/CLAUDE.md</text>
+<path class="cv-hair" d="M164 12V142"/>
+<text class="cv-text cv-muted" x="176" y="16">루트 쪽부터 이어 붙이기</text>
+<rect class="cv-node" x="176" y="24" width="136" height="20" rx="2"/>
+<text class="cv-text" x="182" y="38">① 개인 파일</text>
+<rect class="cv-node" x="176" y="48" width="136" height="20" rx="2"/>
+<text class="cv-text" x="182" y="62">② 루트 AGENTS.md</text>
+<rect class="cv-node" x="176" y="72" width="136" height="20" rx="2"/>
+<text class="cv-text" x="182" y="86">③ apps/api/AGENTS.md</text>
+<rect class="cv-tint" x="176" y="106" width="136" height="9" rx="1"/>
+<rect class="cv-fill" x="176" y="106" width="118" height="9" rx="1"/>
+<path class="cv-dash" d="M300 100V121"/>
+<text class="cv-text cv-bold" x="176" y="134">합친 바이트 · 한도 32 KiB</text>
+</svg>
