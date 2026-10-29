@@ -92,7 +92,7 @@
   ],
   "bridge": [
    {
-    "q": "AGENTS.md를 원본으로 두고 Claude Code도 같은 내용을 읽게 하는, 버전과 설정에 상관없이 동작하는 방법은?",
+    "q": "AGENTS.md를 원본으로 두고 Claude Code도 같은 내용을 읽게 하는, Claude Code 버전과 상관없이 동작하는 방법은?",
     "choices": [
      "CLAUDE.md에 “AGENTS.md를 따르라”라고 쓴다",
      "AGENTS.md의 이름을 agents.txt로 바꾼다",
@@ -136,7 +136,7 @@
   ],
   "length": [
    {
-    "q": "Gloaguen 등(2026)의 실험에서 LLM이 만든 지침 파일이 미친 영향으로 맞는 것은?",
+    "q": "Gloaguen 등(2026, 첫 판 v1)의 실험에서 LLM이 만든 지침 파일이 미친 영향으로 맞는 것은?",
     "choices": [
      "해결률을 조금 낮추고 비용을 평균 20% 넘게 늘렸다",
      "해결률을 크게 올리고 비용을 줄였다",

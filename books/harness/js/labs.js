@@ -15,7 +15,7 @@ function tree(r){
  return `<ul class="hn-tree" aria-label="읽힌 파일과 읽지 않은 파일">${on}${off}${notes}</ul>`;
 }
 L.session=el=>{
- U.setup(el,U.check('file','저장소에 지침 파일(AGENTS.md)이 있음',true)+U.select('sess','다음 작업을 여는 세션',[['new','다음 날 새 세션'],['same','어제 대화를 이어 가는 같은 세션']],'new'));
+ U.setup(el,U.check('file','저장소에 지침 파일(AGENTS.md)이 있음',false)+U.select('sess','다음 작업을 여는 세션',[['new','다음 날 새 세션'],['same','어제 대화를 이어 가는 같은 세션']],'new'));
  U.bind(el,()=>{
   const file=el.querySelector('#file').checked,session=el.querySelector('#sess').value,rows=M.sessionFacts({file,session}),known=rows.filter(r=>r.known).length;
   const fromFile=rows.filter(r=>r.from==='지침 파일').length,lost=rows.filter(r=>!r.known);
@@ -39,28 +39,28 @@ L.order=el=>{
   const tool=el.querySelector('#tool').value,cwd=el.querySelector('#cwd').value,override=el.querySelector('#ovr').checked;
   const r=M.load(tool,{cwd,override}),cs=M.conflicts(r),hot=new Set(cs.flatMap(c=>c.rows.map(x=>x.text)));
   const merged=r.loaded.map((o,i)=>`<span class="head"># ${i+1}. ${esc(o.file.path)}</span>\n${o.file.rules.map(x=>hot.has(x.text)?`<mark>${esc(x.text)}</mark>`:esc(x.text)).join('\n')}`).join('\n\n');
-  const say=cs.map(c=>`주제 “${esc(M.TOPIC_NAMES[c.topic]||c.topic)}”: ${c.rows.map(x=>`${esc(x.file.path)}의 <code>${esc(x.value)}</code>`).join(', ')} → 합친 글의 마지막 줄은 ${esc(c.last.file.path)}`).join('<br>');
+  const say=cs.map(c=>`주제 “${esc(M.TOPIC_NAMES[c.topic]||c.topic)}”: ${c.rows.map(x=>`${esc(x.file.path)}의 <code>${esc(x.value)}</code>`).join(', ')} → 합친 글의 마지막 줄은 ${esc(c.last.file.path)}${c.declared?'. 이 줄은 “루트의 pnpm test를 대신한다”고 적어 두어 어느 줄을 따를지 글에 드러납니다':'. 어느 줄을 대신하는지 적혀 있지 않습니다'}`).join('<br>');
   U.result(el,`<pre class="hn-merged" aria-label="루트 쪽부터 이어 붙인 지침">${merged}</pre>`,`파일 ${r.loaded.length}개를 루트 쪽부터 이어 붙였습니다. 서로 부딪히는 주제는 <b>${cs.length}개</b>입니다.${cs.length?'<br>'+say+(tool==='codex'?'<br>Codex 문서는 뒤에 오는 가까운 파일이 앞의 지침을 덮어쓴다고 설명합니다.':'<br>Claude Code 문서는 부딪히는 두 지시 가운데 하나를 임의로 고를 수 있다고 적습니다.'):'<br>같은 주제를 다르게 말하는 줄이 함께 들어가지 않았습니다.'}`);
  });
 };
 L.budget=el=>{
- U.setup(el,U.select('lang','지침을 쓴 언어',[['ko','한국어 (한 줄 64자)'],['en','영어 (한 줄 81자)']],'ko')+U.range('rootN','루트 AGENTS.md 줄 수',50,600,25,150)+U.range('subN','apps/api/AGENTS.md 줄 수',50,600,25,150)+U.select('win','Claude Code 컨텍스트 창',[['200k','20만 토큰 (하위 폴더 파일 40,000자)'],['1m','100만 토큰 (150,000자로 계산)']],'200k'));
+ U.setup(el,U.select('lang','지침을 쓴 언어',[['ko','한국어 (한 줄 64자)'],['en','영어 (한 줄 81자)']],'ko')+U.range('rootN','루트 AGENTS.md 줄 수',50,600,25,100)+U.range('subN','apps/api/AGENTS.md 줄 수',50,600,25,100)+U.select('win','Claude Code 컨텍스트 창',[['200k','20만 토큰 (하위 폴더 파일 40,000자)'],['1m','100만 토큰 (150,000자로 계산)']],'200k'));
  U.bind(el,()=>{
   const lang=el.querySelector('#lang').value,rootLines=U.value(el,'rootN'),subLines=U.value(el,'subN'),windowSize=el.querySelector('#win').value;
   const b=M.budget({lang,rootLines,subLines,windowSize}),c=b.codex,cum=[b.user,b.user+b.root.bytes,b.codexTotal];
   const status=id=>{const o=c.loaded.find(x=>x.file.id===id);return o?(o.cut?'한도에 걸림':'들어감'):'빠짐';},verb={'들어감':'들어갑니다','한도에 걸림':'한도에 걸립니다','빠짐':'아예 빠집니다'};
   const chart=U.bars(['개인','+ 루트','+ apps/api'],cum,{digits:0,limit:b.codexLimit,limitLabel:'32,768바이트',show:(v,i)=>`${U.int(v)}B ${['들어감',status('root-agents'),status('api-agents')][i].replace('한도에 ','')}`});
-  U.result(el,chart,`한 줄이 ${b.lineChars}자, <b>${b.lineBytes}바이트</b>입니다(글자당 ${U.fmt(b.bytesPerChar,2)}바이트). Codex를 apps/api에서 실행하면 합친 크기는 <b>${U.int(b.codexTotal)}바이트</b>로 한도 ${U.int(b.codexLimit)}바이트의 ${U.pct(b.codexTotal/b.codexLimit,0)}입니다. 루트 파일은 ${verb[status('root-agents')]}. apps/api 파일은 <b>${verb[status('api-agents')]}</b>.`+
-   `<br>Claude Code: 루트 파일 ${rootLines}줄은 ${b.claudeRootWarn?'200줄 권고를 넘지만 통째로 들어갑니다':'200줄 권고 안입니다'}. 같은 글이 작업 중에 읽는 하위 폴더 CLAUDE.md라면 ${U.int(b.sub.chars)}자 가운데 ${b.subDelivered<1?`${U.int(b.claudeSubLimit)}자까지만 들어가고 뒤쪽 약 ${b.subMissingLines}줄은 Read로 따로 읽기 전까지 보이지 않습니다`:`한도 ${U.int(b.claudeSubLimit)}자 안이라 모두 들어갑니다`}.`);
+  U.result(el,chart,`한 줄이 ${b.lineChars}자, <b>${b.lineBytes}바이트</b>입니다(글자당 ${U.fmt(b.bytesPerChar,2)}바이트). 개인 파일과 두 지침 파일을 모두 더하면 <b>${U.int(b.codexTotal)}바이트</b>로 Codex 한도 ${U.int(b.codexLimit)}바이트의 ${U.pct(b.codexTotal/b.codexLimit,0)}입니다. Codex를 apps/api에서 실행하면 앞에서부터 이어 붙이다 한도에 닿는 곳에서 멈춥니다. 루트 파일은 ${verb[status('root-agents')]}. apps/api 파일은 <b>${verb[status('api-agents')]}</b>.`+
+   `<br>Claude Code: 루트 파일 ${rootLines}줄은 ${b.claudeRootWarn?'200줄 권고를 넘지만 통째로 들어갑니다':'200줄 권고 안입니다'}. apps/api 파일의 글을 작업 중에 읽는 하위 폴더 CLAUDE.md로 두면 ${U.int(b.sub.chars)}자 ${b.subDelivered<1?'가운데 ':'로 '} ${b.subDelivered<1?`${U.int(b.claudeSubLimit)}자까지만 들어가고 뒤쪽 약 ${b.subMissingLines}줄은 Read로 따로 읽기 전까지 보이지 않습니다`:`한도 ${U.int(b.claudeSubLimit)}자 안이라 모두 들어갑니다`}.`);
  });
 };
 L.bridge=el=>{
- U.setup(el,U.select('cl','루트 CLAUDE.md를 두는 방식',[['import','첫 줄에 @AGENTS.md'],['sentence','“AGENTS.md를 읽어라” 문장만'],['symlink','AGENTS.md로 가는 심볼릭 링크'],['none','CLAUDE.md 없음']],'import')+U.check('loc','개인 메모용 CLAUDE.local.md가 있음',false)+U.select('set','Project instructions 설정',[['claude-md-or-agents-md','claude-md-or-agents-md (기본)'],['claude-md-and-agents-md','claude-md-and-agents-md'],['claude-md','claude-md']],'claude-md-or-agents-md')+U.range('hops','가져오기 사슬 길이 (파일 수)',1,6,1,2));
+ U.setup(el,U.select('cl','루트 CLAUDE.md를 두는 방식',[['import','첫 줄에 @AGENTS.md'],['sentence','“AGENTS.md를 읽어라” 문장만'],['symlink','AGENTS.md로 가는 심볼릭 링크'],['none','CLAUDE.md 없음']],'import')+U.check('loc','개인 메모용 CLAUDE.local.md가 있음',false)+U.select('set','Project instructions 설정',[['claude-md-or-agents-md','claude-md-or-agents-md (기본)'],['claude-md-and-agents-md','claude-md-and-agents-md'],['claude-md','claude-md']],'claude-md-or-agents-md')+U.range('hops','@가져오기로 이어 가져온 파일 수',1,6,1,2));
  U.bind(el,()=>{
   const claude=el.querySelector('#cl').value,local=el.querySelector('#loc').checked,setting=el.querySelector('#set').value,n=U.value(el,'hops');
-  const b=M.bridge({claude,local,setting}),ch=M.importChain(n),lost=ch.filter(x=>!x.loaded).length;
-  const chain=`<p class="caption">Claude Code가 읽는 순서</p><div class="hn-chain">${b.reads.length?b.reads.map(x=>`<span class="on">${esc(x)}</span>`).join(''):'<span class="off">(지침 없음)</span>'}${b.agents?'':'<span class="off">AGENTS.md</span>'}</div><p class="caption">CLAUDE.md에서 시작한 @가져오기 사슬 (최대 네 홉)</p><div class="hn-chain"><span class="on">CLAUDE.md</span>${ch.map(x=>`<span class="${x.loaded?'on':'off'}">${x.hop}홉 · ${esc(x.name)}</span>`).join('')}</div>`;
-  U.result(el,chain,`설정 ${esc(setting)}에서 Claude Code가 읽는 파일: <b>${esc(b.label)}</b>. AGENTS.md의 규칙은 ${b.agents?'<b>컨텍스트에 들어갑니다</b>':'<b>컨텍스트에 없습니다</b>'}.${b.notes.length?'<br>'+b.notes.map(esc).join('<br>'):''}<br>가져오기 사슬 ${n}개 가운데 ${n-lost}개가 들어가고${lost?` ${lost}개(${ch.filter(x=>!x.loaded).map(x=>x.hop+'홉').join(', ')})는 네 홉 한도를 넘어 들어가지 않습니다`:', 모두 네 홉 안입니다'}.`);
+  const b=M.bridge({claude,local,setting}),ch=M.importChain(n),lost=ch.filter(x=>!x.loaded).length,hasChain=claude==='import'||claude==='symlink';
+  const chain=`<p class="caption">Claude Code가 읽는 순서</p><div class="hn-chain">${b.reads.length?b.reads.map(x=>`<span class="on">${esc(x)}</span>`).join(''):'<span class="off">(지침 없음)</span>'}${b.agents?'':'<span class="off">AGENTS.md</span>'}</div>${hasChain?`<p class="caption">CLAUDE.md에서 시작한 @가져오기 사슬 (최대 네 홉)</p><div class="hn-chain"><span class="on">CLAUDE.md</span>${ch.map(x=>`<span class="${x.loaded?'on':'off'}">${x.hop}홉 · ${esc(x.name)}</span>`).join('')}</div>`:'<p class="caption">이 방식에는 CLAUDE.md에서 시작하는 @가져오기 사슬이 없습니다</p>'}`;
+  U.result(el,chain,`설정 ${esc(setting)}에서 Claude Code가 읽는 파일: <b>${esc(b.label)}</b>. AGENTS.md의 규칙은 ${b.agents?'<b>컨텍스트에 들어갑니다</b>':'<b>컨텍스트에 없습니다</b>'}.${b.notes.length?'<br>'+b.notes.map(esc).join('<br>'):''}<br>${hasChain?`이어 가져온 파일 ${n}개 가운데 ${n-lost}개가 들어가고${lost?` ${lost}개(${ch.filter(x=>!x.loaded).map(x=>x.hop+'홉').join(', ')})는 네 홉 한도를 넘어 들어가지 않습니다`:', 모두 네 홉 안입니다'}.`:'CLAUDE.md에 @가져오기 줄이 없어 가져온 파일 수는 이 방식에 영향을 주지 않습니다.'}`);
  });
 };
 L.enforce=el=>{
@@ -75,22 +75,22 @@ L.length=el=>{
  U.setup(el,Object.entries(M.SECTIONS).map(([k,s])=>U.check('s-'+k,`${s.name} · ${s.lines}줄`,true)).join(''));
  U.bind(el,()=>{
   const on=Object.fromEntries(Object.keys(M.SECTIONS).map(k=>[k,el.querySelector('#s-'+k).checked])),m=M.taskModel(on);
-  const chart=U.table(['작업','풀림','빠진 사실'],m.rows.map(r=>[r.name,r.ok?'풀림':'막힘',r.missing.join(', ')||'—']),i=>m.rows[i].ok);
+  const chart=U.table(['작업','풀림','빠진 사실'],m.rows.map(r=>[r.name,r.ok?'풀림':'막힘',r.missing.map(n=>M.FACT_NAMES[n]).join(', ')||'—']),i=>m.rows[i].ok);
   U.result(el,chart,`지침 ${m.lines}줄(${U.int(m.bytes)}바이트)로 작업 열두 개 가운데 <b>${m.solved}개</b>가 풀립니다. 작업마다 지침 ${U.int(m.bytes)}바이트를 읽어 열두 작업에서 모두 ${U.int(m.bytesRead)}바이트를 읽고, 작업에 필요 없는 단계가 ${m.extraSteps}개 더해집니다.<br>저장소 개요와 린터 규칙은 코드에서 알 수 있는 내용이라 풀리는 작업 수를 바꾸지 않습니다. 이 결과는 이 책이 정한 시나리오의 계산입니다.`);
  });
 };
 L.security=el=>{
- U.setup(el,U.select('sample','점검할 견본',[['clean','루트 AGENTS.md (그대로)'],['hidden','외부 PR이 더한 apps/web 줄'],['external','포크에서 받은 CLAUDE.md']],'hidden')+U.check('show','숨은 글자 드러내기',false));
+ U.setup(el,U.select('sample','점검할 견본',[['clean','루트 AGENTS.md (그대로)'],['hidden','외부 PR이 더한 apps/web 줄'],['external','포크에서 받은 CLAUDE.md']],'clean')+U.check('show','숨은 글자 드러내기',false));
  U.bind(el,()=>{
   const key=el.querySelector('#sample').value,show=el.querySelector('#show').checked,text=M.SAMPLES[key],s=M.scan(text);
   const body=s.rows.filter(r=>r.line).map(r=>r.flag?`<mark>${esc(show?M.reveal(r.line):r.line)}</mark>`:esc(show?M.reveal(r.line):r.line)).join('\n');
-  const found=[s.hidden?`보이지 않는 글자 ${s.hidden}개(그 가운데 태그 문자 ${s.tags}개)`:'',s.imports.length?`저장소 밖 @가져오기 ${s.imports.map(esc).join(', ')}`:'',s.pipes?`내려받은 스크립트를 셸에 바로 넘기는 줄 ${s.pipes}개`:'',s.urls.length?`외부 주소 ${s.urls.map(esc).join(', ')}`:''].filter(Boolean);
-  U.result(el,`<pre class="hn-merged" aria-label="견본 파일 내용">${body}</pre>`,`${s.rows.filter(r=>r.line).length}줄 가운데 <b>${s.flagged}줄</b>에 점검할 것이 있습니다.${found.length?'<br>'+found.join('<br>'):'<br>보이지 않는 글자, 저장소 밖 가져오기, 셸로 넘기는 명령이 없습니다.'}${s.tags&&!show?'<br>화면에는 평범한 한 줄이지만 숨은 글자가 있습니다. “숨은 글자 드러내기”를 켜 보세요.':''}${s.tags&&show?`<br>숨긴 글을 되돌리면: “${esc(s.decoded)}”`:''}`);
+  const found=[s.hidden?`보이지 않는 글자 ${s.hidden}개(그 가운데 태그 문자 ${s.tags}개)`:'',s.imports.length?`작업 폴더 밖 @가져오기 ${s.imports.map(esc).join(', ')}`:'',s.pipes?`내려받은 스크립트를 셸에 바로 넘기는 줄 ${s.pipes}개`:'',s.urls.length?`외부 주소 ${s.urls.map(esc).join(', ')}`:''].filter(Boolean);
+  U.result(el,`<pre class="hn-merged" aria-label="견본 파일 내용">${body}</pre>`,`${s.rows.filter(r=>r.line).length}줄 가운데 <b>${s.flagged}줄</b>에 점검할 것이 있습니다.${found.length?'<br>'+found.join('<br>'):'<br>보이지 않는 글자, 작업 폴더 밖 가져오기, 셸로 넘기는 명령이 없습니다.'}${s.tags&&!show?'<br>화면에는 평범한 한 줄이지만 숨은 글자가 있습니다. “숨은 글자 드러내기”를 켜 보세요.':''}${s.tags&&show?`<br>숨긴 글을 되돌리면: “${esc(s.decoded)}”`:''}${show&&!s.hidden?'<br>숨은 글자 드러내기를 켰지만 이 견본에는 드러낼 글자가 없습니다.':''}`);
  });
 };
 L.writing=el=>{
- U.setup(el,U.select('wsample','견본',[['draft','윤서의 첫 초안'],['revised','고친 파일'],['mine','직접 붙여 넣기']],'draft')+U.area('wtext','검사할 지침 (고치면 바로 다시 검사합니다)',M.WRITING.draft,8));
- let last='draft';
+ U.setup(el,U.select('wsample','견본',[['draft','윤서의 첫 초안'],['revised','고친 파일'],['mine','직접 붙여 넣기']],'revised')+U.area('wtext','검사할 지침 (고치면 바로 다시 검사합니다)',M.WRITING.revised,8));
+ let last='revised';
  U.bind(el,()=>{
   const sel=el.querySelector('#wsample'),area=el.querySelector('#wtext');
   if(sel.value!==last){if(sel.value!=='mine')area.value=M.WRITING[sel.value];last=sel.value;}
@@ -114,7 +114,7 @@ L.placement=el=>{
 };
 L.evolve=el=>{
  const POL=[['every','실수마다 한 줄 더하기'],['second','두 번째 실수부터 더하고 4주마다 정리'],['hooks','위와 같되 예외 없는 규칙은 훅으로']];
- U.setup(el,U.select('pol','운영 방식',POL,'every')+U.range('wk','지난 주 수',1,8,1,8));
+ U.setup(el,U.select('pol','운영 방식',POL,'second')+U.range('wk','지난 주 수',1,8,1,8));
  U.bind(el,()=>{
   const policy=el.querySelector('#pol').value,weeks=U.value(el,'wk'),e=M.evolve(policy,weeks),colors={every:'var(--orange)',second:'var(--blue)',hooks:'var(--accent)'};
   const series=POL.map(([k,n])=>({name:n,color:colors[k],width:k===policy?3.4:1.6,dash:k!==policy,dots:k===policy?3:0,pts:M.evolve(k,weeks).series.map(s=>[s.w,s.lines])}));

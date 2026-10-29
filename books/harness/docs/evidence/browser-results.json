@@ -1,0 +1,544 @@
+{
+  "url": "http://127.0.0.1:8783/books/harness/",
+  "date": "2026-10-29",
+  "views": [
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "session",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "discovery",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "order",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "budget",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "bridge",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "enforce",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "length",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "security",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "writing",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "placement",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "evolve",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "home",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "session",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "discovery",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "order",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "budget",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "bridge",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "enforce",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "length",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "security",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "writing",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "placement",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "evolve",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "session",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "discovery",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "order",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "budget",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "bridge",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "enforce",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "length",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "security",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "writing",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "placement",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "evolve",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "budget",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "order",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "security",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "discovery",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "budget",
+      "scroll": 320,
+      "returnVisible": true
+    }
+  ],
+  "labs": [
+    {
+      "width": 1280,
+      "id": "session",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "discovery",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "order",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "budget",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "bridge",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "enforce",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "length",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "security",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "writing",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "placement",
+      "controls": 5,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "evolve",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "session",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "discovery",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "order",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "budget",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "bridge",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "enforce",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "length",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "security",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "writing",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "placement",
+      "controls": 5,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "evolve",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "session",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "discovery",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "order",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "budget",
+      "controls": 4,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "bridge",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "enforce",
+      "controls": 6,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "length",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "security",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "writing",
+      "controls": 1,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "placement",
+      "controls": 5,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "evolve",
+      "controls": 2,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}

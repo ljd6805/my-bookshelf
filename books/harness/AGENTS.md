@@ -1,7 +1,7 @@
 # 에이전트 지침 파일
 루트 AGENTS.md와 docs/08-book-template.html을 따른다. 화면 구조는 「LoRA의 원리」(books/lora-why/)를 본떠 AI Book 표준(머리말 메뉴, 표지·읽기 두 모드, 장 화면 일곱 블록)을 지킨다. 기획·교과과정·장 설계·문체 비평·제작 기록은 docs/index.html이, 사실과 출처는 docs/research.html이, 검수 기록은 docs/fact-review.html이 원본이다.
 
-- **책**: id `agent-instruction-files`, 폴더 books/harness/, 제목 「에이전트 지침 파일 · AGENTS.md·CLAUDE.md가 읽히는 방식과 쓰고 고치는 법」, 책등 “지침 파일”, 분류 인공지능, 색 amber. 12장(11장 + 마지막 과제), 실험 12개. 장 번호는 1장부터 센다(app.js가 index+1로 표시).
+- **책**: id `agent-instruction-files`, 폴더 books/harness/, 제목 「에이전트 지침 파일 · 읽히는 방식과 쓰고 고치는 법」, 책등 “지침 파일”, 분류 인공지능, 색 amber. 12장(11장 + 마지막 과제), 실험 12개. 장 번호는 1장부터 센다(app.js가 index+1로 표시).
 - **접두어**: 스크립트 전역은 `HN`(HNMath·HNBook·HNUI·HNLabs·HNGuides·HNHome·HNFigures), CSS·SVG 클래스는 `hn-`. 진도 키는 book-study.js가 정하는 bookshelf:harness:v1:study.
 - **경계**: 에이전트 고리·작업대·범위 계약은 「에이전트 엔지니어링」(aie-agents), 스킬 포장은 「도구와 MCP」(aie-tools), 프롬프트 쓰기는 「LLM 활용」(aie-llm-apps)이 다룬다. 이 책은 세션마다 읽히는 지침 파일만 깊이 다룬다.
 - **공통 사례**: 윤서(Claude Code)와 민호(Codex)의 저장소 booking-app(지어낸 예). 지침 파일 아홉 개와 내용은 js/math.js의 FILES가 원본이다.

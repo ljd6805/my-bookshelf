@@ -107,7 +107,7 @@ test('guide readings quote the computed numbers',()=>{
  const r=M.load('claude',{cwd:''}),ui=M.load('claude',{cwd:'',touched:'packages/ui/src/Button.tsx'}),cw=M.load('codex',{cwd:'apps/web'}),cr=M.load('codex',{cwd:''});
  has('discovery',`3개(${r.bytes}바이트)`,`4개(${ui.bytes}바이트)`,`3개(${cw.bytes}바이트)`,`2개(${cr.bytes}바이트)`);
  has('budget','64자, 110바이트','81자, 81바이트',int(33080),int(24380),int(22080),int(49580),int(48600),int(40000),'107줄');
- has('enforce','2개만','3개가');
+ has('enforce','2개만','3개가','4개가');
  has('length','85줄',int(7020),'24개','70줄',int(5700),'1개만','11줄',int(940),'5개가');
  has('security','104개','102개','2줄');
  has('writing','0개','4개','2개','3개',`${M.lint(M.WRITING.draft).bytes}바이트에서 ${M.lint(M.WRITING.revised).bytes}바이트`);

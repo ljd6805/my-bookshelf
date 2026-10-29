@@ -92,7 +92,7 @@ function load(tool,opts={}){return tool==='codex'?loadCodex(opts):loadClaude({..
 function conflicts(result){
  const rows=[];result.loaded.forEach((o,i)=>o.file.rules.forEach(r=>rows.push({...r,file:o.file,order:i})));
  const out=[];const topics=[...new Set(rows.map(r=>r.topic))];
- for(const t of topics){const rs=rows.filter(r=>r.topic===t);if(new Set(rs.map(r=>r.value)).size>1)out.push({topic:t,rows:rs,last:rs[rs.length-1]});}
+ for(const t of topics){const rs=rows.filter(r=>r.topic===t);if(new Set(rs.map(r=>r.value)).size>1){const last=rs[rs.length-1];out.push({topic:t,rows:rs,last,declared:/대신한다/.test(last.text)});}}
  return out;
 }
 /* 1장: 세션을 새로 열 때 에이전트가 가진 사실. 저장소에서 찾을 수 있는 사실, 지침 파일에만 있는 사실, 지난 대화에서만 말한 사실. */
@@ -165,13 +165,14 @@ const SECTIONS={
  extra:{name:'모든 작업에 붙인 추가 요구 (문서 갱신·변경 기록)',lines:4,bytes:380,facts:[],derivable:false,extraSteps:2}
 };
 const TASKS=[['예약 취소 API 고치기',['test','db']],['좌석 목록 화면 버그',['single']],['API 클라이언트 갱신',['gen']],['결제 오류 처리',['test','legacy']],['알림 문구 바꾸기',['single']],['예약 마감 시간 검사',['test','db']],['관리자 화면 표 정렬',['single']],['로그인 실패 기록',['legacy']],['좌석 배치 API',['gen','test']],['다크 모드 버튼',[]],['통계 내보내기',['db']],['예약 확인 메일',['test']]];
+const FACT_NAMES={test:'테스트 명령',single:'한 파일 테스트',gen:'생성 코드',db:'DB 준비',legacy:'옛 패턴',layout:'폴더 구조'};
 function taskModel(on={}){
  const S=Object.entries(SECTIONS).filter(([k])=>on[k]),known=new Set(S.flatMap(([,s])=>s.facts));
  const bytes=S.reduce((a,[,s])=>a+s.bytes,0),linesN=S.reduce((a,[,s])=>a+s.lines,0),extra=S.reduce((a,[,s])=>a+(s.extraSteps||0),0);
  const rows=TASKS.map(([name,need])=>({name,need,ok:need.every(n=>known.has(n)),missing:need.filter(n=>!known.has(n))}));
  return {rows,solved:rows.filter(r=>r.ok).length,total:rows.length,bytes,lines:linesN,extraSteps:extra*rows.length,bytesRead:bytes*rows.length};
 }
-/* 8장: 지침 파일 점검. 보이지 않는 글자(폭 없는 공백·방향 제어), 저장소 밖을 가리키는 @가져오기, 셸로 바로 넘기는 명령, 외부 주소. */
+/* 8장: 지침 파일 점검. 보이지 않는 글자(폭 없는 공백·방향 제어), 작업 폴더 밖을 가리키는 @가져오기, 셸로 바로 넘기는 명령, 외부 주소. */
 /* 폭 없는 공백·결합 문자(U+200B~200F), 방향 제어(U+202A~202E), 보이지 않는 연산자(U+2060~2064), BOM(U+FEFF),
    유니코드 태그 문자(U+E0000~E007F: ASCII 한 글자를 보이지 않는 글자 하나로 옮겨 적을 수 있다). */
 const INVISIBLE=/[​-‏‪-‮⁠-⁤﻿]|[\u{E0000}-\u{E007F}]/gu;
@@ -273,13 +274,13 @@ function evolve(policy='every',weeks=8){
 const INCIDENTS=[
  {id:'codex-web',text:'Codex를 apps/api에서 실행했더니 apps/web/AGENTS.md의 Tailwind 규칙을 모른다.',options:['파일이 너무 커서 잘렸다','Codex는 루트에서 작업 폴더까지 지나는 폴더의 파일만 읽는다','AGENTS.override.md가 막았다','모델이 규칙을 무시했다'],answer:1,fix:'두 앱에 모두 필요한 규칙이면 루트 AGENTS.md로 올리고, 화면 작업은 apps/web에서 실행합니다.'},
  {id:'local',text:'윤서가 CLAUDE.local.md를 만든 다음 날부터 Claude Code가 루트 AGENTS.md의 pnpm 규칙을 모른다. CLAUDE.md는 없다.',options:['CLAUDE.local.md가 생겨 기본 설정이 AGENTS.md를 읽지 않는다','AGENTS.md가 32 KiB를 넘었다','pnpm 규칙이 모호하다','하위 폴더 파일이라 늦게 읽힌다'],answer:0,fix:'CLAUDE.md를 만들어 첫 줄에 @AGENTS.md를 두거나, Project instructions를 claude-md-and-agents-md로 바꿉니다.'},
- {id:'migrations',text:'“IMPORTANT: migrations를 고치지 마라”를 적었는데도 40번 가운데 1번 migrations 파일이 바뀌었다.',options:['강조를 더 세게 쓴다','같은 문장을 파일 맨 위와 맨 아래에 두 번 쓴다','PreToolUse 훅이나 권한 거부 규칙으로 막는다','규칙을 지운다'],answer:2,fix:'예외가 없는 규칙은 모델의 판단에 맡기지 않습니다. 훅이나 거부 규칙은 모델이 무엇을 정하든 적용됩니다.'},
- {id:'bytes',text:'한국어로 쓴 루트·api 지침이 합쳐 40 KB가 되자 Codex가 apps/api의 테스트 명령을 모른다.',options:['Codex가 합친 크기 32 KiB에 닿아 뒤 파일을 넣지 않았다','apps/api 파일 이름이 틀렸다','Claude Code 설정 문제다','테스트 명령이 저장소에 없다'],answer:0,fix:'코드에서 알 수 있는 개요를 지워 줄이거나 project_doc_max_bytes를 올립니다. 한글은 한 글자가 3바이트라 같은 글자 수의 영어보다 빨리 찹니다.'},
+ {id:'migrations',text:'“IMPORTANT: migrations를 고치지 마라”를 적었는데도 40번 가운데 1번 migrations 파일이 바뀌었다.',options:['강조가 약해 모델이 그 줄을 놓쳤다','같은 문장이 파일에 한 번만 있어서 묻혔다','지침은 모델이 따를지 정하는 지시라 예외 없는 규칙을 보장하지 못한다','migrations 폴더가 작업 폴더 밖이다'],answer:2,fix:'예외가 없는 규칙은 모델의 판단에 맡기지 않습니다. 훅이나 거부 규칙은 모델이 무엇을 정하든 적용됩니다.'},
+ {id:'bytes',text:'한국어로 쓴 루트·api 지침이 합쳐 40 KB가 되자 Codex가 apps/api의 테스트 명령을 모른다.',options:['합친 크기가 Codex 한도 32 KiB에 걸려 뒤 파일이 빠졌거나 온전히 들어가지 않았다','apps/api 파일 이름이 틀렸다','Claude Code 설정 문제다','테스트 명령이 저장소에 없다'],answer:0,fix:'코드에서 알 수 있는 개요를 지워 줄이거나 project_doc_max_bytes를 올립니다. 한글은 한 글자가 3바이트라 같은 글자 수의 영어보다 빨리 찹니다.'},
  {id:'compact',text:'긴 세션에서 대화로만 알려 준 “취소 기한은 2시간 전” 규칙이 /compact 뒤에 사라졌다.',options:['루트 CLAUDE.md가 지워졌다','대화로만 준 지시는 요약에 남지 않을 수 있다','경로 규칙이라 그렇다','CLAUDE.local.md가 덮어썼다'],answer:1,fix:'세션마다 필요한 사실이면 루트 CLAUDE.md(또는 AGENTS.md)에 적습니다. 루트 파일은 압축 뒤 디스크에서 다시 읽혀 들어갑니다.'}
 ];
 function diagnose(choices){const rows=INCIDENTS.map(x=>({...x,choice:choices[x.id],ok:Number(choices[x.id])===x.answer}));return {rows,ok:rows.filter(r=>r.ok).length};}
 /* 보기 순서: 정답을 target 자리로 옮긴다(화면에서만). */
 const choiceOrder=(n,answer,target)=>{const order=[...Array(n).keys()].filter(i=>i!==answer);order.splice(Math.min(target,n-1),0,answer);return order;};
-const api={RULE_NAMES,TOPIC_NAMES,SAMPLES,HIDDEN_ORDER,decodeTags,encodeTags,WRITING,utf8,chars,lines,HOME,REPO,FILES,FILE,DIRS,chain,loadClaude,loadCodex,load,conflicts,FACTS,sessionFacts,SAMPLE_LINES,budget,bridge,importChain,PLACES,RULES6,bestPlace,placeVerdict,placementScore,SECTIONS,TASKS,taskModel,scan,reveal,lintLine,lint,placeLine,CANDIDATES,LOG,evolve,INCIDENTS,diagnose,choiceOrder};
+const api={FACT_NAMES,RULE_NAMES,TOPIC_NAMES,SAMPLES,HIDDEN_ORDER,decodeTags,encodeTags,WRITING,utf8,chars,lines,HOME,REPO,FILES,FILE,DIRS,chain,loadClaude,loadCodex,load,conflicts,FACTS,sessionFacts,SAMPLE_LINES,budget,bridge,importChain,PLACES,RULES6,bestPlace,placeVerdict,placementScore,SECTIONS,TASKS,taskModel,scan,reveal,lintLine,lint,placeLine,CANDIDATES,LOG,evolve,INCIDENTS,diagnose,choiceOrder};
 root.HNMath=api;if(typeof module!=='undefined')module.exports=api;
 })(typeof window!=='undefined'?window:globalThis);

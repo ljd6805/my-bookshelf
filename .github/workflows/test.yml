@@ -68,6 +68,7 @@ jobs:
       - run: npm test --prefix books/opic
       - run: npm test --prefix books/prisma
       - run: npm test --prefix books/lora-why
+      - run: npm test --prefix books/harness
       - name: Install Prisma textbook example
         run: npm ci --no-audit --no-fund
         working-directory: books/prisma/examples
