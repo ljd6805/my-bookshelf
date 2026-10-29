@@ -18,7 +18,7 @@
 <tr><td>6</td><td><a href="https://agents.md/">AGENTS.md 공개 형식</a></td><td>“에이전트를 위한 README”, 필수 항목 없음, 가장 가까운 파일이 이김, 사용자의 직접 지시가 모든 것을 덮음</td><td>1·3장</td></tr>
 <tr><td>7</td><td><a href="https://geminicli.com/docs/cli/gemini-md/">Gemini CLI 문서 · GEMINI.md</a></td><td>기본 이름 GEMINI.md, ~/.gemini/GEMINI.md, 작업 폴더와 위 폴더, 도구가 파일에 접근할 때 더 찾음, context.fileName, /memory show·reload</td><td>2·12장</td></tr>
 <tr><td>8</td><td><a href="https://code.visualstudio.com/docs/agent-customization/custom-instructions">VS Code 문서 · Use custom instructions</a></td><td>.github/copilot-instructions.md, *.instructions.md의 applyTo, 루트 AGENTS.md, chat.useNestedAgentsMdFiles(기본 꺼짐), 지침 출처는 더해지고 일반적인 우선순위 없음, 짧고 이유가 있는 지침 권고</td><td>2·3·9장</td></tr>
-<tr><td>9</td><td><a href="https://arxiv.org/abs/2602.11988v1">Gloaguen et al. (2026), Evaluating AGENTS.md</a></td><td>초록, 실험 설정(SWE-bench Lite 300개, AGENTbench 138개·저장소 12곳, Claude Code·Codex·Qwen Code), 결과(LLM 생성 파일 −0.5%·−2%, 비용 +20%·+23%, 개발자 파일 비용 최대 +19%), 저장소 개요가 단계를 줄이지 못함, 권고</td><td>7·11장</td></tr>
+<tr><td>9</td><td><a href="https://arxiv.org/abs/2602.11988v1">Gloaguen et al. (2026), Evaluating AGENTS.md</a></td><td>v1(2026-02-12) 기준. v3(2026-09-29)은 벤치마크 이름을 CTXbench로 바꾸고 수치와 권고 문장을 고침. 초록, 실험 설정(SWE-bench Lite 300개, AGENTbench 138개·저장소 12곳, Claude Code·Codex·Qwen Code), 결과(LLM 생성 파일 −0.5%·−2%, 비용 +20%·+23%, 개발자 파일 비용 최대 +19%), 저장소 개요가 단계를 줄이지 못함, 권고</td><td>7·11장</td></tr>
 <tr><td>10</td><td><a href="https://arxiv.org/abs/2507.11538">Jaroslawicz et al. (2025), How Many Instructions Can LLMs Follow at Once?</a></td><td>IFScale 설계(키워드 지시 최대 500개, 20개 모델), 최고 모델 500개에서 68%, 앞쪽 지시 편향</td><td>7장</td></tr>
 <tr><td>11</td><td><a href="https://arxiv.org/abs/2307.03172">Liu et al. (2023), Lost in the Middle</a></td><td>초록: 관련 정보가 입력의 처음·끝일 때 성능이 높고 가운데일 때 떨어짐(TACL 게재)</td><td>7장</td></tr>
 <tr><td>12</td><td><a href="https://pillar.security/blog/new-vulnerability-in-github-copilot-and-cursor-how-hackers-can-weaponize-code-agents">Pillar Security (2025-03-18), Rules File Backdoor</a></td><td>폭 없는 결합 문자·방향 제어 문자로 숨긴 지시, 시연에서 외부 스크립트 태그 삽입, PR 리뷰 화면에서 보이지 않음, GitHub의 2025-05-01 경고 기능, 설정 파일을 코드처럼 리뷰하라는 권고</td><td>8장</td></tr>
@@ -84,7 +84,8 @@
 <p>도구 문서는 몇 주 단위로 바뀝니다. 다음 개정 때 이 순서로 공식 문서와 대조합니다.</p>
 <ul>
 <li>Claude Code의 AGENTS.md 읽기 조건과 Project instructions 값(현재 네 가지, v2.1.277 이상), 플러그인 ID(v2.1.285에서 바뀜).</li>
-<li>하위 폴더 파일의 글자 수 한도(40,000자·150,000자·200,000자)와 모델 이름.</li>
+<li>하위 폴더 파일의 글자 수 한도(v2.1.309 이상, 40,000자·150,000자·200,000자)와 모델 이름.</li>
+<li>Gloaguen 등 논문의 최신 판(지금 v3, 2026-09-29)과 책이 인용한 v1(2026-02-12)의 차이. v3은 벤치마크 이름을 CTXbench로 바꾸고 수치와 권고 문장을 고쳤다.</li>
 <li>Codex의 project_doc_max_bytes 기본값과 Codex 문서 주소.</li>
 <li>/doctor prompt-audit의 버전과 하는 일.</li>
 <li>이 저장소 AGENTS.md의 줄·바이트 수(파일이 바뀔 때마다).</li>
