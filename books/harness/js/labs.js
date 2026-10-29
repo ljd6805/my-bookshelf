@@ -40,7 +40,7 @@ L.order=el=>{
   const r=M.load(tool,{cwd,override}),cs=M.conflicts(r),hot=new Set(cs.flatMap(c=>c.rows.map(x=>x.text)));
   const merged=r.loaded.map((o,i)=>`<span class="head"># ${i+1}. ${esc(o.file.path)}</span>\n${o.file.rules.map(x=>hot.has(x.text)?`<mark>${esc(x.text)}</mark>`:esc(x.text)).join('\n')}`).join('\n\n');
   const say=cs.map(c=>`주제 “${esc(M.TOPIC_NAMES[c.topic]||c.topic)}”: ${c.rows.map(x=>`${esc(x.file.path)}의 <code>${esc(x.value)}</code>`).join(', ')} → 합친 글의 마지막 줄은 ${esc(c.last.file.path)}${c.declared?'. 이 줄은 “루트의 pnpm test를 대신한다”고 적어 두어 어느 줄을 따를지 글에 드러납니다':'. 어느 줄을 대신하는지 적혀 있지 않습니다'}`).join('<br>');
-  U.result(el,`<pre class="hn-merged" aria-label="루트 쪽부터 이어 붙인 지침">${merged}</pre>`,`파일 ${r.loaded.length}개를 루트 쪽부터 이어 붙였습니다. 서로 부딪히는 주제는 <b>${cs.length}개</b>입니다.${cs.length?'<br>'+say+(tool==='codex'?'<br>Codex 문서는 뒤에 오는 가까운 파일이 앞의 지침을 덮어쓴다고 설명합니다.':'<br>Claude Code 문서는 부딪히는 두 지시 가운데 하나를 임의로 고를 수 있다고 적습니다.'):'<br>같은 주제를 다르게 말하는 줄이 함께 들어가지 않았습니다.'}`);
+  U.result(el,`<pre class="hn-merged" aria-label="루트 쪽부터 이어 붙인 지침">${merged}</pre>`,`파일 ${r.loaded.length}개를 루트 쪽부터 이어 붙였습니다. 같은 주제를 다른 값으로 말하는 곳은 <b>${cs.length}개</b>입니다.${cs.length?'<br>'+say+(tool==='codex'?'<br>Codex 문서는 뒤에 오는 가까운 파일이 앞의 지침을 덮어쓴다고 설명합니다.':'<br>Claude Code 문서는 부딪히는 두 지시 가운데 하나를 임의로 고를 수 있다고 적습니다.'):'<br>같은 주제를 다르게 말하는 줄이 함께 들어가지 않았습니다.'}`);
  });
 };
 L.budget=el=>{
@@ -51,7 +51,7 @@ L.budget=el=>{
   const status=id=>{const o=c.loaded.find(x=>x.file.id===id);return o?(o.cut?'한도에 걸림':'들어감'):'빠짐';},verb={'들어감':'들어갑니다','한도에 걸림':'한도에 걸립니다','빠짐':'아예 빠집니다'};
   const chart=U.bars(['개인','+ 루트','+ apps/api'],cum,{digits:0,limit:b.codexLimit,limitLabel:'32,768바이트',show:(v,i)=>`${U.int(v)}B ${['들어감',status('root-agents'),status('api-agents')][i].replace('한도에 ','')}`});
   U.result(el,chart,`한 줄이 ${b.lineChars}자, <b>${b.lineBytes}바이트</b>입니다(글자당 ${U.fmt(b.bytesPerChar,2)}바이트). 개인 파일과 두 지침 파일을 모두 더하면 <b>${U.int(b.codexTotal)}바이트</b>로 Codex 한도 ${U.int(b.codexLimit)}바이트의 ${U.pct(b.codexTotal/b.codexLimit,0)}입니다. Codex를 apps/api에서 실행하면 앞에서부터 이어 붙이다 한도에 닿는 곳에서 멈춥니다. 루트 파일은 ${verb[status('root-agents')]}. apps/api 파일은 <b>${verb[status('api-agents')]}</b>.`+
-   `<br>Claude Code: 루트 파일 ${rootLines}줄은 ${b.claudeRootWarn?'200줄 권고를 넘지만 통째로 들어갑니다':'200줄 권고 안입니다'}. apps/api 파일의 글을 작업 중에 읽는 하위 폴더 CLAUDE.md로 두면 ${U.int(b.sub.chars)}자 ${b.subDelivered<1?'가운데 ':'로 '} ${b.subDelivered<1?`${U.int(b.claudeSubLimit)}자까지만 들어가고 뒤쪽 약 ${b.subMissingLines}줄은 Read로 따로 읽기 전까지 보이지 않습니다`:`한도 ${U.int(b.claudeSubLimit)}자 안이라 모두 들어갑니다`}.`);
+   `<br>Claude Code: 루트 파일 ${rootLines}줄은 ${b.claudeRootWarn?'200줄 권고를 넘지만 통째로 들어갑니다':'200줄 권고 안입니다'}. apps/api 파일의 글을 작업 중에 읽는 하위 폴더 CLAUDE.md로 두면 ${U.int(b.sub.chars)}자${b.subDelivered<1?' 가운데 ':'로 '} ${b.subDelivered<1?`${U.int(b.claudeSubLimit)}자까지만 들어가고 뒤쪽 약 ${b.subMissingLines}줄은 Read로 따로 읽기 전까지 보이지 않습니다`:`한도 ${U.int(b.claudeSubLimit)}자 안이라 모두 들어갑니다`}.`);
  });
 };
 L.bridge=el=>{
@@ -114,10 +114,10 @@ L.placement=el=>{
 };
 L.evolve=el=>{
  const POL=[['every','실수마다 한 줄 더하기'],['second','두 번째 실수부터 더하고 4주마다 정리'],['hooks','위와 같되 예외 없는 규칙은 훅으로']];
- U.setup(el,U.select('pol','운영 방식',POL,'second')+U.range('wk','지난 주 수',1,8,1,8));
+ U.setup(el,U.select('pol','운영 방식',POL,'second')+U.range('wk','지난 주 수',1,8,1,8)+U.check('cmp','다른 두 방식도 겹쳐 그리기',false));
  U.bind(el,()=>{
   const policy=el.querySelector('#pol').value,weeks=U.value(el,'wk'),e=M.evolve(policy,weeks),colors={every:'var(--orange)',second:'var(--blue)',hooks:'var(--accent)'};
-  const series=POL.map(([k,n])=>({name:n,color:colors[k],width:k===policy?3.4:1.6,dash:k!==policy,dots:k===policy?3:0,pts:M.evolve(k,weeks).series.map(s=>[s.w,s.lines])}));
+  const cmp=el.querySelector('#cmp').checked,series=POL.filter(([k])=>cmp||k===policy).map(([k,n])=>({name:n,color:colors[k],width:k===policy?3.4:1.6,dash:k!==policy,dots:k===policy?3:0,pts:M.evolve(k,weeks).series.map(s=>[s.w,s.lines])}));
   const log=M.LOG.filter(x=>x.w<=weeks);
   U.result(el,U.lines(series,{xLabel:'주',yLabel:'지침 파일의 규칙 줄 수',yMax:12,xMax:Math.max(weeks,2)}),`${weeks}주 동안 기록이 ${log.length}건입니다. 이 방식이면 지침 파일에 <b>${e.lines}줄</b>이 남고, 낡은 줄 ${e.stale}개, 서로 부딪히는 줄 ${e.conflicts}쌍, 훅으로 옮긴 규칙 ${e.hooks}개입니다.<br>남은 줄: ${e.rules.map(k=>esc(M.RULE_NAMES[k]||k)).join(', ')||'없음'}. 기록과 5주 차의 도구 교체(jest → vitest)는 이 책이 정한 시나리오입니다.`);
  });

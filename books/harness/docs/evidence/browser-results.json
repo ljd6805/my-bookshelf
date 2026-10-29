@@ -359,7 +359,7 @@
     {
       "width": 1280,
       "id": "evolve",
-      "controls": 2,
+      "controls": 3,
       "presets": 4,
       "reset": true
     },
@@ -443,7 +443,7 @@
     {
       "width": 390,
       "id": "evolve",
-      "controls": 2,
+      "controls": 3,
       "presets": 4,
       "reset": true
     },
@@ -527,7 +527,7 @@
     {
       "width": 320,
       "id": "evolve",
-      "controls": 2,
+      "controls": 3,
       "presets": 4,
       "reset": true
     },
