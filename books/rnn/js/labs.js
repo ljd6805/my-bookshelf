@@ -14,7 +14,7 @@ L.why=el=>{
  U.setup(el,U.range('k','한 번에 보는 지난 시간 수 k',2,12,1,3)+U.range('noise','측정 잡음의 크기 (°C)',0,1.5,0.1,0.6)+U.check('mix','시험할 때 창 안의 값 순서를 섞어 넣기',false));
  U.bind(el,()=>{
   const k=num(el,'k'),noise=num(el,'noise'),mix=on(el,'mix'),r=M.whyOrder({k,noise}),rows=r.rows.slice(0,48),key=mix?'mixed':'ordered';
-  const chart=U.lines([{name:'실제 기온',pts:rows.map((x,i)=>[i+1,x.actual]),color:C.mute},{name:mix?'순서를 섞어 넣은 예측':'순서대로 넣은 예측',pts:rows.map((x,i)=>[i+1,x[key]]),color:mix?C.warn:C.h},{name:'지난 k시간의 평균',pts:rows.map((x,i)=>[i+1,x.mean]),color:C.in,dash:true}],{xLabel:'시험 구간의 시각 (시간)',yLabel:'기온 (°C)',yMin:8,yMax:30});
+  const chart=U.lines([{name:'실제 기온',pts:rows.map((x,i)=>[i+1,x.actual]),color:C.mute},{name:mix?'순서를 섞어 넣은 예측':'순서대로 넣은 예측',pts:rows.map((x,i)=>[i+1,x[key]]),color:mix?C.warn:C.h},{name:'지난 k시간의 평균',pts:rows.map((x,i)=>[i+1,x.mean]),color:C.in,dash:true}],{xLabel:'기록을 맞춘 뒤 96시간의 시각 (시간)',yLabel:'기온 (°C)',yMin:8,yMax:30});
   U.result(el,chart,`지난 ${k}시간의 값으로 다음 한 시간을 맞힌 오차(96시간 평균, RMSE)입니다. 순서대로 넣으면 <b>${f(r.rmse.ordered)}°C</b>, 같은 값을 섞어 넣으면 <b>${f(r.rmse.mixed)}°C</b>, 순서를 쓰지 않는 평균은 ${f(r.rmse.mean)}°C입니다. 직전 값을 그대로 내는 기준선은 ${f(r.rmse.last)}°C입니다.<br>${r.rmse.mixed>r.rmse.ordered*1.5?`순서를 섞으면 오차가 ${f(r.rmse.mixed/r.rmse.ordered,1)}배가 됩니다. 값은 그대로인데 놓인 자리가 달라졌기 때문입니다.`:'이 설정에서는 순서를 섞어도 오차가 크게 달라지지 않습니다.'}${noise===0?' 잡음이 없으면 순서대로 넣은 예측은 거의 틀리지 않습니다.':''}`);
  });
 };
@@ -49,7 +49,7 @@ L.shapes=el=>{
  });
 };
 L.bptt=el=>{
- U.setup(el,U.range('wh','순환 가중치 W_hh',0.1,1.5,0.1,0.5)+U.range('T','거슬러 오를 단계 수 T',2,6,1,2)+U.range('target','마지막 시점의 정답',-0.9,0.9,0.1,0.5));
+ U.setup(el,U.range('wh','순환 가중치 W_hh',0.1,1.5,0.1,0.5)+U.range('T','시퀀스 길이 T (시점 수)',2,6,1,2)+U.range('target','마지막 시점의 정답',-0.9,0.9,0.1,0.5));
  U.bind(el,()=>{
   const r=M.scalarBptt({wh:num(el,'wh'),T:num(el,'T'),target:num(el,'target')});
   U.result(el,U.table(['시점 t','입력 x','은닉 h','∂L/∂h','1−h²','W_hh 몫'],r.rows.map(x=>[x.t,f(x.x,1),f(x.h,4),f(x.delta,4),f(x.local,4),f(x.partWh,5)])),
@@ -85,7 +85,7 @@ L.lstm=el=>{
  });
 };
 L.gru=el=>{
- U.setup(el,U.range('bias','망각·갱신 게이트의 치우침 (편향)',0,4,0.5,0)+U.range('T','시퀀스 길이 T',10,60,10,10));
+ U.setup(el,U.range('bias','망각·갱신 게이트의 편향',0,4,0.5,0)+U.range('T','시퀀스 길이 T',10,60,10,10));
  U.bind(el,()=>{
   const gateBias=num(el,'bias'),T=num(el,'T'),R=Object.fromEntries(['rnn','lstm','gru'].map(type=>[type,M.gradFlow({type,T,gateBias})])),lo=Math.min(-2,Math.floor(Math.min(...Object.values(R).map(r=>lg(r.last)))));
   const chart=U.lines([{name:'단순 RNN',pts:R.rnn.norms.map((n,k)=>[k,lg(n)]),color:C.mute,dash:true},{name:'LSTM',pts:R.lstm.norms.map((n,k)=>[k,lg(n)]),color:C.h},{name:'GRU',pts:R.gru.norms.map((n,k)=>[k,lg(n)]),color:C.warn}],{xLabel:'마지막 시점에서 거슬러 오른 단계 수',yLabel:'log₁₀ 기울기 크기',yMin:lo,yMax:1,hline:0,hlineLabel:'크기 1'});

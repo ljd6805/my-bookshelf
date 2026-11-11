@@ -1,7 +1,7 @@
 # 순환 신경망
 루트 AGENTS.md와 docs/08-book-template.html을 따른다. 화면 구조는 「에이전트 지침 파일」(books/harness/)을 본떠 AI Book 표준(머리말 메뉴, 표지·읽기 두 모드, 장 화면 일곱 블록)을 지킨다. 기획·교과과정·장 설계·문체 비평·제작 기록은 docs/index.html이, 사실과 출처는 docs/research.html이, 검수 기록은 docs/fact-review.html이 원본이다.
 
-- **책**: id `recurrent-networks`, 폴더 books/rnn/, 제목 「순환 신경망 · 은닉 상태를 펼쳐 계산하고 LSTM으로 긴 순서 학습하기」, 책등 “순환신경망”, 분류 인공지능, 색 amber. 13장(12장 + 마지막 과제), 실험 13개. 장 번호는 1장부터 센다(app.js가 index+1로 표시).
+- **책**: id `recurrent-networks`, 폴더 books/rnn/, 제목 「순환 신경망 · 은닉 상태와 기울기를 계산해 RNN·LSTM·GRU 견주기」, 책등 “순환신경망”, 분류 인공지능, 색 amber. 13장(12장 + 마지막 과제), 실험 13개. 장 번호는 1장부터 센다(app.js가 index+1로 표시).
 - **접두어**: 스크립트 전역은 `RN`(RNMath·RNBook·RNUI·RNLabs·RNGuides·RNHome·RNFigures), CSS·SVG 클래스는 `rn-`. 진도 키는 book-study.js가 정하는 bookshelf:rnn:v1:study.
 - **경계**: 퍼셉트론·역전파·옵티마이저·초기화는 「딥러닝 핵심」(aie-deep), n-gram·word2vec·번역 정렬은 「자연어 처리」(aie-nlp), 셀프 어텐션부터는 「트랜스포머 깊이 보기」(aie-transformer)가 다룬다. 이 책은 RNN 셀에서 LSTM·GRU, 문장 분류, RNN의 한계까지만 다룬다.
 - **공통 사례**: 유나의 토마토 온실 기온 기록(하루 주기 + 닷새 주기 + 잡음의 합성 자료, js/math.js의 series)과 토마토 후기 40문장(REVIEWS 32, HELD_OUT 8). 모두 지어낸 것이다.

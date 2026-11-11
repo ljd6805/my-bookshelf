@@ -552,11 +552,11 @@
     },
     {
       "id": "recurrent-networks",
-      "title": "순환 신경망 · 은닉 상태를 펼쳐 계산하고 LSTM으로 긴 순서 학습하기",
+      "title": "순환 신경망 · 은닉 상태와 기울기를 계산해 RNN·LSTM·GRU 견주기",
       "spine_title": "순환신경망",
       "spine_category": "인공지능",
       "color": "amber",
-      "description": "기온 기록과 문장처럼 순서가 있는 자료를 읽는 RNN을 다룹니다. 은닉 상태를 시간 축으로 펼쳐 계산하고, 기울기가 사라지고 폭발하는 크기를 구하고, LSTM·GRU의 게이트, 임베딩과 검증, 어텐션으로 넘어간 까닭을 13개 실험으로 확인합니다.",
+      "description": "기온 기록과 문장처럼 순서가 있는 자료를 읽는 RNN을 다룹니다. 셀을 시간 축으로 펼쳐 은닉 상태를 계산하고, 기울기가 사라지고 폭발하는 크기를 구하고, LSTM·GRU의 게이트, 임베딩과 검증, 어텐션으로 넘어간 까닭을 13개 실험으로 확인합니다.",
       "illustration": "books/rnn/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 은닉 상태가 셀 네 개를 차례로 지나고, 되돌아오는 기울기는 단순 RNN 줄에서 작아지고 LSTM 줄에서 남습니다. 실제 계산은 책 안의 실험이 합니다.",
       "cover_art": "books/rnn/assets/cover-art.svg",
@@ -609,7 +609,7 @@
           "url": "books/rnn/#cell"
         },
         {
-          "title": "05 · 시간을 거슬러 오르는 역전파로 기울기 구하기",
+          "title": "05 · 시간 방향 역전파(BPTT)로 기울기 구하기",
           "url": "books/rnn/#bptt"
         },
         {
@@ -6561,7 +6561,7 @@
     "books/rnn/#cell": "02 · RNN 셀 하나로 은닉 상태 계산하기",
     "books/rnn/#unroll": "03 · 같은 셀을 시간 축으로 펼쳐 파라미터 수 세기",
     "books/rnn/#shapes": "04 · 과제마다 입력과 출력의 개수를 세어 형태 고르기",
-    "books/rnn/#bptt": "05 · 시간을 거슬러 오르는 역전파로 기울기 구하기",
+    "books/rnn/#bptt": "05 · 시간 방향 역전파(BPTT)로 기울기 구하기",
     "books/rnn/#vanish": "06 · 기울기 소실과 폭발의 크기를 계산하고 기울기 자르기",
     "books/rnn/#truncate": "07 · 긴 기록을 창으로 잘라 학습하고 은닉 상태 이어받기",
     "books/rnn/#lstm": "08 · LSTM 셀의 게이트 세 개와 셀 상태 계산하기",

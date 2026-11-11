@@ -77,8 +77,12 @@ test('gradient reach: gates must be open for LSTM and GRU to beat the simple RNN
  const g=(type,T,gateBias)=>M.gradFlow({type,T,gateBias});
  const r0=g('rnn',30,0),l0=g('lstm',30,0),u0=g('gru',30,0),l1=g('lstm',30,1),u1=g('gru',30,1),l3=g('lstm',30,3),u3=g('gru',30,3);
  assert.ok(l0.last<r0.last*10&&l3.last>r0.last*1e5&&u3.last>r0.last*1e5);close(g('rnn',30,3).last,r0.last);
- has('gru',sci(r0.last),sci(l0.last),sci(u0.last),f(l0.gate),sci(l1.last),sci(u1.last),f(l1.gate),f(l3.last),f(l3.gate),sci(g('rnn',60,0).last),f(g('lstm',60,3).last));
- says('gru',sci(r0.last),sci(l0.last),sci(l1.last),f(l1.gate),f(l3.gate),sci(g('rnn',60,0).last),f(g('lstm',60,3).last));assert.equal(f(u3.last),'0.25');
+ has('gru',sci(r0.last),sci(l0.last),sci(u0.last),f(l0.gate),sci(l1.last),sci(u1.last),f(l1.gate),f(l3.last),f(l3.gate),sci(g('rnn',60,0).last),f(g('lstm',60,3).last),f(g('gru',60,3).last,3));
+ says('gru',sci(r0.last),sci(l0.last),sci(l1.last),f(l1.gate),f(l3.gate),sci(g('rnn',60,0).last),f(g('lstm',60,3).last),f(g('gru',60,3).last,3));assert.equal(f(u3.last),'0.25');
+ const span=(type,T,gateBias)=>{const v=[1,2,3,4,5,6,7,8].map(seed=>M.gradFlow({type,T,gateBias,seed}).last);return [Math.min(...v),Math.max(...v)];};
+ const R60=span('rnn',60,3),L60=span('lstm',60,3),U60=span('gru',60,3),R30=span('rnn',30,0),L30=span('lstm',30,0);
+ assert.ok(Math.min(L60[0],U60[0])>R60[1]*1e5&&L30[0]<R30[1]&&R30[0]<L30[1]);
+ says('gru',sci(R60[0])+'~'+sci(R60[1]),f(U60[0],3)+'~'+f(U60[1]),f(L60[0],4)+'~'+f(L60[1],1),sci(R30[0])+'~'+sci(R30[1]),sci(L30[0])+'~'+sci(L30[1]));
 });
 test('truncated BPTT: window sets updates, stored states and reach; numbers in the guide match',()=>{
  const run=(window,carry)=>M.trainSeries({window,carry,epochs:30});
