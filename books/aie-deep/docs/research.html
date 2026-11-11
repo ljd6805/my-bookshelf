@@ -1,0 +1,47 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="딥러닝 핵심 2026-11-11 개정의 출처, 사실 주장 표, 확인하지 못한 것, 검산 기록."><title>딥러닝 핵심 · 개정 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"><style>table{border-collapse:collapse;width:100%;margin:12px 0 24px}th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}.wrap{overflow-x:auto}code{font-family:var(--font-mono,monospace)}</style></head><body><header class="top"><a class="brand" href="index.html">딥러닝 핵심 · 제작 문서</a><span><a href="../index.html">책으로 돌아가기</a></span></header><main style="max-width:1100px;margin:auto;padding:32px 16px">
+<h1>딥러닝 핵심 · 2026-11-11 개정 조사 노트</h1>
+<p>지식조사팀(은재·지호·수아·태오)이 2026-11-11 개정에서 새로 쓰거나 고친 내용만 정리했습니다. 손대지 않은 장의 출처와 검수는 <a href="fact-review.html">팩트·출처 검수 기록</a>의 앞선 회차에 있습니다. <a href="index.html#revision-20261111">제작 문서의 개정 기록으로 돌아가기</a></p>
+<h2 id="how">0. 읽는 법</h2>
+<p>이 세션의 셸에서는 외부 주소가 막혀 있어, 웹 가져오기 도구로 읽을 수 있었던 페이지만 “읽음”으로 적습니다. 사내 교육 자료와 서재 주인의 필기는 무엇을 더할지 정하는 데만 썼고, 문장·그림·예제를 옮기지 않았습니다. 수치는 모두 <code>js/math.js</code>로 다시 계산한 값입니다.</p>
+<h2 id="sources">1. 출처</h2>
+<div class="wrap"><table><tr><th>출처</th><th>주소</th><th>쓴 곳</th><th>확인</th></tr>
+<tr><td>Duchi, Hazan, Singer (2011), Adaptive Subgradient Methods for Online Learning and Stochastic Optimization, JMLR 12, 2121–2159</td><td>https://jmlr.org/papers/v12/duchi11a.html</td><td>1장 AdaGrad</td><td>읽음(2026-11-11). 제목·저자·권·쪽 확인</td></tr>
+<tr><td>PyTorch 2.15 문서 · torch.optim.Adagrad</td><td>https://docs.pytorch.org/docs/2.15/generated/torch.optim.Adagrad.html</td><td>1장 AdaGrad 갱신식</td><td>읽음(2026-11-11). state_sum ← state_sum + g², θ ← θ − γ·g/(√state_sum + ε)</td></tr>
+<tr><td>Ioffe, Szegedy (2015), Batch Normalization</td><td>https://arxiv.org/abs/1502.03167</td><td>5장 배치 정규화, 내부 공변량 변화</td><td>읽음(2026-11-11). 초록: “the distribution of each layer's inputs changes during training”, “performing the normalization for each training mini-batch”</td></tr>
+<tr><td>Ba, Kiros, Hinton (2016), Layer Normalization</td><td>https://arxiv.org/abs/1607.06450</td><td>5장 층 정규화</td><td>읽음(2026-11-11). 초록: 배치 정규화의 효과는 미니배치 크기에 달려 있고 순환 신경망에 적용하는 방법이 분명하지 않다, 층 정규화는 한 학습 사례에서 층의 합산 입력 전체로 평균·분산을 구한다, 학습과 시험 때 같은 계산을 한다</td></tr>
+<tr><td>PyTorch 2.15 문서 · torch.nn.BatchNorm1d</td><td>https://docs.pytorch.org/docs/2.15/generated/torch.nn.BatchNorm1d.html</td><td>5장 학습·평가 모드, 이동 평균, ε</td><td>읽음(2026-11-11). 기본 momentum 0.1(새 값 10%), eps 1e-5, 학습 때는 묶음 통계(분산은 표본 수로 나눈 값), 평가 때는 이동 추정값</td></tr>
+<tr><td>Zhang, Sennrich (2019) RMSNorm · Santurkar 등 (2018)</td><td>https://arxiv.org/abs/1910.07467 · https://arxiv.org/abs/1805.11604</td><td>5장으로 옮긴 표와 문단</td><td>이번에 다시 열지 않음. 옮긴 문장은 2026-10-12 편집 검수 회차에서 확인한 문장 그대로</td></tr>
+<tr><td>원본 레슨 03-06, 03-07</td><td>https://github.com/rohitg00/ai-engineering-from-scratch/tree/main/phases/03-deep-learning-core/</td><td>기본 비율·patience·Pre-LN 정리</td><td>이번에 다시 열지 않음. 기존 문장 그대로</td></tr></table></div>
+<h2 id="facts">2. 사실 주장 표</h2>
+<div class="wrap"><table><tr><th>장</th><th>주장</th><th>근거</th><th>상태와 조건</th></tr>
+<tr><td>01</td><td>AdaGrad는 기울기 제곱을 모두 더한 값의 제곱근으로 보폭을 나눈다. 더한 값은 줄지 않으므로 유효 학습률이 걸음마다 작아진다</td><td>Adagrad 문서의 갱신식. 제곱은 0 이상이라 합이 줄지 않는다는 것은 식에서 바로 나옴</td><td>확인. “0에 가까워진다”는 기울기가 계속 0이 아닐 때의 이야기</td></tr>
+<tr><td>01</td><td>RMSProp은 기울기 제곱의 지수 평균으로 나눈다(ρ = 0.9)</td><td>Ruder(2016) 개관(책의 기존 출처). RMSProp은 논문이 아니라 Hinton의 강의 자료에서 나왔다</td><td>Ruder 개관은 이번에 다시 열지 않음. 식은 표준 형태</td></tr>
+<tr><td>01</td><td>골짜기에서 η = 0.3, 40걸음: AdaGrad f = 0.84, 유효 학습률 0.075 → 0.021. RMSProp f &lt; 10⁻⁷</td><td><code>M.valley</code> 계산</td><td>확인(검산 4절). 이 교육용 함수 하나에서 잰 값</td></tr>
+<tr><td>01</td><td>학습점 80개를 8개씩 나누면 1 epoch = 10 반복</td><td>80/8</td><td>확인</td></tr>
+<tr><td>04</td><td>학습점 40개(은닉 32, 시드 2): 검증 손실 최저 105 epoch 0.483, 400 epoch 뒤 2.477. 200개: 0.261, 학습 88.0%·검증 92.0%. 은닉 2개·200개: 학습 69.0%</td><td><code>M.train</code>, <code>M.bestVal</code> 계산</td><td>확인(검산 4절). 시드 하나의 결과</td></tr>
+<tr><td>04</td><td>조기 종료는 검증 손실이 patience 동안 나아지지 않으면 멈추고 가장 좋았던 가중치로 돌아간다. 최종 성능은 테스트 데이터로 따로 잰다</td><td>원본 레슨 03-07(patience 5~20), Goodfellow 등 Deep Learning 7.8절</td><td>patience 범위는 원본 레슨 기준. 교과서 절은 이번에 열지 않음</td></tr>
+<tr><td>04</td><td>라벨 스무딩 0.91·0.01, focal 0.01·0.81</td><td>1 − 0.1 + 0.1/10, 0.1/10, (1−0.9)², (1−0.1)²</td><td>확인. 옮기기 전 문장과 같음</td></tr>
+<tr><td>05</td><td>배치 정규화는 특징마다 미니배치로 평균·분산을 구하고, 추론 때는 이동 평균을 쓴다</td><td>Ioffe·Szegedy 초록, BatchNorm1d 문서</td><td>확인</td></tr>
+<tr><td>05</td><td>층 정규화는 한 표본의 특징들로 구하고, 배치 크기와 무관하며, 학습·추론 계산이 같다. 순환 신경망을 염두에 두고 제안되었다</td><td>Ba 등 초록</td><td>확인. “트랜스포머도 이 방식을 쓴다”는 Vaswani 등(2017)의 Add &amp; Norm에 기대며 이번에 논문을 다시 열지 않음</td></tr>
+<tr><td>05</td><td>B = 2면 배치 정규화 출력은 ±1</td><td>두 값 a, b의 평균은 (a+b)/2, 표본 수로 나눈 표준편차는 |a−b|/2이므로 (a − 평균)/표준편차 = ±1(ε 무시)</td><td>확인(손 계산과 실험 일치)</td></tr>
+<tr><td>05</td><td>평균 흔들림 B = 2에서 0.721, 8에서 0.389, 32에서 0.212, 128에서 0.105. 대략 1/√B</td><td><code>M.normBatch</code> 계산</td><td>확인(검산 4절). 0.389/0.105 = 3.7로 √16 = 4에 가까움. B = 2에서 8은 1.85배로 2보다 작음: “가깝게”라고만 씀</td></tr>
+<tr><td>05</td><td>[2, 4, 6]의 층 정규화는 약 [−1.22, 0, 1.22]</td><td>분산 8/3, 표준편차 1.633, 2/1.633 = 1.2247</td><td>확인</td></tr></table></div>
+<h2 id="unverified">3. 확인하지 못한 것</h2>
+<ul><li>Ruder(2016) 개관, Goodfellow 등 교과서 7.8절, Vaswani 등(2017), RMSNorm·Santurkar 논문은 이번 개정에서 다시 열지 않았습니다. 해당 문장은 새 주장을 더하지 않았거나 앞선 회차에서 확인한 문장입니다.</li>
+<li>“원본 레슨은 Pre-LN이 더 안정적이라고 정리한다”는 2026-10-08 확인 기준이며 이번에 다시 열지 않았습니다.</li>
+<li>실제 신경망 학습에서 AdaGrad와 RMSProp의 우열, 배치 정규화가 작은 배치에서 정확도를 얼마나 떨어뜨리는지는 이 책이 재지 않았습니다. 본문도 그렇게 적었습니다.</li></ul>
+<h2 id="checks">4. 수아의 검산</h2>
+<div class="wrap"><table><tr><th>값</th><th>책 코드</th><th>따로 한 계산</th></tr>
+<tr><td>AdaGrad 첫 걸음 유효 학습률</td><td>0.075</td><td>η/√(g²) = 0.3/|−4| = 0.075</td></tr>
+<tr><td>AdaGrad 첫 걸음 뒤 x</td><td>−3.7</td><td>−4 − 0.3·(−4)/4 = −3.7 (AdaGrad의 첫 걸음은 기울기 크기와 무관하게 η)</td></tr>
+<tr><td>B = 2 배치 정규화</td><td>±1.000</td><td>위 3절의 손 계산</td></tr>
+<tr><td>층 정규화 [1,2,3,4]</td><td>평균 0, 제곱 평균 1</td><td>tests/math.test.cjs의 기존 검사</td></tr>
+<tr><td>학습점 40개 검증 손실 최저</td><td>105 epoch, 0.483</td><td><code>r.val</code> 배열에서 null이 아닌 값의 최솟값을 따로 찾아 같은 값(테스트에 넣음)</td></tr></table></div>
+<p>검수팀은 이 값을 책 코드와 따로 다시 계산해 대조합니다(G6).</p>
+<h2 id="misconceptions">5. 태오가 모은 오해</h2>
+<ul><li>“AdaGrad는 나쁜 옵티마이저다.” 드물게 나오는 특징이 많은 문제에서는 장점이 있고, 이 책의 골짜기는 그 장점이 드러나지 않는 예입니다. 비교표 아래에 조건을 적었습니다.</li>
+<li>“배치 정규화와 층 정규화는 같은 것을 다른 이름으로 부른다.” 실험의 실선과 점선 높이가 다른 것으로 두 값이 다르다는 점을 보이고, 안내에 어느 쪽이 맞다는 뜻이 아니라고 적었습니다.</li>
+<li>“검증 손실이 다시 오르면 학습률이 큰 것이다.” 4장 표가 학습 손실이 계속 내려가는지를 함께 보게 합니다.</li></ul>
+<h2 id="recheck">6. 다시 확인할 것</h2>
+<p>PyTorch 문서 주소에는 판 번호(2.15)가 들어 있습니다. 판이 바뀌면 기본값(momentum 0.1, eps 1e-5)을 다시 확인합니다.</p>
+</main></body></html>

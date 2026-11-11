@@ -1,0 +1,12 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="기온과 판매를 적은 점 여덟 개 위에 예측선 하나를 긋고 점에서 선까지의 오차를 재는 장면과, 그 계산을 이어받은 작은 신경망" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M18 132H170M18 132V14"/>
+<path class="cv-bus" d="M22 118L166 28"/>
+<path class="cv-dash" d="M32 104V112M50 108V100M68 82V89M86 86V78M104 60V67M122 46V55M140 50V44M158 26V33"/>
+<circle class="cv-node" cx="32" cy="104" r="4"/><circle class="cv-node" cx="50" cy="108" r="4"/><circle class="cv-node" cx="68" cy="82" r="4"/><circle class="cv-node" cx="86" cy="86" r="4"/><circle class="cv-node" cx="104" cy="60" r="4"/><circle class="cv-node" cx="122" cy="46" r="4"/><circle class="cv-node" cx="140" cy="50" r="4"/><circle class="cv-node" cx="158" cy="26" r="4"/>
+<text class="cv-text cv-muted" x="170" y="146" text-anchor="end">기온</text><text class="cv-text cv-muted" x="24" y="12">판매</text>
+<path class="cv-hair" d="M213 52L247 34M213 52L247 75M213 52L247 116M213 98L247 34M213 98L247 75M213 98L247 116M265 34L291 75M265 75L291 75M265 116L291 75"/>
+<circle class="cv-node" cx="204" cy="52" r="9"/><circle class="cv-node" cx="204" cy="98" r="9"/>
+<circle class="cv-node" cx="256" cy="34" r="9"/><circle class="cv-node" cx="256" cy="75" r="9"/><circle class="cv-node" cx="256" cy="116" r="9"/>
+<circle class="cv-node" cx="300" cy="75" r="10"/>
+<text class="cv-text cv-muted" x="256" y="146" text-anchor="middle">w·x + b</text>
+</svg>

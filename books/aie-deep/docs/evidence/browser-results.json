@@ -1,8 +1,8 @@
 {
-  "url": "http://127.0.0.1:8793/books/aie-deep/",
-  "date": "2026-10-12",
-  "views": 42,
-  "labs": 51,
+  "url": "http://127.0.0.1:8765/books/aie-deep/",
+  "date": "2026-11-11",
+  "views": 30,
+  "labs": 36,
   "errors": [],
   "success": true
 }

@@ -14,7 +14,7 @@ function mount(el){
  const input=el.querySelector('#home-width');
  function update(){const w=Number(input.value),r=M.train({width:w,epochs:200,seed:1});
   el.querySelector('#home-width-value').textContent=w;el.querySelector('.home-graphic').innerHTML=map(r);
-  el.querySelector('.home-result').innerHTML=`은닉 뉴런 <b>${w}개</b> · 새 점 정확도 <b>${A04UI.fmt(r.valAcc*100,1)}%</b> · 학습 손실 ${A04UI.fmt(r.trainLoss,3)}<br>${w<3?'경계가 직선 몇 개로 각져 원을 따라가지 못합니다.':w<8?'뉴런이 늘수록 경계가 원에 가까워집니다.':'경계가 원을 거의 따라갑니다. 더 늘리면 외우기(9장)를 걱정할 차례입니다.'}`;}
+  el.querySelector('.home-result').innerHTML=`은닉 뉴런 <b>${w}개</b> · 새 점 정확도 <b>${A04UI.fmt(r.valAcc*100,1)}%</b> · 학습 손실 ${A04UI.fmt(r.trainLoss,3)}<br>${w<3?'경계가 직선 몇 개로 각져 원을 따라가지 못합니다.':w<8?'뉴런이 늘수록 경계가 원에 가까워집니다.':'경계가 원을 거의 따라갑니다. 더 늘리면 외우기(4장)를 걱정할 차례입니다.'}`;}
  const click=e=>{const b=e.target.closest('[data-w]');if(b){input.value=b.dataset.w;update();}};
  input.addEventListener('input',update);el.addEventListener('click',click);update();
  return ()=>{input.removeEventListener('input',update);el.removeEventListener('click',click);};
