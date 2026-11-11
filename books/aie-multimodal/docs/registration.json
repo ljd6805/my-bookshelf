@@ -4,7 +4,7 @@
   "title": "멀티모달 AI · 보고 듣고 말하는 모델",
   "short_title": "멀티모달 AI",
   "spine_title": "멀티모달",
-  "spine_category": "AI공학",
+  "spine_category": "인공지능",
   "description": "세탁기 A/S 센터 상담 도우미 하나를 따라가며 이미지 패치 토큰, CLIP·SigLIP 대조 학습, Q-Former와 게이트 연결, LLaVA식 학습 순서, 해상도 전략, 영상·음성 토큰 예산, 이미지 생성 토큰, 로봇 행동 토큰, ColPali 문서 검색, 화면 에이전트를 직접 계산합니다. 12장 15개 실험으로 원본 커리큘럼 phases/12-multimodal-ai의 레슨 25개를 모두 재구성했습니다.",
   "illustration_caption": "세탁기 표시창 사진이 패치 격자로 잘리고, 패치와 소리 조각이 토큰 줄을 따라 언어 모델로 흘러 들어가 상담 답이 켜지는 과정을 보여 주는 시각적 비유입니다(칸 수와 위치는 예시).",
   "keywords": [

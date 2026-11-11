@@ -1,7 +1,9 @@
 """Recommend a reading order for the books of each field (each island of the knowledge map).
 
 Nothing here is typed by hand. The order comes from the catalog itself:
-- series: volumes in number order, with the previous volume's next_why as the reason;
+- series: volumes in number order, with the previous volume's next_why as the reason; a volume's
+  companions (books outside the series to read just before that volume) sit right in front of it,
+  with the companion's own why as the reason;
 - learning_paths: when a path visits book A before book B of the same field, that is one vote
   for reading A first, and the step's own "why" becomes the reason;
 - shelf order: books with no vote between them keep the shelf order and say so.
@@ -26,6 +28,16 @@ def path_sequences(catalog):
     return sequences
 
 
+def series_sequence(series):
+    """[(book_id, companion_or_None, volume)] in reading order: each volume's companions, then the volume."""
+    seq = []
+    for v in series.get('volumes', []):
+        seq += [(c['book_id'], c, v) for c in v.get('companions', [])]
+        if v.get('book_id'):
+            seq.append((v['book_id'], None, v))
+    return seq
+
+
 def votes_for(members, catalog):
     """votes[(a, b)] = how strongly the catalog says to read a before b."""
     inside, votes = set(members), {}
@@ -35,7 +47,7 @@ def votes_for(members, catalog):
             for b in own[i + 1:]:
                 votes[(a, b)] = votes.get((a, b), 0) + 1
     for series in catalog.get('series', []):
-        own = [v['book_id'] for v in series.get('volumes', []) if v.get('book_id') in inside]
+        own = [b for b, _, _ in series_sequence(series) if b in inside]
         for i, a in enumerate(own):
             for b in own[i + 1:]:
                 votes[(a, b)] = votes.get((a, b), 0) + SERIES_WEIGHT
@@ -58,7 +70,36 @@ def order_books(members, votes):
     return order
 
 
+def companion_reason(prev, book, catalog):
+    """A companion right after prev, or a volume right after its own companion."""
+    for series in catalog.get('series', []):
+        seq = series_sequence(series)
+        ids = [b for b, _, _ in seq]
+        if book not in ids or (prev is not None and prev not in ids):
+            continue
+        at = ids.index(book)
+        if prev is not None and ids.index(prev) > at:
+            continue
+        via = {'kind': 'series', 'title': series['title'], 'href': f'#series-{series["id"]}'}
+        _, companion, vol = seq[at]
+        if companion:
+            return {'reason': f'{sentence(companion["why"])} 「{series["title"]}」 {vol["number"]}권 앞에 읽는 책입니다.',
+                    'via': via}
+        if prev is not None and seq[ids.index(prev)][1] and seq[ids.index(prev)][2] is vol:
+            earlier = [v for b, c, v in seq[:at] if c is None]
+            why = earlier[-1].get('next_why') if earlier else None
+            if not earlier:
+                start = f'앞에 읽을 책을 마치고 「{series["title"]}」 {vol["number"]}권을 시작합니다.'
+                return {'reason': f'{start} {series.get("summary", "")}'.strip(), 'via': via}
+            back = f'앞에 읽을 책을 마치고 「{series["title"]}」 {vol["number"]}권으로 돌아갑니다.'
+            return {'reason': f'{back} {why}' if why else back, 'via': via}
+    return None
+
+
 def series_reason(prev, book, catalog):
+    found = companion_reason(prev, book, catalog)
+    if found:
+        return found
     for series in catalog.get('series', []):
         volumes = series.get('volumes', [])
         ids = [v.get('book_id') for v in volumes]

@@ -27,9 +27,11 @@ class ReadingOrderTests(unittest.TestCase):
                 self.assertTrue(step['reason'].strip(), step['book'])
                 self.assertIn(step['via']['kind'], {'series', 'path', 'shelf'})
         series = [v['book_id'] for v in catalog['series'][0]['volumes'] if v.get('book_id')]
-        aie = [s['book'] for s in orders['AI공학'] if s['book'] in series]
-        self.assertEqual(aie, series)
-        self.assertEqual([s['book'] for s in orders['인공지능']][:3], ['ai-book-interactive', 'neural-computation', 'llm-systems'])
+        ai = [s['book'] for s in orders['인공지능']]
+        self.assertEqual([b for b in ai if b in series], series)
+        self.assertEqual(ai[:3], ['ai-book-interactive', 'aie-01-workbench', 'aie-02-math'])
+        self.assertEqual(ai[ai.index('aie-04-deep') - 1], 'neural-computation')
+        self.assertNotIn('AI공학', orders)
         self.assertEqual(orders['지식관리'][0]['book'], 'search-rag')
 
     def test_shelf_must_stand_books_in_reading_order(self):
@@ -62,6 +64,19 @@ class ReadingOrderTests(unittest.TestCase):
         self.assertEqual(order_books(['a', 'b'], votes_for(['a', 'b'], catalog)), ['b', 'a'])
         catalog['series'] = [{'id': 's', 'title': 'S', 'volumes': [{'number': 1, 'book_id': 'a'}, {'number': 2, 'book_id': 'b'}]}]
         self.assertEqual(order_books(['a', 'b'], votes_for(['a', 'b'], catalog)), ['a', 'b'])
+
+    def test_companions_stand_right_before_their_volume_with_their_own_why(self):
+        volumes = [{'number': 1, 'book_id': 'a', 'next_why': '1권 다음 이유'},
+                   {'number': 2, 'book_id': 'b', 'companions': [{'book_id': 'c', 'why': 'c를 먼저 읽는 이유'}]}]
+        catalog = {'books': [book('c', 'x'), book('a', 'x'), book('b', 'x')],
+                   'learning_paths': [path('p', 'c', 'a')],
+                   'series': [{'id': 's', 'title': 'S', 'volumes': volumes}]}
+        steps = field_orders(catalog)['x']
+        self.assertEqual([s['book'] for s in steps], ['a', 'c', 'b'])
+        self.assertIn('c를 먼저 읽는 이유', steps[1]['reason'])
+        self.assertIn('2권 앞에', steps[1]['reason'])
+        self.assertIn('2권으로 돌아갑니다', steps[2]['reason'])
+        self.assertIn('1권 다음 이유', steps[2]['reason'])
 
     def test_series_reason_skips_unpublished_volumes_and_names_the_gap(self):
         volumes = [{'number': 1, 'book_id': 'a', 'next_why': 'a에서 2권으로'}, {'number': 2, 'status': 'planned'},

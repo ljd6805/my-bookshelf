@@ -83,6 +83,21 @@ class SeriesTests(unittest.TestCase):
         self.assertIn('집필 중', html)
         self.assertIn('1권부터 읽기', html)
 
+    def test_companion_shows_under_its_volume_and_bad_companions_fail(self):
+        catalog = self.catalog([
+            {'number': 1, 'title': '첫 권', 'book_id': 'b', 'companions': [{'book_id': 'a', 'why': '먼저 읽는 이유'}]}])
+        with self.assertRaisesRegex(ValueError, 'spine_category'):
+            render_curation(catalog)
+        catalog['books'][1]['spine_category'] = '수학'
+        html = render_curation(catalog)
+        self.assertIn('이 권 앞에 읽을 책', html)
+        self.assertIn('<span class="vol-before-why">먼저 읽는 이유.</span>', html)
+        for companions in [[{'book_id': 'nope', 'why': 'x'}], [{'book_id': 'b', 'why': 'x'}], [{'book_id': 'a', 'why': ' '}]]:
+            with self.subTest(companions=companions), self.assertRaises(ValueError):
+                bad = self.catalog([{'number': 1, 'title': 'x', 'book_id': 'b', 'companions': companions}])
+                bad['books'][1]['spine_category'] = '수학'
+                render_curation(bad)
+
     def test_unknown_book_or_out_of_order_volumes_fail_the_build(self):
         for volumes in [[{'number': 1, 'title': 'x', 'book_id': 'nope'}],
                         [{'number': 2, 'title': 'x', 'book_id': 'a'}, {'number': 1, 'title': 'y', 'book_id': 'b'}],
