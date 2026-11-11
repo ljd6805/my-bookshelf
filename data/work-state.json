@@ -1086,5 +1086,19 @@
       "검수·리허설이 넘긴 일: 3D 실험을 9·11장 두 곳으로 둔 범위를 서재 주인에게 보고하고 확인받기, 2장의 기호(Σ·lim·∫·dx)를 나눠 보여 줄지, 9장 3D 실험의 390px 배치, 11장 비탈면의 높이 눈금과 3D 그림의 눈금 숫자, 7·9·11장의 다른 책 링크"
     ],
     "next_action": "미분 책 병합 뒤 양방향 링크와 시리즈 항목 갱신"
+  },
+  "derivative": {
+    "request": "사용자 요청(2026-11-11, 스레드 「미분 쉽게 배우는 책 만들기」): 미분과 적분을 전문으로 다루는 책을 각각 만들 것. 쉽게 이해하고 따라갈 수 있게 3D 애니메이션과 학습 도구, 식마다 예시를 넣을 것. 이 스레드는 변수가 하나인 미분을 맡음",
+    "book": "「미분 · 순간 변화율을 계산하고 그래프의 기울기로 읽기」 books/derivative/, id derivative-basics, 수학, aqua, 책등 미분, 12장 · 18개 실험(3D 4개: cube·balloon·box·can), 한 줄씩 펼치는 예제 36개, 복습 24문항, 공통 사례 하람의 물로켓 h(t) = 20t − 5t²",
+    "links": "시리즈 calculus 1권(2권 partial-derivative-chain-rule, 3권 integral-calculus). 새 개념 rate-of-change, 기존 개념 gradient-backprop(#chain·#power)·loss-likelihood(#shape·#optimize)·rate-accumulation(#function). 새 노선 slope-to-best-value. 들어오는 링크: neural #descent·#backprop, aie-math #derivative, partial 1·3·4·7장, integral 3~7장",
+    "docs": "books/derivative/docs/(index.html G0~G7, research.html, fact-review.html review-2026-11-11 fixed)",
+    "verification": "docs/03-verification.html#derivative-book",
+    "remaining": [
+      "사람 독자 리허설은 하지 못함(리허설은 답을 알고 시작한 검수 세션이 함)",
+      "출처 18번(3Blue1Brown)은 열지 못했고 OpenStax 3.2·3.3·4.5의 일부 문장은 발췌가 끊겨 직접 보지 못함",
+      "세 권 사이 링크와 표지 삽화 수정은 관문 승인 뒤에 더해 팀장 페르소나의 재점검을 받지 않음",
+      "음함수 미분·역함수 미분·로피탈 정리·테일러 급수는 다음 개정 후보"
+    ],
+    "next_action": "서재 주인의 의견을 받아 3D 실험을 더 늘릴지 정한다. 다음 개정 때 세 권 사이 링크를 새 세션이 다시 점검한다"
   }
 }

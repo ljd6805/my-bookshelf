@@ -73,6 +73,7 @@ jobs:
       - run: npm test --prefix books/linear-easy
       - run: npm test --prefix books/neural
       - run: npm test --prefix books/integral
+      - run: npm test --prefix books/derivative
       - name: Install Prisma textbook example
         run: npm ci --no-audit --no-fund
         working-directory: books/prisma/examples
