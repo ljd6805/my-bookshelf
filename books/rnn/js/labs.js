@@ -11,7 +11,7 @@ const val=(el,id)=>el.querySelector('#'+id).value,num=(el,id)=>Number(val(el,id)
 const C={h:'var(--accent)',in:'var(--blue)',warn:'var(--orange)',mute:'var(--muted)'};
 
 L.why=el=>{
- U.setup(el,U.range('k','한 번에 보는 지난 시간 수 k',2,12,1,3)+U.range('noise','측정 잡음의 크기 (°C)',0,1.5,0.1,0.6)+U.check('mix','시험할 때 창 안의 값 순서를 섞어 넣기',false));
+ U.setup(el,U.range('k','한 번에 보는 지난 시간 수 k',2,12,1,3)+U.range('noise','측정 잡음의 크기 (°C)',0,1.5,0.1,0.6)+U.check('mix','맞춘 뒤의 96시간에서 창 안의 값 순서를 섞어 넣기',false));
  U.bind(el,()=>{
   const k=num(el,'k'),noise=num(el,'noise'),mix=on(el,'mix'),r=M.whyOrder({k,noise}),rows=r.rows.slice(0,48),key=mix?'mixed':'ordered';
   const chart=U.lines([{name:'실제 기온',pts:rows.map((x,i)=>[i+1,x.actual]),color:C.mute},{name:mix?'순서를 섞어 넣은 예측':'순서대로 넣은 예측',pts:rows.map((x,i)=>[i+1,x[key]]),color:mix?C.warn:C.h},{name:'지난 k시간의 평균',pts:rows.map((x,i)=>[i+1,x.mean]),color:C.in,dash:true}],{xLabel:'기록을 맞춘 뒤 96시간의 시각 (시간)',yLabel:'기온 (°C)',yMin:8,yMax:30});
@@ -25,7 +25,7 @@ L.cell=el=>{
   const below=hs.findIndex(h=>Math.abs(h)<Math.abs(hs[0])*0.1);
   const chart=U.lines([{name:'은닉 상태 h',pts:hs.map((h,i)=>[i+1,h]),color:C.h,dots:3},{name:'입력 x',pts:xs.map((x,i)=>[i+1,x]),color:C.in,dash:true}],{xLabel:'시점 t',yLabel:'값',yMin:-top,yMax:top});
   U.result(el,chart,`h_t = ${act==='tanh'?'tanh(':'('}${f(wh,1)}·h_(t−1) + 1·x_t)를 12번 계산했습니다. h: ${hs.map(h=>f(h,2)).join(', ')}.<br>`+
-   (key==='pulse'?(below>0?`첫 입력의 흔적은 ${below+1}번째 시점에 처음 값 ${f(hs[0],2)}의 10%(${f(Math.abs(hs[0])*0.1,3)}) 아래로 줄어듭니다.`:(Math.abs(hs[11])>Math.abs(hs[0])?`12번째 시점의 h는 처음 값의 ${f(Math.abs(hs[11]/hs[0]),1)}배로 커졌습니다.`:`12번째 시점에도 첫 입력의 흔적이 처음 값의 ${f(Math.abs(hs[11]/hs[0])*100,0)}% 남아 있습니다.`))+(act==='none'&&wh>1?' 활성 함수가 없고 W_hh가 1보다 크면 h가 단계마다 커집니다.':act==='tanh'&&wh>1?' tanh가 값을 1 아래로 묶어 두어 h는 커지지 않고 한 값에 머뭅니다.':''):(wh===0?'W_hh가 0이라 h는 지금 입력만 따라가고 앞 시점의 입력을 담지 않습니다. W_hh를 올리면 앞 시점들의 입력이 함께 담깁니다.':'h는 지금 입력과 앞 시점들의 입력을 함께 담습니다. W_hh를 0으로 두면 h는 지금 입력만 따라갑니다.')));
+   (key==='pulse'?(below>0?`첫 입력의 흔적은 ${below+1}번째 시점에 처음 값 ${f(hs[0],2)}의 10%(${f(Math.abs(hs[0])*0.1,3)}) 아래로 줄어듭니다.`:(Math.abs(hs[11])>Math.abs(hs[0])?`12번째 시점의 h는 처음 값의 ${f(Math.abs(hs[11]/hs[0]),1)}배로 커졌습니다.`:`12번째 시점에도 첫 입력의 흔적이 처음 값의 ${f(Math.abs(hs[11]/hs[0])*100,0)}% 남아 있습니다.`))+(act==='none'&&wh>1?' 활성 함수가 없고 W_hh가 1보다 크면 h가 단계마다 커집니다.':act==='tanh'&&wh>1?' tanh가 값을 1 아래로 묶어 두어 h는 끝없이 커지지 않고 한 값 근처에 머뭅니다.':''):(wh===0?'W_hh가 0이라 h는 지금 입력만 따라가고 앞 시점의 입력을 담지 않습니다. W_hh를 올리면 앞 시점들의 입력이 함께 담깁니다.':'h는 지금 입력과 앞 시점들의 입력을 함께 담습니다. W_hh를 0으로 두면 h는 지금 입력만 따라갑니다.')));
  });
 };
 L.unroll=el=>{
@@ -53,7 +53,7 @@ L.bptt=el=>{
  U.bind(el,()=>{
   const r=M.scalarBptt({wh:num(el,'wh'),T:num(el,'T'),target:num(el,'target')});
   U.result(el,U.table(['시점 t','입력 x','은닉 h','∂L/∂h','1−h²','W_hh 몫'],r.rows.map(x=>[x.t,f(x.x,1),f(x.h,4),f(x.delta,4),f(x.local,4),f(x.partWh,5)])),
-   `손실 L = ½(h_T − 정답)² = ${f(r.loss,5)}. 마지막 시점에서 출발한 ∂L/∂h를 한 시점씩 앞으로 넘기며 시점마다 W_hh의 몫을 구했습니다.<br>시점별 몫의 합 ∂L/∂W_hh = <b>${f(r.gwh,5)}</b>. W_hh를 0.00001만큼 흔들어 손실 차이로 구한 값은 ${f(r.numWh,5)}로, 차이는 ${sci(Math.abs(r.gwh-r.numWh))}입니다.<br>같은 W_hh가 모든 시점에 쓰이므로 기울기는 시점마다의 몫을 더한 값입니다. 첫 시점은 앞 은닉 상태가 0이라 몫이 0입니다.`);
+   `손실 L = ½(h_T − 정답)² = ${f(r.loss,5)}. 마지막 시점에서 출발한 ∂L/∂h를 한 시점씩 앞으로 넘기며 시점마다 W_hh의 몫을 구했습니다.<br>시점별 몫의 합 ∂L/∂W_hh = <b>${f(r.gwh,5)}</b>. W_hh를 0.00001만큼 흔들어 손실 차이로 구한 값은 ${f(r.numWh,5)}로, 차이는 ${sci(Math.abs(r.gwh-r.numWh))}입니다.<br>같은 W_hh가 모든 시점에 쓰이므로 기울기는 시점마다의 몫을 더한 값입니다. 첫 시점은 앞 은닉 상태가 0이라 몫이 0입니다.${r.rows.length>1&&Math.abs(r.rows[0].delta)>0?` 첫 시점의 ∂L/∂h는 마지막 시점의 약 ${f(Math.abs(r.rows[r.rows.length-1].delta/r.rows[0].delta),r.rows[r.rows.length-1].delta/r.rows[0].delta<10?1:0)}분의 1입니다.`:''}`);
  });
 };
 L.vanish=el=>{
@@ -61,7 +61,7 @@ L.vanish=el=>{
  U.bind(el,()=>{
   const rho=num(el,'rho'),T=num(el,'T'),act=val(el,'act'),clip=num(el,'clip'),r=M.gradNorms({rho,T,act,clip}),lo=Math.min(-2,Math.floor(lg(r.last))),hi=Math.max(1,Math.ceil(Math.max(...r.norms.map(lg))));
   const chart=U.lines([{name:'∂L/∂h의 크기 (10의 거듭제곱 지수)',pts:r.norms.map((n,k)=>[k,lg(n)]),color:C.h,dots:T<=30?2.5:0}],{xLabel:'마지막 시점에서 거슬러 오른 단계 수',yLabel:'log₁₀ 기울기 크기',yMin:lo,yMax:hi,hline:0,hlineLabel:'크기 1'});
-  U.result(el,chart,`마지막 시점에서 크기 1로 출발한 기울기의 크기는 ${T-1}단계 앞에서 <b>${sci(r.last)}</b>입니다(은닉 8개, ρ = ${f(rho,2)}, ${act==='tanh'?'tanh':'활성 함수 없음'}).${act==='none'?` 선형일 때는 단계마다 정확히 ρ배이므로 ${f(rho,2)}^${T-1} = ${sci(rho**(T-1))}입니다.`:' tanh의 미분 1−h²이 1 이하라서 ρ만 곱할 때보다 더 빨리 줄어듭니다.'}<br>모든 가중치의 기울기를 합친 크기는 ${sci(r.gradNorm)}입니다.${r.last<1e-3?' 이 크기의 대부분은 마지막 몇 시점의 몫이고 먼 시점의 몫은 거의 0입니다.':''}${clip>0?(r.scale<1?` 한도 ${f(clip,1)}을 넘어 ${sci(r.scale)}배로 줄여 크기를 한도 ${f(r.clipped,2)}에 맞춥니다. 방향은 그대로이고 크기만 줄어듭니다. 그래프의 선은 자르기 전의 ∂L/∂h라서 한도를 바꿔도 그대로입니다.`:` 한도 ${f(clip,1)} 안이라 자르지 않습니다.`):''}${r.last<1e-6?' 이만큼 작아지면 먼 시점의 입력은 가중치를 거의 움직이지 못합니다.':r.last>1e3&&!(clip>0&&r.scale<1)?' 이만큼 커지면 한 번의 갱신이 가중치를 크게 흔듭니다.':''}`);
+  U.result(el,chart,`마지막 시점에서 크기 1로 출발한 기울기의 크기는 ${T-1}단계 앞에서 <b>${sci(r.last)}</b>입니다(은닉 8개, ρ = ${f(rho,2)}, ${act==='tanh'?'tanh':'활성 함수 없음'}).${act==='none'?` 선형일 때는 단계마다 정확히 ρ배이므로 ${f(rho,2)}^${T-1} = ${sci(rho**(T-1))}입니다.`:' tanh의 미분 1−h²이 1 이하라서 ρ만 곱할 때보다 더 빨리 줄어듭니다.'}<br>모든 가중치의 기울기를 합친 크기는 ${sci(r.gradNorm)}입니다.${r.last<1e-3?' 이 크기는 주로 마지막 쪽 시점들의 몫이고 먼 시점의 몫은 거의 0입니다.':''}${clip>0?(r.scale<1?` 한도 ${f(clip,1)}을 넘어 ${sci(r.scale)}배로 줄여 크기를 한도 ${f(r.clipped,2)}에 맞춥니다. 방향은 그대로이고 크기만 줄어듭니다. 그래프의 선은 자르기 전의 ∂L/∂h라서 한도를 바꿔도 그대로입니다.`:` 한도 ${f(clip,1)} 안이라 자르지 않습니다.`):''}${r.last<1e-6?' 이만큼 작아지면 먼 시점의 입력은 가중치를 거의 움직이지 못합니다.':r.last>1e3&&!(clip>0&&r.scale<1)?' 이만큼 커지면 한 번의 갱신이 가중치를 크게 흔듭니다.':''}`);
  });
 };
 const memo={};
@@ -84,7 +84,7 @@ L.lstm=el=>{
   U.result(el,chart,`한 시점의 계산: C_t = f·C_(t−1) + i·g̃ = ${f(fg)}×${f(c0,1)} + ${f(ig)}×${f(g,1)} = <b>${f(c1,3)}</b>, h_t = o·tanh(C_t) = ${f(o)}×${f(Math.tanh(c1),3)} = <b>${f(h1,3)}</b>.<br>같은 게이트 값으로 12시점이 지나면 처음 셀 상태 ${f(c0,1)}에서 남은 몫은 f¹² = ${sci(fg**12)}배인 ${sci(keep[11])}이고, 셀 상태는 ${f(cs[11],3)}입니다.${fg>=0.95?' f가 1에 가까우면 처음 값이 거의 그대로 남습니다.':fg<=0.5?' f가 0.5 이하이면 몇 시점 만에 처음 값이 사라집니다.':''}${fg<1?` 새 후보가 같은 값으로 계속 들어오면 셀 상태는 i·g̃/(1−f) = ${f(ig*g/(1-fg),2)}에 가까워집니다.`:''}`);
  });
 };
-const ratio=x=>x>=1e4?`약 ${U.int(Number(x.toPrecision(1)))}배`:x>=10?`약 ${U.int(Number(x.toPrecision(2)))}배`:`${f(x,1)}배`;
+const ratio=x=>x>=1e8?`약 ${sci(x)}배`:x>=1e4?`약 ${U.int(Number(x.toPrecision(1)))}배`:x>=10?`약 ${U.int(Number(x.toPrecision(2)))}배`:`${f(x,1)}배`;
 L.gru=el=>{
  U.setup(el,U.range('bias','망각·갱신 게이트의 편향',0,4,0.5,0)+U.range('T','시퀀스 길이 T',10,60,10,10));
  U.bind(el,()=>{

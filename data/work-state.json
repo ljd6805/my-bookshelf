@@ -972,15 +972,17 @@
       "서가 등록: chapter_index 13장, 새 개념 sequence-state(순서와 은닉 상태), gradient-backprop·overfitting-validation·vector-space·attention-kv에 장 추가, 새 노선 before-transformer",
       "양방향 링크: aie-transformer#why → rnn#limits, aie-nlp#sequence → rnn#vanish, 이 책 12장 → aie-transformer#why 등",
       "CI에 npm test --prefix books/rnn 추가",
-      "팩트 검수 1회차 지적 18건 반영: 단계 수 표기, 9장 초기값 여덟 가지의 범위, 드롭아웃 자리의 출처, 5장 제목과 책 부제, PyTorch 출처 두 건 분리"
+      "팩트 검수 1회차 지적 18건 반영: 단계 수 표기, 9장 초기값 여덟 가지의 범위, 드롭아웃 자리의 출처, 5장 제목과 책 부제, PyTorch 출처 두 건 분리",
+      "2회차 지적 11건과 첫 독자 리허설 요청 8건 반영: 예측 질문 11개를 본문에 없는 설정으로 교체, 실험 결과 문장 수정. 3회차의 막지 않는 지적 R3-1~R3-5도 반영",
+      "main 병합 뒤 「신경망의 계산」과 양방향 링크, 시리즈 aie-from-scratch 8권의 companions 첫 항목으로 등록"
     ],
-    "verification": "npm test 35개, tests/browser.cjs 50개 화면·실험 39회 조작·오류 0, 팩트·출처 검수(새 세션) 회차별 기록, 첫 독자 리허설",
+    "verification": "npm test 36개, tests/browser.cjs 50개 화면·실험 39회 조작·오류 0, 팩트·출처 검수 세 회차(집필하지 않은 세션, 3회차 fixed), 첫 독자 리허설과 재확인",
     "remaining": [
       "PyTorch 문서는 2.15판 기준으로 대조함. 함수 인자와 기본값은 다음 개정 때 다시 확인",
       "7장 창 길이별 검증 오차의 순서는 초기값 하나에서만 잼",
       "논문 DOI 연결 일곱 건은 이 환경에서 열지 못해 Crossref 서지로 대조함"
     ],
-    "next_action": "딥러닝 보강 책이 나오면 2·5·11장에서 그 책으로 가는 링크를 더함"
+    "next_action": "PyTorch 문서 판이 바뀌면 코드 상자의 인자와 기본값을 다시 대조"
   },
   "deep_learning_split": {
     "request": "사용자 요청(2026-11-11, 스레드 「딥러닝 핵심 두 권으로 나누기」): 사내 교육 딥러닝 보강 자료와 본인 필기의 흐름(예측선 → 손실 → 경사하강 → 가중합과 활성화 → 역전파 → 기울기 소실 → 목적에 따른 구조)을 따라 「딥러닝 핵심」을 두 권으로 나눔. 사내 자료의 문장·그림은 옮기지 않음",
