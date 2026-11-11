@@ -3,6 +3,9 @@
 The catalog owns the series list (catalog.series): an id, a title, a one-line summary and
 the ordered volumes. A volume with book_id links to that published book; a volume without
 one is shown as writing or planned, so a series can be announced before every volume exists.
+A volume may list companions: books outside the series to read just before that volume, each
+with a why. The shelf and the reading order put them right in front of the volume
+(docs/04-site-plan.html#series-companions).
 Adding a series or a volume is a data change only; nothing here names a particular series.
 """
 if __package__:
@@ -27,6 +30,37 @@ def check_series(series, books):
             raise ValueError(f'series {series["id"]}: volume {v["number"]} names unknown book {bid}')
         if not bid and v.get('status', 'planned') not in STATUS:
             raise ValueError(f'series {series["id"]}: volume {v["number"]} needs book_id or status writing|planned')
+    volume_ids = {v.get('book_id') for v in series['volumes']}
+    seen = set()
+    for v in series['volumes']:
+        for c in v.get('companions', []):
+            cid = c.get('book_id')
+            where = f'series {series["id"]}: volume {v["number"]} companion {cid}'
+            if cid not in by_id:
+                raise ValueError(f'{where} names unknown book')
+            if cid in volume_ids or cid in seen:
+                raise ValueError(f'{where} is already placed in this series')
+            if not str(c.get('why', '')).strip():
+                raise ValueError(f'{where} needs a why')
+            host = by_id.get(v.get('book_id'))
+            if host and field_of(by_id[cid]) != field_of(host):
+                raise ValueError(f'{where} must share the volume\'s spine_category')
+            seen.add(cid)
+
+
+def companions(v, books):
+    """The books to read just before this volume, as small links under its card."""
+    links = []
+    for c in v.get('companions', []):
+        book = books.get(c['book_id'])
+        if not book or book.get('status') != 'published':
+            continue
+        name = book.get('short_title') or book['title'].split(' · ')[0]
+        links.append(f'<li><a href="{safe_book_url(book["url"])}" title="{esc(c["why"])}">{esc(name)}</a></li>')
+    if not links:
+        return ''
+    return (f'<div class="vol-before"><span class="vol-before-label">이 권 앞에 읽을 책</span>'
+            f'<ol>{"".join(links)}</ol></div>')
 
 
 def volume(series, v, books, total):
@@ -43,7 +77,8 @@ def volume(series, v, books, total):
     if live:
         why = f'<span class="vol-why">{esc(v["next_why"])}</span>' if v.get('next_why') else ''
         return (f'<li class="vol is-live tone-{esc(tone)}" data-volume="{v["number"]}">'
-                f'<a href="{safe_book_url(book["url"])}" aria-label="{label}: {esc(v["title"])}">{inner}</a>{why}</li>')
+                f'<a href="{safe_book_url(book["url"])}" aria-label="{label}: {esc(v["title"])}">{inner}</a>{why}'
+                f'{companions(v, books)}</li>')
     return f'<li class="vol is-later" data-volume="{v["number"]}" aria-label="{label}: {esc(v["title"])}, {esc(meta)}">{inner}</li>'
 
 

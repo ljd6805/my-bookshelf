@@ -1,4 +1,4 @@
-import { packDividedShelves } from './shelf-model.mjs?v=20261028-divider2';
+import { packDividedShelves } from './shelf-model.mjs?v=20261111-ai-merge';
 
 /**
  * Stack the learning-book shelf like real furniture: as many spines as the width holds

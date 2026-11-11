@@ -202,6 +202,9 @@
 .vol.is-last .vol-spine{border-color:rgb(var(--edge));box-shadow:0 0 0 3px #365f6933}
 .vol.is-last .vol-no::after{content:' · 마지막';color:#365f69;font-weight:700}
 .vol-why{font-size:11.5px;line-height:1.5;color:#526066;padding:6px 0 0 8px;border-left:2px solid #d5ddd8;margin-left:14px}
+.vol-before{margin:2px 0 0 14px;padding:6px 8px;border:1px dashed #9fb3ab;border-radius:8px;background:#fffdf7;font-size:11.5px;line-height:1.45}
+.vol-before-label{display:block;font-weight:700;color:#365f69}
+.vol-before ol{margin:2px 0 0;padding-left:16px}.vol-before a{color:var(--ink)}
 
 @media(max-width:900px){
   .route-head{grid-template-columns:1fr}.route-meta{grid-column:1;grid-row:auto}

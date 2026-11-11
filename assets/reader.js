@@ -1,5 +1,5 @@
-import { cancelMotion, openMotion, closeMotion } from './motion.js?v=20261028-divider2';
-import { shouldPreview } from './shelf-model.mjs?v=20261028-divider2';
+import { cancelMotion, openMotion, closeMotion } from './motion.js?v=20261111-ai-merge';
+import { shouldPreview } from './shelf-model.mjs?v=20261111-ai-merge';
 
 export function createReader(dialog, isReduced) {
   let source = null;
