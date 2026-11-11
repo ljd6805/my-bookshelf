@@ -91,7 +91,7 @@ class SeriesTests(unittest.TestCase):
         catalog['books'][1]['spine_category'] = '수학'
         html = render_curation(catalog)
         self.assertIn('이 권 앞에 읽을 책', html)
-        self.assertIn('title="먼저 읽는 이유"', html)
+        self.assertIn('<span class="vol-before-why">먼저 읽는 이유.</span>', html)
         for companions in [[{'book_id': 'nope', 'why': 'x'}], [{'book_id': 'b', 'why': 'x'}], [{'book_id': 'a', 'why': ' '}]]:
             with self.subTest(companions=companions), self.assertRaises(ValueError):
                 bad = self.catalog([{'number': 1, 'title': 'x', 'book_id': 'b', 'companions': companions}])

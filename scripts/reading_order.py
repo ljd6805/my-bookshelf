@@ -89,9 +89,9 @@ def companion_reason(prev, book, catalog):
             earlier = [v for b, c, v in seq[:at] if c is None]
             why = earlier[-1].get('next_why') if earlier else None
             if not earlier:
-                start = f'앞에 읽을 책을 마쳤으니 「{series["title"]}」 {vol["number"]}권을 시작합니다.'
+                start = f'앞에 읽을 책을 마치고 「{series["title"]}」 {vol["number"]}권을 시작합니다.'
                 return {'reason': f'{start} {series.get("summary", "")}'.strip(), 'via': via}
-            back = f'앞에 읽을 책을 마쳤으니 「{series["title"]}」 {vol["number"]}권으로 이어 갑니다.'
+            back = f'앞에 읽을 책을 마치고 「{series["title"]}」 {vol["number"]}권으로 돌아갑니다.'
             return {'reason': f'{back} {why}' if why else back, 'via': via}
     return None
 

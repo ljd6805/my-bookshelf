@@ -991,6 +991,8 @@
     "status": "pr_open",
     "summary": "인공지능과 AI공학을 분류 인공지능 하나로 합치고, 시리즈 밖 9권을 aie-from-scratch 권 항목의 companions(앞에 읽을 책)로 끼워 서가·읽기 순서를 정함",
     "verification": "validate.py 0 errors, build_catalog --check, unittest, node --test",
-    "next": "RNN 책 병합 시 8권 companions 첫 항목으로 추가; 1280·390·320px 시리즈 구역 확인"
+    "next": "RNN 책 병합 시 8권 companions 첫 항목으로 추가",
+    "approvals": "서윤 승인; 해원·리안·나래·한결 조건부 승인 후 조건 반영(docs/03-verification.html#ai-merge-check)",
+    "screens": "1280·390·320px 확인 완료"
   }
 }

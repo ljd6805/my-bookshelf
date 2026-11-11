@@ -1351,69 +1351,11 @@
       "short_title": "LLM 시스템"
     },
     {
-      "id": "llm-performance",
-      "title": "LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지",
-      "short_title": "추론 최적화",
-      "spine_title": "추론 최적화",
-      "spine_category": "인공지능",
-      "color": "rose",
-      "description": "같은 요약 요청의 시간을 재고, CUDA 스레드와 메모리 접근, KV 할당·배치·통신을 조사합니다. 12장·15개 실험과 PyTorch·CUDA 예제로 성능·메모리·품질을 함께 검증합니다.",
-      "illustration": "books/llm-performance/assets/shelf-illustration.svg",
-      "illustration_caption": "개념 애니메이션: 커널 사이의 빈 구간을 찾고, 변경한 타임라인에서 결과와 시간을 다시 확인합니다. 실제 소요 시간의 축척이 아닙니다.",
-      "status": "published",
-      "url": "books/llm-performance/",
-      "keywords": [
-        "LLM",
-        "CUDA",
-        "GPU",
-        "프로파일링",
-        "추론",
-        "최적화",
-        "TTFT",
-        "ITL",
-        "coalescing",
-        "occupancy",
-        "FlashAttention",
-        "PagedAttention",
-        "배치",
-        "NCCL",
-        "오픈웨이트"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/llm-performance/#chapters"
-        },
-        {
-          "title": "01 · 느리다는 말을 숫자로 바꾸기",
-          "url": "books/llm-performance/#metrics"
-        },
-        {
-          "title": "02 · GPU가 끝난 시간을 재기",
-          "url": "books/llm-performance/#timing"
-        },
-        {
-          "title": "05 · 함께 읽는 주소 모으기",
-          "url": "books/llm-performance/#coalescing"
-        },
-        {
-          "title": "09 · KV를 필요한 만큼 할당하기",
-          "url": "books/llm-performance/#paging"
-        },
-        {
-          "title": "12 · 개선안을 끝까지 검증하기",
-          "url": "books/llm-performance/#review"
-        }
-      ],
-      "cover_art": "books/llm-performance/assets/cover-art.svg",
-      "cover_meta": "12장 · 15개 실험"
-    },
-    {
       "id": "lora-principles",
       "title": "LoRA의 원리 · 저랭크 변화만으로 미세조정이 되는 이유 확인하기",
       "spine_title": "LoRA 원리",
       "spine_category": "인공지능",
-      "color": "blue",
+      "color": "sage",
       "description": "13B 모델의 0.5%도 안 되는 수만 학습한 하린의 LoRA가 말투를 맞춘 이유를 16×16 장난감 모델로 따집니다. 수식 없는 0장에서 W₀은 그대로 두고 B·A만 학습하는 모습을 칸 그림으로 먼저 보고, 장마다 맨 앞의 쉬운 설명으로 같은 내용을 먼저 읽습니다. 미세조정 변화량 ΔW를 SVD로 나누고, 기울기와 사전학습이 변화를 몇 방향에 모으는 이유와 B·A가 학습되는 과정·표현력을 따라간 뒤, 에너지로 센 랭크와 성능에 필요한 랭크, 덜 배우고 덜 잊는 교환을 13개 장과 13개 실험에서 직접 계산합니다.",
       "illustration": "books/lora-why/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 예제마다 생긴 줄무늬 기울기가 쌓여 ΔW가 되고, SVD 막대 가운데 앞의 세 개만 솟은 뒤 r = 3으로 충분하다는 표시가 켜집니다. 실제 특잇값과 성능은 책 안의 실험이 장난감 모델로 계산합니다.",
@@ -2026,6 +1968,64 @@
         }
       ],
       "short_title": "멀티 에이전트"
+    },
+    {
+      "id": "llm-performance",
+      "title": "LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지",
+      "short_title": "추론 최적화",
+      "spine_title": "추론 최적화",
+      "spine_category": "인공지능",
+      "color": "rose",
+      "description": "같은 요약 요청의 시간을 재고, CUDA 스레드와 메모리 접근, KV 할당·배치·통신을 조사합니다. 12장·15개 실험과 PyTorch·CUDA 예제로 성능·메모리·품질을 함께 검증합니다.",
+      "illustration": "books/llm-performance/assets/shelf-illustration.svg",
+      "illustration_caption": "개념 애니메이션: 커널 사이의 빈 구간을 찾고, 변경한 타임라인에서 결과와 시간을 다시 확인합니다. 실제 소요 시간의 축척이 아닙니다.",
+      "status": "published",
+      "url": "books/llm-performance/",
+      "keywords": [
+        "LLM",
+        "CUDA",
+        "GPU",
+        "프로파일링",
+        "추론",
+        "최적화",
+        "TTFT",
+        "ITL",
+        "coalescing",
+        "occupancy",
+        "FlashAttention",
+        "PagedAttention",
+        "배치",
+        "NCCL",
+        "오픈웨이트"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/llm-performance/#chapters"
+        },
+        {
+          "title": "01 · 느리다는 말을 숫자로 바꾸기",
+          "url": "books/llm-performance/#metrics"
+        },
+        {
+          "title": "02 · GPU가 끝난 시간을 재기",
+          "url": "books/llm-performance/#timing"
+        },
+        {
+          "title": "05 · 함께 읽는 주소 모으기",
+          "url": "books/llm-performance/#coalescing"
+        },
+        {
+          "title": "09 · KV를 필요한 만큼 할당하기",
+          "url": "books/llm-performance/#paging"
+        },
+        {
+          "title": "12 · 개선안을 끝까지 검증하기",
+          "url": "books/llm-performance/#review"
+        }
+      ],
+      "cover_art": "books/llm-performance/assets/cover-art.svg",
+      "cover_meta": "12장 · 15개 실험"
     },
     {
       "id": "aie-18-production",
@@ -5764,7 +5764,7 @@
           "companions": [
             {
               "book_id": "ai-book-interactive",
-              "why": "AI가 데이터를 받아 예측하고 틀리는 과정을 한 권으로 먼저 훑어 두면, 시리즈에서 하나씩 쌓을 도구가 어디에 쓰이는지 알고 시작할 수 있습니다"
+              "why": "신경망에서 언어 모델·RAG·에이전트까지 AI의 큰 그림을 한 권으로 먼저 실험해 두면, 시리즈에서 하나씩 쌓을 도구가 어디에 쓰이는지 알고 시작할 수 있습니다"
             }
           ],
           "book_id": "aie-01-workbench",
@@ -5780,7 +5780,7 @@
           "number": 3,
           "title": "머신러닝 기초",
           "book_id": "aie-03-ml",
-          "next_why": "손으로 고른 특징의 한계를 보았으니, 특징까지 스스로 배우는 신경망을 안정되게 학습시키는 설정을 다룹니다. 뉴런과 역전파의 계산은 「신경망의 계산」에서 먼저 볼 수 있습니다."
+          "next_why": "손으로 고른 특징의 한계를 보았으니, 특징까지 스스로 배우는 신경망을 안정되게 학습시키는 설정을 다룹니다."
         },
         {
           "number": 4,
@@ -5818,7 +5818,7 @@
           "companions": [
             {
               "book_id": "transformer-inside",
-              "why": "8권에서 트랜스포머 부품을 한 층씩 만들기 전에, 이미 학습된 작은 모델 안에서 어텐션이 무엇을 보는지 먼저 추적해 봅니다"
+              "why": "8권에서 트랜스포머 구조를 한 층씩 계산하기 전에, 이미 학습된 작은 모델 안에서 어텐션이 무엇을 보는지 먼저 추적해 봅니다"
             }
           ],
           "book_id": "aie-08-transformer",
@@ -5849,10 +5849,6 @@
             {
               "book_id": "llm-systems",
               "why": "11권에서 만든 모델을 제품에 붙이기 전에, 모델 파일이 메모리에 올라가 다음 토큰을 내기까지 컴퓨터에서 무슨 일이 일어나는지 봅니다"
-            },
-            {
-              "book_id": "llm-performance",
-              "why": "모델이 실행되는 과정을 봤으니, 응답이 어디에서 느려지는지 재고 고치는 방법을 익힙니다"
             },
             {
               "book_id": "lora-principles",
@@ -5905,6 +5901,12 @@
         {
           "number": 18,
           "title": "AI 인프라와 운영",
+          "companions": [
+            {
+              "book_id": "llm-performance",
+              "why": "18권에서 모델 서버를 운영하기 전에, 같은 요청의 응답이 어디에서 느려지는지 재고 고치는 방법을 먼저 익힙니다"
+            }
+          ],
           "book_id": "aie-18-production",
           "next_why": "서비스를 안정적으로 돌리게 되었으니, 출시 전에 정렬·공격·공정성·규제를 점검하는 안전과 윤리로 넘어갑니다."
         },

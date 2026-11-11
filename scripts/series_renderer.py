@@ -55,8 +55,9 @@ def companions(v, books):
         book = books.get(c['book_id'])
         if not book or book.get('status') != 'published':
             continue
-        name = book.get('short_title') or book['title'].split(' · ')[0]
-        links.append(f'<li><a href="{safe_book_url(book["url"])}" title="{esc(c["why"])}">{esc(name)}</a></li>')
+        name = book['title'].split(' · ')[0]
+        links.append(f'<li><a href="{safe_book_url(book["url"])}">{esc(name)}</a>'
+                     f'<span class="vol-before-why">{esc(c["why"].rstrip(".") + ".")}</span></li>')
     if not links:
         return ''
     return (f'<div class="vol-before"><span class="vol-before-label">이 권 앞에 읽을 책</span>'

@@ -75,7 +75,7 @@ class ReadingOrderTests(unittest.TestCase):
         self.assertEqual([s['book'] for s in steps], ['a', 'c', 'b'])
         self.assertIn('c를 먼저 읽는 이유', steps[1]['reason'])
         self.assertIn('2권 앞에', steps[1]['reason'])
-        self.assertIn('2권으로 이어 갑니다', steps[2]['reason'])
+        self.assertIn('2권으로 돌아갑니다', steps[2]['reason'])
         self.assertIn('1권 다음 이유', steps[2]['reason'])
 
     def test_series_reason_skips_unpublished_volumes_and_names_the_gap(self):
