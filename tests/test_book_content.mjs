@@ -18,6 +18,12 @@ function loadBook(id) {
   const context = { window };
   context.globalThis = context;
   vm.runInNewContext(readFileSync(file, 'utf8'), context);
+  // 장이 많은 책은 글을 content-b.js처럼 이어 붙이는 파일로 나눈다. 같은 문맥에서 이어서 읽는다.
+  const dir = `books/${id}/js`;
+  for (const extra of readdirSync(dir).filter(f => /^content-[\w-]+\.js$/.test(f)).sort()) {
+    Object.assign(context, window);
+    vm.runInNewContext(readFileSync(`${dir}/${extra}`, 'utf8'), context);
+  }
   const key = Object.keys(window).find(k => window[k] && window[k].chapters);
   return key ? window[key] : null;
 }
