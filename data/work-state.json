@@ -1017,6 +1017,29 @@
     "approvals": "서윤 승인; 해원·리안·나래·한결 조건부 승인 후 조건 반영(docs/03-verification.html#ai-merge-check)",
     "screens": "1280·390·320px 확인 완료"
   },
+  "partial_derivative": {
+    "request": "사용자 요청(2026-11-11, 스레드 「편미분과 연쇄 법칙 쉽게 배우기」): 「신경망의 계산」에 이어 편미분과 연쇄 법칙을 쉽게 설명하는 책. 3D 애니메이션 등으로 쉽게 배울 수 있게 하고, 딥러닝 공부의 수단이지만 편미분 자체를 중점적으로 다룰 것",
+    "book": "「편미분과 연쇄 법칙 · 곡면을 잘라 기울기를 재고 역전파 계산하기」 books/partial/, id partial-derivative-chain-rule, 수학, rose, 책등 편미분, 11장 · 12개 실험(돌려 보는 3차원 그림 5개와 표지), 복습 26문항, 공통 사례는 「신경망의 계산」과 같은 카페 8일 기록의 손실 L(w, b)",
+    "decisions": [
+      "편미분 중심: 1~6장(편미분 네 장, 기울기 벡터 두 장)이 편미분, 7~10장이 연쇄 법칙, 마지막 과제는 2-2-1 망의 기울기 점검",
+      "3차원 곡면은 외부 라이브러리 없이 SVG로 그림(js/visual.js의 surface). 끌기·방향키·단추로 돌리고 위에서 보기로 등고선 지도를 대안으로 둠. 곡면 창은 w 0~8, b 8~16으로 폭을 같게 둠",
+      "「미적분」 시리즈(series id calculus)를 만들고 이 책을 2권으로 등록. 1권 「미분」(books/derivative)과 3권 「적분」(books/integral)은 다른 스레드가 만들고 있어 status writing",
+      "새 개념은 만들지 않고 gradient-backprop·loss-likelihood·dot-product에 장을 더함. 새 읽기 노선 what-partial-measures(7정거장)",
+      "tests/test_reading_order.py가 시리즈를 순번(0번) 대신 id(aie-from-scratch)로 찾게 고침"
+    ],
+    "links": "나가는 링크: neural(#loss·#descent·#backprop·#activation), aie-math(#derivative·#autodiff), linear-algebra(#similarity), bonds(#duration), aie-deep(#optimizer·#init). 들어오는 링크: neural #descent·#backprop·#activation, aie-math #derivative·#autodiff",
+    "docs": "books/partial/docs/(index.html G0~G7, research.html, fact-review.html)",
+    "verification": "docs/03-verification.html#partial-derivative-check",
+    "remaining": [
+      "「미분」(books/derivative)이 병합되면 series calculus 1권의 status를 book_id로 바꾸고 양방향 링크 추가(이 책 → derivative #tangent·#power·#chain·#linear, derivative → partial #partial·#branch·#gradient·#plane). 「적분」(books/integral)은 PR #99로 병합되어 시리즈 3권으로 이어짐",
+      "「쉬운 선형대수」(books/linear-easy, #dot·#vector·#jacobian)가 병합되면 5장에서 양방향 링크 추가. 「순환 신경망」(books/rnn)과는 9장 ↔ #bptt, 10장 ↔ #vanish로 이음",
+      "검수(2026-11-11, 1회차 fixed)에서 열지 못한 출처 둘: Rumelhart 등(1986)과 Bengio 등(1994)의 주소. 나머지 12개는 열어 확인함(books/partial/docs/fact-review.html)",
+      "리허설이 넘긴 것(books/partial/docs/index.html#rehearsal): 예측 질문이 결과 읽기 아래에 있어 답이 먼저 보임(공통 장 구조, 지안), 390px에서 결과 문장이 400px을 넘어 그림과 함께 보이지 않음(리안), 4장 접평면이 처음 각도에서 가려짐과 축 눈금(리안), 5장 결과 문장의 화살표 색 안내(리안), 마지막 과제의 예제 단추와 9장이 부르는 '4장의 전미분'(지안·나래), 손가락으로 돌리기와 화면 읽기 프로그램 시험(건우)",
+      "「미적분」 시리즈로 묶은 결정은 서재 주인이 요청한 것이 아니므로 보고할 것(G0 이의)",
+      "PR의 CI와 GitHub Pages 배포는 병합 뒤 실제로 확인한 다음에만 완료로 기록"
+    ],
+    "next_action": "「미분」과 「쉬운 선형대수」가 main에 들어오면 양방향 링크와 시리즈 1권 항목을 한 커밋으로 맞춘다"
+  },
   "integral_book": {
     "book": "「적분 · 잘게 나눠 더해 넓이·쌓인 양·부피 계산하기」 books/integral/, id integral-calculus, 수학, aqua, 책등 적분, 12장 · 14개 실험, 시리즈 미적분(calculus) 3권",
     "plan": "사용자 요청(2026-11-11): 미분과 적분을 각각 전문으로 다루는 책을 만들고, 3D 애니메이션·학습 도구·수식 예시를 넣어 쉽게 따라갈 수 있게 할 것. 이 항목은 적분 책이며 미분 책(books/derivative)과 편미분 책은 다른 작업에서 만든다. 공통 사례: 수빈의 빗물 탱크(유입 속도 r(t) = 6t − 0.6t², 모두 가상 값).",
