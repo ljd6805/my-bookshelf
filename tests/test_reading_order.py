@@ -26,7 +26,8 @@ class ReadingOrderTests(unittest.TestCase):
             for step in steps:
                 self.assertTrue(step['reason'].strip(), step['book'])
                 self.assertIn(step['via']['kind'], {'series', 'path', 'shelf'})
-        series = [v['book_id'] for v in catalog['series'][0]['volumes'] if v.get('book_id')]
+        volumes = next(s for s in catalog['series'] if s['id'] == 'aie-from-scratch')['volumes']
+        series = [v['book_id'] for v in volumes if v.get('book_id')]
         ai = [s['book'] for s in orders['인공지능']]
         self.assertEqual([b for b in ai if b in series], series)
         self.assertEqual(ai[:3], ['ai-book-interactive', 'aie-01-workbench', 'aie-02-math'])
