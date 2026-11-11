@@ -5,6 +5,150 @@
   "resources": [],
   "books": [
     {
+      "id": "partial-derivative-chain-rule",
+      "title": "편미분과 연쇄 법칙 · 곡면을 잘라 기울기를 재고 역전파 계산하기",
+      "spine_title": "편미분",
+      "spine_category": "수학",
+      "color": "rose",
+      "description": "변수가 둘 이상인 함수에서 한 변수만 움직여 기울기를 재는 편미분을 다룹니다. 카페 8일 기록의 손실 L(w, b)를 3차원 곡면으로 돌려 보며 자르고, 접평면과 기울기 벡터, 경사하강 한 걸음을 계산합니다. 이어서 연쇄 법칙으로 뉴런 하나와 2-2-1 망의 기울기를 구해 수치 미분과 견줍니다. 11장 12개 실험이며 「신경망의 계산」 3장과 6장을 읽기 전후에 봅니다.",
+      "illustration": "books/partial/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 세로 면이 손실 곡면을 자르고 점이 기울기 반대쪽으로 바닥까지 걷습니다. 오른쪽에서는 변화율이 손실에서 가중치 쪽으로 거꾸로 전해집니다.",
+      "cover_art": "books/partial/assets/cover-art.svg",
+      "cover_meta": "11장 · 12개 실험",
+      "status": "published",
+      "url": "books/partial/",
+      "keywords": [
+        "편미분",
+        "partial derivative",
+        "미분",
+        "접선",
+        "단면",
+        "접평면",
+        "전미분",
+        "기울기 벡터",
+        "gradient",
+        "그래디언트",
+        "방향 미분",
+        "등고선",
+        "경사하강법",
+        "학습률",
+        "연쇄 법칙",
+        "chain rule",
+        "계산 그래프",
+        "국소 미분",
+        "역전파",
+        "backpropagation",
+        "수치 미분",
+        "기울기 소실",
+        "기울기 폭발",
+        "다변수 미적분",
+        "3차원 곡면"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/partial/#chapters"
+        },
+        {
+          "title": "02 · 변수 하나만 움직여 곡면의 단면 기울기 재기",
+          "url": "books/partial/#partial"
+        },
+        {
+          "title": "04 · 두 편미분으로 접평면을 만들어 작은 변화 어림하기",
+          "url": "books/partial/#plane"
+        },
+        {
+          "title": "05 · 편미분을 모아 기울기 벡터를 만들고 방향별 변화율 구하기",
+          "url": "books/partial/#gradient"
+        },
+        {
+          "title": "08 · 계산 그래프에서 국소 미분을 뒤에서부터 곱하기",
+          "url": "books/partial/#graph"
+        },
+        {
+          "title": "09 · 갈라진 경로마다 곱하고 경로끼리 더하기",
+          "url": "books/partial/#branch"
+        }
+      ],
+      "short_title": "편미분과 연쇄 법칙"
+    },
+    {
+      "id": "integral-calculus",
+      "title": "적분 · 잘게 나눠 더해 넓이·쌓인 양·부피 계산하기",
+      "spine_title": "적분",
+      "spine_category": "수학",
+      "color": "aqua",
+      "description": "빗물 탱크의 유량계는 지금 1분에 몇 L가 들어오는지만 보여 줍니다. 그 속도에 짧은 시간을 곱해 모두 더하면 고인 물이 되고, 이 계산이 적분입니다. 직사각형의 합에서 정적분과 미적분의 기본 정리로 가고, 원시함수·치환적분·부분적분·수치적분으로 값을 구한 뒤, 회전체의 부피와 곡면 아래 부피는 3D로 돌려 보며 계산합니다. 확률밀도 아래 넓이까지 12장 14개 실험과 따라 하는 예제 40개로 익히고, 마지막에는 2분 간격 기록만으로 탱크가 넘쳤는지 판단합니다.",
+      "illustration": "books/integral/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 유입 속도 곡선 아래를 채운 직사각형이 5개, 10개, 20개로 가늘어지며 곡선에 맞춰지고, 그동안 오른쪽 탱크의 물이 차오릅니다. 실제 수치는 책 안의 실험이 계산합니다.",
+      "cover_art": "books/integral/assets/cover-art.svg",
+      "cover_meta": "12장 · 14개 실험",
+      "status": "published",
+      "url": "books/integral/",
+      "keywords": [
+        "적분",
+        "미적분",
+        "정적분",
+        "부정적분",
+        "리만 합",
+        "구분구적법",
+        "넓이",
+        "쌓인 양",
+        "미적분의 기본 정리",
+        "원시함수",
+        "적분상수",
+        "치환적분",
+        "부분적분",
+        "수치적분",
+        "사다리꼴 공식",
+        "심프슨 공식",
+        "회전체 부피",
+        "원판법",
+        "확률밀도함수",
+        "정규분포",
+        "이중적분",
+        "반복적분",
+        "integral",
+        "calculus",
+        "3D"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/integral/#chapters"
+        },
+        {
+          "title": "01 · 변하는 유입 속도로 고인 물의 양 어림하기",
+          "url": "books/integral/#area"
+        },
+        {
+          "title": "04 · 미적분의 기본 정리로 넓이를 뺄셈 한 번에 구하기",
+          "url": "books/integral/#ftc"
+        },
+        {
+          "title": "06 · 치환적분으로 변수를 바꿔 적분하기",
+          "url": "books/integral/#substitution"
+        },
+        {
+          "title": "08 · 원시함수를 찾을 수 없을 때 수치적분으로 값 구하기",
+          "url": "books/integral/#numeric"
+        },
+        {
+          "title": "09 · 원판을 쌓아 회전체의 부피 계산하기",
+          "url": "books/integral/#volume"
+        },
+        {
+          "title": "10 · 확률밀도 곡선 아래 넓이로 확률과 평균 계산하기",
+          "url": "books/integral/#probability"
+        },
+        {
+          "title": "12 · 마지막 과제 · 유량계 기록만으로 탱크가 넘치는지 판단하기",
+          "url": "books/integral/#final"
+        }
+      ],
+      "short_title": "적분"
+    },
+    {
       "id": "probability-statistics",
       "title": "확률과 통계 · 경보가 울렸다, 정말 고장일까",
       "spine_title": "확률과 통계",
@@ -188,74 +332,6 @@
         }
       ],
       "short_title": "벡터와 행렬"
-    },
-    {
-      "id": "partial-derivative-chain-rule",
-      "title": "편미분과 연쇄 법칙 · 곡면을 잘라 기울기를 재고 역전파 계산하기",
-      "spine_title": "편미분",
-      "spine_category": "수학",
-      "color": "rose",
-      "description": "변수가 둘 이상인 함수에서 한 변수만 움직여 기울기를 재는 편미분을 다룹니다. 카페 8일 기록의 손실 L(w, b)를 3차원 곡면으로 돌려 보며 자르고, 접평면과 기울기 벡터, 경사하강 한 걸음을 계산합니다. 이어서 연쇄 법칙으로 뉴런 하나와 2-2-1 망의 기울기를 구해 수치 미분과 견줍니다. 11장 12개 실험이며 「신경망의 계산」 3장과 6장을 읽기 전후에 봅니다.",
-      "illustration": "books/partial/assets/shelf-illustration.svg",
-      "illustration_caption": "시각적 비유: 세로 면이 손실 곡면을 자르고 점이 기울기 반대쪽으로 바닥까지 걷습니다. 오른쪽에서는 변화율이 손실에서 가중치 쪽으로 거꾸로 전해집니다.",
-      "cover_art": "books/partial/assets/cover-art.svg",
-      "cover_meta": "11장 · 12개 실험",
-      "status": "published",
-      "url": "books/partial/",
-      "keywords": [
-        "편미분",
-        "partial derivative",
-        "미분",
-        "접선",
-        "단면",
-        "접평면",
-        "전미분",
-        "기울기 벡터",
-        "gradient",
-        "그래디언트",
-        "방향 미분",
-        "등고선",
-        "경사하강법",
-        "학습률",
-        "연쇄 법칙",
-        "chain rule",
-        "계산 그래프",
-        "국소 미분",
-        "역전파",
-        "backpropagation",
-        "수치 미분",
-        "기울기 소실",
-        "기울기 폭발",
-        "다변수 미적분",
-        "3차원 곡면"
-      ],
-      "chapters": [
-        {
-          "title": "전체 11개 장",
-          "url": "books/partial/#chapters"
-        },
-        {
-          "title": "02 · 변수 하나만 움직여 곡면의 단면 기울기 재기",
-          "url": "books/partial/#partial"
-        },
-        {
-          "title": "04 · 두 편미분으로 접평면을 만들어 작은 변화 어림하기",
-          "url": "books/partial/#plane"
-        },
-        {
-          "title": "05 · 편미분을 모아 기울기 벡터를 만들고 방향별 변화율 구하기",
-          "url": "books/partial/#gradient"
-        },
-        {
-          "title": "08 · 계산 그래프에서 국소 미분을 뒤에서부터 곱하기",
-          "url": "books/partial/#graph"
-        },
-        {
-          "title": "09 · 갈라진 경로마다 곱하고 경로끼리 더하기",
-          "url": "books/partial/#branch"
-        }
-      ],
-      "short_title": "편미분과 연쇄 법칙"
     },
     {
       "id": "how-computers-work",
@@ -6044,33 +6120,89 @@
         "한국어 지침이 Codex 한도에 더 빨리 닿는 까닭을 바이트로 말할 수 있는가",
         "지침 파일에 둘 줄과 훅으로 옮길 줄을 구별할 수 있는가"
       ]
+    },
+    {
+      "id": "rate-to-amount",
+      "title": "속도 기록에서 쌓인 양을 어떻게 계산할까",
+      "question": "유량계가 지금 들어오는 속도만 알려 줄 때, 그동안 탱크에 고인 물과 탱크가 넘쳤는지를 어떻게 계산할까?",
+      "audience": "미분은 배웠지만 적분이 왜 넓이이고 왜 미분의 거꾸로인지 설명하기 어려운 학습자, 확률이나 물리에서 적분 기호를 만나 막힌 사람",
+      "prerequisites": "이차함수의 그래프, 순간 변화율(미분)의 뜻",
+      "start": "속도계·유량계·전력계처럼 ‘지금의 빠르기’만 보여 주는 기록에서 이동 거리·고인 물·쓴 전기를 알아내야 한다.",
+      "steps": [
+        {
+          "book_id": "aie-02-math",
+          "url": "books/aie-math/#derivative",
+          "task": "수치 미분의 h 고르기 실험에서 간격 h를 10⁻⁵와 10⁻¹³으로 바꾸며 가운데 차분의 상대 오차를 비교한다(미분이 익숙하면 건너뛰어도 된다)",
+          "minutes": 15,
+          "why": "적분이 거꾸로 되돌리는 계산이 미분이므로, 평균 변화율에서 간격을 줄여 순간 변화율을 얻는 일을 먼저 숫자로 확인한다",
+          "record": "상대 오차가 가장 작았던 h"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#area",
+          "task": "직사각형으로 고인 물 어림하기 실험에서 처음 5분을 5칸으로 두고 높이를 재는 자리를 왼쪽 끝과 오른쪽 끝으로 바꿔 두 합을 읽는다",
+          "minutes": 20,
+          "why": "속도가 변하면 속도 × 시간을 한 번에 곱할 수 없으므로, 짧은 칸마다 곱해 더하고 실제 값이 두 합 사이에 있음을 본다",
+          "record": "왼쪽 합과 오른쪽 합(42 L, 57 L)과 실제 값 50 L"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#riemann",
+          "task": "칸 수를 1,000까지 늘려 두 합이 모이는 값 찾기 실험에서 칸 수 n을 5, 50, 1,000으로 바꾸며 왼쪽 합과 오른쪽 합의 차이를 읽는다",
+          "minutes": 20,
+          "why": "칸을 늘릴수록 두 합의 차이가 0으로 가고, 그때 정해지는 값 하나에 정적분이라는 이름을 붙인다",
+          "record": "n = 5, 50, 1,000일 때 두 합의 차이"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#ftc",
+          "task": "쌓인 양의 평균 변화율을 유입 속도와 견주기 실험에서 x = 3에 두고 간격 h를 1에서 0.01까지 줄인 뒤, F(b) − F(a)를 직사각형 1,000개의 합과 견주기 실험에서 a = 2, b = 7로 두 값을 견준다",
+          "minutes": 25,
+          "why": "쌓인 양을 미분하면 속도가 된다는 것을 확인하면, 직사각형을 더하지 않고 원시함수의 뺄셈 한 번으로 정적분을 구할 수 있다",
+          "record": "h = 0.01일 때의 평균 변화율과 r(3), F(7) − F(2)의 값"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#numeric",
+          "task": "네 가지 수치적분 방법의 오차 견주기 실험에서 ∫₀¹ e^(−x²) dx를 4칸과 8칸으로 계산해 사다리꼴과 심프슨의 오차를 읽는다",
+          "minutes": 20,
+          "why": "원시함수를 식으로 쓸 수 없거나 측정값만 있을 때는 다시 나눠 더해야 하고, 같은 함숫값으로도 방법에 따라 오차가 크게 다르다",
+          "record": "4칸일 때 사다리꼴과 심프슨의 오차, 칸을 두 배로 늘렸을 때 줄어든 비율"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#probability",
+          "task": "확률밀도 곡선 아래 넓이로 확률 읽기 실험에서 정규분포를 고르고 구간을 7~13분, 4~16분으로 바꿔 넓이를 읽는다",
+          "minutes": 20,
+          "why": "확률도 밀도 × 좁은 폭을 더한 넓이이므로, 고인 물을 구한 것과 같은 계산으로 구간의 확률을 구한다",
+          "record": "두 구간의 확률(약 0.68, 약 0.95)"
+        },
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#clt",
+          "task": "표본 크기를 1에서 30으로 키우며 치우친 모집단의 표본 평균 히스토그램이 종 모양으로 바뀌는 것을 본다",
+          "minutes": 20,
+          "why": "방금 넓이를 잰 정규분포가 왜 여러 자료에서 나타나는지를 표본 평균으로 확인한다",
+          "record": "표본 크기 30일 때 평균들의 표준편차와 σ/√n 계산값"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#final",
+          "task": "유량계 기록 간격과 방법을 바꿔 넘침 판단하기 실험에서 읽는 간격을 4분, 2분, 30초로 바꾸며 네 방법의 추정값이 남은 자리 72.4 L의 어느 쪽에 있는지 읽고 결정문을 쓴다",
+          "minutes": 25,
+          "why": "식 없이 기록만 있을 때는 추정값의 범위가 기준선의 한쪽에 모두 있어야 판정할 수 있고, 그렇지 않으면 더 촘촘한 기록이 필요하다",
+          "record": "간격마다의 판정(넘치지 않음·엇갈림·넘침)과 결정문 네 줄"
+        }
+      ],
+      "challenge": "내 주변에서 ‘지금의 빠르기’만 기록되는 값 하나(걸음 속도, 전력, 데이터 전송 속도)를 골라 일정한 간격으로 다섯 번 이상 적고, 사다리꼴 공식과 왼쪽·오른쪽 합으로 쌓인 양의 범위를 계산한 뒤 간격을 절반으로 줄이면 범위가 얼마나 좁아지는지 적는다.",
+      "checks": [
+        "왼쪽 합과 오른쪽 합 사이에 실제 값이 있다고 말할 수 있는 조건을 설명할 수 있는가",
+        "쌓인 양을 미분하면 속도가 되는 까닭을 평균 변화율로 설명할 수 있는가",
+        "수치적분 결과를 적을 때 함께 적어야 하는 것(방법, 칸 수, 오차)을 말할 수 있는가"
+      ]
     }
   ],
   "series": [
-    {
-      "id": "calculus",
-      "title": "미적분",
-      "summary": "변수 하나의 미분에서 출발해 변수가 여럿인 함수의 편미분과 연쇄 법칙, 넓이와 누적을 재는 적분으로 이어지는 세 권입니다. 권마다 그래프와 곡면을 직접 움직이며 계산합니다.",
-      "volumes": [
-        {
-          "number": 1,
-          "title": "미분",
-          "status": "writing",
-          "next_why": "변수 하나의 기울기를 잴 수 있게 되었으니, 변수가 둘 이상일 때 한 변수만 움직여 재는 편미분과 이어진 계산의 변화율을 곱하는 연쇄 법칙으로 넘어갑니다."
-        },
-        {
-          "number": 2,
-          "title": "편미분과 연쇄 법칙",
-          "book_id": "partial-derivative-chain-rule",
-          "next_why": "변화율을 재는 쪽을 익혔으니, 변화율을 쌓아 넓이와 누적량을 구하는 적분으로 넘어갑니다."
-        },
-        {
-          "number": 3,
-          "title": "적분",
-          "status": "writing"
-        }
-      ]
-    },
     {
       "id": "aie-from-scratch",
       "title": "AI 엔지니어링 처음부터",
@@ -6350,6 +6482,30 @@
           "number": 2,
           "title": "오픽 대비",
           "book_id": "opic-prep"
+        }
+      ]
+    },
+    {
+      "id": "calculus",
+      "title": "미적분",
+      "summary": "순간의 변화율을 구하는 미분에서 시작해, 변수가 여럿인 함수의 편미분을 거쳐, 변화율을 다시 더해 쌓인 양을 구하는 적분까지 이어지는 시리즈입니다.",
+      "volumes": [
+        {
+          "number": 1,
+          "title": "미분",
+          "status": "writing",
+          "next_why": "변수 하나의 변화율을 구할 수 있게 되었으니, 입력이 여럿인 함수에서 변수마다 변화율을 따로 구하는 편미분으로 넘어갑니다."
+        },
+        {
+          "number": 2,
+          "title": "편미분과 연쇄 법칙",
+          "book_id": "partial-derivative-chain-rule",
+          "next_why": "변화율을 구하는 쪽을 익혔으니, 거꾸로 변화율에서 그동안 쌓인 양을 구하는 적분으로 넘어갑니다."
+        },
+        {
+          "number": 3,
+          "title": "적분",
+          "book_id": "integral-calculus"
         }
       ]
     }
@@ -6975,7 +7131,19 @@
     "books/rnn/#embed": "10 · 문장을 번호와 임베딩으로 바꿔 LSTM으로 분류하기",
     "books/rnn/#validate": "11 · 검증 오차로 과적합을 찾고 학습을 멈출 반복 정하기",
     "books/rnn/#limits": "12 · RNN의 한계와 어텐션이 고친 것 견주기",
-    "books/rnn/#final": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기"
+    "books/rnn/#final": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기",
+    "books/integral/#area": "01 · 변하는 유입 속도로 고인 물의 양 어림하기",
+    "books/integral/#riemann": "02 · 칸 수를 늘려 정적분 정의하기",
+    "books/integral/#accumulate": "03 · 위끝을 움직여 쌓인 양 함수 그리기",
+    "books/integral/#ftc": "04 · 미적분의 기본 정리로 넓이를 뺄셈 한 번에 구하기",
+    "books/integral/#antiderivative": "05 · 미분 규칙을 거꾸로 써서 원시함수 찾기",
+    "books/integral/#substitution": "06 · 치환적분으로 변수를 바꿔 적분하기",
+    "books/integral/#parts": "07 · 부분적분으로 곱의 적분 풀기",
+    "books/integral/#numeric": "08 · 원시함수를 찾을 수 없을 때 수치적분으로 값 구하기",
+    "books/integral/#volume": "09 · 원판을 쌓아 회전체의 부피 계산하기",
+    "books/integral/#probability": "10 · 확률밀도 곡선 아래 넓이로 확률과 평균 계산하기",
+    "books/integral/#double": "11 · 기둥을 세워 곡면 아래 부피를 이중적분으로 계산하기",
+    "books/integral/#final": "12 · 마지막 과제 · 유량계 기록만으로 탱크가 넘치는지 판단하기"
   },
   "concepts": [
     {
@@ -7190,7 +7358,8 @@
         "books/information/#entropy",
         "books/volatility/#walk",
         "books/volatility/#tails",
-        "books/federated/#select"
+        "books/federated/#select",
+        "books/integral/#probability"
       ]
     },
     {
@@ -7849,6 +8018,25 @@
         "books/aie-nlp/#dialog",
         "books/aie-transformer/#why",
         "books/volatility/#revert"
+      ]
+    },
+    {
+      "id": "rate-accumulation",
+      "name": "변화율과 쌓인 양",
+      "aliases": [
+        "rate of change",
+        "accumulation",
+        "integral",
+        "fundamental theorem of calculus",
+        "적분",
+        "미분"
+      ],
+      "summary": "변하는 빠르기를 짧은 구간마다 곱해 더하면 쌓인 양이 되고, 쌓인 양을 미분하면 다시 그 빠르기가 된다",
+      "chapters": [
+        "books/integral/#accumulate",
+        "books/integral/#ftc",
+        "books/aie-math/#derivative",
+        "books/bonds/#duration"
       ]
     }
   ]

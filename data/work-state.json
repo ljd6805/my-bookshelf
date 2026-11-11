@@ -1031,13 +1031,38 @@
     "docs": "books/partial/docs/(index.html G0~G7, research.html, fact-review.html)",
     "verification": "docs/03-verification.html#partial-derivative-check",
     "remaining": [
-      "「미분」(books/derivative)·「적분」(books/integral)이 병합되면 series calculus의 status를 book_id로 바꾸고 양방향 링크 추가(이 책 → derivative #tangent·#power·#chain·#linear, derivative → partial #partial·#branch·#gradient·#plane)",
-      "「쉬운 선형대수」(books/linear-easy, #dot·#vector·#jacobian)와 「순환 신경망」(books/rnn, #bptt·#vanish)이 병합되면 5장·9장·10장에서 양방향 링크 추가",
+      "「미분」(books/derivative)이 병합되면 series calculus 1권의 status를 book_id로 바꾸고 양방향 링크 추가(이 책 → derivative #tangent·#power·#chain·#linear, derivative → partial #partial·#branch·#gradient·#plane). 「적분」(books/integral)은 PR #99로 병합되어 시리즈 3권으로 이어짐",
+      "「쉬운 선형대수」(books/linear-easy, #dot·#vector·#jacobian)가 병합되면 5장에서 양방향 링크 추가. 「순환 신경망」(books/rnn)과는 9장 ↔ #bptt, 10장 ↔ #vanish로 이음",
       "검수(2026-11-11, 1회차 fixed)에서 열지 못한 출처 둘: Rumelhart 등(1986)과 Bengio 등(1994)의 주소. 나머지 12개는 열어 확인함(books/partial/docs/fact-review.html)",
       "리허설이 넘긴 것(books/partial/docs/index.html#rehearsal): 예측 질문이 결과 읽기 아래에 있어 답이 먼저 보임(공통 장 구조, 지안), 390px에서 결과 문장이 400px을 넘어 그림과 함께 보이지 않음(리안), 4장 접평면이 처음 각도에서 가려짐과 축 눈금(리안), 5장 결과 문장의 화살표 색 안내(리안), 마지막 과제의 예제 단추와 9장이 부르는 '4장의 전미분'(지안·나래), 손가락으로 돌리기와 화면 읽기 프로그램 시험(건우)",
       "「미적분」 시리즈로 묶은 결정은 서재 주인이 요청한 것이 아니므로 보고할 것(G0 이의)",
       "PR의 CI와 GitHub Pages 배포는 병합 뒤 실제로 확인한 다음에만 완료로 기록"
     ],
-    "next_action": "시리즈의 다른 두 권과 선형대수·순환 신경망 책이 main에 들어오면 양방향 링크와 시리즈 항목을 한 커밋으로 맞춘다"
+    "next_action": "「미분」과 「쉬운 선형대수」가 main에 들어오면 양방향 링크와 시리즈 1권 항목을 한 커밋으로 맞춘다"
+  },
+  "integral_book": {
+    "book": "「적분 · 잘게 나눠 더해 넓이·쌓인 양·부피 계산하기」 books/integral/, id integral-calculus, 수학, aqua, 책등 적분, 12장 · 14개 실험, 시리즈 미적분(calculus) 3권",
+    "plan": "사용자 요청(2026-11-11): 미분과 적분을 각각 전문으로 다루는 책을 만들고, 3D 애니메이션·학습 도구·수식 예시를 넣어 쉽게 따라갈 수 있게 할 것. 이 항목은 적분 책이며 미분 책(books/derivative)과 편미분 책은 다른 작업에서 만든다. 공통 사례: 수빈의 빗물 탱크(유입 속도 r(t) = 6t − 0.6t², 모두 가상 값).",
+    "decisions": [
+      "3D는 공간 관계가 필요한 9장(회전체)과 11장(곡면 아래 부피)에만 쓰고 2D·텍스트 대안을 둠",
+      "표준 장 구조의 ‘먼저 개념 잡기’ 안에 ‘쉬운 말로 먼저’와 ‘예제로 따라 하기’(40개)를 더하고 결과 읽기를 접어 둠. 블록 순서는 바꾸지 않음",
+      "세 책을 시리즈 미적분(1 미분, 2 편미분과 연쇄 법칙, 3 적분)으로 묶기로 미분 책 작업과 합의. 이 책이 먼저 병합되면 1·2권은 writing으로 둠",
+      "수학 분류의 맨 앞에 섬(시리즈가 읽기 순서의 앞에 오므로 생성기가 정한 자리)"
+    ],
+    "docs": "books/integral/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published (팩트 검수와 팀장 관문 승인 뒤 병합)",
+    "done": [
+      "12장 원고(쉬운 말 상자 12개, 예제 40개), 실험 14개(3D 2개)와 표지 실험, 장 그림 12개, 움직이는 서가 삽화, 정지 표지, review.json 36문항",
+      "서가 등록: chapter_index 12장, 새 개념 rate-accumulation(변화율과 쌓인 양), sampling에 10장 추가, 새 노선 rate-to-amount, 시리즈 calculus",
+      "양방향 링크: probability#clt → integral#probability, aie-math#derivative → integral#ftc, aie-math#sampling → integral#numeric, linear-algebra#determinant → integral#substitution, 이 책에서 aie-math·money·probability·linear-algebra·volatility로",
+      "CI에 npm test --prefix books/integral 추가"
+    ],
+    "verification": "팩트·출처 검수 1회차 fixed(집필하지 않은 세션, 2026-11-11, docs/fact-review.html), 관문 G0~G7 팀장 승인(docs/index.html#log). npm test 20개, tests/browser.cjs 42개 화면·실험 42회 조작·오류 0(1280·390·320px), 서가에서 표지와 펼친 책 확인(1280·390·320px, 삽화 애니메이션 실행 중)",
+    "remaining": [
+      "미분 책이 공개되면 3~7장에 ../derivative/ 링크를 더하고 시리즈 1권의 status를 book_id로 바꿈(먼저 병합된 쪽이 만든 항목을 나중 쪽이 고침)",
+      "출처 20개는 검수 세션이 열어 보았고, 열지 못했거나 끝까지 읽지 못한 것(Rosenlicht 1972, 대한수학회 용어집, OpenStax 절 넷 등)은 fact-review.html의 확인하지 못한 것에 있음",
+      "검수·리허설이 넘긴 일: 3D 실험을 9·11장 두 곳으로 둔 범위를 서재 주인에게 보고하고 확인받기, 2장의 기호(Σ·lim·∫·dx)를 나눠 보여 줄지, 9장 3D 실험의 390px 배치, 11장 비탈면의 높이 눈금과 3D 그림의 눈금 숫자, 7·9·11장의 다른 책 링크"
+    ],
+    "next_action": "미분 책 병합 뒤 양방향 링크와 시리즈 항목 갱신"
   }
 }
