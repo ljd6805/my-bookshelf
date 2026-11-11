@@ -82,7 +82,7 @@ L.inverse=el=>{
   key=el.querySelector('#out').value;d=M.drink(el.querySelector('#drink').value);view.redraw();
   const O=M.OUTPUTS[key],r=M.recover(key,d.v),shapeWord=['','한 줄 위에','한 평면 위에','부피가 있는 덩어리로'][r.rank];
   U.say(el,`${esc(d.name)} ${vec(d.v)}의 출력은 ${O.rows.map((n,i)=>`${n} ${num(r.y[i])}`).join(', ')}입니다. 이 행렬의 랭크는 <b>${r.rank}</b>, 행렬식은 ${U.J(num(r.det),'이')}고, 레시피 공간의 상자는 출력 공간에서 ${shapeWord} 놓입니다. `+
-   (r.ok?`랭크가 3이라 역행렬이 있고, 출력에 역행렬을 곱하면 <b>${vec(r.x)}</b>${U.josa(vec(r.x),'이가')} 나와 원래 레시피를 되찾습니다.`:`랭크가 3보다 작아 역행렬이 없습니다. 예를 들어 레시피 <b>${vec(r.other)}</b>도 출력이 ${U.J(vec(r.otherY),'으로로')} 똑같아서, 출력만 보고는 어느 레시피였는지 정할 수 없습니다.`),
+   (r.ok?`랭크가 3이라 역행렬이 있고, 출력에 역행렬을 곱하면 <b>${vec(r.x)}</b>${U.josa(vec(r.x),'이가')} 나와 원래 레시피를 되찾습니다.`:`랭크가 3보다 작아 역행렬이 없습니다. `+(r.feasible?`예를 들어 레시피 <b>${vec(r.other)}</b>도 출력이 ${U.J(vec(r.otherY),'으로로')} 똑같아서, 출력만 보고는 어느 레시피였는지 정할 수 없습니다.`:`숫자만 보면 <b>${vec(r.other)}</b>도 출력이 ${U.J(vec(r.otherY),'으로로')} 똑같습니다. 음수인 재료 양은 실제로 만들 수 없으니 이 음료에는 재료가 모두 0 이상인 다른 레시피가 없습니다. 그래도 행렬에는 역행렬이 없어서, “재료 양은 0 이상”이라는 조건을 따로 쓰지 않으면 출력에서 레시피를 계산해 낼 수 없습니다.`)),
    `<div class="el-mv"><div>${U.matrix(O.M,{rows:O.rows,label:'출력 행렬'})}<small>W (3×3), 랭크 ${r.rank}</small></div></div>`);
  });
 };

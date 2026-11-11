@@ -82,6 +82,10 @@ test('inverse and rank: recover the recipe only at full rank',()=>{
  const inv=M.inv3(M.MENU);M.matMul(inv,M.MENU).forEach((r,i)=>vnear(r,M.identity(3)[i],1e-9));assert.equal(M.inv3(M.OUTPUTS.double.M),null);
  for(const d of M.DRINKS){const r=M.recover('full',d.v);assert.ok(r.ok);vnear(r.x,d.v,1e-9);}
  const a=M.recover('double',v('latte'));assert.equal(a.ok,false);vnear(a.otherY,a.y,1e-6);assert.ok(!M.same(a.other,v('latte')));assert.deepEqual(plain(a.other.map(x=>M.round(x,2))),[1.98,1.69,1]);assert.deepEqual(plain(a.y),[1600,3200,140]);
+ assert.equal(a.feasible,true);
+ for(const k of ['double','same'])for(const d of M.DRINKS){const r=M.recover(k,d.v);vnear(r.otherY,r.y,1e-6);assert.equal(r.feasible,r.other.every(x=>x>=-1e-9));}
+ /* 에스프레소는 우유와 시럽이 0이라 같은 출력을 내는 0 이상 레시피가 따로 없다. */
+ const e=M.recover('double',v('espresso'));assert.equal(e.feasible,false);assert.ok(e.other.some(x=>x<0));
  const b=M.recover('same',v('latte'));vnear(b.otherY,b.y,1e-6);assert.deepEqual(plain(b.other.map(x=>M.round(x,2))),[1.4,3,0]);
  has('inverse','−37,500','(1600, 140, 150)','(1.98, 1.69, 1)','(1600, 3200, 140)','(1.4, 3, 0)');
 });

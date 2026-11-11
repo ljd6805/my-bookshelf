@@ -148,8 +148,9 @@ function nullDirection(M){
 function recover(key,v){
  const M=OUTPUTS[key].M,y=matVec(M,v),inv=inv3(M),r=rank(M);
  if(inv)return {y,rank:r,det:det3(M),ok:true,x:matVec(inv,y)};
- const n=nullDirection(M),other=add(v,n);
- return {y,rank:r,det:det3(M),ok:false,dir:n,other,otherY:matVec(M,other)};
+ /* 재료 양은 0 이상이어야 한다. n을 더하거나 빼서 음수가 없는 레시피를 찾고, 없으면 feasible=false로 알린다. */
+ const n=nullDirection(M),t=[1,-1,.5,-.5,.25,-.25].find(k=>add(v,scale(n,k)).every(x=>x>=-1e-9)),other=add(v,scale(n,t??1));
+ return {y,rank:r,det:det3(M),ok:false,dir:n,other,otherY:matVec(M,other),feasible:t!==undefined};
 }
 /* 확인 문제·표지 보기를 화면에서만 돌려 정답 자리가 고르게 오게 한다. */
 function choiceOrder(n,answer,target){const order=[...Array(n).keys()],shift=((order.indexOf(answer)-target)%n+n)%n;return order.map((_,k)=>order[(k+shift)%n]);}
