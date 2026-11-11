@@ -1,0 +1,82 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="미분 책의 출처, 사실 주장 표, 검산, 오해 목록."><title>미분 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"><style>table{border-collapse:collapse;width:100%;margin:12px 0 24px}th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}.wrap{overflow-x:auto}code{font-family:var(--font-mono,monospace)}</style></head><body><header class="top"><a class="brand" href="index.html">미분 · 제작 문서</a><span><a href="../index.html">책으로 돌아가기</a></span></header><main style="max-width:1100px;margin:auto;padding:32px 16px">
+<h1>미분 · 조사 노트</h1>
+<p>「미분 · 순간 변화율을 계산하고 그래프의 기울기로 읽기」의 지식조사팀(은재·지호·수아·태오) 기록입니다. 확인일은 2026-11-11입니다. 제작 문서는 <a href="index.html">index.html</a>, 팩트·출처 검수 기록은 <a href="fact-review.html">fact-review.html</a>에 있습니다.</p>
+<h2 id="how">0. 읽는 법</h2>
+<p>출처 번호는 책의 출처 목록(<code>js/content.js</code>의 sources)과 같고 0부터 셉니다. 이 책은 대학 미적분학 공개 교재 OpenStax Calculus Volume 1(CC BY-NC-SA 4.0)에서 정의와 정리의 문장, 절의 순서를 대조했습니다. 문장·그림·예제는 옮기지 않았습니다. 풍선(4.1)과 귀퉁이를 잘라 접는 상자(4.7)는 미적분 교재에서 널리 쓰는 유형이라 같은 유형을 쓰되 숫자와 묻는 양을 이 책에서 새로 정했습니다. 로켓·낙하산·매출·저금통·캔의 숫자는 모두 이 책에서 정한 가상 값입니다.</p>
+<h2 id="sources">1. 출처</h2>
+<div class="wrap"><table><tr><th>번호</th><th>출처</th><th>쓰는 곳</th><th>확인</th></tr>
+<tr><td>0</td><td><a href="https://openstax.org/details/books/calculus-volume-1">OpenStax, Calculus Volume 1 (Herman, Strang 외, 2016)</a></td><td>이 책이 장 순서와 정의를 대조한 공개 교재. 2장 극한, 3장 도함수, 4장 도함수의 활용.</td><td>열지 못함(3절)</td></tr>
+<tr><td>1</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/2-1-a-preview-of-calculus">OpenStax 2.1 · A Preview of Calculus</a></td><td>평균 속도에서 순간 속도로, 할선에서 접선으로 넘어가는 도입.</td><td>열지 못함(3절)</td></tr>
+<tr><td>2</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/2-2-the-limit-of-a-function">OpenStax 2.2 · The Limit of a Function</a></td><td>극한의 직관적 정의, 한쪽 극한, 표로 sin x / x의 극한을 어림하는 예(2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>3</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative">OpenStax 3.1 · Defining the Derivative</a></td><td>접선의 기울기를 차분몫의 극한으로 정의하는 식 3.3·3.4(2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>4</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/3-2-the-derivative-as-a-function">OpenStax 3.2 · The Derivative as a Function</a></td><td>도함수의 정의(식 3.9)와 표기, 미분 가능과 연속의 관계(2026-11-11 정의 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>5</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/3-3-differentiation-rules">OpenStax 3.3 · Differentiation Rules</a></td><td>거듭제곱·상수배·합·곱·몫의 규칙(2026-11-11 거듭제곱·상수배·합 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>6</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/3-4-derivatives-as-rates-of-change">OpenStax 3.4 · Derivatives as Rates of Change</a></td><td>위치·속도·가속도와 변화율로 읽는 도함수.</td><td>열지 못함(3절)</td></tr>
+<tr><td>7</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/3-5-derivatives-of-trigonometric-functions">OpenStax 3.5 · Derivatives of Trigonometric Functions</a></td><td>(sin x)′ = cos x, (cos x)′ = −sin x (정리 3.8, 2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>8</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/3-6-the-chain-rule">OpenStax 3.6 · The Chain Rule</a></td><td>h′(x) = f′(g(x))·g′(x)와 dy/dx = dy/du · du/dx (2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>9</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/3-9-derivatives-of-exponential-and-logarithmic-functions">OpenStax 3.9 · Derivatives of Exponential and Logarithmic Functions</a></td><td>(eˣ)′ = eˣ, (ln x)′ = 1/x, 밑이 b인 지수함수의 도함수(2026-11-11 앞의 둘 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>10</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/4-1-related-rates">OpenStax 4.1 · Related Rates</a></td><td>부푸는 풍선의 반지름과 부피 변화율을 잇는 예제 4.1(2026-11-11 확인). 이 책의 풍선은 숫자와 묻는 양이 다르다.</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>11</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/4-2-linear-approximations-and-differentials">OpenStax 4.2 · Linear Approximations and Differentials</a></td><td>L(x) = f(a) + f′(a)(x − a)와 제곱근 어림 예(2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>12</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/4-3-maxima-and-minima">OpenStax 4.3 · Maxima and Minima</a></td><td>페르마 정리, 임계점, x³이 f′(0) = 0이지만 극값이 없는 예(2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>13</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/4-5-derivatives-and-the-shape-of-a-graph">OpenStax 4.5 · Derivatives and the Shape of a Graph</a></td><td>일계도함수 판정법(정리 4.9), 오목·볼록, 이계도함수 판정법(2026-11-11 일계도함수 판정법 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>14</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/4-7-applied-optimization-problems">OpenStax 4.7 · Applied Optimization Problems</a></td><td>최적화 문제를 푸는 여섯 단계와 귀퉁이를 잘라 접는 상자 예제 4.33(2026-11-11 확인). 이 책의 상자는 종이 크기가 다르다.</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>15</td><td><a href="https://openstax.org/books/calculus-volume-1/pages/4-9-newtons-method">OpenStax 4.9 · Newton’s Method</a></td><td>xₙ = xₙ₋₁ − f(xₙ₋₁)/f′(xₙ₋₁)과 f′ ≠ 0 조건(식 4.8, 2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>16</td><td><a href="https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/">MIT OpenCourseWare 18.01SC Single Variable Calculus (Jerison, 2010)</a></td><td>미분의 정의와 규칙, 근사와 곡선 그리기, 최적화와 뉴턴 방법 순서의 공개 강의(CC BY-NC-SA 4.0, 2026-11-11 확인).</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>17</td><td><a href="https://www.bipm.org/en/committees/cg/cgpm/3-1901/resolution-2">BIPM, 3차 국제도량형총회(1901) 선언 2</a></td><td>표준 중력가속도 980.665 cm/s² = 9.80665 m/s² (2026-11-11 확인). 이 책은 계산이 쉽도록 10 m/s²으로 어림했다.</td><td>2026-11-11에 열어 확인</td></tr>
+<tr><td>18</td><td><a href="https://www.3blue1brown.com/topics/calculus">3Blue1Brown, Essence of Calculus</a></td><td>정사각형·정육면체가 자랄 때 붙는 조각으로 거듭제곱 규칙을 설명하는 영상 강의. 2026-11-11에는 강의 본문이 열리지 않아 내용을 직접 대조하지 못했다. 이 책의 그림과 숫자는 새로 만들었다.</td><td>열지 못함(3절)</td></tr></table></div>
+<h2 id="facts">2. 사실 주장 표</h2>
+<div class="wrap"><table><tr><th>장</th><th>사실 주장</th><th>출처 번호</th><th>확인한 것</th></tr>
+<tr><td>01 average</td><td>평균 변화율은 [f(b) − f(a)]/(b − a)이고 할선의 기울기다</td><td>1, 3</td><td>3.1의 차분몫 정의와 같음. 2.1은 열지 못함</td></tr>
+<tr><td>01 average</td><td>표준 중력가속도는 9.80665 m/s²이고 이 책은 10 m/s²으로 어림한다</td><td>17</td><td>BIPM 1901년 선언 2에서 값 확인</td></tr>
+<tr><td>02 limit</td><td>극한은 x가 a에 다가갈 때 f(x)가 다가가는 수이며 f(a)와 무관하다. 왼쪽·오른쪽 극한이 같아야 극한이 있다</td><td>2</td><td>2.2의 직관적 정의, 한쪽 극한 확인</td></tr>
+<tr><td>03 tangent</td><td>f′(a) = lim [f(a + h) − f(a)]/h, 접선의 기울기</td><td>3</td><td>식 3.3·3.4 확인</td></tr>
+<tr><td>03 tangent</td><td>미분 가능하면 연속이고, 역은 성립하지 않는다(|x|)</td><td>4</td><td>3.2에서 확인</td></tr>
+<tr><td>04 function</td><td>도함수 f′(x)의 정의와 표기 dy/dx</td><td>4</td><td>식 3.9 확인</td></tr>
+<tr><td>05 power</td><td>(xⁿ)′ = n·xⁿ⁻¹, 상수배·합의 규칙</td><td>5</td><td>3.3에서 확인. 지수가 실수 전체일 때의 규칙은 3.9 뒤에 나온다는 것까지</td></tr>
+<tr><td>06 product</td><td>(uv)′ = u′v + uv′, (u/v)′ = (u′v − uv′)/v²</td><td>5</td><td>3.3에서 확인</td></tr>
+<tr><td>07 chain</td><td>[f(g(x))]′ = f′(g(x))·g′(x), dy/dx = dy/du · du/dx</td><td>8</td><td>3.6에서 확인</td></tr>
+<tr><td>07 chain</td><td>구의 부피 (4/3)πr³, 겉넓이 4πr², dV/dt = 4πr²·dr/dt</td><td>10</td><td>4.1의 풍선 예제와 같은 관계</td></tr>
+<tr><td>08 transcendental</td><td>(eˣ)′ = eˣ, (ln x)′ = 1/x, (aˣ)′ = aˣ·ln a</td><td>9</td><td>3.9에서 앞의 둘 확인. 셋째는 같은 절의 정리로 본문 계산과 대조</td></tr>
+<tr><td>08 transcendental</td><td>(sin x)′ = cos x, (cos x)′ = −sin x, 라디안일 때</td><td>7</td><td>정리 3.8 확인</td></tr>
+<tr><td>09 shape</td><td>극값을 갖는 미분 가능한 점에서 f′ = 0(페르마), x³은 f′(0) = 0이지만 극값 없음</td><td>12</td><td>4.3에서 확인</td></tr>
+<tr><td>09 shape</td><td>일계도함수 판정법, f″의 부호와 오목·볼록, 이계도함수 판정법</td><td>13</td><td>4.5의 정리 4.9 확인</td></tr>
+<tr><td>10 optimize</td><td>닫힌 구간의 최댓값은 임계점과 끝점의 값을 견주어 정한다. 최적화 문제를 푸는 순서</td><td>14, 12</td><td>4.7의 여섯 단계와 대조. 이 책은 네 단계로 줄여 씀</td></tr>
+<tr><td>11 linear</td><td>L(x) = f(a) + f′(a)(x − a)</td><td>11</td><td>4.2에서 확인</td></tr>
+<tr><td>11 linear</td><td>xₙ = xₙ₋₁ − f(xₙ₋₁)/f′(xₙ₋₁), f′ = 0이면 다음 점이 없음, 수렴하지 않는 경우가 있음</td><td>15</td><td>식 4.8과 실패 예 확인</td></tr>
+<tr><td>마지막 과제</td><td>원기둥의 부피 πr²h, 겉넓이 2πr² + 2πrh. 가장 작은 겉넓이는 h = 2r일 때</td><td>14</td><td>식은 기하 공식. h = 2r은 이 책에서 계산(4절)했고 출처에서 옮기지 않음</td></tr></table></div>
+<h2 id="unverified">3. 확인하지 못한 것</h2>
+<ul><li>출처 0(OpenStax 책 소개 쪽), 1(2.1 A Preview of Calculus), 6(3.4 Derivatives as Rates of Change), 18(3Blue1Brown Essence of Calculus)은 이 작업 환경에서 본문을 열어 대조하지 못했습니다. 주소와 절 제목은 같은 교재의 다른 절에서 확인한 목차 규칙과 맞습니다. 이 출처에만 기대는 사실 주장은 없고, 1장의 평균 변화율 정의는 3.1의 차분몫으로 대조했습니다. G6에서 다시 열어 봐 주세요.</li>
+<li>OpenStax의 저작 연도와 저자 표기(“Herman, Strang 외, 2016”)는 책 소개 쪽을 열지 못해 절 본문의 인용 안내로만 확인했습니다.</li>
+<li>5장 “거듭제곱 규칙은 지수가 음수나 분수일 때도 성립한다”는 3.3(음의 정수)과 3.9(실수 지수) 가운데 3.9의 해당 정리 문장까지는 대조하지 못했습니다.</li>
+<li>MIT OCW 18.01SC는 강의 목차만 확인했고 강의 노트 본문과 문장을 대조하지 않았습니다.</li></ul>
+<h2 id="checks">4. 수아의 검산</h2>
+<p>책의 <code>js/math.js</code>를 쓰지 않고 Python으로 따로 계산한 값입니다. 책 본문·예제·결과 읽기의 숫자와 같았습니다. 책 테스트(<code>tests/math.test.cjs</code>)는 이 밖의 대표값·경계값·불변 조건(곱의 규칙의 세 조각 합, 연쇄 법칙과 차분의 일치, 뉴턴 방법의 수렴과 f′ = 0에서의 멈춤)을 검사합니다.</p>
+<div class="wrap"><table><tr><th>자리</th><th>계산한 것</th><th>값</th></tr>
+<tr><td>2장 표</td><td>1초에서 시작하는 구간의 평균 속도, Δt = 1, 0.5, 0.1, 0.01, 0.001</td><td>5, 7.5, 9.5, 9.95, 9.995</td></tr>
+<tr><td>7장 풍선</td><td>r = 3 cm, dr/dt = 0.5 cm/초</td><td>4πr² = 113.10, dV/dt = 56.55 cm³/초</td></tr>
+<tr><td>7장 실험</td><td>sin(x²)의 x = 1.5에서의 도함수와 가운데 차분(h = 10⁻⁵)</td><td>−1.88452, −1.88452</td></tr>
+<tr><td>8장</td><td>2ˣ의 기울기 ÷ 함숫값, 3ˣ의 같은 비</td><td>ln 2 = 0.6931, ln 3 = 1.0986</td></tr>
+<tr><td>10장 상자</td><td>V(5) = 5 × 20²</td><td>2,000 cm³</td></tr>
+<tr><td>11장 어림</td><td>√26</td><td>5.09902 (접선 어림 5.1과 0.00098 차이)</td></tr>
+<tr><td>11장 뉴턴</td><td>f(t) = 20t − 5t² − 12, t₀ = 0</td><td>0.6, 0.728571, 0.735072, 0.735089. 해 (20 − √160)/10 = 0.735089</td></tr>
+<tr><td>마지막 과제</td><td>r = (165/π)^(1/3), h, S</td><td>3.7449 cm, 7.4899 cm, 264.36 cm²</td></tr>
+<tr><td>마지막 과제</td><td>뚜껑·바닥 값 2배: r = (82.5/π)^(1/3), h</td><td>2.9724 cm, 11.8894 cm (h = 4r)</td></tr></table></div>
+<h2 id="misconceptions">5. 태오가 모은 오해</h2>
+<p>장마다 하나씩 골라 “혼동하지 마세요”에 넣은 오해입니다. 확인 문제의 오답 보기에도 같은 오해에서 나오는 답을 넣고 풀이에서 왜 틀렸는지 적었습니다.</p>
+<div class="wrap"><table><tr><th>장</th><th>흔한 오해</th><th>책에서 바로잡는 자리</th></tr>
+<tr><td>01 <code>average</code></td><td>평균 속도가 0이라고 해서 로켓이 멈춰 있었던 것은 아닙니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>02 <code>limit</code></td><td>극한을 구하는 것은 Δt에 0을 넣는 것이 아닙니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>03 <code>tangent</code></td><td>접선을 "곡선과 한 점에서만 만나는 직선"으로 외우면 틀립니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>04 <code>function</code></td><td>도함수 그래프의 높이를 원래 함수의 높이로 읽으면 안 됩니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>05 <code>power</code></td><td>x²의 도함수 2x는 "x를 1 늘리면 x²이 2x 늘어난다"는 뜻이 아닙니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>06 <code>product</code></td><td>(uv)′ = u′v′가 아닙니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>07 <code>chain</code></td><td>바깥 함수의 도함수는 안쪽 함수의 값에서 계산합니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>08 <code>transcendental</code></td><td>(sin x)′ = cos x는 x가 라디안일 때의 식입니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>09 <code>shape</code></td><td>f′(a) = 0은 극값의 후보일 뿐입니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>10 <code>optimize</code></td><td>도함수가 0인 점을 찾은 것으로 끝내면 안 됩니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>11 <code>linear</code></td><td>선형 근사는 기준점 가까이에서만 믿을 수 있습니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr>
+<tr><td>마지막 과제 <code>final</code></td><td>계산으로 얻은 "가장 싼 캔"은 이 장의 모형 안에서만 가장 쌉니다.</td><td>혼동하지 마세요, 확인 문제의 오답 풀이</td></tr></table></div>
+<h2 id="recheck">6. 다시 확인할 것</h2>
+<ul><li>미적분 2권 「편미분과 연쇄 법칙」, 3권 「적분」이 공개되면 7·10·11장과 4·5·6·7장의 “더 읽어 보기”에 링크를 더하고, 표지의 시리즈 줄과 다음 읽을 곳(meta.next)을 고칩니다.</li>
+<li>OpenStax 절 주소가 바뀌면 출처 1~15의 링크를 다시 확인합니다. 정의와 정리 자체는 시간이 지나도 바뀌지 않는 내용입니다.</li></ul>
+</main></body></html>

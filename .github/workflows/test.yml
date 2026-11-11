@@ -70,6 +70,7 @@ jobs:
       - run: npm test --prefix books/lora-why
       - run: npm test --prefix books/harness
       - run: npm test --prefix books/neural
+      - run: npm test --prefix books/derivative
       - name: Install Prisma textbook example
         run: npm ci --no-audit --no-fund
         working-directory: books/prisma/examples

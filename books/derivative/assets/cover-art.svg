@@ -1,0 +1,14 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="위로 쏜 로켓의 높이 곡선 위 한 점에서, 두 점을 잇는 점선 할선들이 굵은 접선 하나로 모이고, 오른쪽에는 그 기울기를 시각마다 옮겨 그린 도함수 직선이 있는 장면" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M18 132H172M18 132V12"/>
+<path class="cv-line" fill="none" d="M22 128Q94 -72 166 128"/>
+<path class="cv-stroke cv-dash" fill="none" d="M40 53H148M36 68L116 13"/>
+<path class="cv-bus" d="M30 92L86 14"/>
+<circle class="cv-node" cx="130" cy="53" r="4"/><circle class="cv-node" cx="94" cy="28" r="4"/>
+<circle class="cv-dot" cx="58" cy="53" r="5.5"/>
+<text class="cv-text cv-muted" x="172" y="145" text-anchor="end">t</text><text class="cv-text cv-muted" x="24" y="10">h(t)</text>
+<path class="cv-hair" d="M200 75H304M200 132V12"/>
+<path class="cv-line" d="M204 30L298 120"/>
+<path class="cv-stroke cv-dash" d="M227.5 52.5V75M274.5 97.5V75"/>
+<circle class="cv-dot" cx="227.5" cy="52.5" r="5.5"/><circle class="cv-node" cx="251" cy="75" r="4"/><circle class="cv-node" cx="274.5" cy="97.5" r="4"/>
+<text class="cv-text cv-muted" x="304" y="145" text-anchor="end">t</text><text class="cv-text cv-muted" x="206" y="10">h′(t)</text>
+</svg>
