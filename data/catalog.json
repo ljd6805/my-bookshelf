@@ -138,6 +138,103 @@
       "short_title": "정보는 몇 비트인가"
     },
     {
+      "id": "linear-algebra-easy",
+      "title": "쉬운 선형대수 · 벡터·행렬·텐서를 3D로 보며 신경망 계산하기",
+      "spine_title": "쉬운 선형대수",
+      "spine_category": "수학",
+      "color": "aqua",
+      "description": "딥러닝 책을 읽는 데 필요한 선형대수를 덧셈과 곱셈에서 시작해 다룹니다. 카페 음료 레시피를 숫자 세 개짜리 벡터로 적고 3차원 그림을 돌려 보며 내적과 뉴런, 행렬 곱, 모양 규칙과 텐서, 역행렬과 랭크, 고윳값, 야코비안을 14개 실험으로 계산하고, 작은 신경망의 순전파를 손으로 따라갑니다.",
+      "illustration": "books/linear-easy/assets/shelf-illustration.svg",
+      "illustration_caption": "실제 계산을 옮긴 그림: 한 변이 1인 상자가 행렬 [2 0 0; 0 1 0; 0 0 1]을 거쳐 샷 축으로 2배 늘어나고, 라테 (2, 2, 0)의 가중합 1.5가 뉴런 하나에 모입니다. 직접 돌려 보는 3차원 그림은 책 안의 실험에 있습니다.",
+      "cover_art": "books/linear-easy/assets/cover-art.svg",
+      "cover_meta": "14장 · 14개 실험",
+      "status": "published",
+      "url": "books/linear-easy/",
+      "keywords": [
+        "선형대수",
+        "linear algebra",
+        "벡터",
+        "vector",
+        "스칼라",
+        "실수배",
+        "선형 결합",
+        "노름",
+        "norm",
+        "거리",
+        "내적",
+        "dot product",
+        "가중합",
+        "코사인 유사도",
+        "뉴런",
+        "편향",
+        "활성화 함수",
+        "ReLU",
+        "행렬",
+        "matrix",
+        "선형 변환",
+        "행렬식",
+        "determinant",
+        "행렬 곱",
+        "matmul",
+        "전치",
+        "transpose",
+        "모양",
+        "shape",
+        "브로드캐스팅",
+        "텐서",
+        "tensor",
+        "축",
+        "axis",
+        "역행렬",
+        "inverse",
+        "랭크",
+        "rank",
+        "고윳값",
+        "고유벡터",
+        "eigenvalue",
+        "기울기",
+        "gradient",
+        "야코비안",
+        "Jacobian",
+        "연쇄 법칙",
+        "순전파",
+        "forward pass",
+        "딥러닝 수학",
+        "3D"
+      ],
+      "chapters": [
+        {
+          "title": "전체 14개 장",
+          "url": "books/linear-easy/#chapters"
+        },
+        {
+          "title": "01 · 음료 레시피를 숫자 세 개로 적고 공간의 점으로 보기",
+          "url": "books/linear-easy/#vector"
+        },
+        {
+          "title": "04 · 내적으로 가중합과 두 벡터의 각도 계산하기",
+          "url": "books/linear-easy/#dot"
+        },
+        {
+          "title": "07 · 행렬이 공간의 상자를 늘이고 돌리고 납작하게 하는 모습 보기",
+          "url": "books/linear-easy/#transform"
+        },
+        {
+          "title": "10 · 숫자를 여러 축으로 쌓은 텐서의 모양 읽기",
+          "url": "books/linear-easy/#tensor"
+        },
+        {
+          "title": "13 · 기울기 벡터와 야코비안 행렬로 입력이 조금 바뀔 때 출력 변화 계산하기",
+          "url": "books/linear-easy/#jacobian"
+        },
+        {
+          "title": "마지막 과제 · 2층 신경망의 순전파를 모양과 함께 계산하고 모양 오류 고치기",
+          "url": "books/linear-easy/#final"
+        }
+      ],
+      "short_title": "쉬운 선형대수"
+    },
+    {
       "id": "linear-algebra-world",
       "title": "벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수",
       "spine_title": "벡터와 행렬",
@@ -5903,6 +6000,94 @@
         "한국어 지침이 Codex 한도에 더 빨리 닿는 까닭을 바이트로 말할 수 있는가",
         "지침 파일에 둘 줄과 훅으로 옮길 줄을 구별할 수 있는가"
       ]
+    },
+    {
+      "id": "read-wx-plus-b",
+      "title": "신경망의 식 Wx + b는 무엇을 계산할까",
+      "question": "딥러닝 책마다 나오는 Wx + b와 텐서의 모양은 무엇을 계산하는 식이고, 왜 행렬로 적을까?",
+      "audience": "딥러닝 책이나 강의를 펼쳤다가 벡터·행렬 기호에서 멈춘 독자",
+      "prerequisites": "덧셈과 곱셈, 좌표평면의 점",
+      "start": "신경망 책 첫 장에서 h = ReLU(Wx + b)라는 식과 (32, 3, 224, 224)라는 모양을 만났는데 무엇을 곱하고 더하라는 뜻인지 읽을 수 없다.",
+      "steps": [
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#dot",
+          "task": "레시피와 단가 벡터를 내적하는 실험에서 라테의 원가와 열량을 계산하고, 바닐라라테로 바꿔 열량이 얼마나 느는지 본다",
+          "minutes": 15,
+          "why": "Wx + b의 가장 작은 조각은 같은 자리끼리 곱해 더하는 가중합 한 번이다",
+          "record": "라테의 원가와 열량, 바닐라라테의 열량"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#neuron",
+          "task": "가중치와 편향을 바꾸는 실험에서 민준의 뉴런의 편향을 −1.5에서 −3으로 낮추고 가중합이 0보다 큰 음료를 센다",
+          "minutes": 15,
+          "why": "가중합에 b를 더하고 활성화 함수를 거치면 뉴런 하나가 된다. b가 판정 기준을 어디로 옮기는지 3차원 평면으로 본다",
+          "record": "편향 −1.5와 −3에서 가중합이 0보다 큰 음료의 이름"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#matrix",
+          "task": "행렬에 레시피를 곱하는 실험에서 2×3 행렬과 3×3 행렬에 라테를 곱해 결과의 숫자 개수를 비교한다",
+          "minutes": 15,
+          "why": "뉴런 여러 개의 가중치를 한 줄씩 쌓으면 W가 되고, Wx는 행마다 내적을 한 번씩 한다",
+          "record": "두 행렬의 결과 벡터와 숫자 개수"
+        },
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#layer",
+          "task": "행렬 곱에 편향과 ReLU를 더해 신경망 한 층이 평면의 점들을 옮기는 모습을 읽는다",
+          "minutes": 15,
+          "why": "3차원에서 계산한 Wx + b를 2차원 평면에서 다시 보면 꺾기(ReLU)가 점들의 배치를 어떻게 바꾸는지 한눈에 들어온다",
+          "record": "ReLU 전후 점들의 배치"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#shape",
+          "task": "두 행렬의 모양을 바꾸는 실험에서 (6×3)(2×3)이 곱해지지 않는 것을 확인하고 전치를 켜서 (6×2)를 얻는다",
+          "minutes": 15,
+          "why": "음료 여섯 개를 한꺼번에 넣으면 x가 표 X가 되고, 코드의 모양 오류는 대부분 이 안쪽 두 수에서 난다",
+          "record": "전치 전후의 안쪽 두 수와 결과 모양, 라테 줄의 값"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#tensor",
+          "task": "데이터 종류별 텐서 모양 읽기 실험에서 흑백 28×28 이미지 32장과 컬러 224×224 이미지 32장의 모양과 원소 수를 읽는다",
+          "minutes": 12,
+          "why": "표 한 장의 모양 규칙을 익혔으니, 실제 이미지 묶음의 축 네 개가 무엇을 세는지 읽을 수 있다",
+          "record": "두 묶음의 모양과 원소 수"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#jacobian",
+          "task": "재료를 조금 늘리는 실험에서 신메뉴의 샷을 0.5 늘려 실제 점수 변화와 야코비안 어림값을 견주고, 라테에서 우유를 2 늘려 둘이 어긋나는 것을 본다",
+          "minutes": 18,
+          "why": "학습은 출력이 입력과 가중치에 얼마나 민감한지에서 출발한다. 층을 잇는 연쇄 법칙이 행렬 곱이라는 것을 숫자로 확인한다",
+          "record": "두 경우의 실제 변화와 어림값"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#backprop",
+          "task": "연쇄법칙 실험에서 w를 0.8과 3으로 두고 국소 기울기 세 개의 곱이 수치 미분과 같은지 확인한다",
+          "minutes": 15,
+          "why": "입력에 대한 기울기를 구해 보았으니, 같은 연쇄 법칙으로 가중치의 기울기를 구하는 역전파를 따라갈 수 있다",
+          "record": "w 두 값의 dL/dw"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#final",
+          "task": "순전파를 단계별로 계산하는 실험에서 신메뉴 (3, 2, 1)의 다섯 단계 값을 모양과 함께 적고, 모양 오류 세 건의 고칠 방법을 고른다",
+          "minutes": 20,
+          "why": "처음에 읽지 못한 식 h = ReLU(Wx + b)를 숫자와 모양으로 끝까지 계산해 본다",
+          "record": "단계마다의 값과 모양, 오류 세 건의 원인"
+        }
+      ],
+      "challenge": "입력 4개, 은닉 뉴런 3개, 출력 1개인 신경망의 W₁, b₁, w₂, b₂의 모양을 적고, 음료 10개를 한꺼번에 넣을 때 단계마다 결과의 모양과 곱셈 횟수를 표로 정리한다.",
+      "checks": [
+        "Wx + b에서 W의 행 하나가 무엇을 계산하는지 한 문장으로 말할 수 있는가",
+        "두 행렬을 곱할 수 있는지 모양만 보고 판정할 수 있는가",
+        "ReLU 층의 야코비안에서 꺼진 뉴런의 행이 0이 되는 까닭을 설명할 수 있는가"
+      ]
     }
   ],
   "series": [
@@ -6799,7 +6984,21 @@
     "books/rnn/#embed": "10 · 문장을 번호와 임베딩으로 바꿔 LSTM으로 분류하기",
     "books/rnn/#validate": "11 · 검증 오차로 과적합을 찾고 학습을 멈출 반복 정하기",
     "books/rnn/#limits": "12 · RNN의 한계와 어텐션이 고친 것 견주기",
-    "books/rnn/#final": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기"
+    "books/rnn/#final": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기",
+    "books/linear-easy/#vector": "01 · 음료 레시피를 숫자 세 개로 적고 공간의 점으로 보기",
+    "books/linear-easy/#addscale": "02 · 벡터를 더하고 몇 배 하기",
+    "books/linear-easy/#length": "03 · 벡터의 길이와 두 벡터 사이의 거리 재기",
+    "books/linear-easy/#dot": "04 · 내적으로 가중합과 두 벡터의 각도 계산하기",
+    "books/linear-easy/#neuron": "05 · 가중합에 편향과 활성화 함수를 더해 뉴런 하나 계산하기",
+    "books/linear-easy/#matrix": "06 · 행렬과 벡터를 곱해 가중합 여러 개를 한 번에 계산하기",
+    "books/linear-easy/#transform": "07 · 행렬이 공간의 상자를 늘이고 돌리고 납작하게 하는 모습 보기",
+    "books/linear-easy/#matmul": "08 · 행렬 두 개를 곱해 두 변환을 이어 하기",
+    "books/linear-easy/#shape": "09 · 행렬의 모양을 맞추고 전치해서 여러 음료를 한꺼번에 계산하기",
+    "books/linear-easy/#tensor": "10 · 숫자를 여러 축으로 쌓은 텐서의 모양 읽기",
+    "books/linear-easy/#inverse": "11 · 역행렬로 출력에서 입력을 되찾고 랭크로 되찾을 수 있는지 판정하기",
+    "books/linear-easy/#eigen": "12 · 같은 행렬을 되풀이해 곱할 때 벡터가 커지는지 줄어드는지 고윳값으로 알아내기",
+    "books/linear-easy/#jacobian": "13 · 기울기 벡터와 야코비안 행렬로 입력이 조금 바뀔 때 출력 변화 계산하기",
+    "books/linear-easy/#final": "마지막 과제 · 2층 신경망의 순전파를 모양과 함께 계산하고 모양 오류 고치기"
   },
   "concepts": [
     {
@@ -6848,7 +7047,8 @@
         "books/computer/#gates",
         "books/ai/#neuron",
         "books/linear-algebra/#layer",
-        "books/neural/#perceptron"
+        "books/neural/#perceptron",
+        "books/linear-easy/#neuron"
       ]
     },
     {
@@ -6871,7 +7071,9 @@
         "books/transformer/#lookup",
         "books/transformer/#qkv",
         "books/etf/#index",
-        "books/etf/#weight"
+        "books/etf/#weight",
+        "books/linear-easy/#dot",
+        "books/linear-easy/#neuron"
       ]
     },
     {
@@ -6902,7 +7104,9 @@
         "books/knowledge-graph/#embedding",
         "books/transformer/#embed",
         "books/transformer/#stream",
-        "books/rnn/#embed"
+        "books/rnn/#embed",
+        "books/linear-easy/#vector",
+        "books/linear-easy/#length"
       ]
     },
     {
@@ -6928,7 +7132,10 @@
         "books/aie-transformer/#position",
         "books/transformer/#qkov",
         "books/transformer/#mlp",
-        "books/lora-why/#overview"
+        "books/lora-why/#overview",
+        "books/linear-easy/#matrix",
+        "books/linear-easy/#transform",
+        "books/linear-easy/#matmul"
       ]
     },
     {
@@ -7295,7 +7502,8 @@
         "books/lora-why/#dynamics",
         "books/rnn/#bptt",
         "books/rnn/#vanish",
-        "books/rnn/#gru"
+        "books/rnn/#gru",
+        "books/linear-easy/#jacobian"
       ]
     },
     {

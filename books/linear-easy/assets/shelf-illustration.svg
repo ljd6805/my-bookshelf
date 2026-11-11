@@ -1,0 +1,58 @@
+<svg class="el-ill" viewBox="0 0 340 180" role="img" aria-label="샷, 우유, 시럽 세 축의 공간에서 한 변이 1인 상자가 행렬을 곱하면 샷 축 방향으로 2배 늘어났다가 돌아오고, 오른쪽에서는 라테 벡터 (2, 2, 0)의 숫자 세 개가 가중치 1, 0.5, −1과 곱해져 뉴런 하나로 모여 가중합 1.5가 되는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.el-ill-grid{fill:none;stroke:#c3d0cf;stroke-width:1}
+.el-ill-axis{fill:none;stroke:#52646a;stroke-width:1.4}
+.el-ill-ghost{fill:none;stroke:#52646a;stroke-width:1;stroke-dasharray:3 3}
+.el-ill-face{fill:#1f9d94;fill-opacity:.3;stroke:#0f6f69;stroke-width:1.3;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.el-ill-top{transform-origin:84px 92px;animation:el-ill-top 6s ease-in-out infinite}
+.el-ill-front{transform-origin:68.4px 129.4px;animation:el-ill-front 6s ease-in-out infinite}
+.el-ill-side{animation:el-ill-side 6s ease-in-out infinite}
+.el-ill-e1{stroke:#d9822b;stroke-width:3;stroke-linecap:round;fill:none;vector-effect:non-scaling-stroke;transform-origin:84px 118px;animation:el-ill-top 6s ease-in-out infinite}
+.el-ill-word{font:700 11px sans-serif;fill:#1c2b30}
+.el-ill-small{font:500 9px sans-serif;fill:#52646a}
+.el-ill-num{font:700 10px monospace;fill:#1c2b30}
+.el-ill-node{fill:#fffdf8;stroke:#0f6f69;stroke-width:1.4}
+.el-ill-wire{fill:none;stroke:#8a9a9c;stroke-width:1.2}
+.el-ill-pkt{fill:#d9822b;opacity:0;animation:el-ill-go 3s linear infinite}
+.el-ill-pkt2{animation-delay:.4s}
+.el-ill-pkt3{animation-delay:.8s}
+.el-ill-out{transform-box:fill-box;transform-origin:50% 50%;animation:el-ill-pulse 3s ease-in-out infinite}
+.el-ill-two{opacity:0;animation:el-ill-show 6s ease-in-out infinite}
+@keyframes el-ill-top{0%,12%{transform:none}45%,72%{transform:matrix(1.7218,0.2040,0.9843,1.2782,0,0)}100%{transform:none}}
+@keyframes el-ill-front{0%,12%{transform:none}45%,72%{transform:matrix(2.0000,0.2826,0.0000,1.0000,0,0)}100%{transform:none}}
+@keyframes el-ill-side{0%,12%{transform:none}45%,72%{transform:translate(23.9px,6.8px)}100%{transform:none}}
+@keyframes el-ill-go{0%{transform:translate(0,0);opacity:0}12%{opacity:1}80%{opacity:1}92%,100%{transform:translate(var(--dx),var(--dy));opacity:0}}
+@keyframes el-ill-pulse{0%,70%{transform:scale(1)}85%{transform:scale(1.14)}100%{transform:scale(1)}}
+@keyframes el-ill-show{0%,38%{opacity:0}48%,72%{opacity:1}86%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.el-ill-top,.el-ill-front,.el-ill-side,.el-ill-e1,.el-ill-pkt,.el-ill-out,.el-ill-two{animation:none}.el-ill-top,.el-ill-e1{transform:matrix(1.7218,0.2040,0.9843,1.2782,0,0)}.el-ill-front{transform:matrix(2.0000,0.2826,0.0000,1.0000,0,0)}.el-ill-side{transform:translate(23.9px,6.8px)}.el-ill-two{opacity:1}}
+html[data-motion=reduce] .el-ill-top,html[data-motion=reduce] .el-ill-front,html[data-motion=reduce] .el-ill-side,html[data-motion=reduce] .el-ill-e1,html[data-motion=reduce] .el-ill-pkt,html[data-motion=reduce] .el-ill-out,html[data-motion=reduce] .el-ill-two{animation:none}
+html[data-motion=reduce] .el-ill-top,html[data-motion=reduce] .el-ill-e1{transform:matrix(1.7218,0.2040,0.9843,1.2782,0,0)}html[data-motion=reduce] .el-ill-front{transform:matrix(2.0000,0.2826,0.0000,1.0000,0,0)}html[data-motion=reduce] .el-ill-side{transform:translate(23.9px,6.8px)}html[data-motion=reduce] .el-ill-two{opacity:1}
+</style>
+<path class="el-ill-grid" d="M84 118L37.2 152.3M84 118L155.8 138.3M107.9 124.8L61.1 159.1M68.4 129.4L140.2 149.7M131.8 131.5L85 165.8M52.8 140.9L124.6 161.2M155.8 138.3L109 172.6M37.2 152.3L109 172.6"/>
+<path class="el-ill-axis" d="M84 118L167.7 141.7M84 118L31 156.9M84 118L84 53"/>
+<text class="el-ill-small" x="171.7" y="151.7">샷</text>
+<text class="el-ill-small" x="25" y="168.9">우유</text>
+<text class="el-ill-small" x="74" y="48">시럽</text>
+<polygon class="el-ill-face el-ill-front" points="68.4,129.4 92.3,136.2 92.3,110.2 68.4,103.4"/>
+<polygon class="el-ill-face el-ill-side" points="107.9,124.8 92.3,136.2 92.3,110.2 107.9,98.8"/>
+<polygon class="el-ill-face el-ill-top" points="84,92 107.9,98.8 92.3,110.2 68.4,103.4"/>
+<path class="el-ill-ghost" d="M107.9 124.8L92.3 136.2M107.9 124.8L107.9 98.8M107.9 98.8L92.3 110.2M92.3 136.2L92.3 110.2"/>
+<path class="el-ill-e1" d="M84 118L107.9 124.8"/>
+<text class="el-ill-word" x="10" y="18">행렬을 곱하면 공간이 늘어납니다</text>
+<g class="el-ill-two"><text class="el-ill-small" x="10" y="32">샷 축 2배 · 부피 2배 (행렬식 2)</text></g>
+<path class="el-ill-wire" d="M226 52 L278 92"/>
+<rect class="el-ill-node" x="184" y="42" width="42" height="20" rx="4"/><text class="el-ill-num" x="205" y="56" text-anchor="middle">샷 2</text>
+<text class="el-ill-small" x="250" y="66" text-anchor="middle">×1</text>
+<circle class="el-ill-pkt" style="--dx:52px;--dy:40px" cx="226" cy="52" r="3.6"/>
+<path class="el-ill-wire" d="M226 92 L278 92"/>
+<rect class="el-ill-node" x="184" y="82" width="42" height="20" rx="4"/><text class="el-ill-num" x="205" y="96" text-anchor="middle">우유 2</text>
+<text class="el-ill-small" x="250" y="86" text-anchor="middle">×0.5</text>
+<circle class="el-ill-pkt el-ill-pkt2" style="--dx:52px;--dy:0px" cx="226" cy="92" r="3.6"/>
+<path class="el-ill-wire" d="M226 132 L278 92"/>
+<rect class="el-ill-node" x="184" y="122" width="42" height="20" rx="4"/><text class="el-ill-num" x="205" y="136" text-anchor="middle">시럽 0</text>
+<text class="el-ill-small" x="250" y="126" text-anchor="middle">×(−1)</text>
+<circle class="el-ill-pkt el-ill-pkt3" style="--dx:52px;--dy:-40px" cx="226" cy="132" r="3.6"/>
+<g class="el-ill-out"><circle class="el-ill-node" cx="296" cy="92" r="18"/><text class="el-ill-num" x="296" y="96" text-anchor="middle">1.5</text></g>
+<text class="el-ill-small" x="296" y="126" text-anchor="middle">가중합</text>
+<text class="el-ill-small" x="258" y="170" text-anchor="middle">2 + 1 + 0 − 1.5 = 1.5</text>
+</svg>

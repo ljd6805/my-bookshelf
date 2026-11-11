@@ -1,0 +1,628 @@
+{
+  "url": "http://127.0.0.1:8790/books/linear-easy/",
+  "date": "2026-11-11",
+  "views": [
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "vector",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "addscale",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "length",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "dot",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "neuron",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "matrix",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "transform",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "matmul",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "shape",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "tensor",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "inverse",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "eigen",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "jacobian",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "home",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "vector",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "addscale",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "length",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "dot",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "neuron",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "matrix",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "transform",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "matmul",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "shape",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "tensor",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "inverse",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "eigen",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "jacobian",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "vector",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "addscale",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "length",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "dot",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "neuron",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "matrix",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "transform",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "matmul",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "shape",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "tensor",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "inverse",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "eigen",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "jacobian",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "home",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "vector",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "transform",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "tensor",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "scroll": 1280,
+      "returnVisible": true
+    },
+    {
+      "width": 390,
+      "id": "neuron",
+      "scroll": 390,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "home",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "jacobian",
+      "scroll": 320,
+      "returnVisible": true
+    },
+    {
+      "width": 320,
+      "id": "vector",
+      "scroll": 320,
+      "returnVisible": true
+    }
+  ],
+  "labs": [
+    {
+      "width": 1280,
+      "id": "vector",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "addscale",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "length",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "dot",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "neuron",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "matrix",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "transform",
+      "controls": 2,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "matmul",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "shape",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "tensor",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "inverse",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "eigen",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "jacobian",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 1280,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "vector",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "addscale",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "length",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "dot",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "neuron",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "matrix",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "transform",
+      "controls": 2,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "matmul",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "shape",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "tensor",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "inverse",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "eigen",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "jacobian",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 390,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "vector",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "addscale",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "length",
+      "controls": 4,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "dot",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "neuron",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "matrix",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "transform",
+      "controls": 2,
+      "presets": 5,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "matmul",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "shape",
+      "controls": 5,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "tensor",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "inverse",
+      "controls": 2,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "eigen",
+      "controls": 3,
+      "presets": 4,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "jacobian",
+      "controls": 5,
+      "presets": 3,
+      "reset": true
+    },
+    {
+      "width": 320,
+      "id": "final",
+      "controls": 4,
+      "presets": 4,
+      "reset": true
+    }
+  ],
+  "errors": [],
+  "success": true
+}
