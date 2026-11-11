@@ -134,3 +134,14 @@ test('final diagnosis: one right cause per record, each from a different chapter
 test('choice order puts the right answer at the asked position and keeps every choice',()=>{
  for(let n=3;n<=4;n++)for(let a=0;a<n;a++)for(let t=0;t<n;t++){const o=M.choiceOrder(n,a,t);assert.equal(o[t],a);assert.equal(new Set(o).size,n);}
 });
+test('prediction questions: the answers the labs show for the asked settings',()=>{
+ const hs=M.scalarRun({wh:0.6,wx:1,xs:M.CELL_INPUTS.pulse,act:'tanh'});assert.equal(hs.findIndex(h=>Math.abs(h)<Math.abs(hs[0])*0.1)+1,6);
+ const b=M.scalarBptt({wh:0.6,T:6,target:0.5}).rows;assert.ok(Math.abs(b[5].delta/b[0].delta-22)<1);
+ assert.equal(f(M.gradNorms({rho:0.8,T:20,act:'none',clip:0}).last,3),'0.014');assert.equal(f(0.8**12),'0.07');
+ const w6=M.whyOrder({k:6,noise:0.6}).rmse,w12=M.whyOrder({k:12,noise:0.6}).rmse;assert.ok(w12.mixed/w12.ordered>w6.mixed/w6.ordered);
+ assert.equal(M.paramCount({T:24,H:20}).rnn,461);assert.ok(461/131>2);
+ const run=window=>M.trainSeries({window,carry:true,epochs:30});assert.ok(run(48).final.val>run(24).final.val);assert.equal(run(48).updates,5);
+ const best=M.bestUpTo(M.validateRun({H:4,dropout:0}).curve,200);assert.ok(best.epoch>170&&best.epoch<190);
+ assert.ok(M.classify('맛 이 좋 지 않 다'.split(' '),{padTo:8,side:'pre',useLastReal:false}).p<0.5);
+ assert.ok(100*64*64<100*100*64);
+});

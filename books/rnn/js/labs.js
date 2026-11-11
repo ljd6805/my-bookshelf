@@ -15,7 +15,7 @@ L.why=el=>{
  U.bind(el,()=>{
   const k=num(el,'k'),noise=num(el,'noise'),mix=on(el,'mix'),r=M.whyOrder({k,noise}),rows=r.rows.slice(0,48),key=mix?'mixed':'ordered';
   const chart=U.lines([{name:'실제 기온',pts:rows.map((x,i)=>[i+1,x.actual]),color:C.mute},{name:mix?'순서를 섞어 넣은 예측':'순서대로 넣은 예측',pts:rows.map((x,i)=>[i+1,x[key]]),color:mix?C.warn:C.h},{name:'지난 k시간의 평균',pts:rows.map((x,i)=>[i+1,x.mean]),color:C.in,dash:true}],{xLabel:'기록을 맞춘 뒤 96시간의 시각 (시간)',yLabel:'기온 (°C)',yMin:8,yMax:30});
-  U.result(el,chart,`지난 ${k}시간의 값으로 다음 한 시간을 맞힌 오차(96시간 평균, RMSE)입니다. 순서대로 넣으면 <b>${f(r.rmse.ordered)}°C</b>, 같은 값을 섞어 넣으면 <b>${f(r.rmse.mixed)}°C</b>, 순서를 쓰지 않는 평균은 ${f(r.rmse.mean)}°C입니다. 직전 값을 그대로 내는 기준선은 ${f(r.rmse.last)}°C입니다.<br>${r.rmse.mixed>r.rmse.ordered*1.5?`순서를 섞으면 오차가 ${f(r.rmse.mixed/r.rmse.ordered,1)}배가 됩니다. 값은 그대로인데 놓인 자리가 달라졌기 때문입니다.`:'이 설정에서는 순서를 섞어도 오차가 크게 달라지지 않습니다.'}${noise===0?' 잡음이 없으면 순서대로 넣은 예측은 거의 틀리지 않습니다.':''}`);
+  U.result(el,chart,`지난 ${k}시간의 값으로 다음 한 시간을 맞힌 오차(96시간 평균, RMSE)입니다. 순서대로 넣으면 <b>${f(r.rmse.ordered)}°C</b>, 같은 값을 섞어 넣으면 <b>${f(r.rmse.mixed)}°C</b>, 순서를 쓰지 않는 평균은 ${f(r.rmse.mean)}°C입니다. 직전 값을 그대로 내는 기준선은 ${f(r.rmse.last)}°C입니다.<br>${r.rmse.ordered<0.005?'순서대로 넣은 오차가 0에 가까워 배수는 계산하지 않습니다.':r.rmse.mixed>r.rmse.ordered*1.5?`순서를 섞으면 오차가 ${f(r.rmse.mixed/r.rmse.ordered,1)}배가 됩니다. 값은 그대로인데 놓인 자리가 달라졌기 때문입니다.`:'이 설정에서는 순서를 섞어도 오차가 크게 달라지지 않습니다.'}${noise===0?' 잡음이 없으면 순서대로 넣은 예측은 거의 틀리지 않습니다.':''}`);
  });
 };
 L.cell=el=>{
@@ -25,7 +25,7 @@ L.cell=el=>{
   const below=hs.findIndex(h=>Math.abs(h)<Math.abs(hs[0])*0.1);
   const chart=U.lines([{name:'은닉 상태 h',pts:hs.map((h,i)=>[i+1,h]),color:C.h,dots:3},{name:'입력 x',pts:xs.map((x,i)=>[i+1,x]),color:C.in,dash:true}],{xLabel:'시점 t',yLabel:'값',yMin:-top,yMax:top});
   U.result(el,chart,`h_t = ${act==='tanh'?'tanh(':'('}${f(wh,1)}·h_(t−1) + 1·x_t)를 12번 계산했습니다. h: ${hs.map(h=>f(h,2)).join(', ')}.<br>`+
-   (key==='pulse'?(below>0?`첫 입력의 흔적은 ${below+1}번째 시점에 처음 값의 10% 아래로 줄어듭니다.`:`12번째 시점에도 첫 입력의 흔적이 처음 값의 ${f(Math.abs(hs[11]/hs[0])*100,0)}% 남아 있습니다.`)+(act==='none'&&wh>1?' 활성 함수가 없고 W_hh가 1보다 크면 h가 단계마다 커집니다.':act==='tanh'&&wh>1?' tanh가 값을 1 아래로 묶어 두어 h는 커지지 않고 한 값에 머뭅니다.':''):`h는 지금 입력과 앞 시점들의 입력을 함께 담습니다. W_hh를 0으로 두면 h는 지금 입력만 따라갑니다.`));
+   (key==='pulse'?(below>0?`첫 입력의 흔적은 ${below+1}번째 시점에 처음 값 ${f(hs[0],2)}의 10%(${f(Math.abs(hs[0])*0.1,3)}) 아래로 줄어듭니다.`:(Math.abs(hs[11])>Math.abs(hs[0])?`12번째 시점의 h는 처음 값의 ${f(Math.abs(hs[11]/hs[0]),1)}배로 커졌습니다.`:`12번째 시점에도 첫 입력의 흔적이 처음 값의 ${f(Math.abs(hs[11]/hs[0])*100,0)}% 남아 있습니다.`))+(act==='none'&&wh>1?' 활성 함수가 없고 W_hh가 1보다 크면 h가 단계마다 커집니다.':act==='tanh'&&wh>1?' tanh가 값을 1 아래로 묶어 두어 h는 커지지 않고 한 값에 머뭅니다.':''):(wh===0?'W_hh가 0이라 h는 지금 입력만 따라가고 앞 시점의 입력을 담지 않습니다. W_hh를 올리면 앞 시점들의 입력이 함께 담깁니다.':'h는 지금 입력과 앞 시점들의 입력을 함께 담습니다. W_hh를 0으로 두면 h는 지금 입력만 따라갑니다.')));
  });
 };
 L.unroll=el=>{
@@ -61,7 +61,7 @@ L.vanish=el=>{
  U.bind(el,()=>{
   const rho=num(el,'rho'),T=num(el,'T'),act=val(el,'act'),clip=num(el,'clip'),r=M.gradNorms({rho,T,act,clip}),lo=Math.min(-2,Math.floor(lg(r.last))),hi=Math.max(1,Math.ceil(Math.max(...r.norms.map(lg))));
   const chart=U.lines([{name:'∂L/∂h의 크기 (10의 거듭제곱 지수)',pts:r.norms.map((n,k)=>[k,lg(n)]),color:C.h,dots:T<=30?2.5:0}],{xLabel:'마지막 시점에서 거슬러 오른 단계 수',yLabel:'log₁₀ 기울기 크기',yMin:lo,yMax:hi,hline:0,hlineLabel:'크기 1'});
-  U.result(el,chart,`마지막 시점에서 크기 1로 출발한 기울기는 ${T-1}단계 앞에서 <b>${sci(r.last)}</b>가 됩니다(은닉 8개, ρ = ${f(rho,2)}, ${act==='tanh'?'tanh':'활성 함수 없음'}).${act==='none'?` 선형일 때는 단계마다 정확히 ρ배이므로 ${f(rho,2)}^${T-1} = ${sci(rho**(T-1))}입니다.`:' tanh의 미분 1−h²이 1 이하라서 ρ만 곱할 때보다 더 빨리 줄어듭니다.'}<br>가중치 전체의 기울기 크기는 ${sci(r.gradNorm)}입니다.${clip>0?(r.scale<1?` 한도 ${f(clip,1)}을 넘어 ${sci(r.scale)}배로 줄여 ${f(r.clipped,2)}로 맞춥니다. 방향은 그대로이고 크기만 줄어듭니다.`:` 한도 ${f(clip,1)} 안이라 자르지 않습니다.`):''}${r.last<1e-6?' 이만큼 작아지면 먼 시점의 입력은 가중치를 거의 움직이지 못합니다.':r.last>1e3?' 이만큼 커지면 한 번의 갱신이 가중치를 크게 흔듭니다.':''}`);
+  U.result(el,chart,`마지막 시점에서 크기 1로 출발한 기울기의 크기는 ${T-1}단계 앞에서 <b>${sci(r.last)}</b>입니다(은닉 8개, ρ = ${f(rho,2)}, ${act==='tanh'?'tanh':'활성 함수 없음'}).${act==='none'?` 선형일 때는 단계마다 정확히 ρ배이므로 ${f(rho,2)}^${T-1} = ${sci(rho**(T-1))}입니다.`:' tanh의 미분 1−h²이 1 이하라서 ρ만 곱할 때보다 더 빨리 줄어듭니다.'}<br>모든 가중치의 기울기를 합친 크기는 ${sci(r.gradNorm)}입니다.${r.last<1e-3?' 이 크기의 대부분은 마지막 몇 시점의 몫이고 먼 시점의 몫은 거의 0입니다.':''}${clip>0?(r.scale<1?` 한도 ${f(clip,1)}을 넘어 ${sci(r.scale)}배로 줄여 크기를 한도 ${f(r.clipped,2)}에 맞춥니다. 방향은 그대로이고 크기만 줄어듭니다. 그래프의 선은 자르기 전의 ∂L/∂h라서 한도를 바꿔도 그대로입니다.`:` 한도 ${f(clip,1)} 안이라 자르지 않습니다.`):''}${r.last<1e-6?' 이만큼 작아지면 먼 시점의 입력은 가중치를 거의 움직이지 못합니다.':r.last>1e3&&!(clip>0&&r.scale<1)?' 이만큼 커지면 한 번의 갱신이 가중치를 크게 흔듭니다.':''}`);
  });
 };
 const memo={};
@@ -84,13 +84,14 @@ L.lstm=el=>{
   U.result(el,chart,`한 시점의 계산: C_t = f·C_(t−1) + i·g̃ = ${f(fg)}×${f(c0,1)} + ${f(ig)}×${f(g,1)} = <b>${f(c1,3)}</b>, h_t = o·tanh(C_t) = ${f(o)}×${f(Math.tanh(c1),3)} = <b>${f(h1,3)}</b>.<br>같은 게이트 값으로 12시점이 지나면 처음 셀 상태 ${f(c0,1)}에서 남은 몫은 f¹² = ${sci(fg**12)}배인 ${sci(keep[11])}이고, 셀 상태는 ${f(cs[11],3)}입니다.${fg>=0.95?' f가 1에 가까우면 처음 값이 거의 그대로 남습니다.':fg<=0.5?' f가 0.5 이하이면 몇 시점 만에 처음 값이 사라집니다.':''}${fg<1?` 새 후보가 같은 값으로 계속 들어오면 셀 상태는 i·g̃/(1−f) = ${f(ig*g/(1-fg),2)}에 가까워집니다.`:''}`);
  });
 };
+const ratio=x=>x>=1e4?`약 ${U.int(Number(x.toPrecision(1)))}배`:x>=10?`약 ${U.int(Number(x.toPrecision(2)))}배`:`${f(x,1)}배`;
 L.gru=el=>{
  U.setup(el,U.range('bias','망각·갱신 게이트의 편향',0,4,0.5,0)+U.range('T','시퀀스 길이 T',10,60,10,10));
  U.bind(el,()=>{
   const gateBias=num(el,'bias'),T=num(el,'T'),R=Object.fromEntries(['rnn','lstm','gru'].map(type=>[type,M.gradFlow({type,T,gateBias})])),lo=Math.min(-2,Math.floor(Math.min(...Object.values(R).map(r=>lg(r.last)))));
   const chart=U.lines([{name:'단순 RNN',pts:R.rnn.norms.map((n,k)=>[k,lg(n)]),color:C.mute,dash:true},{name:'LSTM',pts:R.lstm.norms.map((n,k)=>[k,lg(n)]),color:C.h},{name:'GRU',pts:R.gru.norms.map((n,k)=>[k,lg(n)]),color:C.warn}],{xLabel:'마지막 시점에서 거슬러 오른 단계 수',yLabel:'log₁₀ 기울기 크기',yMin:lo,yMax:1,hline:0,hlineLabel:'크기 1'});
   U.result(el,chart+U.table(['셀',`${T-1}단계 앞의 기울기 크기`,'게이트 평균'],[['단순 RNN',sci(R.rnn.last),'—'],['LSTM',sci(R.lstm.last),`망각 f ${f(R.lstm.gate)}`],['GRU',sci(R.gru.last),`갱신 z ${f(R.gru.gate)}`]]),
-   `학습하기 전의 무작위 가중치(은닉 8개)에서 마지막 시점의 기울기가 ${T-1}단계 앞에 닿을 때의 크기입니다. 단순 RNN은 <b>${sci(R.rnn.last)}</b>, LSTM은 <b>${sci(R.lstm.last)}</b>, GRU는 <b>${sci(R.gru.last)}</b>입니다.<br>게이트 편향이 ${f(gateBias,1)}이면 망각·갱신 게이트는 평균 ${f(R.lstm.gate)}쯤 열립니다. ${R.lstm.gate<0.6?'게이트가 절반만 열리면 LSTM과 GRU의 기울기도 단순 RNN처럼 빨리 사라집니다.':'게이트가 1에 가까울수록 상태가 그대로 넘어가는 길이 생겨 기울기가 멀리 닿습니다.'} 단순 RNN에는 이 게이트가 없어 편향을 바꿔도 그대로입니다.`);
+   `학습하기 전의 무작위 가중치(은닉 8개)에서 마지막 시점의 기울기가 ${T-1}단계 앞에 닿을 때의 크기입니다. 단순 RNN은 <b>${sci(R.rnn.last)}</b>, LSTM은 <b>${sci(R.lstm.last)}</b>, GRU는 <b>${sci(R.gru.last)}</b>입니다. LSTM은 단순 RNN의 ${ratio(R.lstm.last/R.rnn.last)}입니다.<br>게이트 편향이 ${f(gateBias,1)}이면 망각·갱신 게이트는 평균 ${f(R.lstm.gate)}쯤 열립니다. ${R.lstm.gate<0.6?'게이트가 절반만 열리면 LSTM과 GRU의 기울기도 단순 RNN처럼 빨리 사라집니다.':'게이트가 1에 가까울수록 상태가 그대로 넘어가는 길이 생겨 기울기가 멀리 닿습니다.'}${R.lstm.last>1?' LSTM의 값이 1보다 큰 것은 셀 상태 길 말고 게이트를 거쳐 가는 길의 몫이 더해졌기 때문입니다.':''} 단순 RNN에는 이 게이트가 없어 편향을 바꿔도 그대로입니다.`);
  });
 };
 const SAMPLE=['맛 이 좋 다','맛 이 좋 지 않 다','맛 이 나쁘 지 않 다','토마토 가 무르 지 않 다','배송 이 느리 다','값 이 비싸 지 않 다','배송 이 빠르 고 포장 이 꼼꼼 하 다','수박 이 달 다'];
@@ -103,7 +104,7 @@ L.embed=el=>{
  });
 };
 L.validate=el=>{
- U.setup(el,U.select('H','은닉 크기 H',[[4,'4'],[16,'16'],[32,'32']],'4')+U.select('drop','드롭아웃 (출력층 앞)',[[0,'없음'],[0.3,'0.3']],'0')+U.range('ep','학습을 멈출 반복 수',10,200,10,20));
+ U.setup(el,U.select('H','은닉 크기 H',[[4,'4'],[16,'16'],[32,'32']],'4')+U.select('drop','드롭아웃 (출력층 앞)',[[0,'없음'],[0.3,'0.3']],'0')+U.range('ep','학습을 멈출 반복 수',10,200,2,20));
  U.bind(el,()=>{
   const H=num(el,'H'),dropout=num(el,'drop'),ep=num(el,'ep'),r=M.validateRun({H,dropout}),curve=r.curve.slice(0,ep),best=M.bestUpTo(r.curve,ep),now=curve[ep-1];
   const chart=U.lines([{name:'학습 오차',pts:curve.map(c=>[c.epoch,c.train]),color:C.in},{name:'검증 오차',pts:curve.map(c=>[c.epoch,c.val]),color:C.h},{name:'검증 오차가 가장 낮은 반복',pts:[[best.epoch,best.val]],color:C.warn,dots:6,only:true}],{xLabel:'반복 수 (에포크)',yLabel:'오차 RMSE (°C)',yMin:0,yMax:2.5,xMax:Math.max(ep,20),hline:r.persist,hlineLabel:'기준선 (직전 값)'});
