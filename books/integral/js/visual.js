@@ -35,7 +35,7 @@ function stack(...charts){return `<div class="chart-stack">${charts.join('')}</d
 /* 작은 표: head=[열 이름], rows=[[값]] */
 function table(head,rows){return `<div class="table-wrap"><table><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</table></div>`;}
 /* 음수 부호를 본문과 같은 글자(−)로 적는다. */
-function num(n,d=2){return fmt(n,d).replace('-','−');}
+function num(n,d=2){const s=fmt(n,d);return /^-0(\.0+)?$/.test(s)?s.slice(1):s.replace('-','−');}
 /* 막대: 데스크톱은 SVG, 760px 이하는 HTML 막대로 바꿔 글자가 작아지지 않게 한다. */
 function bars(labels,values,unit='',limit=null,digits=2){
  const max=Math.max(...values.map(Math.abs),limit||0,1e-9),left=130,width=260,n=labels.length,step=Math.min(52,230/n),h=Math.min(28,step-8);

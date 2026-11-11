@@ -1,12 +1,13 @@
-<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="빗물 유입 속도 곡선 아래를 직사각형 열 개로 채워 고인 물의 양을 어림하는 장면과, 그 물이 차오른 포물면 모양의 탱크" xmlns="http://www.w3.org/2000/svg">
-<path class="cv-hair" d="M22 130H178M22 130V14"/>
-<rect class="cv-bar" x="22.0" y="110.0" width="15.0" height="20.0"/><rect class="cv-bar" x="37.0" y="76.4" width="15.0" height="53.6"/><rect class="cv-bar" x="52.0" y="51.2" width="15.0" height="78.8"/><rect class="cv-bar" x="67.0" y="34.5" width="15.0" height="95.5"/><rect class="cv-bar" x="82.0" y="26.0" width="15.0" height="104.0"/><rect class="cv-bar" x="97.0" y="26.0" width="15.0" height="104.0"/><rect class="cv-bar" x="112.0" y="34.4" width="15.0" height="95.6"/><rect class="cv-bar" x="127.0" y="51.2" width="15.0" height="78.8"/><rect class="cv-bar" x="142.0" y="76.4" width="15.0" height="53.6"/><rect class="cv-bar" x="157.0" y="110.0" width="15.0" height="20.0"/>
-<path class="cv-bus" d="M22.0 130.0L25.8 119.8L29.5 110.0L33.2 100.9L37.0 92.2L40.8 84.1L44.5 76.4L48.2 69.4L52.0 62.8L55.8 56.8L59.5 51.2L63.2 46.3L67.0 41.8L70.8 37.9L74.5 34.5L78.2 31.6L82.0 29.2L85.8 27.4L89.5 26.0L93.2 25.3L97.0 25.0L100.8 25.3L104.5 26.0L108.2 27.4L112.0 29.2L115.8 31.6L119.5 34.4L123.2 37.9L127.0 41.8L130.8 46.3L134.5 51.2L138.2 56.8L142.0 62.8L145.8 69.4L149.5 76.4L153.2 84.1L157.0 92.2L160.8 100.9L164.5 110.0L168.2 119.8L172.0 130.0"/>
-<text class="cv-text cv-muted" x="178" y="146" text-anchor="end">시간</text><text class="cv-text cv-muted" x="28" y="12">유입 속도</text>
-<path class="cv-tint" d="M222 70C230 108 244 126 262 126S294 108 302 70Z"/>
-<path class="cv-line" d="M222 70H302"/>
-<path class="cv-bus" d="M214 34C214 96 236 126 262 126S310 96 310 34"/>
-<path class="cv-dash" d="M262 22V126"/>
-<path class="cv-hair" d="M236 96H288M228 82H296M248 110H276"/>
-<text class="cv-text cv-muted" x="262" y="146" text-anchor="middle">고인 물</text>
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="2분마다 읽은 유량계 값 일곱 개를 직선으로 이어 들어온 물의 양을 어림한 그래프와, 원판 여덟 개로 쌓아 부피를 잰 포물면 탱크에 물이 48.2리터 차 있는 옆모습" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M24 126H176M24 126V20"/>
+<polygon class="cv-tint" points="24.0,126 24.0,126.0 48.3,35.6 72.7,59.7 97.0,89.6 121.3,107.8 145.7,117.5 170.0,122.1 170.0,126"/>
+<path class="cv-hair" d="M48.3 126V35.6M72.7 126V59.7M97.0 126V89.6M121.3 126V107.8M145.7 126V117.5M170.0 126V122.1"/>
+<polyline class="cv-stroke" fill="none" points="24.0,126.0 48.3,35.6 72.7,59.7 97.0,89.6 121.3,107.8 145.7,117.5 170.0,122.1"/>
+<circle class="cv-dot" cx="24.0" cy="126.0" r="3"/><circle class="cv-dot" cx="48.3" cy="35.6" r="3"/><circle class="cv-dot" cx="72.7" cy="59.7" r="3"/><circle class="cv-dot" cx="97.0" cy="89.6" r="3"/><circle class="cv-dot" cx="121.3" cy="107.8" r="3"/><circle class="cv-dot" cx="145.7" cy="117.5" r="3"/><circle class="cv-dot" cx="170.0" cy="122.1" r="3"/>
+<text class="cv-text cv-muted" x="28" y="18">L/분</text><text class="cv-text cv-muted" x="176" y="140" text-anchor="end">12분</text><text class="cv-text" x="92" y="52">기록 7개</text>
+<rect class="cv-bar" x="252.7" y="118.0" width="18.6" height="12"/><rect class="cv-bar" x="245.9" y="106.0" width="32.2" height="12"/><rect class="cv-bar" x="241.2" y="94.0" width="41.6" height="12"/><rect class="cv-bar" x="237.4" y="82.0" width="49.2" height="12"/><rect class="cv-bar" x="234.1" y="70.0" width="55.8" height="12"/><rect class="cv-bar" x="231.2" y="58.0" width="61.7" height="12"/><rect class="cv-bar" x="228.5" y="46.0" width="67.0" height="12"/><rect class="cv-bar" x="226.0" y="34.0" width="72.0" height="12"/>
+<polyline class="cv-bus" fill="none" points="224.8,34.0 225.8,38.8 226.7,43.6 227.7,48.4 228.7,53.2 229.8,58.0 230.9,62.8 232.0,67.6 233.2,72.4 234.4,77.2 235.7,82.0 237.1,86.8 238.5,91.6 240.0,96.4 241.6,101.2 243.4,106.0 245.4,110.8 247.6,115.6 250.2,120.4 253.7,125.2 262.0,130.0 270.3,125.2 273.8,120.4 276.4,115.6 278.6,110.8 280.6,106.0 282.4,101.2 284.0,96.4 285.5,91.6 286.9,86.8 288.3,82.0 289.6,77.2 290.8,72.4 292.0,67.6 293.1,62.8 294.2,58.0 295.3,53.2 296.3,48.4 297.3,43.6 298.2,38.8 299.2,34.0"/>
+<path class="cv-line" d="M232.4 69.3H291.6"/>
+<path class="cv-hair cv-dash" d="M262 26V130"/>
+<text class="cv-text" x="262" y="80.3" text-anchor="middle">48.2 L</text><text class="cv-text cv-muted" x="262" y="24" text-anchor="middle">120.6 L</text><text class="cv-text cv-muted" x="262" y="144" text-anchor="middle">원판 8개</text>
 </svg>

@@ -8,11 +8,11 @@ const span=(data)=>{const ys=data.map(p=>p[1]).filter(Number.isFinite),lo=Math.m
 
 IGLabs.family=el=>{
  U.setup(el,S('fm-fn','적분할 함수',keys(M.FAMILY),'rain')+R('fm-c','적분상수 C',-5,5,0.5,0)+R('fm-p','확인할 점의 위치 (구간의 %)',0,100,5,50));
- U.bind(el,()=>{const d=M.FAMILY[U.text(el,'fm-fn')],C=U.value(el,'fm-c'),[lo,hi]=d.dom,x=lo+(hi-lo)*U.value(el,'fm-p')/100,h=1e-4;
+ U.bind(el,()=>{const d=M.FAMILY[U.text(el,'fm-fn')],C=U.value(el,'fm-c'),[lo,hi]=d.dom,x=lo+(hi-lo)*U.value(el,'fm-p')/100,h=1e-4,vr=d.fs.includes('t')?'t':'x';
   const slope=(d.F(x+h)-d.F(Math.max(x-h,lo)))/(x+h-Math.max(x-h,lo)),fc=U.curve(d.f,lo,hi),Fc=U.curve(d.F,lo,hi),[f0,f1]=span(fc),[g0,g1]=span(Fc.map(([a,b])=>[a,b+C]).concat(Fc.map(([a,b])=>[a,b+C+2]),Fc.map(([a,b])=>[a,b+C-2])));
-  const top=U.plot({lines:[{data:fc}],points:[[x,d.f(x)]],marks:[[x,'var(--blue)']],xmin:lo,xmax:hi,ymin:f0,ymax:f1,xlabel:'x',ylabel:'f(x)',label:`적분할 함수 ${d.fs}의 그래프`});
-  const bottom=U.plot({lines:[{data:Fc.map(([a,b])=>[a,b+C+2]),color:'var(--muted)',dashed:true},{data:Fc.map(([a,b])=>[a,b+C-2]),color:'var(--muted)',dashed:true},{data:Fc.map(([a,b])=>[a,b+C]),color:'var(--blue)'}],points:[[x,d.F(x)+C]],marks:[[x,'var(--blue)']],xmin:lo,xmax:hi,ymin:g0,ymax:g1,xlabel:'x',ylabel:'F(x) + C',label:`원시함수 ${d.Fs} + C의 그래프. 점선은 C가 2만큼 크고 작은 두 곡선`});
-  U.result(el,U.stack(top,bottom),`∫ (${d.fs}) dx = <strong>${d.Fs} + C</strong><br>쓴 규칙: ${d.rule}<br>x = ${F(x)}에서 F(x) + C = ${F(d.F(x)+C,3)} · 그 점에서 잰 기울기 <b>${F(slope,3)}</b> · f(x) = <b>${F(d.f(x),3)}</b><br>C를 바꾸면 곡선이 위아래로 옮겨질 뿐 기울기는 그대로입니다. 그래서 ${F(lo,1)}에서 ${F(x)}까지의 정적분 (F(x) + C) − (F(${F(lo,1)}) + C) = <b>${F(d.F(x)-d.F(lo),3)}</b>에서는 C가 지워집니다.<br>기울기는 폭 0.0002의 차분으로 잰 실제 계산입니다.`);});
+  const top=U.plot({lines:[{data:fc}],points:[[x,d.f(x)]],marks:[[x,'var(--blue)']],xmin:lo,xmax:hi,ymin:f0,ymax:f1,xlabel:vr,ylabel:`f(${vr})`,label:`적분할 함수 ${d.fs}의 그래프`});
+  const bottom=U.plot({lines:[{data:Fc.map(([a,b])=>[a,b+C+2]),color:'var(--muted)',dashed:true},{data:Fc.map(([a,b])=>[a,b+C-2]),color:'var(--muted)',dashed:true},{data:Fc.map(([a,b])=>[a,b+C]),color:'var(--blue)'}],points:[[x,d.F(x)+C]],marks:[[x,'var(--blue)']],xmin:lo,xmax:hi,ymin:g0,ymax:g1,xlabel:vr,ylabel:`F(${vr}) + C`,label:`원시함수 ${d.Fs} + C의 그래프. 점선은 C가 2만큼 크고 작은 두 곡선`});
+  U.result(el,U.stack(top,bottom),`∫ (${d.fs}) d${vr} = <strong>${d.Fs} + C</strong><br>쓴 규칙: ${d.rule}<br>${vr} = ${F(x)}에서 F(${vr}) + C = ${F(d.F(x)+C,3)} · 그 점에서 잰 기울기 <b>${F(slope,3)}</b> · f(${vr}) = <b>${F(d.f(x),3)}</b><br>C를 바꾸면 곡선이 위아래로 옮겨질 뿐 기울기는 그대로입니다. 그래서 ${F(lo,1)}에서 ${F(x)}까지의 정적분 (F(${F(x)}) + C) − (F(${F(lo,1)}) + C) = <b>${F(d.F(x)-d.F(lo),3)}</b>에서는 C가 지워집니다.<br>${x-h<lo?'구간의 왼쪽 끝이라 기울기는 오른쪽으로 폭 0.0001만 잰 값이고, 그래서 f의 값과 조금 다를 수 있습니다. 실제 계산입니다.':'기울기는 폭 0.0002의 차분으로 잰 실제 계산입니다.'}`);});
 };
 
 IGLabs.subst=el=>{

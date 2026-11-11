@@ -10,7 +10,7 @@
       "spine_title": "적분",
       "spine_category": "수학",
       "color": "aqua",
-      "description": "빗물 탱크의 유량계는 지금 1분에 몇 L가 들어오는지만 보여 줍니다. 그 속도에 짧은 시간을 곱해 모두 더하면 고인 물이 되고, 이 계산이 적분입니다. 직사각형의 합에서 정적분과 미적분의 기본 정리로 가고, 원시함수·치환적분·부분적분·수치적분으로 값을 구한 뒤, 회전체의 부피와 곡면 아래 부피는 3D로 돌려 보며 계산합니다. 확률밀도 아래 넓이까지 12장 14개 실험과 따라 하는 예제 41개로 익히고, 마지막에는 2분 간격 기록만으로 탱크가 넘쳤는지 판단합니다.",
+      "description": "빗물 탱크의 유량계는 지금 1분에 몇 L가 들어오는지만 보여 줍니다. 그 속도에 짧은 시간을 곱해 모두 더하면 고인 물이 되고, 이 계산이 적분입니다. 직사각형의 합에서 정적분과 미적분의 기본 정리로 가고, 원시함수·치환적분·부분적분·수치적분으로 값을 구한 뒤, 회전체의 부피와 곡면 아래 부피는 3D로 돌려 보며 계산합니다. 확률밀도 아래 넓이까지 12장 14개 실험과 따라 하는 예제 40개로 익히고, 마지막에는 2분 간격 기록만으로 탱크가 넘쳤는지 판단합니다.",
       "illustration": "books/integral/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 유입 속도 곡선 아래를 채운 직사각형이 5개, 10개, 20개로 가늘어지며 곡선에 맞춰지고, 그동안 오른쪽 탱크의 물이 차오릅니다. 실제 수치는 책 안의 실험이 계산합니다.",
       "cover_art": "books/integral/assets/cover-art.svg",
@@ -62,7 +62,7 @@
           "url": "books/integral/#substitution"
         },
         {
-          "title": "08 · 원시함수가 없을 때 수치적분으로 값 구하기",
+          "title": "08 · 원시함수를 찾을 수 없을 때 수치적분으로 값 구하기",
           "url": "books/integral/#numeric"
         },
         {
@@ -6987,7 +6987,7 @@
     "books/integral/#antiderivative": "05 · 미분 규칙을 거꾸로 써서 원시함수 찾기",
     "books/integral/#substitution": "06 · 치환적분으로 변수를 바꿔 적분하기",
     "books/integral/#parts": "07 · 부분적분으로 곱의 적분 풀기",
-    "books/integral/#numeric": "08 · 원시함수가 없을 때 수치적분으로 값 구하기",
+    "books/integral/#numeric": "08 · 원시함수를 찾을 수 없을 때 수치적분으로 값 구하기",
     "books/integral/#volume": "09 · 원판을 쌓아 회전체의 부피 계산하기",
     "books/integral/#probability": "10 · 확률밀도 곡선 아래 넓이로 확률과 평균 계산하기",
     "books/integral/#double": "11 · 기둥을 세워 곡면 아래 부피를 이중적분으로 계산하기",

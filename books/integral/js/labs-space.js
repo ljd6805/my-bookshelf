@@ -31,7 +31,7 @@ IGLabs.density=el=>{
  U.bind(el,()=>{const key=U.text(el,'dn-key'),d=M.DENSITY[key],a=U.value(el,'dn-a'),b=U.value(el,'dn-b'),lo=Math.min(a,b),hi=Math.max(a,b),r=M.density(key,a,b);
   const chart=U.plot({lines:[{data:U.curve(d.f,0,20,200)}],fills:lo<hi?[{data:U.curve(d.f,lo,hi,100),opacity:.42}]:[],marks:[[lo,'var(--blue)'],[hi,'var(--blue)']],xmin:0,xmax:20,ymin:0,ymax:d.ymax,xlabel:'기다리는 시간 x (분)',ylabel:'확률밀도 f(x) (1/분)',digits:2,label:`${d.name}의 확률밀도 곡선과 ${lo}분에서 ${hi}분 사이에 칠한 넓이`});
   U.result(el,chart,`${d.name}<br>P(${F(lo,1)} ≤ X ≤ ${F(hi,1)}) = ∫ f(x) dx = <strong>${F(r.prob,4)}</strong> (${F(r.prob*100,1)}%) · 닫힌 식으로 구한 값 ${F(r.cdf,4)}<br>0~20분 전체 넓이 <b>${F(r.total,4)}</b> · 평균 ∫ x·f(x) dx = <b>${F(r.mean)}분</b> · 표준편차 ${F(r.sd)}분<br>`+
-  (lo===hi?'구간의 폭이 0이면 넓이도 0입니다. 연속 분포에서 정확히 한 시각이 나올 확률은 0입니다.':`구간 가운데의 밀도 ${F(r.height,4)} (1/분)는 확률이 아닙니다. 폭 ${F(hi-lo,1)}분을 곱한 ${F(r.height*(hi-lo),4)}가 넓이의 어림값입니다.`)+
+  (lo===hi?'구간의 폭이 0이면 넓이도 0입니다. 연속 분포에서 정확히 한 시각이 나올 확률은 0입니다.':`구간 가운데의 밀도 ${F(r.height,4)} (1/분)는 확률이 아닙니다. 폭 ${F(hi-lo,1)}분을 곱한 ${F(r.height*(hi-lo),4)}은 직사각형 하나로 어림한 넓이입니다. 구간이 좁을수록 위의 넓이와 가까워지고, 넓으면 크게 어긋납니다.`)+
   (key==='uniform'?'':` 전체 넓이가 1보다 조금 작은 것은 0분 앞과 20분 뒤의 꼬리를 그림 밖에 두었기 때문입니다(이론값: 평균 ${d.mean}분, 표준편차 ${F(d.sd)}분).`)+'<br>넓이는 심프슨 2,000칸으로 더한 실제 계산입니다.');});
 };
 

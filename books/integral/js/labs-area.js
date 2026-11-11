@@ -38,12 +38,12 @@ IGLabs.accum=el=>{
   const seg=U.curve(f,0,x,Math.max(2,Math.round(x*16)));
   const top=U.plot({lines:[{data:U.curve(f,0,10)}],fills:x>0?(net?[{data:seg.map(([a,b])=>[a,Math.max(b,0)]),opacity:.38},{data:seg.map(([a,b])=>[a,Math.min(b,0)]),color:'var(--orange)',opacity:.42}]:[{data:seg,opacity:.38}]):[],marks:[[x,'var(--blue)']],xmin:0,xmax:10,ymin:net?-9:0,ymax:net?8:16,xlabel:'시간 t (분)',ylabel:net?'순변화 속도 (L/분)':'유입 속도 (L/분)',label:`속도 곡선과 0분부터 ${x}분까지 칠한 넓이`});
   const bottom=U.plot({lines:[{data:U.curve(A,0,10),color:'var(--blue)'}],points:[[x,A(x),'var(--orange)',6]],marks:[[x,'var(--blue)']],xmin:0,xmax:10,ymin:net?-10:0,ymax:net?30:100,xlabel:'시간 x (분)',ylabel:'쌓인 양 A(x) (L)',label:`쌓인 양 함수 A(x)의 그래프와 x = ${x}에서의 점`});
-  U.result(el,U.stack(top,bottom),`x = ${F(x)}분 · 지금 속도 ${net?'q':'r'}(x) = <b>${F(f(x))} L/분</b> · 0분부터 쌓인 양 A(x) = <strong>${F(A(x))} L</strong><br>여기서 0.25분 더 지나면 A는 ${F(A(Math.min(x+h,10))-A(x),3)} L 변합니다. 지금 속도 × 0.25분 = ${F(f(x)*h,3)} L와 견주어 보세요.<br>`+
+  U.result(el,U.stack(top,bottom),`x = ${F(x)}분 · 지금 속도 ${net?'q':'r'}(x) = <b>${F(f(x))} L/분</b> · 0분부터 쌓인 양 A(x) = <strong>${F(A(x))} L</strong><br>`+(x+h>10?'기록이 10분에서 끝나므로 여기서 더 지난 뒤의 변화는 계산하지 않습니다.':`여기서 0.25분 더 지나면 A는 ${F(A(x+h)-A(x),3)} L 변합니다. 지금 속도 × 0.25분 = ${F(f(x)*h,3)} L와 견주어 보세요.`)+'<br>'+
   (f(x)>0.005?'속도가 0보다 크므로 A(x)는 오르는 중입니다.':f(x)<-0.005?'속도가 0보다 작으므로 A(x)는 내려가는 중입니다.':'속도가 0이라 A(x)는 이 순간 오르지도 내리지도 않습니다.')+' 위 그림에서 칠한 넓이가 아래 그림의 점 높이입니다. 실제 계산입니다.');});
 };
 
 IGLabs.slope=el=>{
- U.setup(el,R('sl-x','시각 x (분)',0,9,0.5,3)+S('sl-h','시간 간격 h (분)',[[2,'2'],[1,'1'],[0.5,'0.5'],[0.1,'0.1'],[0.01,'0.01'],[0.001,'0.001']],1));
+ U.setup(el,R('sl-x','시각 x (분)',0,8,0.5,3)+S('sl-h','시간 간격 h (분)',[[2,'2'],[1,'1'],[0.5,'0.5'],[0.1,'0.1'],[0.01,'0.01'],[0.001,'0.001']],1));
  U.bind(el,()=>{const x=U.value(el,'sl-x'),h=U.value(el,'sl-h'),q=M.quotient(M.stored,x,h),r=M.rate(x),x1=Math.min(x+h,10.9);
   const top=U.plot({lines:[rateCurve(0,10)],fills:[{data:U.curve(M.rate,x,x+h,24),color:'var(--orange)',opacity:.55}],rects:[[x,h,q,'var(--blue)']],xmin:0,xmax:11,ymin:0,ymax:16,xlabel:'시간 t (분)',ylabel:'유입 속도 (L/분)',label:`x = ${x}에서 x + h = ${F(x+h,3)}까지 새로 쌓인 띠와, 같은 넓이의 직사각형`});
   const bottom=U.plot({lines:[{data:U.curve(M.stored,0,11),color:'var(--blue)'},{data:[[x-1,M.stored(x)-q],[x1+1,M.stored(x)+q*(x1+1-x)]],color:'var(--orange)',dashed:true}],points:[[x,M.stored(x)],[x+h,M.stored(x+h)]],xmin:0,xmax:11,ymin:0,ymax:110,xlabel:'시간 x (분)',ylabel:'쌓인 양 A(x) (L)',label:'쌓인 양 그래프 위의 두 점을 이은 직선'});
