@@ -1,0 +1,38 @@
+<svg class="dx-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="그릇 모양 손실 곡면 위를 세로 면이 지나가며 단면을 자르고, 점 하나가 기울기 반대쪽으로 걸어 바닥에 닿는 동안 오른쪽 계산 그래프에서는 변화율이 손실에서 가중치 쪽으로 거꾸로 전해지는 과정을 보여 주는 시각적 비유">
+<style>
+.dx-ill-bg{fill:#fbf3f4}
+.dx-ill-mesh{stroke:#b98a95;stroke-width:.8;fill:none}
+.dx-ill-wall{fill:#a8324f;opacity:.16;animation:dx-ill-slide 6s ease-in-out infinite alternate}
+.dx-ill-path{stroke:#7a2038;stroke-width:1.6;fill:none;stroke-dasharray:3 3}
+.dx-ill-dot{fill:#a8324f;stroke:#fff;stroke-width:1.5;animation:dx-ill-walk 6s ease-in-out infinite}
+.dx-ill-label{font:600 11px sans-serif;fill:#5a1a2b}
+.dx-ill-small{font:500 10px sans-serif;fill:#76555d}
+.dx-ill-node{fill:#fff;stroke:#3c6fb0;stroke-width:1.6}
+.dx-ill-edge{stroke:#9a8086;stroke-width:1.4;fill:none}
+.dx-ill-pulse{fill:#a8324f;animation:dx-ill-back 6s linear infinite}
+.dx-ill-bar{fill:#c26a1d;opacity:.6;transform-box:fill-box;transform-origin:center bottom;animation:dx-ill-loss 6s ease-in-out infinite}
+@keyframes dx-ill-slide{0%{transform:translate(0,0)}100%{transform:translate(-88.8px,31.2px)}}
+@keyframes dx-ill-walk{0%{transform:translate(0.0px,0.0px)}18%{transform:translate(39.2px,34.9px)}36%{transform:translate(70.3px,51.6px)}52%{transform:translate(94.7px,57.7px)}66%{transform:translate(111.7px,58.6px)}80%{transform:translate(122.8px,57.8px)}100%{transform:translate(122.8px,57.8px)}}
+@keyframes dx-ill-back{0%,10%{transform:translate(0,0);opacity:0}15%{opacity:1}45%{transform:translate(-44px,0);opacity:1}80%{transform:translate(-88px,0);opacity:1}90%,100%{transform:translate(-88px,0);opacity:0}}
+@keyframes dx-ill-loss{0%{transform:scaleY(1)}18%{transform:scaleY(.6)}36%{transform:scaleY(.36)}52%{transform:scaleY(.2)}66%{transform:scaleY(.12)}80%,100%{transform:scaleY(.07)}}
+html[data-motion=reduce] .dx-ill-wall,html[data-motion=reduce] .dx-ill-dot,html[data-motion=reduce] .dx-ill-pulse,html[data-motion=reduce] .dx-ill-bar{animation:none}
+html[data-motion=reduce] .dx-ill-dot{transform:translate(122.8px,57.8px)}
+html[data-motion=reduce] .dx-ill-bar{transform:scaleY(.07)}
+@media(prefers-reduced-motion:reduce){.dx-ill-wall,.dx-ill-dot,.dx-ill-pulse,.dx-ill-bar{animation:none}.dx-ill-dot{transform:translate(122.8px,57.8px)}.dx-ill-bar{transform:scaleY(.07)}}
+</style>
+<rect class="dx-ill-bg" width="340" height="180"/>
+<path class="dx-ill-mesh" d="M112.0 -28.0L105.8 -22.0L99.7 -16.3L93.5 -11.0L87.3 -6.0L81.2 -1.3L75.0 3.0L68.8 7.0L62.7 10.7L56.5 14.0L50.3 17.0L44.2 19.7L38.0 22.0L31.8 24.0L25.7 25.7L19.5 27.0L13.3 28.0L7.2 28.7L1.0 29.0L-5.2 29.0L-11.3 28.7L-17.5 28.0L-23.7 27.0L-29.8 25.7L-36.0 24.0M112.0 -28.0L118.2 -18.2L124.3 -9.0L130.5 -0.5L136.7 7.3L142.8 14.5L149.0 21.0L155.2 26.8L161.3 32.0L167.5 36.5L173.7 40.3L179.8 43.5L186.0 46.0L192.2 47.8L198.3 49.0L204.5 49.5L210.7 49.3L216.8 48.5L223.0 47.0L229.2 44.8L235.3 42.0L241.5 38.5L247.7 34.3L253.8 29.5L260.0 24.0M136.7 7.3L130.5 13.3L124.3 19.0L118.2 24.3L112.0 29.3L105.8 34.0L99.7 38.3L93.5 42.3L87.3 46.0L81.2 49.3L75.0 52.3L68.8 55.0L62.7 57.3L56.5 59.3L50.3 61.0L44.2 62.3L38.0 63.3L31.8 64.0L25.7 64.3L19.5 64.3L13.3 64.0L7.2 63.3L1.0 62.3L-5.2 61.0L-11.3 59.3M87.3 -6.0L93.5 3.8L99.7 13.0L105.8 21.5L112.0 29.3L118.2 36.5L124.3 43.0L130.5 48.8L136.7 54.0L142.8 58.5L149.0 62.3L155.2 65.5L161.3 68.0L167.5 69.8L173.7 71.0L179.8 71.5L186.0 71.3L192.2 70.5L198.3 69.0L204.5 66.8L210.7 64.0L216.8 60.5L223.0 56.3L229.2 51.5L235.3 46.0M161.3 32.0L155.2 38.0L149.0 43.7L142.8 49.0L136.7 54.0L130.5 58.7L124.3 63.0L118.2 67.0L112.0 70.7L105.8 74.0L99.7 77.0L93.5 79.7L87.3 82.0L81.2 84.0L75.0 85.7L68.8 87.0L62.7 88.0L56.5 88.7L50.3 89.0L44.2 89.0L38.0 88.7L31.8 88.0L25.7 87.0L19.5 85.7L13.3 84.0M62.7 10.7L68.8 20.5L75.0 29.7L81.2 38.2L87.3 46.0L93.5 53.2L99.7 59.7L105.8 65.5L112.0 70.7L118.2 75.2L124.3 79.0L130.5 82.2L136.7 84.7L142.8 86.5L149.0 87.7L155.2 88.2L161.3 88.0L167.5 87.2L173.7 85.7L179.8 83.5L186.0 80.7L192.2 77.2L198.3 73.0L204.5 68.2L210.7 62.7M186.0 46.0L179.8 52.0L173.7 57.7L167.5 63.0L161.3 68.0L155.2 72.7L149.0 77.0L142.8 81.0L136.7 84.7L130.5 88.0L124.3 91.0L118.2 93.7L112.0 96.0L105.8 98.0L99.7 99.7L93.5 101.0L87.3 102.0L81.2 102.7L75.0 103.0L68.8 103.0L62.7 102.7L56.5 102.0L50.3 101.0L44.2 99.7L38.0 98.0M38.0 22.0L44.2 31.8L50.3 41.0L56.5 49.5L62.7 57.3L68.8 64.5L75.0 71.0L81.2 76.8L87.3 82.0L93.5 86.5L99.7 90.3L105.8 93.5L112.0 96.0L118.2 97.8L124.3 99.0L130.5 99.5L136.7 99.3L142.8 98.5L149.0 97.0L155.2 94.8L161.3 92.0L167.5 88.5L173.7 84.3L179.8 79.5L186.0 74.0M210.7 49.3L204.5 55.3L198.3 61.0L192.2 66.3L186.0 71.3L179.8 76.0L173.7 80.3L167.5 84.3L161.3 88.0L155.2 91.3L149.0 94.3L142.8 97.0L136.7 99.3L130.5 101.3L124.3 103.0L118.2 104.3L112.0 105.3L105.8 106.0L99.7 106.3L93.5 106.3L87.3 106.0L81.2 105.3L75.0 104.3L68.8 103.0L62.7 101.3M13.3 28.0L19.5 37.8L25.7 47.0L31.8 55.5L38.0 63.3L44.2 70.5L50.3 77.0L56.5 82.8L62.7 88.0L68.8 92.5L75.0 96.3L81.2 99.5L87.3 102.0L93.5 103.8L99.7 105.0L105.8 105.5L112.0 105.3L118.2 104.5L124.3 103.0L130.5 100.8L136.7 98.0L142.8 94.5L149.0 90.3L155.2 85.5L161.3 80.0M235.3 42.0L229.2 48.0L223.0 53.7L216.8 59.0L210.7 64.0L204.5 68.7L198.3 73.0L192.2 77.0L186.0 80.7L179.8 84.0L173.7 87.0L167.5 89.7L161.3 92.0L155.2 94.0L149.0 95.7L142.8 97.0L136.7 98.0L130.5 98.7L124.3 99.0L118.2 99.0L112.0 98.7L105.8 98.0L99.7 97.0L93.5 95.7L87.3 94.0M-11.3 28.7L-5.2 38.5L1.0 47.7L7.2 56.2L13.3 64.0L19.5 71.2L25.7 77.7L31.8 83.5L38.0 88.7L44.2 93.2L50.3 97.0L56.5 100.2L62.7 102.7L68.8 104.5L75.0 105.7L81.2 106.2L87.3 106.0L93.5 105.2L99.7 103.7L105.8 101.5L112.0 98.7L118.2 95.2L124.3 91.0L130.5 86.2L136.7 80.7M260.0 24.0L253.8 30.0L247.7 35.7L241.5 41.0L235.3 46.0L229.2 50.7L223.0 55.0L216.8 59.0L210.7 62.7L204.5 66.0L198.3 69.0L192.2 71.7L186.0 74.0L179.8 76.0L173.7 77.7L167.5 79.0L161.3 80.0L155.2 80.7L149.0 81.0L142.8 81.0L136.7 80.7L130.5 80.0L124.3 79.0L118.2 77.7L112.0 76.0M-36.0 24.0L-29.8 33.8L-23.7 43.0L-17.5 51.5L-11.3 59.3L-5.2 66.5L1.0 73.0L7.2 78.8L13.3 84.0L19.5 88.5L25.7 92.3L31.8 95.5L38.0 98.0L44.2 99.8L50.3 101.0L56.5 101.5L62.7 101.3L68.8 100.5L75.0 99.0L81.2 96.8L87.3 94.0L93.5 90.5L99.7 86.3L105.8 81.5L112.0 76.0"/>
+<path class="dx-ill-wall" d="M82.4 54.4L230.4 106.4L230.4 30.8L82.4 -21.2Z"/>
+<path class="dx-ill-path" d="M-13.8 39.2L25.4 74.1L56.5 90.7L80.9 96.8L97.9 97.7L109.0 97.0"/>
+<circle class="dx-ill-dot" cx="-13.8" cy="39.2" r="5"/>
+<text class="dx-ill-label" x="12" y="18">손실 곡면 L(w, b)</text>
+<text class="dx-ill-small" x="12" y="170">한 변수만 움직여 자르기</text>
+<path class="dx-ill-edge" d="M236 52H256M280 52H300"/>
+<circle class="dx-ill-node" cx="224" cy="52" r="12"/><circle class="dx-ill-node" cx="268" cy="52" r="12"/><circle class="dx-ill-node" cx="312" cy="52" r="12"/>
+<text class="dx-ill-label" x="224" y="56" text-anchor="middle">w</text><text class="dx-ill-label" x="268" y="56" text-anchor="middle">u</text><text class="dx-ill-label" x="312" y="56" text-anchor="middle">L</text>
+<circle class="dx-ill-pulse" cx="312" cy="76" r="4.5"/>
+<text class="dx-ill-small" x="268" y="96" text-anchor="middle">변화율을 거꾸로 곱하기</text>
+<path class="dx-ill-edge" d="M250 160H330"/>
+<rect class="dx-ill-bar" x="296" y="110" width="18" height="50" rx="2"/>
+<text class="dx-ill-small" x="254" y="150">손실</text>
+</svg>

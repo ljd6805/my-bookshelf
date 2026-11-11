@@ -190,6 +190,74 @@
       "short_title": "벡터와 행렬"
     },
     {
+      "id": "partial-derivative-chain-rule",
+      "title": "편미분과 연쇄 법칙 · 곡면을 잘라 기울기를 재고 역전파 계산하기",
+      "spine_title": "편미분",
+      "spine_category": "수학",
+      "color": "rose",
+      "description": "변수가 둘 이상인 함수에서 한 변수만 움직여 기울기를 재는 편미분을 다룹니다. 카페 8일 기록의 손실 L(w, b)를 3차원 곡면으로 그려 돌려 보며 자르고, 단면의 기울기에서 접평면, 기울기 벡터, 경사하강 한 걸음을 차례로 계산합니다. 이어서 연쇄 법칙으로 이어진 계산은 곱하고 갈라진 경로는 더해 뉴런 하나와 2-2-1 망의 기울기를 구하고 수치 미분과 견줍니다. 11장 12개 실험이며 「신경망의 계산」의 경사하강과 역전파 장을 읽기 전후에 봅니다.",
+      "illustration": "books/partial/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 그릇 모양 손실 곡면 위를 세로 면이 지나가며 단면을 자르고, 점 하나가 기울기 반대쪽으로 걸어 바닥에 닿습니다. 오른쪽에서는 변화율이 손실에서 가중치 쪽으로 거꾸로 전해집니다. 실제 수치는 책 안의 실험이 계산합니다.",
+      "cover_art": "books/partial/assets/cover-art.svg",
+      "cover_meta": "11장 · 12개 실험",
+      "status": "published",
+      "url": "books/partial/",
+      "keywords": [
+        "편미분",
+        "partial derivative",
+        "미분",
+        "접선",
+        "단면",
+        "접평면",
+        "전미분",
+        "기울기 벡터",
+        "gradient",
+        "그래디언트",
+        "방향 미분",
+        "등고선",
+        "경사하강법",
+        "학습률",
+        "연쇄 법칙",
+        "chain rule",
+        "계산 그래프",
+        "국소 미분",
+        "역전파",
+        "backpropagation",
+        "수치 미분",
+        "기울기 소실",
+        "기울기 폭발",
+        "다변수 미적분",
+        "3차원 곡면"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/partial/#chapters"
+        },
+        {
+          "title": "02 · 변수 하나만 움직여 곡면의 단면 기울기 재기",
+          "url": "books/partial/#partial"
+        },
+        {
+          "title": "04 · 두 편미분으로 접평면을 만들어 작은 변화 어림하기",
+          "url": "books/partial/#plane"
+        },
+        {
+          "title": "05 · 편미분을 모아 기울기 벡터를 만들고 방향별 변화율 구하기",
+          "url": "books/partial/#gradient"
+        },
+        {
+          "title": "08 · 계산 그래프에서 국소 미분을 뒤에서부터 곱하기",
+          "url": "books/partial/#graph"
+        },
+        {
+          "title": "09 · 갈라진 경로마다 곱하고 경로끼리 더하기",
+          "url": "books/partial/#branch"
+        }
+      ],
+      "short_title": "편미분과 연쇄 법칙"
+    },
+    {
       "id": "how-computers-work",
       "title": "컴퓨터는 어떻게 동작하는가 · 스위치에서 CPU까지",
       "spine_title": "컴퓨터 원리",
@@ -4196,6 +4264,79 @@
       ]
     },
     {
+      "id": "what-partial-measures",
+      "title": "∂L/∂w는 무엇을 재는 값일까",
+      "question": "신경망 책의 식에 나오는 ∂L/∂w는 무엇을 잰 값이고, 층이 쌓인 계산에서는 어떻게 구할까?",
+      "audience": "경사하강과 역전파의 식을 봤지만 ∂ 기호와 연쇄 법칙의 곱셈이 무엇을 하는지 설명하지 못하는 학습자",
+      "prerequisites": "일차·이차함수의 그래프, 거듭제곱의 미분(wⁿ → n·wⁿ⁻¹)",
+      "start": "「신경망의 계산」 3장에서 w ← w − η·∂L/∂w를 따라 계산은 했다. 그런데 ∂L/∂w가 왜 그 식이 되는지, 6장에서 왜 뒤에서부터 곱하는지는 받아 적기만 했다.",
+      "steps": [
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#loss",
+          "task": "예측선 실험에서 w = 2, b = 12와 w = 4, b = 12의 MSE를 적는다",
+          "minutes": 10,
+          "why": "편미분으로 기울기를 잴 대상인 손실 L(w, b)가 어떤 기록과 예측선에서 나오는지 먼저 확인한다",
+          "record": "두 선의 MSE와, 어느 선이 왜 더 잘 맞는지 한 문장"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#partial",
+          "task": "단면 실험에서 (2, 12)에 서서 움직일 변수를 w와 b로 바꿔 두 편미분을 적고, b를 16으로 올린 뒤 ∂L/∂w가 얼마로 바뀌는지 확인한다",
+          "minutes": 15,
+          "why": "방금 잰 손실을 곡면으로 세우고 한 변수만 움직여 자른다. ∂L/∂w가 단면의 접선 기울기라는 뜻을 그림과 숫자로 잡는다",
+          "record": "(2, 12)의 ∂L/∂w와 ∂L/∂b, b = 16일 때의 ∂L/∂w"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#plane",
+          "task": "접평면 실험에서 (2, 12)의 Δw와 Δb를 (0.1, 0.1)과 (2, 2)로 바꿔 어림과 실제 변화의 차이를 비교한다",
+          "minutes": 15,
+          "why": "두 변수를 함께 움직일 때는 변수마다의 몫을 더한다. 이 덧셈이 뒤에서 경로끼리 더하는 규칙의 바탕이 된다",
+          "record": "두 경우의 어림, 실제 변화, 차이"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#gradient",
+          "task": "방향 실험에서 (2, 12)의 방향을 0°, 190°, 100°로 바꿔 손실이 변하는 빠르기를 적는다",
+          "minutes": 15,
+          "why": "편미분 두 개를 벡터 하나로 모으면 어느 쪽으로 가야 손실이 가장 빨리 줄어드는지가 정해진다. 경사하강이 기울기 벡터의 반대쪽으로 걷는 까닭이다",
+          "record": "세 방향의 변화율과 기울기 벡터의 크기·방향"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#graph",
+          "task": "계산 그래프 실험에서 w = 0.8로 단계를 0에서 6까지 올리며 국소 미분 세 개와 ∂L/∂w를 적고, w = 3에서 다시 본다",
+          "minutes": 15,
+          "why": "식을 전개할 수 없는 이어진 계산에서는 단계마다의 변화율을 뒤에서부터 곱한다. 곱하는 순서를 한 단계씩 따라간다",
+          "record": "w 두 값에서 ∂L/∂a, a(1 − a), ∂L/∂w"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#branch",
+          "task": "경로 실험에서 w = 3으로 날 수를 4와 8로 바꿔 날마다의 몫과 합을 적는다",
+          "minutes": 15,
+          "why": "한 값이 여러 곳에 쓰이면 경로마다 곱한 값을 더한다. 곱하기와 더하기 두 규칙이 갖춰지면 역전파의 식을 읽을 수 있다",
+          "record": "두 경우의 몫 목록과 ∂L/∂w"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#backprop",
+          "task": "연쇄법칙 실험에서 w를 0.8과 3으로 두고 국소 기울기 세 개의 곱이 수치 미분과 같은지 확인한 뒤, XOR 학습 실험에서 시드 1의 최종 손실을 적는다",
+          "minutes": 15,
+          "why": "손으로 따라간 곱셈과 덧셈이 2-2-1 망의 모든 가중치에 한꺼번에 쓰이고, 그 기울기로 망이 실제로 학습되는 것을 확인한다",
+          "record": "w 두 값의 dL/dw, XOR 학습의 최종 손실"
+        }
+      ],
+      "challenge": "동료가 손으로 유도한 역전파 식으로 학습을 돌렸더니 손실이 줄기는 하는데 기대보다 훨씬 느리다고 한다. 식이 맞는지 판정하려면 무엇을 계산해 무엇과 견줄지, 틀렸다면 빠진 국소 미분과 빠진 경로를 어떤 순서로 찾을지 설명한다.",
+      "checks": [
+        "∂L/∂w가 곡면의 어느 단면에서 잰 기울기인지 그림으로 설명할 수 있는가",
+        "두 변수를 함께 움직일 때 변화를 어림하는 식과 그 어림이 빗나가는 조건을 말할 수 있는가",
+        "한 경로 안에서는 곱하고 경로끼리는 더하는 까닭을 예를 들어 설명할 수 있는가",
+        "손으로 구한 기울기를 수치 미분으로 점검할 수 있고, 그 점검이 보장하지 않는 것을 말할 수 있는가"
+      ]
+    },
+    {
       "id": "line-to-deep-training",
       "title": "예측선 하나에서 깊은 신경망 학습까지",
       "question": "점 여덟 개에 선을 긋는 계산이 어떻게 깊은 신경망의 학습으로 이어질까?",
@@ -5754,6 +5895,30 @@
   ],
   "series": [
     {
+      "id": "calculus",
+      "title": "미적분",
+      "summary": "변수 하나의 미분에서 출발해 변수가 여럿인 함수의 편미분과 연쇄 법칙, 넓이와 누적을 재는 적분으로 이어지는 세 권입니다. 권마다 그래프와 곡면을 직접 움직이며 계산합니다.",
+      "volumes": [
+        {
+          "number": 1,
+          "title": "미분",
+          "status": "writing",
+          "next_why": "변수 하나의 기울기를 잴 수 있게 되었으니, 변수가 둘 이상일 때 한 변수만 움직여 재는 편미분과 이어진 계산의 변화율을 곱하는 연쇄 법칙으로 넘어갑니다."
+        },
+        {
+          "number": 2,
+          "title": "편미분과 연쇄 법칙",
+          "book_id": "partial-derivative-chain-rule",
+          "next_why": "변화율을 재는 쪽을 익혔으니, 변화율을 쌓아 넓이와 누적량을 구하는 적분으로 넘어갑니다."
+        },
+        {
+          "number": 3,
+          "title": "적분",
+          "status": "writing"
+        }
+      ]
+    },
+    {
       "id": "aie-from-scratch",
       "title": "AI 엔지니어링 처음부터",
       "summary": "개발 환경 점검에서 에이전트와 운영까지, 공개 커리큘럼의 단계 하나를 한 권으로 다시 쓴 20권 시리즈입니다.",
@@ -6629,7 +6794,18 @@
     "books/harness/#writing": "09 · 검사할 수 있는 문장으로 지침 고쳐 쓰기",
     "books/harness/#placement": "10 · 지침 한 줄을 둘 파일 고르기",
     "books/harness/#evolve": "11 · 실수 기록으로 지침을 더하고 정리하는 주기 만들기",
-    "books/harness/#final": "마지막 과제 · 윤서 팀의 사고 기록 다섯 건 진단하기"
+    "books/harness/#final": "마지막 과제 · 윤서 팀의 사고 기록 다섯 건 진단하기",
+    "books/partial/#slope": "01 · 변수가 하나일 때 미분으로 기울기 재기",
+    "books/partial/#partial": "02 · 변수 하나만 움직여 곡면의 단면 기울기 재기",
+    "books/partial/#rules": "03 · 다른 변수를 상수로 두고 식에서 편미분 구하기",
+    "books/partial/#plane": "04 · 두 편미분으로 접평면을 만들어 작은 변화 어림하기",
+    "books/partial/#gradient": "05 · 편미분을 모아 기울기 벡터를 만들고 방향별 변화율 구하기",
+    "books/partial/#descent": "06 · 기울기 벡터 반대쪽으로 w와 b를 함께 옮기기",
+    "books/partial/#chain": "07 · 이어진 두 계산의 변화율을 곱하기",
+    "books/partial/#graph": "08 · 계산 그래프에서 국소 미분을 뒤에서부터 곱하기",
+    "books/partial/#branch": "09 · 갈라진 경로마다 곱하고 경로끼리 더하기",
+    "books/partial/#deep": "10 · 층이 깊을 때 곱이 작아지거나 커지는 크기 계산하기",
+    "books/partial/#final": "마지막 과제 · 2-2-1 망의 기울기 계산 네 가지 점검하기"
   },
   "concepts": [
     {
@@ -6692,6 +6868,7 @@
       "chapters": [
         "books/linear-algebra/#vectors",
         "books/linear-algebra/#similarity",
+        "books/partial/#gradient",
         "books/ai/#neuron",
         "books/ai/#attention",
         "books/llm-gpu/#transformer",
@@ -6865,6 +7042,7 @@
         "books/aie-ml/#lines",
         "books/neural/#loss",
         "books/neural/#descent",
+        "books/partial/#descent",
         "books/aie-deep/#optimizer",
         "books/aie-vision/#classify",
         "books/aie-nlp/#sequence",
@@ -7104,12 +7282,17 @@
         "derivative",
         "chain rule",
         "backpropagation",
-        "autodiff"
+        "autodiff",
+        "partial derivative",
+        "편미분"
       ],
       "summary": "출력이 입력에 얼마나 민감한지 재고, 연쇄법칙으로 그 값을 뒤에서부터 모아 학습 방향을 정한다",
       "chapters": [
         "books/aie-math/#derivative",
         "books/aie-math/#autodiff",
+        "books/partial/#partial",
+        "books/partial/#graph",
+        "books/partial/#branch",
         "books/ai/#learning",
         "books/neural/#backprop",
         "books/neural/#activation",
