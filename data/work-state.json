@@ -962,6 +962,28 @@
     ],
     "next_action": "2027-04-29 무렵 Claude Code·Codex 문서의 지침 파일 규칙 재확인"
   },
+  "recurrent_networks": {
+    "book": "「순환 신경망 · 은닉 상태와 기울기를 계산해 RNN·LSTM·GRU 견주기」 books/rnn/, id recurrent-networks, 인공지능, amber, 책등 순환신경망, 13장 · 13개 실험",
+    "plan": "사용자 요청(2026-11-11): 사내 교육 RNN 강의 자료와 본인 필기를 참고해 RNN 책을 추가. 강의 슬라이드와 코드는 옮기지 않고 구성만 참고함. 공통 사례: 지어낸 온실의 기온 기록과 후기 문장(유나). 계보 RNN → LSTM → Seq2Seq → 어텐션 → 트랜스포머에서 앞의 두 칸을 계산하고 「트랜스포머 깊이 보기」로 넘김. PyTorch 코드는 읽기 상자로만 둠.",
+    "docs": "books/rnn/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published (팩트 검수와 팀장 관문 승인 뒤 병합)",
+    "done": [
+      "13장 원고·실험 13개(RNN·LSTM·GRU의 순전파와 시간 방향 역전파를 브라우저에서 계산, 수치 미분과 대조), 장 그림 13개, 움직이는 서가 삽화, 정지 표지, review.json 37문항",
+      "서가 등록: chapter_index 13장, 새 개념 sequence-state(순서와 은닉 상태), gradient-backprop·overfitting-validation·vector-space·attention-kv에 장 추가, 새 노선 before-transformer",
+      "양방향 링크: aie-transformer#why → rnn#limits, aie-nlp#sequence → rnn#vanish, 이 책 12장 → aie-transformer#why 등",
+      "CI에 npm test --prefix books/rnn 추가",
+      "팩트 검수 1회차 지적 18건 반영: 단계 수 표기, 9장 초기값 여덟 가지의 범위, 드롭아웃 자리의 출처, 5장 제목과 책 부제, PyTorch 출처 두 건 분리",
+      "2회차 지적 11건과 첫 독자 리허설 요청 8건 반영: 예측 질문 11개를 본문에 없는 설정으로 교체, 실험 결과 문장 수정. 3회차의 막지 않는 지적 R3-1~R3-5도 반영",
+      "main 병합 뒤 「신경망의 계산」과 양방향 링크, 시리즈 aie-from-scratch 8권의 companions 첫 항목으로 등록"
+    ],
+    "verification": "npm test 36개, tests/browser.cjs 50개 화면·실험 39회 조작·오류 0, 팩트·출처 검수 세 회차(집필하지 않은 세션, 3회차 fixed), 첫 독자 리허설과 재확인",
+    "remaining": [
+      "PyTorch 문서는 2.15판 기준으로 대조함. 함수 인자와 기본값은 다음 개정 때 다시 확인",
+      "7장 창 길이별 검증 오차의 순서는 초기값 하나에서만 잼",
+      "논문 DOI 연결 일곱 건은 이 환경에서 열지 못해 Crossref 서지로 대조함"
+    ],
+    "next_action": "PyTorch 문서 판이 바뀌면 코드 상자의 인자와 기본값을 다시 대조"
+  },
   "deep_learning_split": {
     "request": "사용자 요청(2026-11-11, 스레드 「딥러닝 핵심 두 권으로 나누기」): 사내 교육 딥러닝 보강 자료와 본인 필기의 흐름(예측선 → 손실 → 경사하강 → 가중합과 활성화 → 역전파 → 기울기 소실 → 목적에 따른 구조)을 따라 「딥러닝 핵심」을 두 권으로 나눔. 사내 자료의 문장·그림은 옮기지 않음",
     "books": [
@@ -985,5 +1007,98 @@
       "열지 못한 출처: 「신경망의 계산」의 DOI 주소 여섯 개(이 가운데 Rumelhart 등 1986만 nature.com 페이지로 서지를 확인했고 Rosenblatt·Cybenko·LeCun·Elman·Bengio 다섯 개는 서지도 따로 확인하지 못함), PyTorch tensors 문서 본문, 「신경망의 계산」 검수에서 열지 못한 원본 레슨 03-02·03-03·03-05·03-06"
     ],
     "next_action": "「순환 신경망」 책이 병합되면 두 책 사이 양방향 링크를 더한다. 그다음 개정 때 aie-deep 복습 퀴즈(review.json)와 1장 그림의 AdaGrad·RMSProp 경로, 두 책 공통으로 예측 질문을 결과 읽기보다 먼저 보이게 하는 배치를 검토한다"
+  },
+  "ai_field_merge": {
+    "date": "2026-11-11",
+    "status": "pr_open",
+    "summary": "인공지능과 AI공학을 분류 인공지능 하나로 합치고, 시리즈 밖 9권을 aie-from-scratch 권 항목의 companions(앞에 읽을 책)로 끼워 서가·읽기 순서를 정함",
+    "verification": "validate.py 0 errors, build_catalog --check, unittest, node --test",
+    "next": "RNN 책 병합 시 8권 companions 첫 항목으로 추가",
+    "approvals": "서윤 승인; 해원·리안·나래·한결 조건부 승인 후 조건 반영(docs/03-verification.html#ai-merge-check)",
+    "screens": "1280·390·320px 확인 완료"
+  },
+  "linear_algebra_easy": {
+    "book": "「쉬운 선형대수 · 벡터·행렬·텐서를 3D로 보며 신경망 계산하기」 books/linear-easy/, id linear-algebra-easy, 수학, aqua, 책등 쉬운 선형대수, 14장 · 14개 실험",
+    "plan": "사용자 요청(2026-11-11): 선형대수를 쉽게 배울 수 있는 책, 딥러닝까지 이해할 수 있는 수학 지식, 3D 애니메이션과 그 밖의 기법, 흥미를 가지고 배울 수 있게. 공통 사례: 지어낸 소라의 카페와 레시피 벡터 (샷, 우유, 시럽). 벡터에서 야코비안까지 다룬 뒤 2층 신경망의 순전파를 손으로 계산하고, 학습은 「신경망의 계산」으로 넘김.",
+    "docs": "books/linear-easy/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published (팩트 검수와 팀장 관문 승인 뒤 병합)",
+    "done": [
+      "14장 원고·실험 14개(모두 js/math.js의 실제 계산), 직접 돌리는 3차원 그림판 js/space3d.js(실험 열 개와 표지), 장 그림 14개, 움직이는 서가 삽화, 정지 표지, review.json 28문항",
+      "서가 등록: chapter_index 14장, 개념 다섯 곳(dot-product, vector-space, linear-transform, gradient-backprop, decision-unit)에 장 추가, 새 노선 read-wx-plus-b",
+      "양방향 링크: linear-algebra#vectors, neural#tensor, aie-math#tensor, rnn#vanish에서 이 책으로, 이 책 장마다 둘 이상 밖으로",
+      "문체 비평(다온)으로 문장 16곳과 12장 제목을 고침",
+      "팩트 검수(집필하지 않은 세션) 지적 15건 반영: 13장의 꺼진 뉴런 예와 어림이 어긋나는 예를 바꿈, 12장 ‘절댓값이 가장 큰 고윳값’, 예측 질문 일곱 개를 처음 화면에 답이 없는 설정으로 교체",
+      "CI에 npm test --prefix books/linear-easy 추가"
+    ],
+    "verification": "npm test 32개, tests/browser.cjs 54개 화면·실험 42회 조작·오류 0(1280·390·320px), 팩트·출처 검수 1회차 fixed, 첫 독자 리허설(1·5·7·9·12·13장과 마지막 과제), validate.py 0 errors",
+    "remaining": [
+      "편미분·연쇄 법칙 책(books/partial)과 미분 책(books/derivative)이 병합되면 13장 #jacobian과 양방향 링크",
+      "리허설이 남긴 것: 5장 넷째 예제(ReLU)의 결과 문장이 첫째 예제와 같음, 12장 본문이 예측의 답을 좁힘, 3차원 그림판의 이름표 세 곳이 맞닿음",
+      "3Blue1Brown 강의 목록은 화면에서 대조하지 못함. PyTorch 문서는 2.15판 기준",
+      "어두운 화면, 화면 읽기 프로그램, Safari·Firefox·실기기는 확인하지 못함"
+    ],
+    "next_action": "편미분 책과는 양방향 링크를 이음(partial 5장·9장 ↔ 이 책 4장·1장·13장). 미분 책이 병합되면 링크를 잇고, 다음 개정 때 리허설이 남긴 세 가지를 고침"
+  },
+  "partial_derivative": {
+    "request": "사용자 요청(2026-11-11, 스레드 「편미분과 연쇄 법칙 쉽게 배우기」): 「신경망의 계산」에 이어 편미분과 연쇄 법칙을 쉽게 설명하는 책. 3D 애니메이션 등으로 쉽게 배울 수 있게 하고, 딥러닝 공부의 수단이지만 편미분 자체를 중점적으로 다룰 것",
+    "book": "「편미분과 연쇄 법칙 · 곡면을 잘라 기울기를 재고 역전파 계산하기」 books/partial/, id partial-derivative-chain-rule, 수학, rose, 책등 편미분, 11장 · 12개 실험(돌려 보는 3차원 그림 5개와 표지), 복습 26문항, 공통 사례는 「신경망의 계산」과 같은 카페 8일 기록의 손실 L(w, b)",
+    "decisions": [
+      "편미분 중심: 1~6장(편미분 네 장, 기울기 벡터 두 장)이 편미분, 7~10장이 연쇄 법칙, 마지막 과제는 2-2-1 망의 기울기 점검",
+      "3차원 곡면은 외부 라이브러리 없이 SVG로 그림(js/visual.js의 surface). 끌기·방향키·단추로 돌리고 위에서 보기로 등고선 지도를 대안으로 둠. 곡면 창은 w 0~8, b 8~16으로 폭을 같게 둠",
+      "「미적분」 시리즈(series id calculus)를 만들고 이 책을 2권으로 등록. 1권 「미분」(books/derivative)과 3권 「적분」(books/integral)은 다른 스레드가 만들고 있어 status writing",
+      "새 개념은 만들지 않고 gradient-backprop·loss-likelihood·dot-product에 장을 더함. 새 읽기 노선 what-partial-measures(7정거장)",
+      "tests/test_reading_order.py가 시리즈를 순번(0번) 대신 id(aie-from-scratch)로 찾게 고침"
+    ],
+    "links": "나가는 링크: neural(#loss·#descent·#backprop·#activation), aie-math(#derivative·#autodiff), linear-algebra(#similarity), bonds(#duration), aie-deep(#optimizer·#init). 들어오는 링크: neural #descent·#backprop·#activation, aie-math #derivative·#autodiff",
+    "docs": "books/partial/docs/(index.html G0~G7, research.html, fact-review.html)",
+    "verification": "docs/03-verification.html#partial-derivative-check",
+    "remaining": [
+      "「미분」(books/derivative)이 병합되면 series calculus 1권의 status를 book_id로 바꾸고 양방향 링크 추가(이 책 → derivative #tangent·#power·#chain·#linear, derivative → partial #partial·#branch·#gradient·#plane). 「적분」(books/integral)은 PR #99로 병합되어 시리즈 3권으로 이어짐",
+      "「쉬운 선형대수」(books/linear-easy, #dot·#vector·#jacobian)가 병합되면 5장에서 양방향 링크 추가. 「순환 신경망」(books/rnn)과는 9장 ↔ #bptt, 10장 ↔ #vanish로 이음",
+      "검수(2026-11-11, 1회차 fixed)에서 열지 못한 출처 둘: Rumelhart 등(1986)과 Bengio 등(1994)의 주소. 나머지 12개는 열어 확인함(books/partial/docs/fact-review.html)",
+      "리허설이 넘긴 것(books/partial/docs/index.html#rehearsal): 예측 질문이 결과 읽기 아래에 있어 답이 먼저 보임(공통 장 구조, 지안), 390px에서 결과 문장이 400px을 넘어 그림과 함께 보이지 않음(리안), 4장 접평면이 처음 각도에서 가려짐과 축 눈금(리안), 5장 결과 문장의 화살표 색 안내(리안), 마지막 과제의 예제 단추와 9장이 부르는 '4장의 전미분'(지안·나래), 손가락으로 돌리기와 화면 읽기 프로그램 시험(건우)",
+      "「미적분」 시리즈로 묶은 결정은 서재 주인이 요청한 것이 아니므로 보고할 것(G0 이의)",
+      "PR의 CI와 GitHub Pages 배포는 병합 뒤 실제로 확인한 다음에만 완료로 기록"
+    ],
+    "next_action": "「미분」과 「쉬운 선형대수」가 main에 들어오면 양방향 링크와 시리즈 1권 항목을 한 커밋으로 맞춘다"
+  },
+  "integral_book": {
+    "book": "「적분 · 잘게 나눠 더해 넓이·쌓인 양·부피 계산하기」 books/integral/, id integral-calculus, 수학, aqua, 책등 적분, 12장 · 14개 실험, 시리즈 미적분(calculus) 3권",
+    "plan": "사용자 요청(2026-11-11): 미분과 적분을 각각 전문으로 다루는 책을 만들고, 3D 애니메이션·학습 도구·수식 예시를 넣어 쉽게 따라갈 수 있게 할 것. 이 항목은 적분 책이며 미분 책(books/derivative)과 편미분 책은 다른 작업에서 만든다. 공통 사례: 수빈의 빗물 탱크(유입 속도 r(t) = 6t − 0.6t², 모두 가상 값).",
+    "decisions": [
+      "3D는 공간 관계가 필요한 9장(회전체)과 11장(곡면 아래 부피)에만 쓰고 2D·텍스트 대안을 둠",
+      "표준 장 구조의 ‘먼저 개념 잡기’ 안에 ‘쉬운 말로 먼저’와 ‘예제로 따라 하기’(40개)를 더하고 결과 읽기를 접어 둠. 블록 순서는 바꾸지 않음",
+      "세 책을 시리즈 미적분(1 미분, 2 편미분과 연쇄 법칙, 3 적분)으로 묶기로 미분 책 작업과 합의. 이 책이 먼저 병합되면 1·2권은 writing으로 둠",
+      "수학 분류의 맨 앞에 섬(시리즈가 읽기 순서의 앞에 오므로 생성기가 정한 자리)"
+    ],
+    "docs": "books/integral/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published (팩트 검수와 팀장 관문 승인 뒤 병합)",
+    "done": [
+      "12장 원고(쉬운 말 상자 12개, 예제 40개), 실험 14개(3D 2개)와 표지 실험, 장 그림 12개, 움직이는 서가 삽화, 정지 표지, review.json 36문항",
+      "서가 등록: chapter_index 12장, 새 개념 rate-accumulation(변화율과 쌓인 양), sampling에 10장 추가, 새 노선 rate-to-amount, 시리즈 calculus",
+      "양방향 링크: probability#clt → integral#probability, aie-math#derivative → integral#ftc, aie-math#sampling → integral#numeric, linear-algebra#determinant → integral#substitution, 이 책에서 aie-math·money·probability·linear-algebra·volatility로",
+      "CI에 npm test --prefix books/integral 추가"
+    ],
+    "verification": "팩트·출처 검수 1회차 fixed(집필하지 않은 세션, 2026-11-11, docs/fact-review.html), 관문 G0~G7 팀장 승인(docs/index.html#log). npm test 20개, tests/browser.cjs 42개 화면·실험 42회 조작·오류 0(1280·390·320px), 서가에서 표지와 펼친 책 확인(1280·390·320px, 삽화 애니메이션 실행 중)",
+    "remaining": [
+      "미분 책이 공개되면 3~7장에 ../derivative/ 링크를 더하고 시리즈 1권의 status를 book_id로 바꿈(먼저 병합된 쪽이 만든 항목을 나중 쪽이 고침)",
+      "출처 20개는 검수 세션이 열어 보았고, 열지 못했거나 끝까지 읽지 못한 것(Rosenlicht 1972, 대한수학회 용어집, OpenStax 절 넷 등)은 fact-review.html의 확인하지 못한 것에 있음",
+      "검수·리허설이 넘긴 일: 3D 실험을 9·11장 두 곳으로 둔 범위를 서재 주인에게 보고하고 확인받기, 2장의 기호(Σ·lim·∫·dx)를 나눠 보여 줄지, 9장 3D 실험의 390px 배치, 11장 비탈면의 높이 눈금과 3D 그림의 눈금 숫자, 7·9·11장의 다른 책 링크"
+    ],
+    "next_action": "미분 책 병합 뒤 양방향 링크와 시리즈 항목 갱신"
+  },
+  "derivative": {
+    "request": "사용자 요청(2026-11-11, 스레드 「미분 쉽게 배우는 책 만들기」): 미분과 적분을 전문으로 다루는 책을 각각 만들 것. 쉽게 이해하고 따라갈 수 있게 3D 애니메이션과 학습 도구, 식마다 예시를 넣을 것. 이 스레드는 변수가 하나인 미분을 맡음",
+    "book": "「미분 · 순간 변화율을 계산하고 그래프의 기울기로 읽기」 books/derivative/, id derivative-basics, 수학, aqua, 책등 미분, 12장 · 18개 실험(3D 4개: cube·balloon·box·can), 한 줄씩 펼치는 예제 36개, 복습 24문항, 공통 사례 하람의 물로켓 h(t) = 20t − 5t²",
+    "links": "시리즈 calculus 1권(2권 partial-derivative-chain-rule, 3권 integral-calculus). 새 개념 rate-of-change, 기존 개념 gradient-backprop(#chain·#power)·loss-likelihood(#shape·#optimize)·rate-accumulation(#function). 새 노선 slope-to-best-value. 들어오는 링크: neural #descent·#backprop, aie-math #derivative, partial 1·3·4·7장, integral 3~7장",
+    "docs": "books/derivative/docs/(index.html G0~G7, research.html, fact-review.html review-2026-11-11 fixed)",
+    "verification": "docs/03-verification.html#derivative-book",
+    "remaining": [
+      "사람 독자 리허설은 하지 못함(리허설은 답을 알고 시작한 검수 세션이 함)",
+      "출처 18번(3Blue1Brown)은 열지 못했고 OpenStax 3.2·3.3·4.5의 일부 문장은 발췌가 끊겨 직접 보지 못함",
+      "세 권 사이 링크와 표지 삽화 수정은 관문 승인 뒤에 더해 팀장 페르소나의 재점검을 받지 않음",
+      "음함수 미분·역함수 미분·로피탈 정리·테일러 급수는 다음 개정 후보"
+    ],
+    "next_action": "서재 주인의 의견을 받아 3D 실험을 더 늘릴지 정한다. 다음 개정 때 세 권 사이 링크를 새 세션이 다시 점검한다"
   }
 }

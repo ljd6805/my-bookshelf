@@ -1,0 +1,26 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="왼쪽은 샷, 우유, 시럽 세 축의 공간에 라테 (2, 2, 0)과 바닐라라테 (2, 2, 2)를 점으로 찍고 원점에서 화살표를 그은 그림이고, 오른쪽은 한 변이 1인 상자가 행렬을 거쳐 샷 축으로 2배 늘어난 그림과 그 행렬의 숫자 아홉 개" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M74 84L39.8 109.1M91.5 88.9L57.3 114M109 93.9L74.8 119M126.4 98.8L92.2 123.9M74 84L126.4 98.8M62.6 92.4L115 107.2M51.2 100.7L103.6 115.5M39.8 109.1L92.2 123.9"/>
+<path class="cv-stroke cv-thin" d="M74 84L138.7 102.3M74 84L31.8 114.9M74 84L74 19.4"/>
+<path class="cv-hair cv-dash" d="M109 93.9L86.2 110.6M51.2 100.7L86.2 110.6M86.2 110.6L86.2 72.6"/>
+<path class="cv-line" d="M74 84L86.2 110.6"/>
+<path class="cv-line cv-bold" d="M74 84L86.2 72.6"/>
+<circle class="cv-node" cx="86.2" cy="110.6" r="3.6"/>
+<text class="cv-text" x="94.2" y="122.6">라테 (2, 2, 0)</text>
+<circle class="cv-dot" cx="86.2" cy="72.6" r="4.6"/>
+<text class="cv-text" x="94.2" y="69.6">바닐라라테 (2, 2, 2)</text>
+<text class="cv-text cv-muted" x="142.7" y="112.3">샷</text>
+<text class="cv-text cv-muted" x="13.8" y="124.9">우유</text>
+<text class="cv-text cv-muted" x="66" y="15.4">시럽</text>
+<path class="cv-hair" d="M172 12V140"/>
+<polygon class="cv-bar" points="258.2,108.5 243.8,119 243.8,95 258.2,84.5"/><polygon class="cv-bar" points="199.6,106.6 243.8,119 243.8,95 199.6,82.6"/><polygon class="cv-bar" points="214,72 258.2,84.5 243.8,95 199.6,82.6"/>
+<path class="cv-stroke cv-thin cv-dash" d="M236.1 102.2L221.7 112.8M236.1 102.2L236.1 78.2M236.1 78.2L221.7 88.8M221.7 112.8L221.7 88.8"/>
+<path class="cv-line cv-bold" d="M214 96L258.2 108.5"/>
+<path class="cv-line" d="M214 96L199.6 106.6M214 96L214 72"/>
+<circle class="cv-dot" cx="258.2" cy="108.5" r="3.6"/>
+<text class="cv-text cv-muted" x="184" y="20">행렬을 곱하면 상자가 늘어남</text>
+<text class="cv-matrix" x="270" y="44">2  0  0</text>
+<text class="cv-matrix" x="270" y="59">0  1  0</text>
+<text class="cv-matrix" x="270" y="74">0  0  1</text>
+<path class="cv-stroke cv-thin" d="M268 32H264M264 32V80M264 80H268M312 32H316M316 32V80M316 80H312"/>
+<text class="cv-text" x="186" y="134">e₁ → (2, 0, 0) · 부피 2배</text>
+</svg>

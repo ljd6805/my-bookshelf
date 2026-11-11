@@ -1,4 +1,4 @@
-import { setupAtlas, filterAtlas } from './atlas.js?v=20261028-divider2';
+import { setupAtlas, filterAtlas } from './atlas.js?v=20261111-ai-merge';
 
 export { setupAtlas };
 

@@ -1,0 +1,99 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="쉬운 선형대수 책의 조사 노트: 교과서와 공식 문서 출처 목록, 원문과 대조한 사실 표, 계산 검산, 흔한 오해, 확인하지 못한 것, 다시 확인할 것."><title>쉬운 선형대수 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"><style>table{border-collapse:collapse;width:100%;margin:12px 0 24px}th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}code{font-family:var(--font-mono,monospace)}</style></head><body><header class="top"><a class="brand" href="index.html">쉬운 선형대수 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1100px;margin:auto;padding:32px 16px">
+<h1>조사 노트 (G3 · 지식조사팀 은재·지호·수아·태오)</h1>
+
+<section id="intro"><h2>0. 이 노트를 읽는 법 (은재)</h2>
+<p>확인일은 모두 2026-11-11입니다. 이 노트는 글작성팀과 시각·실험팀이 본문과 실험에 옮겨 써도 되는 사실과, 옮길 때 붙여야 할 조건을 모은 것입니다. 검수팀 유진은 여기서 검수를 시작합니다.</p>
+<p>이 작업 환경에서는 출처 열두 곳 모두 셸(curl)로는 열리지 않아, 지호가 웹 가져오기 도구로 같은 주소를 읽었습니다. PyTorch 문서 세 쪽(nn.Linear, Conv2d, autograd.functional.jacobian)은 stable 주소가 2.15판 주소로 넘어가서 2.15판 문서를 읽었습니다. 책에는 stable 주소를 적고 “2.15판 문서로 확인”이라고 덧붙였습니다.</p>
+<p>이 책의 내용은 대부분 교과서에 실린 정의와 계산입니다. 그래서 규칙을 이렇게 정했습니다. 정의와 식은 공개 교과서 두 권(출처 1, 2)과 대조합니다. 라이브러리가 하는 일(가중치 모양, 입력 모양, 오류)은 공식 문서의 문장으로만 씁니다. 논문 한 편(출처 9)의 문장은 논문이 붙인 조건(선형인 경우)과 함께 씁니다. 카페·음료·단가·취향 가중치·단골 이동 비율·주문 기록은 모두 이 책이 정한 값이고 화면마다 그렇게 밝힙니다. 참고 자료(출처 0, 1, 2, 3, 11)에서는 다루는 순서와 범위만 참고합니다. 문장, 그림, 예제는 옮기지 않고 소라의 카페 사례로 새로 씁니다. 공식 문서와 논문에서 옮긴 것은 식과 모양 표기, 따옴표로 묶은 짧은 문장뿐입니다(2026-11-11 팀장 점검에서 은재가 덧붙임).</p>
+</section>
+
+<section id="sources"><h2>1. 출처 (지호)</h2>
+<table><tr><th>#</th><th>출처</th><th>읽은 위치</th><th>쓰는 장</th></tr>
+<tr><td>0</td><td><a href="https://www.3blue1brown.com/topics/linear-algebra">3Blue1Brown · Essence of linear algebra</a></td><td>시리즈 소개 쪽(목록은 화면에서 스크립트로 그려져 가져오기 도구로는 읽지 못함)</td><td>1, 2, 4, 5, 7, 8, 11, 12장</td></tr>
+<tr><td>1</td><td><a href="https://mml-book.github.io/">Deisenroth, Faisal, Ong (2020) · Mathematics for Machine Learning</a></td><td>책 소개와 차례(1부 2장 Linear Algebra, 3장 Analytic Geometry, 4장 Matrix Decompositions, 5장 Vector Calculus)</td><td>3, 4, 13장</td></tr>
+<tr><td>2</td><td><a href="https://www.deeplearningbook.org/contents/linear_algebra.html">Goodfellow, Bengio, Courville (2016) · Deep Learning, 2장 Linear Algebra</a></td><td>2장 차례(2.1 Scalars, Vectors, Matrices and Tensors ~ 2.12)와 2.1절의 텐서 정의 “an array of numbers arranged on a regular grid with a variable number of axes”</td><td>1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 13, 마지막 과제</td></tr>
+<tr><td>3</td><td><a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/">MIT OpenCourseWare · 18.06 Linear Algebra (Gilbert Strang)</a></td><td>강의 소개(systems of equations, vector spaces, determinants, eigenvalues, similarity, positive definite matrices), 강사 Gilbert Strang</td><td>6, 7, 8, 11, 12장</td></tr>
+<tr><td>4</td><td><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.Linear.html">PyTorch 문서 · torch.nn.Linear</a></td><td>식 “y = xA^T + b”, weight의 모양 “(out_features, in_features)” (stable 주소가 2.15판으로 넘어감)</td><td>5, 6, 9, 마지막 과제</td></tr>
+<tr><td>5</td><td><a href="https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html">PyTorch 튜토리얼 · Tensors</a></td><td>tensor.shape 읽기, “tensor @ tensor.T”가 행렬 곱이고 “tensor * tensor”가 원소별 곱이라는 주석</td><td>10장</td></tr>
+<tr><td>6</td><td><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv2d.html">PyTorch 문서 · torch.nn.Conv2d</a></td><td>Shape 절의 입력 “(N, C_in, H_in, W_in)”, N은 묶음 크기 (stable 주소가 2.15판으로 넘어감)</td><td>10장</td></tr>
+<tr><td>7</td><td><a href="https://numpy.org/doc/stable/reference/generated/numpy.matmul.html">NumPy 문서 · numpy.matmul</a></td><td>시그니처 (n,k),(k,m)-&gt;(n,m), “last dimension of x1 is not the same size as the second-to-last dimension of x2”이면 ValueError</td><td>9, 마지막 과제</td></tr>
+<tr><td>8</td><td><a href="https://numpy.org/doc/stable/user/basics.broadcasting.html">NumPy 문서 · Broadcasting</a></td><td>General Broadcasting Rules(뒤쪽 축부터 견주어 같거나 한쪽이 1이면 맞음, 없는 축은 길이 1로 봄)</td><td>9장</td></tr>
+<tr><td>9</td><td><a href="https://arxiv.org/abs/1211.5063">Pascanu, Mikolov, Bengio (2013) · On the difficulty of training recurrent neural networks</a></td><td>초록, 2.1절 Mechanics: 선형인 경우 “It is sufficient for the largest eigenvalue λ1 of the recurrent weight matrix to be smaller than 1 for long term components to vanish … and necessary for it to be larger than 1 for gradients to explode”, 비선형이면 기준이 1/γ</td><td>12장</td></tr>
+<tr><td>10</td><td><a href="https://docs.pytorch.org/docs/stable/generated/torch.autograd.functional.jacobian.html">PyTorch 문서 · torch.autograd.functional.jacobian</a></td><td>“Compute the Jacobian of a given function”, 인자 func·inputs (stable 주소가 2.15판으로 넘어감)</td><td>13장</td></tr>
+<tr><td>11</td><td><a href="https://immersivemath.com/ila/index.html">Immersive Linear Algebra</a></td><td>머리말(“The world&#x27;s first linear algebra book with fully interactive figures”), 차례 10장(Vectors, The Dot Product, The Matrix, Determinants, Rank, Linear Mappings, Eigenvalues and Eigenvectors 등)</td><td>1, 7장</td></tr>
+</table>
+</section>
+
+<section id="facts"><h2>2. 사실 주장 표 (은재 정리, 지호 위치 확인)</h2>
+<table><tr><th>장</th><th>주장 (본문에 쓰는 형태)</th><th>출처 #</th><th>조건·주의</th></tr>
+<tr><td>1</td><td>숫자를 정해진 순서로 묶은 것이 벡터, 숫자 하나하나가 성분, 개수가 차원</td><td>1, 2</td><td>코드의 모양 (3,)과 0번부터 세는 색인은 “딥러닝 책에서는” 상자에만 둠</td></tr>
+<tr><td>2</td><td>덧셈은 같은 자리끼리, 실수배는 모든 성분에 같은 수. 차원이 같아야 더할 수 있음</td><td>1, 2</td><td>가중치 갱신 w ← w − η·g는 예로만 들고 학습률 고르기는 다루지 않음</td></tr>
+<tr><td>3</td><td>길이는 √(성분 제곱의 합)이고 L2 노름. 거리는 차이 벡터의 길이</td><td>1, 2</td><td>단위가 다른 성분을 그대로 제곱해 더한다는 주의를 식 설명과 혼동 상자에 둠</td></tr>
+<tr><td>4</td><td>내적 = 같은 자리 곱의 합 = ‖w‖‖x‖cos θ. 코사인 유사도는 길이를 무시함</td><td>1, 2</td><td>영벡터가 끼면 각도가 정해지지 않음(실험은 “방향 없음”으로 표시)</td></tr>
+<tr><td>5</td><td>뉴런 = 가중합 + 편향 + 활성화 함수. z = 0인 점들은 w에 수직인 평면</td><td>1, 2</td><td>가중치와 편향은 이 책이 정한 값. 실제 모델은 학습한다고 밝힘</td></tr>
+<tr><td>6</td><td>행렬 × 벡터는 행마다 내적. m×n 행렬은 n차원을 받아 m차원을 냄. nn.Linear의 weight는 (출력 수, 입력 수)</td><td>2, 4</td><td>PyTorch 2.15판 문서의 문장. 판이 바뀌면 다시 확인</td></tr>
+<tr><td>7</td><td>행렬의 j번째 열은 eⱼ의 도착점. 행렬식은 부피의 배수, 0이면 납작, 음수면 뒤집힘</td><td>0, 3, 11</td><td>3차원 회전·밀기 행렬은 이 책이 고른 예</td></tr>
+<tr><td>8</td><td>B(Ax) = (BA)x, (BA)ᵢⱼ = B의 i행 · A의 j열. 교환 법칙은 일반적으로 성립하지 않고 결합 법칙은 성립. @는 행렬 곱, *는 원소별 곱</td><td>0, 2, 5</td><td>활성화 함수 없는 두 층이 한 층과 같다는 것은 식 전개로 보임</td></tr>
+<tr><td>9</td><td>(m×n)(p×q)는 n = p일 때만 곱할 수 있고 결과는 (m×q). 맞지 않으면 NumPy는 ValueError. nn.Linear는 y = xAᵀ + b. 브로드캐스팅은 뒤쪽 축부터 견줌</td><td>4, 7, 8</td><td>곱셈 횟수 m·n·q는 정의대로 셀 때의 수이며 실제 라이브러리의 연산 수가 아님</td></tr>
+<tr><td>10</td><td>축이 여러 개인 숫자 격자를 텐서라 부름. 모양은 축마다의 길이. Conv2d 입력은 (N, C, H, W)</td><td>2, 5, 6</td><td>수학·물리학의 텐서와 뜻이 다르다는 상자를 둠. 주문 기록은 이 책이 정한 값</td></tr>
+<tr><td>11</td><td>W⁻¹W = I. 행렬식이 0이면 역행렬이 없음. 랭크는 출력이 차지하는 공간의 차원</td><td>2, 3, 11</td><td>정사각형이 아닌 행렬의 유사역행렬은 다루지 않음. LoRA는 이름과 ΔW = BA만 소개</td></tr>
+<tr><td>12</td><td>Av = λv. 같은 행렬을 되풀이해 곱하면 절댓값이 가장 큰 고윳값이 결과를 정함. 선형 RNN에서 λ₁ &lt; 1이면 사라지기에 충분, 폭발하려면 λ₁ &gt; 1이 필요</td><td>2, 3, 9</td><td>Pascanu 등의 문장은 활성화 함수가 항등인 경우. 비선형이면 기준이 1/γ로 바뀌므로 본문에 “선형인 경우”를 붙임. 실수 고윳값이 없는 행렬(회전)은 혼동 상자에</td></tr>
+<tr><td>13</td><td>기울기는 편미분을 모은 벡터, 야코비안은 출력마다의 기울기를 쌓은 행렬. ReLU 층의 야코비안은 꺼진 뉴런의 행이 0인 W. 연쇄 법칙은 야코비안의 곱</td><td>1, 10</td><td>어림은 가까운 자리에서만 맞음. z = 0에서 ReLU의 기울기는 관례로 0</td></tr>
+<tr><td>14</td><td>순전파 h = ReLU(W₁x + b₁), y = w₂·h + b₂. 파라미터 11개</td><td>2, 4</td><td>가중치는 이 책이 정한 값이며 학습한 값이 아님</td></tr>
+</table>
+</section>
+
+<section id="checks"><h2>3. 계산 검산 (수아)</h2>
+<p>책의 계산은 모두 <code>js/math.js</code>가 합니다. 수아는 책 코드와 따로 손과 파이썬(numpy 없이 분수 계산)으로 아래 값을 다시 구했고, <code>tests/math.test.cjs</code>가 같은 값을 실험 안내의 문장과 대조합니다.</p>
+<table><tr><th>대상</th><th>따로 구한 값</th><th>책의 값</th></tr>
+<tr><td>라테의 원가·열량·카페인</td><td>500·2 + 300·2 = 1,600 / 5·2 + 65·2 = 140 / 75·2 = 150</td><td>(1600, 140, 150)</td></tr>
+<tr><td>라테와 플랫화이트의 코사인과 각도</td><td>8 / (√8·√10) = 8/√80 ≈ 0.8944, arccos ≈ 26.57°</td><td>0.89, 26.6°</td></tr>
+<tr><td>민준의 뉴런, 여섯 음료의 가중합</td><td>에스프레소 −0.5, 아메리카노 0.5, 라테 1.5, 바닐라라테 −0.5, 플랫화이트 2, 바닐라우유 −2</td><td>같음</td></tr>
+<tr><td>원가·열량·카페인 행렬의 행렬식</td><td>셋째 행으로 전개: 75·(300·20 − 100·65) = 75·(−500) = −37,500</td><td>−37,500</td></tr>
+<tr><td>원가·원가×2·열량에서 라테와 같은 출력을 내는 레시피</td><td>원가 행 (500, 300, 100)과 열량 행 (5, 65, 20)의 외적 (300·20 − 100·65, 100·5 − 500·20, 500·65 − 300·5) = (−500, −9500, 31000)을 가장 큰 성분으로 나눈 (−0.0161, −0.3065, 1)을 라테에 더하면 (1.984, 1.694, 1). 출력은 500·1.984 + 300·1.694 + 100 = 1,600, 5·1.984 + 65·1.694 + 20 = 140</td><td>(1.98, 1.69, 1), 출력 (1600, 3200, 140)</td></tr>
+<tr><td>단골 이동 행렬의 고윳값</td><td>λ² − 1.6λ + 0.6 = 0 → 1, 0.6. 머무는 분포는 0.1a = 0.3b, a + b = 100 → (75, 25)</td><td>1, 0.6, (75, 25)</td></tr>
+<tr><td>1.2²⁰, 0.8²⁰, 0.7²⁰</td><td>38.34, 0.01153, 0.000798</td><td>약 38.3, 0.0115, “0.001보다 작음”</td></tr>
+<tr><td>신메뉴 (3, 2, 1)의 순전파</td><td>W₁x = (2, 2), +b₁ = (1.5, 1), ReLU 그대로, y = 3 − 1 − 0.5 = 1.5</td><td>같음</td></tr>
+<tr><td>점수의 기울기</td><td>2·(1, −0.5, 0) − 1·(0, 0.5, 1) = (2, −1.5, −1)</td><td>같음. 수치 미분(h = 10⁻⁶)과도 일치</td></tr>
+<tr><td>ReLU를 뺀 바닐라우유의 점수</td><td>W₁x + b₁ = (−2, 2.5), y = −4 − 2.5 − 0.5 = −7. ReLU를 넣으면 h = (0, 2.5), y = −3</td><td>−7, −3</td></tr>
+<tr><td>은닉 뉴런 4개일 때 파라미터</td><td>4·3 + 4 + 4 + 1 = 21</td><td>21</td></tr>
+<tr><td>(32, 3, 28, 28)의 숫자 수</td><td>32·3·784 = 75,264</td><td>75,264</td></tr>
+</table>
+<p id="check-null">검수에서는 이 표의 값을 책 코드와 따로 한 번 더 계산해 주세요. 특히 다섯째 줄의 외적과 아홉째 줄의 기울기는 부호를 틀리기 쉽습니다.</p>
+</section>
+
+<section id="misconceptions"><h2>4. 흔한 오해 (태오)</h2>
+<p>태오가 입문자가 자주 헷갈리는 것을 모아 장마다 “혼동하지 마세요” 상자의 재료로 넘겼습니다.</p>
+<ul>
+<li>벡터는 화살표라고만 기억하는 것(1장): 숫자 묶음이 먼저이고 화살표는 보는 방법 하나.</li>
+<li>벡터끼리의 곱을 같은 자리 곱으로 생각하는 것(2·8장): 내적과 원소별 곱은 다른 계산. 코드에서 <code>@</code>와 <code>*</code>.</li>
+<li>코사인 유사도 1을 “같은 벡터”로 읽는 것(4장): 방향만 같음.</li>
+<li>편향을 가중치 하나쯤으로 보는 것(5장): 편향이 없으면 경계가 늘 원점을 지남.</li>
+<li>행렬의 행과 열의 뜻을 섞는 것(6·7장): 행은 출력 하나의 가중치, 열은 입력 축 하나의 도착점.</li>
+<li>모양이 맞으면 계산도 맞다고 믿는 것(9장): 3×3은 전치를 빼먹어도 오류가 나지 않음.</li>
+<li>“3차원 벡터”와 “축이 3개인 텐서”를 섞는 것(10장).</li>
+<li>식의 수가 미지수의 수와 같으면 풀린다고 보는 것(11장): 겹치는 식은 정보를 더하지 않음.</li>
+<li>모든 행렬에 실수 고유벡터가 있다고 보는 것(12장): 90° 회전은 없음.</li>
+<li>야코비안 어림을 정확한 값으로 쓰는 것(13장): ReLU가 켜지고 꺼지는 자리를 지나면 달라짐.</li>
+</ul>
+</section>
+
+<section id="unverified"><h2>5. 확인하지 못한 것</h2>
+<ul>
+<li>3Blue1Brown 시리즈 소개 쪽(출처 0)은 강의 목록을 스크립트로 그려서, 가져오기 도구로는 목록을 읽지 못했습니다. 책의 출처 설명에 적은 주제(벡터, 선형 변환, 행렬 곱, 행렬식, 역행렬과 랭크, 내적, 고유벡터)는 조사자가 알고 있는 시리즈 구성이며 이번에 화면에서 대조하지 못했습니다. 이 출처는 책의 사실 주장을 받치는 데 쓰지 않고 “같은 내용을 움직이는 그림으로 더 보고 싶을 때”의 안내로만 씁니다.</li>
+<li>Mathematics for Machine Learning과 Deep Learning 2장은 차례와 텐서 정의 문장까지 읽었습니다. 장마다의 식을 쪽 번호와 함께 하나씩 대조하지는 않았습니다. 책에 쓴 정의와 식은 교과서 공통의 것이라 수아의 검산과 테스트로 받칩니다.</li>
+<li>NumPy가 모양이 맞지 않을 때 내는 오류 문구 전체는 문서에 없어 책에 옮기지 않았습니다. 책은 “오류가 납니다”까지만 말합니다.</li>
+</ul>
+</section>
+
+<section id="recheck"><h2>6. 다시 확인할 것</h2>
+<ul>
+<li>PyTorch 문서(출처 4, 6, 10)는 판이 올라가면 문장이 바뀔 수 있습니다. 다음에 책을 고칠 때 stable 주소가 가리키는 판과 식 “y = xA^T + b”, weight 모양, 입력 모양 표기를 다시 봅니다.</li>
+<li>다른 책으로 가는 링크의 장 제목은 그 책이 제목을 바꾸면 함께 고칩니다(tests/routes.test.cjs는 앵커만 검사합니다).</li>
+</ul>
+</section>
+
+<section id="handoff"><h2>7. 넘기는 메모 (은재 → 나래·리안)</h2>
+<p>정의는 한 장에 하나씩만 굵게 표시하고, 지어낸 값에는 “이 책이 정한 값”을 붙여 주세요. 12장의 Pascanu 문장에는 “선형인 경우”를 빼지 말아 주세요. 실험의 3차원 그림은 길이를 축척대로 그리되, 11장의 출력 공간 그림처럼 축마다 줄여 그린 곳은 그림 설명에 그렇게 적어 주세요.</p>
+</section>
+</main></body></html>

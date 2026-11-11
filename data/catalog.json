@@ -5,6 +5,220 @@
   "resources": [],
   "books": [
     {
+      "id": "derivative-basics",
+      "title": "미분 · 순간 변화율을 계산하고 그래프의 기울기로 읽기",
+      "spine_title": "미분",
+      "spine_category": "수학",
+      "color": "aqua",
+      "description": "위로 쏜 물로켓의 높이 h(t) = 20t − 5t²에서 평균 속도를 계산하고, 구간을 줄여 한 순간의 속도인 미분계수를 구합니다. 거듭제곱·곱·연쇄 법칙과 지수·로그·삼각함수의 도함수를 돌려 보는 3D 그림과 단계별 예제 36개로 익힌 뒤 극값·최적화·접선 어림에 씁니다. 12장 18개 실험.",
+      "illustration": "books/derivative/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 로켓의 높이 곡선 위를 점이 움직이는 동안 접선이 오르막에서 수평, 내리막으로 기울고, 오른쪽 그래프의 점이 그 기울기 값만큼의 높이로 내려갑니다. 실제 수치는 책 안의 실험이 계산합니다.",
+      "cover_art": "books/derivative/assets/cover-art.svg",
+      "cover_meta": "12장 · 18개 실험",
+      "status": "published",
+      "url": "books/derivative/",
+      "keywords": [
+        "미분",
+        "미적분",
+        "calculus",
+        "derivative",
+        "평균 변화율",
+        "극한",
+        "limit",
+        "미분계수",
+        "순간 변화율",
+        "접선",
+        "할선",
+        "도함수",
+        "거듭제곱 규칙",
+        "곱의 규칙",
+        "몫의 규칙",
+        "연쇄 법칙",
+        "chain rule",
+        "지수함수",
+        "자연로그",
+        "삼각함수",
+        "극대",
+        "극소",
+        "변곡점",
+        "최적화",
+        "선형 근사",
+        "뉴턴 방법",
+        "이계도함수"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/derivative/#chapters"
+        },
+        {
+          "title": "03 · 미분계수를 정의대로 계산하고 접선 긋기",
+          "url": "books/derivative/#tangent"
+        },
+        {
+          "title": "05 · 거듭제곱·상수배·합 규칙으로 다항식 미분하기",
+          "url": "books/derivative/#power"
+        },
+        {
+          "title": "07 · 연쇄 법칙으로 합성함수 미분하기",
+          "url": "books/derivative/#chain"
+        },
+        {
+          "title": "10 · 도함수로 상자 부피를 가장 크게 하는 길이 찾기",
+          "url": "books/derivative/#optimize"
+        },
+        {
+          "title": "11 · 접선으로 근삿값 계산하고 뉴턴 방법으로 방정식 풀기",
+          "url": "books/derivative/#linear"
+        }
+      ],
+      "short_title": "미분"
+    },
+    {
+      "id": "partial-derivative-chain-rule",
+      "title": "편미분과 연쇄 법칙 · 곡면을 잘라 기울기를 재고 역전파 계산하기",
+      "spine_title": "편미분",
+      "spine_category": "수학",
+      "color": "rose",
+      "description": "변수가 둘 이상인 함수에서 한 변수만 움직여 기울기를 재는 편미분을 다룹니다. 카페 8일 기록의 손실 L(w, b)를 3차원 곡면으로 돌려 보며 자르고, 접평면과 기울기 벡터, 경사하강 한 걸음을 계산합니다. 이어서 연쇄 법칙으로 뉴런 하나와 2-2-1 망의 기울기를 구해 수치 미분과 견줍니다. 11장 12개 실험이며 「신경망의 계산」 3장과 6장을 읽기 전후에 봅니다.",
+      "illustration": "books/partial/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 세로 면이 손실 곡면을 자르고 점이 기울기 반대쪽으로 바닥까지 걷습니다. 오른쪽에서는 변화율이 손실에서 가중치 쪽으로 거꾸로 전해집니다.",
+      "cover_art": "books/partial/assets/cover-art.svg",
+      "cover_meta": "11장 · 12개 실험",
+      "status": "published",
+      "url": "books/partial/",
+      "keywords": [
+        "편미분",
+        "partial derivative",
+        "미분",
+        "접선",
+        "단면",
+        "접평면",
+        "전미분",
+        "기울기 벡터",
+        "gradient",
+        "그래디언트",
+        "방향 미분",
+        "등고선",
+        "경사하강법",
+        "학습률",
+        "연쇄 법칙",
+        "chain rule",
+        "계산 그래프",
+        "국소 미분",
+        "역전파",
+        "backpropagation",
+        "수치 미분",
+        "기울기 소실",
+        "기울기 폭발",
+        "다변수 미적분",
+        "3차원 곡면"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/partial/#chapters"
+        },
+        {
+          "title": "02 · 변수 하나만 움직여 곡면의 단면 기울기 재기",
+          "url": "books/partial/#partial"
+        },
+        {
+          "title": "04 · 두 편미분으로 접평면을 만들어 작은 변화 어림하기",
+          "url": "books/partial/#plane"
+        },
+        {
+          "title": "05 · 편미분을 모아 기울기 벡터를 만들고 방향별 변화율 구하기",
+          "url": "books/partial/#gradient"
+        },
+        {
+          "title": "08 · 계산 그래프에서 국소 미분을 뒤에서부터 곱하기",
+          "url": "books/partial/#graph"
+        },
+        {
+          "title": "09 · 갈라진 경로마다 곱하고 경로끼리 더하기",
+          "url": "books/partial/#branch"
+        }
+      ],
+      "short_title": "편미분과 연쇄 법칙"
+    },
+    {
+      "id": "integral-calculus",
+      "title": "적분 · 잘게 나눠 더해 넓이·쌓인 양·부피 계산하기",
+      "spine_title": "적분",
+      "spine_category": "수학",
+      "color": "aqua",
+      "description": "빗물 탱크의 유량계는 지금 1분에 몇 L가 들어오는지만 보여 줍니다. 그 속도에 짧은 시간을 곱해 모두 더하면 고인 물이 되고, 이 계산이 적분입니다. 직사각형의 합에서 정적분과 미적분의 기본 정리로 가고, 원시함수·치환적분·부분적분·수치적분으로 값을 구한 뒤, 회전체의 부피와 곡면 아래 부피는 3D로 돌려 보며 계산합니다. 확률밀도 아래 넓이까지 12장 14개 실험과 따라 하는 예제 40개로 익히고, 마지막에는 2분 간격 기록만으로 탱크가 넘쳤는지 판단합니다.",
+      "illustration": "books/integral/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 유입 속도 곡선 아래를 채운 직사각형이 5개, 10개, 20개로 가늘어지며 곡선에 맞춰지고, 그동안 오른쪽 탱크의 물이 차오릅니다. 실제 수치는 책 안의 실험이 계산합니다.",
+      "cover_art": "books/integral/assets/cover-art.svg",
+      "cover_meta": "12장 · 14개 실험",
+      "status": "published",
+      "url": "books/integral/",
+      "keywords": [
+        "적분",
+        "미적분",
+        "정적분",
+        "부정적분",
+        "리만 합",
+        "구분구적법",
+        "넓이",
+        "쌓인 양",
+        "미적분의 기본 정리",
+        "원시함수",
+        "적분상수",
+        "치환적분",
+        "부분적분",
+        "수치적분",
+        "사다리꼴 공식",
+        "심프슨 공식",
+        "회전체 부피",
+        "원판법",
+        "확률밀도함수",
+        "정규분포",
+        "이중적분",
+        "반복적분",
+        "integral",
+        "calculus",
+        "3D"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/integral/#chapters"
+        },
+        {
+          "title": "01 · 변하는 유입 속도로 고인 물의 양 어림하기",
+          "url": "books/integral/#area"
+        },
+        {
+          "title": "04 · 미적분의 기본 정리로 넓이를 뺄셈 한 번에 구하기",
+          "url": "books/integral/#ftc"
+        },
+        {
+          "title": "06 · 치환적분으로 변수를 바꿔 적분하기",
+          "url": "books/integral/#substitution"
+        },
+        {
+          "title": "08 · 원시함수를 찾을 수 없을 때 수치적분으로 값 구하기",
+          "url": "books/integral/#numeric"
+        },
+        {
+          "title": "09 · 원판을 쌓아 회전체의 부피 계산하기",
+          "url": "books/integral/#volume"
+        },
+        {
+          "title": "10 · 확률밀도 곡선 아래 넓이로 확률과 평균 계산하기",
+          "url": "books/integral/#probability"
+        },
+        {
+          "title": "12 · 마지막 과제 · 유량계 기록만으로 탱크가 넘치는지 판단하기",
+          "url": "books/integral/#final"
+        }
+      ],
+      "short_title": "적분"
+    },
+    {
       "id": "probability-statistics",
       "title": "확률과 통계 · 경보가 울렸다, 정말 고장일까",
       "spine_title": "확률과 통계",
@@ -138,6 +352,103 @@
       "short_title": "정보는 몇 비트인가"
     },
     {
+      "id": "linear-algebra-easy",
+      "title": "쉬운 선형대수 · 벡터·행렬·텐서를 3D로 보며 신경망 계산하기",
+      "spine_title": "쉬운 선형대수",
+      "spine_category": "수학",
+      "color": "aqua",
+      "description": "딥러닝 책을 읽는 데 필요한 선형대수를 덧셈과 곱셈에서 시작해 다룹니다. 카페 음료 레시피를 숫자 세 개짜리 벡터로 적고 3차원 그림을 돌려 보며 내적과 뉴런, 행렬 곱, 모양 규칙과 텐서, 역행렬과 랭크, 고윳값, 야코비안을 14개 실험으로 계산하고, 작은 신경망의 순전파를 손으로 따라갑니다.",
+      "illustration": "books/linear-easy/assets/shelf-illustration.svg",
+      "illustration_caption": "실제 계산을 옮긴 그림: 한 변이 1인 상자가 행렬 [2 0 0; 0 1 0; 0 0 1]을 거쳐 샷 축으로 2배 늘어나고, 라테 (2, 2, 0)의 가중합 1.5가 뉴런 하나에 모입니다. 직접 돌려 보는 3차원 그림은 책 안의 실험에 있습니다.",
+      "cover_art": "books/linear-easy/assets/cover-art.svg",
+      "cover_meta": "14장 · 14개 실험",
+      "status": "published",
+      "url": "books/linear-easy/",
+      "keywords": [
+        "선형대수",
+        "linear algebra",
+        "벡터",
+        "vector",
+        "스칼라",
+        "실수배",
+        "선형 결합",
+        "노름",
+        "norm",
+        "거리",
+        "내적",
+        "dot product",
+        "가중합",
+        "코사인 유사도",
+        "뉴런",
+        "편향",
+        "활성화 함수",
+        "ReLU",
+        "행렬",
+        "matrix",
+        "선형 변환",
+        "행렬식",
+        "determinant",
+        "행렬 곱",
+        "matmul",
+        "전치",
+        "transpose",
+        "모양",
+        "shape",
+        "브로드캐스팅",
+        "텐서",
+        "tensor",
+        "축",
+        "axis",
+        "역행렬",
+        "inverse",
+        "랭크",
+        "rank",
+        "고윳값",
+        "고유벡터",
+        "eigenvalue",
+        "기울기",
+        "gradient",
+        "야코비안",
+        "Jacobian",
+        "연쇄 법칙",
+        "순전파",
+        "forward pass",
+        "딥러닝 수학",
+        "3D"
+      ],
+      "chapters": [
+        {
+          "title": "전체 14개 장",
+          "url": "books/linear-easy/#chapters"
+        },
+        {
+          "title": "01 · 음료 레시피를 숫자 세 개로 적고 공간의 점으로 보기",
+          "url": "books/linear-easy/#vector"
+        },
+        {
+          "title": "04 · 내적으로 가중합과 두 벡터의 각도 계산하기",
+          "url": "books/linear-easy/#dot"
+        },
+        {
+          "title": "07 · 행렬이 공간의 상자를 늘이고 돌리고 납작하게 하는 모습 보기",
+          "url": "books/linear-easy/#transform"
+        },
+        {
+          "title": "10 · 숫자를 여러 축으로 쌓은 텐서의 모양 읽기",
+          "url": "books/linear-easy/#tensor"
+        },
+        {
+          "title": "13 · 기울기 벡터와 야코비안 행렬로 입력이 조금 바뀔 때 출력 변화 계산하기",
+          "url": "books/linear-easy/#jacobian"
+        },
+        {
+          "title": "마지막 과제 · 2층 신경망의 순전파를 모양과 함께 계산하고 모양 오류 고치기",
+          "url": "books/linear-easy/#final"
+        }
+      ],
+      "short_title": "쉬운 선형대수"
+    },
+    {
       "id": "linear-algebra-world",
       "title": "벡터와 행렬로 보는 세상 · 직접 움직이는 선형대수",
       "spine_title": "벡터와 행렬",
@@ -188,76 +499,6 @@
         }
       ],
       "short_title": "벡터와 행렬"
-    },
-    {
-      "id": "derivative-basics",
-      "title": "미분 · 순간 변화율을 계산하고 그래프의 기울기로 읽기",
-      "spine_title": "미분",
-      "spine_category": "수학",
-      "color": "aqua",
-      "description": "위로 쏜 물로켓의 높이 h(t) = 20t − 5t²에서 평균 속도를 계산하고, 구간을 줄여 한 순간의 속도인 미분계수를 구합니다. 거듭제곱·곱·연쇄 법칙과 지수·로그·삼각함수의 도함수를 돌려 보는 3D 그림과 단계별 예제 36개로 익힌 뒤 극값·최적화·접선 어림에 씁니다. 12장 18개 실험.",
-      "illustration": "books/derivative/assets/shelf-illustration.svg",
-      "illustration_caption": "시각적 비유: 로켓의 높이 곡선 위를 점이 움직이는 동안 접선이 오르막에서 수평, 내리막으로 기울고, 오른쪽 그래프의 점이 그 기울기 값만큼의 높이로 내려갑니다. 실제 수치는 책 안의 실험이 계산합니다.",
-      "cover_art": "books/derivative/assets/cover-art.svg",
-      "cover_meta": "12장 · 18개 실험",
-      "status": "published",
-      "url": "books/derivative/",
-      "keywords": [
-        "미분",
-        "미적분",
-        "calculus",
-        "derivative",
-        "평균 변화율",
-        "극한",
-        "limit",
-        "미분계수",
-        "순간 변화율",
-        "접선",
-        "할선",
-        "도함수",
-        "거듭제곱 규칙",
-        "곱의 규칙",
-        "몫의 규칙",
-        "연쇄 법칙",
-        "chain rule",
-        "지수함수",
-        "자연로그",
-        "삼각함수",
-        "극대",
-        "극소",
-        "변곡점",
-        "최적화",
-        "선형 근사",
-        "뉴턴 방법",
-        "이계도함수"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/derivative/#chapters"
-        },
-        {
-          "title": "03 · 미분계수를 정의대로 계산하고 접선 긋기",
-          "url": "books/derivative/#tangent"
-        },
-        {
-          "title": "05 · 거듭제곱·상수배·합 규칙으로 다항식 미분하기",
-          "url": "books/derivative/#power"
-        },
-        {
-          "title": "07 · 연쇄 법칙으로 합성함수 미분하기",
-          "url": "books/derivative/#chain"
-        },
-        {
-          "title": "10 · 도함수로 상자 부피를 가장 크게 하는 길이 찾기",
-          "url": "books/derivative/#optimize"
-        },
-        {
-          "title": "11 · 접선으로 근삿값 계산하고 뉴턴 방법으로 방정식 풀기",
-          "url": "books/derivative/#linear"
-        }
-      ],
-      "short_title": "미분"
     },
     {
       "id": "how-computers-work",
@@ -506,6 +747,196 @@
       "short_title": "AI Book"
     },
     {
+      "id": "aie-01-workbench",
+      "title": "AI 개발 작업대 · 환경 점검에서 디버깅까지",
+      "spine_title": "개발 작업대",
+      "spine_category": "인공지능",
+      "color": "sage",
+      "description": "영화 리뷰 분류 프로젝트 하나를 노트북, 빌린 GPU 서버, 팀원의 컴퓨터에서 같은 결과로 다시 돌리며 사전 점검, 가상 환경, Git, GPU 비용, 원격 리눅스, 도커, API 키, 노트북, 데이터 분할, 프로파일링을 직접 계산합니다. 11장 17개 실험으로 원본 커리큘럼 Phase 0의 레슨 12개를 모두 재구성했습니다.",
+      "illustration": "books/aie-workbench/assets/shelf-illustration.svg",
+      "illustration_caption": "코드·라이브러리·CUDA 층을 담은 상자 하나가 노트북, GPU 상자, 팀원의 컴퓨터로 옮겨 가며 점검 표시가 켜지는 시각적 비유입니다.",
+      "cover_art": "books/aie-workbench/assets/cover-art.svg",
+      "cover_meta": "11장 · 17개 실험",
+      "status": "published",
+      "url": "books/aie-workbench/",
+      "keywords": [
+        "개발 환경",
+        "가상 환경",
+        "uv",
+        "Git",
+        "GPU",
+        "VRAM",
+        "클라우드 비용",
+        "tmux",
+        "리눅스 권한",
+        "Docker",
+        "API 키",
+        "Jupyter",
+        "데이터 분할",
+        "시드",
+        "프로파일링",
+        "디버깅",
+        "dev environment",
+        "reproducibility"
+      ],
+      "chapters": [
+        {
+          "title": "전체 11개 장",
+          "url": "books/aie-workbench/#chapters"
+        },
+        {
+          "title": "01 · 개발 환경을 아래층부터 점검하기",
+          "url": "books/aie-workbench/#stack"
+        },
+        {
+          "title": "02 · 프로젝트마다 따로 두는 파이썬 환경",
+          "url": "books/aie-workbench/#envs"
+        },
+        {
+          "title": "04 · GPU를 쓸지 빌릴지 정하기",
+          "url": "books/aie-workbench/#gpu"
+        },
+        {
+          "title": "06 · 도커로 같은 실행 환경 다시 만들기",
+          "url": "books/aie-workbench/#docker"
+        },
+        {
+          "title": "10 · 오류 없이 틀리는 학습 찾기",
+          "url": "books/aie-workbench/#debug"
+        }
+      ],
+      "short_title": "AI 개발 작업대"
+    },
+    {
+      "id": "aie-02-math",
+      "title": "모델을 움직이는 수학 · 미분에서 푸리에까지",
+      "spine_title": "모델의 수학",
+      "spine_category": "인공지능",
+      "color": "violet",
+      "description": "음성 명령 인식기 ‘말귀’ 하나를 만들며 소리를 주파수로 나누고, 텐서 모양을 맞추고, 기울기를 계산해 학습시키고, 손실·숫자 안정성·샘플링·SVD·조건수·마르코프 연쇄를 브라우저에서 직접 계산합니다. 12장 15개 실험으로 원본 커리큘럼 Phase 1의 레슨 22개를 모두 재구성했으며, 선형대수·확률 책과 겹치는 내용은 짧게 요약하고 그 책으로 보냅니다.",
+      "illustration": "books/aie-math/assets/shelf-illustration.svg",
+      "illustration_caption": "소리 파동이 주파수 막대로 나뉘고, 공이 손실 그릇을 따라 흔들리며 바닥으로 내려가는 시각적 비유입니다. 실제 계산은 아닙니다.",
+      "cover_art": "books/aie-math/assets/cover-art.svg",
+      "cover_meta": "12장 · 15개 실험",
+      "status": "published",
+      "url": "books/aie-math/",
+      "keywords": [
+        "미분",
+        "기울기",
+        "연쇄법칙",
+        "자동 미분",
+        "역전파",
+        "경사하강",
+        "모멘텀",
+        "볼록 최적화",
+        "엔트로피",
+        "교차 엔트로피",
+        "KL 발산",
+        "부동소수점",
+        "softmax",
+        "온도",
+        "top-p",
+        "몬테카를로",
+        "SVD",
+        "조건수",
+        "텐서",
+        "브로드캐스팅",
+        "노름",
+        "푸리에 변환",
+        "마르코프 연쇄",
+        "gradient",
+        "backpropagation",
+        "numerical stability",
+        "Fourier transform"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-math/#chapters"
+        },
+        {
+          "title": "01 · 소리를 주파수로 나누기",
+          "url": "books/aie-math/#signal"
+        },
+        {
+          "title": "04 · 연쇄법칙으로 모든 기울기를 한 번에",
+          "url": "books/aie-math/#autodiff"
+        },
+        {
+          "title": "05 · 경사하강으로 손실을 안정적으로 줄이기",
+          "url": "books/aie-math/#optimize"
+        },
+        {
+          "title": "07 · 숫자가 넘치지 않게 계산하기",
+          "url": "books/aie-math/#stability"
+        },
+        {
+          "title": "09 · SVD로 소리 표를 몇 개의 층으로 줄이기",
+          "url": "books/aie-math/#svd"
+        }
+      ],
+      "short_title": "모델을 움직이는 수학"
+    },
+    {
+      "id": "aie-03-ml",
+      "title": "머신러닝 기초 · 데이터에서 믿을 만한 예측까지",
+      "spine_title": "머신러닝",
+      "spine_category": "인공지능",
+      "color": "amber",
+      "description": "가상의 작은 온라인 서점 결제 기록으로 사기 경보 모델을 직접 만들며 로지스틱 회귀, 결정트리, kNN·SVM, 군집, 나이브 베이즈를 조작합니다. 12장 17개 실험으로 문턱과 지표, 편향과 분산, 누설, 불균형, 분포 이동까지 숫자로 확인합니다.",
+      "illustration": "books/aie-ml/assets/shelf-illustration.svg",
+      "illustration_caption": "정상 결제(원)와 사기 결제(사각형) 사이에서 경보 문턱 선이 오가며 잡는 사기와 오경보가 함께 바뀌는 모습을 보여 주는 비유 그림입니다.",
+      "cover_art": "books/aie-ml/assets/cover-art.svg",
+      "cover_meta": "12장 · 17개 실험",
+      "status": "published",
+      "url": "books/aie-ml/",
+      "keywords": [
+        "머신러닝",
+        "로지스틱 회귀",
+        "결정트리",
+        "kNN",
+        "SVM",
+        "k-평균",
+        "나이브 베이즈",
+        "혼동 행렬",
+        "ROC",
+        "편향-분산",
+        "앙상블",
+        "데이터 누설",
+        "불균형",
+        "이상 탐지",
+        "분포 이동",
+        "machine learning"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-ml/#chapters"
+        },
+        {
+          "title": "02 · 점수를 확률로 바꾸는 선",
+          "url": "books/aie-ml/#lines"
+        },
+        {
+          "title": "03 · 질문을 쌓아 나누는 결정트리",
+          "url": "books/aie-ml/#trees"
+        },
+        {
+          "title": "08 · 정확도 97%의 함정",
+          "url": "books/aie-ml/#metrics"
+        },
+        {
+          "title": "10 · 누설 없이 검증하는 파이프라인",
+          "url": "books/aie-ml/#pipeline"
+        },
+        {
+          "title": "마지막 · 새 결제 수단이 들어온 날",
+          "url": "books/aie-ml/#final"
+        }
+      ],
+      "short_title": "머신러닝 기초"
+    },
+    {
       "id": "neural-computation",
       "title": "신경망의 계산 · 예측선 긋기에서 역전파와 기울기 소실까지",
       "spine_title": "신경망 계산",
@@ -576,119 +1007,362 @@
       "short_title": "신경망의 계산"
     },
     {
-      "id": "llm-systems",
-      "title": "LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지",
-      "spine_title": "LLM 시스템",
+      "id": "aie-04-deep",
+      "title": "딥러닝 핵심 · 학습 설정을 고르고 손실 곡선으로 고장 찾기",
+      "spine_title": "딥러닝 핵심",
       "spine_category": "인공지능",
       "color": "blue",
-      "description": "모델의 B와 bit부터 GPU 안의 데이터 이동, prefill·decode, KV 캐시, 대역폭과 MoE까지. 12장·14개 실험으로 오픈웨이트 모델의 사양과 하드웨어 제약을 연결하고 실행 예산을 직접 만듭니다.",
-      "illustration": "books/llm-gpu/assets/shelf-illustration.svg",
-      "illustration_caption": "개념도: 가중치와 과거 토큰의 KV가 GPU로 흘러가 계산되고, 다음 토큰이 문장 끝에 하나씩 붙습니다. 크기·속도를 재현한 그림은 아닙니다.",
-      "cover_art": "books/llm-gpu/assets/cover-art.svg",
-      "cover_meta": "12장 · 14개 실험",
+      "description": "평면 위 점이 원 안에 있는지 맞히는 작은 신경망을 옵티마이저, 학습률 일정, 초기화, 규제, 배치·층 정규화를 하나씩 바꾸며 브라우저 안에서 실제로 학습시킵니다. 작은 프레임워크로 부품을 묶은 뒤, 8장 12개 실험으로 학습이 멈추는 이유를 손실 곡선과 층별 기울기로 진단합니다. 뉴런, 역전파, 활성화, 손실은 앞 책 「신경망의 계산」에서 다룹니다.",
+      "illustration": "books/aie-deep/assets/shelf-illustration.svg",
+      "illustration_caption": "값이 신경망을 앞으로 지나간 뒤 기울기가 거꾸로 돌아오고, 그때마다 손실 곡선이 내려가는 학습 과정을 보여 주는 시각적 비유입니다.",
+      "cover_art": "books/aie-deep/assets/cover-art.svg",
+      "cover_meta": "8장 · 12개 실험",
       "status": "published",
-      "url": "books/llm-gpu/",
+      "url": "books/aie-deep/",
       "keywords": [
-        "LLM",
-        "GPU",
-        "오픈웨이트",
-        "파라미터",
-        "VRAM",
-        "KV 캐시",
-        "메모리",
-        "대역폭",
-        "양자화",
-        "MoE",
-        "prefill",
-        "decode",
-        "Qwen",
-        "통합 메모리"
+        "딥러닝",
+        "옵티마이저",
+        "SGD",
+        "모멘텀",
+        "AdaGrad",
+        "RMSProp",
+        "Adam",
+        "미니배치",
+        "학습률 일정",
+        "가중치 초기화",
+        "과적합",
+        "과소적합",
+        "드롭아웃",
+        "조기 종료",
+        "배치 정규화",
+        "층 정규화",
+        "BatchNorm",
+        "LayerNorm",
+        "PyTorch",
+        "JAX",
+        "신경망 디버깅"
       ],
       "chapters": [
         {
-          "title": "전체 12개 장",
-          "url": "books/llm-gpu/#chapters"
+          "title": "전체 8개 장",
+          "url": "books/aie-deep/#chapters"
         },
         {
-          "title": "03 · 가중치가 차지하는 메모리",
-          "url": "books/llm-gpu/#weights"
+          "title": "01 · 같은 기울기, 다른 옵티마이저",
+          "url": "books/aie-deep/#optimizer"
         },
         {
-          "title": "05 · GPU 안의 저장소와 계산기",
-          "url": "books/llm-gpu/#hierarchy"
+          "title": "03 · 신호가 사라지거나 폭발하지 않게 초기화하기",
+          "url": "books/aie-deep/#init"
         },
         {
-          "title": "08 · 대화 길이가 차지하는 공간",
-          "url": "books/llm-gpu/#cache"
+          "title": "04 · 규제로 과적합 줄이기",
+          "url": "books/aie-deep/#regularize"
         },
         {
-          "title": "11 · 오픈웨이트 모델 사양 읽기",
-          "url": "books/llm-gpu/#modelcards"
+          "title": "05 · 배치 정규화와 층 정규화로 층 출력 맞추기",
+          "url": "books/aie-deep/#normalize"
         },
         {
-          "title": "12 · 내 장비의 실행 예산 만들기",
-          "url": "books/llm-gpu/#design"
+          "title": "07 · 손실 곡선으로 고장 찾기",
+          "url": "books/aie-deep/#debug"
         }
       ],
-      "short_title": "LLM 시스템"
+      "short_title": "딥러닝 핵심"
     },
     {
-      "id": "llm-performance",
-      "title": "LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지",
-      "short_title": "추론 최적화",
-      "spine_title": "추론 최적화",
+      "id": "aie-05-vision",
+      "title": "컴퓨터 비전 · 픽셀에서 장면 이해까지",
+      "spine_title": "컴퓨터 비전",
       "spine_category": "인공지능",
-      "color": "rose",
-      "description": "같은 요약 요청의 시간을 재고, CUDA 스레드와 메모리 접근, KV 할당·배치·통신을 조사합니다. 12장·15개 실험과 PyTorch·CUDA 예제로 성능·메모리·품질을 함께 검증합니다.",
-      "illustration": "books/llm-performance/assets/shelf-illustration.svg",
-      "illustration_caption": "개념 애니메이션: 커널 사이의 빈 구간을 찾고, 변경한 타임라인에서 결과와 시간을 다시 확인합니다. 실제 소요 시간의 축척이 아닙니다.",
+      "color": "sage",
+      "description": "역 앞 공공자전거 대여소 카메라 한 대를 따라가며 픽셀 전처리, 합성곱과 ViT 백본, 분류, 검출과 NMS, 분할 지표, 추적, 자기지도·CLIP, OCR, 깊이와 3D, 확산 생성, 엣지 지연 예산을 직접 계산합니다. 12장 18개 실험으로 원본 커리큘럼 phases/04-computer-vision의 레슨 28개를 모두 재구성했습니다.",
+      "illustration": "books/aie-vision/assets/shelf-illustration.svg",
+      "illustration_caption": "대여소 카메라 화면에서 자전거마다 겹쳐 뜬 후보 상자 중 NMS가 중복을 지워 하나만 남기는 과정을 보여 주는 시각적 비유입니다(좌표는 예시).",
+      "cover_art": "books/aie-vision/assets/cover-art.svg",
+      "cover_meta": "12장 · 18개 실험",
       "status": "published",
-      "url": "books/llm-performance/",
+      "url": "books/aie-vision/",
       "keywords": [
-        "LLM",
-        "CUDA",
-        "GPU",
-        "프로파일링",
-        "추론",
-        "최적화",
-        "TTFT",
-        "ITL",
-        "coalescing",
-        "occupancy",
-        "FlashAttention",
-        "PagedAttention",
-        "배치",
-        "NCCL",
-        "오픈웨이트"
+        "컴퓨터 비전",
+        "합성곱",
+        "CNN",
+        "ResNet",
+        "ViT",
+        "전이 학습",
+        "객체 검출",
+        "YOLO",
+        "IoU",
+        "NMS",
+        "분할",
+        "U-Net",
+        "Dice",
+        "추적",
+        "칼만 필터",
+        "CLIP",
+        "자기지도 학습",
+        "OCR",
+        "깊이 추정",
+        "NeRF",
+        "가우시안 스플래팅",
+        "확산 모델",
+        "CFG",
+        "정류 흐름",
+        "엣지 배포",
+        "computer vision",
+        "object detection"
       ],
       "chapters": [
         {
           "title": "전체 12개 장",
-          "url": "books/llm-performance/#chapters"
+          "url": "books/aie-vision/#chapters"
         },
         {
-          "title": "01 · 느리다는 말을 숫자로 바꾸기",
-          "url": "books/llm-performance/#metrics"
+          "title": "01 · 카메라가 넘겨준 숫자 배열",
+          "url": "books/aie-vision/#pixels"
         },
         {
-          "title": "02 · GPU가 끝난 시간을 재기",
-          "url": "books/llm-performance/#timing"
+          "title": "04 · 장면 속 자전거를 상자로 찾기",
+          "url": "books/aie-vision/#detect"
         },
         {
-          "title": "05 · 함께 읽는 주소 모으기",
-          "url": "books/llm-performance/#coalescing"
+          "title": "05 · 자전거 윤곽을 픽셀로 칠하기",
+          "url": "books/aie-vision/#segment"
         },
         {
-          "title": "09 · KV를 필요한 만큼 할당하기",
-          "url": "books/llm-performance/#paging"
+          "title": "07 · 자기지도 학습과 CLIP으로 표현 배우기",
+          "url": "books/aie-vision/#selfsup"
         },
         {
-          "title": "12 · 개선안을 끝까지 검증하기",
-          "url": "books/llm-performance/#review"
+          "title": "마지막 · 비 오는 밤, 새 카메라",
+          "url": "books/aie-vision/#capstone"
         }
       ],
-      "cover_art": "books/llm-performance/assets/cover-art.svg",
-      "cover_meta": "12장 · 15개 실험"
+      "short_title": "컴퓨터 비전"
+    },
+    {
+      "id": "aie-06-nlp",
+      "title": "자연어 처리 · 단어 세기에서 문장 이해까지",
+      "spine_title": "자연어 처리",
+      "spine_category": "인공지능",
+      "color": "rose",
+      "description": "온라인 서점의 고객 문의함 하나를 예제로 토큰화부터 TF-IDF, 단어 벡터, 나이브 베이즈, 비터비, 퍼플렉서티, 어텐션, BLEU, 청킹, 개체 연결, 대화 상태, 긴 문맥 평가까지 직접 계산합니다. 12장 · 16개 실험으로 원본 커리큘럼 Phase 5의 레슨 29개를 모두 재구성했습니다.",
+      "illustration": "books/aie-nlp/assets/shelf-illustration.svg",
+      "illustration_caption": "문의 한 통이 낱말 토큰으로 나뉘고 TF-IDF 막대가 자라 환불 문의로 분류되는 그림으로, 막대 길이는 실제 계산이고 흐르는 움직임은 처리 순서를 보여 주는 비유입니다.",
+      "cover_art": "books/aie-nlp/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-nlp/",
+      "keywords": [
+        "자연어 처리",
+        "NLP",
+        "토큰화",
+        "BPE",
+        "TF-IDF",
+        "BM25",
+        "word2vec",
+        "GloVe",
+        "fastText",
+        "LDA",
+        "BERTopic",
+        "감성 분석",
+        "NLI",
+        "개체명 인식",
+        "품사 태깅",
+        "HMM",
+        "비터비",
+        "n-gram",
+        "퍼플렉서티",
+        "seq2seq",
+        "어텐션",
+        "BLEU",
+        "요약",
+        "질의응답",
+        "청킹",
+        "상호참조",
+        "개체 연결",
+        "관계 추출",
+        "대화 상태 추적",
+        "구조화 출력",
+        "LLM 평가",
+        "긴 문맥"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-nlp/#chapters"
+        },
+        {
+          "title": "01 · 문의를 낱말로 쪼개기",
+          "url": "books/aie-nlp/#clean"
+        },
+        {
+          "title": "03 · 주변 낱말로 단어 벡터 배우기",
+          "url": "books/aie-nlp/#vectors"
+        },
+        {
+          "title": "06 · 낱말마다 품사와 개체 표 붙이기",
+          "url": "books/aie-nlp/#tagging"
+        },
+        {
+          "title": "08 · 번역하며 원문 어디를 볼까",
+          "url": "books/aie-nlp/#seq2seq"
+        },
+        {
+          "title": "09 · 약관을 줄이고 근거를 찾아 답하기",
+          "url": "books/aie-nlp/#answer"
+        }
+      ],
+      "short_title": "자연어 처리"
+    },
+    {
+      "id": "aie-07-audio",
+      "title": "음성과 오디오 · 파형에서 대화하는 목소리까지",
+      "spine_title": "음성 오디오",
+      "spine_category": "인공지능",
+      "color": "aqua",
+      "description": "후드 팬이 도는 부엌에서 “솔아, 타이머 오 분 맞춰 줘”를 알아듣고 대답하는 음성 비서 솔이를 만들며 샘플링과 앨리어싱, 스펙트로그램과 멜 특징, CTC와 WER, Whisper의 30초 창, 화자 확인 문턱, 음성 합성의 길이 예측, 코덱 토큰, 지연 예산, VAD와 말차례, 워터마크 검출을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 6의 레슨 17개를 모두 재구성했습니다.",
+      "illustration": "books/aie-audio/assets/shelf-illustration.svg",
+      "illustration_caption": "부엌의 말소리 파형이 점으로 찍히고 멜 스펙트로그램 칸이 차례로 밝아진 뒤 스피커에서 대답이 퍼져 나가는 시각적 비유입니다.",
+      "cover_art": "books/aie-audio/assets/cover-art.svg",
+      "cover_meta": "12장 · 17개 실험",
+      "status": "published",
+      "url": "books/aie-audio/",
+      "keywords": [
+        "음성",
+        "오디오",
+        "샘플링",
+        "나이퀴스트",
+        "앨리어싱",
+        "스펙트로그램",
+        "멜",
+        "음성 인식",
+        "CTC",
+        "WER",
+        "Whisper",
+        "화자 확인",
+        "EER",
+        "TTS",
+        "음성 합성",
+        "오디오 코덱",
+        "RVQ",
+        "VAD",
+        "말차례",
+        "지연 시간",
+        "워터마크",
+        "speech",
+        "audio",
+        "ASR",
+        "voice agent"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-audio/#chapters"
+        },
+        {
+          "title": "01 · 소리를 숫자로 받아 적기",
+          "url": "books/aie-audio/#wave"
+        },
+        {
+          "title": "02 · 시간과 주파수를 함께 보는 스펙트로그램",
+          "url": "books/aie-audio/#mel"
+        },
+        {
+          "title": "04 · 소리를 글자로 옮기기",
+          "url": "books/aie-audio/#asr"
+        },
+        {
+          "title": "09 · 말이 끝난 뒤 1초 안에 대답하기",
+          "url": "books/aie-audio/#pipeline"
+        },
+        {
+          "title": "10 · VAD와 침묵 대기로 말차례 판정하기",
+          "url": "books/aie-audio/#turn"
+        }
+      ],
+      "short_title": "음성과 오디오"
+    },
+    {
+      "id": "recurrent-networks",
+      "title": "순환 신경망 · 은닉 상태와 기울기를 계산해 RNN·LSTM·GRU 견주기",
+      "spine_title": "순환신경망",
+      "spine_category": "인공지능",
+      "color": "amber",
+      "description": "기온 기록과 문장처럼 순서가 있는 자료를 읽는 RNN을 다룹니다. 셀을 시간 축으로 펼쳐 은닉 상태를 계산하고, 기울기가 사라지고 폭발하는 크기를 구하고, LSTM·GRU의 게이트, 임베딩과 검증, 어텐션으로 넘어간 까닭을 13개 실험으로 확인합니다.",
+      "illustration": "books/rnn/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 은닉 상태가 셀 네 개를 차례로 지나고, 되돌아오는 기울기는 단순 RNN 줄에서 작아지고 LSTM 줄에서 남습니다. 실제 계산은 책 안의 실험이 합니다.",
+      "cover_art": "books/rnn/assets/cover-art.svg",
+      "cover_meta": "13장 · 13개 실험",
+      "status": "published",
+      "url": "books/rnn/",
+      "keywords": [
+        "RNN",
+        "순환 신경망",
+        "recurrent neural network",
+        "LSTM",
+        "GRU",
+        "은닉 상태",
+        "hidden state",
+        "셀 상태",
+        "게이트",
+        "망각 게이트",
+        "BPTT",
+        "시간 방향 역전파",
+        "기울기 소실",
+        "기울기 폭발",
+        "vanishing gradient",
+        "기울기 자르기",
+        "gradient clipping",
+        "잘린 BPTT",
+        "시퀀스",
+        "시계열",
+        "many-to-one",
+        "Seq2Seq",
+        "인코더 디코더",
+        "임베딩",
+        "패딩",
+        "pack_padded_sequence",
+        "조기 종료",
+        "과적합",
+        "드롭아웃",
+        "PyTorch",
+        "nn.RNN",
+        "nn.LSTM",
+        "어텐션",
+        "트랜스포머 이전"
+      ],
+      "chapters": [
+        {
+          "title": "전체 13개 장",
+          "url": "books/rnn/#chapters"
+        },
+        {
+          "title": "02 · RNN 셀 하나로 은닉 상태 계산하기",
+          "url": "books/rnn/#cell"
+        },
+        {
+          "title": "05 · 시간 방향 역전파(BPTT)로 기울기 구하기",
+          "url": "books/rnn/#bptt"
+        },
+        {
+          "title": "06 · 기울기 소실과 폭발의 크기를 계산하고 기울기 자르기",
+          "url": "books/rnn/#vanish"
+        },
+        {
+          "title": "08 · LSTM 셀의 게이트 세 개와 셀 상태 계산하기",
+          "url": "books/rnn/#lstm"
+        },
+        {
+          "title": "10 · 문장을 번호와 임베딩으로 바꿔 LSTM으로 분류하기",
+          "url": "books/rnn/#embed"
+        },
+        {
+          "title": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기",
+          "url": "books/rnn/#final"
+        }
+      ],
+      "short_title": "순환 신경망"
     },
     {
       "id": "transformer-inside",
@@ -757,76 +1431,323 @@
       "short_title": "트랜스포머 속"
     },
     {
-      "id": "federated-learning",
-      "title": "연합학습 · 데이터를 기기에 두고 업데이트만 모아 모델 학습하기",
-      "spine_title": "연합학습",
+      "id": "aie-08-transformer",
+      "title": "트랜스포머 깊이 보기 · 셀프 어텐션에서 스케일링 법칙까지",
+      "spine_title": "트랜스포머",
       "spine_category": "인공지능",
-      "color": "plum",
-      "description": "키보드 앱을 만드는 하린(이 책을 위해 지어낸 인물)이 합성 사용자 1,000명의 원문을 서버로 모으지 않고 다음 단어 추천 모델을 학습합니다. FedAvg와 통신량, 사용자마다 다른 데이터, 업데이트에서 드러나는 단어와 보안 집계·차등 프라이버시, 개인화와 묶음별 평가를 13장 14개 실험으로 계산합니다.",
-      "illustration": "books/federated/assets/shelf-illustration.svg",
-      "illustration_caption": "시각적 비유: 서버가 모델을 휴대폰 세 대로 내려보내면 휴대폰은 원문을 자기 안에 둔 채 학습하고 업데이트만 올립니다. 서버는 셋을 평균해 다음 모델을 만들고 같은 라운드를 되풀이합니다.",
-      "cover_art": "books/federated/assets/cover-art.svg",
-      "cover_meta": "13장 · 14개 실험",
+      "color": "violet",
+      "description": "작은 한국어 언어 모델 ‘도란’의 구조와 학습 예산을 장마다 계산해 정하며 √d 나누기, 멀티헤드와 GQA, RoPE, 블록 파라미터, BERT·GPT·T5·ViT·Whisper의 마스크, MoE 라우팅, FlashAttention과 KV 캐시, 친칠라 예산, 추측 디코딩을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 7의 레슨 16개를 모두 재구성했습니다.",
+      "illustration": "books/aie-transformer/assets/shelf-illustration.svg",
+      "illustration_caption": "문장 토큰 사이에 어텐션 호가 그려지고 아래쪽 삼각형 칸이 한 줄씩 채워지며 인과 마스크가 쌓이는 시각적 비유입니다.",
+      "cover_art": "books/aie-transformer/assets/cover-art.svg",
+      "cover_meta": "12장 · 17개 실험",
       "status": "published",
-      "url": "books/federated/",
+      "url": "books/aie-transformer/",
       "keywords": [
-        "연합학습",
-        "federated learning",
-        "FedAvg",
-        "FedSGD",
-        "non-IID",
-        "FedProx",
-        "SCAFFOLD",
-        "보안 집계",
-        "secure aggregation",
-        "차등 프라이버시",
-        "DP-FedAvg",
-        "differential privacy",
-        "개인화",
-        "연합 평가",
-        "Gboard",
-        "LoRA",
-        "기울기 유출",
-        "통신량"
+        "트랜스포머",
+        "셀프 어텐션",
+        "스케일드 닷프로덕트",
+        "멀티헤드",
+        "GQA",
+        "RoPE",
+        "LayerNorm",
+        "RMSNorm",
+        "BERT",
+        "GPT",
+        "T5",
+        "ViT",
+        "Whisper",
+        "MoE",
+        "FlashAttention",
+        "KV 캐시",
+        "스케일링 법칙",
+        "Chinchilla",
+        "추측 디코딩",
+        "transformer",
+        "attention"
       ],
       "chapters": [
         {
-          "title": "전체 13개 장",
-          "url": "books/federated/#chapters"
+          "title": "전체 12개 장",
+          "url": "books/aie-transformer/#chapters"
         },
         {
-          "title": "02 · FedSGD에서 FedAvg로: 기기에서 여러 번 학습하고 서버에서 평균하기",
-          "url": "books/federated/#fedavg"
+          "title": "02 · 점수를 √d로 나누는 이유",
+          "url": "books/aie-transformer/#selfattn"
         },
         {
-          "title": "04 · 사용자마다 다른 데이터가 만드는 기기 표류와 FedProx·SCAFFOLD의 보정",
-          "url": "books/federated/#noniid"
+          "title": "04 · RoPE: 위치를 회전 각도로 넣기",
+          "url": "books/aie-transformer/#position"
         },
         {
-          "title": "07 · 업데이트 하나에서 사용자가 입력한 단어 쌍을 복원하기",
-          "url": "books/federated/#leakage"
+          "title": "06 · 빈칸을 맞히는 BERT, 다음을 맞히는 GPT",
+          "url": "books/aie-transformer/#bertgpt"
         },
         {
-          "title": "09 · 업데이트를 자르고 잡음을 더해 차등 프라이버시 ε 계산하기",
-          "url": "books/federated/#dp"
+          "title": "08 · 전문가에게 나눠 맡기기",
+          "url": "books/aie-transformer/#moe"
         },
         {
-          "title": "11 · 메타데이터 묶음별 연합 평가로 숨은 편향 찾기",
-          "url": "books/federated/#fairness"
-        },
-        {
-          "title": "마지막 과제 · 하린의 설정으로 정확도·통신량·ε를 계산해 보고서 쓰기",
-          "url": "books/federated/#final"
+          "title": "09 · 어텐션의 메모리 벽",
+          "url": "books/aie-transformer/#memory"
         }
       ],
-      "short_title": "연합학습"
+      "short_title": "트랜스포머 깊이 보기"
+    },
+    {
+      "id": "aie-09-generative",
+      "title": "생성 모델 · 오토인코더에서 디퓨전과 플로까지",
+      "spine_title": "생성 모델",
+      "spine_category": "인공지능",
+      "color": "amber",
+      "description": "여우 캐릭터 도토리의 그림 2,000장으로 새 삽화를 만드는 생성기를 VAE, GAN, 디퓨전, 잠재 디퓨전, 플로 매칭, VAR 순서로 바꿔 가며 같은 두 봉우리 분포에서 흐림과 모드 붕괴가 언제 생기는지, 단계 수와 가이던스가 결과를 어떻게 바꾸는지, 평가 숫자를 얼마나 믿을 수 있는지 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 8의 레슨 15개를 모두 재구성했습니다.",
+      "illustration": "books/aie-generative/assets/shelf-illustration.svg",
+      "illustration_caption": "흩어진 노이즈 점들이 단계를 거치며 낮 장면과 밤 장면 두 무리로 모여드는 디노이징 과정을 보여 주는 시각적 비유입니다.",
+      "cover_art": "books/aie-generative/assets/cover-art.svg",
+      "cover_meta": "12장 · 17개 실험",
+      "status": "published",
+      "url": "books/aie-generative/",
+      "keywords": [
+        "생성 모델",
+        "오토인코더",
+        "VAE",
+        "GAN",
+        "StyleGAN",
+        "디퓨전",
+        "DDPM",
+        "DDIM",
+        "잠재 디퓨전",
+        "Stable Diffusion",
+        "가이던스",
+        "CFG",
+        "ControlNet",
+        "LoRA",
+        "인페인팅",
+        "비디오 생성",
+        "플로 매칭",
+        "정류 플로",
+        "VAR",
+        "FID",
+        "CLIP 점수",
+        "generative model",
+        "diffusion",
+        "flow matching"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-generative/#chapters"
+        },
+        {
+          "title": "02 · 압축했다 되살리는 오토인코더와 VAE",
+          "url": "books/aie-generative/#vae"
+        },
+        {
+          "title": "03 · 가짜를 만드는 생성자와 가려내는 판별자: GAN",
+          "url": "books/aie-generative/#gan"
+        },
+        {
+          "title": "05 · 노이즈를 더하고 거꾸로 걷어 내기",
+          "url": "books/aie-generative/#ddpm"
+        },
+        {
+          "title": "09 · 플로 매칭과 정류 플로: 직선 경로로 단계 수 줄이기",
+          "url": "books/aie-generative/#flow"
+        },
+        {
+          "title": "11 · 좋아졌다는 말을 숫자로 확인하기: FID·CLIP 점수·사람 평가",
+          "url": "books/aie-generative/#eval"
+        }
+      ],
+      "short_title": "생성 모델"
+    },
+    {
+      "id": "aie-10-rl",
+      "title": "강화학습 · 보상에서 정책까지",
+      "spine_title": "강화학습",
+      "spine_category": "인공지능",
+      "color": "blue",
+      "description": "4×4 창고를 오가는 배송 로봇 나르미를 사례로 MDP, 가치 반복, 몬테카를로, Q-learning과 SARSA, DQN, 정책경사와 GAE, PPO, RLHF, 다중 에이전트, 도메인 랜덤화, PUCT와 GRPO를 직접 계산합니다. 장이 넘어갈수록 낭떠러지 하역장, 젖은 바닥, 작업자의 선호, 두 번째 로봇이 있는 교차로가 차례로 새 문제로 나옵니다. 12장 17개 실험으로 원본 커리큘럼 Phase 9의 레슨 12개를 모두 재구성했습니다.",
+      "illustration": "books/aie-rl/assets/shelf-illustration.svg",
+      "illustration_caption": "출고대의 보상이 이웃 칸으로 번지며 가치가 차오르고, 배송 로봇 나르미가 그 칸을 따라 출고대로 가는 시각적 비유입니다.",
+      "cover_art": "books/aie-rl/assets/cover-art.svg",
+      "cover_meta": "12장 · 17개 실험",
+      "status": "published",
+      "url": "books/aie-rl/",
+      "keywords": [
+        "강화학습",
+        "MDP",
+        "벨만 방정식",
+        "가치 반복",
+        "몬테카를로",
+        "Q-learning",
+        "SARSA",
+        "DQN",
+        "정책경사",
+        "액터-크리틱",
+        "GAE",
+        "PPO",
+        "RLHF",
+        "보상 모델",
+        "다중 에이전트",
+        "sim-to-real",
+        "도메인 랜덤화",
+        "MCTS",
+        "GRPO",
+        "reinforcement learning"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-rl/#chapters"
+        },
+        {
+          "title": "01 · 상태·행동·보상·할인으로 적기",
+          "url": "books/aie-rl/#mdp"
+        },
+        {
+          "title": "04 · 한 걸음마다 Q 값 고치기: Q-learning과 SARSA",
+          "url": "books/aie-rl/#td"
+        },
+        {
+          "title": "06 · 정책을 기울기로 직접 학습하고 비평가를 붙이기",
+          "url": "books/aie-rl/#pg"
+        },
+        {
+          "title": "07 · 같은 데이터로 여러 번 조금씩 갱신하기: PPO",
+          "url": "books/aie-rl/#ppo"
+        },
+        {
+          "title": "08 · 사람의 선택을 점수로 바꾸기: 보상 모델과 RLHF",
+          "url": "books/aie-rl/#rlhf"
+        }
+      ],
+      "short_title": "강화학습"
+    },
+    {
+      "id": "aie-11-llm-build",
+      "title": "LLM 직접 만들기 · 토크나이저에서 정렬과 서빙까지",
+      "spine_title": "LLM 만들기",
+      "spine_category": "인공지능",
+      "color": "rose",
+      "description": "서재의 책을 추천하는 작은 LLM \"서재봇\"을 바이트 BPE 토크나이저에서 시작해 데이터 정제, 사전학습과 규모의 법칙, 학습 메모리와 병렬화, SFT·DPO·GRPO 정렬, 평가, 양자화와 추측 디코딩, 오픈 모델 설정 읽기까지 만들어 갑니다. 12장 17개 실험으로 단계마다 비용과 품질을 정하는 숫자를 직접 계산합니다. 마지막 장에서는 출시 직전에 한 단계가 실패했을 때 어느 단계부터 다시 실행해야 하는지 계산합니다.",
+      "illustration": "books/aie-llm-build/assets/shelf-illustration.svg",
+      "illustration_caption": "바이트가 토큰으로 합쳐지고, 손실 곡선이 내려간 뒤, 정렬과 서빙을 거쳐 답이 나가는 LLM 제작 과정을 보여 주는 시각적 비유입니다.",
+      "cover_art": "books/aie-llm-build/assets/cover-art.svg",
+      "cover_meta": "12장 · 17개 실험",
+      "status": "published",
+      "url": "books/aie-llm-build/",
+      "keywords": [
+        "LLM",
+        "토크나이저",
+        "BPE",
+        "MinHash",
+        "사전학습",
+        "Chinchilla",
+        "ZeRO",
+        "파이프라인 병렬",
+        "SFT",
+        "DPO",
+        "GRPO",
+        "RLHF",
+        "ELO",
+        "양자화",
+        "추측 디코딩",
+        "KV 캐시",
+        "MoE",
+        "DeepSeek-V3"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-llm-build/#chapters"
+        },
+        {
+          "title": "01 · 바이트를 합쳐 토큰 만들기",
+          "url": "books/aie-llm-build/#tokenizer"
+        },
+        {
+          "title": "03 · 다음 토큰 맞히기와 규모의 법칙",
+          "url": "books/aie-llm-build/#pretrain"
+        },
+        {
+          "title": "04 · 8B를 학습하려면 몇 GB가 필요할까",
+          "url": "books/aie-llm-build/#memory"
+        },
+        {
+          "title": "07 · 더 나은 답을 고르는 법 배우기",
+          "url": "books/aie-llm-build/#preference"
+        },
+        {
+          "title": "10 · 양자화와 추측 디코딩으로 가볍고 빠르게 서빙하기",
+          "url": "books/aie-llm-build/#serving"
+        }
+      ],
+      "short_title": "LLM 직접 만들기"
+    },
+    {
+      "id": "llm-systems",
+      "title": "LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지",
+      "spine_title": "LLM 시스템",
+      "spine_category": "인공지능",
+      "color": "blue",
+      "description": "모델의 B와 bit부터 GPU 안의 데이터 이동, prefill·decode, KV 캐시, 대역폭과 MoE까지. 12장·14개 실험으로 오픈웨이트 모델의 사양과 하드웨어 제약을 연결하고 실행 예산을 직접 만듭니다.",
+      "illustration": "books/llm-gpu/assets/shelf-illustration.svg",
+      "illustration_caption": "개념도: 가중치와 과거 토큰의 KV가 GPU로 흘러가 계산되고, 다음 토큰이 문장 끝에 하나씩 붙습니다. 크기·속도를 재현한 그림은 아닙니다.",
+      "cover_art": "books/llm-gpu/assets/cover-art.svg",
+      "cover_meta": "12장 · 14개 실험",
+      "status": "published",
+      "url": "books/llm-gpu/",
+      "keywords": [
+        "LLM",
+        "GPU",
+        "오픈웨이트",
+        "파라미터",
+        "VRAM",
+        "KV 캐시",
+        "메모리",
+        "대역폭",
+        "양자화",
+        "MoE",
+        "prefill",
+        "decode",
+        "Qwen",
+        "통합 메모리"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/llm-gpu/#chapters"
+        },
+        {
+          "title": "03 · 가중치가 차지하는 메모리",
+          "url": "books/llm-gpu/#weights"
+        },
+        {
+          "title": "05 · GPU 안의 저장소와 계산기",
+          "url": "books/llm-gpu/#hierarchy"
+        },
+        {
+          "title": "08 · 대화 길이가 차지하는 공간",
+          "url": "books/llm-gpu/#cache"
+        },
+        {
+          "title": "11 · 오픈웨이트 모델 사양 읽기",
+          "url": "books/llm-gpu/#modelcards"
+        },
+        {
+          "title": "12 · 내 장비의 실행 예산 만들기",
+          "url": "books/llm-gpu/#design"
+        }
+      ],
+      "short_title": "LLM 시스템"
     },
     {
       "id": "lora-principles",
       "title": "LoRA의 원리 · 저랭크 변화만으로 미세조정이 되는 이유 확인하기",
       "spine_title": "LoRA 원리",
       "spine_category": "인공지능",
-      "color": "blue",
+      "color": "sage",
       "description": "13B 모델의 0.5%도 안 되는 수만 학습한 하린의 LoRA가 말투를 맞춘 이유를 16×16 장난감 모델로 따집니다. 수식 없는 0장에서 W₀은 그대로 두고 B·A만 학습하는 모습을 칸 그림으로 먼저 보고, 장마다 맨 앞의 쉬운 설명으로 같은 내용을 먼저 읽습니다. 미세조정 변화량 ΔW를 SVD로 나누고, 기울기와 사전학습이 변화를 몇 방향에 모으는 이유와 B·A가 학습되는 과정·표현력을 따라간 뒤, 에너지로 센 랭크와 성능에 필요한 랭크, 덜 배우고 덜 잊는 교환을 13개 장과 13개 실험에서 직접 계산합니다.",
       "illustration": "books/lora-why/assets/shelf-illustration.svg",
       "illustration_caption": "시각적 비유: 예제마다 생긴 줄무늬 기울기가 쌓여 ΔW가 되고, SVD 막대 가운데 앞의 세 개만 솟은 뒤 r = 3으로 충분하다는 표시가 켜집니다. 실제 특잇값과 성능은 책 안의 실험이 장난감 모델로 계산합니다.",
@@ -963,6 +1884,276 @@
       "short_title": "LoRA 실전"
     },
     {
+      "id": "aie-12-llm-apps",
+      "title": "LLM 엔지니어링 · 프롬프트에서 서비스까지",
+      "spine_title": "LLM 활용",
+      "spine_category": "인공지능",
+      "color": "aqua",
+      "description": "가상의 온라인 서점 책다락의 고객 지원 도우미 하나를 지시문, 구조화 출력, 컨텍스트 예산, 검색, LoRA, 도구 호출과 MCP, 평가, 가드레일, 캐시, 상태 그래프를 차례로 붙이며 출시까지 키웁니다. 12장 17개 실험으로 원본 커리큘럼 Phase 11의 레슨 17개를 모두 재구성했고, 마지막에는 출시 2주 차 청구서를 예산 안에 맞춥니다.",
+      "illustration": "books/aie-llm-apps/assets/shelf-illustration.svg",
+      "illustration_caption": "고객 질문이 캐시에 적중하면 곧바로 답으로, 놓치면 지시·근거·도구를 붙여 모델을 거쳐 답으로 가는 요청 흐름을 보여 주는 시각적 비유입니다.",
+      "cover_art": "books/aie-llm-apps/assets/cover-art.svg",
+      "cover_meta": "12장 · 17개 실험",
+      "status": "published",
+      "url": "books/aie-llm-apps/",
+      "keywords": [
+        "LLM 엔지니어링",
+        "프롬프트",
+        "온도",
+        "top-p",
+        "퓨샷",
+        "사고 사슬",
+        "자기 일관성",
+        "구조화 출력",
+        "JSON 스키마",
+        "컨텍스트 엔지니어링",
+        "임베딩",
+        "RAG",
+        "LoRA",
+        "QLoRA",
+        "함수 호출",
+        "MCP",
+        "평가",
+        "LLM 판정자",
+        "가드레일",
+        "프롬프트 주입",
+        "의미 캐시",
+        "프롬프트 캐시",
+        "LangGraph",
+        "비용",
+        "LLM engineering",
+        "prompt caching"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-llm-apps/#chapters"
+        },
+        {
+          "title": "01 · 막연한 부탁을 지시로 바꾸기",
+          "url": "books/aie-llm-apps/#prompt"
+        },
+        {
+          "title": "03 · 답을 스키마에 맞는 JSON으로 받기",
+          "url": "books/aie-llm-apps/#structured"
+        },
+        {
+          "title": "07 · 모델이 함수 호출과 MCP로 도구를 쓰게 하기",
+          "url": "books/aie-llm-apps/#tools"
+        },
+        {
+          "title": "08 · 좋아졌는지 평가 세트로 확인하기",
+          "url": "books/aie-llm-apps/#eval"
+        },
+        {
+          "title": "10 · 같은 질문에 두 번 돈 내지 않기",
+          "url": "books/aie-llm-apps/#cache"
+        }
+      ],
+      "short_title": "LLM 엔지니어링"
+    },
+    {
+      "id": "aie-13-multimodal",
+      "title": "멀티모달 AI · 보고 듣고 말하는 모델",
+      "spine_title": "멀티모달",
+      "spine_category": "인공지능",
+      "color": "violet",
+      "description": "세탁기 A/S 센터의 상담 도우미를 공통 사례로 이미지 패치 토큰, CLIP·SigLIP 대조 학습, Q-Former와 게이트 연결, LLaVA식 학습 순서, 해상도 전략, 영상·음성 토큰 예산, 이미지 생성 토큰, 로봇 행동 토큰, ColPali 문서 검색, 화면 에이전트를 다루고, 토큰 수·손실·지연·성공률을 브라우저 실험에서 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 phases/12-multimodal-ai의 레슨 25개를 모두 재구성했습니다.",
+      "illustration": "books/aie-multimodal/assets/shelf-illustration.svg",
+      "illustration_caption": "세탁기 표시창 사진이 패치 격자로 잘리고, 패치와 소리 조각이 토큰 줄을 따라 언어 모델로 흘러 들어가 상담 답이 켜지는 과정을 보여 주는 시각적 비유입니다(칸 수와 위치는 예시).",
+      "cover_art": "books/aie-multimodal/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-multimodal/",
+      "keywords": [
+        "멀티모달",
+        "VLM",
+        "ViT",
+        "패치 토큰",
+        "CLIP",
+        "SigLIP",
+        "대조 학습",
+        "BLIP-2",
+        "Q-Former",
+        "Flamingo",
+        "LLaVA",
+        "AnyRes",
+        "Qwen2-VL",
+        "영상 이해",
+        "Whisper",
+        "옴니 모델",
+        "Chameleon",
+        "Emu3",
+        "MaskGIT",
+        "Transfusion",
+        "VLA",
+        "OpenVLA",
+        "ColPali",
+        "멀티모달 RAG",
+        "컴퓨터 사용 에이전트",
+        "multimodal",
+        "vision-language model"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-multimodal/#chapters"
+        },
+        {
+          "title": "01 · 세탁기 사진이 토큰이 되기까지",
+          "url": "books/aie-multimodal/#patches"
+        },
+        {
+          "title": "03 · 얼린 두 모델을 Q-Former와 게이트로 잇기",
+          "url": "books/aie-multimodal/#bridge"
+        },
+        {
+          "title": "06 · 90초 영상을 토큰 예산 안에 넣기",
+          "url": "books/aie-multimodal/#video"
+        },
+        {
+          "title": "11 · 스캔 설명서에서 맞는 쪽 찾기",
+          "url": "books/aie-multimodal/#docs"
+        },
+        {
+          "title": "마지막 · 예약 화면을 대신 누르는 도우미",
+          "url": "books/aie-multimodal/#agent"
+        }
+      ],
+      "short_title": "멀티모달 AI"
+    },
+    {
+      "id": "aie-14-tools",
+      "title": "도구와 프로토콜 · 함수 호출에서 MCP와 스킬까지",
+      "spine_title": "도구와 MCP",
+      "spine_category": "인공지능",
+      "color": "amber",
+      "description": "팀 회의 노트 비서 하나를 함수 호출에서 MCP 서버, 게이트웨이, 스킬까지 키우며 인자 검사, 요청 검사 순서와 오류 코드, 캐시 범위, 되묻기 재시도 검증, 작업 상태와 두 시계, 서술자 고정, 토큰 검사, 트레이스, 스킬 목록 예산과 라우팅 평가를 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 13의 레슨 31개를 모두 재구성했습니다.",
+      "illustration": "books/aie-tools/assets/shelf-illustration.svg",
+      "illustration_caption": "노트 비서의 요청 봉투가 검사 관문 일곱 개를 차례로 지나며 통과 표시를 켜고 도구 상자에 닿는 시각적 비유입니다.",
+      "cover_art": "books/aie-tools/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-tools/",
+      "keywords": [
+        "도구 호출",
+        "함수 호출",
+        "JSON Schema",
+        "MCP",
+        "Model Context Protocol",
+        "JSON-RPC",
+        "Streamable HTTP",
+        "cacheScope",
+        "MRTR",
+        "elicitation",
+        "Tasks",
+        "도구 중독",
+        "tool poisoning",
+        "OAuth",
+        "aud",
+        "게이트웨이",
+        "OpenTelemetry",
+        "Agent Skills",
+        "SKILL.md",
+        "라우팅 평가",
+        "A2A"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-tools/#chapters"
+        },
+        {
+          "title": "01 · 모델이 행동을 부탁하는 네 단계",
+          "url": "books/aie-tools/#loop"
+        },
+        {
+          "title": "03 · 요청 한 통에 필요한 것을 모두 담기",
+          "url": "books/aie-tools/#envelope"
+        },
+        {
+          "title": "06 · 서버가 사람과 모델에게 되묻기",
+          "url": "books/aie-tools/#mrtr"
+        },
+        {
+          "title": "08 · 도구 설명과 공급망을 믿지 않기",
+          "url": "books/aie-tools/#poison"
+        },
+        {
+          "title": "11 · 절차를 스킬로 포장하기",
+          "url": "books/aie-tools/#skills"
+        }
+      ],
+      "short_title": "도구와 프로토콜"
+    },
+    {
+      "id": "aie-15-agents",
+      "title": "에이전트 엔지니어링 · 루프에서 작업대와 제품 판단까지",
+      "spine_title": "에이전트",
+      "spine_category": "인공지능",
+      "color": "sage",
+      "description": "운영 경보가 울리면 고장 난 서비스를 찾는 장애 대응 에이전트 “당직 도우미”를 따라 루프의 멈춤 조건, 계획과 탐색, 반성, 기억, 워크플로 패턴, 실행 형태, 벤치마크, 주입 방어, 작업대, 검증 게이트, 제품 판단을 실험으로 계산하고 판정합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 14의 레슨 54개를 모두 재구성했습니다.",
+      "illustration": "books/aie-agents/assets/shelf-illustration.svg",
+      "illustration_caption": "당직 도우미가 생각·행동·관찰을 돌며 턴 칸을 채우고 검증 게이트를 통과한 뒤에야 완료 표시가 켜지는 시각적 비유입니다.",
+      "cover_art": "books/aie-agents/assets/cover-art.svg",
+      "cover_meta": "12장 · 16개 실험",
+      "status": "published",
+      "url": "books/aie-agents/",
+      "keywords": [
+        "에이전트",
+        "agent",
+        "ReAct",
+        "함수 호출",
+        "ReWOO",
+        "Tree of Thoughts",
+        "Reflexion",
+        "MemGPT",
+        "Mem0",
+        "워크플로 패턴",
+        "LangGraph",
+        "OpenAI Agents SDK",
+        "Claude Agent SDK",
+        "SWE-bench",
+        "OSWorld",
+        "OpenTelemetry",
+        "프롬프트 주입",
+        "PVE",
+        "AGENTS.md",
+        "범위 계약",
+        "검증 게이트",
+        "인계",
+        "가정 지도",
+        "파일럿"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/aie-agents/#chapters"
+        },
+        {
+          "title": "01 · 생각하고 도구를 부르고 결과를 읽는 루프",
+          "url": "books/aie-agents/#loop"
+        },
+        {
+          "title": "04 · 문맥 창 밖에 기억을 두고 꺼내 쓰기",
+          "url": "books/aie-agents/#memory"
+        },
+        {
+          "title": "08 · 간접 프롬프트 주입과 도구 호출 검사기",
+          "url": "books/aie-agents/#defend"
+        },
+        {
+          "title": "10 · 완료 보고를 검증 게이트와 리뷰어로 확인하기",
+          "url": "books/aie-agents/#gates"
+        },
+        {
+          "title": "마지막 · 가장 작은 조각을 고르고 파일럿 결과 판정하기",
+          "url": "books/aie-agents/#final"
+        }
+      ],
+      "short_title": "에이전트 엔지니어링"
+    },
+    {
       "id": "agent-instruction-files",
       "title": "에이전트 지침 파일 · 읽히는 방식과 쓰고 고치는 법",
       "spine_title": "지침 파일",
@@ -1040,1002 +2231,10 @@
       "short_title": "지침 파일"
     },
     {
-      "id": "aie-01-workbench",
-      "title": "AI 개발 작업대 · 환경 점검에서 디버깅까지",
-      "spine_title": "개발 작업대",
-      "spine_category": "AI공학",
-      "color": "aqua",
-      "description": "영화 리뷰 분류 프로젝트 하나를 노트북, 빌린 GPU 서버, 팀원의 컴퓨터에서 같은 결과로 다시 돌리며 사전 점검, 가상 환경, Git, GPU 비용, 원격 리눅스, 도커, API 키, 노트북, 데이터 분할, 프로파일링을 직접 계산합니다. 11장 17개 실험으로 원본 커리큘럼 Phase 0의 레슨 12개를 모두 재구성했습니다.",
-      "illustration": "books/aie-workbench/assets/shelf-illustration.svg",
-      "illustration_caption": "코드·라이브러리·CUDA 층을 담은 상자 하나가 노트북, GPU 상자, 팀원의 컴퓨터로 옮겨 가며 점검 표시가 켜지는 시각적 비유입니다.",
-      "cover_art": "books/aie-workbench/assets/cover-art.svg",
-      "cover_meta": "11장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-workbench/",
-      "keywords": [
-        "개발 환경",
-        "가상 환경",
-        "uv",
-        "Git",
-        "GPU",
-        "VRAM",
-        "클라우드 비용",
-        "tmux",
-        "리눅스 권한",
-        "Docker",
-        "API 키",
-        "Jupyter",
-        "데이터 분할",
-        "시드",
-        "프로파일링",
-        "디버깅",
-        "dev environment",
-        "reproducibility"
-      ],
-      "chapters": [
-        {
-          "title": "전체 11개 장",
-          "url": "books/aie-workbench/#chapters"
-        },
-        {
-          "title": "01 · 개발 환경을 아래층부터 점검하기",
-          "url": "books/aie-workbench/#stack"
-        },
-        {
-          "title": "02 · 프로젝트마다 따로 두는 파이썬 환경",
-          "url": "books/aie-workbench/#envs"
-        },
-        {
-          "title": "04 · GPU를 쓸지 빌릴지 정하기",
-          "url": "books/aie-workbench/#gpu"
-        },
-        {
-          "title": "06 · 도커로 같은 실행 환경 다시 만들기",
-          "url": "books/aie-workbench/#docker"
-        },
-        {
-          "title": "10 · 오류 없이 틀리는 학습 찾기",
-          "url": "books/aie-workbench/#debug"
-        }
-      ],
-      "short_title": "AI 개발 작업대"
-    },
-    {
-      "id": "aie-02-math",
-      "title": "모델을 움직이는 수학 · 미분에서 푸리에까지",
-      "spine_title": "모델의 수학",
-      "spine_category": "AI공학",
-      "color": "violet",
-      "description": "음성 명령 인식기 ‘말귀’ 하나를 만들며 소리를 주파수로 나누고, 텐서 모양을 맞추고, 기울기를 계산해 학습시키고, 손실·숫자 안정성·샘플링·SVD·조건수·마르코프 연쇄를 브라우저에서 직접 계산합니다. 12장 15개 실험으로 원본 커리큘럼 Phase 1의 레슨 22개를 모두 재구성했으며, 선형대수·확률 책과 겹치는 내용은 짧게 요약하고 그 책으로 보냅니다.",
-      "illustration": "books/aie-math/assets/shelf-illustration.svg",
-      "illustration_caption": "소리 파동이 주파수 막대로 나뉘고, 공이 손실 그릇을 따라 흔들리며 바닥으로 내려가는 시각적 비유입니다. 실제 계산은 아닙니다.",
-      "cover_art": "books/aie-math/assets/cover-art.svg",
-      "cover_meta": "12장 · 15개 실험",
-      "status": "published",
-      "url": "books/aie-math/",
-      "keywords": [
-        "미분",
-        "기울기",
-        "연쇄법칙",
-        "자동 미분",
-        "역전파",
-        "경사하강",
-        "모멘텀",
-        "볼록 최적화",
-        "엔트로피",
-        "교차 엔트로피",
-        "KL 발산",
-        "부동소수점",
-        "softmax",
-        "온도",
-        "top-p",
-        "몬테카를로",
-        "SVD",
-        "조건수",
-        "텐서",
-        "브로드캐스팅",
-        "노름",
-        "푸리에 변환",
-        "마르코프 연쇄",
-        "gradient",
-        "backpropagation",
-        "numerical stability",
-        "Fourier transform"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-math/#chapters"
-        },
-        {
-          "title": "01 · 소리를 주파수로 나누기",
-          "url": "books/aie-math/#signal"
-        },
-        {
-          "title": "04 · 연쇄법칙으로 모든 기울기를 한 번에",
-          "url": "books/aie-math/#autodiff"
-        },
-        {
-          "title": "05 · 경사하강으로 손실을 안정적으로 줄이기",
-          "url": "books/aie-math/#optimize"
-        },
-        {
-          "title": "07 · 숫자가 넘치지 않게 계산하기",
-          "url": "books/aie-math/#stability"
-        },
-        {
-          "title": "09 · SVD로 소리 표를 몇 개의 층으로 줄이기",
-          "url": "books/aie-math/#svd"
-        }
-      ],
-      "short_title": "모델을 움직이는 수학"
-    },
-    {
-      "id": "aie-03-ml",
-      "title": "머신러닝 기초 · 데이터에서 믿을 만한 예측까지",
-      "spine_title": "머신러닝",
-      "spine_category": "AI공학",
-      "color": "amber",
-      "description": "가상의 작은 온라인 서점 결제 기록으로 사기 경보 모델을 직접 만들며 로지스틱 회귀, 결정트리, kNN·SVM, 군집, 나이브 베이즈를 조작합니다. 12장 17개 실험으로 문턱과 지표, 편향과 분산, 누설, 불균형, 분포 이동까지 숫자로 확인합니다.",
-      "illustration": "books/aie-ml/assets/shelf-illustration.svg",
-      "illustration_caption": "정상 결제(원)와 사기 결제(사각형) 사이에서 경보 문턱 선이 오가며 잡는 사기와 오경보가 함께 바뀌는 모습을 보여 주는 비유 그림입니다.",
-      "cover_art": "books/aie-ml/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-ml/",
-      "keywords": [
-        "머신러닝",
-        "로지스틱 회귀",
-        "결정트리",
-        "kNN",
-        "SVM",
-        "k-평균",
-        "나이브 베이즈",
-        "혼동 행렬",
-        "ROC",
-        "편향-분산",
-        "앙상블",
-        "데이터 누설",
-        "불균형",
-        "이상 탐지",
-        "분포 이동",
-        "machine learning"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-ml/#chapters"
-        },
-        {
-          "title": "02 · 점수를 확률로 바꾸는 선",
-          "url": "books/aie-ml/#lines"
-        },
-        {
-          "title": "03 · 질문을 쌓아 나누는 결정트리",
-          "url": "books/aie-ml/#trees"
-        },
-        {
-          "title": "08 · 정확도 97%의 함정",
-          "url": "books/aie-ml/#metrics"
-        },
-        {
-          "title": "10 · 누설 없이 검증하는 파이프라인",
-          "url": "books/aie-ml/#pipeline"
-        },
-        {
-          "title": "마지막 · 새 결제 수단이 들어온 날",
-          "url": "books/aie-ml/#final"
-        }
-      ],
-      "short_title": "머신러닝 기초"
-    },
-    {
-      "id": "aie-04-deep",
-      "title": "딥러닝 핵심 · 학습 설정을 고르고 손실 곡선으로 고장 찾기",
-      "spine_title": "딥러닝 핵심",
-      "spine_category": "AI공학",
-      "color": "blue",
-      "description": "평면 위 점이 원 안에 있는지 맞히는 작은 신경망을 옵티마이저, 학습률 일정, 초기화, 규제, 배치·층 정규화를 하나씩 바꾸며 브라우저 안에서 실제로 학습시킵니다. 작은 프레임워크로 부품을 묶은 뒤, 8장 12개 실험으로 학습이 멈추는 이유를 손실 곡선과 층별 기울기로 진단합니다. 뉴런, 역전파, 활성화, 손실은 앞 책 「신경망의 계산」에서 다룹니다.",
-      "illustration": "books/aie-deep/assets/shelf-illustration.svg",
-      "illustration_caption": "값이 신경망을 앞으로 지나간 뒤 기울기가 거꾸로 돌아오고, 그때마다 손실 곡선이 내려가는 학습 과정을 보여 주는 시각적 비유입니다.",
-      "cover_art": "books/aie-deep/assets/cover-art.svg",
-      "cover_meta": "8장 · 12개 실험",
-      "status": "published",
-      "url": "books/aie-deep/",
-      "keywords": [
-        "딥러닝",
-        "옵티마이저",
-        "SGD",
-        "모멘텀",
-        "AdaGrad",
-        "RMSProp",
-        "Adam",
-        "미니배치",
-        "학습률 일정",
-        "가중치 초기화",
-        "과적합",
-        "과소적합",
-        "드롭아웃",
-        "조기 종료",
-        "배치 정규화",
-        "층 정규화",
-        "BatchNorm",
-        "LayerNorm",
-        "PyTorch",
-        "JAX",
-        "신경망 디버깅"
-      ],
-      "chapters": [
-        {
-          "title": "전체 8개 장",
-          "url": "books/aie-deep/#chapters"
-        },
-        {
-          "title": "01 · 같은 기울기, 다른 옵티마이저",
-          "url": "books/aie-deep/#optimizer"
-        },
-        {
-          "title": "03 · 신호가 사라지거나 폭발하지 않게 초기화하기",
-          "url": "books/aie-deep/#init"
-        },
-        {
-          "title": "04 · 규제로 과적합 줄이기",
-          "url": "books/aie-deep/#regularize"
-        },
-        {
-          "title": "05 · 배치 정규화와 층 정규화로 층 출력 맞추기",
-          "url": "books/aie-deep/#normalize"
-        },
-        {
-          "title": "07 · 손실 곡선으로 고장 찾기",
-          "url": "books/aie-deep/#debug"
-        }
-      ],
-      "short_title": "딥러닝 핵심"
-    },
-    {
-      "id": "aie-05-vision",
-      "title": "컴퓨터 비전 · 픽셀에서 장면 이해까지",
-      "spine_title": "컴퓨터 비전",
-      "spine_category": "AI공학",
-      "color": "sage",
-      "description": "역 앞 공공자전거 대여소 카메라 한 대를 따라가며 픽셀 전처리, 합성곱과 ViT 백본, 분류, 검출과 NMS, 분할 지표, 추적, 자기지도·CLIP, OCR, 깊이와 3D, 확산 생성, 엣지 지연 예산을 직접 계산합니다. 12장 18개 실험으로 원본 커리큘럼 phases/04-computer-vision의 레슨 28개를 모두 재구성했습니다.",
-      "illustration": "books/aie-vision/assets/shelf-illustration.svg",
-      "illustration_caption": "대여소 카메라 화면에서 자전거마다 겹쳐 뜬 후보 상자 중 NMS가 중복을 지워 하나만 남기는 과정을 보여 주는 시각적 비유입니다(좌표는 예시).",
-      "cover_art": "books/aie-vision/assets/cover-art.svg",
-      "cover_meta": "12장 · 18개 실험",
-      "status": "published",
-      "url": "books/aie-vision/",
-      "keywords": [
-        "컴퓨터 비전",
-        "합성곱",
-        "CNN",
-        "ResNet",
-        "ViT",
-        "전이 학습",
-        "객체 검출",
-        "YOLO",
-        "IoU",
-        "NMS",
-        "분할",
-        "U-Net",
-        "Dice",
-        "추적",
-        "칼만 필터",
-        "CLIP",
-        "자기지도 학습",
-        "OCR",
-        "깊이 추정",
-        "NeRF",
-        "가우시안 스플래팅",
-        "확산 모델",
-        "CFG",
-        "정류 흐름",
-        "엣지 배포",
-        "computer vision",
-        "object detection"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-vision/#chapters"
-        },
-        {
-          "title": "01 · 카메라가 넘겨준 숫자 배열",
-          "url": "books/aie-vision/#pixels"
-        },
-        {
-          "title": "04 · 장면 속 자전거를 상자로 찾기",
-          "url": "books/aie-vision/#detect"
-        },
-        {
-          "title": "05 · 자전거 윤곽을 픽셀로 칠하기",
-          "url": "books/aie-vision/#segment"
-        },
-        {
-          "title": "07 · 자기지도 학습과 CLIP으로 표현 배우기",
-          "url": "books/aie-vision/#selfsup"
-        },
-        {
-          "title": "마지막 · 비 오는 밤, 새 카메라",
-          "url": "books/aie-vision/#capstone"
-        }
-      ],
-      "short_title": "컴퓨터 비전"
-    },
-    {
-      "id": "aie-06-nlp",
-      "title": "자연어 처리 · 단어 세기에서 문장 이해까지",
-      "spine_title": "자연어 처리",
-      "spine_category": "AI공학",
-      "color": "rose",
-      "description": "온라인 서점의 고객 문의함 하나를 예제로 토큰화부터 TF-IDF, 단어 벡터, 나이브 베이즈, 비터비, 퍼플렉서티, 어텐션, BLEU, 청킹, 개체 연결, 대화 상태, 긴 문맥 평가까지 직접 계산합니다. 12장 · 16개 실험으로 원본 커리큘럼 Phase 5의 레슨 29개를 모두 재구성했습니다.",
-      "illustration": "books/aie-nlp/assets/shelf-illustration.svg",
-      "illustration_caption": "문의 한 통이 낱말 토큰으로 나뉘고 TF-IDF 막대가 자라 환불 문의로 분류되는 그림으로, 막대 길이는 실제 계산이고 흐르는 움직임은 처리 순서를 보여 주는 비유입니다.",
-      "cover_art": "books/aie-nlp/assets/cover-art.svg",
-      "cover_meta": "12장 · 16개 실험",
-      "status": "published",
-      "url": "books/aie-nlp/",
-      "keywords": [
-        "자연어 처리",
-        "NLP",
-        "토큰화",
-        "BPE",
-        "TF-IDF",
-        "BM25",
-        "word2vec",
-        "GloVe",
-        "fastText",
-        "LDA",
-        "BERTopic",
-        "감성 분석",
-        "NLI",
-        "개체명 인식",
-        "품사 태깅",
-        "HMM",
-        "비터비",
-        "n-gram",
-        "퍼플렉서티",
-        "seq2seq",
-        "어텐션",
-        "BLEU",
-        "요약",
-        "질의응답",
-        "청킹",
-        "상호참조",
-        "개체 연결",
-        "관계 추출",
-        "대화 상태 추적",
-        "구조화 출력",
-        "LLM 평가",
-        "긴 문맥"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-nlp/#chapters"
-        },
-        {
-          "title": "01 · 문의를 낱말로 쪼개기",
-          "url": "books/aie-nlp/#clean"
-        },
-        {
-          "title": "03 · 주변 낱말로 단어 벡터 배우기",
-          "url": "books/aie-nlp/#vectors"
-        },
-        {
-          "title": "06 · 낱말마다 품사와 개체 표 붙이기",
-          "url": "books/aie-nlp/#tagging"
-        },
-        {
-          "title": "08 · 번역하며 원문 어디를 볼까",
-          "url": "books/aie-nlp/#seq2seq"
-        },
-        {
-          "title": "09 · 약관을 줄이고 근거를 찾아 답하기",
-          "url": "books/aie-nlp/#answer"
-        }
-      ],
-      "short_title": "자연어 처리"
-    },
-    {
-      "id": "aie-07-audio",
-      "title": "음성과 오디오 · 파형에서 대화하는 목소리까지",
-      "spine_title": "음성 오디오",
-      "spine_category": "AI공학",
-      "color": "aqua",
-      "description": "후드 팬이 도는 부엌에서 “솔아, 타이머 오 분 맞춰 줘”를 알아듣고 대답하는 음성 비서 솔이를 만들며 샘플링과 앨리어싱, 스펙트로그램과 멜 특징, CTC와 WER, Whisper의 30초 창, 화자 확인 문턱, 음성 합성의 길이 예측, 코덱 토큰, 지연 예산, VAD와 말차례, 워터마크 검출을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 6의 레슨 17개를 모두 재구성했습니다.",
-      "illustration": "books/aie-audio/assets/shelf-illustration.svg",
-      "illustration_caption": "부엌의 말소리 파형이 점으로 찍히고 멜 스펙트로그램 칸이 차례로 밝아진 뒤 스피커에서 대답이 퍼져 나가는 시각적 비유입니다.",
-      "cover_art": "books/aie-audio/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-audio/",
-      "keywords": [
-        "음성",
-        "오디오",
-        "샘플링",
-        "나이퀴스트",
-        "앨리어싱",
-        "스펙트로그램",
-        "멜",
-        "음성 인식",
-        "CTC",
-        "WER",
-        "Whisper",
-        "화자 확인",
-        "EER",
-        "TTS",
-        "음성 합성",
-        "오디오 코덱",
-        "RVQ",
-        "VAD",
-        "말차례",
-        "지연 시간",
-        "워터마크",
-        "speech",
-        "audio",
-        "ASR",
-        "voice agent"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-audio/#chapters"
-        },
-        {
-          "title": "01 · 소리를 숫자로 받아 적기",
-          "url": "books/aie-audio/#wave"
-        },
-        {
-          "title": "02 · 시간과 주파수를 함께 보는 스펙트로그램",
-          "url": "books/aie-audio/#mel"
-        },
-        {
-          "title": "04 · 소리를 글자로 옮기기",
-          "url": "books/aie-audio/#asr"
-        },
-        {
-          "title": "09 · 말이 끝난 뒤 1초 안에 대답하기",
-          "url": "books/aie-audio/#pipeline"
-        },
-        {
-          "title": "10 · VAD와 침묵 대기로 말차례 판정하기",
-          "url": "books/aie-audio/#turn"
-        }
-      ],
-      "short_title": "음성과 오디오"
-    },
-    {
-      "id": "aie-08-transformer",
-      "title": "트랜스포머 깊이 보기 · 셀프 어텐션에서 스케일링 법칙까지",
-      "spine_title": "트랜스포머",
-      "spine_category": "AI공학",
-      "color": "violet",
-      "description": "작은 한국어 언어 모델 ‘도란’의 구조와 학습 예산을 장마다 계산해 정하며 √d 나누기, 멀티헤드와 GQA, RoPE, 블록 파라미터, BERT·GPT·T5·ViT·Whisper의 마스크, MoE 라우팅, FlashAttention과 KV 캐시, 친칠라 예산, 추측 디코딩을 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 7의 레슨 16개를 모두 재구성했습니다.",
-      "illustration": "books/aie-transformer/assets/shelf-illustration.svg",
-      "illustration_caption": "문장 토큰 사이에 어텐션 호가 그려지고 아래쪽 삼각형 칸이 한 줄씩 채워지며 인과 마스크가 쌓이는 시각적 비유입니다.",
-      "cover_art": "books/aie-transformer/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-transformer/",
-      "keywords": [
-        "트랜스포머",
-        "셀프 어텐션",
-        "스케일드 닷프로덕트",
-        "멀티헤드",
-        "GQA",
-        "RoPE",
-        "LayerNorm",
-        "RMSNorm",
-        "BERT",
-        "GPT",
-        "T5",
-        "ViT",
-        "Whisper",
-        "MoE",
-        "FlashAttention",
-        "KV 캐시",
-        "스케일링 법칙",
-        "Chinchilla",
-        "추측 디코딩",
-        "transformer",
-        "attention"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-transformer/#chapters"
-        },
-        {
-          "title": "02 · 점수를 √d로 나누는 이유",
-          "url": "books/aie-transformer/#selfattn"
-        },
-        {
-          "title": "04 · RoPE: 위치를 회전 각도로 넣기",
-          "url": "books/aie-transformer/#position"
-        },
-        {
-          "title": "06 · 빈칸을 맞히는 BERT, 다음을 맞히는 GPT",
-          "url": "books/aie-transformer/#bertgpt"
-        },
-        {
-          "title": "08 · 전문가에게 나눠 맡기기",
-          "url": "books/aie-transformer/#moe"
-        },
-        {
-          "title": "09 · 어텐션의 메모리 벽",
-          "url": "books/aie-transformer/#memory"
-        }
-      ],
-      "short_title": "트랜스포머 깊이 보기"
-    },
-    {
-      "id": "aie-09-generative",
-      "title": "생성 모델 · 오토인코더에서 디퓨전과 플로까지",
-      "spine_title": "생성 모델",
-      "spine_category": "AI공학",
-      "color": "amber",
-      "description": "여우 캐릭터 도토리의 그림 2,000장으로 새 삽화를 만드는 생성기를 VAE, GAN, 디퓨전, 잠재 디퓨전, 플로 매칭, VAR 순서로 바꿔 가며 같은 두 봉우리 분포에서 흐림과 모드 붕괴가 언제 생기는지, 단계 수와 가이던스가 결과를 어떻게 바꾸는지, 평가 숫자를 얼마나 믿을 수 있는지 직접 계산합니다. 12장 17개 실험으로 원본 커리큘럼 Phase 8의 레슨 15개를 모두 재구성했습니다.",
-      "illustration": "books/aie-generative/assets/shelf-illustration.svg",
-      "illustration_caption": "흩어진 노이즈 점들이 단계를 거치며 낮 장면과 밤 장면 두 무리로 모여드는 디노이징 과정을 보여 주는 시각적 비유입니다.",
-      "cover_art": "books/aie-generative/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-generative/",
-      "keywords": [
-        "생성 모델",
-        "오토인코더",
-        "VAE",
-        "GAN",
-        "StyleGAN",
-        "디퓨전",
-        "DDPM",
-        "DDIM",
-        "잠재 디퓨전",
-        "Stable Diffusion",
-        "가이던스",
-        "CFG",
-        "ControlNet",
-        "LoRA",
-        "인페인팅",
-        "비디오 생성",
-        "플로 매칭",
-        "정류 플로",
-        "VAR",
-        "FID",
-        "CLIP 점수",
-        "generative model",
-        "diffusion",
-        "flow matching"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-generative/#chapters"
-        },
-        {
-          "title": "02 · 압축했다 되살리는 오토인코더와 VAE",
-          "url": "books/aie-generative/#vae"
-        },
-        {
-          "title": "03 · 가짜를 만드는 생성자와 가려내는 판별자: GAN",
-          "url": "books/aie-generative/#gan"
-        },
-        {
-          "title": "05 · 노이즈를 더하고 거꾸로 걷어 내기",
-          "url": "books/aie-generative/#ddpm"
-        },
-        {
-          "title": "09 · 플로 매칭과 정류 플로: 직선 경로로 단계 수 줄이기",
-          "url": "books/aie-generative/#flow"
-        },
-        {
-          "title": "11 · 좋아졌다는 말을 숫자로 확인하기: FID·CLIP 점수·사람 평가",
-          "url": "books/aie-generative/#eval"
-        }
-      ],
-      "short_title": "생성 모델"
-    },
-    {
-      "id": "aie-10-rl",
-      "title": "강화학습 · 보상에서 정책까지",
-      "spine_title": "강화학습",
-      "spine_category": "AI공학",
-      "color": "blue",
-      "description": "4×4 창고를 오가는 배송 로봇 나르미를 사례로 MDP, 가치 반복, 몬테카를로, Q-learning과 SARSA, DQN, 정책경사와 GAE, PPO, RLHF, 다중 에이전트, 도메인 랜덤화, PUCT와 GRPO를 직접 계산합니다. 장이 넘어갈수록 낭떠러지 하역장, 젖은 바닥, 작업자의 선호, 두 번째 로봇이 있는 교차로가 차례로 새 문제로 나옵니다. 12장 17개 실험으로 원본 커리큘럼 Phase 9의 레슨 12개를 모두 재구성했습니다.",
-      "illustration": "books/aie-rl/assets/shelf-illustration.svg",
-      "illustration_caption": "출고대의 보상이 이웃 칸으로 번지며 가치가 차오르고, 배송 로봇 나르미가 그 칸을 따라 출고대로 가는 시각적 비유입니다.",
-      "cover_art": "books/aie-rl/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-rl/",
-      "keywords": [
-        "강화학습",
-        "MDP",
-        "벨만 방정식",
-        "가치 반복",
-        "몬테카를로",
-        "Q-learning",
-        "SARSA",
-        "DQN",
-        "정책경사",
-        "액터-크리틱",
-        "GAE",
-        "PPO",
-        "RLHF",
-        "보상 모델",
-        "다중 에이전트",
-        "sim-to-real",
-        "도메인 랜덤화",
-        "MCTS",
-        "GRPO",
-        "reinforcement learning"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-rl/#chapters"
-        },
-        {
-          "title": "01 · 상태·행동·보상·할인으로 적기",
-          "url": "books/aie-rl/#mdp"
-        },
-        {
-          "title": "04 · 한 걸음마다 Q 값 고치기: Q-learning과 SARSA",
-          "url": "books/aie-rl/#td"
-        },
-        {
-          "title": "06 · 정책을 기울기로 직접 학습하고 비평가를 붙이기",
-          "url": "books/aie-rl/#pg"
-        },
-        {
-          "title": "07 · 같은 데이터로 여러 번 조금씩 갱신하기: PPO",
-          "url": "books/aie-rl/#ppo"
-        },
-        {
-          "title": "08 · 사람의 선택을 점수로 바꾸기: 보상 모델과 RLHF",
-          "url": "books/aie-rl/#rlhf"
-        }
-      ],
-      "short_title": "강화학습"
-    },
-    {
-      "id": "aie-11-llm-build",
-      "title": "LLM 직접 만들기 · 토크나이저에서 정렬과 서빙까지",
-      "spine_title": "LLM 만들기",
-      "spine_category": "AI공학",
-      "color": "rose",
-      "description": "서재의 책을 추천하는 작은 LLM \"서재봇\"을 바이트 BPE 토크나이저에서 시작해 데이터 정제, 사전학습과 규모의 법칙, 학습 메모리와 병렬화, SFT·DPO·GRPO 정렬, 평가, 양자화와 추측 디코딩, 오픈 모델 설정 읽기까지 만들어 갑니다. 12장 17개 실험으로 단계마다 비용과 품질을 정하는 숫자를 직접 계산합니다. 마지막 장에서는 출시 직전에 한 단계가 실패했을 때 어느 단계부터 다시 실행해야 하는지 계산합니다.",
-      "illustration": "books/aie-llm-build/assets/shelf-illustration.svg",
-      "illustration_caption": "바이트가 토큰으로 합쳐지고, 손실 곡선이 내려간 뒤, 정렬과 서빙을 거쳐 답이 나가는 LLM 제작 과정을 보여 주는 시각적 비유입니다.",
-      "cover_art": "books/aie-llm-build/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-llm-build/",
-      "keywords": [
-        "LLM",
-        "토크나이저",
-        "BPE",
-        "MinHash",
-        "사전학습",
-        "Chinchilla",
-        "ZeRO",
-        "파이프라인 병렬",
-        "SFT",
-        "DPO",
-        "GRPO",
-        "RLHF",
-        "ELO",
-        "양자화",
-        "추측 디코딩",
-        "KV 캐시",
-        "MoE",
-        "DeepSeek-V3"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-llm-build/#chapters"
-        },
-        {
-          "title": "01 · 바이트를 합쳐 토큰 만들기",
-          "url": "books/aie-llm-build/#tokenizer"
-        },
-        {
-          "title": "03 · 다음 토큰 맞히기와 규모의 법칙",
-          "url": "books/aie-llm-build/#pretrain"
-        },
-        {
-          "title": "04 · 8B를 학습하려면 몇 GB가 필요할까",
-          "url": "books/aie-llm-build/#memory"
-        },
-        {
-          "title": "07 · 더 나은 답을 고르는 법 배우기",
-          "url": "books/aie-llm-build/#preference"
-        },
-        {
-          "title": "10 · 양자화와 추측 디코딩으로 가볍고 빠르게 서빙하기",
-          "url": "books/aie-llm-build/#serving"
-        }
-      ],
-      "short_title": "LLM 직접 만들기"
-    },
-    {
-      "id": "aie-12-llm-apps",
-      "title": "LLM 엔지니어링 · 프롬프트에서 서비스까지",
-      "spine_title": "LLM 활용",
-      "spine_category": "AI공학",
-      "color": "aqua",
-      "description": "가상의 온라인 서점 책다락의 고객 지원 도우미 하나를 지시문, 구조화 출력, 컨텍스트 예산, 검색, LoRA, 도구 호출과 MCP, 평가, 가드레일, 캐시, 상태 그래프를 차례로 붙이며 출시까지 키웁니다. 12장 17개 실험으로 원본 커리큘럼 Phase 11의 레슨 17개를 모두 재구성했고, 마지막에는 출시 2주 차 청구서를 예산 안에 맞춥니다.",
-      "illustration": "books/aie-llm-apps/assets/shelf-illustration.svg",
-      "illustration_caption": "고객 질문이 캐시에 적중하면 곧바로 답으로, 놓치면 지시·근거·도구를 붙여 모델을 거쳐 답으로 가는 요청 흐름을 보여 주는 시각적 비유입니다.",
-      "cover_art": "books/aie-llm-apps/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
-      "status": "published",
-      "url": "books/aie-llm-apps/",
-      "keywords": [
-        "LLM 엔지니어링",
-        "프롬프트",
-        "온도",
-        "top-p",
-        "퓨샷",
-        "사고 사슬",
-        "자기 일관성",
-        "구조화 출력",
-        "JSON 스키마",
-        "컨텍스트 엔지니어링",
-        "임베딩",
-        "RAG",
-        "LoRA",
-        "QLoRA",
-        "함수 호출",
-        "MCP",
-        "평가",
-        "LLM 판정자",
-        "가드레일",
-        "프롬프트 주입",
-        "의미 캐시",
-        "프롬프트 캐시",
-        "LangGraph",
-        "비용",
-        "LLM engineering",
-        "prompt caching"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-llm-apps/#chapters"
-        },
-        {
-          "title": "01 · 막연한 부탁을 지시로 바꾸기",
-          "url": "books/aie-llm-apps/#prompt"
-        },
-        {
-          "title": "03 · 답을 스키마에 맞는 JSON으로 받기",
-          "url": "books/aie-llm-apps/#structured"
-        },
-        {
-          "title": "07 · 모델이 함수 호출과 MCP로 도구를 쓰게 하기",
-          "url": "books/aie-llm-apps/#tools"
-        },
-        {
-          "title": "08 · 좋아졌는지 평가 세트로 확인하기",
-          "url": "books/aie-llm-apps/#eval"
-        },
-        {
-          "title": "10 · 같은 질문에 두 번 돈 내지 않기",
-          "url": "books/aie-llm-apps/#cache"
-        }
-      ],
-      "short_title": "LLM 엔지니어링"
-    },
-    {
-      "id": "aie-13-multimodal",
-      "title": "멀티모달 AI · 보고 듣고 말하는 모델",
-      "spine_title": "멀티모달",
-      "spine_category": "AI공학",
-      "color": "violet",
-      "description": "세탁기 A/S 센터의 상담 도우미를 공통 사례로 이미지 패치 토큰, CLIP·SigLIP 대조 학습, Q-Former와 게이트 연결, LLaVA식 학습 순서, 해상도 전략, 영상·음성 토큰 예산, 이미지 생성 토큰, 로봇 행동 토큰, ColPali 문서 검색, 화면 에이전트를 다루고, 토큰 수·손실·지연·성공률을 브라우저 실험에서 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 phases/12-multimodal-ai의 레슨 25개를 모두 재구성했습니다.",
-      "illustration": "books/aie-multimodal/assets/shelf-illustration.svg",
-      "illustration_caption": "세탁기 표시창 사진이 패치 격자로 잘리고, 패치와 소리 조각이 토큰 줄을 따라 언어 모델로 흘러 들어가 상담 답이 켜지는 과정을 보여 주는 시각적 비유입니다(칸 수와 위치는 예시).",
-      "cover_art": "books/aie-multimodal/assets/cover-art.svg",
-      "cover_meta": "12장 · 16개 실험",
-      "status": "published",
-      "url": "books/aie-multimodal/",
-      "keywords": [
-        "멀티모달",
-        "VLM",
-        "ViT",
-        "패치 토큰",
-        "CLIP",
-        "SigLIP",
-        "대조 학습",
-        "BLIP-2",
-        "Q-Former",
-        "Flamingo",
-        "LLaVA",
-        "AnyRes",
-        "Qwen2-VL",
-        "영상 이해",
-        "Whisper",
-        "옴니 모델",
-        "Chameleon",
-        "Emu3",
-        "MaskGIT",
-        "Transfusion",
-        "VLA",
-        "OpenVLA",
-        "ColPali",
-        "멀티모달 RAG",
-        "컴퓨터 사용 에이전트",
-        "multimodal",
-        "vision-language model"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-multimodal/#chapters"
-        },
-        {
-          "title": "01 · 세탁기 사진이 토큰이 되기까지",
-          "url": "books/aie-multimodal/#patches"
-        },
-        {
-          "title": "03 · 얼린 두 모델을 Q-Former와 게이트로 잇기",
-          "url": "books/aie-multimodal/#bridge"
-        },
-        {
-          "title": "06 · 90초 영상을 토큰 예산 안에 넣기",
-          "url": "books/aie-multimodal/#video"
-        },
-        {
-          "title": "11 · 스캔 설명서에서 맞는 쪽 찾기",
-          "url": "books/aie-multimodal/#docs"
-        },
-        {
-          "title": "마지막 · 예약 화면을 대신 누르는 도우미",
-          "url": "books/aie-multimodal/#agent"
-        }
-      ],
-      "short_title": "멀티모달 AI"
-    },
-    {
-      "id": "aie-14-tools",
-      "title": "도구와 프로토콜 · 함수 호출에서 MCP와 스킬까지",
-      "spine_title": "도구와 MCP",
-      "spine_category": "AI공학",
-      "color": "amber",
-      "description": "팀 회의 노트 비서 하나를 함수 호출에서 MCP 서버, 게이트웨이, 스킬까지 키우며 인자 검사, 요청 검사 순서와 오류 코드, 캐시 범위, 되묻기 재시도 검증, 작업 상태와 두 시계, 서술자 고정, 토큰 검사, 트레이스, 스킬 목록 예산과 라우팅 평가를 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 13의 레슨 31개를 모두 재구성했습니다.",
-      "illustration": "books/aie-tools/assets/shelf-illustration.svg",
-      "illustration_caption": "노트 비서의 요청 봉투가 검사 관문 일곱 개를 차례로 지나며 통과 표시를 켜고 도구 상자에 닿는 시각적 비유입니다.",
-      "cover_art": "books/aie-tools/assets/cover-art.svg",
-      "cover_meta": "12장 · 16개 실험",
-      "status": "published",
-      "url": "books/aie-tools/",
-      "keywords": [
-        "도구 호출",
-        "함수 호출",
-        "JSON Schema",
-        "MCP",
-        "Model Context Protocol",
-        "JSON-RPC",
-        "Streamable HTTP",
-        "cacheScope",
-        "MRTR",
-        "elicitation",
-        "Tasks",
-        "도구 중독",
-        "tool poisoning",
-        "OAuth",
-        "aud",
-        "게이트웨이",
-        "OpenTelemetry",
-        "Agent Skills",
-        "SKILL.md",
-        "라우팅 평가",
-        "A2A"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-tools/#chapters"
-        },
-        {
-          "title": "01 · 모델이 행동을 부탁하는 네 단계",
-          "url": "books/aie-tools/#loop"
-        },
-        {
-          "title": "03 · 요청 한 통에 필요한 것을 모두 담기",
-          "url": "books/aie-tools/#envelope"
-        },
-        {
-          "title": "06 · 서버가 사람과 모델에게 되묻기",
-          "url": "books/aie-tools/#mrtr"
-        },
-        {
-          "title": "08 · 도구 설명과 공급망을 믿지 않기",
-          "url": "books/aie-tools/#poison"
-        },
-        {
-          "title": "11 · 절차를 스킬로 포장하기",
-          "url": "books/aie-tools/#skills"
-        }
-      ],
-      "short_title": "도구와 프로토콜"
-    },
-    {
-      "id": "aie-15-agents",
-      "title": "에이전트 엔지니어링 · 루프에서 작업대와 제품 판단까지",
-      "spine_title": "에이전트",
-      "spine_category": "AI공학",
-      "color": "sage",
-      "description": "운영 경보가 울리면 고장 난 서비스를 찾는 장애 대응 에이전트 “당직 도우미”를 따라 루프의 멈춤 조건, 계획과 탐색, 반성, 기억, 워크플로 패턴, 실행 형태, 벤치마크, 주입 방어, 작업대, 검증 게이트, 제품 판단을 실험으로 계산하고 판정합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 14의 레슨 54개를 모두 재구성했습니다.",
-      "illustration": "books/aie-agents/assets/shelf-illustration.svg",
-      "illustration_caption": "당직 도우미가 생각·행동·관찰을 돌며 턴 칸을 채우고 검증 게이트를 통과한 뒤에야 완료 표시가 켜지는 시각적 비유입니다.",
-      "cover_art": "books/aie-agents/assets/cover-art.svg",
-      "cover_meta": "12장 · 16개 실험",
-      "status": "published",
-      "url": "books/aie-agents/",
-      "keywords": [
-        "에이전트",
-        "agent",
-        "ReAct",
-        "함수 호출",
-        "ReWOO",
-        "Tree of Thoughts",
-        "Reflexion",
-        "MemGPT",
-        "Mem0",
-        "워크플로 패턴",
-        "LangGraph",
-        "OpenAI Agents SDK",
-        "Claude Agent SDK",
-        "SWE-bench",
-        "OSWorld",
-        "OpenTelemetry",
-        "프롬프트 주입",
-        "PVE",
-        "AGENTS.md",
-        "범위 계약",
-        "검증 게이트",
-        "인계",
-        "가정 지도",
-        "파일럿"
-      ],
-      "chapters": [
-        {
-          "title": "전체 12개 장",
-          "url": "books/aie-agents/#chapters"
-        },
-        {
-          "title": "01 · 생각하고 도구를 부르고 결과를 읽는 루프",
-          "url": "books/aie-agents/#loop"
-        },
-        {
-          "title": "04 · 문맥 창 밖에 기억을 두고 꺼내 쓰기",
-          "url": "books/aie-agents/#memory"
-        },
-        {
-          "title": "08 · 간접 프롬프트 주입과 도구 호출 검사기",
-          "url": "books/aie-agents/#defend"
-        },
-        {
-          "title": "10 · 완료 보고를 검증 게이트와 리뷰어로 확인하기",
-          "url": "books/aie-agents/#gates"
-        },
-        {
-          "title": "마지막 · 가장 작은 조각을 고르고 파일럿 결과 판정하기",
-          "url": "books/aie-agents/#final"
-        }
-      ],
-      "short_title": "에이전트 엔지니어링"
-    },
-    {
       "id": "aie-16-autonomy",
       "title": "자율 시스템 · 밤새 혼자 일하는 에이전트를 통제하는 법",
       "spine_title": "자율 시스템",
-      "spine_category": "AI공학",
+      "spine_category": "인공지능",
       "color": "rose",
       "description": "온라인 서점 책마루의 야간 에이전트 누리를 사례로 단계 신뢰도의 곱, STaR·진화 고리·자동 연구와 자기 개선 관문, 권한 모드와 읽기-쓰기 경계, 사건 기록과 제안-확정, 비용 상한과 차단기, 원칙의 층과 분류기, 연구소 정책과 METR식 시간 지평 적합을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 15의 레슨 22개를 모두 재구성했습니다.",
       "illustration": "books/aie-autonomy/assets/shelf-illustration.svg",
@@ -2099,7 +2298,7 @@
       "id": "aie-17-multiagent",
       "title": "멀티 에이전트 · 여럿이 나눠 맡고 서로 확인하기",
       "spine_title": "멀티에이전트",
-      "spine_category": "AI공학",
+      "spine_category": "인공지능",
       "color": "aqua",
       "description": "공공자전거 대여소 확대를 조사하는 에이전트 하나를 반장·조사원·작성자·검증자로 이루어진 보고서 팀으로 나누고, A2A 작업 수명주기, 차례 정하기, 반장과 조사원, 비평가와 검증자, 공유 대기열, 다수결과 단일 문화, 비잔틴 합의, 흥정과 섀플리 값, 마음 모형, 재시도 폭풍을 직접 계산합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 16의 레슨 25개를 모두 재구성했습니다.",
       "illustration": "books/aie-multiagent/assets/shelf-illustration.svg",
@@ -2163,10 +2362,68 @@
       "short_title": "멀티 에이전트"
     },
     {
+      "id": "llm-performance",
+      "title": "LLM 추론은 어디서 느려지는가 · 측정에서 최적화까지",
+      "short_title": "추론 최적화",
+      "spine_title": "추론 최적화",
+      "spine_category": "인공지능",
+      "color": "rose",
+      "description": "같은 요약 요청의 시간을 재고, CUDA 스레드와 메모리 접근, KV 할당·배치·통신을 조사합니다. 12장·15개 실험과 PyTorch·CUDA 예제로 성능·메모리·품질을 함께 검증합니다.",
+      "illustration": "books/llm-performance/assets/shelf-illustration.svg",
+      "illustration_caption": "개념 애니메이션: 커널 사이의 빈 구간을 찾고, 변경한 타임라인에서 결과와 시간을 다시 확인합니다. 실제 소요 시간의 축척이 아닙니다.",
+      "status": "published",
+      "url": "books/llm-performance/",
+      "keywords": [
+        "LLM",
+        "CUDA",
+        "GPU",
+        "프로파일링",
+        "추론",
+        "최적화",
+        "TTFT",
+        "ITL",
+        "coalescing",
+        "occupancy",
+        "FlashAttention",
+        "PagedAttention",
+        "배치",
+        "NCCL",
+        "오픈웨이트"
+      ],
+      "chapters": [
+        {
+          "title": "전체 12개 장",
+          "url": "books/llm-performance/#chapters"
+        },
+        {
+          "title": "01 · 느리다는 말을 숫자로 바꾸기",
+          "url": "books/llm-performance/#metrics"
+        },
+        {
+          "title": "02 · GPU가 끝난 시간을 재기",
+          "url": "books/llm-performance/#timing"
+        },
+        {
+          "title": "05 · 함께 읽는 주소 모으기",
+          "url": "books/llm-performance/#coalescing"
+        },
+        {
+          "title": "09 · KV를 필요한 만큼 할당하기",
+          "url": "books/llm-performance/#paging"
+        },
+        {
+          "title": "12 · 개선안을 끝까지 검증하기",
+          "url": "books/llm-performance/#review"
+        }
+      ],
+      "cover_art": "books/llm-performance/assets/cover-art.svg",
+      "cover_meta": "12장 · 15개 실험"
+    },
+    {
       "id": "aie-18-production",
       "title": "AI 인프라와 운영 · 모델 서버에서 비용·장애 관리까지",
       "spine_title": "인프라운영",
-      "spine_category": "AI공학",
+      "spine_category": "인공지능",
       "color": "violet",
       "description": "상담 챗봇 누리봇을 70B 모델로 출시하고 운영하며 토큰과 GPU의 손익분기, HBM 예산, 청크 프리필, goodput, 추측 디코딩, 캐시를 아는 라우팅, 콜드 스타트, 청구서, 게이트웨이 재시도, 카나리 관문, A/B 표본 크기, 오류 예산을 직접 계산합니다. 12장 18개 실험으로 원본 커리큘럼 Phase 17의 레슨 28개를 모두 재구성했습니다.",
       "illustration": "books/aie-production/assets/shelf-illustration.svg",
@@ -2231,10 +2488,75 @@
       "short_title": "AI 인프라와 운영"
     },
     {
+      "id": "federated-learning",
+      "title": "연합학습 · 데이터를 기기에 두고 업데이트만 모아 모델 학습하기",
+      "spine_title": "연합학습",
+      "spine_category": "인공지능",
+      "color": "plum",
+      "description": "키보드 앱을 만드는 하린(이 책을 위해 지어낸 인물)이 합성 사용자 1,000명의 원문을 서버로 모으지 않고 다음 단어 추천 모델을 학습합니다. FedAvg와 통신량, 사용자마다 다른 데이터, 업데이트에서 드러나는 단어와 보안 집계·차등 프라이버시, 개인화와 묶음별 평가를 13장 14개 실험으로 계산합니다.",
+      "illustration": "books/federated/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 서버가 모델을 휴대폰 세 대로 내려보내면 휴대폰은 원문을 자기 안에 둔 채 학습하고 업데이트만 올립니다. 서버는 셋을 평균해 다음 모델을 만들고 같은 라운드를 되풀이합니다.",
+      "cover_art": "books/federated/assets/cover-art.svg",
+      "cover_meta": "13장 · 14개 실험",
+      "status": "published",
+      "url": "books/federated/",
+      "keywords": [
+        "연합학습",
+        "federated learning",
+        "FedAvg",
+        "FedSGD",
+        "non-IID",
+        "FedProx",
+        "SCAFFOLD",
+        "보안 집계",
+        "secure aggregation",
+        "차등 프라이버시",
+        "DP-FedAvg",
+        "differential privacy",
+        "개인화",
+        "연합 평가",
+        "Gboard",
+        "LoRA",
+        "기울기 유출",
+        "통신량"
+      ],
+      "chapters": [
+        {
+          "title": "전체 13개 장",
+          "url": "books/federated/#chapters"
+        },
+        {
+          "title": "02 · FedSGD에서 FedAvg로: 기기에서 여러 번 학습하고 서버에서 평균하기",
+          "url": "books/federated/#fedavg"
+        },
+        {
+          "title": "04 · 사용자마다 다른 데이터가 만드는 기기 표류와 FedProx·SCAFFOLD의 보정",
+          "url": "books/federated/#noniid"
+        },
+        {
+          "title": "07 · 업데이트 하나에서 사용자가 입력한 단어 쌍을 복원하기",
+          "url": "books/federated/#leakage"
+        },
+        {
+          "title": "09 · 업데이트를 자르고 잡음을 더해 차등 프라이버시 ε 계산하기",
+          "url": "books/federated/#dp"
+        },
+        {
+          "title": "11 · 메타데이터 묶음별 연합 평가로 숨은 편향 찾기",
+          "url": "books/federated/#fairness"
+        },
+        {
+          "title": "마지막 과제 · 하린의 설정으로 정확도·통신량·ε를 계산해 보고서 쓰기",
+          "url": "books/federated/#final"
+        }
+      ],
+      "short_title": "연합학습"
+    },
+    {
       "id": "aie-19-safety",
       "title": "AI 안전과 윤리 · 출시 전에 무엇을 확인할까",
       "spine_title": "안전과 윤리",
-      "spine_category": "AI공학",
+      "spine_category": "인공지능",
       "color": "amber",
       "description": "누리은행의 상담 AI 누리를 출시하기 전에 RLHF와 DPO의 보상 신호, 숨은 백도어와 정렬 위장, AI 통제 프로토콜, 탈옥과 간접 프롬프트 주입, 조정 층, 대출 심사의 공정성, 차등 프라이버시와 워터마크, EU와 한국의 규제 일정을 차례로 점검합니다. 12장 16개 실험으로 원본 커리큘럼 Phase 18의 레슨 30개를 모두 재구성했습니다.",
       "illustration": "books/aie-safety/assets/shelf-illustration.svg",
@@ -2299,7 +2621,7 @@
       "id": "aie-20-capstone",
       "title": "캡스톤 · 배운 도구로 제품 하나를 끝까지 만들어 보기",
       "spine_title": "캡스톤",
-      "spine_category": "AI공학",
+      "spine_category": "인공지능",
       "color": "blue",
       "description": "여섯 명의 플랫폼 팀이 개발자 200명을 위한 사내 AI 개발 도우미 모루를 만들며, 에이전트 고리의 재시도와 예산, pass@k와 꼬리 표집, 역할 팀의 비용, UCB 연구 스케줄러, 124M GPT 조립, SFT와 DPO, ZeRO와 파이프라인 병렬, RAG 지표, 패치 토큰 예산, 부트스트랩 구간, 안전 게이트의 문턱을 직접 계산합니다. 마지막 장에서는 사용량이 두 배가 된 달의 출시 사양표 다섯 줄을 한꺼번에 맞춥니다. 12장 15개 실험으로 원본 커리큘럼 Phase 19의 프로젝트 85개를 모두 재구성했습니다.",
       "illustration": "books/aie-capstone/assets/shelf-illustration.svg",
@@ -4266,6 +4588,79 @@
       ]
     },
     {
+      "id": "what-partial-measures",
+      "title": "∂L/∂w는 무엇을 재는 값일까",
+      "question": "신경망 책의 식에 나오는 ∂L/∂w는 무엇을 잰 값이고, 층이 쌓인 계산에서는 어떻게 구할까?",
+      "audience": "경사하강과 역전파의 식을 봤지만 ∂ 기호와 연쇄 법칙의 곱셈이 무엇을 하는지 설명하지 못하는 학습자",
+      "prerequisites": "일차·이차함수의 그래프, 거듭제곱의 미분(wⁿ → n·wⁿ⁻¹)",
+      "start": "「신경망의 계산」 3장에서 w ← w − η·∂L/∂w를 따라 계산은 했다. 그런데 ∂L/∂w가 왜 그 식이 되는지, 6장에서 왜 뒤에서부터 곱하는지는 받아 적기만 했다.",
+      "steps": [
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#loss",
+          "task": "예측선 실험에서 w = 2, b = 12와 w = 4, b = 12의 MSE를 적는다",
+          "minutes": 10,
+          "why": "편미분으로 기울기를 잴 대상인 손실 L(w, b)가 어떤 기록과 예측선에서 나오는지 먼저 확인한다",
+          "record": "두 선의 MSE와, 어느 선이 왜 더 잘 맞는지 한 문장"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#partial",
+          "task": "단면 실험에서 (2, 12)에 서서 움직일 변수를 w와 b로 바꿔 두 편미분을 적고, b를 16으로 올린 뒤 ∂L/∂w가 얼마로 바뀌는지 확인한다",
+          "minutes": 15,
+          "why": "방금 잰 손실을 곡면으로 세우고 한 변수만 움직여 자른다. ∂L/∂w가 단면의 접선 기울기라는 뜻을 그림과 숫자로 잡는다",
+          "record": "(2, 12)의 ∂L/∂w와 ∂L/∂b, b = 16일 때의 ∂L/∂w"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#plane",
+          "task": "접평면 실험에서 (2, 12)의 Δw와 Δb를 (0.1, 0.1)과 (2, 2)로 바꿔 어림과 실제 변화의 차이를 비교한다",
+          "minutes": 15,
+          "why": "두 변수를 함께 움직일 때는 변수마다의 몫을 더한다. 이 덧셈이 뒤에서 경로끼리 더하는 규칙의 바탕이 된다",
+          "record": "두 경우의 어림, 실제 변화, 차이"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#gradient",
+          "task": "방향 실험에서 (2, 12)의 방향을 0°, 190°, 100°로 바꿔 손실이 변하는 빠르기를 적는다",
+          "minutes": 15,
+          "why": "편미분 두 개를 벡터 하나로 모으면 어느 쪽으로 가야 손실이 가장 빨리 줄어드는지가 정해진다. 경사하강이 기울기 벡터의 반대쪽으로 걷는 까닭이다",
+          "record": "세 방향의 변화율과 기울기 벡터의 크기·방향"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#graph",
+          "task": "계산 그래프 실험에서 w = 0.8로 단계를 0에서 6까지 올리며 국소 미분 세 개와 ∂L/∂w를 적고, w = 3에서 다시 본다",
+          "minutes": 15,
+          "why": "식을 전개할 수 없는 이어진 계산에서는 단계마다의 변화율을 뒤에서부터 곱한다. 곱하는 순서를 한 단계씩 따라간다",
+          "record": "w 두 값에서 ∂L/∂a, a(1 − a), ∂L/∂w"
+        },
+        {
+          "book_id": "partial-derivative-chain-rule",
+          "url": "books/partial/#branch",
+          "task": "경로 실험에서 w = 3으로 날 수를 4와 8로 바꿔 날마다의 몫과 합을 적는다",
+          "minutes": 15,
+          "why": "한 값이 여러 곳에 쓰이면 경로마다 곱한 값을 더한다. 곱하기와 더하기 두 규칙이 갖춰지면 역전파의 식을 읽을 수 있다",
+          "record": "두 경우의 몫 목록과 ∂L/∂w"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#backprop",
+          "task": "연쇄법칙 실험에서 w를 0.8과 3으로 두고 국소 기울기 세 개의 곱이 수치 미분과 같은지 확인한 뒤, XOR 학습 실험에서 시드 1의 최종 손실을 적는다",
+          "minutes": 15,
+          "why": "손으로 따라간 곱셈과 덧셈이 2-2-1 망의 모든 가중치에 한꺼번에 쓰이고, 그 기울기로 망이 실제로 학습되는 것을 확인한다",
+          "record": "w 두 값의 dL/dw, XOR 학습의 최종 손실"
+        }
+      ],
+      "challenge": "동료가 손으로 유도한 역전파 식으로 학습을 돌렸더니 손실이 줄기는 하는데 기대보다 훨씬 느리다고 한다. 식이 맞는지 판정하려면 무엇을 계산해 무엇과 견줄지, 틀렸다면 빠진 국소 미분과 빠진 경로를 어떤 순서로 찾을지 설명한다.",
+      "checks": [
+        "∂L/∂w가 곡면의 어느 단면에서 잰 기울기인지 그림으로 설명할 수 있는가",
+        "두 변수를 함께 움직일 때 변화를 어림하는 식과 그 어림이 빗나가는 조건을 말할 수 있는가",
+        "한 경로 안에서는 곱하고 경로끼리는 더하는 까닭을 예를 들어 설명할 수 있는가",
+        "손으로 구한 기울기를 수치 미분으로 점검할 수 있고, 그 점검이 보장하지 않는 것을 말할 수 있는가"
+      ]
+    },
+    {
       "id": "line-to-deep-training",
       "title": "예측선 하나에서 깊은 신경망 학습까지",
       "question": "점 여덟 개에 선을 긋는 계산이 어떻게 깊은 신경망의 학습으로 이어질까?",
@@ -4589,6 +4984,78 @@
           "why": "앞 권들이 비용, 지연, 품질, 위험을 각각 다루었다면, 마지막 권은 그 넷이 한 제품에서 서로를 끌어당긴다는 것을 한 장의 표로 보여 준다. 시리즈 전체의 도구를 한 판단에 모으는 정거장이다.",
           "record": "고른 다섯 손잡이 값, 다섯 줄의 계산값과 목표, 가장 의심스러운 가정과 그것을 다시 잴 기록 이름"
         }
+      ]
+    },
+    {
+      "id": "before-transformer",
+      "title": "트랜스포머 이전에는 문장을 어떻게 읽었을까",
+      "question": "문장을 한 낱말씩 차례로 읽던 모델은 무엇을 할 수 있었고, 무엇이 부족해서 어텐션으로 넘어갔을까?",
+      "audience": "트랜스포머를 공부하려는데 책마다 “RNN과 달리”로 시작해 막힌 독자",
+      "prerequisites": "뉴런의 가중합과 활성 함수, 경사하강으로 가중치를 고친다는 것",
+      "start": "트랜스포머 설명이 첫 줄부터 RNN의 한계를 안다고 가정한다.",
+      "steps": [
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#cell",
+          "task": "은닉 상태 12시점 계산 실험에서 순환 가중치를 0.5와 0.8로 바꾸며 첫 입력의 흔적이 처음 값의 10% 아래로 줄어드는 시점을 적는다",
+          "minutes": 15,
+          "why": "차례로 읽는 모델은 지금까지 읽은 것을 은닉 상태 하나에 담아 넘긴다. 그 계산부터 손으로 따라가야 뒤의 한계가 숫자로 보인다",
+          "record": "두 가중치에서 흔적이 10% 아래로 내려가는 시점"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#vanish",
+          "task": "기울기 소실과 폭발 실험에서 순환 가중치의 크기를 0.9와 1.5로 두고 29단계 앞의 기울기 크기를 선형과 tanh에서 적는다",
+          "minutes": 18,
+          "why": "은닉 상태가 넘어가는 길을 기울기가 되돌아올 때 같은 배율이 거듭 곱해져, 먼 낱말의 영향을 배우기 어렵다",
+          "record": "네 조건의 29단계 앞 기울기 크기"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#gru",
+          "task": "세 셀의 기울기 견주기 실험에서 게이트 편향을 0과 3으로 바꾸며 단순 RNN·LSTM·GRU의 29단계 앞 기울기를 표로 적는다",
+          "minutes": 18,
+          "why": "LSTM과 GRU는 게이트로 기울기가 덜 줄게 했지만, 게이트가 열려 있을 때만 그렇다는 점을 확인한다",
+          "record": "편향 0과 3에서 세 셀의 기울기 크기와 게이트 평균"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#embed",
+          "task": "후기 문장 분류 실험에서 “맛 이 좋 지 않 다”를 읽는 동안 긍정 확률이 뒤집히는 토큰을 찾고, 뒤에 패딩 두 개를 붙여 판정이 바뀌는지 본다",
+          "minutes": 20,
+          "why": "문장을 벡터로 바꿔 한 토큰씩 읽는 방식이 실제로 무엇을 해내는지, 어디서 깨지는지 본다",
+          "record": "확률이 뒤집히는 토큰과 패딩을 붙였을 때의 판정"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#limits",
+          "task": "순환층과 셀프 어텐션층 견주기 실험에서 길이 50과 200일 때 곱셈 수, 차례로 기다리는 단계, 가장 먼 토큰 사이의 경로를 표로 적는다",
+          "minutes": 18,
+          "why": "게이트로도 줄지 않는 것이 차례로 기다리는 단계와 토큰 사이의 거리다. 어텐션이 고친 것이 이 두 줄이다",
+          "record": "두 길이에서 표의 세 줄"
+        },
+        {
+          "book_id": "aie-08-transformer",
+          "url": "books/aie-transformer/#why",
+          "task": "직렬 단계와 점수표 크기 실험에서 문장 길이를 바꾸며 RNN의 직렬 단계와 어텐션 점수표의 칸 수를 함께 계산한다",
+          "minutes": 12,
+          "why": "한계를 숫자로 확인했으니, 어텐션에서 그 대신 늘어나는 점수표 크기를 같은 문장 길이에서 이어서 본다",
+          "record": "1,024토큰에서 RNN의 직렬 단계와 점수표 칸 수"
+        },
+        {
+          "book_id": "transformer-inside",
+          "url": "books/transformer/#lookup",
+          "task": "질문 방향과 길이로 섞는 비율 바꾸기 실험에서 질문 화살표를 돌리며 열쇠 넷에 나눠 주는 가중치를 본다",
+          "minutes": 15,
+          "why": "모든 토큰을 한 번에 본다는 말이 어떤 계산인지, 가중치를 나눠 주는 가장 작은 예로 확인한다",
+          "record": "질문이 두 열쇠 사이를 가리킬 때의 가중치"
+        }
+      ],
+      "challenge": "내가 다루는 순서 있는 자료(센서 기록, 로그, 문장) 하나를 골라 길이와 판정을 가르는 입력 사이의 거리를 적고, 단순 RNN·LSTM·어텐션 가운데 무엇으로 시작할지 이유와 함께 쓴다.",
+      "checks": [
+        "은닉 상태가 무엇을 담고 어떻게 다음 시점으로 넘어가는지 식으로 말할 수 있는가",
+        "기울기가 먼 시점에서 사라지는 까닭을 거듭 곱하는 배율로 설명할 수 있는가",
+        "어텐션이 RNN에서 고친 것과 그 대신 늘어나는 계산을 하나씩 말할 수 있는가"
       ]
     },
     {
@@ -5822,6 +6289,174 @@
       ]
     },
     {
+      "id": "read-wx-plus-b",
+      "title": "신경망의 식 Wx + b는 무엇을 계산할까",
+      "question": "딥러닝 책마다 나오는 Wx + b와 텐서의 모양은 무엇을 계산하는 식이고, 왜 행렬로 적을까?",
+      "audience": "딥러닝 책이나 강의를 펼쳤다가 벡터·행렬 기호에서 멈춘 독자",
+      "prerequisites": "덧셈과 곱셈, 좌표평면의 점",
+      "start": "신경망 책 첫 장에서 h = ReLU(Wx + b)라는 식과 (32, 3, 224, 224)라는 모양을 만났는데 무엇을 곱하고 더하라는 뜻인지 읽을 수 없다.",
+      "steps": [
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#dot",
+          "task": "레시피와 단가 벡터를 내적하는 실험에서 라테의 원가와 열량을 계산하고, 바닐라라테로 바꿔 열량이 얼마나 느는지 본다",
+          "minutes": 15,
+          "why": "Wx + b의 가장 작은 조각은 같은 자리끼리 곱해 더하는 가중합 한 번이다",
+          "record": "라테의 원가와 열량, 바닐라라테의 열량"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#neuron",
+          "task": "가중치와 편향을 바꾸는 실험에서 민준의 뉴런의 편향을 −1.5에서 −3으로 낮추고 가중합이 0보다 큰 음료를 센다",
+          "minutes": 15,
+          "why": "가중합에 b를 더하고 활성화 함수를 거치면 뉴런 하나가 된다. b가 판정 기준을 어디로 옮기는지 3차원 평면으로 본다",
+          "record": "편향 −1.5와 −3에서 가중합이 0보다 큰 음료의 이름"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#matrix",
+          "task": "행렬에 레시피를 곱하는 실험에서 2×3 행렬과 3×3 행렬에 라테를 곱해 결과의 숫자 개수를 비교한다",
+          "minutes": 15,
+          "why": "뉴런 여러 개의 가중치를 한 줄씩 쌓으면 W가 되고, Wx는 행마다 내적을 한 번씩 한다",
+          "record": "두 행렬의 결과 벡터와 숫자 개수"
+        },
+        {
+          "book_id": "linear-algebra-world",
+          "url": "books/linear-algebra/#layer",
+          "task": "행렬 곱에 편향과 ReLU를 더해 신경망 한 층이 평면의 점들을 옮기는 모습을 읽는다",
+          "minutes": 15,
+          "why": "3차원에서 계산한 Wx + b를 2차원 평면에서 다시 보면 꺾기(ReLU)가 점들의 배치를 어떻게 바꾸는지 한눈에 들어온다",
+          "record": "ReLU 전후 점들의 배치"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#shape",
+          "task": "두 행렬의 모양을 바꾸는 실험에서 (6×3)(2×3)이 곱해지지 않는 것을 확인하고 전치를 켜서 (6×2)를 얻는다",
+          "minutes": 15,
+          "why": "음료 여섯 개를 한꺼번에 넣으면 x가 표 X가 되고, 코드의 모양 오류는 대부분 이 안쪽 두 수에서 난다",
+          "record": "전치 전후의 안쪽 두 수와 결과 모양, 라테 줄의 값"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#tensor",
+          "task": "데이터 종류별 텐서 모양 읽기 실험에서 흑백 28×28 이미지 32장과 컬러 224×224 이미지 32장의 모양과 원소 수를 읽는다",
+          "minutes": 12,
+          "why": "표 한 장의 모양 규칙을 익혔으니, 실제 이미지 묶음의 축 네 개가 무엇을 세는지 읽을 수 있다",
+          "record": "두 묶음의 모양과 원소 수"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#jacobian",
+          "task": "재료를 조금 늘리는 실험에서 신메뉴의 샷을 0.5 늘려 실제 점수 변화와 야코비안 어림값을 견주고, 바닐라라테에서 우유를 2 늘려 둘이 어긋나는 것을 본다",
+          "minutes": 18,
+          "why": "학습은 출력이 입력과 가중치에 얼마나 민감한지에서 출발한다. 층을 잇는 연쇄 법칙이 행렬 곱이라는 것을 숫자로 확인한다",
+          "record": "두 경우의 실제 변화와 어림값"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#backprop",
+          "task": "연쇄법칙 실험에서 w를 0.8과 3으로 두고 국소 기울기 세 개의 곱이 수치 미분과 같은지 확인한다",
+          "minutes": 15,
+          "why": "입력에 대한 기울기를 구해 보았으니, 같은 연쇄 법칙으로 가중치의 기울기를 구하는 역전파를 따라갈 수 있다",
+          "record": "w 두 값의 dL/dw"
+        },
+        {
+          "book_id": "linear-algebra-easy",
+          "url": "books/linear-easy/#final",
+          "task": "순전파를 단계별로 계산하는 실험에서 신메뉴 (3, 2, 1)의 다섯 단계 값을 모양과 함께 적고, 모양 오류 세 건의 고칠 방법을 고른다",
+          "minutes": 20,
+          "why": "처음에 읽지 못한 식 h = ReLU(Wx + b)를 숫자와 모양으로 끝까지 계산해 본다",
+          "record": "단계마다의 값과 모양, 오류 세 건의 원인"
+        }
+      ],
+      "challenge": "입력 4개, 은닉 뉴런 3개, 출력 1개인 신경망의 W₁, b₁, w₂, b₂의 모양을 적고, 음료 10개를 한꺼번에 넣을 때 단계마다 결과의 모양과 곱셈 횟수를 표로 정리한다.",
+      "checks": [
+        "Wx + b에서 W의 행 하나가 무엇을 계산하는지 한 문장으로 말할 수 있는가",
+        "두 행렬을 곱할 수 있는지 모양만 보고 판정할 수 있는가",
+        "ReLU 층의 야코비안에서 꺼진 뉴런의 행이 0이 되는 까닭을 설명할 수 있는가"
+      ]
+    },
+    {
+      "id": "rate-to-amount",
+      "title": "속도 기록에서 쌓인 양을 어떻게 계산할까",
+      "question": "유량계가 지금 들어오는 속도만 알려 줄 때, 그동안 탱크에 고인 물과 탱크가 넘쳤는지를 어떻게 계산할까?",
+      "audience": "미분은 배웠지만 적분이 왜 넓이이고 왜 미분의 거꾸로인지 설명하기 어려운 학습자, 확률이나 물리에서 적분 기호를 만나 막힌 사람",
+      "prerequisites": "이차함수의 그래프, 순간 변화율(미분)의 뜻",
+      "start": "속도계·유량계·전력계처럼 ‘지금의 빠르기’만 보여 주는 기록에서 이동 거리·고인 물·쓴 전기를 알아내야 한다.",
+      "steps": [
+        {
+          "book_id": "aie-02-math",
+          "url": "books/aie-math/#derivative",
+          "task": "수치 미분의 h 고르기 실험에서 간격 h를 10⁻⁵와 10⁻¹³으로 바꾸며 가운데 차분의 상대 오차를 비교한다(미분이 익숙하면 건너뛰어도 된다)",
+          "minutes": 15,
+          "why": "적분이 거꾸로 되돌리는 계산이 미분이므로, 평균 변화율에서 간격을 줄여 순간 변화율을 얻는 일을 먼저 숫자로 확인한다",
+          "record": "상대 오차가 가장 작았던 h"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#area",
+          "task": "직사각형으로 고인 물 어림하기 실험에서 처음 5분을 5칸으로 두고 높이를 재는 자리를 왼쪽 끝과 오른쪽 끝으로 바꿔 두 합을 읽는다",
+          "minutes": 20,
+          "why": "속도가 변하면 속도 × 시간을 한 번에 곱할 수 없으므로, 짧은 칸마다 곱해 더하고 실제 값이 두 합 사이에 있음을 본다",
+          "record": "왼쪽 합과 오른쪽 합(42 L, 57 L)과 실제 값 50 L"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#riemann",
+          "task": "칸 수를 1,000까지 늘려 두 합이 모이는 값 찾기 실험에서 칸 수 n을 5, 50, 1,000으로 바꾸며 왼쪽 합과 오른쪽 합의 차이를 읽는다",
+          "minutes": 20,
+          "why": "칸을 늘릴수록 두 합의 차이가 0으로 가고, 그때 정해지는 값 하나에 정적분이라는 이름을 붙인다",
+          "record": "n = 5, 50, 1,000일 때 두 합의 차이"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#ftc",
+          "task": "쌓인 양의 평균 변화율을 유입 속도와 견주기 실험에서 x = 3에 두고 간격 h를 1에서 0.01까지 줄인 뒤, F(b) − F(a)를 직사각형 1,000개의 합과 견주기 실험에서 a = 2, b = 7로 두 값을 견준다",
+          "minutes": 25,
+          "why": "쌓인 양을 미분하면 속도가 된다는 것을 확인하면, 직사각형을 더하지 않고 원시함수의 뺄셈 한 번으로 정적분을 구할 수 있다",
+          "record": "h = 0.01일 때의 평균 변화율과 r(3), F(7) − F(2)의 값"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#numeric",
+          "task": "네 가지 수치적분 방법의 오차 견주기 실험에서 ∫₀¹ e^(−x²) dx를 4칸과 8칸으로 계산해 사다리꼴과 심프슨의 오차를 읽는다",
+          "minutes": 20,
+          "why": "원시함수를 식으로 쓸 수 없거나 측정값만 있을 때는 다시 나눠 더해야 하고, 같은 함숫값으로도 방법에 따라 오차가 크게 다르다",
+          "record": "4칸일 때 사다리꼴과 심프슨의 오차, 칸을 두 배로 늘렸을 때 줄어든 비율"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#probability",
+          "task": "확률밀도 곡선 아래 넓이로 확률 읽기 실험에서 정규분포를 고르고 구간을 7~13분, 4~16분으로 바꿔 넓이를 읽는다",
+          "minutes": 20,
+          "why": "확률도 밀도 × 좁은 폭을 더한 넓이이므로, 고인 물을 구한 것과 같은 계산으로 구간의 확률을 구한다",
+          "record": "두 구간의 확률(약 0.68, 약 0.95)"
+        },
+        {
+          "book_id": "probability-statistics",
+          "url": "books/probability/#clt",
+          "task": "표본 크기를 1에서 30으로 키우며 치우친 모집단의 표본 평균 히스토그램이 종 모양으로 바뀌는 것을 본다",
+          "minutes": 20,
+          "why": "방금 넓이를 잰 정규분포가 왜 여러 자료에서 나타나는지를 표본 평균으로 확인한다",
+          "record": "표본 크기 30일 때 평균들의 표준편차와 σ/√n 계산값"
+        },
+        {
+          "book_id": "integral-calculus",
+          "url": "books/integral/#final",
+          "task": "유량계 기록 간격과 방법을 바꿔 넘침 판단하기 실험에서 읽는 간격을 4분, 2분, 30초로 바꾸며 네 방법의 추정값이 남은 자리 72.4 L의 어느 쪽에 있는지 읽고 결정문을 쓴다",
+          "minutes": 25,
+          "why": "식 없이 기록만 있을 때는 추정값의 범위가 기준선의 한쪽에 모두 있어야 판정할 수 있고, 그렇지 않으면 더 촘촘한 기록이 필요하다",
+          "record": "간격마다의 판정(넘치지 않음·엇갈림·넘침)과 결정문 네 줄"
+        }
+      ],
+      "challenge": "내 주변에서 ‘지금의 빠르기’만 기록되는 값 하나(걸음 속도, 전력, 데이터 전송 속도)를 골라 일정한 간격으로 다섯 번 이상 적고, 사다리꼴 공식과 왼쪽·오른쪽 합으로 쌓인 양의 범위를 계산한 뒤 간격을 절반으로 줄이면 범위가 얼마나 좁아지는지 적는다.",
+      "checks": [
+        "왼쪽 합과 오른쪽 합 사이에 실제 값이 있다고 말할 수 있는 조건을 설명할 수 있는가",
+        "쌓인 양을 미분하면 속도가 되는 까닭을 평균 변화율로 설명할 수 있는가",
+        "수치적분 결과를 적을 때 함께 적어야 하는 것(방법, 칸 수, 오차)을 말할 수 있는가"
+      ]
+    },
+    {
       "id": "slope-to-best-value",
       "title": "기울기 하나로 가장 좋은 값을 어떻게 찾을까",
       "question": "신경망은 손실의 기울기를 따라 내려가며 학습한다는데, 그 기울기는 무엇을 계산한 값이고 왜 기울기가 0인 곳에서 가장 좋은 값이 나올까?",
@@ -5895,6 +6530,12 @@
         {
           "number": 1,
           "title": "AI 개발 작업대",
+          "companions": [
+            {
+              "book_id": "ai-book-interactive",
+              "why": "신경망에서 언어 모델·RAG·에이전트까지 AI의 큰 그림을 한 권으로 먼저 실험해 두면, 시리즈에서 하나씩 쌓을 도구가 어디에 쓰이는지 알고 시작할 수 있습니다"
+            }
+          ],
           "book_id": "aie-01-workbench",
           "next_why": "작업대가 갖춰졌으니, 모델이 배우는 데 쓰는 미분·텐서·확률을 직접 계산해 봅니다."
         },
@@ -5908,11 +6549,17 @@
           "number": 3,
           "title": "머신러닝 기초",
           "book_id": "aie-03-ml",
-          "next_why": "손으로 고른 특징의 한계를 보았으니, 특징까지 스스로 배우는 신경망을 안정되게 학습시키는 설정을 다룹니다. 뉴런과 역전파의 계산은 「신경망의 계산」에서 먼저 볼 수 있습니다."
+          "next_why": "손으로 고른 특징의 한계를 보았으니, 특징까지 스스로 배우는 신경망을 안정되게 학습시키는 설정을 다룹니다."
         },
         {
           "number": 4,
           "title": "딥러닝 핵심",
+          "companions": [
+            {
+              "book_id": "neural-computation",
+              "why": "4권은 학습 설정을 고르는 책이라 뉴런의 가중합·활성화·역전파 계산을 안다고 보고 시작합니다. 그 계산을 이 책에서 먼저 손으로 해 봅니다"
+            }
+          ],
           "book_id": "aie-04-deep",
           "next_why": "작은 신경망을 학습시킬 수 있게 되었으니, 그 신경망을 사진과 영상에 적용합니다."
         },
@@ -5937,6 +6584,16 @@
         {
           "number": 8,
           "title": "트랜스포머 깊이 보기",
+          "companions": [
+            {
+              "book_id": "recurrent-networks",
+              "why": "8권이 RNN 대신 어텐션을 쓰는 이유에서 시작하므로, RNN의 은닉 상태와 기울기 소실을 먼저 계산해 어텐션이 무엇을 고쳤는지 숫자로 견줄 수 있게 합니다"
+            },
+            {
+              "book_id": "transformer-inside",
+              "why": "8권에서 트랜스포머 구조를 한 층씩 계산하기 전에, 이미 학습된 작은 모델 안에서 어텐션이 무엇을 보는지 먼저 추적해 봅니다"
+            }
+          ],
           "book_id": "aie-08-transformer",
           "next_why": "다음 토큰을 예측하는 블록을 익혔으니, 데이터 분포 전체를 그려 새 샘플을 만드는 생성 모델로 넓힙니다."
         },
@@ -5961,6 +6618,20 @@
         {
           "number": 12,
           "title": "LLM 엔지니어링",
+          "companions": [
+            {
+              "book_id": "llm-systems",
+              "why": "11권에서 만든 모델을 제품에 붙이기 전에, 모델 파일이 메모리에 올라가 다음 토큰을 내기까지 컴퓨터에서 무슨 일이 일어나는지 봅니다"
+            },
+            {
+              "book_id": "lora-principles",
+              "why": "공개 모델을 내 작업에 맞추기 전에, 적은 파라미터만 바꿔도 미세조정이 되는 이유를 저랭크 행렬로 확인합니다"
+            },
+            {
+              "book_id": "lora",
+              "why": "원리를 확인했으니 랭크와 적용할 층을 골라 GPU 메모리 예산 안에서 실제로 미세조정해 봅니다"
+            }
+          ],
           "book_id": "aie-12-llm-apps",
           "next_why": "글만 다루는 LLM 앱을 만들었으니, 사진·영상·음성을 같은 문맥에 넣는 멀티모달 모델로 넓힙니다."
         },
@@ -5985,6 +6656,12 @@
         {
           "number": 16,
           "title": "자율 시스템",
+          "companions": [
+            {
+              "book_id": "agent-instruction-files",
+              "why": "15권의 에이전트를 오래 맡기기 전에, 에이전트가 시작할 때 읽는 지침 파일을 어떻게 쓰고 고치는지 익힙니다"
+            }
+          ],
           "book_id": "aie-16-autonomy",
           "next_why": "에이전트 하나를 오래 맡길 수 있게 되었으니, 여러 에이전트가 역할을 나누고 합의하는 팀으로 넓힙니다."
         },
@@ -5997,12 +6674,24 @@
         {
           "number": 18,
           "title": "AI 인프라와 운영",
+          "companions": [
+            {
+              "book_id": "llm-performance",
+              "why": "18권에서 모델 서버를 운영하기 전에, 같은 요청의 응답이 어디에서 느려지는지 재고 고치는 방법을 먼저 익힙니다"
+            }
+          ],
           "book_id": "aie-18-production",
           "next_why": "서비스를 안정적으로 돌리게 되었으니, 출시 전에 정렬·공격·공정성·규제를 점검하는 안전과 윤리로 넘어갑니다."
         },
         {
           "number": 19,
           "title": "AI 안전과 윤리",
+          "companions": [
+            {
+              "book_id": "federated-learning",
+              "why": "19권에서 개인정보와 공정성을 점검하기 전에, 원문 데이터를 모으지 않고 기기의 업데이트만 모아 학습하는 방법을 봅니다"
+            }
+          ],
           "book_id": "aie-19-safety",
           "next_why": "시리즈의 모든 도구를 갖췄으니, 마지막 권에서 제품 하나를 예산·지연·품질·위험의 사양표로 끝까지 완성합니다."
         },
@@ -6118,24 +6807,24 @@
     {
       "id": "calculus",
       "title": "미적분",
-      "summary": "변수가 하나인 함수의 미분에서 출발해, 변수가 여럿인 함수의 편미분과 변화율을 다시 쌓는 적분까지 식마다 그림과 예제로 익히는 3권 시리즈입니다.",
+      "summary": "순간의 변화율을 구하는 미분에서 시작해, 변수가 여럿인 함수의 편미분을 거쳐, 변화율을 다시 더해 쌓인 양을 구하는 적분까지 이어지는 시리즈입니다.",
       "volumes": [
         {
           "number": 1,
           "title": "미분",
           "book_id": "derivative-basics",
-          "next_why": "변수가 하나일 때 익힌 미분을, 변수가 둘 이상인 함수에서 하나씩 따로 재는 편미분으로 넓힙니다."
+          "next_why": "변수 하나의 변화율을 구할 수 있게 되었으니, 입력이 여럿인 함수에서 변수마다 변화율을 따로 구하는 편미분으로 넘어갑니다."
         },
         {
           "number": 2,
           "title": "편미분과 연쇄 법칙",
-          "status": "writing",
-          "next_why": "도함수에서 원래 함수를 되찾는 계산을 익혀, 변화율에서 쌓인 양을 구하는 적분으로 넘어갑니다."
+          "book_id": "partial-derivative-chain-rule",
+          "next_why": "변화율을 구하는 쪽을 익혔으니, 거꾸로 변화율에서 그동안 쌓인 양을 구하는 적분으로 넘어갑니다."
         },
         {
           "number": 3,
           "title": "적분",
-          "status": "writing"
+          "book_id": "integral-calculus"
         }
       ]
     }
@@ -6749,7 +7438,57 @@
     "books/derivative/#shape": "09 · 도함수의 부호로 증가·감소와 극값 찾기",
     "books/derivative/#optimize": "10 · 도함수로 상자 부피를 가장 크게 하는 길이 찾기",
     "books/derivative/#linear": "11 · 접선으로 근삿값 계산하고 뉴턴 방법으로 방정식 풀기",
-    "books/derivative/#final": "마지막 과제 · 330 mL 캔의 재료가 가장 적게 드는 반지름 정하기"
+    "books/derivative/#final": "마지막 과제 · 330 mL 캔의 재료가 가장 적게 드는 반지름 정하기",
+    "books/partial/#slope": "01 · 변수가 하나일 때 미분으로 기울기 재기",
+    "books/partial/#partial": "02 · 변수 하나만 움직여 곡면의 단면 기울기 재기",
+    "books/partial/#rules": "03 · 다른 변수를 상수로 두고 식에서 편미분 구하기",
+    "books/partial/#plane": "04 · 두 편미분으로 접평면을 만들어 작은 변화 어림하기",
+    "books/partial/#gradient": "05 · 편미분을 모아 기울기 벡터를 만들고 방향별 변화율 구하기",
+    "books/partial/#descent": "06 · 기울기 벡터 반대쪽으로 w와 b를 함께 옮기기",
+    "books/partial/#chain": "07 · 이어진 두 계산의 변화율을 곱하기",
+    "books/partial/#graph": "08 · 계산 그래프에서 국소 미분을 뒤에서부터 곱하기",
+    "books/partial/#branch": "09 · 갈라진 경로마다 곱하고 경로끼리 더하기",
+    "books/partial/#deep": "10 · 층이 깊을 때 곱이 작아지거나 커지는 크기 계산하기",
+    "books/partial/#final": "마지막 과제 · 2-2-1 망의 기울기 계산 네 가지 점검하기",
+    "books/rnn/#why": "01 · 값의 순서를 섞어 예측 오차가 커지는지 확인하기",
+    "books/rnn/#cell": "02 · RNN 셀 하나로 은닉 상태 계산하기",
+    "books/rnn/#unroll": "03 · 같은 셀을 시간 축으로 펼쳐 파라미터 수 세기",
+    "books/rnn/#shapes": "04 · 과제마다 입력과 출력의 개수를 세어 형태 고르기",
+    "books/rnn/#bptt": "05 · 시간 방향 역전파(BPTT)로 기울기 구하기",
+    "books/rnn/#vanish": "06 · 기울기 소실과 폭발의 크기를 계산하고 기울기 자르기",
+    "books/rnn/#truncate": "07 · 긴 기록을 창으로 잘라 학습하고 은닉 상태 이어받기",
+    "books/rnn/#lstm": "08 · LSTM 셀의 게이트 세 개와 셀 상태 계산하기",
+    "books/rnn/#gru": "09 · 단순 RNN·LSTM·GRU의 기울기가 닿는 거리 견주기",
+    "books/rnn/#embed": "10 · 문장을 번호와 임베딩으로 바꿔 LSTM으로 분류하기",
+    "books/rnn/#validate": "11 · 검증 오차로 과적합을 찾고 학습을 멈출 반복 정하기",
+    "books/rnn/#limits": "12 · RNN의 한계와 어텐션이 고친 것 견주기",
+    "books/rnn/#final": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기",
+    "books/linear-easy/#vector": "01 · 음료 레시피를 숫자 세 개로 적고 공간의 점으로 보기",
+    "books/linear-easy/#addscale": "02 · 벡터를 더하고 몇 배 하기",
+    "books/linear-easy/#length": "03 · 벡터의 길이와 두 벡터 사이의 거리 재기",
+    "books/linear-easy/#dot": "04 · 내적으로 가중합과 두 벡터의 각도 계산하기",
+    "books/linear-easy/#neuron": "05 · 가중합에 편향과 활성화 함수를 더해 뉴런 하나 계산하기",
+    "books/linear-easy/#matrix": "06 · 행렬과 벡터를 곱해 가중합 여러 개를 한 번에 계산하기",
+    "books/linear-easy/#transform": "07 · 행렬이 공간의 상자를 늘이고 돌리고 납작하게 하는 모습 보기",
+    "books/linear-easy/#matmul": "08 · 행렬 두 개를 곱해 두 변환을 이어 하기",
+    "books/linear-easy/#shape": "09 · 행렬의 모양을 맞추고 전치해서 여러 음료를 한꺼번에 계산하기",
+    "books/linear-easy/#tensor": "10 · 숫자를 여러 축으로 쌓은 텐서의 모양 읽기",
+    "books/linear-easy/#inverse": "11 · 역행렬로 출력에서 입력을 되찾고 랭크로 되찾을 수 있는지 판정하기",
+    "books/linear-easy/#eigen": "12 · 같은 행렬을 되풀이해 곱할 때 벡터가 커지는지 줄어드는지 고윳값으로 알아내기",
+    "books/linear-easy/#jacobian": "13 · 기울기 벡터와 야코비안 행렬로 입력이 조금 바뀔 때 출력 변화 계산하기",
+    "books/linear-easy/#final": "마지막 과제 · 2층 신경망의 순전파를 모양과 함께 계산하고 모양 오류 고치기",
+    "books/integral/#area": "01 · 변하는 유입 속도로 고인 물의 양 어림하기",
+    "books/integral/#riemann": "02 · 칸 수를 늘려 정적분 정의하기",
+    "books/integral/#accumulate": "03 · 위끝을 움직여 쌓인 양 함수 그리기",
+    "books/integral/#ftc": "04 · 미적분의 기본 정리로 넓이를 뺄셈 한 번에 구하기",
+    "books/integral/#antiderivative": "05 · 미분 규칙을 거꾸로 써서 원시함수 찾기",
+    "books/integral/#substitution": "06 · 치환적분으로 변수를 바꿔 적분하기",
+    "books/integral/#parts": "07 · 부분적분으로 곱의 적분 풀기",
+    "books/integral/#numeric": "08 · 원시함수를 찾을 수 없을 때 수치적분으로 값 구하기",
+    "books/integral/#volume": "09 · 원판을 쌓아 회전체의 부피 계산하기",
+    "books/integral/#probability": "10 · 확률밀도 곡선 아래 넓이로 확률과 평균 계산하기",
+    "books/integral/#double": "11 · 기둥을 세워 곡면 아래 부피를 이중적분으로 계산하기",
+    "books/integral/#final": "12 · 마지막 과제 · 유량계 기록만으로 탱크가 넘치는지 판단하기"
   },
   "concepts": [
     {
@@ -6798,7 +7537,8 @@
         "books/computer/#gates",
         "books/ai/#neuron",
         "books/linear-algebra/#layer",
-        "books/neural/#perceptron"
+        "books/neural/#perceptron",
+        "books/linear-easy/#neuron"
       ]
     },
     {
@@ -6812,6 +7552,7 @@
       "chapters": [
         "books/linear-algebra/#vectors",
         "books/linear-algebra/#similarity",
+        "books/partial/#gradient",
         "books/ai/#neuron",
         "books/ai/#attention",
         "books/llm-gpu/#transformer",
@@ -6821,7 +7562,9 @@
         "books/transformer/#lookup",
         "books/transformer/#qkv",
         "books/etf/#index",
-        "books/etf/#weight"
+        "books/etf/#weight",
+        "books/linear-easy/#dot",
+        "books/linear-easy/#neuron"
       ]
     },
     {
@@ -6851,7 +7594,10 @@
         "books/probability/#correlation",
         "books/knowledge-graph/#embedding",
         "books/transformer/#embed",
-        "books/transformer/#stream"
+        "books/transformer/#stream",
+        "books/rnn/#embed",
+        "books/linear-easy/#vector",
+        "books/linear-easy/#length"
       ]
     },
     {
@@ -6877,7 +7623,10 @@
         "books/aie-transformer/#position",
         "books/transformer/#qkov",
         "books/transformer/#mlp",
-        "books/lora-why/#overview"
+        "books/lora-why/#overview",
+        "books/linear-easy/#matrix",
+        "books/linear-easy/#transform",
+        "books/linear-easy/#matmul"
       ]
     },
     {
@@ -6962,7 +7711,8 @@
         "books/information/#entropy",
         "books/volatility/#walk",
         "books/volatility/#tails",
-        "books/federated/#select"
+        "books/federated/#select",
+        "books/integral/#probability"
       ]
     },
     {
@@ -6985,6 +7735,7 @@
         "books/aie-ml/#lines",
         "books/neural/#loss",
         "books/neural/#descent",
+        "books/partial/#descent",
         "books/aie-deep/#optimizer",
         "books/aie-vision/#classify",
         "books/aie-nlp/#sequence",
@@ -7185,7 +7936,8 @@
         "books/aie-production/#speculative",
         "books/transformer/#qkv",
         "books/transformer/#mask",
-        "books/transformer/#multihead"
+        "books/transformer/#multihead",
+        "books/rnn/#limits"
       ]
     },
     {
@@ -7226,12 +7978,17 @@
         "derivative",
         "chain rule",
         "backpropagation",
-        "autodiff"
+        "autodiff",
+        "partial derivative",
+        "편미분"
       ],
       "summary": "출력이 입력에 얼마나 민감한지 재고, 연쇄법칙으로 그 값을 뒤에서부터 모아 학습 방향을 정한다",
       "chapters": [
         "books/aie-math/#derivative",
         "books/aie-math/#autodiff",
+        "books/partial/#partial",
+        "books/partial/#graph",
+        "books/partial/#branch",
         "books/ai/#learning",
         "books/neural/#backprop",
         "books/neural/#activation",
@@ -7243,6 +8000,10 @@
         "books/federated/#leakage",
         "books/lora-why/#gradient",
         "books/lora-why/#dynamics",
+        "books/rnn/#bptt",
+        "books/rnn/#vanish",
+        "books/rnn/#gru",
+        "books/linear-easy/#jacobian",
         "books/derivative/#chain",
         "books/derivative/#power"
       ]
@@ -7473,6 +8234,7 @@
         "books/ai/#generalization",
         "books/lora-why/#regularize",
         "books/opic/#combo",
+        "books/rnn/#validate",
         "books/aie-deep/#regularize"
       ]
     },
@@ -7590,6 +8352,50 @@
         "books/aie-agents/#memory",
         "books/aie-agents/#workbench",
         "books/aie-tools/#skills"
+      ]
+    },
+    {
+      "id": "sequence-state",
+      "name": "순서와 은닉 상태",
+      "aliases": [
+        "sequence",
+        "hidden state",
+        "recurrent",
+        "RNN",
+        "LSTM",
+        "time series",
+        "autocorrelation"
+      ],
+      "summary": "값을 순서대로 하나씩 읽으며 지금까지의 요약을 상태 하나에 담아 다음 시점으로 넘긴다",
+      "chapters": [
+        "books/rnn/#why",
+        "books/rnn/#cell",
+        "books/rnn/#unroll",
+        "books/rnn/#lstm",
+        "books/aie-nlp/#sequence",
+        "books/aie-nlp/#dialog",
+        "books/aie-transformer/#why",
+        "books/volatility/#revert"
+      ]
+    },
+    {
+      "id": "rate-accumulation",
+      "name": "변화율과 쌓인 양",
+      "aliases": [
+        "rate of change",
+        "accumulation",
+        "integral",
+        "fundamental theorem of calculus",
+        "적분",
+        "미분"
+      ],
+      "summary": "변하는 빠르기를 짧은 구간마다 곱해 더하면 쌓인 양이 되고, 쌓인 양을 미분하면 다시 그 빠르기가 된다",
+      "chapters": [
+        "books/derivative/#function",
+        "books/integral/#accumulate",
+        "books/integral/#ftc",
+        "books/aie-math/#derivative",
+        "books/bonds/#duration"
       ]
     },
     {

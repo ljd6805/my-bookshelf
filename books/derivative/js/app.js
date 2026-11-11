@@ -31,7 +31,7 @@ function flow(items){return `<div class="flow">${items.map(x=>{const [a,b]=x.spl
 function side(){document.querySelector('#sidebar').innerHTML=`<div class="sidebar-title">CONTENTS / 전체 목차</div><a href="#home">${BOOK} 처음으로</a>`+B.chapters.map((c,i)=>`<a href="#${c.id}" data-chapter="${c.id}"><span>${num(i)}</span>${c.title}</a>`).join('');}
 /* 장마다 "먼저 개념 잡기" 맨 앞에 두는 쉬운 설명(js/easy.js). 새 블록이 아니라 같은 블록 안의 첫 칸이다. */
 function easy(c){const e=(window.DVEasy||{})[c.id];if(!e)return '';return `<div class="easy-first"><h3>쉬운 말로 먼저</h3>${e.easy.map(p=>`<p>${p}</p>`).join('')}<h4>이 장에서 처음 나오는 말</h4><dl>${e.words.map(([a,b])=>`<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl></div>`;}
-const VOLUMES=[['1권','미분','이 책',''],['2권','편미분과 연쇄 법칙','준비 중',''],['3권','적분','준비 중','']];
+const VOLUMES=[['1권','미분','이 책',''],['2권','편미분과 연쇄 법칙','다음 권','../partial/'],['3권','적분','셋째 권','../integral/']];
 function series(){return `<section class="section"><div class="section-heading"><h2>${MT.series.name} 시리즈 ${MT.series.total}권 가운데 ${MT.series.no}권</h2><p>변수가 하나인 함수의 미분을 먼저 익히면, 변수가 여럿인 함수의 편미분과 변화율을 다시 쌓는 적분으로 이어 갈 수 있습니다.</p></div><div class="dv-series">${VOLUMES.map(([n,t,s,url])=>`<div class="${s==='이 책'?'on':''}"><b>${n}</b>${url?`<a href="${url}">${t}</a>`:`<span>${t}</span>`}<small>${s}</small></div>`).join('')}</div></section>`;}
 function home(){
  document.body.classList.remove('reading');document.title=FULL;

@@ -1,0 +1,13 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="2분마다 읽은 유량계 값 일곱 개를 직선으로 이어 들어온 물의 양을 어림한 그래프와, 원판 여덟 개로 쌓아 부피를 잰 포물면 탱크에 물이 48.2리터 차 있는 옆모습" xmlns="http://www.w3.org/2000/svg">
+<path class="cv-hair" d="M24 126H176M24 126V20"/>
+<polygon class="cv-tint" points="24.0,126 24.0,126.0 48.3,35.6 72.7,59.7 97.0,89.6 121.3,107.8 145.7,117.5 170.0,122.1 170.0,126"/>
+<path class="cv-hair" d="M48.3 126V35.6M72.7 126V59.7M97.0 126V89.6M121.3 126V107.8M145.7 126V117.5M170.0 126V122.1"/>
+<polyline class="cv-stroke" fill="none" points="24.0,126.0 48.3,35.6 72.7,59.7 97.0,89.6 121.3,107.8 145.7,117.5 170.0,122.1"/>
+<circle class="cv-dot" cx="24.0" cy="126.0" r="3"/><circle class="cv-dot" cx="48.3" cy="35.6" r="3"/><circle class="cv-dot" cx="72.7" cy="59.7" r="3"/><circle class="cv-dot" cx="97.0" cy="89.6" r="3"/><circle class="cv-dot" cx="121.3" cy="107.8" r="3"/><circle class="cv-dot" cx="145.7" cy="117.5" r="3"/><circle class="cv-dot" cx="170.0" cy="122.1" r="3"/>
+<text class="cv-text cv-muted" x="28" y="18">L/분</text><text class="cv-text cv-muted" x="176" y="140" text-anchor="end">12분</text><text class="cv-text" x="92" y="52">기록 7개</text>
+<rect class="cv-bar" x="252.7" y="118.0" width="18.6" height="12"/><rect class="cv-bar" x="245.9" y="106.0" width="32.2" height="12"/><rect class="cv-bar" x="241.2" y="94.0" width="41.6" height="12"/><rect class="cv-bar" x="237.4" y="82.0" width="49.2" height="12"/><rect class="cv-bar" x="234.1" y="70.0" width="55.8" height="12"/><rect class="cv-bar" x="231.2" y="58.0" width="61.7" height="12"/><rect class="cv-bar" x="228.5" y="46.0" width="67.0" height="12"/><rect class="cv-bar" x="226.0" y="34.0" width="72.0" height="12"/>
+<polyline class="cv-bus" fill="none" points="224.8,34.0 225.8,38.8 226.7,43.6 227.7,48.4 228.7,53.2 229.8,58.0 230.9,62.8 232.0,67.6 233.2,72.4 234.4,77.2 235.7,82.0 237.1,86.8 238.5,91.6 240.0,96.4 241.6,101.2 243.4,106.0 245.4,110.8 247.6,115.6 250.2,120.4 253.7,125.2 262.0,130.0 270.3,125.2 273.8,120.4 276.4,115.6 278.6,110.8 280.6,106.0 282.4,101.2 284.0,96.4 285.5,91.6 286.9,86.8 288.3,82.0 289.6,77.2 290.8,72.4 292.0,67.6 293.1,62.8 294.2,58.0 295.3,53.2 296.3,48.4 297.3,43.6 298.2,38.8 299.2,34.0"/>
+<path class="cv-line" d="M232.4 69.3H291.6"/>
+<path class="cv-hair cv-dash" d="M262 26V130"/>
+<text class="cv-text" x="262" y="80.3" text-anchor="middle">48.2 L</text><text class="cv-text cv-muted" x="262" y="24" text-anchor="middle">120.6 L</text><text class="cv-text cv-muted" x="262" y="144" text-anchor="middle">원판 8개</text>
+</svg>
