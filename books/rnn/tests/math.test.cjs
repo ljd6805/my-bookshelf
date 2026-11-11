@@ -145,3 +145,7 @@ test('prediction questions: the answers the labs show for the asked settings',()
  assert.ok(M.classify('맛 이 좋 지 않 다'.split(' '),{padTo:8,side:'pre',useLastReal:false}).p<0.5);
  assert.ok(100*64*64<100*100*64);
 });
+test('limits: bidirectional doubles the recurrent count, so the comparison must use the totals',()=>{
+ const c=M.complexity({T:100,H:64,layers:1,bi:true});assert.equal(c.rnn.ops,819200);assert.equal(c.attn.ops,640000);assert.ok(c.attn.ops<c.rnn.ops);
+ const labs=fs.readFileSync(path.resolve(__dirname,'../js/labs.js'),'utf8');assert.match(labs,/c\.attn\.ops<c\.rnn\.ops\?/);
+});

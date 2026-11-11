@@ -116,7 +116,7 @@ L.limits=el=>{
  U.bind(el,()=>{
   const T=num(el,'T'),H=num(el,'H'),layers=num(el,'layers'),bi=on(el,'bi'),c=M.complexity({T,H,layers,bi});
   U.result(el,U.table(['견줄 것','순환층 (RNN)','셀프 어텐션층'],[['곱셈 수의 차수 (T·d² 대 T²·d)',U.int(c.rnn.ops),U.int(c.attn.ops)],['차례로 기다려야 하는 단계',`${c.rnn.serial}`,`${c.attn.serial}`],['가장 먼 두 토큰 사이의 경로',`${c.rnn.path}단계`,`${c.attn.path}단계`],['뒤쪽 토큰을 보고 앞 토큰을 처리',c.rnn.seesFuture?'가능 (양방향)':'불가','가능']]),
-   `길이 ${T}, 은닉 크기 ${H}, ${layers}층${bi?', 양방향':''}일 때입니다. 순환층은 앞 시점의 결과를 기다려야 해서 <b>${c.rnn.serial}단계</b>를 차례로 계산하고, 첫 토큰과 마지막 토큰 사이에는 ${c.rnn.path}단계가 놓입니다. 셀프 어텐션층은 모든 토큰 쌍 ${U.int(c.attn.scores)}개의 점수를 한꺼번에 계산해 경로가 1단계입니다.<br>곱셈 수는 ${T<H?`T가 d보다 작아 어텐션 쪽이 적습니다`:T===H?'T와 d가 같아 두 쪽이 같습니다':`T가 d보다 커서 순환층 쪽이 적습니다`}. 단순 RNN의 파라미터는 ${U.int(c.rnn.params)}개, 같은 크기의 LSTM은 게이트 네 벌이라 ${U.int(c.lstmParams)}개입니다. 이 표는 Vaswani 등(2017)의 표 1에 있는 차수에 숫자를 넣은 것이며 상수 배는 뺐습니다.`);
+   `길이 ${T}, 은닉 크기 ${H}, ${layers}층${bi?', 양방향':''}일 때입니다. 순환층은 앞 시점의 결과를 기다려야 해서 <b>${c.rnn.serial}단계</b>를 차례로 계산하고, 첫 토큰과 마지막 토큰 사이에는 ${c.rnn.path}단계가 놓입니다. 셀프 어텐션층은 모든 토큰 쌍 ${U.int(c.attn.scores)}개의 점수를 한꺼번에 계산해 경로가 1단계입니다.<br>곱셈 수는 ${c.attn.ops<c.rnn.ops?`어텐션 쪽이 적습니다(${bi?'양방향이라 순환층이 두 배가 되어, T가 2d보다 작으면':'T가 d보다 작으면'} 어텐션이 적습니다)`:c.attn.ops===c.rnn.ops?'두 쪽이 같습니다':`순환층 쪽이 적습니다(${bi?'양방향이어도 T가 2d보다 크면':'T가 d보다 크면'} 순환층이 적습니다)`}. 단순 RNN의 파라미터는 ${U.int(c.rnn.params)}개, 같은 크기의 LSTM은 게이트 네 벌이라 ${U.int(c.lstmParams)}개입니다. 이 표는 Vaswani 등(2017)의 표 1에 있는 차수에 숫자를 넣은 것이며 상수 배는 뺐습니다.`);
  });
 };
 L.final=el=>{
