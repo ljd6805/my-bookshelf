@@ -1,0 +1,36 @@
+<svg class="ig-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="유입 속도 곡선 아래를 채운 직사각형이 5개에서 10개, 20개로 가늘어지며 곡선에 맞춰지고, 그동안 오른쪽 탱크의 물이 차오르는 과정을 보여 주는 시각적 비유">
+<style>
+.ig-ill-bg{fill:#f1f6f7}
+.ig-ill-axis{stroke:#8fa6ab;stroke-width:1.2;fill:none}
+.ig-ill-curve{stroke:#0b6b7d;stroke-width:3;fill:none;stroke-linecap:round}
+.ig-ill-r{fill:#3c6fb0;fill-opacity:.42;stroke:#3c6fb0;stroke-width:.7}
+.ig-ill-label{font:600 11px sans-serif;fill:#0d4a57}
+.ig-ill-small{font:500 10px sans-serif;fill:#52686e}
+.ig-ill-a{animation:ig-ill-a 6s linear infinite}
+.ig-ill-b{animation:ig-ill-b 6s linear infinite}
+.ig-ill-c{animation:ig-ill-c 6s linear infinite}
+.ig-ill-tank{stroke:#0b6b7d;stroke-width:2.4;fill:none;stroke-linecap:round}
+.ig-ill-water{fill:#3c9fb4;fill-opacity:.55;transform-box:fill-box;transform-origin:center bottom;animation:ig-ill-fill 6s ease-in-out infinite}
+.ig-ill-drop{fill:#3c9fb4;animation:ig-ill-drop 1.2s linear infinite}
+@keyframes ig-ill-a{0%,28%{opacity:1}33%,95%{opacity:0}100%{opacity:1}}
+@keyframes ig-ill-b{0%,28%{opacity:0}33%,61%{opacity:1}66%,100%{opacity:0}}
+@keyframes ig-ill-c{0%,61%{opacity:0}66%,95%{opacity:1}100%{opacity:0}}
+@keyframes ig-ill-fill{0%{transform:scaleY(.08)}85%,100%{transform:scaleY(1)}}
+@keyframes ig-ill-drop{0%{transform:translateY(0);opacity:1}100%{transform:translateY(34px);opacity:0}}
+html[data-motion=reduce] .ig-ill-a,html[data-motion=reduce] .ig-ill-b,html[data-motion=reduce] .ig-ill-c,html[data-motion=reduce] .ig-ill-water,html[data-motion=reduce] .ig-ill-drop{animation:none}
+html[data-motion=reduce] .ig-ill-a,html[data-motion=reduce] .ig-ill-b,html[data-motion=reduce] .ig-ill-drop{opacity:0}
+@media(prefers-reduced-motion:reduce){.ig-ill-a,.ig-ill-b,.ig-ill-c,.ig-ill-water,.ig-ill-drop{animation:none}.ig-ill-a,.ig-ill-b,.ig-ill-drop{opacity:0}}
+</style>
+<rect class="ig-ill-bg" width="340" height="180"/>
+<path class="ig-ill-axis" d="M26 150H202M26 150V22"/>
+<g class="ig-ill-a"><rect class="ig-ill-r" x="26.0" y="109.0" width="34.0" height="41.0"/><rect class="ig-ill-r" x="60.0" y="54.2" width="34.0" height="95.8"/><rect class="ig-ill-r" x="94.0" y="36.0" width="34.0" height="114.0"/><rect class="ig-ill-r" x="128.0" y="54.2" width="34.0" height="95.8"/><rect class="ig-ill-r" x="162.0" y="109.0" width="34.0" height="41.0"/></g>
+<g class="ig-ill-b"><rect class="ig-ill-r" x="26.0" y="128.3" width="17.0" height="21.7"/><rect class="ig-ill-r" x="43.0" y="91.9" width="17.0" height="58.1"/><rect class="ig-ill-r" x="60.0" y="64.5" width="17.0" height="85.5"/><rect class="ig-ill-r" x="77.0" y="46.3" width="17.0" height="103.7"/><rect class="ig-ill-r" x="94.0" y="37.1" width="17.0" height="112.9"/><rect class="ig-ill-r" x="111.0" y="37.1" width="17.0" height="112.9"/><rect class="ig-ill-r" x="128.0" y="46.3" width="17.0" height="103.7"/><rect class="ig-ill-r" x="145.0" y="64.5" width="17.0" height="85.5"/><rect class="ig-ill-r" x="162.0" y="91.9" width="17.0" height="58.1"/><rect class="ig-ill-r" x="179.0" y="128.3" width="17.0" height="21.7"/></g>
+<g class="ig-ill-c"><rect class="ig-ill-r" x="26.0" y="138.9" width="8.5" height="11.1"/><rect class="ig-ill-r" x="34.5" y="118.4" width="8.5" height="31.6"/><rect class="ig-ill-r" x="43.0" y="100.1" width="8.5" height="49.9"/><rect class="ig-ill-r" x="51.5" y="84.2" width="8.5" height="65.8"/><rect class="ig-ill-r" x="60.0" y="70.5" width="8.5" height="79.5"/><rect class="ig-ill-r" x="68.5" y="59.1" width="8.5" height="90.9"/><rect class="ig-ill-r" x="77.0" y="50.0" width="8.5" height="100.0"/><rect class="ig-ill-r" x="85.5" y="43.1" width="8.5" height="106.9"/><rect class="ig-ill-r" x="94.0" y="38.6" width="8.5" height="111.4"/><rect class="ig-ill-r" x="102.5" y="36.3" width="8.5" height="113.7"/><rect class="ig-ill-r" x="111.0" y="36.3" width="8.5" height="113.7"/><rect class="ig-ill-r" x="119.5" y="38.6" width="8.5" height="111.4"/><rect class="ig-ill-r" x="128.0" y="43.1" width="8.5" height="106.9"/><rect class="ig-ill-r" x="136.5" y="50.0" width="8.5" height="100.0"/><rect class="ig-ill-r" x="145.0" y="59.1" width="8.5" height="90.9"/><rect class="ig-ill-r" x="153.5" y="70.5" width="8.5" height="79.5"/><rect class="ig-ill-r" x="162.0" y="84.2" width="8.5" height="65.8"/><rect class="ig-ill-r" x="170.5" y="100.1" width="8.5" height="49.9"/><rect class="ig-ill-r" x="179.0" y="118.4" width="8.5" height="31.6"/><rect class="ig-ill-r" x="187.5" y="138.9" width="8.5" height="11.1"/></g>
+<path class="ig-ill-curve" d="M26.0 150.0L30.2 138.9L34.5 128.3L38.8 118.4L43.0 109.0L47.2 100.1L51.5 91.9L55.8 84.2L60.0 77.0L64.2 70.5L68.5 64.5L72.8 59.1L77.0 54.2L81.2 50.0L85.5 46.3L89.8 43.1L94.0 40.6L98.2 38.6L102.5 37.1L106.8 36.3L111.0 36.0L115.2 36.3L119.5 37.1L123.8 38.6L128.0 40.6L132.2 43.1L136.5 46.3L140.8 50.0L145.0 54.2L149.2 59.1L153.5 64.5L157.8 70.5L162.0 77.0L166.2 84.2L170.5 91.9L174.8 100.1L179.0 109.0L183.2 118.4L187.5 128.3L191.8 138.9L196.0 150.0"/>
+<text class="ig-ill-small" x="202" y="164" text-anchor="end">시간</text><text class="ig-ill-small" x="30" y="18">유입 속도</text>
+<text class="ig-ill-label" x="96" y="172" text-anchor="middle">잘게 나눠 더하기</text>
+<path class="ig-ill-water" d="M236 56C240 112 256 140 278 140S316 112 320 56Z"/>
+<path class="ig-ill-tank" d="M232 40C232 110 252 142 278 142S324 110 324 40"/>
+<circle class="ig-ill-drop" cx="278" cy="20" r="3.2"/>
+<text class="ig-ill-label" x="278" y="166" text-anchor="middle">고인 물</text>
+</svg>
