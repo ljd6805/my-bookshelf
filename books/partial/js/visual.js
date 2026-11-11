@@ -10,9 +10,22 @@ const value=(el,id)=>Number(el.querySelector('#'+id).value);
 const text=(el,id)=>el.querySelector('#'+id).value;
 function range(id,label,min,max,step,v){return `<label class="control" for="${id}"><span class="row"><span>${label}</span><output id="${id}-value">${v}</output></span><input id="${id}" type="range" min="${min}" max="${max}" step="${step}" value="${v}"></label>`;}
 function select(id,label,options,v){return `<label class="control" for="${id}"><span>${label}</span><select id="${id}">${options.map(([key,t])=>`<option value="${key}" ${String(key)===String(v)?'selected':''}>${t}</option>`).join('')}</select></label>`;}
-function setup(el,controls){el._v=null;clearInterval(el._spin);el._spin=null;el.innerHTML=`<div class="lab-columns"><div class="controls">${controls}</div><div class="chart"></div></div><div class="readout" role="status" aria-live="polite"></div>`;}
+function setup(el,controls){el._v=null;el._t=null;clearInterval(el._spin);el._spin=null;el.innerHTML=`<div class="lab-columns"><div class="controls">${controls}</div><div class="chart"></div></div><div class="readout" role="status" aria-live="polite"></div>`;}
 function bind(el,fn){const update=()=>{el.querySelectorAll('input[type=range]').forEach(x=>{const o=el.querySelector('#'+x.id+'-value');if(o)o.textContent=x.value;});fn();};el.querySelectorAll('input,select').forEach(x=>x.addEventListener('input',update));update();}
-function result(el,chart,t){el.querySelector('.chart').innerHTML=chart;el.querySelector('.readout').innerHTML=t;}
+/* 숫자 뒤에 붙는 조사를 마지막 숫자의 받침에 맞춰 고른다. josa('3.66','로') → '3.66으로', josa('−13.50','를') → '−13.50을' */
+const JOSA={'로':['로','으로'],'와':['와','과'],'를':['를','을'],'가':['가','이']};
+function josa(s,kind){const d=String(s).replace(/[^0-9]/g,'').slice(-1),pair=JOSA[kind];if(d==='')return s+pair[0];const closed=kind==='로'?'036'.includes(d):'013678'.includes(d);return s+pair[closed?1:0];}
+/* 음수는 괄호로 감싸 "+ (−13.50)"처럼 적는다. */
+const paren=s=>String(s).startsWith('−')?`(${s})`:String(s);
+/* 돌려 보는 그림은 이미 있는 그림 칸과 단추를 그대로 두고 안쪽 그림과 단추 상태만 바꾼다. 다시 그릴 때마다 단추를 새로 만들면 도는 동안 누른 단추가 사라져 눌리지 않는다. */
+function result(el,chart,t){
+ const c=el.querySelector('.chart'),old=c.querySelector('.s3d-art'),r=el.querySelector('.readout');
+ if(old&&chart.startsWith('<div class="s3d">')){
+  const tmp=document.createElement('div');tmp.innerHTML=chart;old.innerHTML=tmp.querySelector('.s3d-art').innerHTML;
+  const fresh=tmp.querySelectorAll('.s3d-tools button');c.querySelectorAll('.s3d-tools button').forEach((b,i)=>{const n=fresh[i];if(!n)return;if(n.hasAttribute('aria-pressed'))b.setAttribute('aria-pressed',n.getAttribute('aria-pressed'));if(b.textContent!==n.textContent)b.textContent=n.textContent;});
+ }else c.innerHTML=chart;
+ if(el._t!==t){el._t=t;r.innerHTML=t;}
+}
 function svg(body,label){return `<svg viewBox="0 0 480 280" role="img" aria-label="${esc(label)}">${body}</svg>`;}
 /* 선 그래프: lines=[{data:[[x,y]],color,dashed}], points=[[x,y,color,r]] */
 function plot({lines=[],points=[],xmin=0,xmax=1,ymin=0,ymax=1,xlabel='x',ylabel='y',label}){
@@ -98,5 +111,5 @@ function turnable(el,redraw,start){
   else if(b.hasAttribute('data-spin')){if(el._spin)stop();else{v.spin=true;if(v.pitch>80)v.pitch=28;el._spin=setInterval(()=>{if(!document.body.contains(el)){clearInterval(el._spin);return;}view(el).yaw+=1.2;el._redraw();},70);}again('[data-spin]');}
  });
 }
-return {esc,fmt,value,text,range,select,setup,bind,result,svg,plot,bars,cards,grid,thumbnail,surface,surfaceBody,view,stage,turnable};
+return {esc,fmt,josa,paren,value,text,range,select,setup,bind,result,svg,plot,bars,cards,grid,thumbnail,surface,surfaceBody,view,stage,turnable};
 })();

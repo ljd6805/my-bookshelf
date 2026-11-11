@@ -13,7 +13,9 @@ const blink=(body,delay,cls='fig-seq')=>`<g class="${cls}" style="animation-dela
 const turn=(body,i)=>blink(body,i*1.2,i?'fig-turn':'fig-turn fig-first');
 const grow=(x,y,w,h,color,delay=0)=>`<rect class="fig-grow" style="animation-delay:${delay}s" x="${x}" y="${y}" width="${Math.max(w,1)}" height="${h}" rx="3" fill="${color}"/>`;
 const pulse=(x,y,r,color)=>`<circle class="fig-pulse" cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${color}" stroke-width="3"/>`;
-const f2=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:false});
+/* 음수는 본문과 같은 빼기 기호(−)로 적는다. J는 숫자 뒤 조사를 받침에 맞춘다. sci는 작은 수를 a×10ⁿ 꼴로 적는다. */
+const f2=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:false}).replace(/^-(?=0(\.0+)?$)/,'').replace(/^-/,'−'),J=U.josa;
+const SUP={'-':'⁻',0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'},sci=n=>{const e=Math.floor(Math.log10(Math.abs(n)));return `${f2(n/10**e,1)}×10${String(e).split('').map(c=>SUP[c]).join('')}`;};
 const H={svg,t,box,line,dot,blink,turn,grow,pulse};
 const F={};
 /* 왼쪽 320px 칸에 들어가는 카페 손실 곡면. extra는 DXUI.surfaceBody의 선·점·면 */
@@ -41,7 +43,7 @@ F.partial=()=>{
    `<polyline points="${pts.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ')}" fill="none" stroke="${T}" stroke-width="3"/><path d="M${px-d*k} ${Y(L-s.slope*d)}L${px+d*k} ${Y(L+s.slope*d)}" stroke="${A}" stroke-width="3.5"/><circle cx="${px}" cy="${Y(L)}" r="6" fill="${A}"/>`+
    t(505,36,isW?'b = 12로 고정하고 자른 단면':'w = 2로 고정하고 자른 단면',{size:14,w:700})+t(505,58,isW?`∂L/∂w = ${f2(s.slope)}`:`∂L/∂b = ${f2(s.slope)}`,{size:15,fill:A,w:700})+t(X1,278,isW?'w →':'b →',{a:'end',size:13,fill:MU}),i);};
  b+=line(`M${X0} 250H${X1}M${X0} 250V70`,MU,'')+[true,false,true,false].map(side).join('')+t(X0+4,84,'L',{a:'start',size:13,fill:MU})+pulse(at(w,bb,L).x,at(w,bb,L).y,11,A);
- return {svg:svg('왼쪽은 손실 곡면을 세로 면으로 자르는 모습, 오른쪽은 잘린 단면 곡선과 그 접선. b를 고정한 단면과 w를 고정한 단면이 번갈아 나타납니다',b),caption:`같은 점 (w, b) = (2, 12)에서 곡면을 두 방향으로 자른 단면입니다. b를 고정한 단면의 기울기는 ${f2(sw.slope)}, w를 고정한 단면의 기울기는 ${f2(sb.slope)}로, 한 점에 편미분이 변수마다 하나씩 있습니다. 곡면과 단면은 카페 기록으로 계산했습니다.`};
+ return {svg:svg('왼쪽은 손실 곡면을 세로 면으로 자르는 모습, 오른쪽은 잘린 단면 곡선과 그 접선. b를 고정한 단면과 w를 고정한 단면이 번갈아 나타납니다',b),caption:`같은 점 (w, b) = (2, 12)에서 곡면을 두 방향으로 자른 단면입니다. b를 고정한 단면의 기울기는 ${f2(sw.slope)}, w를 고정한 단면의 기울기는 ${J(f2(sb.slope),'로')}, 한 점에 편미분이 변수마다 하나씩 있습니다. 곡면과 단면은 카페 기록으로 계산했습니다.`};
 };
 
 F.rules=()=>{
@@ -51,7 +53,7 @@ F.rules=()=>{
  b+=box(340,130,260,130,A)+t(470,158,'y로 편미분',{size:15,w:700})+blink(t(470,186,'x²은 상수로 둠',{size:14,fill:'var(--orange)'}),2.4)+t(470,214,'(상수)·y  →  (상수)·1',{size:14,fill:MU})+t(470,244,'∂f/∂y = x²',{size:18,w:700,fill:A});
  const r=M.partials('mixed',1,-1.5);
  b+=t(320,286,`(x, y) = (1, −1.5)에서 ∂f/∂x = ${f2(r.fx)}, ∂f/∂y = ${f2(r.fy)}`,{size:14,fill:MU});
- return {svg:svg('f(x, y) = x²·y를 x로 편미분할 때는 y를 상수로 두고, y로 편미분할 때는 x²을 상수로 두어 변수 하나인 미분 규칙을 쓰는 과정',b),caption:'편미분은 새 규칙이 아니라, 움직이지 않는 변수를 상수로 묶어 두고 변수 하나일 때의 미분 규칙을 그대로 쓰는 계산입니다. 아래 숫자는 (1, −1.5)에서 계산한 값입니다.'};
+ return {svg:svg('f(x, y) = x²·y를 x로 편미분할 때는 y를 상수로 두고, y로 편미분할 때는 x²을 상수로 두어 변수 하나인 미분 규칙을 쓰는 과정',b),caption:'편미분은 새 규칙이 아니라, 움직이지 않는 변수를 상수로 보고 변수 하나일 때의 미분 규칙을 그대로 쓰는 계산입니다. 아래 숫자는 (1, −1.5)에서 계산한 값입니다.'};
 };
 
 F.plane=()=>{
@@ -60,8 +62,8 @@ F.plane=()=>{
  let b=bowl({polys:[{pts:patch,fill:A,opacity:.4}],lines:[{pts:[[w+dw,bb+db,r.L+r.estimate],[w+dw,bb+db,r.L+r.actual]],color:T,width:3,dash:'3 3'}],dots:[[w,bb,r.L,T,6],[w+dw,bb+db,r.L+r.actual,T,5],[w+dw,bb+db,r.L+r.estimate,A,6]]});
  const q=at(w,bb,r.L);b+=pulse(q.x,q.y,11,A);
  b+=t(390,50,'Δw = 0.5, Δb = 1 만큼 움직이면',{a:'start',size:14,w:700});
- [['w 몫  ∂L/∂w·Δw',r.partW,'var(--blue)'],['b 몫  ∂L/∂b·Δb',r.partB,'var(--blue)'],['더한 어림',r.estimate,A],['실제 변화',r.actual,'var(--orange)']].forEach(([n,v,c],i)=>{const y=78+i*50;b+=t(390,y,n,{a:'start',size:13,fill:MU})+grow(390,y+8,Math.abs(v)*4,16,c,i*0.5)+t(394+Math.abs(v)*4,y+21,f2(v),{a:'start',size:14,w:700});});
- return {svg:svg('왼쪽은 손실 곡면의 한 점에 닿는 분홍 접평면과, 조금 옮긴 자리에서 접평면 위의 어림 점과 곡면 위의 실제 점. 오른쪽은 w 몫과 b 몫을 더한 어림과 실제 변화를 견준 막대',b),caption:`(2, 12)에서 접평면은 곡면에 닿아 있다가 멀어질수록 벌어집니다. Δw = 0.5, Δb = 1이면 두 몫 ${f2(r.partW)}와 ${f2(r.partB)}를 더한 어림은 ${f2(r.estimate)}, 실제 변화는 ${f2(r.actual)}입니다. 손실 식으로 계산한 값입니다.`};
+ [['w 몫  ∂L/∂w·Δw',r.partW,'var(--blue)'],['b 몫  ∂L/∂b·Δb',r.partB,'var(--blue)'],['더한 어림',r.estimate,A],['실제 변화',r.actual,'var(--orange)']].forEach(([n,v,c],i)=>{const y=78+i*50;b+=t(390,y,n,{a:'start',size:13,fill:MU})+grow(390,y+8,Math.abs(v)*4,16,c,i*0.5)+t(394+Math.abs(v)*4,y+21,f2(v,3),{a:'start',size:14,w:700});});
+ return {svg:svg('왼쪽은 손실 곡면의 한 점에 닿는 분홍 접평면과, 조금 옮긴 자리에서 접평면 위의 어림 점과 곡면 위의 실제 점. 오른쪽은 w 몫과 b 몫을 더한 어림과 실제 변화를 견준 막대',b),caption:`(2, 12)에서 접평면은 곡면에 닿아 있다가 멀어질수록 벌어집니다. Δw = 0.5, Δb = 1이면 두 몫 ${J(f2(r.partW,3),'와')} ${J(f2(r.partB,3),'를')} 더한 어림은 ${f2(r.estimate,3)}, 실제 변화는 ${f2(r.actual)}입니다. 손실 식으로 계산한 값입니다.`};
 };
 
 F.gradient=()=>{
@@ -78,7 +80,7 @@ F.descent=()=>{
  let b=bowl({lines:[{pts,color:T,width:3,cls:'fig-draw'}]});
  frames.forEach((k,i)=>{const p=r.path[k],q=at(p.w,p.b,p.L);b+=turn(`<circle cx="${q.x.toFixed(1)}" cy="${q.y.toFixed(1)}" r="8" fill="${A}" stroke="var(--bg)" stroke-width="2"/>`+t(390,70,`${k}걸음`,{a:'start',size:18,w:700})+t(390,104,`(w, b) = (${f2(p.w)}, ${f2(p.b)})`,{a:'start',size:15})+t(390,132,`손실 L = ${f2(p.L)}`,{a:'start',size:15,fill:A,w:700}),i);});
  b+=t(390,186,'w ← w − η·∂L/∂w',{a:'start',size:14,fill:MU})+t(390,210,'b ← b − η·∂L/∂b',{a:'start',size:14,fill:MU})+t(390,244,'η = 0.02, 출발 (1, 9)',{a:'start',size:13,fill:MU});
- return {svg:svg('손실 곡면 위에서 출발점 (1, 9)의 점이 기울기 반대쪽으로 한 걸음씩 옮겨 가 골짜기에 닿는 모습과 걸음마다의 손실',b),caption:`학습률 0.02로 실제 계산한 길입니다. 손실은 ${f2(r.path[0].L)}에서 한 걸음 만에 ${f2(r.path[1].L)}, 두 걸음에 ${f2(r.path[2].L)}로 줄고, 그 뒤로는 골짜기를 따라 천천히 내려가 12걸음 뒤 ${f2(r.path[12].L)}입니다.`};
+ return {svg:svg('손실 곡면 위에서 출발점 (1, 9)의 점이 기울기 반대쪽으로 한 걸음씩 옮겨 가 골짜기에 닿는 모습과 걸음마다의 손실',b),caption:`학습률 0.02로 실제 계산한 길입니다. 손실은 ${f2(r.path[0].L)}에서 한 걸음 만에 ${f2(r.path[1].L)}, 두 걸음에 ${J(f2(r.path[2].L),'로')} 줄고, 그 뒤로는 골짜기를 따라 천천히 내려가 12걸음 뒤 ${f2(r.path[12].L)}입니다.`};
 };
 
 F.chain=()=>{
@@ -98,7 +100,7 @@ F.graph=()=>{
  b+=N.map(([x,y,n,v],i)=>box(x-(i<3?40:54),y-26,i<3?80:108,52,'var(--blue)')+t(x,y-5,n,{size:12.5,fill:MU})+t(x,y+15,v,{size:15,w:700})).join('');
  b+=t(488,196,`2(a − 1) = ${f2(r.dLda,3)}`,{size:12.5,fill:A})+t(330,196,`a(1 − a) = ${f2(r.dadz,3)}`,{size:12.5,fill:A})+t(150,196,'x = 1.5',{size:12.5,fill:A});
  b+=t(320,278,`뒤에서부터 곱하면 ∂L/∂w = ${f2(r.dLda,3)} × ${f2(r.dadz,3)} × 1.5 = ${f2(r.dLdw,4)}`,{size:14,w:700})+t(320,26,'파란 점: 값을 앞으로 계산 · 분홍 점: 기울기를 뒤로 곱해 감',{size:13,fill:MU});
- return {svg:svg('입력 x, 가중치 w, 편향 b에서 z, a, L로 이어지는 계산 그래프. 파란 점은 값을 오른쪽으로, 분홍 점은 기울기를 왼쪽으로 나릅니다',b),caption:`w = 0.8인 뉴런 하나의 계산 그래프입니다. 화살표 아래의 분홍 숫자가 연산마다의 국소 미분이고, 출력 쪽에서부터 세 개를 곱한 ${f2(r.dLdw,4)}가 w의 기울기입니다. 실제 계산한 값입니다.`};
+ return {svg:svg('입력 x, 가중치 w, 편향 b에서 z, a, L로 이어지는 계산 그래프. 파란 점은 값을 오른쪽으로, 분홍 점은 기울기를 왼쪽으로 나릅니다',b),caption:`w = 0.8인 뉴런 하나의 계산 그래프입니다. 화살표 아래의 분홍 숫자가 연산마다의 국소 미분이고, 출력 쪽에서부터 세 개를 곱한 ${J(f2(r.dLdw,4),'가')} w의 기울기입니다. 실제 계산한 값입니다.`};
 };
 
 F.branch=()=>{
@@ -106,26 +108,26 @@ F.branch=()=>{
  let b=box(40,124,90,52,'var(--blue)')+t(85,147,'w',{size:13,fill:MU})+t(85,166,'3.0',{size:15,w:700})+box(510,124,100,52,'var(--blue)')+t(560,147,'평균 손실 L',{size:13,fill:MU})+t(560,166,f2(M.loss(3,12)),{size:15,w:700});
  days.forEach((d,i)=>{const y=ys[i],p=r.parts[d];b+=line(`M130 150L230 ${y}`,MU,'')+line(`M410 ${y}L510 150`,MU,'')+box(230,y-28,180,56,A)+t(320,y-6,`${d+1}일째 오차² (x = ${p.x})`,{size:13,fill:MU})+t(320,y+15,`몫 ${f2(p.c)}`,{size:15,w:700,fill:A})+dot(510,150,-100,y-150,A,i*0.5)+dot(230,y,-100,150-y,A,1.4+i*0.5);});
  b+=pulse(85,150,40,A)+t(85,206,'경로마다의 몫을',{size:13,fill:MU})+t(85,224,'더한다',{size:13,fill:MU})+t(320,286,`여덟 날의 몫을 모두 더하면 ∂L/∂w = ${f2(r.total)} (그림은 6~8일째만 표시)`,{size:14,w:700});
- return {svg:svg('가중치 w 하나가 날마다의 오차 제곱에 한 번씩 쓰여 여러 갈래로 갈라졌다가 평균 손실에서 만나고, 기울기는 갈래마다 거꾸로 와서 w에서 더해지는 모습',b),caption:`w = 3, b = 12일 때 w는 여덟 날의 계산에 한 번씩 쓰입니다. 날마다의 몫 ${r.parts.map(p=>f2(p.c,1)).join(', ')}을 모두 더한 ${f2(r.total)}가 평균 손실의 편미분 ∂L/∂w입니다. 실제 계산한 값입니다.`};
+ return {svg:svg('가중치 w 하나가 날마다의 오차 제곱에 한 번씩 쓰여 여러 갈래로 갈라졌다가 평균 손실에서 만나고, 기울기는 갈래마다 거꾸로 와서 w에서 더해지는 모습',b),caption:`w = 3, b = 12일 때 w는 여덟 날의 계산에 한 번씩 쓰입니다. 날마다의 몫 ${J(r.parts.map(p=>f2(p.c)).join(', '),'를')} 모두 더한 ${J(f2(r.total),'가')} 평균 손실의 편미분 ∂L/∂w입니다. 실제 계산한 값입니다.`};
 };
 
 F.deep=()=>{
  const n=6,r=M.deepChain('sigmoid',1,n),xs=i=>60+i*92;
  let b='';
  for(let i=0;i<n;i++){const x=xs(i),len=Math.max(3,84*(Math.log10(r.running[i])+5)/5);
-  b+=box(x,50,74,54,'var(--blue)')+t(x+37,72,`${i+1}층`,{size:13,fill:MU})+t(x+37,92,`×${f2(r.factors[i],3)}`,{size:14,w:700})+(i<n-1?line(`M${x+74} 77H${x+92}`,MU,''):'')+grow(x,150,len,22,A,(n-1-i)*0.45)+t(x+37,196,r.running[i]<0.01?r.running[i].toExponential(1):f2(r.running[i],3),{size:13,w:700});}
- b+=dot(xs(n-1)+37,128,-(xs(n-1)-xs(0)),0,A,0,6)+t(320,28,'층 하나를 거슬러 갈 때마다 곱해지는 값 w·σ′(z)',{size:14,fill:MU})+t(320,226,'↑ 출력에서 그 층의 입력까지 곱해 온 값 (막대는 로그 눈금)',{size:13,fill:MU})+t(320,272,`6층을 모두 거슬러 가면 처음 기울기의 ${r.product.toExponential(1)}배`,{size:15,w:700,fill:A});
- return {svg:svg('여섯 층이 한 줄로 이어진 계산에서, 출력 쪽에서 입력 쪽으로 갈수록 곱해 온 값을 나타내는 막대가 짧아지는 모습',b),caption:`시그모이드 층 여섯 개(w = 1, 입력 0.5)를 실제로 계산했습니다. 층마다 ${f2(r.factors[0],3)} 안팎의 값이 곱해져 첫 층에 닿는 기울기는 ${r.product.toExponential(1)}배가 됩니다. 연쇄 법칙의 곱이 길어질 때 생기는 기울기 소실입니다.`};
+  b+=box(x,50,74,54,'var(--blue)')+t(x+37,72,`${i+1}층`,{size:13,fill:MU})+t(x+37,92,`×${f2(r.factors[i],3)}`,{size:14,w:700})+(i<n-1?line(`M${x+74} 77H${x+92}`,MU,''):'')+grow(x,150,len,22,A,(n-1-i)*0.45)+t(x+37,196,r.running[i]<0.01?sci(r.running[i]):f2(r.running[i],3),{size:13,w:700});}
+ b+=dot(xs(n-1)+37,128,-(xs(n-1)-xs(0)),0,A,0,6)+t(320,28,'층 하나를 거슬러 갈 때마다 곱해지는 값 w·σ′(z)',{size:14,fill:MU})+t(320,226,'↑ 출력에서 그 층의 입력까지 곱해 온 값 (막대는 로그 눈금)',{size:13,fill:MU})+t(320,272,`6층을 모두 거슬러 가면 처음 기울기의 ${sci(r.product)}배`,{size:15,w:700,fill:A});
+ return {svg:svg('여섯 층이 한 줄로 이어진 계산에서, 출력 쪽에서 입력 쪽으로 갈수록 곱해 온 값을 나타내는 막대가 짧아지는 모습',b),caption:`시그모이드 층 여섯 개(w = 1, 입력 0.5)를 실제로 계산했습니다. 층마다 ${f2(r.factors[0],3)} 안팎의 값이 곱해져 첫 층에 닿는 기울기는 ${sci(r.product)}배가 됩니다. 연쇄 법칙의 곱이 길어질 때 생기는 기울기 소실입니다.`};
 };
 
 F.final=()=>{
  const r=M.audit('x1'),P={x1:[80,100],x2:[80,210],h1:[260,100],h2:[260,210],o:[440,155]},E=[['x1','h1'],['x1','h2'],['x2','h1'],['x2','h2'],['h1','o'],['h2','o']];
  let b=E.map(([a,c])=>line(`M${P[a][0]+30} ${P[a][1]}L${P[c][0]-30} ${P[c][1]}`,'var(--line)','')).join('');
- const path=(h,i,val)=>turn(`<path d="M110 100L${P[h][0]-30} ${P[h][1]}M${P[h][0]+30} ${P[h][1]}L410 155" stroke="${A}" stroke-width="5" fill="none"/>`+t(545,120,`${h==='h1'?'h₁':'h₂'}을 지나는 경로`,{size:14,w:700})+t(545,146,`몫 ${f2(val,5)}`,{size:15,fill:A,w:700}),i);
+ const path=(h,i,val)=>turn(`<path d="M110 100L${P[h][0]-30} ${P[h][1]}M${P[h][0]+30} ${P[h][1]}L410 155" stroke="${A}" stroke-width="5" fill="none"/>`+t(545,120,`${h==='h1'?'h₁을':'h₂를'} 지나는 경로`,{size:14,w:700})+t(545,146,`몫 ${f2(val,5)}`,{size:15,fill:A,w:700}),i);
  b+=path('h1',0,r.delta*r.p1)+path('h2',1,r.delta*r.p2)+path('h1',2,r.delta*r.p1)+path('h2',3,r.delta*r.p2);
  b+=[['x1','x₁','1'],['x2','x₂','0.5'],['h1','h₁',f2(r.h[0],3)],['h2','h₂',f2(r.h[1],3)],['o','o',f2(r.o,3)]].map(([k,n,v])=>`<circle cx="${P[k][0]}" cy="${P[k][1]}" r="30" fill="var(--panel2)" stroke="var(--blue)" stroke-width="2"/>`+t(P[k][0],P[k][1]-4,n,{size:13,fill:MU})+t(P[k][0],P[k][1]+14,v,{size:14,w:700})).join('');
  b+=t(545,196,'두 경로의 몫을 더하면',{size:13,fill:MU})+t(545,222,`∂L/∂x₁ = ${f2(r.correct,5)}`,{size:15,w:700})+t(320,286,'경로 안에서는 국소 미분을 곱하고, 경로끼리는 더합니다',{size:14,fill:MU});
- return {svg:svg('입력 둘, 은닉 뉴런 둘, 출력 하나인 망에서 입력 x₁이 출력에 닿는 두 경로가 번갈아 굵게 표시되고, 경로마다의 몫과 그 합이 적힌 그림',b),caption:`마지막 과제의 2-2-1 망입니다. x₁에서 손실까지는 h₁을 지나는 경로와 h₂를 지나는 경로가 있고, 두 몫 ${f2(r.delta*r.p1,5)}와 ${f2(r.delta*r.p2,5)}를 더한 ${f2(r.correct,5)}가 ∂L/∂x₁입니다. 고정한 가중치로 실제 계산했습니다.`};
+ return {svg:svg('입력 둘, 은닉 뉴런 둘, 출력 하나인 망에서 입력 x₁이 출력에 닿는 두 경로가 번갈아 굵게 표시되고, 경로마다의 몫과 그 합이 적힌 그림',b),caption:`마지막 과제의 2-2-1 망입니다. x₁에서 손실까지는 h₁을 지나는 경로와 h₂를 지나는 경로가 있고, 두 몫 ${J(f2(r.delta*r.p1,5),'와')} ${J(f2(r.delta*r.p2,5),'를')} 더한 ${J(f2(r.correct,5),'가')} ∂L/∂x₁입니다. 고정한 가중치로 실제 계산했습니다.`};
 };
 function render(c){return F[c.id](H);}
 return {render,F,H};

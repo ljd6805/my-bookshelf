@@ -2,7 +2,7 @@
    긴 연쇄의 곱, 2-2-1 망의 기울기 계산 점검. 계산은 모두 DXMath가 하고 여기서는 그리기만 한다. */
 (()=>{
 'use strict';
-const U=DXUI,M=DXMath,F=U.fmt,R=U.range,S=U.select,A='var(--accent)';
+const U=DXUI,M=DXMath,F=U.fmt,J=U.josa,R=U.range,S=U.select,A='var(--accent)';
 const SUP={'-':'⁻',0:'⁰',1:'¹',2:'²',3:'³',4:'⁴',5:'⁵',6:'⁶',7:'⁷',8:'⁸',9:'⁹'};
 /* 아주 작거나 큰 수는 a×10ⁿ 꼴로 적는다. */
 const sci=n=>{if(n===0)return '0';const a=Math.abs(n);if(a>=0.001&&a<10000)return F(n,a<1?4:2);const e=Math.floor(Math.log10(a));return `${F(n/10**e,2)}×10${String(e).split('').map(c=>SUP[c]).join('')}`;};
@@ -47,7 +47,7 @@ DXLabs.paths=el=>{
  U.bind(el,()=>{const n=U.value(el,'pt-n'),w=U.value(el,'pt-w'),r=M.pathSum(w,n);
   U.result(el,U.bars(r.parts.map((p,i)=>`${i+1}일째 (x = ${p.x})`),r.parts.map(p=>p.c),'날마다의 몫 (2/n)·오차·x',null,2),
   `앞의 ${n}일 평균 손실에서 w는 날마다 한 번씩, 모두 ${n}번 쓰입니다. w에서 L로 가는 경로가 ${n}개입니다.<br>경로마다의 몫을 더하면 ∂L/∂w = ${r.parts.map(p=>F(p.c)).join(' + ').replace(/\+ −/g,'− ')} = <strong>${F(r.total)}</strong> (수치 미분 ${F(r.numeric,4)})<br>`+
-  (n===8?`2장에서 식을 전개해 얻은 35 × ${F(w,1)} + 7 × 12 − 222.75 = ${F(M.grad(w,M.B0).gw)}와 같습니다.`:n===1?'1일째는 x = 0이라 w가 손실에 영향을 주지 못합니다. 경로는 있지만 몫이 0입니다.':'날 수를 늘리면 경로가 하나씩 늘고, 새 경로의 몫이 합에 더해집니다.')+
+  (n===8?`3장에서 식을 전개해 얻은 35 × ${F(w,1)} + 7 × 12 − 222.75 = ${F(M.grad(w,M.B0).gw)}와 같습니다.`:n===1?'1일째는 x = 0이라 w가 손실에 영향을 주지 못합니다. 경로는 있지만 몫이 0입니다.':'날 수를 늘리면 경로가 하나씩 늘고, 새 경로의 몫이 합에 더해집니다.')+
   ' 막대 길이는 몫의 크기이고 부호는 숫자에 적었습니다.<br>절편 b는 12로 고정했습니다. 가상 기록으로 실제 계산한 값입니다.');});
 };
 
@@ -55,7 +55,7 @@ DXLabs.shared=el=>{
  U.setup(el,R('sh-t','같은 w를 곱한 횟수 T',1,8,1,3)+R('sh-w','가중치 w',0.5,1.5,0.05,0.9));
  U.bind(el,()=>{const T=U.value(el,'sh-t'),w=U.value(el,'sh-w'),r=M.shared(w,T);
   U.result(el,U.bars(Array.from({length:T},(_,i)=>`${i+1}번째 곱셈의 w`),Array.from({length:T},()=>r.each),'경로 하나의 몫 w^(T−1)·x',null,3),
-  `x = 2에 같은 w = ${F(w)}를 ${T}번 곱하면 h = w^${T}·x = <b>${F(r.h,3)}</b><br>w가 쓰인 자리가 ${T}곳이라 경로도 ${T}개이고, 경로 하나의 몫은 나머지 ${T-1}번의 곱 w^${T-1}·x = ${F(r.each,3)}입니다.<br>모두 더하면 dh/dw = ${T} × ${F(r.each,3)} = <strong>${F(r.total,3)}</strong> (수치 미분 ${F(r.numeric,3)})<br>`+
+  `x = 2에 같은 w = ${J(F(w),'를')} ${T}번 곱하면 h = w^${T}·x = <b>${F(r.h,3)}</b><br>w가 쓰인 자리가 ${T}곳이라 경로도 ${T}개이고, 경로 하나의 몫은 나머지 ${T-1}번의 곱 w^${T-1}·x = ${F(r.each,3)}입니다.<br>모두 더하면 dh/dw = ${T} × ${F(r.each,3)} = <strong>${F(r.total,3)}</strong> (수치 미분 ${F(r.numeric,3)})<br>`+
   (T===1?'한 번만 쓰이면 경로가 하나라 더할 것이 없습니다.':w>1?`w가 1보다 커서 곱하는 횟수가 늘수록 경로 하나의 몫도 커집니다. T를 8까지 올려 보세요.`:w<1?'w가 1보다 작아 곱하는 횟수가 늘수록 경로 하나의 몫이 작아집니다.':'w가 1이면 경로 하나의 몫이 x와 같고, 합은 T에 비례합니다.')+
   '<br>식 h = w^T·x를 실제로 계산했습니다. 순환 신경망이 시간마다 같은 가중치를 쓰는 계산을 가장 작게 줄인 모형입니다.');});
 };
@@ -66,8 +66,8 @@ DXLabs.depth=el=>{
   const pts=r.running.map((v,i)=>[i+1,lg(v)]),shown=r.factors.slice(0,5).map(v=>F(v,3)).join(', ')+(n>5?', …':''),p=Math.abs(r.product);
   U.result(el,U.plot({lines:[{data:n>1?pts:[[0.5,pts[0][1]],[1.5,pts[0][1]]],color:A},{data:[[0,0],[21,0]],color:'var(--muted)',dashed:true}],points:pts.map(q=>[q[0],q[1],A,4]),xmin:1,xmax:Math.max(n,2),ymin:-16,ymax:6,xlabel:'층 번호 (1이 입력 쪽)',ylabel:'log₁₀ |그 층까지 곱한 값|',label:`${M.ACT_NAME[kind]}, w = ${w}, ${n}층에서 출력 쪽부터 곱해 온 값의 크기(로그 눈금)`}),
   `${M.ACT_NAME[kind]} · w = ${F(w,1)} · ${n}층 · 층 하나를 거슬러 갈 때 곱해지는 값 w·act′(z): ${shown}<br>출력에서 첫 층 입력까지 ${n}개를 모두 곱하면 <strong>${sci(r.product)}</strong><br>`+
-  (p<1e-3?`<b>기울기 소실</b>: 1보다 작은 값을 ${n}번 곱해 첫 층에 닿는 기울기가 ${sci(r.product)}배로 줄었습니다. 앞쪽 층의 가중치는 거의 고쳐지지 않습니다.`:p>1e3?`<b>기울기 폭발</b>: 1보다 큰 값을 ${n}번 곱해 ${sci(r.product)}배로 커졌습니다. 한 걸음이 지나치게 커져 학습이 흔들립니다.`:`곱이 ${sci(r.product)}로, 첫 층까지 닿는 기울기가 지나치게 작거나 크지 않습니다.`)+
-  '<br>점선은 곱이 1인 자리(log 0)입니다. 입력 0.5, 편향 0, 층마다 뉴런 하나인 줄을 실제로 계산했습니다. 실제 신경망은 층마다 가중치가 다르고 뉴런이 여러 개라 숫자는 달라집니다.');});
+  (p<1e-3?`<b>기울기 소실</b>: 1보다 작은 값을 ${n}번 곱해 첫 층에 닿는 기울기가 ${sci(r.product)}배로 줄었습니다. 앞쪽 층의 가중치는 거의 고쳐지지 않습니다.`:p>1e3?`<b>기울기 폭발</b>: 1보다 큰 값을 ${n}번 곱해 ${sci(r.product)}배로 커졌습니다. 한 걸음이 지나치게 커져 학습이 흔들립니다.`:`곱이 ${J(sci(r.product),'로')}, 첫 층까지 닿는 기울기가 지나치게 작거나 크지 않습니다.`)+
+  '<br>점선은 곱이 1인 자리(세로축 값 0)입니다. 입력 0.5, 편향 0, 층마다 뉴런 하나인 줄을 실제로 계산했습니다. 실제 신경망은 층마다 가중치가 다르고 뉴런이 여러 개라 숫자는 달라집니다.');});
 };
 
 function netSvg(target,r){
