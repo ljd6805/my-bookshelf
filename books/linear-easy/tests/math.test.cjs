@@ -100,7 +100,9 @@ test('jacobian: exact while no neuron switches, off when one does; gradient equa
  vnear(M.scoreGradient(x),[2,-1.5,-1]);vnear(M.numericGradient(p=>M.forward(p).y,x),[2,-1.5,-1],1e-6);
  near(M.forward([3.5,2,1]).y-M.forward(x).y,1);near(M.forward([3,2,2]).y-M.forward(x).y,-1);near(M.forward([3,2.2,1]).y-M.forward(x).y,-.3);
  const la=v('latte'),Jl=M.layerJacobian(N.W1,N.b1,la);assert.deepEqual(plain(Jl[1]),[0,0,0]);vnear(M.matVec(Jl,[0,2,0]),[-1,0]);vnear(M.sub(M.forward([2,4,0]).h,M.forward(la).h),[-.5,1]);
- has('jacobian','(0.5, 0)','1.5에서 2.5','(−0.5, 1)','(−1, 0)');
+ const va=v('vanilla'),Jv=M.layerJacobian(N.W1,N.b1,va);assert.deepEqual(plain(Jv),plain(N.W1));vnear(M.matVec(Jv,[0,2,0]),[-1,1]);vnear(M.sub(M.forward([2,4,2]).h,M.forward(va).h),[-.5,1]);near(M.forward([2,4,2]).y-M.forward(va).y,-2);near(M.dot(M.scoreGradient(va),[0,2,0]),-3);
+ near(M.forward([2,3,2]).y-M.forward(va).y,M.dot(M.scoreGradient(va),[0,1,0]));assert.deepEqual(plain(M.layerJacobian(N.W1,N.b1,v('americano'))[1]),[0,0,0]);near(M.layer(N.W1,N.b1,v('americano')).z[1],-1);
+ has('jacobian','(0.5, 0)','1.5에서 2.5','(0.5, 2)에서 (0, 3)','(−0.5, 1)','(−1, 1)','−1.5에서 −3.5');
 });
 test('forward pass of the two-layer network, stage by stage',()=>{
  const f=M.forward(M.NEWDRINK.v);vnear(M.matVec(M.NET.W1,M.NEWDRINK.v),[2,2]);vnear(f.z1,[1.5,1]);vnear(f.h,[1.5,1]);near(f.y,1.5);

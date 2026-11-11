@@ -7,16 +7,18 @@ const drinkOptions=M.DRINKS.map(d=>[d.id,`${d.name} ${vec(d.v)}`]);
 const recipe=(el,ids=['x0','x1','x2'])=>ids.map(id=>U.value(el,id));
 const sliders=(v,step=0.5)=>M.AXES.map((a,i)=>U.range('x'+i,`${a} (${M.UNITS[i]})`,0,4,step,v[i])).join('');
 const words=v=>`샷 ${num(v[0])}잔, 우유 ${num(v[1]*100)} mL, 시럽 ${num(v[2])}펌프`;
-const menuPoints=(s,skip)=>M.DRINKS.forEach(d=>{if(d.id!==skip)s.point(d.v,C.m,{r:3.5,label:d.name,labelColor:C.m,size:11});});
+/* 에스프레소와 아메리카노는 샷 축 위에 나란히 있어 이름이 겹치므로 아메리카노의 이름은 점의 오른쪽에 적는다. */
+const labelAt=d=>d.id==='americano'?{anchor:'start',dx:9,dy:4}:null;
+const menuPoints=(s,skip)=>M.DRINKS.forEach(d=>{if(d.id!==skip)s.point(d.v,C.m,{r:3.5,label:d.name,labelColor:C.m,size:11,at:labelAt(d)});});
 
 /* 1장: 숫자 세 개를 공간의 점과 화살표로. */
 L.vector=el=>{
  const stage=U.setup3(el,sliders([2,2,0]));let v=[2,2,0];
  const view=D3.mount(stage,{labels:M.AXES,draw(s){
-  menuPoints(s);
+  const same=M.matchDrink(v);menuPoints(s,same&&same.id);
   const [x,y,z]=v;
   s.line([0,0,0],[x,0,0],C.a,{width:2.4,dash:'5 4'}).line([x,0,0],[x,y,0],C.b,{width:2.4,dash:'5 4'}).line([x,y,0],[x,y,z],C.o,{width:2.4,dash:'5 4'});
-  s.arrow([0,0,0],v,'var(--text)',{width:3.4,label:vec(v)});
+  s.arrow([0,0,0],v,'var(--text)',{width:3.4,label:same?`${same.name} ${vec(v)}`:vec(v)});
   s.label=`샷·우유·시럽 축이 있는 공간에서 원점부터 점 ${vec(v)}까지 그린 화살표. 점선은 샷 ${num(x)}, 우유 ${num(y)}, 시럽 ${num(z)}만큼 차례로 간 길`;
  }});
  U.bind(el,()=>{
@@ -48,14 +50,16 @@ L.length=el=>{
  const stage=U.setup3(el,sliders([2,1.5,0.5])+U.select('target','거리를 잴 음료',drinkOptions,'latte'));let v=[2,1.5,0.5],t=M.drink('latte');
  const view=D3.mount(stage,{labels:M.AXES,draw(s){
   menuPoints(s,t.id);
-  s.arrow([0,0,0],v,C.a,{label:`내 레시피 ${vec(v)}`}).point(t.v,C.b,{r:6,label:t.name,labelColor:C.b}).line(v,t.v,C.o,{width:3,dash:'6 4'});
-  s.text(M.scale(M.add(v,t.v),.5),`거리 ${num(M.dist(v,t.v))}`,C.o,{dy:-8});
+  s.arrow([0,0,0],v,C.a).point(t.v,C.b,{r:6,label:t.name,labelColor:C.b,at:labelAt(t)}).line(v,t.v,C.o,{width:3,dash:'6 4'});
+  /* 가까운 두 점의 이름과 거리 글자가 겹치지 않게 내 레시피는 화살표 끝보다 한 줄 위, 거리는 점선의 오른쪽에 적는다. */
+  s.text(v,`내 레시피 ${vec(v)}`,C.a,s.p(v).x>250?{anchor:'end',dx:-6,dy:-24}:{anchor:'start',dx:6,dy:-24});
+  s.text(M.scale(M.add(v,t.v),.5),`거리 ${num(M.dist(v,t.v))}`,C.o,{anchor:'start',dx:16,dy:5});
   s.label=`내 레시피 ${U.J(vec(v),'과와')} ${t.name} ${vec(t.v)} 사이를 잇는 점선. 거리 ${num(M.dist(v,t.v))}`;
  }});
  U.bind(el,()=>{
   v=recipe(el);t=M.drink(el.querySelector('#target').value);view.redraw();
   const diff=M.sub(v,t.v),d=M.dist(v,t.v),rows=M.DRINKS.map(x=>({name:x.name,d:M.dist(v,x.v)})).sort((p,q)=>p.d-q.d);
-  U.say(el,`내 레시피 ${vec(v)}의 길이는 √(${v.map(x=>num(x*x)).join(' + ')}) = <b>${num(M.norm(v))}</b>입니다. ${esc(t.name)}와의 차이는 ${vec(diff)}, 거리는 √(${diff.map(x=>num(x*x)).join(' + ')}) = <b>${num(d)}</b>, 거리의 제곱은 ${num(d*d)}입니다. 지금 가장 가까운 음료는 <b>${esc(rows[0].name)}</b>(거리 ${num(rows[0].d)})입니다.`,
+  U.say(el,`내 레시피 ${vec(v)}의 길이는 √(${v.map(x=>num(x*x)).join(' + ')}) = <b>${num(M.norm(v))}</b>입니다. ${esc(t.name)}와의 차이는 ${vec(diff)}, 거리는 √(${diff.map(x=>num(x*x)).join(' + ')}) = <b>${num(d)}</b>, 거리의 제곱은 ${num(d*d)}입니다. ${(tie=>tie.length>1?`지금 ${tie.map(r=>esc(r.name)).join(', ')} ${tie.length}개가 모두 거리 <b>${num(rows[0].d)}</b>로 똑같이 가장 가깝습니다.`:`지금 가장 가까운 음료는 <b>${esc(rows[0].name)}</b>(거리 ${num(rows[0].d)})입니다.`)(rows.filter(r=>Math.abs(r.d-rows[0].d)<1e-9))}`,
    U.table(['음료','내 레시피와의 거리'],rows.map(r=>[r.name,num(r.d)]),i=>i===0));
  });
 };
@@ -97,7 +101,7 @@ L.neuron=el=>{
  const view=D3.mount(stage,{labels:M.AXES,draw(s){
   const pl=M.norm(w)>0?planeInBox(w,b,4):null;
   if(pl){s.poly(pl.pts,C.o,.22,{strokeWidth:1.6});s.arrow(pl.mid,M.add(pl.mid,M.scale(w,.9/M.norm(w))),C.o,{width:2.4,label:'w 방향'});}
-  M.DRINKS.forEach(d=>{const z=M.dot(w,d.v)+b;s.point(d.v,z>0?C.a:C.m,{r:6,label:d.name,labelColor:z>0?C.a:C.m,size:11});});
+  M.DRINKS.forEach(d=>{const z=M.dot(w,d.v)+b;s.point(d.v,z>0?C.a:C.m,{r:6,label:d.name,labelColor:z>0?C.a:C.m,size:11,at:labelAt(d)});});
   s.label=`레시피 공간을 가르는 평면 w·x+b=0과 음료 여섯 점. 가중합이 0보다 큰 음료는 ${M.DRINKS.filter(d=>M.dot(w,d.v)+b>0).map(d=>d.name).join(', ')||'없음'}`;
  }});
  U.bind(el,()=>{

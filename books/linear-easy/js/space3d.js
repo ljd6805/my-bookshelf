@@ -27,7 +27,7 @@ Scene.prototype.arrow=function(a,b,color,o={}){
 Scene.prototype.point=function(a,color,o={}){
  const p=this.p(a);
  this.items.push({d:p.d+.1,s:`<circle cx="${f(p.x)}" cy="${f(p.y)}" r="${o.r||5}" fill="${color}"${o.ring?` stroke="${o.ring}" stroke-width="2.5"`:' stroke="var(--chart)" stroke-width="1"'}/>`});
- if(o.label)this.text(a,o.label,o.labelColor||'var(--text)',{dy:-10,size:o.size});
+ if(o.label)this.text(a,o.label,o.labelColor||'var(--text)',{dy:-10,size:o.size,...(o.at||{})});
  return this;
 };
 Scene.prototype.poly=function(pts,color,opacity=.25,o={}){

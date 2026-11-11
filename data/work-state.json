@@ -1016,5 +1016,27 @@
     "next": "RNN 책 병합 시 8권 companions 첫 항목으로 추가",
     "approvals": "서윤 승인; 해원·리안·나래·한결 조건부 승인 후 조건 반영(docs/03-verification.html#ai-merge-check)",
     "screens": "1280·390·320px 확인 완료"
+  },
+  "linear_algebra_easy": {
+    "book": "「쉬운 선형대수 · 벡터·행렬·텐서를 3D로 보며 신경망 계산하기」 books/linear-easy/, id linear-algebra-easy, 수학, aqua, 책등 쉬운 선형대수, 14장 · 14개 실험",
+    "plan": "사용자 요청(2026-11-11): 선형대수를 쉽게 배울 수 있는 책, 딥러닝까지 이해할 수 있는 수학 지식, 3D 애니메이션과 그 밖의 기법, 흥미를 가지고 배울 수 있게. 공통 사례: 지어낸 소라의 카페와 레시피 벡터 (샷, 우유, 시럽). 벡터에서 야코비안까지 다룬 뒤 2층 신경망의 순전파를 손으로 계산하고, 학습은 「신경망의 계산」으로 넘김.",
+    "docs": "books/linear-easy/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published (팩트 검수와 팀장 관문 승인 뒤 병합)",
+    "done": [
+      "14장 원고·실험 14개(모두 js/math.js의 실제 계산), 직접 돌리는 3차원 그림판 js/space3d.js(실험 열 개와 표지), 장 그림 14개, 움직이는 서가 삽화, 정지 표지, review.json 28문항",
+      "서가 등록: chapter_index 14장, 개념 다섯 곳(dot-product, vector-space, linear-transform, gradient-backprop, decision-unit)에 장 추가, 새 노선 read-wx-plus-b",
+      "양방향 링크: linear-algebra#vectors, neural#tensor, aie-math#tensor, rnn#vanish에서 이 책으로, 이 책 장마다 둘 이상 밖으로",
+      "문체 비평(다온)으로 문장 16곳과 12장 제목을 고침",
+      "팩트 검수(집필하지 않은 세션) 지적 15건 반영: 13장의 꺼진 뉴런 예와 어림이 어긋나는 예를 바꿈, 12장 ‘절댓값이 가장 큰 고윳값’, 예측 질문 일곱 개를 처음 화면에 답이 없는 설정으로 교체",
+      "CI에 npm test --prefix books/linear-easy 추가"
+    ],
+    "verification": "npm test 32개, tests/browser.cjs 54개 화면·실험 42회 조작·오류 0(1280·390·320px), 팩트·출처 검수 1회차 fixed, 첫 독자 리허설(1·5·7·9·12·13장과 마지막 과제), validate.py 0 errors",
+    "remaining": [
+      "편미분·연쇄 법칙 책(books/partial)과 미분 책(books/derivative)이 병합되면 13장 #jacobian과 양방향 링크",
+      "리허설이 남긴 것: 5장 넷째 예제(ReLU)의 결과 문장이 첫째 예제와 같음, 12장 본문이 예측의 답을 좁힘, 3차원 그림판의 이름표 세 곳이 맞닿음",
+      "3Blue1Brown 강의 목록은 화면에서 대조하지 못함. PyTorch 문서는 2.15판 기준",
+      "어두운 화면, 화면 읽기 프로그램, Safari·Firefox·실기기는 확인하지 못함"
+    ],
+    "next_action": "다른 수학 책(편미분·미분)이 병합되면 링크를 잇고, 다음 개정 때 리허설이 남긴 세 가지를 고침"
   }
 }

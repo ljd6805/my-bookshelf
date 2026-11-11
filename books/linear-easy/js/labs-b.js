@@ -99,7 +99,9 @@ L.eigen=el=>{
   const chart=`<svg viewBox="0 0 480 280" role="img" aria-label="${esc(`출발 벡터 ${vec(v0)}에 행렬을 ${n}번 곱한 벡터들을 원점에서 나간 선으로 그린 그림. 마지막 벡터 ${vec(last)}`)}"><path class="axis" d="M${ox} ${oy}H470M${ox} 12V${oy}"/>${dirs}${arrows}<text x="466" y="${oy+18}" text-anchor="end">${esc(R.labels[0])}</text><text x="${ox+6}" y="16">${esc(R.labels[1])}</text><text x="300" y="30" fill="var(--blue)">점선: 고유 방향</text></svg>`+U.matrix(R.M,{label:'되풀이해 곱하는 행렬'});
   const show=v=>v[0]>=0&&v[1]>=0?M.scale(v,1/(v[0]+v[1])):M.scale(v,1/Math.max(Math.abs(v[0]),Math.abs(v[1])));
   const ratio=n>0&&M.norm(seq[n-1])>1e-12?M.norm(last)/M.norm(seq[n-1]):null;
-  U.result(el,chart,`출발 ${vec(v0)}에 행렬을 ${n}번 곱하면 <b>${vec(last,3)}</b>, 길이는 ${num(M.norm(last),3)}입니다. ${ratio===null?'':`마지막 한 번 곱할 때 길이는 <b>${num(ratio,3)}배</b>가 되었습니다. `}이 행렬의 고윳값은 ${U.J(num(e.values[0]),'과와')} ${U.J(num(e.values[1]),'이')}고, 큰 고윳값 ${num(e.values[0])}의 고유 방향은 ${vec(show(e.vectors[0]))}입니다. 곱하는 횟수가 늘수록 벡터는 이 방향으로 눕고, 한 번 곱할 때마다 길이는 ${num(e.values[0])}배에 가까워집니다${Math.abs(e.values[0]-1)<1e-9?'(1배이므로 더 변하지 않습니다)':e.values[0]>1?'(20번이면 '+num(e.values[0]**20,1)+'배)':'(20번이면 '+num(e.values[0]**20,4)+'배)'}.`);
+  /* 0.01보다 작은 값은 셋째 자리에서 반올림하면 0이나 0.001로 보이므로 여섯째 자리까지 적는다. */
+  const tiny=M.norm(last)>0&&M.norm(last)<.01,dg=tiny?6:3;
+  U.result(el,chart,`출발 ${vec(v0)}에 행렬을 ${n}번 곱하면 <b>${vec(last,dg)}</b>, 길이는 ${num(M.norm(last),dg)}입니다. ${ratio===null?'':`마지막 한 번 곱할 때 길이는 <b>${num(ratio,3)}배</b>가 되었습니다. `}이 행렬의 고윳값은 ${U.J(num(e.values[0]),'과와')} ${U.J(num(e.values[1]),'이')}고, 큰 고윳값 ${num(e.values[0])}의 고유 방향은 ${vec(show(e.vectors[0]))}입니다(두 칸의 합이 1이 되게 적은 것이고, 몇 배를 해도 같은 방향입니다). 곱하는 횟수가 늘수록 벡터는 이 방향으로 눕고, 한 번 곱할 때마다 길이는 ${num(e.values[0])}배에 가까워집니다${Math.abs(e.values[0]-1)<1e-9?'(1배이므로 더 변하지 않습니다)':e.values[0]>1?'(20번이면 '+num(e.values[0]**20,1)+'배)':'(20번이면 '+num(e.values[0]**20,4)+'배)'}.`);
  });
 };
 
@@ -108,9 +110,9 @@ L.jacobian=el=>{
  const N=M.NET,stage=U.setup3(el,K.sliders(M.NEWDRINK.v)+U.select('axis','조금 늘릴 재료',M.AXES.map((a,i)=>[i,a]),0)+U.range('dx','늘리는 양 Δx',0.1,2,0.1,0.5));
  let x=M.NEWDRINK.v.slice();
  const view=D3.mount(stage,{labels:M.AXES,draw(s){
-  K.menuPoints(s);const g=M.scoreGradient(x),len=M.norm(g);
-  s.point(x,'var(--text)',{r:6,label:`x ${vec(x)}`});
-  if(len>0)s.arrow(x,M.add(x,M.scale(g,1/len)),C.o,{width:3.4,label:`기울기 ${vec(g)}`});
+  const same=M.matchDrink(x);K.menuPoints(s,same&&same.id);const g=M.scoreGradient(x),len=M.norm(g);
+  s.point(x,'var(--text)',{r:6,label:same?`${same.name} ${vec(x)}`:`x ${vec(x)}`});
+  if(len>0)s.arrow(x,M.add(x,M.scale(g,1/len)),C.o,{width:3.4,label:'기울기'});
   s.label=`레시피 ${vec(x)} 자리에서 민준의 점수가 가장 빨리 오르는 방향을 가리키는 기울기 화살표 ${vec(g)}`;
  }});
  U.bind(el,()=>{
@@ -118,7 +120,7 @@ L.jacobian=el=>{
   const i=U.value(el,'axis'),dx=U.value(el,'dx'),step=[0,0,0].map((_,k)=>k===i?dx:0),x2=M.add(x,step),f0=M.forward(x),f1=M.forward(x2),J=M.layerJacobian(N.W1,N.b1,x),g=M.scoreGradient(x);
   const pred=M.matVec(J,step),real=M.sub(f1.h,f0.h),predY=M.dot(g,step),realY=f1.y-f0.y,exact=M.same(pred,real,1e-9);
   U.say(el,`${U.J(M.AXES[i],'을를')} ${num(dx)} 늘리면 은닉층 (진한 맛, 단맛)은 ${vec(f0.h)}에서 ${U.J(vec(f1.h),'으로로')} <b>${vec(real)}</b>만큼 바뀝니다. 야코비안으로 어림한 값 J·Δx는 <b>${vec(pred)}</b>입니다. 점수 y는 ${num(f0.y)}에서 ${U.J(num(f1.y),'으로로')} ${num(realY)}만큼 바뀌고, 기울기로 어림하면 ${num(predY)}입니다. `+
-   (exact?'두 값이 같습니다. 이 구간에서는 켜진 뉴런과 꺼진 뉴런이 바뀌지 않아 층이 행렬 하나처럼 움직이기 때문입니다.':'두 값이 다릅니다. 늘리는 도중에 ReLU의 꺾이는 점을 지나 켜진 뉴런이 바뀌었기 때문입니다. 야코비안은 지금 자리 가까이에서만 맞는 어림입니다.')+` 꺼진 뉴런(가중합이 0 이하)의 행은 야코비안에서 0입니다.`,
+   (exact?'은닉층의 실제 변화와 어림값이 같습니다. 이 구간에서는 켜진 뉴런과 꺼진 뉴런이 바뀌지 않아 층이 행렬 하나처럼 움직이기 때문입니다.':'은닉층의 실제 변화와 어림값이 다릅니다. 늘리는 도중에 ReLU의 꺾이는 점을 지나 켜진 뉴런이 바뀌었기 때문입니다. 야코비안은 지금 자리 가까이에서만 맞는 어림입니다.'+(Math.abs(predY-realY)<1e-9?' 점수의 두 값이 같은 것은 은닉층의 두 차이가 w₂를 거치며 서로 지워졌기 때문이고, 어림이 맞았다는 뜻은 아닙니다.':''))+` 꺼진 뉴런(가중합이 0 이하)의 행은 야코비안에서 0입니다.`,
    `<div class="el-mv"><div>${U.matrix(J,{rows:N.hidden,label:'야코비안',on:i=>f0.z1[i]>0})}<small>J = ∂h/∂x (2×3)</small></div><div>${U.matrix([g],{label:'기울기'})}<small>∇y = w₂ᵀJ (1×3)</small></div></div>`);
  });
 };
@@ -129,15 +131,15 @@ const BUGS=[
  ['bias','은닉층 결과 (6×2)에 편향 b₁ 대신 b₂(숫자 1개)를 더했다',0,'모양은 맞아 오류 없이 계산되지만 값이 틀립니다. 은닉 뉴런 두 개에는 편향이 하나씩, 곧 b₁(2)이 필요합니다. 모양이 맞는다고 계산이 맞는 것은 아닙니다.'],
  ['order','출력층을 w₂·(W₁x)가 아니라 W₁·(w₂x)로 적었다',1,'w₂는 은닉 2칸을 받는 가중치라 입력 3칸짜리 x와 곱할 수 없습니다. 행렬 곱은 순서를 바꿀 수 없으니 입력 쪽 층을 먼저 곱합니다.']
 ];
-const FIXES=[['0','편향의 칸 수를 층의 뉴런 수에 맞춘다'],['1','곱하는 순서를 입력에서 출력 쪽으로 바로잡는다'],['2','가중치 행렬을 전치해 안쪽 수를 맞춘다']];
+const FIXES=[['none','아직 고르지 않음'],['0','편향의 칸 수를 층의 뉴런 수에 맞춘다'],['1','곱하는 순서를 입력에서 출력 쪽으로 바로잡는다'],['2','가중치 행렬을 전치해 안쪽 수를 맞춘다']];
 L.final=el=>{
  const N=M.NET,all=[...M.DRINKS,{id:'new',name:M.NEWDRINK.name,v:M.NEWDRINK.v}];
- U.setup(el,U.select('drink','계산할 음료',all.map(d=>[d.id,`${d.name} ${vec(d.v)}`]),'new')+U.range('stage','계산 단계',1,5,1,5)+U.select('bug','진단할 모양 오류',BUGS.map(b=>[b[0],b[1]]),'x-shape')+U.select('fix','내가 고른 고칠 방법',FIXES,'0'));
+ U.setup(el,U.select('drink','계산할 음료',all.map(d=>[d.id,`${d.name} ${vec(d.v)}`]),'new')+U.range('stage','계산 단계',1,5,1,5)+U.select('bug','진단할 모양 오류',BUGS.map(b=>[b[0],b[1]]),'x-shape')+U.select('fix','내가 고른 고칠 방법',FIXES,'none'));
  U.bind(el,()=>{
   const d=all.find(x=>x.id===el.querySelector('#drink').value),st=U.value(el,'stage'),f=M.forward(d.v),Wx=M.matVec(N.W1,d.v);
   const rows=[['① 입력 x','(3)',vec(d.v)],['② W₁x','(2×3)(3) → (2)',vec(Wx)],['③ W₁x + b₁','(2) + (2) → (2)',vec(f.z1)],['④ h = ReLU(③)','(2) → (2)',vec(f.h)],['⑤ y = w₂·h + b₂','(2)·(2) + 1개 → 숫자 1개',num(f.y)]].slice(0,st);
-  const bug=BUGS.find(b=>b[0]===el.querySelector('#bug').value),pick=+el.querySelector('#fix').value,ok=pick===bug[2];
-  U.result(el,U.table(['단계','모양','값'],rows,i=>i===st-1),`${esc(d.name)} ${vec(d.v)}: ${st<5?`${st}단계까지 계산했습니다. 마지막 줄은 ${rows[st-1][0]} = ${rows[st-1][2]}입니다.`:`민준의 점수는 <b>${num(f.y)}</b>입니다. 진한 맛 ${num(f.h[0])}에 2를 곱하고 단맛 ${num(f.h[1])}에 −1을 곱해 더한 뒤 −0.5를 더했습니다. ${f.y>0?'0보다 크므로 권할 만한 음료로 판정합니다.':'0 이하이므로 권하지 않는 음료로 판정합니다.'}`}<br><b>모양 오류 진단:</b> “${esc(bug[1])}”에 “${esc(FIXES[pick][1])}”를 골랐습니다. ${ok?'<b>맞습니다.</b> ':'<b>다시 골라 보세요.</b> 모양을 단계 표와 견주어 보면 어디가 어긋나는지 보입니다. '}${ok?esc(bug[3]):''}`);
+  const bug=BUGS.find(b=>b[0]===el.querySelector('#bug').value),chosen=el.querySelector('#fix').value,pick=chosen==='none'?null:+chosen,ok=pick===bug[2],fixName=pick===null?'':FIXES.find(f=>f[0]===chosen)[1];
+  U.result(el,U.table(['단계','모양','값'],rows,i=>i===st-1),`${esc(d.name)} ${vec(d.v)}: ${st<5?`${st}단계까지 계산했습니다. 마지막 줄은 ${rows[st-1][0]} = ${rows[st-1][2]}입니다.`:`민준의 점수는 <b>${num(f.y)}</b>입니다. 진한 맛 ${num(f.h[0])}에 2를 곱하고 단맛 ${num(f.h[1])}에 −1을 곱해 더한 뒤 −0.5를 더했습니다. ${f.y>0?'0보다 크므로 권할 만한 음료로 판정합니다.':'0 이하이므로 권하지 않는 음료로 판정합니다.'}`}<br><b>모양 오류 진단:</b> ${pick===null?`“${esc(bug[1])}”를 고칠 방법을 아직 고르지 않았습니다. “내가 고른 고칠 방법”에서 하나를 골라 보세요.`:`“${esc(bug[1])}”에 “${esc(fixName)}”를 골랐습니다. ${ok?'<b>맞습니다.</b> '+esc(bug[3]):'<b>다시 골라 보세요.</b> 모양을 단계 표와 견주어 보면 어디가 어긋나는지 보입니다.'}`}`);
  });
 };
 })();
