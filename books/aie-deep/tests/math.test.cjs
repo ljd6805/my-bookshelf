@@ -9,32 +9,13 @@ test('activations and derivatives match finite differences',()=>{
  for(let z=-6;z<=6;z+=0.5)assert.ok(M.dact('sigmoid',z)<=0.25+1e-12);
 });
 
-test('perceptron learns AND, OR, NAND but never XOR',()=>{
- for(const g of ['AND','OR','NAND']){const r=M.perceptron(g,30);assert.ok(r.converged,g);assert.deepEqual(r.predict,M.GATES[g]);}
- const x=M.perceptron('XOR',200);assert.equal(x.converged,false);assert.ok(x.hist.every(h=>h.errors>0));
- const a=M.perceptron('AND',1);assert.equal(a.hist.length,1);
-});
-
-test('hand-wired 2-2-1 network computes XOR only with a nonlinearity',()=>{
- const r=M.xorForward(20);assert.deepEqual(r.map(x=>x.out>=0.5?1:0),[0,1,1,0]);r.forEach((x,i)=>near(x.out,[0,1,1,0][i],1e-3));
- const lin=M.xorForward(20,'linear');lin.forEach(x=>near(x.out,lin[0].out,1e-9,'linear collapses'));near(lin[0].out,370,1e-9);
-});
-
-test('chain rule gradient equals numeric gradient',()=>{
- for(const w of [-3,-0.5,0.8,2.9]){const c=M.chain(w);near(c.dLdw,c.numeric,1e-7);near(c.dLdw,c.dLda*c.dadz*1.5,1e-12);}
- assert.ok(Math.abs(M.chain(3).dLdw)<Math.abs(M.chain(0).dLdw),'saturation shrinks gradient');
-});
-
-test('loss gradients: BCE is p-y, MSE vanishes when confidently wrong',()=>{
- const l=M.lossAt(0.01);near(l.gBce,-0.99);near(l.gMse,2*(-0.99)*0.01*0.99);near(l.bce,-Math.log(0.01));
- assert.ok(Number.isFinite(M.lossAt(0).bce));near(M.lossAt(0.5).bce,Math.log(2));
- near(M.smooth(10,0.1)[0],0.91);near(M.smooth(10,0.1).reduce((a,b)=>a+b,0),1);
-});
-
 test('optimizers on the valley: SGD diverges above 2/25, momentum and Adam converge',()=>{
  assert.equal(M.valley('sgd',0.07).diverged,0);assert.ok(M.valley('sgd',0.09,200).diverged>0||M.valley('sgd',0.09).f>1e3);
  assert.ok(M.valley('momentum',0.03).f<M.valley('sgd',0.01).f);assert.ok(M.valley('adam',0.2,200).f<0.05);
  assert.equal(M.valley('sgd',0.05).path.length,41);
+ const ag=M.valley('adagrad',0.3),rp=M.valley('rmsprop',0.3);
+ near(ag.eff[0],0.3/4,1e-6,'first AdaGrad step divides by |g|');assert.ok(ag.eff[39]<ag.eff[0]/3,'AdaGrad effective rate only shrinks');for(let i=1;i<40;i++)assert.ok(ag.eff[i]<=ag.eff[i-1]);
+ assert.ok(rp.f<1e-6&&ag.f>0.5,'RMSProp reaches the minimum where AdaGrad stalls');assert.equal(M.valley('sgd',0.05).eff.length,0);
 });
 
 test('learning-rate schedules hit their endpoints',()=>{
@@ -55,8 +36,6 @@ test('training the circle classifier: deterministic, learns, and wider helps',()
  assert.deepEqual(r1.loss,r2.loss);assert.ok(r1.loss[0]>0.6&&r1.trainLoss<0.2);assert.ok(r1.valAcc>0.8);
  assert.ok(M.train({width:1,epochs:200,seed:1}).valAcc<r1.valAcc);
  assert.ok(r1.val.filter(v=>v!==null).length<=101);assert.equal(r1.loss.length,200);
- const x=M.train({data:'xor',width:2,act:'sigmoid',opt:'sgd',lr:2,epochs:1000,seed:1});assert.ok(x.trainLoss<0.05);
- const stuck=M.train({data:'xor',width:2,act:'sigmoid',opt:'sgd',lr:2,epochs:1000,seed:6});assert.ok(stuck.trainLoss>0.3);
 });
 
 test('regularization narrows the generalization gap in the dropout lab setting',()=>{
@@ -83,7 +62,7 @@ test('final task: sigmoid+small init is stuck, ReLU+He+AdamW recovers',()=>{
 
 test('autodiff accumulates gradients over every path',()=>{
  const r=M.autodiff('reuse');near(r.grad.a,-3+1);near(r.grad.b,2);assert.equal(r.snaps.length,3);near(r.snaps[1].grad.a,1);
- const n=M.autodiff('neuron'),c=M.chain(0.8);near(n.grad.w,c.dLdw,1e-12);near(n.val.L,c.L,1e-12);
+ const n=M.autodiff('neuron'),z=0.8*1.5-0.5,a=M.sigmoid(z);near(n.val.L,(a-1)**2,1e-12);near(n.grad.w,2*(a-1)*a*(1-a)*1.5,1e-12);
 });
 
 test('parameter count and memory',()=>{
@@ -113,4 +92,21 @@ test('블록 구조: 잔차는 꺼지는 신호를 살리고, 축소 없이는 �
  assert.ok(f('he','relu','residual')[49]>1e8,'he relu residual explodes (variance doubles)');
  for(const i of ['small','std','xavier','he'])for(const a of ['tanh','relu']){const v=f(i,a,'layernorm')[49];assert.ok(v>0.4&&v<0.8,i+a+' LN '+v);}
  const z=M.layerNorm([1,2,3,4]);assert.ok(Math.abs(z.reduce((s,v)=>s+v,0))<1e-12);assert.ok(Math.abs(z.reduce((s,v)=>s+v*v,0)/4-1)<1e-4);
+});
+test('more training points close the gap; bestVal marks where validation loss was lowest',()=>{
+ const run=n=>M.train({n,noise:0.15,width:32,epochs:400,lr:0.03,seed:2}),few=run(40),many=run(200),bf=M.bestVal(few),bm=M.bestVal(many);
+ assert.equal(few.trainAcc,1);assert.ok(few.trainAcc-few.valAcc>0.3);assert.ok(Math.abs(many.trainAcc-many.valAcc)<0.06);
+ assert.equal(bf.epoch,105);near(bf.loss,0.483,0.001);assert.ok(few.valLoss>bf.loss*4,'validation loss climbs back after its minimum');
+ assert.ok(bm.epoch>380&&many.valLoss-bm.loss<0.01,'with enough data the minimum sits at the end');
+ near(bf.loss,few.val[bf.epoch-1],0);assert.ok(few.val.every(v=>v===null||v>=bf.loss));
+ const small=M.train({n:200,noise:0.15,width:2,epochs:400,lr:0.03,seed:2});assert.ok(small.trainAcc<0.8,'two hidden units underfit');
+});
+test('batch norm depends on the batch, layer norm does not',()=>{
+ const s=[2,8,32,128].map(B=>M.normBatch({B}));
+ for(let i=1;i<s.length;i++)assert.ok(s[i].bnSpread<s[i-1].bnSpread,'spread shrinks with batch size');
+ near(s[1].bnSpread/s[3].bnSpread,4,1.2,'about 1/sqrt(B)');near(s[0].bnSpread,0.721,0.001);near(s[3].bnSpread,0.105,0.001);
+ s[0].bn.forEach(v=>near(Math.abs(v),1,1e-3,'two samples normalize to +-1'));
+ assert.ok(s.every(r=>r.ln===s[0].ln&&r.ref===s[0].ref&&r.lnSpread===0),'layer norm and the population reference ignore B');
+ assert.ok(s[3].bnMin<s[3].ref&&s[3].ref<s[3].bnMax,'large batches scatter around the population value');
+ assert.deepEqual(M.normBatch({B:8,seed:2}),M.normBatch({B:8,seed:2}));assert.equal(s[1].bn.length,40);
 });

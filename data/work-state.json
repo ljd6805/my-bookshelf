@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-29",
+  "updated_at": "2026-11-11",
   "goal": "서가와 도서를 하나의 저장소에서 개발·배포",
   "local_repository": "synced_with_remote_main",
   "remote_repository": "https://github.com/ljd6805/my-bookshelf",
@@ -981,5 +981,29 @@
       "논문 DOI 연결 일곱 건은 이 환경에서 열지 못해 Crossref 서지로 대조함"
     ],
     "next_action": "딥러닝 보강 책이 나오면 2·5·11장에서 그 책으로 가는 링크를 더함"
+  },
+  "deep_learning_split": {
+    "request": "사용자 요청(2026-11-11, 스레드 「딥러닝 핵심 두 권으로 나누기」): 사내 교육 딥러닝 보강 자료와 본인 필기의 흐름(예측선 → 손실 → 경사하강 → 가중합과 활성화 → 역전파 → 기울기 소실 → 목적에 따른 구조)을 따라 「딥러닝 핵심」을 두 권으로 나눔. 사내 자료의 문장·그림은 옮기지 않음",
+    "books": [
+      "새 책 「신경망의 계산 · 예측선 긋기에서 역전파와 기울기 소실까지」 books/neural/, id neural-computation, 인공지능, sage, 책등 신경망 계산, 9장 · 13개 실험, 공통 사례 카페 8일 기록",
+      "개정 「딥러닝 핵심 · 학습 설정을 고르고 손실 곡선으로 고장 찾기」 books/aie-deep/, id aie-04-deep 그대로(AI공학 4권), 8장 · 12개 실험"
+    ],
+    "decisions": [
+      "「AI 엔지니어링 처음부터」를 21권으로 늘리지 않음: 책 id·폴더·장 안내에 권 번호가 들어 있어 뒤 16권을 모두 고쳐야 하고, 새 책은 원본 커리큘럼이 아니라 서재 주인의 필기를 따르기 때문. 새 책은 시리즈 밖 인공지능 분야의 독립된 책",
+      "aie-deep의 장 ID perceptron·forward·backprop·activation·loss는 없어지고 books/neural의 같은 ID로 옮김. 다른 책의 링크 6곳을 ../neural/로 바꾸고 장 번호가 든 링크 이름 11곳을 새 번호로 고침",
+      "aie-deep에 정규화 장(#normalize, 실험 normbatch), 학습점 수 실험(datasize), AdaGrad·RMSProp을 더함. 대조 손실(SimCLR) 설명은 뺌"
+    ],
+    "links": "개념 decision-unit·linear-transform·loss-likelihood·gradient-backprop의 옮긴 장을 books/neural로 바꾸고 overfitting-validation(#regularize)·variance(#normalize)에 aie-deep 장 추가. 새 노선 line-to-deep-training(9정거장). aie-from-scratch-1의 4권 정거장은 #final",
+    "docs": "books/neural/docs/(index.html G0~G7, research.html, fact-review.html), books/aie-deep/docs/(index.html #revision-20261111·#curriculum·#chapters·#rehearsal·#log, research.html, fact-review.html 새 회차)",
+    "verification": "docs/03-verification.html#deep-learning-split",
+    "remaining": [
+      "「순환 신경망」 책(스레드 「RNN 책 추가」, books/rnn)과 양방향 링크: 나중에 병합되는 쪽이 더함(neural#architectures → rnn#why, #backprop → rnn#bptt, #activation → rnn#vanish)",
+      "aie-deep는 review.json 복습 퀴즈가 아직 없음(scripts/study_rules.py PENDING)",
+      "books/aie-deep/docs/registration.json은 2026-10-08 등록 제안 기록으로 개정 전 내용 그대로 둠",
+      "PyTorch 문서 판(2.15)이 바뀌면 BatchNorm 기본값과 텐서 모양 규약 재확인",
+      "검수가 넘긴 것: 예측 질문이 결과 읽기 아래에 있어 답이 먼저 보임(서재 공통 장 구조), 390px에서 그래프 축 이름 위치, neural 7장 실험 2에 0.25¹⁹와 실제 2.1×10⁻¹⁰이 다른 까닭 한 줄, neural 8장 그림(흑백 기준)과 실험 기본값(컬러) 맞추기",
+      "열지 못한 출처: 「신경망의 계산」의 DOI 주소 여섯 개(이 가운데 Rumelhart 등 1986만 nature.com 페이지로 서지를 확인했고 Rosenblatt·Cybenko·LeCun·Elman·Bengio 다섯 개는 서지도 따로 확인하지 못함), PyTorch tensors 문서 본문, 「신경망의 계산」 검수에서 열지 못한 원본 레슨 03-02·03-03·03-05·03-06"
+    ],
+    "next_action": "「순환 신경망」 책이 병합되면 두 책 사이 양방향 링크를 더한다. 그다음 개정 때 aie-deep 복습 퀴즈(review.json)와 1장 그림의 AdaGrad·RMSProp 경로, 두 책 공통으로 예측 질문을 결과 읽기보다 먼저 보이게 하는 배치를 검토한다"
   }
 }

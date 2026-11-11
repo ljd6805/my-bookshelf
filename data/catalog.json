@@ -436,6 +436,76 @@
       "short_title": "AI Book"
     },
     {
+      "id": "neural-computation",
+      "title": "신경망의 계산 · 예측선 긋기에서 역전파와 기울기 소실까지",
+      "spine_title": "신경망 계산",
+      "spine_category": "인공지능",
+      "color": "sage",
+      "description": "카페 8일 기록에 예측선 하나를 긋고, 그 선이 얼마나 틀렸는지 손실로 잰 뒤 경사하강으로 더 나은 선을 찾습니다. 같은 계산을 퍼셉트론과 층으로 넓혀 순전파, 역전파, 활성화 함수와 기울기 소실을 손으로 따라가고, 완전 연결·합성곱·순환·어텐션 가운데 목적에 맞는 구조를 고르는 기준까지 9장 13개 실험으로 익힙니다. 옵티마이저와 규제는 다음 책 「딥러닝 핵심」이 이어받습니다.",
+      "illustration": "books/neural/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 점 여덟 개 위에서 예측선이 조금씩 돌아가며 점들에 맞춰지고, 그때마다 오른쪽 손실 막대가 줄어듭니다. 실제 수치는 책 안의 실험이 계산합니다.",
+      "cover_art": "books/neural/assets/cover-art.svg",
+      "cover_meta": "9장 · 13개 실험",
+      "status": "published",
+      "url": "books/neural/",
+      "keywords": [
+        "신경망",
+        "딥러닝 입문",
+        "텐서",
+        "shape",
+        "예측선",
+        "선형 회귀",
+        "손실 함수",
+        "MSE",
+        "MAE",
+        "교차 엔트로피",
+        "경사하강법",
+        "학습률",
+        "epoch",
+        "배치",
+        "퍼셉트론",
+        "XOR",
+        "순전파",
+        "역전파",
+        "backpropagation",
+        "연쇄법칙",
+        "활성화 함수",
+        "시그모이드",
+        "ReLU",
+        "기울기 소실",
+        "CNN",
+        "RNN",
+        "어텐션"
+      ],
+      "chapters": [
+        {
+          "title": "전체 9개 장",
+          "url": "books/neural/#chapters"
+        },
+        {
+          "title": "02 · 예측선을 긋고 손실로 틀린 정도 재기",
+          "url": "books/neural/#loss"
+        },
+        {
+          "title": "03 · 경사하강으로 손실을 줄이는 w와 b 찾기",
+          "url": "books/neural/#descent"
+        },
+        {
+          "title": "06 · 역전파로 모든 가중치의 기울기 구하기",
+          "url": "books/neural/#backprop"
+        },
+        {
+          "title": "07 · 활성화 함수를 바꿔 기울기 소실 줄이기",
+          "url": "books/neural/#activation"
+        },
+        {
+          "title": "08 · 목적에 맞는 신경망 구조 고르기",
+          "url": "books/neural/#architectures"
+        }
+      ],
+      "short_title": "신경망의 계산"
+    },
+    {
       "id": "llm-systems",
       "title": "LLM은 컴퓨터에서 어떻게 실행되는가 · 모델 파일에서 다음 토큰까지",
       "spine_title": "LLM 시스템",
@@ -1172,56 +1242,63 @@
     },
     {
       "id": "aie-04-deep",
-      "title": "딥러닝 핵심 · 퍼셉트론에서 나만의 작은 프레임워크까지",
+      "title": "딥러닝 핵심 · 학습 설정을 고르고 손실 곡선으로 고장 찾기",
       "spine_title": "딥러닝 핵심",
       "spine_category": "AI공학",
       "color": "blue",
-      "description": "평면 위 점이 원 안에 있는지 맞히는 작은 신경망 하나를 퍼셉트론에서 시작해 층, 역전파, 활성화, 손실, 옵티마이저, 학습률 일정, 초기화, 규제, 작은 프레임워크까지 키우며 브라우저 안에서 실제로 학습시킵니다. 12장 17개 실험으로 학습이 멈추는 이유를 손실 곡선과 층별 기울기로 진단하는 법까지 익힙니다.",
+      "description": "평면 위 점이 원 안에 있는지 맞히는 작은 신경망을 옵티마이저, 학습률 일정, 초기화, 규제, 배치·층 정규화를 하나씩 바꾸며 브라우저 안에서 실제로 학습시킵니다. 작은 프레임워크로 부품을 묶은 뒤, 8장 12개 실험으로 학습이 멈추는 이유를 손실 곡선과 층별 기울기로 진단합니다. 뉴런, 역전파, 활성화, 손실은 앞 책 「신경망의 계산」에서 다룹니다.",
       "illustration": "books/aie-deep/assets/shelf-illustration.svg",
       "illustration_caption": "값이 신경망을 앞으로 지나간 뒤 기울기가 거꾸로 돌아오고, 그때마다 손실 곡선이 내려가는 학습 과정을 보여 주는 시각적 비유입니다.",
       "cover_art": "books/aie-deep/assets/cover-art.svg",
-      "cover_meta": "12장 · 17개 실험",
+      "cover_meta": "8장 · 12개 실험",
       "status": "published",
       "url": "books/aie-deep/",
       "keywords": [
         "딥러닝",
-        "퍼셉트론",
-        "역전파",
-        "backpropagation",
-        "활성화 함수",
-        "교차 엔트로피",
         "옵티마이저",
+        "SGD",
+        "모멘텀",
+        "AdaGrad",
+        "RMSProp",
         "Adam",
+        "미니배치",
         "학습률 일정",
         "가중치 초기화",
+        "과적합",
+        "과소적합",
         "드롭아웃",
+        "조기 종료",
+        "배치 정규화",
+        "층 정규화",
+        "BatchNorm",
+        "LayerNorm",
         "PyTorch",
         "JAX",
         "신경망 디버깅"
       ],
       "chapters": [
         {
-          "title": "전체 12개 장",
+          "title": "전체 8개 장",
           "url": "books/aie-deep/#chapters"
         },
         {
-          "title": "01 · 직선 하나로 나눌 수 있을까",
-          "url": "books/aie-deep/#perceptron"
-        },
-        {
-          "title": "03 · 역전파로 모든 가중치의 기울기 구하기",
-          "url": "books/aie-deep/#backprop"
-        },
-        {
-          "title": "06 · 같은 기울기, 다른 옵티마이저",
+          "title": "01 · 같은 기울기, 다른 옵티마이저",
           "url": "books/aie-deep/#optimizer"
         },
         {
-          "title": "08 · 신호가 사라지거나 폭발하지 않게 초기화하기",
+          "title": "03 · 신호가 사라지거나 폭발하지 않게 초기화하기",
           "url": "books/aie-deep/#init"
         },
         {
-          "title": "11 · 손실 곡선으로 고장 찾기",
+          "title": "04 · 규제로 과적합 줄이기",
+          "url": "books/aie-deep/#regularize"
+        },
+        {
+          "title": "05 · 배치 정규화와 층 정규화로 층 출력 맞추기",
+          "url": "books/aie-deep/#normalize"
+        },
+        {
+          "title": "07 · 손실 곡선으로 고장 찾기",
           "url": "books/aie-deep/#debug"
         }
       ],
@@ -4200,6 +4277,100 @@
       ]
     },
     {
+      "id": "line-to-deep-training",
+      "title": "예측선 하나에서 깊은 신경망 학습까지",
+      "question": "점 여덟 개에 선을 긋는 계산이 어떻게 깊은 신경망의 학습으로 이어질까?",
+      "audience": "딥러닝 수업을 들었지만 손실, 경사하강, 역전파, 정규화가 한 줄로 이어지지 않는 학습자",
+      "prerequisites": "일차함수의 기울기와 절편, 평균 계산",
+      "start": "수업에서 예측선, 손실, 경사하강, 역전파, 기울기 소실, 과적합이라는 말을 차례로 들었다. 낱말은 알지만 앞의 계산이 뒤의 계산에 어떻게 쓰이는지 설명하지 못한다.",
+      "steps": [
+        {
+          "book_id": "ai-book-interactive",
+          "url": "books/ai/#neuron",
+          "task": "가중치와 편향을 바꾸며 뉴런 하나의 출력 곡선이 움직이는 모습을 본다",
+          "minutes": 12,
+          "why": "가중합에 활성화를 씌우는 뉴런 하나가 이 노선의 모든 계산의 단위다. 식 없이 슬라이더로 먼저 익힌다",
+          "record": "출력이 0.5를 넘는 경계가 w와 b에 따라 어디로 옮겨 가는지 한 문장"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#loss",
+          "task": "예측선 실험에서 w와 b를 움직여 MSE가 가장 작은 선을 찾고, 8일째를 9잔으로 바꾼 뒤 MSE와 MAE가 각각 얼마나 달라지는지 적는다",
+          "minutes": 15,
+          "why": "AI Book에서 만져 본 뉴런의 w와 b를 이제 데이터에서 찾는다. 그러려면 먼저 틀린 정도를 숫자 하나로 재야 하고, 이 숫자가 뒤의 모든 정거장에서 줄여야 할 대상이다",
+          "record": "가장 잘 맞는 w·b와 그때의 MSE·MAE, 이상치를 넣은 뒤의 두 값"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#descent",
+          "task": "손실 곡선 실험에서 학습률 0.05와 0.06을 넣어 w가 최솟값으로 모이는지 멀어지는지 비교하고, 배치 실험에서 전체 배치와 B = 1의 갱신 횟수를 센다",
+          "minutes": 15,
+          "why": "손실을 쟀으니 이제 그 손실을 줄이는 방향으로 w와 b를 옮긴다. 학습률, epoch, 배치가 여기서 처음 나온다",
+          "record": "두 학습률의 20걸음 뒤 손실, 전체 배치와 B = 1의 갱신 횟수와 MSE"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#backprop",
+          "task": "연쇄법칙 실험에서 w를 0.8과 3으로 두고 국소 기울기 세 개의 곱이 수치 미분과 같은지 확인한 뒤, XOR 학습 실험에서 시드 1과 6의 결과를 비교한다",
+          "minutes": 15,
+          "why": "선 하나의 기울기는 손으로 구할 수 있지만 층이 쌓이면 가중치마다 따로 구할 수 없다. 역전파가 그 기울기를 한 번에 구한다",
+          "record": "w 두 값의 dL/dw와 da/dz, XOR 학습이 성공한 시드와 멈춘 시드의 최종 손실"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#activation",
+          "task": "기울기 소실 실험에서 시그모이드와 ReLU로 20층을 쌓아 첫 층 ÷ 마지막 층 기울기 비율을 비교한다",
+          "minutes": 15,
+          "why": "역전파는 곱셈의 연속이라 곱하는 값이 작으면 앞층의 기울기가 사라진다. 활성화 함수가 그 값을 정한다",
+          "record": "두 활성화의 20층 기울기 비율과 자릿수 차이"
+        },
+        {
+          "book_id": "aie-04-deep",
+          "url": "books/aie-deep/#optimizer",
+          "task": "골짜기 실험에서 같은 학습률 0.3으로 AdaGrad와 RMSProp을 차례로 고르고, 40걸음 뒤 손실과 가로 방향 유효 학습률의 처음·끝 값을 적는다",
+          "minutes": 15,
+          "why": "기울기를 구할 수 있게 되면 그 기울기로 얼마만큼 움직일지가 남는다. 「신경망의 계산」의 w ← w − η·g를 다섯 가지 옵티마이저로 넓힌다",
+          "record": "AdaGrad와 RMSProp의 40걸음 뒤 손실, 유효 학습률 두 쌍"
+        },
+        {
+          "book_id": "aie-04-deep",
+          "url": "books/aie-deep/#regularize",
+          "task": "학습점 수 실험에서 학습점을 40개와 200개로 바꾸어 검증 손실이 가장 낮은 epoch와 400 epoch 뒤 검증 손실을 비교한다",
+          "minutes": 15,
+          "why": "학습 손실을 잘 줄이는 망은 잡음까지 외울 수 있다. 학습 손실과 검증 손실을 함께 보아야 하는 이유를 곡선으로 확인한다",
+          "record": "학습점 수별 최저 검증 손실과 그 epoch, 학습·검증 정확도 격차"
+        },
+        {
+          "book_id": "aie-04-deep",
+          "url": "books/aie-deep/#normalize",
+          "task": "정규화 실험에서 배치 크기를 2, 8, 128로 바꾸어 같은 표본의 배치 정규화 값이 퍼지는 범위와 층 정규화 값을 적는다",
+          "minutes": 15,
+          "why": "층이 깊어지면 층마다 출력 범위가 흐트러진다. 정규화 층이 평균을 무엇으로 구하느냐에 따라 배치 크기에 기대는지가 갈린다",
+          "record": "배치 크기별 배치 정규화 값의 범위와 평균 흔들림, 층 정규화 값"
+        },
+        {
+          "book_id": "neural-computation",
+          "url": "books/neural/#architectures",
+          "task": "파라미터 실험에서 이미지 한 변을 28과 224로 바꾸어 완전 연결 층과 합성곱 층의 파라미터 수를 비교한다",
+          "minutes": 15,
+          "why": "지금까지의 부품(가중합, 활성화, 역전파, 옵티마이저, 정규화)은 구조가 달라져도 그대로 쓰인다. 마지막으로 데이터의 모양에 맞는 구조를 고른다",
+          "record": "두 크기에서 완전 연결과 합성곱의 파라미터 수, 고른 구조와 이유 한 문장"
+        }
+      ],
+      "challenge": "동료가 6층 판별기를 시그모이드, 작은 초기화, SGD로 학습시켰더니 손실이 0.693에서 움직이지 않는다고 한다. 손실 정의, 기울기 전달, 보폭, 과적합 여부 가운데 무엇부터 확인할지 순서를 정하고, 각 단계에서 어떤 숫자를 증거로 볼지 설명한다.",
+      "checks": [
+        "가중치와 편향이 뉴런의 출력을 어떻게 옮기는지 말할 수 있는가",
+        "MSE와 MAE가 이상치에 다르게 반응하는 이유를 말할 수 있는가",
+        "학습률이 한계를 넘으면 손실이 커지는 까닭을 손실 곡선으로 설명할 수 있는가",
+        "국소 기울기의 곱으로 가중치 하나의 기울기를 계산할 수 있는가",
+        "깊은 시그모이드 망에서 앞층 기울기가 사라지는 이유를 수치로 보일 수 있는가",
+        "AdaGrad의 유효 학습률이 줄어드는 이유를 갱신식으로 설명할 수 있는가",
+        "과적합을 학습·검증 손실 곡선의 모양으로 가려낼 수 있는가",
+        "배치 정규화와 층 정규화가 평균을 구하는 방향의 차이를 말할 수 있는가",
+        "데이터의 모양에 맞는 구조를 파라미터 수를 근거로 고를 수 있는가"
+      ]
+    },
+    {
       "id": "aie-from-scratch-1",
       "title": "모델이 배우기까지 직접 쌓기",
       "question": "빈 노트북에서 사진 속 물체를 찾는 모델까지, 무엇을 어떤 순서로 갖춰야 할까?",
@@ -4233,11 +4404,11 @@
         },
         {
           "book_id": "aie-04-deep",
-          "url": "books/aie-deep/#backprop",
-          "task": "XOR 학습 실험에서 학습률과 시작 시드를 바꾸어, 손실이 0 근처로 내려가는 경우와 0.35 근처에 멈추는 경우를 하나씩 찾는다",
+          "url": "books/aie-deep/#final",
+          "task": "마지막 과제 실험에서 활성화·초기화·옵티마이저를 하나씩 바꾸어, 손실이 0.693에 멈춘 설정과 내려가는 설정을 하나씩 찾고 첫 층과 출력층의 기울기 비율을 적는다",
           "minutes": 15,
-          "why": "앞 권의 경사하강을 여러 층으로 넓혀, 기울기가 층을 거슬러 전달되는 방식과 학습이 멈추는 이유를 직접 확인하는 권이다",
-          "record": "성공한 설정과 멈춘 설정의 학습률·시드·최종 손실, 그리고 멈춘 이유에 대한 가설 한 문장"
+          "why": "앞 권의 경사하강을 깊은 망으로 넓히면 학습이 멈추는 일이 생긴다. 이 권에서 옵티마이저·초기화·규제·정규화를 고르고, 멈춘 이유를 층별 기울기로 확인한다. 역전파 계산 자체가 낯설면 「신경망의 계산」을 먼저 읽는다",
+          "record": "멈춘 설정과 내려간 설정의 활성화·초기화·옵티마이저, 최종 손실, 첫 층 ÷ 출력층 기울기 비율, 멈춘 이유에 대한 가설 한 문장"
         },
         {
           "book_id": "aie-05-vision",
@@ -4253,7 +4424,7 @@
         "작업 환경의 필수 조건과 선택 조건을 구분할 수 있는가",
         "학습률과 모멘텀이 손실 곡선을 어떻게 바꾸는지 말할 수 있는가",
         "정확도 대신 문턱별 재현율과 오경보로 판단할 수 있는가",
-        "기울기가 층을 거슬러 전달되는 과정과 학습이 멈추는 이유를 설명할 수 있는가",
+        "학습이 멈춘 이유를 층별 기울기 비율을 증거로 설명할 수 있는가",
         "모델 출력 뒤의 후처리 임계값이 결과를 바꾼다는 것을 보일 수 있는가"
       ]
     },
@@ -5756,7 +5927,7 @@
           "number": 3,
           "title": "머신러닝 기초",
           "book_id": "aie-03-ml",
-          "next_why": "손으로 고른 특징의 한계를 보았으니, 특징까지 스스로 배우는 신경망을 쌓아 봅니다."
+          "next_why": "손으로 고른 특징의 한계를 보았으니, 특징까지 스스로 배우는 신경망을 안정되게 학습시키는 설정을 다룹니다. 뉴런과 역전파의 계산은 「신경망의 계산」에서 먼저 볼 수 있습니다."
         },
         {
           "number": 4,
@@ -5977,6 +6148,15 @@
     "books/ai/#inference": "10 · 내 장비에 모델 올리기",
     "books/ai/#rag": "11 · 답하기 전에 근거 찾기",
     "books/ai/#agents": "12 · 도구를 쓰고 결과를 확인하기",
+    "books/neural/#tensor": "01 · 데이터를 텐서에 담고 모양 읽기",
+    "books/neural/#loss": "02 · 예측선을 긋고 손실로 틀린 정도 재기",
+    "books/neural/#descent": "03 · 경사하강으로 손실을 줄이는 w와 b 찾기",
+    "books/neural/#perceptron": "04 · 퍼셉트론으로 네 점을 선 하나로 가르기",
+    "books/neural/#forward": "05 · 층을 쌓아 XOR을 가르는 순전파 계산하기",
+    "books/neural/#backprop": "06 · 역전파로 모든 가중치의 기울기 구하기",
+    "books/neural/#activation": "07 · 활성화 함수를 바꿔 기울기 소실 줄이기",
+    "books/neural/#architectures": "08 · 목적에 맞는 신경망 구조 고르기",
+    "books/neural/#final": "마지막 과제 · 원 안팎을 가르는 판별기 설계하기",
     "books/computer/#bits": "01 · 스위치로 수 세기",
     "books/computer/#encoding": "02 · 같은 비트, 다른 뜻",
     "books/computer/#gates": "03 · 전기로 판단하기",
@@ -6074,18 +6254,14 @@
     "books/aie-ml/#pipeline": "10 · 누설 없이 검증하는 파이프라인",
     "books/aie-ml/#rare": "11 · 드문 사건을 놓치지 않기",
     "books/aie-ml/#final": "마지막 · 새 결제 수단이 들어온 날",
-    "books/aie-deep/#perceptron": "01 · 직선 하나로 나눌 수 있을까",
-    "books/aie-deep/#forward": "02 · 층을 쌓으면 경계가 곡선이 된다",
-    "books/aie-deep/#backprop": "03 · 역전파로 모든 가중치의 기울기 구하기",
-    "books/aie-deep/#activation": "04 · 활성화 함수가 기울기 크기를 정한다",
-    "books/aie-deep/#loss": "05 · 틀린 정도를 재는 손실 함수",
-    "books/aie-deep/#optimizer": "06 · 같은 기울기, 다른 옵티마이저",
-    "books/aie-deep/#schedule": "07 · 학습률을 시간에 따라 바꾸기",
-    "books/aie-deep/#init": "08 · 신호가 사라지거나 폭발하지 않게 초기화하기",
-    "books/aie-deep/#regularize": "09 · 규제로 과적합 줄이기",
-    "books/aie-deep/#framework": "10 · 부품을 묶어 나만의 작은 프레임워크 만들기",
-    "books/aie-deep/#debug": "11 · 손실 곡선으로 고장 찾기",
-    "books/aie-deep/#final": "마지막 · 깊어진 판별기의 학습이 멈춘 날",
+    "books/aie-deep/#optimizer": "01 · 같은 기울기, 다른 옵티마이저",
+    "books/aie-deep/#schedule": "02 · 학습률을 시간에 따라 바꾸기",
+    "books/aie-deep/#init": "03 · 신호가 사라지거나 폭발하지 않게 초기화하기",
+    "books/aie-deep/#regularize": "04 · 규제로 과적합 줄이기",
+    "books/aie-deep/#normalize": "05 · 배치 정규화와 층 정규화로 층 출력 맞추기",
+    "books/aie-deep/#framework": "06 · 부품을 묶어 나만의 작은 프레임워크 만들기",
+    "books/aie-deep/#debug": "07 · 손실 곡선으로 고장 찾기",
+    "books/aie-deep/#final": "마지막 과제 · 깊어진 판별기의 학습이 멈춘 날",
     "books/aie-vision/#pixels": "01 · 카메라가 넘겨준 숫자 배열",
     "books/aie-vision/#backbone": "02 · 깊이 쌓아도 학습되는 백본",
     "books/aie-vision/#classify": "03 · 적은 사진으로 분류기 만들기",
@@ -6618,7 +6794,7 @@
         "books/computer/#gates",
         "books/ai/#neuron",
         "books/linear-algebra/#layer",
-        "books/aie-deep/#perceptron"
+        "books/neural/#perceptron"
       ]
     },
     {
@@ -6692,7 +6868,8 @@
         "books/llm-gpu/#transformer",
         "books/llm-gpu/#parameters",
         "books/aie-math/#tensor",
-        "books/aie-deep/#forward",
+        "books/neural/#tensor",
+        "books/neural/#forward",
         "books/aie-transformer/#block",
         "books/aie-transformer/#position",
         "books/transformer/#qkov",
@@ -6716,6 +6893,7 @@
         "books/linear-algebra/#pca",
         "books/aie-ml/#tradeoff",
         "books/aie-deep/#init",
+        "books/aie-deep/#normalize",
         "books/aie-generative/#ddpm",
         "books/aie-rl/#mc",
         "books/aie-rl/#pg",
@@ -6802,7 +6980,8 @@
         "books/aie-math/#entropy",
         "books/aie-math/#optimize",
         "books/aie-ml/#lines",
-        "books/aie-deep/#loss",
+        "books/neural/#loss",
+        "books/neural/#descent",
         "books/aie-deep/#optimizer",
         "books/aie-vision/#classify",
         "books/aie-nlp/#sequence",
@@ -7050,8 +7229,8 @@
         "books/aie-math/#derivative",
         "books/aie-math/#autodiff",
         "books/ai/#learning",
-        "books/aie-deep/#backprop",
-        "books/aie-deep/#activation",
+        "books/neural/#backprop",
+        "books/neural/#activation",
         "books/aie-deep/#debug",
         "books/aie-rl/#pg",
         "books/transformer/#training",
@@ -7291,7 +7470,8 @@
         "books/ai/#generalization",
         "books/lora-why/#regularize",
         "books/opic/#combo",
-        "books/rnn/#validate"
+        "books/rnn/#validate",
+        "books/aie-deep/#regularize"
       ]
     },
     {

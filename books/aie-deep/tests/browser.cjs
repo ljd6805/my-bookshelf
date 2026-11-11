@@ -4,7 +4,7 @@ const {chromium}=require('playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const URL=process.env.BOOK_URL||'http://127.0.0.1:8765/books/aie-deep/';
 const output=process.env.BOOK_EVIDENCE||path.resolve(__dirname,'../docs/evidence');
-const report={url:URL,date:'2026-10-12',views:[],labs:[],errors:[]};
+const report={url:URL,date:'2026-11-11',views:[],labs:[],errors:[]};
 const bad=/NaN|undefined|Infinity|\[object/;
 async function frame(page,width,id){
  await page.setViewportSize({width,height:900});await page.goto(URL+'#'+id);
