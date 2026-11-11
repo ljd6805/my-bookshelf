@@ -15,7 +15,8 @@ const grow=(x,y,w,h,color,delay=0)=>`<rect class="fig-grow" style="animation-del
 const pulse=(x,y,r,color)=>`<circle class="fig-pulse" cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${color}" stroke-width="3"/>`;
 /* 실선은 fig-draw로 그려지며 나타나고, 점선은 fig-seq로 깜박이며 나타난다(fig-draw가 점선 무늬를 덮어쓰므로). */
 const draw=(pts,color,w=3,dash='')=>{const P=pts.map(p=>p.map(v=>v.toFixed(1)).join(',')).join(' ');return dash?blink(`<polyline points="${P}" fill="none" stroke="${color}" stroke-width="${w}" stroke-dasharray="${dash}"/>`,0.4):`<polyline class="fig-draw" pathLength="1000" points="${P}" fill="none" stroke="${color}" stroke-width="${w}"/>`;};
-const f2=(n,d=2)=>Number(n).toFixed(d);
+/* 실험 결과 문장(NCUI.fmt)과 같은 반올림을 써서 그림과 실험의 숫자가 어긋나지 않게 한다. */
+const f2=(n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d,useGrouping:false});
 const H={svg,t,box,line,dot,blink,turn,grow,pulse,draw};
 const F={};
 
@@ -26,9 +27,9 @@ function boundary(ox,oy,s,w,bb){const X=v=>ox+20+v*(s-40),Y=v=>oy+s-20-v*(s-40);
  if(Math.abs(w[1])<1e-9){const x0=-bb/(w[0]||1e-9);return `M${X(x0)} ${oy}V${oy+s}`;}
  const y=x=>(-bb-w[0]*x)/w[1];return `M${X(-0.3)} ${Y(y(-0.3))}L${X(1.3)} ${Y(y(1.3))}`;}
 F.perceptron=()=>{
- const r=M.perceptron('AND',8),frames=[1,2,4,7].map(e=>r.hist[e]);let b=`<defs><clipPath id="ncf-clip"><rect x="40" y="40" width="220" height="220"/></clipPath></defs>`+square(40,40,220,M.GATES.AND);
+ const r=M.perceptron('AND',8),frames=[1,2,3,7].map(e=>r.hist[e]);let b=`<defs><clipPath id="ncf-clip"><rect x="40" y="40" width="220" height="220"/></clipPath></defs>`+square(40,40,220,M.GATES.AND);
  b+=`<g clip-path="url(#ncf-clip)">`+frames.map((h,i)=>turn(`<path d="${boundary(40,40,220,h.w,h.b)}" stroke="var(--orange)" stroke-width="3" fill="none"/>`,i)).join('')+'</g>';
- frames.forEach((h,i)=>b+=turn(t(150,285,`AND · ${[1,2,4,7][i]+1}회 학습 · 틀린 점 ${h.errors}개`,{size:14,fill:'var(--muted)'}),i));
+ frames.forEach((h,i)=>b+=turn(t(150,285,`AND · ${[1,2,3,7][i]+1}회 학습 · 틀린 점 ${h.errors}개`,{size:14,fill:'var(--muted)'}),i));
  b+=square(380,40,220,M.GATES.XOR)+`<path d="M400 160L580 120M400 120L580 200" stroke="var(--orange)" stroke-width="2.5" stroke-dasharray="6 6" opacity=".55"/>`+pulse(490,150,22,'var(--orange)')+t(490,156,'?',{size:20,w:700,fill:'var(--orange)'});
  b+=t(490,285,'XOR · 어떤 직선도 1과 0을 가르지 못함',{size:14,fill:'var(--muted)'})+t(150,26,'선형 분리 가능',{size:14,w:700})+t(490,26,'선형 분리 불가능',{size:14,w:700});
  return {svg:svg('왼쪽은 AND 네 점에서 학습할수록 경계선이 옮겨 가 0과 1을 가르는 모습, 오른쪽은 XOR 네 점을 어떤 직선도 가르지 못하는 모습',b),caption:`왼쪽 경계선은 퍼셉트론 학습 규칙(η = 0.1)을 실제로 돌린 기록에서 그렸고, ${r.convergedAt}회째 학습에서 틀린 점이 0이 됩니다. 오른쪽 XOR은 선을 어떻게 그어도 같은 쪽에 1과 0이 섞입니다.`};

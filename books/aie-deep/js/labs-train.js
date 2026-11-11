@@ -62,7 +62,7 @@ A04Labs.dropout=el=>{
  U.setup(el,R('do-p','드롭아웃 비율 p',0,0.6,0.1,0)+S('do-wd','가중치 감쇠 λ',[[0,'0 (없음)'],[0.3,'0.3'],[1,'1.0']],0));
  U.bind(el,()=>{const p=U.value(el,'do-p'),wd=U.value(el,'do-wd'),r=M.train({n:40,noise:0.15,width:32,epochs:400,lr:0.03,dropout:p,wd,seed:2}),gap=r.trainAcc-r.valAcc;
   U.result(el,U.plot({lines:[{data:pairs(r.loss),color:'var(--blue)'},{data:pairs(r.val),color:'var(--accent)',dashed:true}],xmin:0,xmax:400,ymin:0,ymax:2.5,xlabel:'epoch',ylabel:'손실',label:'학습 손실(실선)과 검증 손실(점선)'}),
-  `드롭아웃 p = ${F(p,1)}, 감쇠 λ = ${wd}<br>학습 정확도 <b>${F(r.trainAcc*100,1)}%</b> (라벨 15%가 뒤집힌 학습점 40개 기준) · 검증 정확도 <strong>${F(r.valAcc*100,1)}%</strong> (깨끗한 새 점 200개)<br>일반화 격차 <strong>${F(gap*100,1)}%p</strong>, 최종 검증 손실 ${F(r.valLoss,3)}<br>`+
+  `드롭아웃 p = ${F(p,1)}, 감쇠 λ = ${wd}<br>학습 정확도 <b>${F(r.trainAcc*100,1)}%</b> (라벨을 점마다 15% 확률로 뒤집은 학습점 40개 기준, 실제로 뒤집힌 점은 7개) · 검증 정확도 <strong>${F(r.valAcc*100,1)}%</strong> (깨끗한 새 점 200개)<br>일반화 격차 <strong>${F(gap*100,1)}%p</strong>, 최종 검증 손실 ${F(r.valLoss,3)}<br>`+
   (r.trainAcc>0.97?'학습 정확도가 100% 가까이면 뒤집힌 라벨까지 외웠다는 뜻입니다.':gap<0.05?'격차가 작습니다. 이제는 학습 점수도 함께 낮지 않은지(과소적합) 확인하세요.':'규제가 외우기를 일부 막고 있습니다.')+'<br>은닉 32개 tanh 망을 AdamW로 실제 학습한 한 번의 결과(시드 2)입니다.');});
 };
 
@@ -70,7 +70,7 @@ A04Labs.dropout=el=>{
 A04Labs.datasize=el=>{
  U.setup(el,S('dz-n','학습점 수 (라벨 15% 뒤집힘)',[[20,'20개'],[40,'40개'],[80,'80개'],[200,'200개']],40)+S('dz-w','은닉 뉴런 수',[[2,'2개'],[32,'32개']],32));
  U.bind(el,()=>{const n=U.value(el,'dz-n'),w=U.value(el,'dz-w'),r=M.train({n,noise:0.15,width:w,epochs:400,lr:0.03,seed:2}),b=M.bestVal(r),gap=r.trainAcc-r.valAcc,top=Math.max(1,Math.min(4,Math.ceil(r.valLoss)));
-  const verdict=r.trainAcc<0.8?'학습 정확도부터 낮습니다. 모델이 작아 학습 데이터의 규칙도 다 담지 못하는 과소적합입니다.':gap>0.1?'학습 손실은 계속 내려가는데 검증 손실은 어느 지점부터 다시 올라갑니다. 과적합입니다. 주황 점선 자리에서 멈췄다면 검증 손실이 더 낮았습니다.':'두 곡선이 함께 내려가 가까이 머뭅니다. 지금 조건에서는 더 오래 학습해도 벌어지지 않습니다.';
+  const verdict=r.trainAcc<0.8?'학습 정확도부터 낮습니다. 모델이 작아 학습 데이터의 규칙도 다 담지 못하는 과소적합입니다.':gap>0.1?'학습 손실은 계속 내려가는데 검증 손실은 어느 지점부터 다시 올라갑니다. 과적합입니다. 주황 점선 자리에서 멈췄다면 검증 손실이 더 낮았습니다.':'두 곡선이 함께 내려가 가까이 머뭅니다. 이 조건에서는 400 epoch까지 벌어지지 않았습니다.';
   U.result(el,U.plot({lines:[{data:pairs(r.loss),color:'var(--blue)'},{data:pairs(r.val),color:'var(--accent)',dashed:true},{data:[[b.epoch,0],[b.epoch,top]],color:'var(--orange)',dashed:true}],xmin:0,xmax:400,ymin:0,ymax:top,xlabel:'epoch',ylabel:'손실',label:`학습점 ${n}개, 은닉 ${w}개의 학습 손실(실선)과 검증 손실(점선). 세로 점선은 검증 손실이 가장 낮은 ${b.epoch} epoch`}),
   `학습점 ${n}개 · 은닉 ${w}개 · 400 epoch<br>학습 정확도 <b>${F(r.trainAcc*100,1)}%</b> · 검증 정확도 <strong>${F(r.valAcc*100,1)}%</strong> · 격차 <strong>${F(gap*100,1)}%p</strong><br>검증 손실이 가장 낮았던 때: <b>${b.epoch} epoch</b>의 ${F(b.loss,3)} · 400 epoch 뒤 검증 손실 <b>${F(r.valLoss,3)}</b><br>${verdict}<br>tanh 망을 AdamW(η = 0.03)로 실제 학습한 한 번의 결과(시드 2)입니다. 검증 손실은 4 epoch마다 잽니다.`);});
 };
@@ -79,7 +79,7 @@ A04Labs.datasize=el=>{
 A04Labs.normbatch=el=>{
  U.setup(el,S('nb-b','배치 크기 B',[[2,'2'],[4,'4'],[8,'8'],[32,'32'],[128,'128']],8)+S('nb-seed','가중치와 표본의 시드',[[1,'1'],[2,'2'],[3,'3']],1));
  U.bind(el,()=>{const B=U.value(el,'nb-b'),seed=U.value(el,'nb-seed'),r=M.normBatch({B,seed}),lo=Math.floor(Math.min(r.bnMin,r.ref,r.ln)-0.3),hi=Math.ceil(Math.max(r.bnMax,r.ref,r.ln)+0.3);
-  U.result(el,U.plot({lines:[{data:[[1,r.ln],[40,r.ln]],color:'var(--accent)'},{data:[[1,r.ref],[40,r.ref]],color:'var(--muted)',dashed:true}],points:r.bn.map((v,i)=>[i+1,v,'var(--orange)',4]),xmin:1,xmax:40,ymin:lo,ymax:hi,xlabel:'묶음 번호 (같은 표본, 다른 동료 표본)',ylabel:'정규화한 첫 특징 값',label:`배치 크기 ${B}에서 같은 표본의 BatchNorm 값(점) ${F(r.bnMin)}부터 ${F(r.bnMax)}까지, LayerNorm 값(실선) ${F(r.ln)}, 전체 통계로 맞춘 값(점선) ${F(r.ref)}`}),
+  U.result(el,U.plot({lines:[{data:[[1,r.ln],[40,r.ln]],color:'var(--accent)'},{data:[[1,r.ref],[40,r.ref]],color:'var(--muted)',dashed:true}],points:r.bn.map((v,i)=>[i+1,v,'var(--orange)',4]),xmin:0,xmax:40,ymin:lo,ymax:hi,xlabel:'묶음 번호 (같은 표본, 다른 동료 표본)',ylabel:'정규화한 첫 특징 값',label:`배치 크기 ${B}에서 같은 표본의 BatchNorm 값(점) ${F(r.bnMin)}부터 ${F(r.bnMax)}까지, LayerNorm 값(실선) ${F(r.ln)}, 전체 통계로 맞춘 값(점선) ${F(r.ref)}`}),
   `배치 크기 B = ${B} · 같은 표본을 묶음 40개에 넣어 잰 결과<br>BatchNorm: 첫 특징 값이 <b>${F(r.bnMin)}</b>에서 <b>${F(r.bnMax)}</b>까지 달라짐 · 16개 특징의 평균 흔들림(표준편차) <strong>${F(r.bnSpread,3)}</strong><br>LayerNorm: 묶음과 무관하게 항상 <strong>${F(r.ln)}</strong> (흔들림 0)<br>표본 4,096개 통계로 맞춘 값(추론 때 쓰는 이동 평균에 해당): ${F(r.ref)}<br>`+
   (B===2?'표본이 둘뿐이면 두 값은 평균에서 같은 거리만큼 떨어져 있으므로 BatchNorm 출력은 +1 아니면 −1입니다. 원래 값의 크기 정보가 사라집니다.':r.bnSpread>0.3?'묶음에 누가 함께 들어왔는지에 따라 같은 표본의 값이 크게 달라집니다. 이 흔들림이 학습에는 잡음으로, 추론에는 학습 때와 다른 계산으로 나타납니다.':'묶음이 커지면 평균과 표준편차 추정이 안정되어 점들이 점선 가까이 모입니다.')+'<br>폭 16인 층의 가중합(입력은 표준정규)을 실제로 계산했습니다. 학습되는 배율 γ와 이동 β는 1과 0으로 두었습니다.');});
 };

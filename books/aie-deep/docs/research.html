@@ -18,7 +18,7 @@
 <tr><td>01</td><td>RMSProp은 기울기 제곱의 지수 평균으로 나눈다(ρ = 0.9)</td><td>Ruder(2016) 개관(책의 기존 출처). RMSProp은 논문이 아니라 Hinton의 강의 자료에서 나왔다</td><td>Ruder 개관은 이번에 다시 열지 않음. 식은 표준 형태</td></tr>
 <tr><td>01</td><td>골짜기에서 η = 0.3, 40걸음: AdaGrad f = 0.84, 유효 학습률 0.075 → 0.021. RMSProp f &lt; 10⁻⁷</td><td><code>M.valley</code> 계산</td><td>확인(검산 4절). 이 교육용 함수 하나에서 잰 값</td></tr>
 <tr><td>01</td><td>학습점 80개를 8개씩 나누면 1 epoch = 10 반복</td><td>80/8</td><td>확인</td></tr>
-<tr><td>04</td><td>학습점 40개(은닉 32, 시드 2): 검증 손실 최저 105 epoch 0.483, 400 epoch 뒤 2.477. 200개: 0.261, 학습 88.0%·검증 92.0%. 은닉 2개·200개: 학습 69.0%</td><td><code>M.train</code>, <code>M.bestVal</code> 계산</td><td>확인(검산 4절). 시드 하나의 결과</td></tr>
+<tr><td>04</td><td>학습점 40개(은닉 32, 시드 2): 검증 손실 최저 105 epoch 0.483, 400 epoch 뒤 2.477. 200개: 최저 393 epoch 0.259, 400 epoch 뒤 0.261, 학습 88.0%·검증 92.0%. 은닉 2개·200개: 학습 69.0%</td><td><code>M.train</code>, <code>M.bestVal</code> 계산</td><td>확인(검산 4절). 시드 하나의 결과. 200개의 최저 지점(393 epoch, 0.259)은 2026-11-11 검수에서 더함</td></tr>
 <tr><td>04</td><td>조기 종료는 검증 손실이 patience 동안 나아지지 않으면 멈추고 가장 좋았던 가중치로 돌아간다. 최종 성능은 테스트 데이터로 따로 잰다</td><td>원본 레슨 03-07(patience 5~20), Goodfellow 등 Deep Learning 7.8절</td><td>patience 범위는 원본 레슨 기준. 교과서 절은 이번에 열지 않음</td></tr>
 <tr><td>04</td><td>라벨 스무딩 0.91·0.01, focal 0.01·0.81</td><td>1 − 0.1 + 0.1/10, 0.1/10, (1−0.9)², (1−0.1)²</td><td>확인. 옮기기 전 문장과 같음</td></tr>
 <tr><td>05</td><td>배치 정규화는 특징마다 미니배치로 평균·분산을 구하고, 추론 때는 이동 평균을 쓴다</td><td>Ioffe·Szegedy 초록, BatchNorm1d 문서</td><td>확인</td></tr>
