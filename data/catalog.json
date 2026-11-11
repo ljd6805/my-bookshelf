@@ -1041,6 +1041,87 @@
       "short_title": "음성과 오디오"
     },
     {
+      "id": "recurrent-networks",
+      "title": "순환 신경망 · 은닉 상태와 기울기를 계산해 RNN·LSTM·GRU 견주기",
+      "spine_title": "순환신경망",
+      "spine_category": "인공지능",
+      "color": "amber",
+      "description": "기온 기록과 문장처럼 순서가 있는 자료를 읽는 RNN을 다룹니다. 셀을 시간 축으로 펼쳐 은닉 상태를 계산하고, 기울기가 사라지고 폭발하는 크기를 구하고, LSTM·GRU의 게이트, 임베딩과 검증, 어텐션으로 넘어간 까닭을 13개 실험으로 확인합니다.",
+      "illustration": "books/rnn/assets/shelf-illustration.svg",
+      "illustration_caption": "시각적 비유: 은닉 상태가 셀 네 개를 차례로 지나고, 되돌아오는 기울기는 단순 RNN 줄에서 작아지고 LSTM 줄에서 남습니다. 실제 계산은 책 안의 실험이 합니다.",
+      "cover_art": "books/rnn/assets/cover-art.svg",
+      "cover_meta": "13장 · 13개 실험",
+      "status": "published",
+      "url": "books/rnn/",
+      "keywords": [
+        "RNN",
+        "순환 신경망",
+        "recurrent neural network",
+        "LSTM",
+        "GRU",
+        "은닉 상태",
+        "hidden state",
+        "셀 상태",
+        "게이트",
+        "망각 게이트",
+        "BPTT",
+        "시간 방향 역전파",
+        "기울기 소실",
+        "기울기 폭발",
+        "vanishing gradient",
+        "기울기 자르기",
+        "gradient clipping",
+        "잘린 BPTT",
+        "시퀀스",
+        "시계열",
+        "many-to-one",
+        "Seq2Seq",
+        "인코더 디코더",
+        "임베딩",
+        "패딩",
+        "pack_padded_sequence",
+        "조기 종료",
+        "과적합",
+        "드롭아웃",
+        "PyTorch",
+        "nn.RNN",
+        "nn.LSTM",
+        "어텐션",
+        "트랜스포머 이전"
+      ],
+      "chapters": [
+        {
+          "title": "전체 13개 장",
+          "url": "books/rnn/#chapters"
+        },
+        {
+          "title": "02 · RNN 셀 하나로 은닉 상태 계산하기",
+          "url": "books/rnn/#cell"
+        },
+        {
+          "title": "05 · 시간 방향 역전파(BPTT)로 기울기 구하기",
+          "url": "books/rnn/#bptt"
+        },
+        {
+          "title": "06 · 기울기 소실과 폭발의 크기를 계산하고 기울기 자르기",
+          "url": "books/rnn/#vanish"
+        },
+        {
+          "title": "08 · LSTM 셀의 게이트 세 개와 셀 상태 계산하기",
+          "url": "books/rnn/#lstm"
+        },
+        {
+          "title": "10 · 문장을 번호와 임베딩으로 바꿔 LSTM으로 분류하기",
+          "url": "books/rnn/#embed"
+        },
+        {
+          "title": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기",
+          "url": "books/rnn/#final"
+        }
+      ],
+      "short_title": "순환 신경망"
+    },
+    {
       "id": "transformer-inside",
       "title": "트랜스포머 속을 열어 보기 · 학습된 작은 모델의 회로를 추적하다",
       "spine_title": "트랜스포머 속",
@@ -4663,6 +4744,78 @@
       ]
     },
     {
+      "id": "before-transformer",
+      "title": "트랜스포머 이전에는 문장을 어떻게 읽었을까",
+      "question": "문장을 한 낱말씩 차례로 읽던 모델은 무엇을 할 수 있었고, 무엇이 부족해서 어텐션으로 넘어갔을까?",
+      "audience": "트랜스포머를 공부하려는데 책마다 “RNN과 달리”로 시작해 막힌 독자",
+      "prerequisites": "뉴런의 가중합과 활성 함수, 경사하강으로 가중치를 고친다는 것",
+      "start": "트랜스포머 설명이 첫 줄부터 RNN의 한계를 안다고 가정한다.",
+      "steps": [
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#cell",
+          "task": "은닉 상태 12시점 계산 실험에서 순환 가중치를 0.5와 0.8로 바꾸며 첫 입력의 흔적이 처음 값의 10% 아래로 줄어드는 시점을 적는다",
+          "minutes": 15,
+          "why": "차례로 읽는 모델은 지금까지 읽은 것을 은닉 상태 하나에 담아 넘긴다. 그 계산부터 손으로 따라가야 뒤의 한계가 숫자로 보인다",
+          "record": "두 가중치에서 흔적이 10% 아래로 내려가는 시점"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#vanish",
+          "task": "기울기 소실과 폭발 실험에서 순환 가중치의 크기를 0.9와 1.5로 두고 29단계 앞의 기울기 크기를 선형과 tanh에서 적는다",
+          "minutes": 18,
+          "why": "은닉 상태가 넘어가는 길을 기울기가 되돌아올 때 같은 배율이 거듭 곱해져, 먼 낱말의 영향을 배우기 어렵다",
+          "record": "네 조건의 29단계 앞 기울기 크기"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#gru",
+          "task": "세 셀의 기울기 견주기 실험에서 게이트 편향을 0과 3으로 바꾸며 단순 RNN·LSTM·GRU의 29단계 앞 기울기를 표로 적는다",
+          "minutes": 18,
+          "why": "LSTM과 GRU는 게이트로 기울기가 덜 줄게 했지만, 게이트가 열려 있을 때만 그렇다는 점을 확인한다",
+          "record": "편향 0과 3에서 세 셀의 기울기 크기와 게이트 평균"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#embed",
+          "task": "후기 문장 분류 실험에서 “맛 이 좋 지 않 다”를 읽는 동안 긍정 확률이 뒤집히는 토큰을 찾고, 뒤에 패딩 두 개를 붙여 판정이 바뀌는지 본다",
+          "minutes": 20,
+          "why": "문장을 벡터로 바꿔 한 토큰씩 읽는 방식이 실제로 무엇을 해내는지, 어디서 깨지는지 본다",
+          "record": "확률이 뒤집히는 토큰과 패딩을 붙였을 때의 판정"
+        },
+        {
+          "book_id": "recurrent-networks",
+          "url": "books/rnn/#limits",
+          "task": "순환층과 셀프 어텐션층 견주기 실험에서 길이 50과 200일 때 곱셈 수, 차례로 기다리는 단계, 가장 먼 토큰 사이의 경로를 표로 적는다",
+          "minutes": 18,
+          "why": "게이트로도 줄지 않는 것이 차례로 기다리는 단계와 토큰 사이의 거리다. 어텐션이 고친 것이 이 두 줄이다",
+          "record": "두 길이에서 표의 세 줄"
+        },
+        {
+          "book_id": "aie-08-transformer",
+          "url": "books/aie-transformer/#why",
+          "task": "직렬 단계와 점수표 크기 실험에서 문장 길이를 바꾸며 RNN의 직렬 단계와 어텐션 점수표의 칸 수를 함께 계산한다",
+          "minutes": 12,
+          "why": "한계를 숫자로 확인했으니, 어텐션에서 그 대신 늘어나는 점수표 크기를 같은 문장 길이에서 이어서 본다",
+          "record": "1,024토큰에서 RNN의 직렬 단계와 점수표 칸 수"
+        },
+        {
+          "book_id": "transformer-inside",
+          "url": "books/transformer/#lookup",
+          "task": "질문 방향과 길이로 섞는 비율 바꾸기 실험에서 질문 화살표를 돌리며 열쇠 넷에 나눠 주는 가중치를 본다",
+          "minutes": 15,
+          "why": "모든 토큰을 한 번에 본다는 말이 어떤 계산인지, 가중치를 나눠 주는 가장 작은 예로 확인한다",
+          "record": "질문이 두 열쇠 사이를 가리킬 때의 가중치"
+        }
+      ],
+      "challenge": "내가 다루는 순서 있는 자료(센서 기록, 로그, 문장) 하나를 골라 길이와 판정을 가르는 입력 사이의 거리를 적고, 단순 RNN·LSTM·어텐션 가운데 무엇으로 시작할지 이유와 함께 쓴다.",
+      "checks": [
+        "은닉 상태가 무엇을 담고 어떻게 다음 시점으로 넘어가는지 식으로 말할 수 있는가",
+        "기울기가 먼 시점에서 사라지는 까닭을 거듭 곱하는 배율로 설명할 수 있는가",
+        "어텐션이 RNN에서 고친 것과 그 대신 늘어나는 계산을 하나씩 말할 수 있는가"
+      ]
+    },
+    {
       "id": "inside-transformer",
       "title": "트랜스포머는 안에서 무엇을 계산할까",
       "question": "챗봇이 앞에서 나온 이름을 정확히 다시 쓸 때, 모델 안의 어떤 부품이 그 일을 할까?",
@@ -5982,6 +6135,10 @@
           "title": "트랜스포머 깊이 보기",
           "companions": [
             {
+              "book_id": "recurrent-networks",
+              "why": "8권이 RNN 대신 어텐션을 쓰는 이유에서 시작하므로, RNN의 은닉 상태와 기울기 소실을 먼저 계산해 어텐션이 무엇을 고쳤는지 숫자로 견줄 수 있게 합니다"
+            },
+            {
               "book_id": "transformer-inside",
               "why": "8권에서 트랜스포머 구조를 한 층씩 계산하기 전에, 이미 학습된 작은 모델 안에서 어텐션이 무엇을 보는지 먼저 추적해 봅니다"
             }
@@ -6805,7 +6962,20 @@
     "books/partial/#graph": "08 · 계산 그래프에서 국소 미분을 뒤에서부터 곱하기",
     "books/partial/#branch": "09 · 갈라진 경로마다 곱하고 경로끼리 더하기",
     "books/partial/#deep": "10 · 층이 깊을 때 곱이 작아지거나 커지는 크기 계산하기",
-    "books/partial/#final": "마지막 과제 · 2-2-1 망의 기울기 계산 네 가지 점검하기"
+    "books/partial/#final": "마지막 과제 · 2-2-1 망의 기울기 계산 네 가지 점검하기",
+    "books/rnn/#why": "01 · 값의 순서를 섞어 예측 오차가 커지는지 확인하기",
+    "books/rnn/#cell": "02 · RNN 셀 하나로 은닉 상태 계산하기",
+    "books/rnn/#unroll": "03 · 같은 셀을 시간 축으로 펼쳐 파라미터 수 세기",
+    "books/rnn/#shapes": "04 · 과제마다 입력과 출력의 개수를 세어 형태 고르기",
+    "books/rnn/#bptt": "05 · 시간 방향 역전파(BPTT)로 기울기 구하기",
+    "books/rnn/#vanish": "06 · 기울기 소실과 폭발의 크기를 계산하고 기울기 자르기",
+    "books/rnn/#truncate": "07 · 긴 기록을 창으로 잘라 학습하고 은닉 상태 이어받기",
+    "books/rnn/#lstm": "08 · LSTM 셀의 게이트 세 개와 셀 상태 계산하기",
+    "books/rnn/#gru": "09 · 단순 RNN·LSTM·GRU의 기울기가 닿는 거리 견주기",
+    "books/rnn/#embed": "10 · 문장을 번호와 임베딩으로 바꿔 LSTM으로 분류하기",
+    "books/rnn/#validate": "11 · 검증 오차로 과적합을 찾고 학습을 멈출 반복 정하기",
+    "books/rnn/#limits": "12 · RNN의 한계와 어텐션이 고친 것 견주기",
+    "books/rnn/#final": "마지막 과제 · 학습 기록 다섯 건의 원인을 진단하고 고칠 곳 정하기"
   },
   "concepts": [
     {
@@ -6908,7 +7078,8 @@
         "books/probability/#correlation",
         "books/knowledge-graph/#embedding",
         "books/transformer/#embed",
-        "books/transformer/#stream"
+        "books/transformer/#stream",
+        "books/rnn/#embed"
       ]
     },
     {
@@ -7241,7 +7412,8 @@
         "books/aie-production/#speculative",
         "books/transformer/#qkv",
         "books/transformer/#mask",
-        "books/transformer/#multihead"
+        "books/transformer/#multihead",
+        "books/rnn/#limits"
       ]
     },
     {
@@ -7303,7 +7475,10 @@
         "books/federated/#fedavg",
         "books/federated/#leakage",
         "books/lora-why/#gradient",
-        "books/lora-why/#dynamics"
+        "books/lora-why/#dynamics",
+        "books/rnn/#bptt",
+        "books/rnn/#vanish",
+        "books/rnn/#gru"
       ]
     },
     {
@@ -7532,6 +7707,7 @@
         "books/ai/#generalization",
         "books/lora-why/#regularize",
         "books/opic/#combo",
+        "books/rnn/#validate",
         "books/aie-deep/#regularize"
       ]
     },
@@ -7649,6 +7825,30 @@
         "books/aie-agents/#memory",
         "books/aie-agents/#workbench",
         "books/aie-tools/#skills"
+      ]
+    },
+    {
+      "id": "sequence-state",
+      "name": "순서와 은닉 상태",
+      "aliases": [
+        "sequence",
+        "hidden state",
+        "recurrent",
+        "RNN",
+        "LSTM",
+        "time series",
+        "autocorrelation"
+      ],
+      "summary": "값을 순서대로 하나씩 읽으며 지금까지의 요약을 상태 하나에 담아 다음 시점으로 넘긴다",
+      "chapters": [
+        "books/rnn/#why",
+        "books/rnn/#cell",
+        "books/rnn/#unroll",
+        "books/rnn/#lstm",
+        "books/aie-nlp/#sequence",
+        "books/aie-nlp/#dialog",
+        "books/aie-transformer/#why",
+        "books/volatility/#revert"
       ]
     }
   ]

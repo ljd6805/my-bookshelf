@@ -1,0 +1,21 @@
+<svg class="cover-art" viewBox="0 0 320 150" role="img" aria-label="위쪽은 한 시간마다 잰 기온을 이은 선이고, 아래쪽은 같은 RNN 셀 네 개가 왼쪽에서 오른쪽으로 은닉 상태 h를 넘기며 시점마다 기온 값 x를 받는 펼친 그림이며, 마지막 셀에서 다음 한 시간의 예측이 나온다" xmlns="http://www.w3.org/2000/svg">
+<text class="cv-text cv-muted" x="8" y="14">한 시간마다 잰 온실 기온</text>
+<path class="cv-hair" d="M8 52H312"/>
+<path class="cv-line" fill="none" d="M20 44C40 46 52 40 66 32S100 20 116 24S150 44 166 46S200 36 216 28S250 18 266 22"/>
+<circle class="cv-dot" cx="66" cy="32" r="3.2"/><circle class="cv-dot" cx="116" cy="24" r="3.2"/><circle class="cv-dot" cx="166" cy="46" r="3.2"/><circle class="cv-dot" cx="216" cy="28" r="3.2"/>
+<path class="cv-line cv-thin cv-dash" fill="none" d="M266 22C280 26 290 34 300 40"/>
+<circle class="cv-node" cx="300" cy="40" r="3.6"/>
+<path class="cv-hair cv-dash" d="M66 36V84M116 28V84M166 50V84M216 32V84"/>
+<text class="cv-text cv-muted" x="60" y="134">x₁</text><text class="cv-text cv-muted" x="110" y="134">x₂</text><text class="cv-text cv-muted" x="160" y="134">x₃</text><text class="cv-text cv-muted" x="210" y="134">x₄</text>
+<path class="cv-stroke" fill="none" d="M66 124V112M116 124V112M166 124V112M216 124V112"/>
+<rect class="cv-node" x="48" y="84" width="36" height="28" rx="3"/>
+<rect class="cv-node" x="98" y="84" width="36" height="28" rx="3"/>
+<rect class="cv-node" x="148" y="84" width="36" height="28" rx="3"/>
+<rect class="cv-fill" x="198" y="84" width="36" height="28" rx="3"/>
+<text class="cv-text cv-bold" x="59" y="102">h₁</text><text class="cv-text cv-bold" x="109" y="102">h₂</text><text class="cv-text cv-bold" x="159" y="102">h₃</text><text class="cv-text cv-inverse" x="209" y="102">h₄</text>
+<path class="cv-line" fill="none" d="M20 98H48M84 98H98M134 98H148M184 98H198M234 98H262"/>
+<path class="cv-fill" d="M262 93L272 98L262 103Z"/>
+<text class="cv-text cv-bold" x="278" y="95">다음</text>
+<text class="cv-text cv-bold" x="278" y="107">기온</text>
+<text class="cv-text cv-muted" x="8" y="77">같은 셀, 가중치 한 벌</text>
+</svg>

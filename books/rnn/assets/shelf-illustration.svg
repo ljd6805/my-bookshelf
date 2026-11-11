@@ -1,0 +1,44 @@
+<svg class="rn-ill" viewBox="0 0 340 180" role="img" aria-label="셀 네 개가 왼쪽에서 오른쪽으로 차례로 켜지며 은닉 상태를 넘기고, 이어서 마지막 셀에서 출발한 기울기가 왼쪽으로 되돌아오는데 단순 RNN 줄의 막대는 갈수록 작아지고 LSTM 줄의 막대는 크기가 남는 모습" xmlns="http://www.w3.org/2000/svg">
+<style>
+.rn-ill-cell{fill:#fffdf8;stroke:#8a5a00;stroke-width:1.4}
+.rn-ill-lit{fill:#f0c062;opacity:0;animation:rn-ill-lit 8s linear infinite}
+.rn-ill-lit2{animation-delay:.6s}.rn-ill-lit3{animation-delay:1.2s}.rn-ill-lit4{animation-delay:1.8s}
+.rn-ill-word{font:700 11px sans-serif;fill:#2a2416}
+.rn-ill-small{font:500 9px sans-serif;fill:#6b5d45}
+.rn-ill-wire{fill:none;stroke:#8a5a00;stroke-width:1.6}
+.rn-ill-flow{fill:none;stroke:#8a5a00;stroke-width:1.6;stroke-dasharray:4 4;animation:rn-ill-dash 1.2s linear infinite}
+.rn-ill-grad{fill:#b4472a;transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);animation:rn-ill-grow 8s ease-out infinite}
+.rn-ill-keep{fill:#2f7d6b;transform-box:fill-box;transform-origin:50% 100%;transform:scaleY(0);animation:rn-ill-grow 8s ease-out infinite}
+.rn-ill-g4{animation-delay:3.2s}.rn-ill-g3{animation-delay:3.8s}.rn-ill-g2{animation-delay:4.4s}.rn-ill-g1{animation-delay:5s}
+.rn-ill-track{fill:#efe6d3}
+@keyframes rn-ill-lit{0%{opacity:0}4%,14%{opacity:1}24%,100%{opacity:0}}
+@keyframes rn-ill-dash{to{stroke-dashoffset:-16}}
+@keyframes rn-ill-grow{0%{transform:scaleY(0)}8%,45%{transform:scaleY(1)}55%,100%{transform:scaleY(0)}}
+@media (prefers-reduced-motion:reduce){.rn-ill-lit,.rn-ill-flow,.rn-ill-grad,.rn-ill-keep{animation:none}.rn-ill-grad,.rn-ill-keep{transform:scaleY(1)}.rn-ill-lit4{opacity:1}}
+html[data-motion=reduce] .rn-ill-lit,html[data-motion=reduce] .rn-ill-flow,html[data-motion=reduce] .rn-ill-grad,html[data-motion=reduce] .rn-ill-keep{animation:none}
+html[data-motion=reduce] .rn-ill-grad,html[data-motion=reduce] .rn-ill-keep{transform:scaleY(1)}
+html[data-motion=reduce] .rn-ill-lit4{opacity:1}
+</style>
+<text class="rn-ill-small" x="14" y="16">순전파: 은닉 상태 h가 셀을 차례로 지난다</text>
+<path class="rn-ill-flow" d="M14 44H44M88 44H118M162 44H192M236 44H266M310 44H330"/>
+<rect class="rn-ill-cell" x="44" y="26" width="44" height="36" rx="5"/><rect class="rn-ill-lit" x="44" y="26" width="44" height="36" rx="5"/>
+<rect class="rn-ill-cell" x="118" y="26" width="44" height="36" rx="5"/><rect class="rn-ill-lit rn-ill-lit2" x="118" y="26" width="44" height="36" rx="5"/>
+<rect class="rn-ill-cell" x="192" y="26" width="44" height="36" rx="5"/><rect class="rn-ill-lit rn-ill-lit3" x="192" y="26" width="44" height="36" rx="5"/>
+<rect class="rn-ill-cell" x="266" y="26" width="44" height="36" rx="5"/><rect class="rn-ill-lit rn-ill-lit4" x="266" y="26" width="44" height="36" rx="5"/>
+<text class="rn-ill-word" x="59" y="48">h₁</text><text class="rn-ill-word" x="133" y="48">h₂</text><text class="rn-ill-word" x="207" y="48">h₃</text><text class="rn-ill-word" x="281" y="48">h₄</text>
+<path class="rn-ill-wire" d="M66 76V62M140 76V62M214 76V62M288 76V62"/>
+<text class="rn-ill-small" x="61" y="86">x₁</text><text class="rn-ill-small" x="135" y="86">x₂</text><text class="rn-ill-small" x="209" y="86">x₃</text><text class="rn-ill-small" x="283" y="86">x₄</text>
+<text class="rn-ill-small" x="14" y="104">역전파: 되돌아오는 기울기의 크기</text>
+<text class="rn-ill-word" x="14" y="128">단순 RNN</text>
+<rect class="rn-ill-track" x="80" y="134" width="246" height="2"/>
+<rect class="rn-ill-grad rn-ill-g4" x="280" y="110" width="16" height="24"/>
+<rect class="rn-ill-grad rn-ill-g3" x="206" y="122" width="16" height="12"/>
+<rect class="rn-ill-grad rn-ill-g2" x="132" y="129" width="16" height="5"/>
+<rect class="rn-ill-grad rn-ill-g1" x="58" y="132" width="16" height="2"/>
+<text class="rn-ill-word" x="14" y="166">LSTM</text>
+<rect class="rn-ill-track" x="80" y="172" width="246" height="2"/>
+<rect class="rn-ill-keep rn-ill-g4" x="280" y="148" width="16" height="24"/>
+<rect class="rn-ill-keep rn-ill-g3" x="206" y="150" width="16" height="22"/>
+<rect class="rn-ill-keep rn-ill-g2" x="132" y="152" width="16" height="20"/>
+<rect class="rn-ill-keep rn-ill-g1" x="58" y="154" width="16" height="18"/>
+</svg>
