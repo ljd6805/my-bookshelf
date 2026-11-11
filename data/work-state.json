@@ -962,6 +962,28 @@
     ],
     "next_action": "2027-04-29 무렵 Claude Code·Codex 문서의 지침 파일 규칙 재확인"
   },
+  "recurrent_networks": {
+    "book": "「순환 신경망 · 은닉 상태와 기울기를 계산해 RNN·LSTM·GRU 견주기」 books/rnn/, id recurrent-networks, 인공지능, amber, 책등 순환신경망, 13장 · 13개 실험",
+    "plan": "사용자 요청(2026-11-11): 사내 교육 RNN 강의 자료와 본인 필기를 참고해 RNN 책을 추가. 강의 슬라이드와 코드는 옮기지 않고 구성만 참고함. 공통 사례: 지어낸 온실의 기온 기록과 후기 문장(유나). 계보 RNN → LSTM → Seq2Seq → 어텐션 → 트랜스포머에서 앞의 두 칸을 계산하고 「트랜스포머 깊이 보기」로 넘김. PyTorch 코드는 읽기 상자로만 둠.",
+    "docs": "books/rnn/docs/index.html(기획·교과과정·장 설계·문체 비평·리허설·관문 G0~G7), research.html, fact-review.html",
+    "status": "published (팩트 검수와 팀장 관문 승인 뒤 병합)",
+    "done": [
+      "13장 원고·실험 13개(RNN·LSTM·GRU의 순전파와 시간 방향 역전파를 브라우저에서 계산, 수치 미분과 대조), 장 그림 13개, 움직이는 서가 삽화, 정지 표지, review.json 37문항",
+      "서가 등록: chapter_index 13장, 새 개념 sequence-state(순서와 은닉 상태), gradient-backprop·overfitting-validation·vector-space·attention-kv에 장 추가, 새 노선 before-transformer",
+      "양방향 링크: aie-transformer#why → rnn#limits, aie-nlp#sequence → rnn#vanish, 이 책 12장 → aie-transformer#why 등",
+      "CI에 npm test --prefix books/rnn 추가",
+      "팩트 검수 1회차 지적 18건 반영: 단계 수 표기, 9장 초기값 여덟 가지의 범위, 드롭아웃 자리의 출처, 5장 제목과 책 부제, PyTorch 출처 두 건 분리",
+      "2회차 지적 11건과 첫 독자 리허설 요청 8건 반영: 예측 질문 11개를 본문에 없는 설정으로 교체, 실험 결과 문장 수정. 3회차의 막지 않는 지적 R3-1~R3-5도 반영",
+      "main 병합 뒤 「신경망의 계산」과 양방향 링크, 시리즈 aie-from-scratch 8권의 companions 첫 항목으로 등록"
+    ],
+    "verification": "npm test 36개, tests/browser.cjs 50개 화면·실험 39회 조작·오류 0, 팩트·출처 검수 세 회차(집필하지 않은 세션, 3회차 fixed), 첫 독자 리허설과 재확인",
+    "remaining": [
+      "PyTorch 문서는 2.15판 기준으로 대조함. 함수 인자와 기본값은 다음 개정 때 다시 확인",
+      "7장 창 길이별 검증 오차의 순서는 초기값 하나에서만 잼",
+      "논문 DOI 연결 일곱 건은 이 환경에서 열지 못해 Crossref 서지로 대조함"
+    ],
+    "next_action": "PyTorch 문서 판이 바뀌면 코드 상자의 인자와 기본값을 다시 대조"
+  },
   "deep_learning_split": {
     "request": "사용자 요청(2026-11-11, 스레드 「딥러닝 핵심 두 권으로 나누기」): 사내 교육 딥러닝 보강 자료와 본인 필기의 흐름(예측선 → 손실 → 경사하강 → 가중합과 활성화 → 역전파 → 기울기 소실 → 목적에 따른 구조)을 따라 「딥러닝 핵심」을 두 권으로 나눔. 사내 자료의 문장·그림은 옮기지 않음",
     "books": [
