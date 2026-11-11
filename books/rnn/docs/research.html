@@ -1,0 +1,83 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="순환 신경망 책의 조사 노트: 논문과 공식 문서의 출처 목록, 본문에 쓰는 사실 표, 확인하지 못한 것, 검산, 다시 확인할 것."><title>순환 신경망 · 조사 노트</title><link rel="stylesheet" href="../../../assets/project-docs.css"><style>table{border-collapse:collapse;width:100%;margin:12px 0 24px}th,td{border:1px solid rgba(127,127,127,.35);padding:6px 8px;vertical-align:top;text-align:left}code{font-family:var(--font-mono,monospace)}</style></head><body><header class="top"><a class="brand" href="index.html">순환 신경망 · 제작 문서</a><a href="../index.html">책 읽기</a></header><main style="max-width:1100px;margin:auto;padding:32px 16px">
+<h1>조사 노트 (G3 · 지식조사팀 은재·지호·수아·태오)</h1>
+
+<section id="intro"><h2>0. 이 노트를 읽는 법 (은재)</h2>
+<p>확인일은 모두 2026-11-11입니다. 이 노트는 글작성팀과 시각·실험팀이 본문과 실험에 옮겨 써도 되는 사실과, 옮길 때 붙여야 할 조건을 모은 것입니다. 검수팀은 여기서 검수를 시작합니다.</p>
+<p>이 작업 환경에서는 arxiv.org와 docs.pytorch.org를 셸(curl)로 열면 프록시가 403을 돌려줍니다. PyTorch 문서 여섯 쪽(nn.RNN, nn.LSTM, nn.GRU, nn.Embedding, pack_padded_sequence, clip_grad_norm_)은 웹 가져오기 도구로 열어 대조했습니다. 본문의 주소 <code>docs/stable/…</code>은 확인일에 2.15판(<code>docs/2.15/…</code>)으로 넘어갔습니다. 논문 열일곱 편은 집필 세션이 원문을 열지 못한 채 서지와 요지를 적었으므로, 원문 대조는 G6 검수(<a href="fact-review.html">fact-review.html</a>)가 맡았고 그 결과가 이 노트보다 우선합니다.</p>
+<p>규칙: 연구의 결과는 그 연구의 자료와 과제에서 나온 것이라 유나의 기록에 옮기지 않고, 이 책의 실험 숫자와 한 문장에서 견주지 않습니다. 이 책의 학습 숫자(7·10·11장)는 합성 자료 하나와 초기값 하나의 결과라고 화면과 본문에 밝힙니다. 사내 교육 자료(강의 슬라이드, 실습 코드)는 출처로 쓰지 않았고 문장·그림·코드를 옮기지 않았습니다.</p>
+</section>
+
+<section id="sources"><h2>1. 출처 (지호)</h2>
+<table><tr><th>번호</th><th>출처</th><th>본문에 적은 요지</th><th>쓰는 장</th><th>확인 방법</th></tr>
+<tr><td>0</td><td><a href="https://doi.org/10.1207/s15516709cog1402_1">Elman (1990), Finding Structure in Time, Cognitive Science 14(2), 179–211</a></td><td>앞 시점의 은닉층 값을 다음 시점의 입력에 함께 넣는 단순 순환 신경망을 제안하고, 낱말을 하나씩 읽으며 다음 낱말을 예측하게 했다. 이 책이 “단순 RNN”이라고 부르는 구조의 출발점이다.</td><td>1, 2, 3</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>1</td><td><a href="https://doi.org/10.1109/5.58337">Werbos (1990), Backpropagation Through Time: What It Does and How to Do It, Proceedings of the IEEE 78(10), 1550–1560</a></td><td>순환이 있는 신경망을 시간 축으로 펼친 뒤 역전파하는 방법을 정리했다. 5장의 시간 방향 역전파(BPTT)가 이 방법이다.</td><td>5</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>2</td><td><a href="https://doi.org/10.1162/neco.1990.2.4.490">Williams &amp; Peng (1990), An Efficient Gradient-Based Algorithm for On-Line Training of Recurrent Network Trajectories, Neural Computation 2(4), 490–501</a></td><td>기울기를 정해진 단계 수만큼만 거슬러 오르게 하는 잘린 BPTT를 다뤘다. 7장의 방법이다.</td><td>7</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>3</td><td><a href="https://doi.org/10.1109/72.279181">Bengio, Simard &amp; Frasconi (1994), Learning Long-Term Dependencies with Gradient Descent Is Difficult, IEEE Transactions on Neural Networks 5(2), 157–166</a></td><td>순환 신경망이 정보를 오래 간직하도록 학습될수록 먼 시점에 대한 기울기가 작아져 경사하강법으로 배우기 어려워진다는 것을 보였다.</td><td>6</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>4</td><td><a href="https://arxiv.org/abs/1211.5063">Pascanu, Mikolov &amp; Bengio (2013), On the Difficulty of Training Recurrent Neural Networks, ICML</a></td><td>기울기 소실과 폭발을 순환 가중치 행렬의 가장 큰 특잇값으로 분석하고, 기울기의 크기(노름)가 한도를 넘으면 한도에 맞춰 줄이는 기울기 자르기를 제안했다.</td><td>6, 7, 13</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>5</td><td><a href="https://doi.org/10.1162/neco.1997.9.8.1735">Hochreiter &amp; Schmidhuber (1997), Long Short-Term Memory, Neural Computation 9(8), 1735–1780</a></td><td>오차가 줄지 않고 흐르는 셀(constant error carousel)과 입력·출력 게이트를 둔 LSTM을 제안했다. 이 논문의 LSTM에는 망각 게이트가 없다.</td><td>8</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>6</td><td><a href="https://doi.org/10.1162/089976600300015015">Gers, Schmidhuber &amp; Cummins (2000), Learning to Forget: Continual Prediction with LSTM, Neural Computation 12(10), 2451–2471</a></td><td>LSTM에 망각 게이트를 더해 셀 상태를 스스로 비울 수 있게 했다. 지금 쓰는 LSTM 식의 f가 여기서 나왔다.</td><td>8</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>7</td><td><a href="https://arxiv.org/abs/1406.1078">Cho et al. (2014), Learning Phrase Representations using RNN Encoder–Decoder for Statistical Machine Translation, EMNLP</a></td><td>RNN 인코더–디코더와, 재설정·갱신 게이트 두 개를 쓰는 새 은닉 유닛을 제안했다. 이 유닛이 뒤에 GRU라고 불린다. 이 책의 GRU 계산은 이 논문의 식을 따른다.</td><td>9, 10</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>8</td><td><a href="https://arxiv.org/abs/1412.3555">Chung, Gulcehre, Cho &amp; Bengio (2014), Empirical Evaluation of Gated Recurrent Neural Networks on Sequence Modeling</a></td><td>음악과 음성 자료에서 LSTM, GRU, tanh 유닛을 견주었다. 게이트가 있는 두 유닛이 tanh 유닛보다 나았고, 둘 가운데 어느 쪽이 낫다는 결론은 내리지 못했다.</td><td>9</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>9</td><td><a href="https://proceedings.mlr.press/v37/jozefowicz15.html">Jozefowicz, Zaremba &amp; Sutskever (2015), An Empirical Exploration of Recurrent Network Architectures, ICML</a></td><td>만 개가 넘는 순환 구조를 탐색해 견주었다. LSTM의 망각 게이트 편향을 1로 두면 GRU와의 차이가 줄어든다고 보고했다.</td><td>9, 13</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>10</td><td><a href="https://arxiv.org/abs/1409.3215">Sutskever, Vinyals &amp; Le (2014), Sequence to Sequence Learning with Neural Networks, NeurIPS</a></td><td>여러 층의 LSTM이 입력 문장을 고정 길이 벡터 하나로 줄이고 다른 LSTM이 그 벡터에서 번역문을 낸다. 원문의 낱말 순서를 뒤집어 넣으면 성능이 올랐다고 보고했다.</td><td>4, 12</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>11</td><td><a href="https://arxiv.org/abs/1409.0473">Bahdanau, Cho &amp; Bengio (2015), Neural Machine Translation by Jointly Learning to Align and Translate, ICLR</a></td><td>문장을 고정 길이 벡터 하나로 줄이는 것이 병목이라고 보고, 출력 낱말마다 원문의 어느 위치를 볼지 가중치를 계산하는 방법(어텐션)을 더했다.</td><td>12</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>12</td><td><a href="https://arxiv.org/abs/1706.03762">Vaswani et al. (2017), Attention Is All You Need, NeurIPS</a></td><td>순환 없이 어텐션만으로 만든 트랜스포머를 제안했다. 표 1은 층 하나의 복잡도를 셀프 어텐션 O(n²·d), 순환층 O(n·d²)로, 차례로 해야 하는 연산을 O(1)과 O(n)으로, 가장 긴 경로를 O(1)과 O(n)으로 적는다. 12장 실험의 근거다.</td><td>12</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>13</td><td><a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/">Karpathy (2015), The Unreasonable Effectiveness of Recurrent Neural Networks (블로그 글)</a></td><td>입력과 출력의 개수에 따라 RNN의 쓰임을 one-to-one, one-to-many, many-to-one, many-to-many로 나눈 그림이 실려 있다. 4장의 분류가 이 그림에서 널리 퍼졌다.</td><td>1, 4</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>14</td><td><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.RNN.html">PyTorch 문서 · torch.nn.RNN</a></td><td>h_t = tanh(x_t W_ih^T + b_ih + h_(t−1) W_hh^T + b_hh). 편향이 b_ih와 b_hh 두 벌이고, batch_first의 기본값은 False라 입력 모양이 (길이, 묶음, 특성)이다. 반환값은 모든 시점의 출력과 마지막 은닉 상태다. 확인일 2026-11-11.</td><td>2, 3</td><td>집필 세션이 웹 가져오기 도구로 2.15판 문서를 열어 식·기본값·반환값을 대조함(2026-11-11)</td></tr>
+<tr><td>15</td><td><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.LSTM.html">PyTorch 문서 · torch.nn.LSTM, torch.nn.GRU</a></td><td>LSTM의 가중치는 입력·망각·후보·출력(i, f, g, o) 순서로 쌓여 있고 반환값은 출력과 (h_n, c_n)이다. GRU(같은 문서 묶음의 torch.nn.GRU)는 재설정 게이트를 W_hn·h + b_hn을 계산한 뒤에 곱한다. 확인일 2026-11-11.</td><td>8, 10</td><td>집필 세션이 웹 가져오기 도구로 2.15판 문서를 열어 식·기본값·반환값을 대조함(2026-11-11)</td></tr>
+<tr><td>16</td><td><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.rnn.pack_padded_sequence.html">PyTorch 문서 · torch.nn.utils.rnn.pack_padded_sequence, torch.nn.Embedding</a></td><td>길이가 다른 시퀀스에 패딩을 붙인 묶음과 실제 길이를 함께 넘겨, 순환층이 패딩 자리를 계산하지 않게 한다. nn.Embedding의 padding_idx로 정한 번호의 벡터는 학습 중에 갱신되지 않는다. 확인일 2026-11-11.</td><td>10</td><td>집필 세션이 웹 가져오기 도구로 2.15판 문서를 열어 식·기본값·반환값을 대조함(2026-11-11)</td></tr>
+<tr><td>17</td><td><a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.utils.clip_grad_norm_.html">PyTorch 문서 · torch.nn.utils.clip_grad_norm_</a></td><td>모든 파라미터의 기울기를 한 벡터로 본 노름이 max_norm을 넘으면 기울기 전체를 같은 비율로 줄인다. 확인일 2026-11-11.</td><td>6</td><td>집필 세션이 웹 가져오기 도구로 2.15판 문서를 열어 식·기본값·반환값을 대조함(2026-11-11)</td></tr>
+<tr><td>18</td><td><a href="https://jmlr.org/papers/v15/srivastava14a.html">Srivastava et al. (2014), Dropout: A Simple Way to Prevent Neural Networks from Overfitting, JMLR 15, 1929–1958</a></td><td>학습할 때 유닛을 무작위로 꺼서 과적합을 줄이는 드롭아웃을 정리했다.</td><td>11</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>19</td><td><a href="https://arxiv.org/abs/1409.2329">Zaremba, Sutskever &amp; Vinyals (2014), Recurrent Neural Network Regularization</a></td><td>LSTM에서 드롭아웃을 시점 사이의 순환 연결에는 쓰지 않고 층 사이의 연결에만 쓰면 과적합이 줄어든다고 보고했다.</td><td>11</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr>
+<tr><td>20</td><td><a href="https://doi.org/10.1007/3-540-49430-8_3">Prechelt (1998), Early Stopping — But When?, Neural Networks: Tricks of the Trade, LNCS 1524, 55–69</a></td><td>검증 오차가 오르기 시작할 때 학습을 멈추는 조기 종료의 기준을 여러 가지로 견주었다. 검증 곡선은 매끄럽지 않아 한 번 올랐다고 바로 멈추면 이르다는 점을 다룬다.</td><td>11, 13</td><td>서지와 요지는 집필 세션이 아는 내용으로 적음. 원문 대조는 G6 검수 기록을 따름</td></tr></table>
+</section>
+
+<section id="facts"><h2>2. 사실 주장 표 (은재 정리)</h2>
+<table><tr><th>장</th><th>주장 (본문에 쓰는 형태)</th><th>출처</th><th>조건·주의</th></tr>
+<tr><td>2</td><td>h_t = tanh(W_xh·x_t + W_hh·h_(t−1) + b). 앞 시점의 은닉층 값을 다음 시점에 함께 넣는 구조는 Elman(1990)의 단순 순환 신경망</td><td>0, 14</td><td>PyTorch는 편향을 두 벌(b_ih, b_hh) 둔다. 본문 식은 한 벌로 적고 3장 식 설명에서 차이를 밝힘</td></tr>
+<tr><td>3</td><td>입력 1, 은닉 10인 nn.RNN의 파라미터는 130개(10 + 100 + 10 + 10). batch_first의 기본값은 False</td><td>14</td><td>문서의 학습 변수 모양에서 계산. 이 책의 131은 편향 한 벌(120) + 출력층 11</td></tr>
+<tr><td>4</td><td>one-to-many, many-to-one, many-to-many 구분은 Karpathy(2015)의 그림에서 널리 퍼짐</td><td>13</td><td>“널리 퍼졌다”까지만 쓰고 처음 만든 사람이라고 쓰지 않음. 번역형(다 읽은 뒤 쓰기)은 그 그림의 넷째 형태</td></tr>
+<tr><td>5</td><td>펼친 뒤 역전파하는 방법이 BPTT (Werbos 1990)</td><td>1</td><td>BPTT를 Werbos 혼자 만들었다고 쓰지 않고 “정리했다”로 씀</td></tr>
+<tr><td>6</td><td>tanh의 미분은 0~1, 시그모이드의 미분은 0~0.25</td><td>수식</td><td>σ′ = σ(1−σ)의 최댓값은 σ = 0.5에서 0.25</td></tr>
+<tr><td>6</td><td>정보를 오래 간직하도록 학습될수록 먼 시점의 기울기가 작아진다 (Bengio 등 1994)</td><td>3</td><td>논문의 조건(정보를 잡음에 견디게 붙잡아 두는 상태)을 “오래 간직하도록”으로 풀어 씀</td></tr>
+<tr><td>6</td><td>기울기 노름이 한도를 넘으면 한도에 맞춰 줄이는 자르기 (Pascanu 등 2013). clip_grad_norm_은 자르기 전의 전체 노름을 돌려준다</td><td>4, 17</td><td>자르기는 폭발에만 쓰는 방법. 같은 논문은 소실에는 다른 규제 항을 제안했으나 이 책은 다루지 않음</td></tr>
+<tr><td>7</td><td>기울기를 정해진 단계만큼만 거슬러 오르는 잘린 BPTT (Williams &amp; Peng 1990)</td><td>2</td><td>창 사이에 은닉 상태 값을 넘기는 것은 실무에서 흔한 구현(PyTorch의 detach)으로 설명</td></tr>
+<tr><td>8</td><td>LSTM 식 i, f, g, o, c_t = f⊙c_(t−1) + i⊙g, h_t = o⊙tanh(c_t). 1997년 논문에는 망각 게이트가 없고 Gers 등(2000)이 더함</td><td>5, 6, 15</td><td>PyTorch 가중치의 게이트 순서는 i, f, g, o</td></tr>
+<tr><td>9</td><td>GRU: 갱신·재설정 게이트 둘 (Cho 등 2014). PyTorch의 nn.GRU는 재설정 게이트를 W_hn·h + b_hn 뒤에 곱함</td><td>7, 15</td><td>이 책의 계산(js/math.js)은 Cho 등의 식. 차이를 식 설명에 밝힘. “GRU”라는 이름은 Chung 등(2014)부터 쓰임</td></tr>
+<tr><td>9</td><td>LSTM과 GRU가 tanh 유닛보다 나았고 둘의 우열은 가리지 못함 (Chung 등 2014). 망각 게이트 편향 1 (Jozefowicz 등 2015)</td><td>8, 9</td><td>연구의 자료(음악·음성, 언어 모형 등)에서의 결과. 이 책의 실험 숫자와 한 문장에서 견주지 않음</td></tr>
+<tr><td>10</td><td>pack_padded_sequence는 길이를 함께 받아 패딩 자리를 건너뛰게 한다. enforce_sorted의 기본값은 True. padding_idx의 벡터는 기울기를 받지 않는다</td><td>16</td><td>코드 상자는 enforce_sorted=False를 명시</td></tr>
+<tr><td>11</td><td>드롭아웃 (Srivastava 등 2014). 순환 연결이 아닌 연결에만 쓰기 (Zaremba 등 2014). 조기 종료의 기준 (Prechelt 1998)</td><td>18, 19, 20</td><td>이 책의 실험은 출력층 앞에만 드롭아웃을 둠</td></tr>
+<tr><td>12</td><td>층별 복잡도 O(n·d²)와 O(n²·d), 직렬 연산 O(n)과 O(1), 최대 경로 O(n)과 O(1) (Vaswani 등 2017 표 1)</td><td>12</td><td>차수에 숫자를 넣은 것이며 실행 시간이 아니라고 화면과 식 설명에 밝힘</td></tr>
+<tr><td>12</td><td>인코더가 문장을 고정 길이 벡터로 줄이는 Seq2Seq (Sutskever 등 2014), 그 벡터가 병목이라 보고 원문 위치마다 가중치를 계산 (Bahdanau 등 2015)</td><td>10, 11</td><td>Bahdanau의 어텐션은 RNN 인코더–디코더에 더한 부품이라고 혼동 상자에 밝힘</td></tr>
+<tr><td>12</td><td>BERT는 트랜스포머의 인코더 쪽, GPT는 디코더 쪽, T5는 둘을 함께 씀</td><td>다른 책</td><td>이 책은 한 문장으로만 쓰고 「트랜스포머 깊이 보기」 #bertgpt·#encdec로 보냄</td></tr></table>
+</section>
+
+<section id="unverified"><h2>3. 확인하지 못한 것 (태오)</h2>
+<ul><li>논문 열일곱 편의 쪽수·권호와 본문 요지를 집필 세션은 원문과 대조하지 못했습니다. G6 검수 기록의 sources 항목이 대조 결과와 남은 것을 적습니다.</li>
+<li>Jozefowicz 등(2015)이 탐색한 구조의 수를 본문은 “만 개가 넘는”으로만 적었습니다. 정확한 수는 쓰지 않았습니다.</li>
+<li>Sutskever 등(2014)의 번역 점수(BLEU)와 층 수는 본문에 쓰지 않았습니다.</li>
+<li>이 책의 학습 실험이 다른 초기값과 자료에서 같은 순서(예: 24시간 창이 가장 낮은 검증 오차)를 보이는지는 재지 않았습니다. 후기 분류기만 초기값 열두 개의 범위(학습에 없던 8문장 가운데 2~8개)를 쟀습니다.</li></ul>
+</section>
+
+<section id="checks"><h2>4. 수아의 검산 (책 코드와 따로 계산)</h2>
+<table><tr><th>값</th><th>손 계산</th><th>책 코드·본문</th></tr>
+<tr><td>2장 흔적</td><td>tanh(1) = 0.7616, tanh(0.5×0.7616) = 0.3634, tanh(0.5×0.3634) = 0.1797, tanh(0.5×0.1797) = 0.0896, 다음은 0.0448 → 5번째에 처음의 5.9%</td><td>0.76, 0.36, 0.18, 0.09, 5번째</td></tr>
+<tr><td>3장 파라미터</td><td>10·1 + 10·10 + 10 = 120, 출력층 10 + 1 = 11, 합 131. 완전 연결 24·10 + 10 + 11 = 261, 200·10 + 10 + 11 = 2,021. 은닉 64: 64 + 4,096 + 64 + 65 = 4,289</td><td>131, 261, 2,021, 4,289</td></tr>
+<tr><td>5장 기울기</td><td>W_hh 0.9, W_xh 0.7, 입력 0.5·−0.3·0.8, 정답 0.5: 손으로 순전파한 h = 0.3364, 0.0925, 0.5670 → 손실 ½(0.0670)² = 0.00225</td><td>0.00225, 몫의 합 0.01787 = 수치 미분 0.01787</td></tr>
+<tr><td>6장 거듭제곱</td><td>0.9²⁹ = 0.0471, 1.5²⁹ = 127,834, 0.5¹⁰ = 1/1,024</td><td>0.047, 1.3×10⁵</td></tr>
+<tr><td>8장 게이트</td><td>0.5×1 + 0.5×0.8 = 0.9, tanh(0.9) = 0.7163, 0.5¹² = 0.000244, 0.95¹² = 0.5404</td><td>0.900, 0.716, 2.4×10⁻⁴, 0.54</td></tr>
+<tr><td>9장 파라미터</td><td>LSTM 4 × (8·1 + 8·8 + 8 + 8) = 352, GRU 3 × 88 = 264, RNN 88 (PyTorch의 편향 두 벌 기준)</td><td>코드 상자의 주석 352, 264, 88</td></tr>
+<tr><td>12장 차수</td><td>50 × 64² = 204,800, 50² × 64 = 160,000, 200 × 64² = 819,200, 200² × 64 = 2,560,000 (비 3.125)</td><td>같음</td></tr>
+<tr><td>역전파 전체</td><td>RNN·LSTM·GRU의 모든 가중치 기울기를 중심 차분(ε = 10⁻⁵)과 대조</td><td>최대 차이 10⁻⁷ 미만 (tests/math.test.cjs)</td></tr></table>
+</section>
+
+<section id="recheck"><h2>5. 다시 확인할 것 (은재)</h2>
+<ul><li>PyTorch 문서의 식과 기본값(특히 batch_first, enforce_sorted, GRU의 재설정 게이트 위치)은 판이 바뀌면 다시 대조합니다. 다음 개정 때 2.15판에서 달라진 점이 있는지 봅니다.</li>
+<li>「딥러닝 핵심」이 두 권으로 나뉘면 이 책의 ../aie-deep/ 링크 여덟 곳(#forward, #backprop, #activation, #optimizer, #init 두 곳, #debug 두 곳)의 주소를 옮깁니다.</li>
+<li>후기 분류기의 자료나 모델 크기를 바꾸면 초기값에 따른 범위를 다시 재고 10장 본문과 안내의 문장을 고칩니다.</li></ul>
+</section>
+
+<section id="handoff"><h2>6. 다음 팀에 넘기는 메모 (은재)</h2>
+<p>글작성팀: “LSTM이 기울기 소실을 해결했다”고 쓰지 말고 게이트가 열려 있을 때라는 조건을 붙여 주세요. 연구자 이름 뒤의 동사는 제안했다·보였다·보고했다를 원문에 맞게 고릅니다. 시각·실험팀: 학습 결과를 보여 주는 화면마다 자료와 초기값이 하나라는 점을 밝혀 주세요. 검수팀: 출처 3~12의 서지와 요지를 가장 먼저 원문과 대조해 주세요. 집필 세션이 열지 못한 곳입니다.</p>
+</section>
+</main></body></html>
