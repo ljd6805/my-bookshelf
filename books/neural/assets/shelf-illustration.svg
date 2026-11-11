@@ -1,0 +1,29 @@
+<svg class="nc-ill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 180" role="img" aria-label="점 여덟 개 위에서 예측선이 조금씩 돌아가며 점들에 맞춰지고, 그때마다 오른쪽 손실 막대가 줄어드는 경사하강 과정을 보여 주는 시각적 비유">
+<style>
+.nc-ill-bg{fill:#f4f6ee}
+.nc-ill-axis{stroke:#9aa88c;stroke-width:1.2;fill:none}
+.nc-ill-pt{fill:#3c6fb0}
+.nc-ill-label{font:600 11px sans-serif;fill:#2f4a1c}
+.nc-ill-small{font:500 10px sans-serif;fill:#5d6b52}
+.nc-ill-line{stroke:#4f7a2a;stroke-width:3;stroke-linecap:round;transform-box:view-box;transform-origin:30px 128px;animation:nc-ill-fit 5s ease-in-out infinite}
+.nc-ill-bar{fill:#c26a1d;transform-box:fill-box;transform-origin:center bottom;animation:nc-ill-loss 5s ease-in-out infinite}
+.nc-ill-step{fill:#c26a1d;animation:nc-ill-walk 5s ease-in-out infinite}
+@keyframes nc-ill-fit{0%,8%{transform:rotate(18deg) translate(0,14px)}30%{transform:rotate(8deg) translate(0,7px)}55%{transform:rotate(2deg) translate(0,2px)}75%,100%{transform:rotate(0deg) translate(0,0)}}
+@keyframes nc-ill-loss{0%,8%{transform:scaleY(1)}30%{transform:scaleY(.5)}55%{transform:scaleY(.2)}75%,100%{transform:scaleY(.08)}}
+@keyframes nc-ill-walk{0%,8%{transform:translate(0,0)}30%{transform:translate(18px,40px)}55%{transform:translate(32px,62px)}75%,100%{transform:translate(42px,70px)}}
+html[data-motion=reduce] .nc-ill-line,html[data-motion=reduce] .nc-ill-bar,html[data-motion=reduce] .nc-ill-step{animation:none}
+html[data-motion=reduce] .nc-ill-bar{transform:scaleY(.08)}
+html[data-motion=reduce] .nc-ill-step{transform:translate(42px,70px)}
+@media(prefers-reduced-motion:reduce){.nc-ill-line,.nc-ill-bar,.nc-ill-step{animation:none}.nc-ill-bar{transform:scaleY(.08)}.nc-ill-step{transform:translate(42px,70px)}}
+</style>
+<rect class="nc-ill-bg" width="340" height="180"/>
+<path class="nc-ill-axis" d="M24 150H200M24 150V22"/>
+<path class="nc-ill-line" d="M30 128L194 40"/>
+<circle class="nc-ill-pt" cx="38" cy="126" r="4.5"/><circle class="nc-ill-pt" cx="60" cy="110" r="4.5"/><circle class="nc-ill-pt" cx="82" cy="102" r="4.5"/><circle class="nc-ill-pt" cx="104" cy="86" r="4.5"/><circle class="nc-ill-pt" cx="126" cy="78" r="4.5"/><circle class="nc-ill-pt" cx="148" cy="62" r="4.5"/><circle class="nc-ill-pt" cx="170" cy="56" r="4.5"/><circle class="nc-ill-pt" cx="190" cy="40" r="4.5"/>
+<text class="nc-ill-small" x="200" y="166" text-anchor="end">기온</text><text class="nc-ill-small" x="28" y="18">판매</text>
+<path class="nc-ill-axis" d="M228 150H322M228 150V30"/>
+<path class="nc-ill-axis" d="M236 48C252 110 268 136 284 138S308 132 318 112"/>
+<circle class="nc-ill-step" cx="241" cy="66" r="5"/>
+<rect class="nc-ill-bar" x="300" y="60" width="16" height="90" rx="2" opacity=".55"/>
+<text class="nc-ill-label" x="232" y="22">손실</text><text class="nc-ill-small" x="322" y="166" text-anchor="end">w를 한 걸음씩</text>
+</svg>

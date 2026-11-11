@@ -29,7 +29,7 @@ class ReadingOrderTests(unittest.TestCase):
         series = [v['book_id'] for v in catalog['series'][0]['volumes'] if v.get('book_id')]
         aie = [s['book'] for s in orders['AI공학'] if s['book'] in series]
         self.assertEqual(aie, series)
-        self.assertEqual([s['book'] for s in orders['인공지능']][:3], ['ai-book-interactive', 'llm-systems', 'llm-performance'])
+        self.assertEqual([s['book'] for s in orders['인공지능']][:3], ['ai-book-interactive', 'neural-computation', 'llm-systems'])
         self.assertEqual(orders['지식관리'][0]['book'], 'search-rag')
 
     def test_shelf_must_stand_books_in_reading_order(self):

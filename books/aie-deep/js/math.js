@@ -24,34 +24,8 @@ const ACT={
 };
 const act=(name,z)=>ACT[name][0](z),dact=(name,z)=>ACT[name][1](z);
 
-/* 1장: 퍼셉트론 학습 규칙. w←w+lr·(y−ŷ)·x, 가중치와 편향은 0에서 출발한다. */
-const GATES={AND:[0,0,0,1],OR:[0,1,1,1],NAND:[1,1,1,0],XOR:[0,1,1,0]};
-const CORNERS=[[0,0],[0,1],[1,0],[1,1]];
-function perceptron(gate,epochs,lr=0.1){
- let w=[0,0],b=0;const hist=[];const Y=GATES[gate];
- for(let e=0;e<epochs;e++){let err=0;
-  CORNERS.forEach((x,i)=>{const yh=w[0]*x[0]+w[1]*x[1]+b>=0?1:0,d=Y[i]-yh;if(d){err++;w=[w[0]+lr*d*x[0],w[1]+lr*d*x[1]];b+=lr*d;}});
-  hist.push({w:[...w],b,errors:err});}
- const conv=hist.findIndex(h=>h.errors===0);
- return {w,b,hist,converged:conv>=0,convergedAt:conv+1,predict:CORNERS.map(x=>w[0]*x[0]+w[1]*x[1]+b>=0?1:0)};
-}
-
-/* 2장: 손으로 정한 2-2-1 XOR 망. k는 가중치 크기, 은닉 1은 OR, 은닉 2는 NAND, 출력은 AND를 흉내 낸다. */
-function xorForward(k,name='sigmoid'){
- const f=z=>name==='linear'?z:sigmoid(z);
- return CORNERS.map(([a,b])=>{const h1=f(k*a+k*b-k/2),h2=f(-k*a-k*b+1.5*k),o=f(k*h1+k*h2-1.5*k);return {x:[a,b],h1,h2,out:o};});
-}
-
-/* 3장: 뉴런 하나의 연쇄법칙. L=(σ(w·x+b)−y)². 국소 도함수를 곱해 dL/dw를 구하고 중앙 차분과 비교한다. */
-function chain(w,x=1.5,b=-0.5,y=1){
- const z=w*x+b,a=sigmoid(z),L=(a-y)**2,dLda=2*(a-y),dadz=a*(1-a),dLdz=dLda*dadz;
- const h=1e-5,Lw=v=>(sigmoid(v*x+b)-y)**2,num=(Lw(w+h)-Lw(w-h))/(2*h);
- return {z,a,L,dLda,dadz,dLdz,dLdw:dLdz*x,dLdb:dLdz,numeric:num};
-}
-
-/* 데이터: 원 판별(가로세로 [-1,1], 반지름 0.8) 또는 XOR 네 점. noise는 학습 라벨을 뒤집을 확률. */
+/* 데이터: 원 판별(가로세로 [-1,1], 반지름 0.8). noise는 학습 라벨을 뒤집을 확률. */
 function dataset(kind,n,seed,noise=0){
- if(kind==='xor')return {X:CORNERS.map(p=>[...p]),Y:[...GATES.XOR]};
  const r=rng(seed),X=[],Y=[];
  for(let i=0;i<n;i++){const p=[r()*2-1,r()*2-1];let y=p[0]**2+p[1]**2<CIRCLE_R2?1:0;if(r()<noise)y=1-y;X.push(p);Y.push(y);}
  return {X,Y};
@@ -113,7 +87,7 @@ function evaluate(net,D,name){const ws=workspace(net),af=ACT[name][0];let loss=0
 /* 공통 사례의 학습기. cfg 기본값은 아래 DEFAULT. bug는 디버깅 장의 의도적 고장이다. */
 const DEFAULT={data:'circle',n:80,valN:200,noise:0,width:8,depth:1,act:'tanh',init:'xavier',opt:'adam',lr:0.05,epochs:200,wd:0,dropout:0,schedule:'const',warm:0.05,loss:'bce',bug:'none',seed:1};
 function train(options){
- const c={...DEFAULT,...options},r=rng(c.seed*31+7),D=dataset(c.data,c.n,c.seed,c.noise),V=c.data==='xor'?D:dataset('circle',c.valN,c.seed+1000,0);
+ const c={...DEFAULT,...options},r=rng(c.seed*31+7),D=dataset(c.data,c.n,c.seed,c.noise),V=dataset('circle',c.valN,c.seed+1000,0);
  if(c.bug==='labels'){for(let i=D.Y.length-1;i>0;i--){const j=Math.floor(r()*(i+1));[D.Y[i],D.Y[j]]=[D.Y[j],D.Y[i]];}}
  const scale=c.bug==='scale'?50:1,X=D.X.map(p=>Float64Array.from(p,v=>v*scale)),VX={X:V.X.map(p=>Float64Array.from(p,v=>v*scale)),Y:V.Y};
  const net=build([2,...Array(c.depth).fill(c.width),1],c.init,c.seed),params=net.flatMap(L=>[L.W,L.b]);
@@ -136,7 +110,7 @@ function train(options){
 /* 판별 지도: 격자마다 원 안일 확률 */
 function decisionGrid(net,name,n=20,scale=1){const g=[],ws=workspace(net),af=ACT[name][0];for(let r=0;r<n;r++){const row=[];for(let c=0;c<n;c++){const x=-1+(c+.5)*2/n,y=1-(r+.5)*2/n;row.push(forward(net,ws,Float64Array.of(x*scale,y*scale),af));}g.push(row);}return g;}
 
-/* 4·8장: 폭 width인 깊은 망에 무작위 입력을 흘려 층마다 활성값 표준편차(순방향)와 기울기 크기(역방향)를 잰다. */
+/* 3장: 폭 width인 깊은 망에 무작위 입력을 흘려 층마다 활성값 표준편차(순방향)와 기울기 크기(역방향)를 잰다. */
 function deepStats(name,init,depth,width=48,seed=3,batch=12){
  const r=rng(seed),Ws=[];for(let l=0;l<depth;l++){const s=initStd(init,width,width),W=new Float64Array(width*width);for(let i=0;i<W.length;i++)W[i]=s*normal(r);Ws.push(W);}
  const fwd=new Array(depth).fill(0),bwd=new Array(depth).fill(0);
@@ -147,7 +121,7 @@ function deepStats(name,init,depth,width=48,seed=3,batch=12){
  }
  return {fwd,bwd};
 }
-/* 8장 실험의 블록 구조 선택. 순방향 활성값 표준편차만 잰다(학습 전 한 순간).
+/* 3장 실험의 블록 구조 선택. 순방향 활성값 표준편차만 잰다(학습 전 한 순간).
    plain: a←φ(Wa) · residual: a←a+φ(Wa) · scaled: a←a+φ(Wa)/√L (GPT-2처럼 잔차 덧셈 수 L로 줄임)
    layernorm: a←φ(LN(Wa)), LN은 한 표본의 48개 값을 평균 0·표준편차 1로 맞춘다(학습되는 이득·이동은 1·0으로 둠). */
 const BLOCKS=['plain','residual','scaled','layernorm'];
@@ -165,21 +139,27 @@ function blockStats(name,init,depth,block='plain',width=48,seed=3,batch=12){
 }
 function std(a){const m=a.reduce((s,v)=>s+v,0)/a.length;return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/a.length);}
 
-/* 5장: 정답이 1인 표본에서 예측 확률 p에 대한 손실과, 로짓 z에 대한 기울기 */
-function lossAt(p,y=1){const q=Math.min(1-1e-7,Math.max(1e-7,p));return {mse:(q-y)**2,bce:bce(q,y),gMse:2*(q-y)*q*(1-q),gBce:q-y,focal:(1-(y?q:1-q))**2*bce(q,y)};}
-function smooth(k,alpha){return Array.from({length:k},(_,i)=>i===0?1-alpha+alpha/k:alpha/k);}
-
-/* 6장: 좁고 긴 골짜기 f(x,y)=½(x²+25y²)에서 옵티마이저 경로 */
+/* 1장: 좁고 긴 골짜기 f(x,y)=½(x²+25y²)에서 옵티마이저 경로.
+   sgd: p←p−ηg · momentum: v←0.9v+g · adagrad: s←s+g², p←p−ηg/(√s+ε) · rmsprop: s←0.9s+0.1g² · adam: 편향 보정한 m/√v
+   eff는 AdaGrad·RMSProp에서 가로(x) 방향의 유효 학습률 η/√s를 걸음마다 적은 것이다. */
 const VALLEY=[1,25];
+function valleyStep(opt,p,g,m,v,lr,t){
+ for(let i=0;i<2;i++){
+  if(opt==='sgd')p[i]-=lr*g[i];
+  else if(opt==='momentum'){m[i]=0.9*m[i]+g[i];p[i]-=lr*m[i];}
+  else if(opt==='adagrad'){v[i]+=g[i]**2;p[i]-=lr*g[i]/(Math.sqrt(v[i])+1e-8);}
+  else if(opt==='rmsprop'){v[i]=0.9*v[i]+0.1*g[i]**2;p[i]-=lr*g[i]/(Math.sqrt(v[i])+1e-8);}
+  else{m[i]=0.9*m[i]+0.1*g[i];v[i]=0.999*v[i]+0.001*g[i]**2;p[i]-=lr*(m[i]/(1-0.9**t))/(Math.sqrt(v[i]/(1-0.999**t))+1e-8);}
+ }
+}
 function valley(opt,lr,steps=40,start=[-4,1.2]){
- let p=[...start];const path=[[...p]],m=[0,0],v=[0,0];
- for(let t=1;t<=steps;t++){const g=[VALLEY[0]*p[0],VALLEY[1]*p[1]];
-  for(let i=0;i<2;i++){if(opt==='sgd')p[i]-=lr*g[i];else if(opt==='momentum'){m[i]=0.9*m[i]+g[i];p[i]-=lr*m[i];}else{m[i]=0.9*m[i]+0.1*g[i];v[i]=0.999*v[i]+0.001*g[i]**2;p[i]-=lr*(m[i]/(1-0.9**t))/(Math.sqrt(v[i]/(1-0.999**t))+1e-8);}}
-  if(!p.every(Number.isFinite)||Math.abs(p[0])>1e6||Math.abs(p[1])>1e6)return {path,diverged:t,f:Infinity};path.push([...p]);}
- return {path,diverged:0,f:0.5*(VALLEY[0]*p[0]**2+VALLEY[1]*p[1]**2)};
+ let p=[...start];const path=[[...p]],m=[0,0],v=[0,0],moves=[],eff=[];
+ for(let t=1;t<=steps;t++){const g=[VALLEY[0]*p[0],VALLEY[1]*p[1]],q=[...p];valleyStep(opt,p,g,m,v,lr,t);
+  if(!p.every(Number.isFinite)||Math.abs(p[0])>1e6||Math.abs(p[1])>1e6)return {path,moves,eff,diverged:t,f:Infinity};path.push([...p]);moves.push(Math.abs(p[0]-q[0]));if(opt==='adagrad'||opt==='rmsprop')eff.push(lr/(Math.sqrt(v[0])+1e-8));}
+ return {path,moves,eff,diverged:0,f:0.5*(VALLEY[0]*p[0]**2+VALLEY[1]*p[1]**2)};
 }
 
-/* 6장: 미니배치 SGD. 원 판별기 80점을 epoch마다 섞어 B개씩 나누고, 묶음마다 평균 기울기로 한 번 갱신한다.
+/* 1장: 미니배치 SGD. 원 판별기 80점을 epoch마다 섞어 B개씩 나누고, 묶음마다 평균 기울기로 한 번 갱신한다.
    전체 배치(B=80)면 epoch당 갱신이 1번이다. 갱신마다 전체 학습 손실을 다시 재어, 손실이 직전 갱신보다 오히려 오른 갱신의 비율(upFrac)로 흔들림을 센다. */
 function minibatch({B=8,lr=0.3,epochs=30,seed=1,width=8,act:name='tanh'}={}){
  const D=dataset('circle',80,seed),V=dataset('circle',200,seed+1000),n=D.X.length,r=rng(seed*97+5),X=D.X.map(p=>Float64Array.from(p));
@@ -197,7 +177,7 @@ function minibatch({B=8,lr=0.3,epochs=30,seed=1,width=8,act:name='tanh'}={}){
  return {B,lr,epochs,perEpoch:Math.ceil(n/B),updates:steps.length,steps,epochLoss,upFrac:up/Math.max(1,steps.length-1),trainLoss:epochLoss[epochs],valAcc:va.acc,valLoss:va.loss};
 }
 
-/* 10장: 작은 자동미분 엔진. 노드는 [이름, 연산, 부모 목록]이고, 역위상 순서로 기울기를 더해 내려간다. */
+/* 6장: 작은 자동미분 엔진. 노드는 [이름, 연산, 부모 목록]이고, 역위상 순서로 기울기를 더해 내려간다. */
 const EXPR={
  reuse:{vars:{a:2,b:-3},nodes:[['c','a*b',['a','b']],['f','c+a',['c','a']]]},
  neuron:{vars:{w:0.8,x:1.5,b:-0.5,y:1},nodes:[['z1','w*x',['w','x']],['z','z1+b',['z1','b']],['s','σ(z)',['z']],['e','s−y',['s','y']],['L','e²',['e']]]}
@@ -213,12 +193,12 @@ function autodiff(name){
  return {val,order:order.map(n=>n[0]),nodes:E.nodes,vars:Object.keys(E.vars),snaps,grad};
 }
 
-/* 10장: MLP 784-h1-h2-10의 파라미터 수와 메모리(바이트). 학습 중 Adam은 가중치·기울기·m·v 네 벌을 둔다. */
+/* 6장: MLP 784-h1-h2-10의 파라미터 수와 메모리(바이트). 학습 중 Adam은 가중치·기울기·m·v 네 벌을 둔다. */
 function mlpParams(sizes){let n=0;for(let i=1;i<sizes.length;i++)n+=sizes[i-1]*sizes[i]+sizes[i];return n;}
 const DTYPE={float32:4,bfloat16:2,int8:1};
 function memory(sizes,dtype){const n=mlpParams(sizes),b=DTYPE[dtype];return {params:n,weights:n*b,trainAdam:n*4*4};}
 
-/* 11장: 기울기 검사. L(w)=(σ(w·x+b)−y)², 해석적 기울기와 중앙 차분의 상대 차이 */
+/* 7장: 기울기 검사. L(w)=(σ(w·x+b)−y)², 해석적 기울기와 중앙 차분의 상대 차이 */
 function gradCheck(eps,bug='none'){
  const w=[0.4,-0.7,0.25],x=[1,0.5,-1.5],b=0.1,y=1,L=v=>(sigmoid(v.reduce((s,wi,i)=>s+wi*x[i],b))-y)**2;
  const s=sigmoid(w.reduce((s,wi,i)=>s+wi*x[i],b)),k=bug==='factor'?1:2,sign=bug==='sign'?-1:1;
@@ -227,8 +207,27 @@ function gradCheck(eps,bug='none'){
  return {ana,num,rel,max:Math.max(...rel)};
 }
 
+/* 4장: 검증 손실이 가장 낮았던 epoch. train()은 검증 손실을 최대 100번만 재므로(나머지는 null) 잰 지점 가운데서 고른다. */
+function bestVal(r){let e=0,b=Infinity;r.val.forEach((v,i)=>{if(v!==null&&v<b){b=v;e=i+1;}});return {epoch:e,loss:b};}
+
+/* 5장: 배치 정규화와 층 정규화. 폭 width인 층의 가중합 z=Wx(입력은 표준정규, W는 분산 1/width)를 놓고,
+   표본 하나(x0)를 고정한 채 나머지 B−1개를 바꿔 가며 묶음 trials개를 만든다.
+   BatchNorm: 특징마다 묶음의 평균·분산(표본 수로 나눈 값)으로 (z−μ)/√(σ²+ε), ε=1e-5로 맞춘다 → x0의 값이 묶음마다 달라진다.
+   LayerNorm: x0 한 표본의 width개 값으로 맞춘다 → 묶음과 무관하다.
+   ref는 표본 4,096개로 잰 통계(추론 때 쓰는 이동 평균의 대역)로 맞춘 x0의 첫 특징 값이다. */
+function normBatch({B=8,seed=1,width=16,trials=40}={}){
+ const r=rng(seed*53+11),W=Array.from({length:width*width},()=>normal(r)/Math.sqrt(width));
+ const z=()=>{const x=Array.from({length:width},()=>normal(r));return Array.from({length:width},(_,o)=>{let s=0;for(let i=0;i<width;i++)s+=W[o*width+i]*x[i];return s;});};
+ const z0=z(),stat=rows=>Array.from({length:width},(_,j)=>{const c=rows.map(q=>q[j]),m=c.reduce((a,b)=>a+b,0)/c.length;return [m,c.reduce((a,b)=>a+(b-m)**2,0)/c.length];});
+ const pop=stat(Array.from({length:4096},z)),ref=(z0[0]-pop[0][0])/Math.sqrt(pop[0][1]+1e-5),ln=layerNorm(z0);
+ const bn=[],spreadAll=Array.from({length:width},()=>[]);
+ for(let t=0;t<trials;t++){const rows=[z0,...Array.from({length:B-1},z)],st=stat(rows);
+  bn.push((z0[0]-st[0][0])/Math.sqrt(st[0][1]+1e-5));st.forEach(([m,v],j)=>spreadAll[j].push((z0[j]-m)/Math.sqrt(v+1e-5)));}
+ return {B,bn,ref,ln:ln[0],bnSpread:spreadAll.reduce((a,c)=>a+std(c),0)/width,bnMin:Math.min(...bn),bnMax:Math.max(...bn),lnSpread:0};
+}
+
 /* 확인 문제 보기 순서: 화면 자리 k에 원래 보기 번호를 돌려 놓아 정답이 target 자리에 오게 한다. */
 function quizOrder(n,answer,target){return Array.from({length:n},(_,k)=>((answer-target+k)%n+n)%n);}
-const A04Math={BLOCKS,layerNorm,blockStats,quizOrder,rng,normal,sigmoid,act,dact,ACT,GATES,CORNERS,perceptron,xorForward,chain,dataset,initStd,build,forward,predict,workspace,lrAt,bce,evaluate,train,decisionGrid,deepStats,std,lossAt,smooth,valley,VALLEY,minibatch,autodiff,EXPR,mlpParams,memory,DTYPE,gradCheck,CIRCLE_R2,DEFAULT};
+const A04Math={BLOCKS,layerNorm,blockStats,quizOrder,rng,normal,sigmoid,act,dact,ACT,dataset,initStd,build,forward,predict,workspace,lrAt,bce,evaluate,train,decisionGrid,deepStats,std,valley,bestVal,normBatch,VALLEY,minibatch,autodiff,EXPR,mlpParams,memory,DTYPE,gradCheck,CIRCLE_R2,DEFAULT};
 if(typeof module!=='undefined')module.exports=A04Math;else root.A04Math=A04Math;
 })(typeof window!=='undefined'?window:globalThis);
